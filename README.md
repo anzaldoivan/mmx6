@@ -45,8 +45,26 @@ public
 
 ## Acknowledgements
 
-Prior community work this project builds on or was checked against: No X6 decompilation found on 2026-10-01; leads: sozud/mmx4 (X4 matching decomp, AGPL-3.0), Kuumba123 MegaManX6_PS1_Modding/Practice (unlicensed, facts only), mstan/MegaManX6Recomp (PolyForm Noncommercial, facts only), acediez X6 Tweaks, Shinnuu Archipelago X6 world, TCRF. The governance and method come
-from ProjectArchitect 3 and the decomp-architect kit distilled from a finished matching decompilation.
+No decompilation of Mega Man X6 existed when this project started (searched 2026-10-01). It stands on the work of
+others, and every fact taken from them is tracked with its status in [`docs/prior-art.md`](docs/prior-art.md): a fact
+from another project stays a lead until this project's own bytes prove it.
+
+- **[sozud](https://github.com/sozud)** — [**mmx4**](https://github.com/sozud/mmx4), the matching decompilation of
+  *Mega Man X4* (US + JP, AGPL-3.0). Its toolchain, layout and engine knowledge are the starting point for X6; this
+  project shares its license so that code proven shared between the two games can be adapted with attribution
+  (listed in [`THIRD_PARTY.md`](THIRD_PARTY.md)).
+- **[Kuumba123](https://github.com/Kuumba123)** — [MegaManX6_PS1_Modding](https://github.com/Kuumba123/MegaManX6_PS1_Modding)
+  and [MegaManX6_Practice](https://github.com/Kuumba123/MegaManX6_Practice): X6 symbol research (US + JP) and
+  struct layouts, plus the wider Mega Man PS1 modding tools. Their repositories carry no license, so nothing is
+  copied from them; their findings are used as leads, re-proven here, and credited.
+- **[mstan](https://github.com/mstan)** — [MegaManX6Recomp](https://github.com/mstan/MegaManX6Recomp) (PolyForm
+  Noncommercial), whose documentation of the overlay loader is a lead for the load map; its generated code is not used.
+- **acediez** — [*Mega Man X6 Tweaks*](https://www.romhacking.net/hacks/4035/) and its documentation of the game's tables.
+- **Shinnuu** — the [Archipelago Mega Man X6 world](https://github.com/Shinnuu/Archipelago) and its RAM research.
+- **[The Cutting Room Floor](https://tcrf.net/Mega_Man_X6)** — the prototype and version history.
+
+The governance and method come from ProjectArchitect 3 and the decomp-architect kit distilled from a finished
+matching decompilation (Brave Fencer Musashi).
 
 ## License
 

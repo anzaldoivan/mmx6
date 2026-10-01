@@ -45,6 +45,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 ## Skills <!-- roles: expert planner -->
 <!-- one line per captured workflow; the SKILL.md is the canonical text -->
 - <!-- TODO SKILL_NAME: no source found --> — <what it automates, when to invoke it>
+- docker-vm-no-privileged — Never probe the Docker VM with --privileged or --pid=host; the classifier treats it as containment escape
 
 ## Paths <!-- roles: expert coder router planner review critic discuss auditor curator -->
 - Oracles (the ground truth X3 names): <!-- TODO ORACLES: no source found -->

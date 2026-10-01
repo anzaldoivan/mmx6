@@ -165,3 +165,14 @@ GhidrAssistMCP (extension in `$GHIDRA_HOME/Ghidra/Extensions/GhidrAssistMCP`), h
   rc 0 iff p = t = 0 and no stale row; 1 otherwise; 2 bad input.
 - `--self-test`: the 3 banked probes + func_80055A04 agree; in-memory split -> phantom, end cut by 8 -> truncation;
   ends `BOUND2 CONTROL OK`. Rung `th-bound2` (mk/tools-health.mk) runs the self-test only.
+- Merges (1.6 T1): an inventory function F=[v,end) holding a B2 start s with v < s < end. g = s, or for a post-ret s
+  the word after the preceding `jr $ra`'s delay slot. `multi-return` (keep merged, C0049) iff a crossing: a branch
+  (REGIMM, ops 4-7, 20-23) or `j` with site and target in F on opposite sides of g (site = first by address); else
+  fallthrough into s (word at g-8 not jr/j/b; site `fall:<s-4>`); else a jtbl row of F straddling g, or all >= g with
+  F's last `jr <reg!=ra>` before them < g (site `jtbl:<lo>`). No crossing -> `over-merge` (split via config/symbols).
+  Out `build/bound2/merges.txt` `<prog> <F vram> <s vram> multi-return|over-merge <site|->`, sorted (prog, s).
+- Independence: each `type:func` start of `config/symbols.<p>.txt`, basis `ghidra` (Ghidra func addr) > `pointer`
+  (value stored as an aligned word in the program's own image) > `none`; out `build/bound2/independence.jsonl`.
+- stdout adds `BOUND2 INNER <total> (<prog> <n> x5)`, `BOUND2 merges=<over-merge> multi-return=<m> of <N> functions`,
+  `BOUND2 INDEPENDENT <i> of <S> declared starts (ghidra <g> pointer <p> none <z>)`; merges do not yet affect rc.
+  Self-test adds injected merge controls (synthetic multi-return/over-merge, two exe functions fused in memory).

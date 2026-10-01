@@ -12,7 +12,20 @@
          function split at a mid non-B2 word -> phantom there; a function's end cut by 8 -> truncation at its start)
          must be reported; HEAD_CONTROL starts have basis head; an in-memory ledger row on a known disagreement is
          ledgered and leaves the counts, a row matching nothing is stale with rc 1. Ends `BOUND2 CONTROL OK` (rc 0),
-         else rc 1 naming what was missed.
+         else rc 1 naming what was missed. Merge controls (injected): synthetic forward branch past an interior
+         jr ra -> multi-return at that site; synthetic straight pair -> over-merge; two adjacent agreeing exe
+         functions fused in memory -> over-merge at the second start.
+  --all/--prog also write build/bound2/merges.txt `<prog> <F vram> <s vram> multi-return|over-merge <site|->` (sorted
+  prog, s) and build/bound2/independence.jsonl {"prog","vram","basis":"ghidra|pointer|none"}; stdout adds
+  `BOUND2 INNER <n> (<prog> <n> x5)`, `BOUND2 merges=<over> multi-return=<m> of <N> functions`,
+  `BOUND2 INDEPENDENT <i> of <S> declared starts (ghidra <g> pointer <p> none <z>)`. Merges do not affect rc (1.6 T1.c1).
+
+Merge: inventory F=[v,e) holding a B2 start s, v < s < e. g = s, or for a post-ret s the word after the preceding
+jr ra's delay slot. multi-return iff a crossing: a branch/j with site and target in F on opposite sides of g (site =
+first such); else fallthrough (word at g-8 not jr/j/b) -> `fall:<s-4>`; else a jtbl row of F whose entries straddle g,
+or all lie >= g with F's last jr <reg!=ra> before them < g -> `jtbl:<lo>`. No crossing -> over-merge.
+Independence: config/symbols.<p>.txt `type:func` starts; basis ghidra (Ghidra func addr) > pointer (value stored as
+an aligned word in the program's own image) > none.
 
 B2 inputs (never asm/, config/*.yaml, splat output or corpus spans): retail bytes (boundaries.programs(): exe image
 and rock/NN.bin, sha1-checked), text range = build/corpus/denominators.jsonl [text_lo, text_hi), config/ghidra/<p>.jsonl,
@@ -36,6 +49,7 @@ Firewall G12: addresses, names and counts only; no words or bytes are printed or
 import argparse
 import bisect
 import json
+import struct
 import sys
 from collections import Counter
 from pathlib import Path
@@ -288,6 +302,106 @@ def classify(prog, d, jt, dp):
     return "unclassified"
 
 
+# ---- merges (1.6 T1) ----
+def f_jtbl(word, v, e, rows):
+    """F=[v,e)'s jtbl rows -> [(table_lo, [targets in F])]; numeric hi: words in [lo, hi); unknown hi: read while in F."""
+    out = []
+    for lo, hi in rows:
+        ts, a = [], lo
+        while hi is None or a < hi:
+            w = word(a)
+            if w is None or (hi is None and not v <= w < e):
+                break
+            if v <= w < e:
+                ts.append(w)
+            a += 4
+        if ts:
+            out.append((lo, ts))
+    return out
+
+
+def inner_class(word, v, e, s, jrows):
+    """pure: inner start s of F=[v,e) -> (multi-return|over-merge, site|-, branch|fall|jtbl|None).
+    word(a) -> int|None; jrows = f_jtbl(...) rows of F."""
+    g, b = s, s
+    while True:  # post-ret start: g = word after the preceding jr ra's delay slot (zero gap counts as >= g)
+        if b - 8 >= v and word(b - 8) == JR_RA:
+            g = b
+            break
+        if b - 4 >= v and word(b - 4) == 0:
+            b -= 4
+            continue
+        break
+    for u in range(v, e, 4):
+        w = word(u)
+        if w is None:
+            continue
+        op = w >> 26
+        if op == 1 and ((w >> 16) & 31) in REGIMM_OK or op in (4, 5, 6, 7, 20, 21, 22, 23):
+            imm = w & 0xFFFF
+            t = u + 4 + ((imm - 0x10000 if imm & 0x8000 else imm) << 2)
+        elif op == 2:
+            t = ((u + 4) & 0xF0000000) | ((w & 0x3FFFFFF) << 2)
+        else:
+            continue
+        if v <= t < e and (u < g) != (t < g):
+            return "multi-return", h(u), "branch"
+    w = word(g - 8) if g - 8 >= v else None
+    stop = w is not None and (w >> 26 == 0 and w & 63 == 8 or w >> 26 == 2 or w >> 16 == 0x1000
+                              or w >> 16 == 0x0401)  # jr / j / beq $0,$0 / bgez $0 (b)
+    if not stop:
+        return "multi-return", f"fall:{h(s - 4)}", "fall"
+    for lo, ts in jrows:
+        if min(ts) < g <= max(ts):
+            return "multi-return", f"jtbl:{h(lo)}", "jtbl"
+        if min(ts) >= g:
+            jr = [u for u in range(v, min(ts), 4) if (word(u) or 0) & 0xFC1FFFFF == 8 and word(u) != JR_RA]
+            if jr and jr[-1] < g:
+                return "multi-return", f"jtbl:{h(lo)}", "jtbl"
+    return "over-merge", "-", None
+
+
+def merges(word, rows, starts, jt):
+    """inventory rows [(v, e, name)] x B2 starts -> [(v, s, class, site, how)] for every s with v < s < e."""
+    ss = sorted(starts)
+    out = []
+    for v, e, _ in rows:
+        i = bisect.bisect_right(ss, v)
+        inner = []
+        while i < len(ss) and ss[i] < e:
+            inner.append(ss[i])
+            i += 1
+        if not inner:
+            continue
+        jrows = f_jtbl(word, v, e, jt)
+        for s in inner:
+            out.append((v, s) + inner_class(word, v, e, s, jrows))
+    return out
+
+
+def accessor(p):
+    return lambda a: p.word(a) if p.inimg(a) else None
+
+
+def independence(names, progs):
+    """declared type:func starts of config/symbols.<p>.txt -> [(prog, vram, ghidra|pointer|none)]."""
+    out = []
+    for p in names:
+        path = REPO / f"config/symbols.{p}.txt"
+        if not path.is_file():
+            continue
+        starts = []
+        for line in path.read_text().splitlines():
+            if "type:func" in line and "=" in line and not line.lstrip().startswith("//"):
+                starts.append(int(line.split("=", 1)[1].split(";", 1)[0].strip(), 16))
+        gh = load_ghidra_funcs(p, 0, 1 << 32)
+        img = progs[p].img
+        words = {x for (x,) in struct.iter_unpack("<I", img[:len(img) // 4 * 4])}
+        for s in sorted(set(starts)):
+            out.append((p, s, "ghidra" if s in gh else "pointer" if s in words else "none"))
+    return out
+
+
 def load_ledger():
     rows = {}
     if not LEDGER.is_file():
@@ -313,7 +427,7 @@ def compute():
     texts = {n: Text(progs[n], lo, hi, jt.get(n, [])) for n, (lo, hi) in dens.items()}
     ghidra = {n: load_ghidra_funcs(n, t.lo, t.hi) for n, t in texts.items()}
     b2 = build_b2(texts, ghidra)
-    return dens, inv, spans, jt, b2
+    return dens, inv, spans, jt, b2, texts
 
 
 def account(names, inv, spans, jt, b2, ledger):
@@ -346,7 +460,7 @@ def account(names, inv, spans, jt, b2, ledger):
 
 
 def run(sel):
-    dens, inv, spans, jt, b2 = compute()
+    dens, inv, spans, jt, b2, texts = compute()
     names = sorted(dens) if sel is None else [sel]
     if sel is not None and sel not in dens:
         bad(f"unknown program {sel}")
@@ -368,15 +482,34 @@ def run(sel):
                 fh.write(line + "\n")
     for k in r["stale"]:
         print(f"BOUND2 STALE {ledger[k][1]}")
+    mg = []
+    for p in names:
+        mg += [(p,) + m for m in merges(accessor(texts[p].p), sorted(inv.get(p, [])), b2[p], jt.get(p, []))]
+    mg.sort(key=lambda m: (m[0], m[2]))
+    with open(OUT / "merges.txt", "w") as fh:
+        for p, v, s, c, site, _ in mg:
+            fh.write(f"{p} {h(v)} {h(s)} {c} {site}\n")
+    ind = independence(names, {p: texts[p].p for p in names})
+    with open(OUT / "independence.jsonl", "w") as fh:
+        for p, s, bs in ind:
+            fh.write(json.dumps({"prog": p, "vram": h(s), "basis": bs}) + "\n")
+    per = Counter(m[0] for m in mg)
+    cls = Counter(m[3] for m in mg)
+    bn = Counter(x[2] for x in ind)
     print(f"BOUND2 UNENDED {unended}")
     print("BOUND2 CLASSES " + " ".join(f"{c}={r['cls_n'][c]}" for c in CLASSES))
+    print(f"BOUND2 INNER {len(mg)} (" + " ".join(f"{p} {n}" for p, n in
+                                              sorted(per.items(), key=lambda x: (-x[1], x[0]))[:5]) + ")")
+    print(f"BOUND2 merges={cls['over-merge']} multi-return={cls['multi-return']} of {r['nfun']} functions")
+    print(f"BOUND2 INDEPENDENT {bn['ghidra'] + bn['pointer']} of {len(ind)} declared starts (ghidra {bn['ghidra']} "
+          f"pointer {bn['pointer']} none {bn['none']})")
     print(f"BOUND2 phantoms={r['ph']} truncations={r['tr']} ledgered={r['led']} of {r['nfun']} functions in "
           f"{len(names)} programs")
     return r["rc"]
 
 
 def self_test():
-    dens, inv, spans, jt, b2 = compute()
+    dens, inv, spans, jt, b2, texts = compute()
     fails = []
     ex = sorted(inv.get(EXE, []))
     byv = {v: (v, e, n) for v, e, n in ex}
@@ -444,12 +577,32 @@ def self_test():
         r2 = account(names, inv2, spans, jt, b2, {ghost: ("carve", "ghost row")})
         if r2["stale"] != [ghost] or r2["rc"] != 1:
             fails.append("ledger control: row matching nothing not reported stale with rc 1")
+    # merge controls (1.6 T1, injected, C0054): synthetic words, then two agreeing exe functions fused in memory
+    nop, li, beq = 0, 0x24020001, 0x10800003  # li v0,1; beq a0,$0,+3
+    syn = {"multi-return": [beq, nop, JR_RA, nop, li, JR_RA, nop], "over-merge": [li, JR_RA, nop, li, JR_RA, nop]}
+    want_m = {"multi-return": (0x1010, "multi-return", h(0x1000)), "over-merge": (0x100C, "over-merge", "-")}
+    for k, ws in syn.items():
+        s, c, site = want_m[k]
+        got = inner_class(lambda a, ws=ws: ws[(a - 0x1000) // 4] if 0x1000 <= a < 0x1000 + 4 * len(ws) else None,
+                          0x1000, 0x1000 + 4 * len(ws), s, [])[:2]
+        if got != (c, site):
+            fails.append(f"merge control {k}: got {got}, want {(c, site)}")
+    fz = next(((a, b) for a, b in zip(sorted(byv), sorted(byv)[1:]) if a in pool and b in pool
+               and byv[a][1] == b), None)
+    if fz is None:
+        fails.append("merge control: no adjacent agreeing exe pair to fuse")
+    else:
+        a, b = fz
+        rows = sorted([r for r in ex if r[0] not in fz] + [(a, byv[b][1], byv[a][2])])
+        got = [m for m in merges(accessor(texts[EXE].p), rows, b2[EXE], jt.get(EXE, [])) if m[0] == a]
+        if [(m[1], m[2]) for m in got] != [(b, "over-merge")]:
+            fails.append(f"merge control fused {h(a)}+{h(b)}: got {[(h(m[1]), m[2], m[3]) for m in got]}")
     for f in fails:
         print(f"BOUND2 FAIL {f}")
     if fails:
         return 1
     print(f"BOUND2 agree {' '.join(h(v) for v in agree)}; split {h(split)}, cut {h(cut)}; "
-          f"head {len(HEAD_CONTROL)}; ledger {known[0]} {h(known[1])} {known[2]}")
+          f"head {len(HEAD_CONTROL)}; ledger {known[0]} {h(known[1])} {known[2]}; merge synth 2, fused {h(fz[1])}")
     print("BOUND2 CONTROL OK")
     return 0
 

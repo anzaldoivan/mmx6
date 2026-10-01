@@ -1,0 +1,7 @@
+# Task summaries -- this phase
+# id | status | title | tags | summary | log | research
+T1 | done | ISO9660 extractor, manifest, scratch cap | - | tasks/T1.md | logs/T1.md | -
+T2 | done | ROCK_X6.BIN container and compression probe | - | tasks/T2.md | logs/T2.md | R1.1-001
+T3 | done | ROCK_X6.BIN members with decompression and length cross-check | - | tasks/T3.md | logs/T3.md | -
+T4 | done | dumpsxiso reference comparison of the 9 ISO files | - | tasks/T4.md | logs/T4.md | -
+T5 | done | promote the manifest, prove determinism, commit | - | tasks/T5.md | logs/T5.md | -

@@ -6,12 +6,7 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-typedef unsigned char u8;
-typedef signed char s8;
-typedef unsigned short u16;
-typedef signed short s16;
-typedef unsigned int u32;
-typedef signed int s32;
+#include "mmx6/types.h"
 
 #define INCLUDE_ASM(FOLDER, NAME)                                              \
     __asm__(".section .text\n"                                                 \

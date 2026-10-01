@@ -124,7 +124,7 @@ build/%.bin.o: %.bin
 # A C unit: cpp | cc1 | maspsx | as (exe ASFLAGS). bash with pipefail, so a failing stage fails the rule (sh is dash).
 build/%.c.o: SHELL := /bin/bash
 build/%.c.o: .SHELLFLAGS := -o pipefail -c
-build/%.c.o: %.c include/common.h include/macro.inc
+build/%.c.o: %.c include/common.h include/mmx6/types.h include/macro.inc
 	@mkdir -p $(dir $@)
 	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(ASFLAGS) -o $@ --
 

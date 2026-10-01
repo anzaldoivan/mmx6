@@ -1880,16 +1880,6 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800472D0);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80047394);
 
-typedef struct {
-    u8 pad0[5];
-    u8 unk5;
-    u8 pad6[0xE];
-    s16 unk14;
-    s16 unk16;
-    s32 unk18;
-    s32 unk1C;
-} Probe800473EC;
-
 extern s8 D_800970A5;
 extern u8 D_800CCF38;
 

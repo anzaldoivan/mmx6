@@ -27,9 +27,10 @@ the rules behind them are the G group in `rules/`.*
 
 ```
 # extract the medium and verify against the committed manifest
-TODO(phase-1)
-# the clean fleet verification — every binary from clean → extract → build, exit code read
-TODO(phase-3)
+bash tools/docker/mx.sh sync && bash tools/docker/mx.sh run make extract
+# the clean fleet verification — every binary from clean → extract → split → build, exit code read
+# (phase 1.3: BINS=SLUS_013.95, all-asm; config/<bin>.yaml → asm/<bin>/ → build/<bin>, gate config/check.<bin>.sha)
+bash tools/docker/mx.sh sync && bash tools/docker/mx.sh run sh -c 'make extract && make clean && make split build BINS=SLUS_013.95'
 ```
 
 - **The gate:** a binary is green only when its hash check inside `make build` passes; a match is verified from a CLEAN

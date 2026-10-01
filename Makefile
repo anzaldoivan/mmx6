@@ -3,7 +3,7 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check
+.PHONY: format format-check split build build-bins clean extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check
 
 # Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
 PYTHON ?= python3
@@ -17,6 +17,52 @@ CPP_PIN ?= 12.4.0
 
 extract:
 	$(PYTHON) tools/mmx6/extract.py --cue "$(CUE)" --out extracted/retail --manifest manifest/retail.jsonl --medium config/medium.sha1
+
+# All-asm build (container): `make split build` → splat config/<bin>.yaml → asm/<bin>/, assemble every .s, link with
+# the splat ld script, objcopy → build/<bin>, then the hash gate config/check.<bin>.sha. `clean` never touches extracted/.
+BINS ?= SLUS_013.95
+AS_SHIM ?=
+AS := $(AS_SHIM) mipsel-linux-gnu-as
+LD := mipsel-linux-gnu-ld
+OBJCOPY := mipsel-linux-gnu-objcopy
+ASFLAGS := -EL -march=r3000 -mtune=r3000 -mabi=32 -no-pad-sections -G0 -Iinclude
+# No C compiler is pinned before phase 1.4; any .c reaching the rule below fails loudly.
+CC1 ?=
+
+split:
+	for b in $(BINS); do splat split config/$$b.yaml || exit 1; done
+
+# A failed hash check deletes build/<bin>, so a rerun cannot pass on a stale red output.
+.DELETE_ON_ERROR:
+
+# Sub-make so the .s list is read after `split` has written it.
+build:
+	$(MAKE) build-bins
+
+build-bins: $(foreach b,$(BINS),build/$(b))
+
+S_FILES = $(shell find asm/$(1) -name '*.s' 2>/dev/null)
+
+define BIN_RULES
+build/$(1).elf: $(patsubst %.s,build/%.s.o,$(call S_FILES,$(1))) build/$(1).ld
+	$$(LD) -o $$@ -Map build/$(1).map -T build/$(1).ld \
+	  -T build/undefined_syms_auto.$(1).txt -T build/undefined_funcs_auto.$(1).txt --no-check-sections
+build/$(1): build/$(1).elf
+	$$(OBJCOPY) -O binary $$< $$@
+	sha1sum -c config/check.$(1).sha
+endef
+$(foreach b,$(BINS),$(eval $(call BIN_RULES,$(b))))
+
+build/%.s.o: %.s include/macro.inc
+	@mkdir -p $(dir $@)
+	$(AS) $(ASFLAGS) -o $@ $<
+
+%.s: %.c
+	@if [ -z "$(CC1)" ]; then echo "CC1 unset: no C compiler pinned until phase 1.4: $<" >&2; exit 1; fi
+	$(CC1) $< -o $@
+
+clean:
+	rm -rf asm build
 
 toolchain-check:
 	sh tools/mmx6/toolchain_check.sh "$(SPLAT_PIN)" "$(BINUTILS_PIN)" "$(CPP_PIN)"

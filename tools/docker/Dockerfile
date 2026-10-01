@@ -46,3 +46,11 @@ RUN git clone https://github.com/mkst/maspsx.git /opt/maspsx \
     && git -C /opt/maspsx checkout 7686f845a181700534c83c0419183e38aeb3e49c \
     && printf '#!/bin/sh\nexec python3 /opt/maspsx/maspsx.py "$@"\n' > /usr/local/bin/maspsx \
     && chmod 0755 /usr/local/bin/maspsx
+# Decompile scaffold (m2c) and differ (asm-differ), pinned by commit (upstream HEAD at phase 1.3 T4); runtime deps at
+# the versions of their poetry.lock files, in the splat venv (python3 there sees them).
+RUN git clone https://github.com/matt-kempster/m2c.git /opt/m2c \
+    && git -C /opt/m2c checkout 708d2d2cb2698f091a92492b328f73b24209f72d \
+    && git clone https://github.com/simonlindholm/asm-differ.git /opt/asm-differ \
+    && git -C /opt/asm-differ checkout 0dd09af8f8008f1f880327cf0aca3b26d2562ea2 \
+    && /opt/splat-venv/bin/pip install --no-cache-dir "graphviz==0.20.3" "colorama==0.4.6" "watchdog==6.0.0" \
+       "levenshtein==0.27.1" "rapidfuzz==3.13.0" "cxxfilt==0.3.0"

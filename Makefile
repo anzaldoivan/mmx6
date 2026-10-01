@@ -18,6 +18,9 @@ CPP_PIN ?= 12.4.0
 OLDGCC_PIN ?= 0.17
 CC1_SET ?= 2.7.2 2.7.2-psx 2.7.2-cdk 2.6.3-psx 2.8.0-psx 2.8.1-psx 2.91.66-psx 2.95.2-psx
 MASPSX_PIN ?= 7686f845a181700534c83c0419183e38aeb3e49c
+# Decompile scaffold and differ (/opt/m2c, /opt/asm-differ), pinned by commit.
+M2C_PIN ?= 708d2d2cb2698f091a92492b328f73b24209f72d
+ASMDIFFER_PIN ?= 0dd09af8f8008f1f880327cf0aca3b26d2562ea2
 
 extract:
 	$(PYTHON) tools/mmx6/extract.py --cue "$(CUE)" --out extracted/retail --manifest manifest/retail.jsonl --medium config/medium.sha1
@@ -144,7 +147,8 @@ probe-ladder:
 	$(PYTHON) tools/mmx6/probe.py --ladder
 
 toolchain-check:
-	sh tools/mmx6/toolchain_check.sh "$(SPLAT_PIN)" "$(BINUTILS_PIN)" "$(CPP_PIN)" "$(CC1_SET)" "$(MASPSX_PIN)"
+	sh tools/mmx6/toolchain_check.sh "$(SPLAT_PIN)" "$(BINUTILS_PIN)" "$(CPP_PIN)" "$(CC1_SET)" "$(MASPSX_PIN)" \
+	  "$(M2C_PIN)" "$(ASMDIFFER_PIN)"
 
 scratch-check:
 	$(PYTHON) tools/mmx6/scratch.py --root .run --cap-gb $(SCRATCH_CAP_GB) --warn-gb $(SCRATCH_WARN_GB)

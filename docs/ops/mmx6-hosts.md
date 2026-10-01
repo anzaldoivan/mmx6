@@ -40,6 +40,11 @@ As known at generation (2026-10-01). Update in the same change as whatever chang
   Ubuntu 24.04 apt via the pinned base. Makefile `SPLAT_PIN`/`BINUTILS_PIN`/`CPP_PIN`; `mx.sh run make toolchain-check`.
 - Assembler shim: maspsx (mkst) commit `7686f845a181700534c83c0419183e38aeb3e49c` (2026-10-01, R1.4-001) at `/opt/maspsx`,
   wrapper `/usr/local/bin/maspsx`; python3 stdlib only. Makefile `MASPSX_PIN`; `make toolchain-check` smokes each cc1 through it.
+- Decompile scaffold / differ (Phase 1.4 T4, 2026-10-01, upstream HEAD): m2c (matt-kempster) commit
+  `708d2d2cb2698f091a92492b328f73b24209f72d` at `/opt/m2c`; asm-differ (simonlindholm) commit
+  `0dd09af8f8008f1f880327cf0aca3b26d2562ea2` at `/opt/asm-differ`; runtime deps in `/opt/splat-venv` at their poetry.lock
+  versions (graphviz 0.20.3, colorama 0.4.6, watchdog 6.0.0, levenshtein 0.27.1, rapidfuzz 3.13.0, cxxfilt 0.3.0).
+  Makefile `M2C_PIN`/`ASMDIFFER_PIN`; `make toolchain-check` checks both commits.
 - Formatter (2026-10-01): `Ubuntu clang-format version 18.1.3 (1ubuntu1)` from the pinned image's apt (≥ 15, so `.clang-format` InsertBraces applies); runs only in the container: `mx.sh sync && mx.sh run make format && mx.sh pull <paths>`.
 - Build image (2026-10-01): base `ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3`
   (multi-arch index); `mmx6-build` config `sha256:5d1d605eab919468afd3208988ee429d1a211a2b382176ab4b5c8a91239c9b7b`

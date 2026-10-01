@@ -30,16 +30,20 @@ As known at generation (2026-10-01). Update in the same change as whatever chang
 
 ## Pins
 - Python: `/opt/homebrew/opt/python@3.14/bin/python3.14` (from `.claude/pa.json`).
-- Compiler triple: TODO — pinned by evidence in Phase 1.4 (first candidate: mmx4's X4 triple — gcc 2.7.2 cc1 + maspsx 2.56 `--expand-div`, `-O2 -G0 -msoft-float -funsigned-char` — a lead, G101; docs/prior-art.md L1).
+- Compiler candidates (Phase 1.4 T1, 2026-10-01, R1.4-001): cc1 only, from decompals/old-gcc release tag `0.17`
+  (`gcc-<name>.tar.gz`: 2.7.2-psx 2.7.2-cdk 2.6.3-psx 2.8.0-psx 2.8.1-psx 2.91.66-psx 2.95.2-psx) + tag `0.9`
+  (`gcc-2.7.2.tar.gz`, name `2.7.2`), each sha256-asserted in the Dockerfile, at `/opt/cc/<name>/cc1` (static i386 ELF).
+  Makefile `OLDGCC_PIN`/`CC1_SET`. The triple itself is pinned by probes later in Phase 1.4 (mmx4's X4 triple is a lead, G101).
 - splat / binutils / cpp (Phase 1.3 T1, 2026-10-01): `splat64[mips]==0.50.0` + `spimdisasm==1.42.4` + `rabbitizer==1.16.2`
   (PyPI; `pip index versions splat64` checked 2026-10-01: newest 0.50.0; deps from the first build's `pip freeze`) in venv
   `/opt/splat-venv` on PATH; `binutils-mipsel-linux-gnu` 2.42 (as/ld/objcopy) and `cpp-mipsel-linux-gnu` 12.4.0 from
   Ubuntu 24.04 apt via the pinned base. Makefile `SPLAT_PIN`/`BINUTILS_PIN`/`CPP_PIN`; `mx.sh run make toolchain-check`.
-- Assembler shim: TODO(phase 1.4).
+- Assembler shim: maspsx (mkst) commit `7686f845a181700534c83c0419183e38aeb3e49c` (2026-10-01, R1.4-001) at `/opt/maspsx`,
+  wrapper `/usr/local/bin/maspsx`; python3 stdlib only. Makefile `MASPSX_PIN`; `make toolchain-check` smokes each cc1 through it.
 - Formatter (2026-10-01): `Ubuntu clang-format version 18.1.3 (1ubuntu1)` from the pinned image's apt (≥ 15, so `.clang-format` InsertBraces applies); runs only in the container: `mx.sh sync && mx.sh run make format && mx.sh pull <paths>`.
 - Build image (2026-10-01): base `ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3`
-  (multi-arch index); `mmx6-build` config `sha256:c3628cd307dd4af667c5422aabbca63fae4ea34d78763efb3b1f4176220de8af`
-  (Phase 1.3 T1, was `sha256:ed5326e0…` at 1.1 T4; image id `sha256:d4bd99d9…` informational, changes per build with the attestation manifest).
+  (multi-arch index); `mmx6-build` config `sha256:5d1d605eab919468afd3208988ee429d1a211a2b382176ab4b5c8a91239c9b7b`
+  (Phase 1.4 T1, was `sha256:c3628cd3…` at 1.3 T1, `sha256:ed5326e0…` at 1.1 T4; image id `sha256:c68c8868…` informational, changes per build with the attestation manifest).
 - mkpsxiso / dumpsxiso (T4, 2026-10-01): commit `54fb1644ed8741223583e2dcda358b75a205e214` (v2.30), built in the image
   (`cmake` from apt), `dumpsxiso` at `/usr/local/bin`; reference extractor for `make extract`.
 - Ghidra (2026-10-01): 12.1.3 at `~/ghidra_12.1.3_PUBLIC`, run headless by `make ghidra-import` (docs/ops/oracles.md);

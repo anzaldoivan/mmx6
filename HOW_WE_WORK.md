@@ -39,7 +39,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 | run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
 | extract | `make extract PYTHON=PY CUE=<dump cue>` (container: `mx.sh run make extract`) | dump → ignored `extracted/retail/` + tracked `manifest/retail.jsonl` (firewall `required:`) |
 | mx.sh | `bash tools/docker/mx.sh build\|sync\|pull <path>\|disc <dir>\|run <cmd>` | amd64 build container: image `mmx6-build`, tree volume `mmx6-work` at /work, dump volume `mmx6-disc` at /disc:ro |
-| toolchain-check | `mx.sh run make toolchain-check` | prints tool versions; script rc 1 (make rc 2) on drift from Makefile pins |
+| toolchain-check | `mx.sh run make toolchain-check` | prints tool versions incl. cc1 set + maspsx smoke; script rc 1 (make rc 2) on drift from Makefile pins |
 
 ## Skills <!-- roles: expert planner -->
 <!-- one line per captured workflow; the SKILL.md is the canonical text -->
@@ -68,7 +68,7 @@ Long gates go through `tools/run.sh` with a raised timeout, never a poll loop.
 ## Environment <!-- roles: expert coder router planner review critic discuss auditor curator -->
 - OS / shells: Darwin / bash, zsh
 - Python: /opt/homebrew/opt/python@3.14/bin/python3.14 (3.14.7)
-- Pins: image base `ubuntu:24.04@sha256:008173c2…`, clang-format 18.1.3, splat64 0.50.0, binutils mipsel 2.42, cpp 12.4.0 (container only); compiler TODO(phase 1.4) — detail in `docs/ops/mmx6-hosts.md`
+- Pins: image base `ubuntu:24.04@sha256:008173c2…`, clang-format 18.1.3, splat64 0.50.0, binutils mipsel 2.42, cpp 12.4.0, cc1 set /opt/cc/<name> (old-gcc 0.17 + 0.9), maspsx @7686f84 (container only) — detail in `docs/ops/mmx6-hosts.md`
 - Harness gotchas that bite here: `tools/audit_public.py --help` runs the full audit; a hook denies `cat` of product files (use Read); Docker: never `--privileged`/`--pid=host`
 
 ## Docs map <!-- roles: expert coder router planner review critic discuss auditor curator -->

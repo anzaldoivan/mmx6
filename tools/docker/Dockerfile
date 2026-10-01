@@ -22,4 +22,27 @@ RUN git clone https://github.com/Lameguy64/mkpsxiso.git /tmp/mkpsxiso \
 RUN git config --global --add safe.directory '*'
 WORKDIR /work
 # Build:  bash tools/docker/mx.sh build   (docker build --platform linux/amd64 -t mmx6-build -f tools/docker/Dockerfile tools/docker)
-# TODO(phase-4): add the pinned compiler's own packages when the pin needs them.
+# Candidate cc1 set (phase 1.4, R1.4-001): decompals/old-gcc release 0.17 (psx/cdk builds) + 0.9 (plain gcc-2.7.2),
+# sha256-pinned; only cc1 is kept, at /opt/cc/<name>/cc1. Every cc1 is a statically linked i386 ELF (`file`), so no
+# i386 multiarch packages are needed.
+RUN set -e; base=https://github.com/decompals/old-gcc/releases/download; mkdir -p /tmp/cc; \
+    for spec in \
+      2.7.2:0.9:e4699e65e65027cc28b99e216793b530a3d82dbc8c83cc6b27b255929361cd80 \
+      2.7.2-psx:0.17:500a459b3485e885a8d302cac23c2a4632f3900e03a09153f6190699fd723571 \
+      2.7.2-cdk:0.17:42bb0df96db11a9b5d2e23d78bdc962791f40046280d3d360da93fe5eef6f0bb \
+      2.6.3-psx:0.17:01e6e8c4933414ea3f8d8e3bc766a1f5fafd4fc0110e0b75d1f691bd791989b1 \
+      2.8.0-psx:0.17:1a3c956fe8aea5ebdb251749d95de2c84f023530584d7bd663744b5ec24050b7 \
+      2.8.1-psx:0.17:f6f6e883942d4d3289d048236c672e71ed410e546aaae8ff655952f1567e1be0 \
+      2.91.66-psx:0.17:f773a0a9659fa4ff74313ac4363d939312e8125675cd09ad9f8c1202f587f1fd \
+      2.95.2-psx:0.17:932ed3669710a82b12570c29c46ff42989b6505b2af10db84d4551d55dfc0b1c; do \
+      name=${spec%%:*}; rest=${spec#*:}; tag=${rest%%:*}; sha=${rest#*:}; \
+      curl -fsSL -o /tmp/cc/a.tar.gz "$base/$tag/gcc-$name.tar.gz"; \
+      echo "$sha  /tmp/cc/a.tar.gz" | sha256sum -c -; \
+      mkdir -p "/opt/cc/$name"; tar -xzf /tmp/cc/a.tar.gz -C "/opt/cc/$name" cc1; chmod 0755 "/opt/cc/$name/cc1"; \
+      file "/opt/cc/$name/cc1"; \
+    done; rm -rf /tmp/cc
+# Assembly post-processor: maspsx (mkst), pinned by commit; python3 stdlib only.
+RUN git clone https://github.com/mkst/maspsx.git /opt/maspsx \
+    && git -C /opt/maspsx checkout 7686f845a181700534c83c0419183e38aeb3e49c \
+    && printf '#!/bin/sh\nexec python3 /opt/maspsx/maspsx.py "$@"\n' > /usr/local/bin/maspsx \
+    && chmod 0755 /usr/local/bin/maspsx

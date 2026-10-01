@@ -14,6 +14,10 @@ SCRATCH_WARN_GB ?= 20
 SPLAT_PIN ?= 0.50.0
 BINUTILS_PIN ?= 2.42
 CPP_PIN ?= 12.4.0
+# Candidate cc1 set (decompals/old-gcc 0.17 + 0.9 for plain 2.7.2) at /opt/cc/<name>/cc1; maspsx pinned by commit.
+OLDGCC_PIN ?= 0.17
+CC1_SET ?= 2.7.2 2.7.2-psx 2.7.2-cdk 2.6.3-psx 2.8.0-psx 2.8.1-psx 2.91.66-psx 2.95.2-psx
+MASPSX_PIN ?= 7686f845a181700534c83c0419183e38aeb3e49c
 
 extract:
 	$(PYTHON) tools/mmx6/extract.py --cue "$(CUE)" --out extracted/retail --manifest manifest/retail.jsonl --medium config/medium.sha1
@@ -116,7 +120,7 @@ expected: build
 	rm -rf expected && mkdir -p expected && cp -R build expected/build
 
 toolchain-check:
-	sh tools/mmx6/toolchain_check.sh "$(SPLAT_PIN)" "$(BINUTILS_PIN)" "$(CPP_PIN)"
+	sh tools/mmx6/toolchain_check.sh "$(SPLAT_PIN)" "$(BINUTILS_PIN)" "$(CPP_PIN)" "$(CC1_SET)" "$(MASPSX_PIN)"
 
 scratch-check:
 	$(PYTHON) tools/mmx6/scratch.py --root .run --cap-gb $(SCRATCH_CAP_GB) --warn-gb $(SCRATCH_WARN_GB)

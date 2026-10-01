@@ -3,7 +3,7 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check split build build-bins clean extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check health fleet expected probe-ladder
+.PHONY: format format-check split build build-bins clean extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check health tools-health fleet expected probe-ladder
 
 # Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
 PYTHON ?= python3
@@ -131,9 +131,13 @@ build/%.c.o: %.c include/common.h include/macro.inc
 clean:
 	rm -rf asm build
 
-# Every forced lib edge of config/boundaries.txt is a subsegment edge of its config/<bin>.yaml (container).
+# Every forced lib edge of config/boundaries.txt is a subsegment edge of its config/<bin>.yaml (container), then the
+# tools-health chain (mk/tools-health.mk: each phase tool's --self-test and real run).
 health:
 	$(PYTHON) tools/mmx6/boundcheck.py
+	$(MAKE) -s tools-health
+
+include mk/tools-health.mk
 
 # The clean fleet verification (container): last line `FLEET <ok> of <n>`, rc 0 only when every binary is green.
 fleet:

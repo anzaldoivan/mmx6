@@ -17,6 +17,8 @@
   propagate.py --check
       -> per registry row the member's dup key recomputed from the built object (census.read_words + dup_key); refusal
          lines `REGISTRY refused drift|not in class|missing member ...` (rc 1) or `REGISTRY OK <r> rows` (rc 0).
+         A row whose reason starts `family` (tools/mmx6/family_remap.py) is checked on census.family_key instead:
+         drift vs its row key, not in that family class; exempt from the missing-member rule.
   propagate.py --self-test
       -> scratch registry/classes copies (.run/propagate/selftest/): every class member rowed -> OK; a row whose built
          key differs from its row key (drift), one member row dropped (missing member), a row for a function outside
@@ -47,6 +49,7 @@ COPY = ("Makefile", "mk", "include", "config", "src", "tools", "asm", "build")  
 LINK = ("extracted",)  # read-only inputs
 LOAD_OPS = (0x23, 0x09)  # lw, addiu: the %lo half of the table address
 _KEYS = {}  # (prog, vram) -> built dup key (or None), shared by --check calls
+_FAMS = {}  # (prog, vram) -> built family key (or None), filled with _KEYS
 
 
 def pv(m):
@@ -58,13 +61,13 @@ def parse_pv(s):
     return p, int(v, 16)
 
 
-def load_classes(path=CLASSES):
-    """{dup key: [(prog, vram)]}."""
+def load_classes(path=CLASSES, kind="dup"):
+    """{<kind> key: [(prog, vram)]}."""
     out = {}
     with open(path) as f:
         for line in f:
             c = json.loads(line)
-            if c["kind"] == "dup":
+            if c["kind"] == kind:
                 out[c["key"]] = sorted((p, int(v, 16)) for p, v in c["members"])
     return out
 
@@ -296,14 +299,15 @@ def member_keys(ms, rows):
     have = [m for m in todo if m in rows]
     for m in todo:
         _KEYS.setdefault(m, None)
+        _FAMS.setdefault(m, None)
     try:
         for m, (w, k) in zip(have, census.read_words([rows[m] for m in have])):
-            _KEYS[m] = census.dup_key(w, k)
+            _KEYS[m], _FAMS[m] = census.dup_key(w, k), census.family_key(w)
     except census.Refuse:  # some rows unreadable: one at a time
         for m in have:
             try:
                 (w, k), = census.read_words([rows[m]])
-                _KEYS[m] = census.dup_key(w, k)
+                _KEYS[m], _FAMS[m] = census.dup_key(w, k), census.family_key(w)
             except census.Refuse:
                 pass
     return {m: _KEYS[m] for m in ms}
@@ -312,18 +316,25 @@ def member_keys(ms, rows):
 def check(reg=bank.REGISTRY, cls_path=CLASSES, quiet=False):
     """(rc, refusal lines); prints them and the verdict line unless quiet."""
     rows = [t for _, t in registry_rows(reg)]
-    cls, cr = load_classes(cls_path), corpus_rows()
+    cls, fams, cr = load_classes(cls_path), load_classes(cls_path, "family"), corpus_rows()
     mems = [parse_pv(t[3]) for t in rows]
     got = member_keys(mems, cr)
     bad = []
     for t, m in zip(rows, mems):
+        if t[5].startswith("family"):  # family_remap.py rows: the family key, no missing-member rule
+            k = _FAMS[m]
+            if k != t[0]:
+                bad.append(f"REGISTRY refused drift {t[3]}: built family key {k or 'none'} != row key {t[0]}")
+            if m not in fams.get(t[0], ()):
+                bad.append(f"REGISTRY refused not in class {t[3]} family {t[0]}")
+            continue
         k = got[m]
         if k != t[0]:
             bad.append(f"REGISTRY refused drift {t[3]}: built key {k or 'none'} != row key {t[0]}")
         if m not in cls.get(t[0], ()):
             bad.append(f"REGISTRY refused not in class {t[3]} key {t[0]}")
     have = set(zip((t[0] for t in rows), mems))
-    for key in sorted({t[0] for t in rows}):
+    for key in sorted({t[0] for t in rows if not t[5].startswith("family")}):
         for m in cls.get(key, ()):
             if (key, m) not in have:
                 bad.append(f"REGISTRY refused missing member {pv(m)} key {key}")

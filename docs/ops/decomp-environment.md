@@ -11,7 +11,7 @@ the rules behind them are the G group in `rules/`.*
 | Candidate compiler family (from the SDK evidence) | PsyQ-era GCC cc1 + aspsx: mmx4's X4 triple first (gcc 2.7.2 cc1 + maspsx --aspsx-version=2.56 --expand-div, a lead; docs/prior-art.md L1), then the other PsyQ-era cc1 builds (X6 links PsyQ 4.7 libraries, L2); pinned by probes in Phase 1.4 | the candidate set the pin phase runs down; never a sibling project's triple |
 | The splitter / disassembler and its config | TODO(phase-3) | version pinned in the bootstrap script |
 | The build host | x86-64 Linux, Ubuntu 24.04, ext4 | On another host, use the container `tools/docker/Dockerfile` (`--platform linux/amd64`). Keep the tree in a named volume. The vintage 32-bit compiler runs under the container's emulation. |
-| The disassembler database and its agent server | TODO(phase-2) | the static oracle; the database is tracked as a TEXT export with a rebuild script |
+| The disassembler database and its agent server | Ghidra 12.1.3 + ghidra_psx_ldr (project `ghidra/mmx6`, ignored); GhidrAssistMCP headless (`make ghidra-mcp-start`/`-stop`, docs/ops/oracles.md); text export `config/ghidra/<program>.jsonl` | the static oracle; the database is tracked as a TEXT export with a rebuild script |
 | The emulator and its scripting bridge | TODO(phase-2) | the runtime oracle |
 
 ## The game and the medium
@@ -38,7 +38,8 @@ TODO(phase-3)
 
 ## The oracles (decomp)
 
-- **Disassembler MCP:** TODO(phase-2) — verify with one cheap call before any reverse-engineering task; after a
+- **Disassembler MCP:** GhidrAssistMCP `disassembler` (SSE `http://localhost:8080/sse`, `.mcp.json`), started/stopped by
+  `make ghidra-mcp-start` / `make ghidra-mcp-stop` (docs/ops/oracles.md `## MCP server`) — verify with one cheap call before any reverse-engineering task; after a
   restart or a program switch, pause and ask the developer to reconnect the client (rule G2). Every configured MCP server
   adds its instructions to every session, so the entry is enabled only once the server exists (Phase 2).
 - **Emulator bridge:** TODO(phase-2) — a live-memory finding is verified only with three or more consistent datapoints

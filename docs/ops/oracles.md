@@ -37,3 +37,20 @@ USER_DEFINED/IMPORTED split.
   the analyzer still ran (35 s, 402 counted); do not rely on that option headlessly.
 - Values (SLUS_013.95, 2026-10-01): `psyq_version: 4.7.0`, `sig_functions: 811` (543−2 USER_DEFINED + 270 IMPORTED),
   `functions: 1520`, `entry: 0x80054ad8`, `image_base: 0x80000000`, `language: PSX:LE:32:default:default`.
+
+## MCP server
+GhidrAssistMCP (extension in `$GHIDRA_HOME/Ghidra/Extensions/GhidrAssistMCP`), headless on `ghidra/mmx6`, program `SLUS_013.95`.
+- Start: `make ghidra-mcp-start` (tools/mmx6/ghidra/mcp_start.sh) → detached `analyzeHeadless … -process SLUS_013.95
+  -noanalysis -postScript GAMCPStartServerScript.java host=localhost port=8080 wait=true completion_file=.run/ghidra/mcp.complete`;
+  pid `.run/ghidra/mcp.pid`, log `.run/ghidra/mcp.log`; rc 0 once `GET /sse` → 200 (≤ 120 s), else stopped and rc 1;
+  rc 2 if already running or any Ghidra JVM is alive.
+- Endpoints: SSE `http://localhost:8080/sse` (+ `POST /message`), streamable HTTP `/mcp`. Health:
+  `curl --max-time 3 -s -o /dev/null -w '%{http_code}' http://localhost:8080/sse` → `200` (curl rc 28 is normal: SSE stays open).
+- Stop: `make ghidra-mcp-stop` (mcp_stop.sh) → creates the completion file (server closes, Ghidra saves, exits); fallback
+  SIGTERM then SIGKILL to the pid's process group (reported, rc 1); then a read-only reopen (DumpProgramInfo →
+  `.run/ghidra/mcp-reopen.txt`) must succeed, else rc 1. Nothing running → message, rc 0.
+- Saves happen only on a clean stop (log line `Save succeeded for processed file`); a SIGKILL loses unsaved work.
+- The project lock is exclusive: `make ghidra-import` and any export/headless script need the server stopped first.
+- Client: tracked `.mcp.json` (from config/mcp.json.template) `"disassembler"` SSE. A restarted server leaves the client
+  stale: the developer runs `/mcp` (or it connects at the next session start); verify with one cheap call (G2,
+  docs/ops/disassembler-mcp.md).

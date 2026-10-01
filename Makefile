@@ -3,7 +3,7 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check extract scratch-check ghidra-import
+.PHONY: format format-check extract scratch-check ghidra-import ghidra-mcp-start ghidra-mcp-stop
 
 # Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
 PYTHON ?= python3
@@ -22,6 +22,13 @@ GHIDRA_HOME ?= $(HOME)/ghidra_12.1.3_PUBLIC
 
 ghidra-import:
 	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/import.sh --program SLUS_013.95
+
+# GhidrAssistMCP server (headless, detached) on ghidra/mmx6; stop saves, releases the lock, proves a read-only reopen.
+ghidra-mcp-start:
+	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/mcp_start.sh
+
+ghidra-mcp-stop:
+	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/mcp_stop.sh
 
 format:
 	find src -type f \( -name '*.c' -o -name '*.h' \) -not -name '.*' -print0 | xargs -0 -r clang-format -i --style=file

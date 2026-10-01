@@ -12,3 +12,5 @@ working around them. The correct move is to stop and ask.
 the reverse-engineering database's persistence the same way: the server holds an open transaction while serving, so work is
 saved only on a clean stop; renames made through the server may not persist at all — mirror symbols through a headless script
 and verify with a read-only reopen.
+
+This project: server lifecycle (start/stop, pid/log, lock, saves) in docs/ops/oracles.md `## MCP server`.

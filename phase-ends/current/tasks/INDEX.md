@@ -1,10 +1,2 @@
 # Task summaries -- this phase
 # id | status | title | tags | summary | log | research
-T1 | done | Ghidra import with psx_ldr and PsyQ detection | - | tasks/T1.md | logs/T1.md | R1.2-001
-T2 | done | GhidrAssistMCP served headless and wired | - | tasks/T2.md | logs/T2.md | R1.2-001
-T3 | done | Annotation text export and rebuild round trip | - | tasks/T3.md | logs/T3.md | -
-T4 | done | PCSX-Redux bridge and the exe load proof | - | tasks/T4.md | logs/T4.md | R1.2-001
-T5 | done | overlay load capture across the three bases | - | tasks/T5.md | logs/T5.md | R1.2-001
-T6 | done | load-map tool, control rows, memory map and N | - | tasks/T6.md | logs/T6.md | -
-T7 | done | overlay programs in Ghidra and L4 address check | - | tasks/T7.md | logs/T7.md | -
-T8 | done | span/boundary indicator and forced boundaries | - | tasks/T8.md | logs/T8.md | -

@@ -2,7 +2,8 @@
 
 Scratch for everything a rerun can reproduce: build/extract logs (`.run/logs/` via `tools/run.sh`), dumps, probes,
 per-session work dirs. Never the system temp: no project data lives outside the repository. Generated; never committed.
-`make clean` never touches it; pruning is a hand decision. Size cap and warning threshold are set in Phase 1.1.
+`make clean` never touches it; pruning is a hand decision. Size cap 25 GB, warning at 20 GB, checked by
+`make scratch-check` (override with `SCRATCH_CAP_GB=` / `SCRATCH_WARN_GB=`).
 
 Ignored by contents (`/.run/*`, not `/.run/`) so an irreplaceable artifact can be tracked by a dated exception block in
 `.gitignore` (`# P<N> <task> (<session>, <date>): why` then `!/.run/P<N>/` … `!/.run/P<N>/verify/*.log`). Commit only what

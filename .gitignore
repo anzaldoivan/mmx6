@@ -14,13 +14,9 @@ __pycache__/
 /disc/
 **/SCPH*.BIN
 
-# 2. Extracted payloads — regenerated from YOUR dump by the extractor and verified against the
-#    committed manifest of hashes, the only thing tracked under extracted/
-/extracted/*
-!/extracted/retail/
-/extracted/retail/*
-!/extracted/retail/manifest.jsonl
-!/extracted/retail/manifest.sha1
+# 2. Extracted payloads — regenerated from YOUR dump by the extractor (`make extract`) and verified against the
+#    committed manifest of hashes, which lives in manifest/; nothing under extracted/ is tracked
+/extracted/
 
 # 3. Generated disassembly, assets and build output — `make extract` / `make build` recreate them;
 #    the durable record is the symbol file. (A pasted listing of target instructions is class 3 too.)

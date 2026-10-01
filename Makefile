@@ -3,7 +3,19 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check
+.PHONY: format format-check extract scratch-check
+
+# Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
+PYTHON ?= python3
+CUE ?= /disc/Mega Man X6 (USA) (v1.1).cue
+SCRATCH_CAP_GB ?= 25
+SCRATCH_WARN_GB ?= 20
+
+extract:
+	$(PYTHON) tools/mmx6/extract.py --cue "$(CUE)" --out extracted/retail --manifest manifest/retail.jsonl --medium config/medium.sha1
+
+scratch-check:
+	$(PYTHON) tools/mmx6/scratch.py --root .run --cap-gb $(SCRATCH_CAP_GB) --warn-gb $(SCRATCH_WARN_GB)
 
 format:
 	find src -type f \( -name '*.c' -o -name '*.h' \) -not -name '.*' -print0 | xargs -0 -r clang-format -i --style=file

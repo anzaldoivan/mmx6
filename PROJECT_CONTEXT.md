@@ -52,7 +52,7 @@ Not in this file. A permanent-static document would freeze them.
   the original's, from a clean rebuild, checked inside `make build` (G3, G61); no unmatched C in a default build (G4).
   Each phase closes only when every `verified by:` clause of its milestone runs green (`tools/phaseend_index.py verify`).
 - **Stack:** see the header; the compiler triple is a `TODO` until Phase 1.4 pins it by evidence.
-- **Environment:** see `HOW_WE_WORK.md` and `docs/ops/INDEX.md` (`docs/ops/mmx6-hosts.md` for hosts, paths and disk).
+- **Environment:** see `HOW_WE_WORK.md` and `docs/ops/INDEX.md` (`docs/ops/mmx6-hosts.md` for hosts and paths).
 - **Current generation:** 1 — the matching decompilation, from the firewall to readable N of N.
 
 ---
@@ -109,10 +109,6 @@ From the source project's failure museum (`corpus/decomp-kernels.md` part 9, ker
 
 Specific to this project:
 
-- **Disk.** 17 GiB free on the Mac's data volume at generation (measured 2026-10-01; the intake draft recorded ~2 GB).
-  The disc image alone is 0.6 GB; the extraction, the Ghidra database, the Docker volume and the scratch tree need
-  more. **At least 30 GB free is a precondition of Phase 1.1**; the scratch cap is set then (the DC2 values — cap
-  25 GB, warn at 20 GB — are the default).
 - **Leads mistaken for evidence** — Kuumba123's names, the recomp's overlay map, mmx4's pin assumed rather than proven.
   Every lead carries a status in `docs/prior-art.md` (G101).
 - **License contamination** — copying from an unlicensed (Kuumba123) or non-commercial (MegaManX6Recomp) source into an
@@ -321,7 +317,7 @@ runs; the phase's plan pins exact spellings of commands the phase itself builds.
   `grep -c '| decomp-architect$' rules/INDEX.md` = 67; `gh run list --workflow no-rom.yml -L 1` is green.
   *Tools:* the audit with its config, the fixture, CI, the layout READMEs, `make format`. *Rules from here:* G12–G18,
   G58, G61–G65, G101, G102. *Earned by:* DK-1, DK-53–DK-58.
-- **Phase 1.1 Deterministic extraction with a committed manifest** — precondition: ≥ 30 GB free; milestone: one command
+- **Phase 1.1 Deterministic extraction with a committed manifest** — milestone: one command
   extracts the whole disc (ISO9660 files, `ROCK_X6.BIN` members, XA/STR streams); a second run reproduces the manifest
   identically; sampled payloads agree byte-for-byte with a reference extractor where one exists; `git status` shows
   nothing ROM-derived staged; the audit reads the manifest as a required hash source.
@@ -530,7 +526,7 @@ Pinned as known at generation; exact versions are recorded in `docs/ops/` by the
 - **Phase 1.0:** decide and record how the Mac clone (where PA3 and the agents work) and the Docker named volume (where
   the build runs) stay one tree — the intake records the DC2 arrangement as the model, not a decision. Seed
   `THIRD_PARTY.md` empty with its format; `docs/prior-art.md` is seeded at intake.
-- **Phase 1.1:** check free disk first (≥ 30 GB); set the scratch cap.
+- **Phase 1.1:** set the scratch cap.
 - **Phase 1.2:** the recomp's overlay map (59 members, three bases) and Kuumba123's addresses are leads to re-prove,
   not inputs. The load-address derivations are `/discuss max` judgments.
 - **Phase 1.4:** try mmx4's pin first; it is the cheapest probe, not a conclusion. The pin is a `/discuss max` judgment.

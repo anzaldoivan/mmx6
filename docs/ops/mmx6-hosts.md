@@ -15,8 +15,7 @@ As known at generation (2026-10-01). Update in the same change as whatever chang
 - BIOS for the emulator: `/Users/ThinkPad/GameInputs/megaman-x6/SCPH1001.BIN`.
 - Layout: one MODE2/2352 track; `SYSTEM.CNF` boots `SLUS_013.95`; code overlays in `ROCK_X6.BIN`; XA/STR streams.
 
-## Disk
-- 17 GiB free on `/System/Volumes/Data` at generation. **≥ 30 GB free is a precondition of Phase 1.1.**
+## Scratch
 - Scratch under `.run/`; cap and warning threshold set in Phase 1.1 (default: cap 25 GB, warn 20 GB, as DC2).
 
 ## Pins

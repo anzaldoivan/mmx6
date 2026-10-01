@@ -136,3 +136,28 @@ GhidrAssistMCP (extension in `$GHIDRA_HOME/Ghidra/Extensions/GhidrAssistMCP`), h
 - `make boundaries PYTHON=<py>` → `tools/mmx6/boundaries.py` writes `config/boundaries.txt` (jtbl/lib/optcand/fstart
   rows per load-map program; PsyQ objs from `$(GHIDRA_HOME)/Ghidra/Extensions/ghidra_psx_ldr/data/psyq`; needs the
   `config/ghidra/*.jsonl` exports); `--self-test`. Gate: rc 0 and `git diff --exit-code config/boundaries.txt`.
+
+## Second boundary oracle (bound2, 1.5 T4)
+- `tools/mmx6/bound2.py --all | --prog <p> | --self-test` (container, stdlib; needs extract + build + `corpus.py --all`).
+- Inputs (B2 is built without asm/, config/*.yaml, splat output or corpus spans): retail bytes via
+  `boundaries.programs()` (sha1-checked), text = `build/corpus/denominators.jsonl` [text_lo, text_hi),
+  `config/ghidra/<p>.jsonl` funcs, `config/boundaries.txt` `jtbl` rows. Compared to `build/corpus/functions.jsonl`.
+- Starts (basis ghidra > jal > post-ret): Ghidra func addrs in text; post-ret = first non-zero word at/after a+8 of
+  each `jr $ra` at a, unless inside a numeric-hi jtbl span; jal targets of jals inside the trimmed bodies of the
+  first two sets, target in the program's text or (overlay only) the exe text.
+- Extent (C0021): end = last `jr $ra` in [start, next start or text_hi) + 8; none -> unended (start kept, no bytes).
+- phantom = inventory vram not a B2 start; truncation = a B2 function [s, end) with a word covered by != 1 inventory
+  function, or the inventory function at s ends before end.
+- Classes (first match): `jtbl-label` (key word or problem run in/abutting a jtbl span; unknown-hi row = its lo
+  word), `carve` (rock_17/43/45, starts declared in config/symbols.<p>.txt), `q1-text-end` (exe 0x8006D5D0..D4),
+  `data-tail` (truncation whose uncovered words all lie in corpus data|pad spans), `ghidra-missed-start` (other
+  phantoms), `unclassified`.
+- Ledger `config/boundary_exceptions.txt` (optional; T5): `<prog> <vram> <phantom|truncation> <class> <evidence...>`,
+  `#` comments; class not in the set minus unclassified -> rc 2; a matched disagreement is `ledgered`; a row matching
+  nothing is stale (`BOUND2 STALE <row>`, rc 1).
+- Outputs: `build/bound2/<p>.jsonl` {"prog","vram","end"|null,"basis"}; `build/bound2/disagreements.txt` (`## <class>`
+  groups incl. `## ledgered`, lines `<kind> <prog> <vram> <detail>`); stdout `BOUND2 UNENDED <k>`,
+  `BOUND2 CLASSES ...`, `BOUND2 phantoms=<p> truncations=<t> ledgered=<x> of <N> functions in <P> programs`.
+  rc 0 iff p = t = 0 and no stale row; 1 otherwise; 2 bad input.
+- `--self-test`: the 3 banked probes + func_80055A04 agree; in-memory split -> phantom, end cut by 8 -> truncation;
+  ends `BOUND2 CONTROL OK`. Rung `th-bound2` (mk/tools-health.mk) runs the self-test only.

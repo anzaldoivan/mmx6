@@ -34,3 +34,16 @@ C0031 | splat psx many asm subsegments: subalign 4 | splat,psx,linker,hash | 202
 C0032 | mipsel as inserts sync before ll: -mno-fix-loongson3-llsc | binutils,mips,asm | 2026-10-01 | 1.3/T5 | -
 C0033 | All-asm overlays: data words through gas need -march=r4000 | binutils,mips,overlays | 2026-10-01 | 1.3/T5 | -
 C0034 | A gate that must re-hash needs a clean step | make,hash,gates | 2026-10-01 | 1.3/T6 | -
+C0035 | A cpp|cc1|maspsx|as pipe returns only as's rc; a dead cc1 still exits 0 | make,pipefail,toolchain,psx | 2026-10-01 | 1.4/T1 | mmx6 T1
+C0036 | Ubuntu make recipes run under dash (no pipefail); set SHELL bash + .SHELLFLAGS per target | make,pipefail,dash,ubuntu | 2026-10-01 | 1.4/T2 | mmx6 T2
+C0037 | cpp 12 -nostdinc drops the stdc-predef.h pre-include that old gcc 2.x cc1 warns on | cpp,old-gcc,cc1,psx | 2026-10-01 | 1.4/T2 | mmx6 T2
+C0038 | An INCLUDE_ASM probe control is triple-independent; pair it with a planted one-word mutation | probe,control,compare,masking | 2026-10-01 | 1.4/T3 | mmx6 T3
+C0039 | asm-differ arch mips is big-endian; PSX needs mipsel (m2c target mipsel-gcc-c) | asm-differ,m2c,mips,endianness,psx | 2026-10-01 | 1.4/T4 | mmx6 T4
+C0040 | make -j extract build races; run extract as its own make call first | make,parallel,extract,race | 2026-10-01 | 1.4/T4 | mmx6 T4
+C0041 | splat's instruction comment word is in file byte order; decode as little-endian before field extraction | splat,mips,decode,endianness | 2026-10-01 | 1.4/T5 | mmx6 T5
+C0042 | A splat asm subsegment can come out as dlabel + .word with 0 glabel; per-function tools must detect it | splat,spimdisasm,census,functions | 2026-10-01 | 1.4/T5 | mmx6 T5
+C0043 | A break 7 near a div is not an expanded-div test; classify by break 6 presence and mflo position | mips,division,maspsx,expand-div,fingerprint | 2026-10-01 | 1.4/T6 | mmx6 T6
+C0044 | maspsx aspsx-version rungs >= 2.60 are byte-identical under -G0 with no $gp access | maspsx,aspsx,pin,ladder,psx | 2026-10-01 | 1.4/T6 | mmx6 T6
+C0045 | A trailing # comment on a make VAR ?= value line keeps the space before # in the value | make,variables,comments | 2026-10-01 | 1.4/T6.1 | mmx6 T6.1
+C0046 | splat 0.50 c-mode writes a jr ra; nop function as empty C; measure the stub-only baseline before banking | splat,c-mode,count,baseline | 2026-10-01 | 1.4/T8 | mmx6 T8
+C0047 | Once a function is C, splat writes no nonmatchings .s for it; extent tools must fall back to symbol order | splat,nonmatchings,extent,probe | 2026-10-01 | 1.4/T8 | mmx6 T8

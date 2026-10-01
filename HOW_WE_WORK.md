@@ -37,17 +37,18 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 | commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes |
 | run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
 | extract | `mx.sh run make extract` (host: `make extract PYTHON=PY CUE=<cue>`) | dump → ignored `extracted/retail/` + `manifest/retail.jsonl` |
-| mx.sh | `bash tools/docker/mx.sh build\|sync\|pull <path>\|disc <dir>\|run <cmd>` | amd64 container `mmx6-build`; tree volume at /work, dump at /disc:ro |
+| mx.sh | `bash tools/docker/mx.sh build\|sync\|pull <path>\|disc <dir>\|run <cmd>` | amd64 container `mmx6-build`; tree at /work, dump at /disc:ro |
 | probe | `mx.sh run make probe-ladder`; `tools/mmx6/probe.py <func> --prog p --src c --triple t` | masked compare to retail; `PIN …`, rc 0 iff unique |
 | decompile | `mx.sh run python3 tools/mmx6/decompile.py <func> [--prog p]` | m2c scaffold on stdout |
 | diff | `mx.sh run bash tools/mmx6/diff.sh <func>` (after `make extract build expected`) | asm-differ; ends `DIFF <func> <n> …`, rc 0 iff n=0 |
-| optscan | `mx.sh run python3 tools/mmx6/optscan.py --all\|--prog p` (after `make extract split`) | codegen census; docs/ops/compiler-pin.md |
-| toolchain-check | `mx.sh run make toolchain-check` | versions + cc1/maspsx smoke; rc ≠ 0 on pin drift |
+| optscan | `mx.sh run python3 tools/mmx6/optscan.py --all\|--prog p` (after `make extract split`) | codegen census |
+| toolchain-check | `mx.sh run make toolchain-check` | versions + cc1/maspsx smoke; rc≠0 on drift |
 
 ## Skills <!-- roles: expert planner -->
 <!-- one line per captured workflow; the SKILL.md is the canonical text -->
 - docker-vm-no-privileged — Never probe the Docker VM with --privileged or --pid=host; the classifier treats it as containment escape
 - ci-wait-after-push — Wait for GitHub CI after a push: run.sh --bg gh run watch, then run.sh --wait under 285 s
+- container-scratch-not-synced — Mac .run/ never syncs; make container scratch in the container's .run/
 
 ## Paths <!-- roles: expert coder router planner review critic discuss auditor curator -->
 - Oracles (native Mac): static Ghidra 12.1.3 + psx_ldr, `make ghidra-import PYTHON=PY` (docs/ops/oracles.md)
@@ -58,7 +59,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 - Scratch: `.run/` (gitignored; never the system temp)
 
 ## Build / run / test <!-- roles: expert coder router planner review critic discuss auditor curator -->
-- Build: `mx.sh sync && mx.sh run make fleet` (clean → extract → split → build → health; sync wipes /work; image `mx.sh build`); `mx.sh run make expected` → asm-differ baseline
+- Build: `mx.sh sync && mx.sh run make fleet` (clean → extract → split → build → health; sync wipes /work); `mx.sh run make expected` → asm-differ baseline
 - Run: `make redux-smoke` / `bash tools/mmx6/redux/run.sh <lua> [--timeout S]` (PCSX-Redux headless; docs/ops/oracles.md)
 - Test / the gate: `make fleet` (as Build) → rc 0 + last line `FLEET 57 of 57`, then `PY tools/audit_public.py` → rc 0
 - Modes: format `mx.sh sync && mx.sh run make format-check` (rc 0); fix: `mx.sh run make format && mx.sh pull <paths>`
@@ -69,7 +70,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 
 ## Environment <!-- roles: expert coder router planner review critic discuss auditor curator -->
 - OS / shells: Darwin / bash, zsh
-- Python: /opt/homebrew/opt/python@3.14/bin/python3.14 (3.14.7)
+- Python: PY (3.14.7)
 - Pins: image `ubuntu:24.04@sha256:008173c2…`, clang-format 18.1.3, splat64 0.50.0, binutils 2.42, cpp 12.4.0, cc1 set /opt/cc (old-gcc 0.17 + 0.9), maspsx @7686f84, m2c @708d2d2, asm-differ @0dd09af (docs/ops/mmx6-hosts.md)
 - Compiler pin: `gcc2.95.2-psx-aspsx2.86` = Makefile `TRIPLE`, all programs (docs/ops/compiler-pin.md)
 - Harness gotchas that bite here: `tools/audit_public.py --help` runs the full audit; a hook denies `cat` of product files (use Read)

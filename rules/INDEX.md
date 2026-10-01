@@ -171,3 +171,7 @@ G63 | Outward text is written by a person | decomp,ai-conduct | active | decomp-
 G64 | No automated traffic against community infrastructure | decomp,ai-conduct | active | decomp-architect
 
 G65 | Agents assist; a person owns | decomp,ai-conduct | active | decomp-architect
+
+G103 | A probe compiles through the product build's rule, never a copied flag set | decomp,probe,pin,build | active | mmx6 1.4/T3
+
+G104 | A pin is unique only over rungs a probe can distinguish; collapse byte-equivalent rungs first | decomp,probe,pin,ladder | active | mmx6 1.4/T6,T6.1

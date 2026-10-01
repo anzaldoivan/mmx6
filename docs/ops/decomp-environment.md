@@ -30,7 +30,8 @@ the rules behind them are the G group in `rules/`.*
 # extract the medium and verify against the committed manifest
 bash tools/docker/mx.sh sync && bash tools/docker/mx.sh run make extract
 # the clean fleet verification — every binary from clean → extract → split → build → health, exit code read;
-# last line `FLEET 57 of 57` (tools/mmx6/fleet.sh; gate config/check.<bin>.sha per binary)
+# last line `FLEET 57 of 57` (tools/mmx6/fleet.sh; gate config/check.<bin>.sha per binary), preceded by
+# `C MATCHED <f>` = C-defined functions in build/src/**/*.c.o (incl. splat's empty-body emissions; 285 at 1.4 T8)
 bash tools/docker/mx.sh sync && bash tools/docker/mx.sh run make fleet
 # asm-differ baseline after a green build: build/ copied to expected/build/ (container only; mx.sh pull refuses it)
 bash tools/docker/mx.sh run make expected

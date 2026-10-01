@@ -8,3 +8,4 @@ T5 | done | per-module codegen census | - | tasks/T5.md | logs/T5.md | -
 T6 | blocked | probes drafted and the ladder run | - | tasks/T6.md | logs/T6.md | -
 T6.1 | done | aspsx -G0 equivalence class collapsed; ladder pins one triple | - | tasks/T6.1.md | logs/T6.1.md | -
 T7 | review | the pin recorded and ratified | - | tasks/T7.md | logs/T7.md | R1.4-001
+T8 | done | first functions banked end to end | - | tasks/T8.md | logs/T8.md | -

@@ -26,3 +26,52 @@ Findings (denominator: 6784 functions, 57 programs):
 - Contiguous runs: one run per program (57 RUN lines, all `O2`); no per-module class change by address.
 - unsplit: rock_17 (29 carved, 513 words dropped), rock_43 (81, 283), rock_45 (53, 248) — 163 carved functions;
   their split config yields no glabel (scope: a split fix, not this census).
+
+## Ladder
+
+Run (phase 1.4 T6): `bash tools/docker/mx.sh run make extract probe-ladder` (32 rungs of `config/triples.txt` x 3 probes of
+`config/probes.txt`, all game TU 120A0); 96 result lines, make rc 2 (ladder rc 1: no unique pin); log `.run/logs/t6c1.log`.
+
+`PIN AMBIGUOUS gcc2.95.2-psx-aspsx2.56,gcc2.95.2-psx-aspsx2.67,gcc2.95.2-psx-aspsx2.79,gcc2.95.2-psx-aspsx2.86`
+
+Probes: func_8001E78C `sltiu-range` (sltiu range check, frame + jal); func_800473EC `lb-s8-sltiu-halfword`;
+func_8002B410 `divu-var-mflo-hazard` (bare `divu` by a variable, `mflo` before the `break 7` check, 5th arg on stack).
+func_8004BB5C (signed div by a value equal to 10) dropped: best draft 52/219 under gcc2.95.2-psx-aspsx2.86; an inline
+helper with the divisor as a parameter reproduces its div/check form, the residue is register allocation.
+Only cc1 2.95.2-psx matches the div probe; 2.91.66-psx matches both sltiu probes and fails the div probe (8/79).
+The four aspsx rungs tie on every probe (maspsx flags inert under `-G0`).
+
+| triple | func_8001E78C | func_800473EC | func_8002B410 |
+|---|---|---|---|
+| gcc2.7.2-aspsx2.56 | FAIL 9/13 | FAIL 25/29 | FAIL 9/79 |
+| gcc2.7.2-aspsx2.67 | FAIL 9/13 | FAIL 25/29 | FAIL 9/79 |
+| gcc2.7.2-aspsx2.79 | FAIL 9/13 | FAIL 25/29 | FAIL 9/79 |
+| gcc2.7.2-aspsx2.86 | FAIL 9/13 | FAIL 25/29 | FAIL 9/79 |
+| gcc2.7.2-psx-aspsx2.56 | FAIL 9/13 | FAIL 25/29 | FAIL 9/79 |
+| gcc2.7.2-psx-aspsx2.67 | FAIL 9/13 | FAIL 25/29 | FAIL 9/79 |
+| gcc2.7.2-psx-aspsx2.79 | FAIL 9/13 | FAIL 25/29 | FAIL 9/79 |
+| gcc2.7.2-psx-aspsx2.86 | FAIL 9/13 | FAIL 25/29 | FAIL 9/79 |
+| gcc2.7.2-cdk-aspsx2.56 | FAIL 9/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.7.2-cdk-aspsx2.67 | FAIL 9/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.7.2-cdk-aspsx2.79 | FAIL 9/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.7.2-cdk-aspsx2.86 | FAIL 9/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.6.3-psx-aspsx2.56 | FAIL 9/13 | FAIL 25/29 | FAIL 8/79 |
+| gcc2.6.3-psx-aspsx2.67 | FAIL 9/13 | FAIL 25/29 | FAIL 8/79 |
+| gcc2.6.3-psx-aspsx2.79 | FAIL 9/13 | FAIL 25/29 | FAIL 8/79 |
+| gcc2.6.3-psx-aspsx2.86 | FAIL 9/13 | FAIL 25/29 | FAIL 8/79 |
+| gcc2.8.0-psx-aspsx2.56 | FAIL 11/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.8.0-psx-aspsx2.67 | FAIL 11/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.8.0-psx-aspsx2.79 | FAIL 11/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.8.0-psx-aspsx2.86 | FAIL 11/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.8.1-psx-aspsx2.56 | FAIL 11/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.8.1-psx-aspsx2.67 | FAIL 11/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.8.1-psx-aspsx2.79 | FAIL 11/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.8.1-psx-aspsx2.86 | FAIL 11/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.91.66-psx-aspsx2.56 | MATCH 13/13 | MATCH 29/29 | FAIL 8/79 |
+| gcc2.91.66-psx-aspsx2.67 | MATCH 13/13 | MATCH 29/29 | FAIL 8/79 |
+| gcc2.91.66-psx-aspsx2.79 | MATCH 13/13 | MATCH 29/29 | FAIL 8/79 |
+| gcc2.91.66-psx-aspsx2.86 | MATCH 13/13 | MATCH 29/29 | FAIL 8/79 |
+| gcc2.95.2-psx-aspsx2.56 | MATCH 13/13 | MATCH 29/29 | MATCH 79/79 |
+| gcc2.95.2-psx-aspsx2.67 | MATCH 13/13 | MATCH 29/29 | MATCH 79/79 |
+| gcc2.95.2-psx-aspsx2.79 | MATCH 13/13 | MATCH 29/29 | MATCH 79/79 |
+| gcc2.95.2-psx-aspsx2.86 | MATCH 13/13 | MATCH 29/29 | MATCH 79/79 |

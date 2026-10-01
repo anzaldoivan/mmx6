@@ -2,7 +2,7 @@
 # `make fleet`). One rung per phase tool: a rung runs the tool's --self-test, then its real run; later tasks append
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
-TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census
+TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-report
 
 .PHONY: tools-health $(TOOLS_HEALTH_RUNGS)
 
@@ -33,3 +33,8 @@ th-bound2: th-corpus
 # then `--all` (build/census/classes.jsonl; last line `CENSUS dup_classes=… of <N>`).
 th-census: th-corpus
 	$(PYTHON) tools/mmx6/census.py --self-test && $(PYTHON) tools/mmx6/census.py --all
+
+# The reports (tools/mmx6/report.py; needs the census): planted progress/difficulty/dup controls and real-corpus sums,
+# then `--all` (build/reports/{progress,difficulty,dup}.{md,json}; last line `REPORT progress c … stubs <e>`).
+th-report: th-census
+	$(PYTHON) tools/mmx6/report.py --self-test && $(PYTHON) tools/mmx6/report.py --all

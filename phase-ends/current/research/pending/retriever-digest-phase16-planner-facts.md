@@ -1,0 +1,59 @@
+# Phase 1.6 planner facts from 1.2-1.5 summaries
+task: extract planner facts for 1.6 (banking, opt-level, jtbl, bound2 independence, census)
+agent: retriever-digest
+tags: phase-1.6, banking, census, bound2, segmentation, compiler-pin
+
+## Answer
+(a) Banked C: 3 real functions, all exe, TU 120A0. (b) No opt-level variation, so no carve. (c) jtbl is never a boundary. (d) bound2 vs the 53 declared overlays is consistency only; independence needs non-bound2 evidence. (e) 1152 dup classes; the 282 "C" members are empty stubs. Details in Findings.
+
+## Findings
+(a) Banked
+- Banked: func_8001E78C, func_800473EC, func_8002B410 in src/SLUS_013.95/120A0.c (exe game TU 120A0, 0x800120A0..0x80054AD0). Siblings stay INCLUDE_ASM. phase-1.4/tasks/T8.md:4. Programs: exe only; 0 C in any overlay or lib TU. LIBSPU_S_M_UTIL has 0 C.
+- How: config/c_units.txt gets `SLUS_013.95 120A0`; splat regenerated the TU in c-mode (config/SLUS_013.95.yaml:42 `[0x28A0, c, 120A0]`); probe bodies replace their INCLUDE_ASM lines; config/probes.txt marks them ` banked`. Rule (T8.md:15): banked = C in the real TU (listed in c_units.txt) AND clean fleet whole-binary hash green. A standalone probe match is not a bank.
+- fleet.sh prints `C MATCHED 285` (3 banks + 282 splat empty-body `void f(void){}` stubs; splat 0.50 c-mode emits `jr ra; nop` as empty C). Measure the stub-only baseline before banking more. Now fed by `corpus.py --c-names` (1.5 T8).
+- Once a function is C, splat writes no nonmatchings .s; probe.py find_extent falls back to symbol order.
+- Next bank = replace one INCLUDE_ASM line, fleet-gated. First C in a lib TU or overlay is the pin's first test outside 120A0; on mismatch use a per-unit triple ladder (T8.md:29; compiler-pin.md:28-29: lib objects were built by Sony and may need their own triple).
+- Pin: gcc2.95.2-psx-aspsx2.86, -O2 -G0 -msoft-float -funsigned-char (docs/ops/compiler-pin.md:7-9). Probes: 13/29/79 words, and `PIN ... 3 of 3`. aspsx 2.56-2.86 are byte-equivalent under -G0 (:24). Open doubts (:23-36): float code and char signedness never probed; func_8004BB5C (signed div) dropped at 52/219; --expand-div inert for 2.95.2.
+
+(b) Opt-level census (1.4 T5; compiler-pin.md:38-63)
+- 6784 functions (then): O0 0, fp-only 0, gprel 0, one contiguous O2 run per program (57 of 57). No TU or program differs in opt level, so there are no opt-level boundaries to carve. The ladder needs one opt level and -G0; do not add -O0 or -G8 rungs without new evidence.
+- 1.2 T8: optcand rows 0 (0/1815 funcs); config/segmentation.md:27 "opt level is no boundary signal".
+- Idiom variation only: div-expand 41 (exe 23: 13 in game TU, 10 in lib; overlays rock_03/04/07/08/15/16/22/33/34/36/37); div-bare 16 (func_8002B410, func_8004BB5C, and overlays rock_04/07/09/11/15/25/26/34/36/40).
+- optscan now runs on corpus (7060 asm + include_asm functions, 1.5 T3/T8 P4 7060 of 7060).
+- rock_17/43/45 were unsplit (`.word` only, 163 carved functions); fixed in 1.5 T1 by declared symbols (glabel 29/77/52).
+
+(c) Jump tables
+- 1.2 T8: extent = the dispatch's `sltiu` bound, fallback consecutive code-pointer words. Ghidra's count overruns.
+- config/segmentation.md:19-22: jtbl is no edge. The table sits in the rodata of the TU holding its dispatcher; a TU edge never separates a function from its table. Only non-weak `lib` rows are forced edges. fstart and weak rows are never edges either.
+- Exe: 47 tables, 41 in game TUs, 6 in lib TUs, 0 with no func, 0 order inversions along rodata. Overlays: 396 jtbl rows (219 inside-table labels, 40 with func `-`; open Q4, must be owned before splitting an overlay). Total 443.
+- TUs: exe 246 (230 lib + 16 gap); each overlay is 1 TU (302 total). Open Qs 1-6 at :103-115, notably the 120A0 game gap (0x42A30 B) is one TU.
+- 1.3 T4: jlabel is local in macro.inc, but cross-file jtbl labels still link (GLOBAL in 120A0.s.o). The rodata TU 10000 refs still resolve.
+- 1.5 T8 report: jtbl = any `jr` with rs != 31; 222 of 7060 to-do functions have jtbl. The 48 jtbl hits of <=8 words are exe lib BIOS-call trampolines.
+
+(d) bound2 and the 53 overlays (1.5 T5; segmentation.md:127-136)
+- bound2 = `phantoms=0 truncations=0 ledgered=0` of 7345 functions. Start-basis priority ghidra > jal > head > post-ret; `head` = back-scan from the first `jr $ra`.
+- 53 overlays' starts (581 declared funcs, 50 head funcs, 52 header data symbols, 14 s32; plus T1's 158 for rock_17/43/45) were declared in config/symbols.rock_*.txt from the same post-return/jal/head byte rules bound2 uses. bound2 there checks consistency, not independence (T5.md:24; T8.md:24, P1 and P5 are consistency checks too).
+- bound2 does NOT flag merges (one inventory function covering several B2 functions). Scratch count 1266 pre-existing (rock_07 248, rock_11 307, exe 75). Most are expected multi-return functions or B2 over-splitting, unverified. 23 multi-return merges were declared deliberately. rock_03: minimal set made splat merge 33 B2 functions.
+- Evidence that would make it independent (my inference, not stated in the summaries): evidence not used to declare the starts, e.g. a jal/jr-target or code-pointer-table census from outside the declaring rules, or Ghidra function starts (the source declarations were forbidden from using them; "never Ghidra"). Also: a merge check counting multiple B2 starts per declared function, classified as multi-return vs over-split by whether branch targets cross the earlier jr $ra. T5 found most declared starts have their address stored as a pointer elsewhere in the image (T5.md:21), an already-observed independent signal. The ledger file config/boundary_exceptions.txt does not exist (empty ledger). Self-test ledger controls must use injected disagreements.
+
+(e) Census (1.5 T6/T7; build/census/classes.jsonl, build/reports/dup.json; "1.6 reads dup.json")
+- Fleet: 1152 dup classes >=2 (4482 members), 1175 families (4814), unique tail 2531 fns / 808064 B of 7345 (34%). Reach_size 14/16 (the T6 control line).
+- Game 1133 classes (4430 members), tail 2198/715696 B of 6858. Lib 20 classes (52 members), tail 334 of 487, lib reach always 1.
+- Largest reach: 2 classes of <=8 words reach 11+ programs and hold 719 functions; 9 classes of 9-32 words reach 11+ and hold 655: payoff concentrated in small shared overlay helpers.
+- C members: 282 members already C, and they are only the empty-body stubs. Class 412 = 282 c-empty + 130 asm `jr $ra; nop`. Real banks (3) are not in a dup class that the summaries mention. Payoff = (members-1) x words, 3330 functions / 536040 of 1717444 B. Progress: 285 of 7345 functions, 2740 of 1717444 B. Remaining: asm 5910, include_asm 1150. Text bytes 1979192 = functions 1717444 + jtbl 11060 + pad 10500 + libgap 124 + data 240064.
+- Difficulty ranks by (jtbl, words, branches, calls, prog, vram).
+
+(f) Gotchas and open Next-task-needs
+- 1.5 T8: add merge/independence check for the 53 overlays; `make tools-health-full` (8 rungs) is the exhaustive gate; `make fleet` runs 7 rungs plus the sampled harness (P1-P7: P3 full-only). th-bound2 runs --all in the fleet, so any yaml/symbols change adding a phantom or truncation fails the fleet.
+- Harness P1/P5 are not independent oracles. P2 is a compile check on every corpus `c` function, so new banks get it automatically. P7 stubs check 412 = 412.
+- Not found in these summaries: any "X4 signature measurement" task, twins/reconcile ladder, or type layer. compiler-pin.md:30 mentions only "X4's set" of flags. NOT FOUND otherwise.
+- spimdisasm ends a sized symbol only at size >= 8 (declare 4-byte words without size:). splat instruction comment words are little-endian. A 0-glabel program must be detected.
+- Harness quirks: `plan_edit.py show --section Milestone` (capitalised, tripped 6 times); commit_task.sh sweeps router discussions and PHASE_PLAN.md; `mx.sh pull build/` is refused (use `mx.sh run cat`); run.sh --wait piped to head hides exit=; a PreToolUse hook denies cat of tools/mmx6/fleet.sh (delegate to the coder); card.py cap 7000 (now 6977, very tight; trim before adding rows); zsh has no PIPESTATUS.
+
+(g) Cost
+- Every summary has ctx-at-completion n/a; no cost numbers recorded. Costly signals are multi-run coders: 1.4 T5 (c1 blocked, c2 done); 1.5 T5 (c1 done, c2 partial, expert fixed and committed; the largest task, inventory 6779 -> 7345); 1.5 T1 (status question). Others needed a single coder run (c1 opus55). 1.4 T6/T6.1 also needed a ladder rerun (32 -> 8 rungs).
+
+## Dead ends
+- No ctx numbers in the summaries; the logs were not grepped (phase-ends/current/logs/T*.md might hold them).
+
+sources: phase-ends/phase-1.4/tasks/T5.md, T8.md; phase-ends/phase-1.5/tasks/T1,T5,T6,T7,T8.md; phase-ends/phase-1.3/tasks/T3.md, T4.md; phase-ends/phase-1.2/tasks/T8.md; docs/ops/compiler-pin.md; config/segmentation.md

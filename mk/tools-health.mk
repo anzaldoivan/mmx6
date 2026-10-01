@@ -2,12 +2,18 @@
 # `make fleet`). One rung per phase tool: a rung runs the tool's --self-test, then its real run; later tasks append
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
-TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-report
+TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-report th-harness
+# `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
+# --self-test that is not a rung.
+TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-selftests
 
-.PHONY: tools-health $(TOOLS_HEALTH_RUNGS)
+.PHONY: tools-health tools-health-full $(TOOLS_HEALTH_RUNGS) th-harness-full th-selftests
 
 tools-health: $(TOOLS_HEALTH_RUNGS)
 	@echo "TOOLS-HEALTH OK $(words $(TOOLS_HEALTH_RUNGS)) rungs"
+
+tools-health-full: $(TOOLS_HEALTH_FULL_RUNGS)
+	@echo "TOOLS-HEALTH OK $(words $(TOOLS_HEALTH_FULL_RUNGS)) rungs"
 
 # The function corpus and text denominator (tools/mmx6/corpus.py; needs the linked build).
 th-corpus:
@@ -38,3 +44,18 @@ th-census: th-corpus
 # then `--all` (build/reports/{progress,difficulty,dup}.{md,json}; last line `REPORT progress c … stubs <e>`).
 th-report: th-census
 	$(PYTHON) tools/mmx6/report.py --self-test && $(PYTHON) tools/mmx6/report.py --all
+
+# The differential harness (tools/mmx6/harness.py; needs the corpus, bound2 and census outputs): planted
+# disagreement per pair + NOT-RUN control, then the sampled pairs P1 P2 P4 P5 P6 P7 (build/harness/runs.log; last line
+# `HARNESS <d> disagreements in <p> pairs`, rc 0 iff d = 0).
+th-harness: th-corpus th-optscan th-bound2 th-census
+	$(PYTHON) tools/mmx6/harness.py --self-test && $(PYTHON) tools/mmx6/harness.py --sampled
+
+th-harness-full: th-corpus th-optscan th-bound2 th-census
+	$(PYTHON) tools/mmx6/harness.py --self-test && $(PYTHON) tools/mmx6/harness.py --full
+
+# The other tools' self-tests (not rungs of their own): boundaries.py, loadmap.py, probe.py.
+th-selftests:
+	$(PYTHON) tools/mmx6/boundaries.py --self-test
+	$(PYTHON) tools/mmx6/loadmap.py --self-test
+	$(PYTHON) tools/mmx6/probe.py --self-test

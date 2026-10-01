@@ -30,10 +30,8 @@ rc=0
 [ "$ok" -eq "$n" ] || { echo "fleet: $((n - ok)) binaries missing or red"; rc=1; }
 # C MATCHED f: global function symbols of build/src/**/*.c.o minus INCLUDE_ASM entries of their sources (T8);
 # local/jump labels and gcc2_compiled. are not global functions; alabel entries (size 0) are not counted.
-defd=$(find build/src -name '*.c.o' -exec mipsel-linux-gnu-readelf -sW {} + 2>/dev/null |
-  awk '$4 == "FUNC" && $5 == "GLOBAL" && $7 != "UND" && $3 != 0 {print $8}' | sort -u)
-inc=$(find src -name '*.c' -exec sed -n 's/^INCLUDE_ASM("[^"]*", *\([A-Za-z0-9_]*\));.*/\1/p' {} + | sort -u)
-c=$(comm -23 <(printf '%s\n' "$defd" | sed '/^$/d') <(printf '%s\n' "$inc" | sed '/^$/d') | wc -l | tr -d ' ')
+# One instrument with harness.py P1: corpus.py --c-names (fleet_c_names, readelf -sW of the objects) (T8.c1).
+c=$(${PYTHON:-python3} tools/mmx6/corpus.py --c-names | grep -c .)
 # F = all rows of the function corpus (make health runs corpus.py --all), e = its c-empty rows; the corpus's
 # c + c-empty must equal c (G28).
 CORPUS=build/corpus/functions.jsonl

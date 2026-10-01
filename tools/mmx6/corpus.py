@@ -9,6 +9,8 @@
          `CORPUS SPANS jtbl <..> libgap <..> data <..> pad <..> bytes; game <gb> lib <lb> function bytes`
          `CORPUS <n> functions <b> bytes of <T> text bytes in <m> programs; game <g> lib <l>; c <c> c-empty <e>
           asm <a>; uncovered 0` (a = asm + include_asm)
+  corpus.py --c-names
+      -> fleet_c_names(), one name per line, sorted (fleet.sh `C MATCHED`, harness.py P1: one instrument)
   corpus.py --self-test
       -> on the real build: func_80055A04 include_asm/LIBSPU_S_M_UTIL/lib; the `banked` rows of config/probes.txt
          are the `c` set; c-empty = (fleet.sh `C MATCHED` method, readelf on build/src/**/*.c.o, minus INCLUDE_ASM
@@ -383,9 +385,14 @@ def main():
     g.add_argument("--all", action="store_true")
     g.add_argument("--prog")
     g.add_argument("--self-test", action="store_true")
+    g.add_argument("--c-names", action="store_true")
     a = ap.parse_args()
     os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
     try:
+        if a.c_names:
+            for n in sorted(fleet_c_names()):
+                print(n)
+            return 0
         if a.self_test:
             return self_test()
         progs = programs()

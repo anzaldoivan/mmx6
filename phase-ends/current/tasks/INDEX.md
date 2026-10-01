@@ -6,3 +6,4 @@ T3 | done | canonical type file and its bank-time check | - | tasks/T3.md | logs
 T4 | done | reconcile ladder and the hand-matched exemplar | - | tasks/T4.md | logs/T4.md | -
 T5 | done | overlay C units, dedup propagation and the registry | - | tasks/T5.md | logs/T5.md | -
 T6 | done | jump-table and opt-level carve tools | - | tasks/T6.md | logs/T6.md | -
+T6.1 | done | bank.py self-test on planted siblings | - | tasks/T6.1.md | logs/T6.1.md | -

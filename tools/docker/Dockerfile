@@ -6,8 +6,15 @@ ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8
 RUN apt-get update && apt-get install -y --no-install-recommends \
       bchunk binutils-mipsel-linux-gnu bsdmainutils clang-format coreutils curl gcc-mipsel-linux-gnu \
       cpp-mipsel-linux-gnu git libelf-dev make ninja-build p7zip-full python3 python3-pip python3-venv \
-      python3-dev build-essential unzip wget file xxd ca-certificates time \
+      python3-dev build-essential unzip wget file xxd ca-certificates time cmake \
     && rm -rf /var/lib/apt/lists/*
+# Reference ISO extractor: mkpsxiso (Lameguy64, GPL-2.0) v2.30, pinned by commit; only dumpsxiso is installed.
+RUN git clone https://github.com/Lameguy64/mkpsxiso.git /tmp/mkpsxiso \
+    && cd /tmp/mkpsxiso && git checkout 54fb1644ed8741223583e2dcda358b75a205e214 \
+    && git submodule update --init --recursive \
+    && cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j"$(nproc)" \
+    && install -m 0755 "$(find build -type f -name dumpsxiso -perm -u+x | head -n1)" /usr/local/bin/dumpsxiso \
+    && cd / && rm -rf /tmp/mkpsxiso
 RUN git config --global --add safe.directory '*'
 WORKDIR /work
 # Build:  bash tools/docker/mx.sh build   (docker build --platform linux/amd64 -t mmx6-build -f tools/docker/Dockerfile tools/docker)

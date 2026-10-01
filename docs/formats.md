@@ -22,6 +22,7 @@ survey R1.1-001 (no public format or compression document for `ROCK_X6.BIN` exis
   bit 0x1000 = Form 2, bit 0x2000 = interleaved; cross-checked against the first sector's subheader
   submode bit 5 (Form 2). Both agree on all 9 files.
 - Form 2 files: `STR/CAPLOGO.STR`, `STR/X6OP.STR`, `XA/BGM.XA`, `XA/DEMO.XA`. All others Form 1.
+- reference: dumpsxiso 54fb164 (mkpsxiso v2.30), 9/9 files, 0 differences (T4: 254921 sectors, bytes identical).
 
 ## ROCK_X6.BIN
 A code-overlay archive: 813 Form-1 sectors (1,665,024 B), a 2-sector header, then 59 members.

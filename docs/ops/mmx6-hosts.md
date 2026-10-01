@@ -31,6 +31,8 @@ As known at generation (2026-10-01). Update in the same change as whatever chang
 - splat, binutils, the assembler shim: TODO — pinned by the phase that installs them.
 - Formatter (2026-10-01): `Ubuntu clang-format version 18.1.3 (1ubuntu1)` from the pinned image's apt (≥ 15, so `.clang-format` InsertBraces applies); runs only in the container: `mx.sh sync && mx.sh run make format && mx.sh pull <paths>`.
 - Build image (2026-10-01): base `ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3`
-  (multi-arch index); `mmx6-build` config `sha256:52d752e194b5430ce7819412a97c4f101628fe90f4e62db0580749bb9d92b4ba`
-  (image id `sha256:ca8e49c0…` changes per build with the attestation manifest).
+  (multi-arch index); `mmx6-build` config `sha256:ed5326e03e94633fac41906116909e5f9af03ffc19c5dd146b95e0da9fe5334e`
+  (T4; image id `sha256:d4bd99d9…` informational, changes per build with the attestation manifest).
+- mkpsxiso / dumpsxiso (T4, 2026-10-01): commit `54fb1644ed8741223583e2dcda358b75a205e214` (v2.30), built in the image
+  (`cmake` from apt), `dumpsxiso` at `/usr/local/bin`; reference extractor for `make extract`.
 - PA3 tier: `max5` (Claude Max 5x).

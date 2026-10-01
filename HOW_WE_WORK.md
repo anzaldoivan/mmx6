@@ -40,36 +40,35 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 | genend_index | `PY tools/genend_index.py` | assemble and lint a GenerationEnd |
 | commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes |
 | run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
-| <!-- TODO PROJECT_TOOL: no source found --> | `<!-- TODO PROJECT_TOOL_COMMAND: no source found -->` | <!-- TODO PROJECT_TOOL_PURPOSE: no source found --> |
+| mx.sh | `bash tools/docker/mx.sh build\|sync\|pull <path>\|disc <dir>\|run <cmd>` | amd64 build container: image `mmx6-build`, tree volume `mmx6-work` at /work, dump volume `mmx6-disc` at /disc:ro |
 
 ## Skills <!-- roles: expert planner -->
 <!-- one line per captured workflow; the SKILL.md is the canonical text -->
-- <!-- TODO SKILL_NAME: no source found --> — <what it automates, when to invoke it>
 - docker-vm-no-privileged — Never probe the Docker VM with --privileged or --pid=host; the classifier treats it as containment escape
 
 ## Paths <!-- roles: expert coder router planner review critic discuss auditor curator -->
-- Oracles (the ground truth X3 names): <!-- TODO ORACLES: no source found -->
-- Data: <!-- TODO DATA_PATHS: no source found -->
-- Generated (never hand-edited, H1): <!-- TODO GENERATED_PATHS: no source found -->
-- Hand-edited: <!-- TODO HAND_EDITED_PATHS: no source found -->
+- Oracles: TODO(phase 1.2) — Ghidra + psx_ldr (static), PCSX-Redux Lua (runtime), native on the Mac
+- Data: dump `/Users/ThinkPad/GameInputs/megaman-x6/` (never under the repo) → volume `mmx6-disc` at /disc:ro (`mx.sh disc`)
+- Generated (never hand-edited, H1; ignored): `asm/`, `build/`, `expected/`, `extracted/` (only its manifest tracked)
+- Hand-edited: `src/`, `include/`, `config/`
 - Scratch: `.run/` (gitignored; never the system temp)
 
 ## Build / run / test <!-- roles: expert coder router planner review critic discuss auditor curator -->
-- Build: `<!-- TODO BUILD_COMMAND: no source found -->`
-- Run: `<!-- TODO RUN_COMMAND: no source found -->`
-- Test / the gate: `<!-- TODO TEST_COMMAND: no source found -->` — green means <!-- TODO GREEN_MEANS: no source found -->
-- Modes: <!-- TODO TEST_MODES: no source found -->
+- Build: TODO(phase 1.3); shape `bash tools/docker/mx.sh sync && bash tools/docker/mx.sh run make <target>` (image: `mx.sh build`)
+- Run: TODO(phase 1.2) — PCSX-Redux scripted from the repo
+- Test / the gate: byte gate TODO(phase 1.3); today `PY tools/audit_public.py` — green means rc 0
+- Modes: format `mx.sh sync && mx.sh run make format-check` (rc 0); fix: `mx.sh run make format && mx.sh pull <paths>`
 Long gates go through `tools/run.sh` with a raised timeout, never a poll loop.
 
 ## Conventions & house style <!-- roles: expert coder router planner review critic discuss auditor curator -->
-- <!-- TODO PROJECT_CONVENTION: no source found -->
+- Agents edit the Mac tree only; `mx.sh sync` before any `mx.sh run` after host edits; outputs return only via `mx.sh pull <relpath>`; no bind mounts
 <!-- project-specific only; the general house style is in the project-architect skill -->
 
 ## Environment <!-- roles: expert coder router planner review critic discuss auditor curator -->
 - OS / shells: Darwin / bash, zsh
 - Python: /opt/homebrew/opt/python@3.14/bin/python3.14 (3.14.7)
-- Pins: <!-- TODO PINS_SUMMARY: no source found --> — detail in `docs/ops/INDEX.md`
-- Harness gotchas that bite here: <!-- TODO HARNESS_GOTCHAS: no source found -->
+- Pins: image base `ubuntu:24.04@sha256:008173c2…`, clang-format 18.1.3 (container only); compiler TODO(phase 1.4) — detail in `docs/ops/mmx6-hosts.md`
+- Harness gotchas that bite here: `tools/audit_public.py --help` runs the full audit; a hook denies `cat` of product files (use Read); Docker: never `--privileged`/`--pid=host`
 
 ## Docs map <!-- roles: expert coder router planner review critic discuss auditor curator -->
 - `docs/ops/INDEX.md` — setup, env, pins, per-topic ops notes

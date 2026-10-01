@@ -1,2 +1,162 @@
 // splat symbol_addrs for rock_43. splat parses `key:value` tokens in a trailing comment as attributes, so each
-// symbol's `basis: <src>` sits on the comment line above it (G62). No symbols yet.
+// symbol's `basis: <src>` sits on the comment line above it (G62). Starts from retail bytes (phase 1.5 T1).
+// basis: data overlay header, 3 non-code words before the ptr table
+D_800FA000 = 0x800FA000; // type:s32 size:0xC
+// basis: data ptr table, 18 words each a vram in [0x800fa000, 0x800fe29c), not all function starts
+D_800FA00C = 0x800FA00C; // type:s32 size:0x48
+// basis: first code word after header + ptr table (+0x54)
+func_800FA054 = 0x800FA054; // type:func size:0x2A0
+// basis: post-return 0x800fa2ec
+func_800FA2F4 = 0x800FA2F4; // type:func size:0x238
+// basis: post-return 0x800fa524
+func_800FA52C = 0x800FA52C; // type:func size:0x124
+// basis: post-return 0x800fa648
+func_800FA650 = 0x800FA650; // type:func size:0x264
+// basis: post-return 0x800fa8ac
+func_800FA8B4 = 0x800FA8B4; // type:func size:0x228
+// basis: post-return 0x800faad4
+func_800FAADC = 0x800FAADC; // type:func size:0x220
+// basis: post-return 0x800facf4
+func_800FACFC = 0x800FACFC; // type:func size:0x19C
+// basis: post-return 0x800fae90
+func_800FAE98 = 0x800FAE98; // type:func size:0x250
+// basis: post-return 0x800fb0e0
+func_800FB0E8 = 0x800FB0E8; // type:func size:0x108
+// basis: post-return 0x800fb1e8
+func_800FB1F0 = 0x800FB1F0; // type:func size:0x138
+// basis: post-return 0x800fb320
+func_800FB328 = 0x800FB328; // type:func size:0x110
+// basis: post-return 0x800fb430
+func_800FB438 = 0x800FB438; // type:func size:0x234
+// basis: post-return 0x800fb664
+func_800FB66C = 0x800FB66C; // type:func size:0xF8
+// basis: post-return 0x800fb75c
+func_800FB764 = 0x800FB764; // type:func size:0x200
+// basis: post-return 0x800fb95c
+func_800FB964 = 0x800FB964; // type:func size:0x20C
+// basis: post-return 0x800fbb68
+func_800FBB70 = 0x800FBB70; // type:func size:0x1C8
+// basis: post-return 0x800fbd30
+func_800FBD38 = 0x800FBD38; // type:func size:0x180
+// basis: post-return 0x800fbeb0
+func_800FBEB8 = 0x800FBEB8; // type:func size:0x174
+// basis: post-return 0x800fc024
+func_800FC02C = 0x800FC02C; // type:func size:0xFC
+// basis: post-return 0x800fc120
+func_800FC128 = 0x800FC128; // type:func size:0x60
+// basis: post-return 0x800fc180
+func_800FC188 = 0x800FC188; // type:func size:0x8
+// basis: post-return 0x800fc188
+func_800FC190 = 0x800FC190; // type:func size:0x3C
+// basis: post-return 0x800fc1c4
+func_800FC1CC = 0x800FC1CC; // type:func size:0xC0
+// basis: post-return 0x800fc284
+func_800FC28C = 0x800FC28C; // type:func size:0xB4
+// basis: post-return 0x800fc338
+func_800FC340 = 0x800FC340; // type:func size:0x70
+// basis: post-return 0x800fc3a8
+func_800FC3B0 = 0x800FC3B0; // type:func size:0xEC
+// basis: post-return 0x800fc494
+func_800FC49C = 0x800FC49C; // type:func size:0x64
+// basis: post-return 0x800fc4f8
+func_800FC500 = 0x800FC500; // type:func size:0x8
+// basis: post-return 0x800fc500
+func_800FC508 = 0x800FC508; // type:func size:0x3C
+// basis: post-return 0x800fc53c
+func_800FC544 = 0x800FC544; // type:func size:0x84
+// basis: post-return 0x800fc5c0
+func_800FC5C8 = 0x800FC5C8; // type:func size:0xE8
+// basis: post-return 0x800fc6a8
+func_800FC6B0 = 0x800FC6B0; // type:func size:0xBC
+// basis: post-return 0x800fc764
+func_800FC76C = 0x800FC76C; // type:func size:0x94
+// basis: post-return 0x800fc7f8
+func_800FC800 = 0x800FC800; // type:func size:0x3C
+// basis: post-return 0x800fc834
+func_800FC83C = 0x800FC83C; // type:func size:0x80
+// basis: post-return 0x800fc8b4
+func_800FC8BC = 0x800FC8BC; // type:func size:0x64
+// basis: post-return 0x800fc918
+func_800FC920 = 0x800FC920; // type:func size:0x60
+// basis: post-return 0x800fc978
+func_800FC980 = 0x800FC980; // type:func size:0xEC
+// basis: post-return 0x800fca64
+func_800FCA6C = 0x800FCA6C; // type:func size:0xEC
+// basis: post-return 0x800fcb50
+func_800FCB58 = 0x800FCB58; // type:func size:0xC0
+// basis: post-return 0x800fcc10
+func_800FCC18 = 0x800FCC18; // type:func size:0x3C
+// basis: post-return 0x800fcc4c
+func_800FCC54 = 0x800FCC54; // type:func size:0x7C
+// basis: post-return 0x800fccc8
+func_800FCCD0 = 0x800FCCD0; // type:func size:0x60
+// basis: post-return 0x800fcd28
+func_800FCD30 = 0x800FCD30; // type:func size:0x124
+// basis: post-return 0x800fce4c
+func_800FCE54 = 0x800FCE54; // type:func size:0x94
+// basis: post-return 0x800fcee0
+func_800FCEE8 = 0x800FCEE8; // type:func size:0x64
+// basis: post-return 0x800fcf44
+func_800FCF4C = 0x800FCF4C; // type:func size:0x6C
+// basis: post-return 0x800fcfb0
+func_800FCFB8 = 0x800FCFB8; // type:func size:0x104
+// basis: post-return 0x800fd0b4
+func_800FD0BC = 0x800FD0BC; // type:func size:0x64
+// basis: post-return 0x800fd118
+func_800FD120 = 0x800FD120; // type:func size:0x5C
+// basis: post-return 0x800fd174
+func_800FD17C = 0x800FD17C; // type:func size:0xE8
+// basis: post-return 0x800fd25c
+func_800FD264 = 0x800FD264; // type:func size:0x3C
+// basis: post-return 0x800fd298
+func_800FD2A0 = 0x800FD2A0; // type:func size:0x80
+// basis: post-return 0x800fd318
+func_800FD320 = 0x800FD320; // type:func size:0x54
+// basis: post-return 0x800fd36c
+func_800FD374 = 0x800FD374; // type:func size:0x78
+// basis: post-return 0x800fd3e4
+func_800FD3EC = 0x800FD3EC; // type:func size:0x3C
+// basis: post-return 0x800fd420
+func_800FD428 = 0x800FD428; // type:func size:0x88
+// basis: post-return 0x800fd4a8
+func_800FD4B0 = 0x800FD4B0; // type:func size:0x100
+// basis: post-return 0x800fd5a8
+func_800FD5B0 = 0x800FD5B0; // type:func size:0xB4
+// basis: post-return 0x800fd65c
+func_800FD664 = 0x800FD664; // type:func size:0x8C
+// basis: post-return 0x800fd6e8
+func_800FD6F0 = 0x800FD6F0; // type:func size:0x20
+// basis: post-return 0x800fd708
+func_800FD710 = 0x800FD710; // type:func size:0x20
+// basis: post-return 0x800fd728
+func_800FD730 = 0x800FD730; // type:func size:0x94
+// basis: post-return 0x800fd7bc
+func_800FD7C4 = 0x800FD7C4; // type:func size:0x20
+// basis: post-return 0x800fd7dc
+func_800FD7E4 = 0x800FD7E4; // type:func size:0xF0
+// basis: post-return 0x800fd8cc
+func_800FD8D4 = 0x800FD8D4; // type:func size:0x20
+// basis: post-return 0x800fd8ec
+func_800FD8F4 = 0x800FD8F4; // type:func size:0x20
+// basis: post-return 0x800fd90c
+func_800FD914 = 0x800FD914; // type:func size:0xC4
+// basis: post-return 0x800fd9d0
+func_800FD9D8 = 0x800FD9D8; // type:func size:0x94
+// basis: post-return 0x800fda64
+func_800FDA6C = 0x800FDA6C; // type:func size:0x20
+// basis: post-return 0x800fda84
+func_800FDA8C = 0x800FDA8C; // type:func size:0x20
+// basis: post-return 0x800fdaa4
+func_800FDAAC = 0x800FDAAC; // type:func size:0x98
+// basis: post-return 0x800fdb3c
+func_800FDB44 = 0x800FDB44; // type:func size:0x20
+// basis: post-return 0x800fdb5c
+func_800FDB64 = 0x800FDB64; // type:func size:0x108
+// basis: post-return 0x800fdc64
+func_800FDC6C = 0x800FDC6C; // type:func size:0x68
+// basis: post-return 0x800fdccc; spans the post-return words 0x800fdd2c, 0x800fdd6c (its branches target past those returns)
+func_800FDCD4 = 0x800FDCD4; // type:func size:0xB0
+// basis: post-return 0x800fdd7c; spans the post-return words 0x800fdddc, 0x800fde14 (its branches target past those returns)
+func_800FDD84 = 0x800FDD84; // type:func size:0xAC
+// basis: data trailing words after the last function's jr $ra (0x800fde28) to the asm end
+D_800FDE30 = 0x800FDE30; // type:s32 size:0x46C

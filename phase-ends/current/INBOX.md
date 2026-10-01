@@ -11,3 +11,4 @@
      or an earlier phase, or an id not in GENERATION_PLAN.md, routes now. -->
 
 - <note, correction, priority change, or question>
+- first lib/overlay C unit: confirm the pin at the byte gate; on mismatch, open the triple ladder for that unit

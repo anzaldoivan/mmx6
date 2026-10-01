@@ -7,6 +7,9 @@ Applies config/segmentation.md "Rules per row kind": only non-weak lib rows make
 (LIBSND.LIB/VM_VIB.OBJ) are dropped first; a span wholly inside an earlier span is dropped; a partial overlap
 merges into one `A+B` TU; each gap between edges is one TU named by its vram hex without the 0x80 prefix.
 A TU listed in config/c_units.txt (`<bin> <tu_name>` per line) is emitted as `c` (src/<bin>/<tu>.c) instead of `asm`.
+Carves (config/carve.<bin>.txt, written by tools/mmx6/carve.py; config/segmentation.md "carve"): `opt <tu> <vram>
+<newtu> ...` adds a text edge at <vram> (TU <newtu>); `jtbl <lo> <tu>` cuts the exe rodata block at the boundaries.txt
+jtbl row [lo, hi) into `.rodata <tu>` (splat pairs it with unit <tu>), the other pieces named by their vram hex.
 Rewrites only the block between the BEGIN/END markers in config/<bin>.yaml; --print (or a missing yaml without
 --init) writes the block to stdout instead. --init, for a `code` member of config/loadmap.txt with no yaml, first
 writes config/rock_NN.yaml (vram = loadmap base, sha1/size from manifest/retail.jsonl), config/symbols.rock_NN.txt
@@ -102,22 +105,78 @@ def c_units(prog):
     return names
 
 
+def read_carves(prog):
+    """(opts [(tu, vram, newtu)], jtbls [(lo, tu)]) of config/carve.<prog>.txt (absent: no carves)."""
+    path = os.path.join(ROOT, "config", "carve.%s.txt" % prog)
+    opts, jtbls = [], []
+    if os.path.exists(path):
+        with open(path) as f:
+            for line in f:
+                w = line.split("#", 1)[0].split()
+                if len(w) >= 4 and w[0] == "opt":
+                    opts.append((w[1], int(w[2], 16), w[3]))
+                elif len(w) == 3 and w[0] == "jtbl":
+                    jtbls.append((int(w[1], 16), w[2]))
+    return opts, jtbls
+
+
+def jtbl_ranges(prog):
+    """{lo: hi} of the `jtbl` rows of prog in config/boundaries.txt."""
+    out, cur = {}, None
+    with open(BOUNDARIES) as f:
+        for line in f:
+            w = line.split()
+            if line.startswith("# program "):
+                cur = w[2]
+            elif cur == prog and len(w) >= 3 and w[0] == "jtbl":
+                out[int(w[1], 16)] = int(w[2], 16)
+    return out
+
+
+def carved_rodata(prog, jtbls):
+    """[(lo, hi, tu)] sorted: each carved jtbl range, adjacent ranges of one TU merged."""
+    his, out = jtbl_ranges(prog), []
+    for lo, tu in sorted(jtbls):
+        hi = his[lo]
+        if out and out[-1][2] == tu and out[-1][1] == lo:
+            out[-1] = (out[-1][0], hi, tu)
+        else:
+            out.append((lo, hi, tu))
+    return out
+
+
+def rodata_pieces(lo, hi, carved):
+    """[(vram, type, name)] covering [lo, hi): `.rodata <tu>` per carved range, `rodata <hex>` per gap."""
+    out, at = [], lo
+    for clo, chi, tu in carved:
+        if clo > at:
+            out.append((at, "rodata", hexname(at)))
+        out.append((clo, ".rodata", tu))
+        at = chi
+    if hi > at:
+        out.append((at, "rodata", hexname(at)))
+    return out
+
+
 def block(prog, progs):
     base, size, rows = progs[prog]
     cset = c_units(prog)
     kind = lambda n: "c" if n in cset else "asm"
     spans = lib_spans(rows)
+    opts, jtbls = read_carves(prog)
+    edges = lambda tus: sorted(tus + [(v, n) for _, v, n in opts])
     if prog == EXE["name"]:
         off = lambda v: v - base + EXE["header"]
         text_hi = max([EXE["text_hi_min"]] + [s[1] for s in spans])
         end = base + size
-        lines = ["[0x%X, rodata, %s]" % (off(EXE["rodata_lo"]), hexname(EXE["rodata_lo"]))]
-        lines += ["[0x%X, %s, %s]" % (off(v), kind(n), n) for v, n in text_tus(spans, EXE["text_lo"], text_hi)]
+        lines = ["[0x%X, %s, %s]" % (off(v), t, n)
+                 for v, t, n in rodata_pieces(EXE["rodata_lo"], EXE["text_lo"], carved_rodata(prog, jtbls))]
+        lines += ["[0x%X, %s, %s]" % (off(v), kind(n), n) for v, n in edges(text_tus(spans, EXE["text_lo"], text_hi))]
         lines.append("[0x%X, data, %s]" % (off(text_hi), hexname(text_hi)))
         lines.append("{ start: 0x%X, type: bss, vram: 0x%X, name: %s }" % (off(end), end, hexname(end)))
     else:
         top = size & ~3  # asm needs whole words; the 1-3 byte remainder is raw bytes
-        lines = ["[0x%X, %s, %s]" % (v - base, kind(n), n) for v, n in text_tus(spans, base, base + top)]
+        lines = ["[0x%X, %s, %s]" % (v - base, kind(n), n) for v, n in edges(text_tus(spans, base, base + top))]
         if top != size:
             lines.append("[0x%X, bin, %s]" % (top, hexname(base + top)))
     return [INDENT + BEGIN] + [INDENT + "- " + l for l in lines] + [INDENT + END]
@@ -220,17 +279,32 @@ def main(argv):
     if to_stdout or not os.path.exists(yaml_path):
         print("\n".join(out))
         return 0
-    with open(yaml_path) as f:
-        lines = f.read().split("\n")
+    rc = splice(yaml_path, out)
+    if rc == 0:
+        print("%s: %d text TUs" % (yaml_path, sum(" asm, " in l or " c, " in l for l in out)))
+    return rc
+
+
+def marked(lines):
+    """(start, end) indices of the one BEGIN/END marker pair in lines, or None."""
     starts = [i for i, l in enumerate(lines) if l.strip() == BEGIN]
     ends = [i for i, l in enumerate(lines) if l.strip() == END]
     if len(starts) != 1 or len(ends) != 1 or ends[0] < starts[0]:
+        return None
+    return starts[0], ends[0]
+
+
+def splice(yaml_path, out):
+    """Replace the generated block of yaml_path with out; rc."""
+    with open(yaml_path) as f:
+        lines = f.read().split("\n")
+    m = marked(lines)
+    if m is None:
         print("segment.py: %s needs exactly one BEGIN/END marker pair" % yaml_path, file=sys.stderr)
         return 1
-    lines[starts[0]:ends[0] + 1] = out
+    lines[m[0]:m[1] + 1] = out
     with open(yaml_path, "w") as f:
         f.write("\n".join(lines))
-    print("%s: %d text TUs" % (yaml_path, sum(" asm, " in l or " c, " in l for l in out)))
     return 0
 
 

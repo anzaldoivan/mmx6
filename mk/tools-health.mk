@@ -2,7 +2,7 @@
 # `make fleet`). One rung per phase tool: a rung runs the tool's --self-test, then its real run; later tasks append
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
-TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate
+TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -77,6 +77,11 @@ PROPAGATE_KEYS = $(shell awk '!/^\#/ && NF >= 5 {print $$1}' config/dedup_regist
 
 th-propagate: th-corpus th-census
 	$(PYTHON) tools/mmx6/propagate.py --self-test && $(PYTHON) tools/mmx6/propagate.py --check
+
+# Carves (tools/mmx6/carve.py; needs the corpus): planted refusals on a scratch copy under .run/, then --check of
+# every config/carve.<prog>.txt row, its .mk and every yaml block (last line `CARVE CHECK OK <n> carves`).
+th-carve: th-corpus
+	$(PYTHON) tools/mmx6/carve.py --self-test && $(PYTHON) tools/mmx6/carve.py --check
 
 th-propagate-full: th-propagate
 	@set -e; for k in $(PROPAGATE_KEYS); do $(PYTHON) tools/mmx6/propagate.py $$k --dry-run; done

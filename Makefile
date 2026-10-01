@@ -122,11 +122,14 @@ build/%.bin.o: %.bin
 	printf '.section .data\n.incbin "%s"\n' $< | $(AS) $(ASFLAGS) -o $@ --
 
 # A C unit: cpp | cc1 | maspsx | as (exe ASFLAGS). bash with pipefail, so a failing stage fails the rule (sh is dash).
+# Per-unit cc1 flags: CFLAGS_<tu>, set target-specific by config/carve.<prog>.mk (tools/mmx6/carve.py opt carves).
 build/%.c.o: SHELL := /bin/bash
 build/%.c.o: .SHELLFLAGS := -o pipefail -c
 build/%.c.o: %.c include/common.h include/mmx6/types.h include/macro.inc
 	@mkdir -p $(dir $@)
-	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(ASFLAGS) -o $@ --
+	$(CPP) $(CPPFLAGS) $< | $(CC1) $(or $(CFLAGS_$(notdir $*)),$(CFLAGS)) | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(ASFLAGS) -o $@ --
+
+-include $(wildcard config/carve.*.mk)
 
 # An overlay C unit (T5.c1) INCLUDE_ASMs the same data-as-code words: the overlay ASFLAGS above, and
 # -DMMX6_OVERLAY makes include/common.h purge the GTE `ll` macro.

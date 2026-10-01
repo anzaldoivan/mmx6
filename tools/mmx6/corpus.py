@@ -22,7 +22,7 @@ Programs = config/*.yaml stems, sorted. Functions: glabel..endlabel (or the next
 asm/<p>/**/*.s; under asm/<p>/nonmatchings/<tu>/ and named by INCLUDE_ASM in src/<p>/<tu>.c -> include_asm, else
 asm; C definitions in src/<p>/*.c and the `#include "<rel>.c"` files they include (src/shared/ bodies; clang-formatted,
 name at column 0) -> c-empty when the body is `{` ws `}`, else c; C extent = build/<p>.elf symtab value + st_size (size 0: up to the next function start, C0047).
-Lane: exe TU 120A0 -> game, other exe TUs -> lib, every overlay function -> game.
+Lane: exe TU 120A0 and its opt carves (config/carve.<p>.txt) -> game, other exe TUs -> lib, every overlay function -> game.
 Text = [<seg>_TEXT_START, <seg>_TEXT_END) of build/<p>.elf (the only *_TEXT_START symbol). Every text word is a
 function word or exactly one span kind, by precedence jtbl (config/boundaries.txt `jtbl lo hi` of the program) >
 libgap (inside an exe hex-named non-game TU) > data (dlabel region) > pad (zero word).
@@ -178,6 +178,17 @@ def jtbl_rows(prog):
 
 # ---- one program ---------------------------------------------------------------------------------------------------
 
+def game_tus(prog):
+    """GAME_TU plus every TU an `opt` carve split off a game TU (config/carve.<prog>.txt, tools/mmx6/carve.py)."""
+    game, path = {GAME_TU}, f"config/carve.{prog}.txt"
+    if os.path.exists(path):
+        with open(path) as f:
+            for w in (line.split() for line in f):
+                if len(w) >= 4 and w[0] == "opt" and w[1] in game:
+                    game.add(w[3])
+    return game
+
+
 def load(prog):
     """Everything check() needs, read from the build of prog."""
     elf = f"build/{prog}.elf"
@@ -194,7 +205,8 @@ def load(prog):
     hi = ends[0]
     afuncs, words, data, tus = parse_asm(prog)
     defs, inc = parse_c(prog)
-    lane = (lambda tu: "game") if is_overlay(prog) else (lambda tu: "game" if tu == GAME_TU else "lib")
+    game = game_tus(prog)
+    lane = (lambda tu: "game") if is_overlay(prog) else (lambda tu: "game" if tu in game else "lib")
     funcs = []
     for name, v, e, tu, nonm in afuncs:
         if name in defs:
@@ -217,7 +229,7 @@ def load(prog):
         f["end"] = min(a for a in allstarts if a > f["vram"])
     for f in funcs:
         f["prog"], f["lane"], f["words"] = prog, lane(f["tu"]), (f["end"] - f["vram"]) // 4
-    gaps = [r for t, r in tus.items() if not is_overlay(prog) and t != GAME_TU and HEX_TU.fullmatch(t)]
+    gaps = [r for t, r in tus.items() if not is_overlay(prog) and t not in game and HEX_TU.fullmatch(t)]
     return dict(prog=prog, lo=lo, hi=hi, elf=elf, funcs=funcs, words=words, data=data, jtbl=jtbl_rows(prog),
                 gaps=gaps)
 

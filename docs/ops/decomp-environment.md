@@ -53,6 +53,14 @@ bash tools/docker/mx.sh run make expected
   Overlays may be c units (Phase 2 T5.c1: 36 whole-overlay TUs): `build/src/rock_%.c.o` gets the overlay ASFLAGS
   (`-march=r4000 -mno-fix-loongson3-llsc`) and `-DMMX6_OVERLAY` (common.h purges the GTE `ll` macro); their yamls set
   `auto_decompile_empty_functions: false`, so every overlay function stays include_asm.
+- **Carves (Phase 1.6 T6):** `tools/mmx6/carve.py` (container, needs `build/corpus/functions.jsonl`):
+  `jtbl <prog> <table_lo>` (exe) pairs one boundaries.txt jump table with its dispatcher's c unit as `.rodata <tu>`;
+  `opt <prog> <tu> <vram> [--cflags "<f>"]` splits `<tu>` at a function start (c parent: tail of `src/<prog>/<tu>.c`
+  moves to `src/<prog>/<newtu>.c`, INCLUDE_ASM folders rewritten, `<prog> <newtu>` added to c_units.txt). It writes
+  the record `config/carve.<prog>.txt`, the fragment `config/carve.<prog>.mk` (target-specific `CFLAGS_<newtu>`; the
+  C rule runs `$(or $(CFLAGS_$(notdir $*)),$(CFLAGS))`, Makefile `-include`s every fragment) and reruns the
+  segment.py block. Then pull the changed files and rebuild clean. `--check` (rung `th-carve`) fails on a stale row,
+  .mk or yaml block; `--self-test` plants every refusal under `.run/carve-selftest/` → `CARVE CONTROL OK`.
 - **Probes (Phase 1.4 T3):** `tools/mmx6/probe.py <func> --prog <p> --src <c> --triple <t>` (container) compiles via
   `make -B TRIPLE=<t> build/<c>.o` and prints `<func> <t> MATCH|FAIL <m>/<n> words` (relocated fields masked, extent
   trimmed to last `jr $ra` + delay slot, C0021). `make probe-ladder` runs `config/probes.txt` × `config/triples.txt`;

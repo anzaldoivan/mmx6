@@ -28,6 +28,14 @@ Consumer: `tools/mmx6/boundcheck.py` (every forced edge below is a subsegment ed
 - gap: the text between two consecutive forced edges (or a text-extent end and the nearest edge) with no lib row
   in it is exactly one TU, named `<vaddr hex>`, until evidence forces more (alignment padding between functions,
   a rodata-order break, a newly verified lib signature). Exe: 1 game gap + 15 small inter-lib gaps.
+- carve (phase 1.6 T6; `config/carve.<prog>.txt`, written only by `tools/mmx6/carve.py`): deliberate edges, one
+  record per binary (G43). `opt <tu> <vram> <newtu> [cflags]`: a text edge at a corpus function start inside `<tu>`,
+  new TU `<newtu>` (vram hex, kind of the parent; per-unit cc1 flags via `config/carve.<prog>.mk`). `jtbl <lo> <tu>`
+  (exe only): the boundaries.txt jtbl row `[lo, hi)` becomes `[off, .rodata, <tu>]`, `<tu>` = the c unit of its
+  dispatcher, so splat migrates the table into the dispatcher's INCLUDE_ASM .s; the rest of the rodata block stays
+  `rodata` pieces named by vram hex. Refused: no jtbl row / func `-` / label-inside-scan-table, a range straddling
+  two rodata pieces or overlapping a carve, a TU's rodata made non-contiguous, an asm dispatcher TU; opt at a
+  non-start or the TU start. Exe today: jtbl 0x80011378 → 32208, opt 120A0 at 0x80032208 (TU 32208, game lane).
 
 ## Checks run on the result (scratch .run/t3/segcount.py, T3)
 - Overlaps in boundaries.txt header = 4 = 3 contained (SSCLOSE ⊃ SSSNC, SSSTART ⊃ S_IH, SSSTOP ⊃ PLAY) + 1 weak

@@ -44,7 +44,7 @@ bash tools/docker/mx.sh run make expected
   lines, `include/common.h`) once, then it is hand-edited. Rule `build/%.c.o: %.c` =
   `mipsel-linux-gnu-cpp -nostdinc -undef -D__GNUC__=2 -DPSX -Iinclude | $(CC1) $(CFLAGS) | maspsx $(MASPSX_FLAGS) | as`
   (exe ASFLAGS), under bash `-o pipefail`; `-nostdinc` keeps cpp 12's stdc-predef.h line markers away from old cc1.
-  `TRIPLE ?= gcc2.7.2-aspsx2.56` picks the row of `config/triples.txt`
+  `TRIPLE ?= gcc2.7.2-aspsx2.86` picks the row of `config/triples.txt`
   (`<name> | cc1: /opt/cc/<ver>/cc1 | cflags: <...> | maspsx: <...>`) that sets CC1/CFLAGS/MASPSX_FLAGS; an unknown
   name stops make. `asm/<bin>/nonmatchings/` is included by C units, never assembled on its own.
 - **Probes (Phase 1.4 T3):** `tools/mmx6/probe.py <func> --prog <p> --src <c> --triple <t>` (container) compiles via

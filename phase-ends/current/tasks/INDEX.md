@@ -6,3 +6,4 @@ T3 | done | probe harness and ladder runner with controls | - | tasks/T3.md | lo
 T4 | done | decompile scaffold and differ invocation | - | tasks/T4.md | logs/T4.md | -
 T5 | done | per-module codegen census | - | tasks/T5.md | logs/T5.md | -
 T6 | blocked | probes drafted and the ladder run | - | tasks/T6.md | logs/T6.md | -
+T6.1 | done | aspsx -G0 equivalence class collapsed; ladder pins one triple | - | tasks/T6.1.md | logs/T6.1.md | -

@@ -90,8 +90,8 @@ The four aspsx rungs tie on every probe (maspsx flags inert under `-G0`).
 
 ### After-run (T6.1): 8 rungs
 
-Run (phase 1.4 T6.1): `bash tools/docker/mx.sh run make TRIPLE=gcc2.7.2-aspsx2.86 extract probe-ladder` (8 rungs, one per
-cc1, `-aspsx2.86` only, x 3 probes); 24 result lines, make rc 0; log `.run/logs/t61c1.log`.
+Run (phase 1.4 T6.1): `bash tools/docker/mx.sh run make extract probe-ladder` (8 rungs, one per
+cc1, `-aspsx2.86` only, x 3 probes); 24 result lines, make rc 0; log `.run/logs/t6.log` (default `TRIPLE` now `gcc2.7.2-aspsx2.86`, Makefile:49).
 
 `PIN gcc2.95.2-psx-aspsx2.86 3 of 3`
 

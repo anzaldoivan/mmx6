@@ -3,7 +3,7 @@ name: critic
 role: critic
 version: 3.10.1
 description: Judges every plan change an expert proposes (additive, subtractive, milestone-touching or expensive); decides with exact plan edits, or escalates to the developer with its own recommendation. Never edits files.
-model: claude-fable-5-1[1m]
+model: claude-opus-5-5[1m]
 effort: medium
 omitClaudeMd: true
 tools: Read, Grep, Glob

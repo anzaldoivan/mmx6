@@ -3,7 +3,7 @@ name: memory-curator
 role: curator
 version: 3.14.5
 description: Curates memories, cookbook and rules at every generation start. Demotes generation-state, keeps cross-generation facts. Returns a recap.
-model: claude-fable-5-1[1m]
+model: claude-opus-5-5[1m]
 effort: medium
 omitClaudeMd: true
 tools: Read, Grep, Glob, Bash

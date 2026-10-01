@@ -3,7 +3,7 @@ name: review
 role: review
 version: 3.10.1
 description: Turns a REVIEW.md pause into decisions for the developer. Reads the review file and the result files it points at (through retrievers when long), returns the outcome, numbered decisions with the exact plan command behind each option, and a recommendation. Never edits files; never talks to the developer itself.
-model: claude-fable-5-1[1m]
+model: claude-opus-5-5[1m]
 effort: medium
 tools: Read, Grep, Glob, Bash, Agent(retriever-code, retriever-digest)
 skills:

@@ -2,7 +2,7 @@
   "files": {
     ".claude/agents/auditor.md": {
       "base": "3.11.3",
-      "sha": "47ec9e1da3f35f8c47327fd65c5a20511ef9329a3c429321a834d1f7179c2c96",
+      "sha": "5f26f525650868efc0240bdd8a574dfc8a93171f3098557cc95a1ef99eb6391f",
       "user": null
     },
     ".claude/agents/coder-opus55.md": {
@@ -12,7 +12,7 @@
     },
     ".claude/agents/critic.md": {
       "base": "3.10.1",
-      "sha": "7c62c652d2ffccdd6ec522920aeb4435109e339f4fabdc8ab95c84dfe5ef625d",
+      "sha": "f04a6ce21ad6af3ba156965861927125a561f194d83355238f83761728a0cf04",
       "user": null
     },
     ".claude/agents/discuss-high.md": {
@@ -43,7 +43,7 @@
     },
     ".claude/agents/memory-curator.md": {
       "base": "3.14.5",
-      "sha": "34f4fbc107352e49406f02da9c41d2c6f675e53559705331b9eade21e8a86604",
+      "sha": "c6dd2ca54630f74639400805812dcc1347f47229e4602794f96868c4e41b811e",
       "user": null
     },
     ".claude/agents/pa-session.md": {
@@ -53,7 +53,7 @@
     },
     ".claude/agents/plain.md": {
       "base": "3.10.2",
-      "sha": "14c59b0bc7135ba679500a0ab30b89eb095be850095f9eb6381c0b918de608d9",
+      "sha": "45768c85e0dff98ece0727dea60c5f9be3e5e1816940c475bf5e10e94f5ab654",
       "user": null
     },
     ".claude/agents/planner-gen.md": {
@@ -83,7 +83,7 @@
     },
     ".claude/agents/review.md": {
       "base": "3.10.1",
-      "sha": "9f6f5a15f027ef1f7e670a088daaed85957248a93d17ab0f2df21612930393e1",
+      "sha": "77d102bc68a7f28ae4047785d848de0dedab4d666e803d2edf1c5126b7b17b75",
       "user": null
     },
     ".claude/commands/bench.md": {

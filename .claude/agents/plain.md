@@ -3,7 +3,7 @@ name: plain
 role: plain
 version: 3.10.2
 description: A design and discussion session with the developer inside a PA3 repo, bypassing the pa-session entry. Full tools, Fable 5.1, no seed, no loop. Started only by the developer with `claude --agent plain`.
-model: claude-fable-5-1[1m]
+model: claude-opus-5-5[1m]
 effort: medium
 skills:
   - project-architect

@@ -3,7 +3,7 @@ name: auditor
 role: auditor
 version: 3.11.3
 description: Judges the carry audit of a closed phase from its tables, never transcripts. One verdict per flagged row (tool, split, guard, script-fix, leave); applies project-level fixes through coders; writes harness-level ones as Tool candidate lines in phase-ends/current/AUDIT.md for the next plan approval. Spawned by the pa-session on an `Audit flag:` seed line and at the generation-start ceremony.
-model: claude-fable-5-1[1m]
+model: claude-opus-5-5[1m]
 effort: medium
 tools: Read, Edit, Write, Grep, Glob, Bash, Agent(coder-opus55, retriever-code)
 skills:

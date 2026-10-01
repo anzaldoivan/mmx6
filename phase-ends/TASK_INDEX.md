@@ -34,3 +34,11 @@
 1.4 | T6.1 | done | aspsx -G0 equivalence class collapsed; ladder pins one triple | - | phase-1.4/tasks/T6.1.md | phase-1.4/logs/T6.1.md | -
 1.4 | T7 | review | the pin recorded and ratified | - | phase-1.4/tasks/T7.md | phase-1.4/logs/T7.md | R1.4-001
 1.4 | T8 | done | first functions banked end to end | - | phase-1.4/tasks/T8.md | phase-1.4/logs/T8.md | -
+1.5 | T1 | question | rock_17/43/45 split into real functions | - | phase-1.5/tasks/T1.md | phase-1.5/logs/T1.md | -
+1.5 | T2 | done | corpus oracle with build-derived denominators | - | phase-1.5/tasks/T2.md | phase-1.5/logs/T2.md | -
+1.5 | T3 | done | coverage assertions on the existing scanners | - | phase-1.5/tasks/T3.md | phase-1.5/logs/T3.md | -
+1.5 | T4 | done | second boundary oracle and its first disagreement run | - | phase-1.5/tasks/T4.md | phase-1.5/logs/T4.md | -
+1.5 | T5 | review | boundary disagreements adjudicated to 0 | - | phase-1.5/tasks/T5.md | phase-1.5/logs/T5.md | -
+1.5 | T6 | done | census of duplication, families, reach × size, unique tail | - | phase-1.5/tasks/T6.md | phase-1.5/logs/T6.md | R1.5-001
+1.5 | T7 | done | progress, difficulty and duplicate reports | - | phase-1.5/tasks/T7.md | phase-1.5/logs/T7.md | -
+1.5 | T8 | done | differential harness on the fleet schedule | - | phase-1.5/tasks/T8.md | phase-1.5/logs/T8.md | -

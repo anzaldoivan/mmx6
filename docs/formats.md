@@ -44,7 +44,7 @@ A code-overlay archive: 813 Form-1 sectors (1,665,024 B), a 2-sector header, the
   is zero. Members 41 and 42 are 4 B each (the leading word only: empty overlays).
 - Leading word: every member starts with a small u32 that is not a length. It runs index+2 for
   members 2–12 and index+1 for 14–58; members 0, 1, 13 carry 60, 61, 21 (21 also appears on member 20).
-  Reads as an overlay id; its meaning is for phase 1.2. Code (stack-frame prologues) or pointer tables
+  Reads as an overlay id; its meaning is for phase 1.2 (not settled by T6 captures). Code (stack-frame prologues) or pointer tables
   follow it directly.
 
 ### Compression

@@ -284,7 +284,7 @@ def emit(lines, path):
     with open(path, "a") as f:
         for x in lines:
             f.write(x + "\n")
-            print(x, flush=True)
+            print(x if x.startswith("HARNESS ") else f"HARNESS {x}", flush=True)  # stdout: `HARNESS <utc> P<n> … of <N>`
 
 
 def run(sel):

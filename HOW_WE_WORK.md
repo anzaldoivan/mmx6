@@ -6,11 +6,14 @@
      Written at install (interview) and edited in the same task as whatever changed it (H7). -->
 
 ## Project <!-- roles: expert coder router planner review critic discuss auditor curator -->
-mmx6 — <one line: what this project is -- edit me>. Constitution `PROJECT_CONTEXT.md`; roadmap `GENERATION_PLAN.md`;
+mmx6 — a matching decompilation of Mega Man X6 (PlayStation, USA SLUS-01395 v1.1): byte-identical C, the hash check inside the build. Constitution `PROJECT_CONTEXT.md`; roadmap `GENERATION_PLAN.md`;
 rules `rules/INDEX.md`; techniques `cookbook/INDEX.md`; ops detail `docs/ops/INDEX.md`.
 
 ## Developer <!-- roles: router planner review discuss auditor curator -->
-Who: anzaldoivan. Experience: advanced. Domain: mmx6.
+Who: anzaldoivan, solo. Experience: advanced; shipped BFM-decomp (PSX) to 100% byte-identical; runs
+dino-crisis-2-decomp on PA3 with the decomp kit. Domain: PSX matching decompilation (MIPS, PsyQ).
+Budget: Claude Max 5x; free, local, deterministic work before paid work. Models: Opus 5.5 for experts and
+coders, never Fable; the deepest judgments via `/discuss max`. Breadth fan-out welcome when the plan names it.
 Preferences: recommendations, not questions. Plain-English recaps at phase end. A notification
 whenever anything waits on them. Autonomy: full inside an approved plan; stop only at the two gates. Notification channel: toast.
 The developer pushes; agents never do. They ratify rules at the next planner session.

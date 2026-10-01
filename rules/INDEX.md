@@ -33,3 +33,7 @@ M9 | The real gate, not the proxy | method, gates | active | seed-2.0
 M10 | Determinism and pinning at every boundary | determinism, pinning | active | seed-2.0
 M11 | Provenance on every imported datum | provenance | active | seed-2.0
 M12 | Preserve the raw record | archive, raw-record | active | seed-2.0
+
+G101 | Prior art is a lead until our own bytes prove it | provenance, prior-art, evidence | active | intake
+
+G102 | License firewall for prior art: facts only, mmx4 C only when proven shared | license, prior-art, provenance | active | intake

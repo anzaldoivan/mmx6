@@ -1,5 +1,5 @@
 # mmx6 — Project Architect 3.0
-<one line: what this project is -- edit me>
+A matching decompilation of Mega Man X6 (PlayStation, USA SLUS-01395 v1.1): byte-identical C, verified by the build.
 
 Roles: planner · router · expert · coder · retriever · critic. Rules: the `project-architect` skill.
 Standing facts and tools: `HOW_WE_WORK.md`. Live plan: `phase-ends/current/PHASE_PLAN.md`

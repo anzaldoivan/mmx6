@@ -54,3 +54,21 @@ GhidrAssistMCP (extension in `$GHIDRA_HOME/Ghidra/Extensions/GhidrAssistMCP`), h
 - Client: tracked `.mcp.json` (from config/mcp.json.template) `"disassembler"` SSE. A restarted server leaves the client
   stale: the developer runs `/mcp` (or it connects at the next session start); verify with one cheap call (G2,
   docs/ops/disassembler-mcp.md).
+
+## Annotation export and round trip
+- Export: `make ghidra-export PYTHON=<py>` → `tools/mmx6/ghidra/export.sh SLUS_013.95` (`[PROG] [--project DIR] [--out F]`):
+  `analyzeHeadless ghidra mmx6 -process <PROG> -readOnly -noanalysis -postScript ExportAnnotations.java <out>`; default
+  out `config/ghidra/<PROG>.jsonl` (tracked); log `.run/ghidra/export-<PROG>.log`; ~10 s. Never writes the project.
+- Format: one JSON object per line, fixed key order, no whitespace, addresses `"0x%08x"`, rows sorted per kind; byte-stable
+  (two exports `cmp`-equal). Kinds `k`: program (lang, cspec, image_base, format), block, archive, type (local
+  types, namespace `/mmx6/`), func (name, ret, cc, flags, params, locals, comment), data (addr, type path, len; no values),
+  comment (eol/pre/post/plate/repeat), bookmark, equate, label (non-default). No instruction words or bytes (G12).
+- Round trip: `make ghidra-roundtrip PYTHON=<py>` → `tools/mmx6/ghidra/roundtrip.sh SLUS_013.95` (`[PROG…] [--jsonl F]`):
+  fresh `import.sh` into scratch project `.run/ghidra/rebuild/` (opened via symlink `ghidra/rebuild`, since Ghidra rejects
+  `.`-leading path elements), `ImportAnnotations.java` of the committed file (or `--jsonl F`), re-export to
+  `.run/ghidra/rebuild/<PROG>.jsonl`, `cmp`. rc 0 + `ROUNDTRIP OK <k> programs`, else first differing line, rc 1.
+  ~146 s (import 140 s, apply 3 s, export 3 s). Logs `.run/ghidra/rebuild/<PROG>.{import,apply,export}.log`.
+- ImportAnnotations refuses (prints `MMX6ANN ERROR`, applies nothing) on a language/image-base mismatch or an unknown `k`.
+- Negative control: rename one func in a copy (`.run/ghidra/neg.jsonl`), `roundtrip.sh SLUS_013.95 --jsonl .run/ghidra/neg.jsonl`
+  → rc 1 with the differing line (the unchanged label row renames the function back).
+- Precondition: MCP server stopped (exclusive project lock).

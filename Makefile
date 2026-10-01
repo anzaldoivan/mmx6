@@ -3,7 +3,7 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check extract scratch-check ghidra-import ghidra-mcp-start ghidra-mcp-stop
+.PHONY: format format-check extract scratch-check ghidra-import ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop
 
 # Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
 PYTHON ?= python3
@@ -22,6 +22,13 @@ GHIDRA_HOME ?= $(HOME)/ghidra_12.1.3_PUBLIC
 
 ghidra-import:
 	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/import.sh --program SLUS_013.95
+
+# Annotation export (read-only) to config/ghidra/<program>.jsonl, and its round trip into .run/ghidra/rebuild/.
+ghidra-export:
+	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/export.sh SLUS_013.95
+
+ghidra-roundtrip:
+	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/roundtrip.sh SLUS_013.95
 
 # GhidrAssistMCP server (headless, detached) on ghidra/mmx6; stop saves, releases the lock, proves a read-only reopen.
 ghidra-mcp-start:

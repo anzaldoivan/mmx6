@@ -88,6 +88,74 @@ read_member(bin, k):
 - Each extracted member's length = its `size`; the bytes in its last sector past `size` are zero.
 - Manifest: `compressed: false` for all 59; `stored_size = size`; no `rock/<NN>.stored` file is written.
 
+### Member table
+Counts only, generated from `manifest/retail.jsonl` (`rock` records) by `make extract`;
+decompressed size = bytes written to `rock/<NN>.bin`.
+
+| index | sector | stored size | decompressed size | compressed |
+|---|---|---|---|---|
+| 0 | 2 | 44588 | 44588 | false |
+| 1 | 24 | 22964 | 22964 | false |
+| 2 | 36 | 74784 | 74784 | false |
+| 3 | 73 | 60528 | 60528 | false |
+| 4 | 103 | 57316 | 57316 | false |
+| 5 | 131 | 44084 | 44084 | false |
+| 6 | 153 | 42944 | 42944 | false |
+| 7 | 174 | 65564 | 65564 | false |
+| 8 | 207 | 53916 | 53916 | false |
+| 9 | 234 | 54192 | 54192 | false |
+| 10 | 261 | 79784 | 79784 | false |
+| 11 | 300 | 82472 | 82472 | false |
+| 12 | 341 | 5804 | 5804 | false |
+| 13 | 344 | 1344 | 1344 | false |
+| 14 | 345 | 16312 | 16312 | false |
+| 15 | 353 | 55432 | 55432 | false |
+| 16 | 381 | 33946 | 33946 | false |
+| 17 | 398 | 4717 | 4717 | false |
+| 18 | 401 | 32488 | 32488 | false |
+| 19 | 417 | 3848 | 3848 | false |
+| 20 | 419 | 45216 | 45216 | false |
+| 21 | 442 | 35303 | 35303 | false |
+| 22 | 460 | 81224 | 81224 | false |
+| 23 | 500 | 66444 | 66444 | false |
+| 24 | 533 | 57258 | 57258 | false |
+| 25 | 561 | 26176 | 26176 | false |
+| 26 | 574 | 25796 | 25796 | false |
+| 27 | 587 | 7308 | 7308 | false |
+| 28 | 591 | 40334 | 40334 | false |
+| 29 | 611 | 12116 | 12116 | false |
+| 30 | 617 | 26844 | 26844 | false |
+| 31 | 631 | 41372 | 41372 | false |
+| 32 | 652 | 18736 | 18736 | false |
+| 33 | 662 | 29444 | 29444 | false |
+| 34 | 677 | 19944 | 19944 | false |
+| 35 | 687 | 18876 | 18876 | false |
+| 36 | 697 | 25908 | 25908 | false |
+| 37 | 710 | 15500 | 15500 | false |
+| 38 | 718 | 20188 | 20188 | false |
+| 39 | 728 | 28008 | 28008 | false |
+| 40 | 742 | 24108 | 24108 | false |
+| 41 | 754 | 4 | 4 | false |
+| 42 | 755 | 4 | 4 | false |
+| 43 | 756 | 17052 | 17052 | false |
+| 44 | 765 | 33304 | 33304 | false |
+| 45 | 782 | 11878 | 11878 | false |
+| 46 | 788 | 12578 | 12578 | false |
+| 47 | 795 | 1788 | 1788 | false |
+| 48 | 796 | 1568 | 1568 | false |
+| 49 | 797 | 1164 | 1164 | false |
+| 50 | 798 | 2040 | 2040 | false |
+| 51 | 799 | 11786 | 11786 | false |
+| 52 | 805 | 1104 | 1104 | false |
+| 53 | 806 | 944 | 944 | false |
+| 54 | 807 | 1892 | 1892 | false |
+| 55 | 808 | 2416 | 2416 | false |
+| 56 | 810 | 1400 | 1400 | false |
+| 57 | 811 | 1304 | 1304 | false |
+| 58 | 812 | 1136 | 1136 | false |
+
+59 members; stored total 1606492 B, decompressed total 1606492 B.
+
 ## ROCK_X6.DAT
 Unknown. 50,913,280 B, 24,860 Form-1 sectors. Extracted and hashed whole; structure is for phase 1.2.
 

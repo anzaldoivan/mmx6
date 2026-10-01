@@ -3,7 +3,8 @@
   extract.py --cue <cue> --out extracted/retail --manifest manifest/retail.jsonl [--medium config/medium.sha1]
 
 Refuses a bin whose sha1 is not the --medium hash (G28) and an --out outside extracted/; recreates --out; writes
-every ISO file to <out>/iso/<ISO path>; checks the SLUS header; prints denominators and the manifest sha1.
+every ISO file to <out>/iso/<ISO path> and every ROCK_X6.BIN member to <out>/rock/<NN>.bin; checks
+the SLUS header; prints denominators and the manifest sha1.
 rc 0 only when every cross-check passes.
 """
 
@@ -20,7 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
-from mmx6 import iso9660, manifest  # noqa: E402
+from mmx6 import iso9660, manifest, rock  # noqa: E402
 
 EXE = "SLUS_013.95"
 EXE_PC0 = 0x80054AD8
@@ -49,9 +50,12 @@ def sha1_file(p: Path) -> str:
     return h.hexdigest()
 
 
-def rock_members(data: bytes) -> list[dict]:
-    """Member hook for ROCK_X6.BIN: (path, data, fields) records. Stub until T3; T1 writes the file whole."""
-    return []
+def rock_members(data: bytes) -> list[tuple[str, bytes, dict]]:
+    """ROCK_X6.BIN members as (path, data, fields); raises ValueError naming the member on any cross-check failure."""
+    return [
+        (f"rock/{m.index:02d}.bin", d, {"index": m.index, "sector": m.sector, "stored_size": m.size, "compressed": False})
+        for m, d in rock.members(data)
+    ]
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -97,8 +101,14 @@ def main(argv: list[str] | None = None) -> int:
                     return fail(f"{EXE} header: magic {magic!r} pc0 {pc0:#x} t_addr {taddr:#x}")
                 print(f"{EXE}: PS-X EXE pc0 {pc0:#x} t_addr {taddr:#x} OK")
             if e.path == ROCK:
-                for m in rock_members(data):
-                    records.append(m)
+                try:
+                    rock_recs = rock_members(data)
+                except ValueError as err:
+                    return fail(f"{ROCK}: {err}")
+                for rel, mdata, fields in rock_recs:
+                    (out / rel).parent.mkdir(parents=True, exist_ok=True)
+                    (out / rel).write_bytes(mdata)
+                    records.append(manifest.record("rock", rel, mdata, **fields))
                     members += 1
     if EXE not in {e.path for e in entries}:
         return fail(f"{EXE} not on the medium")

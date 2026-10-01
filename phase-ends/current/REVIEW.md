@@ -5,7 +5,7 @@ What ran: the public-tree audit (`PY tools/audit_public.py`) and T1's full-histo
 <!-- field: results -->
 Results at: .run/logs/t5-tree-audit-final.log, .run/logs/t5-history-audit-final.log; full log phase-ends/current/logs/T5.md
 <!-- field: seen -->
-What the expert saw: Both audits pass on the final HEAD with zero offenders: the tree audit checked 243+ tracked paths against 20 purge rules and the forbidden-hash list, and the history audit checked all 21+ commits on main (the 20+ not yet on GitHub included). No game-derived byte is in any commit, so main is safe to publish. The no-rom CI workflow has never run because it is not yet on GitHub's default branch; it starts on your push.
+What the expert saw: Both audits pass on the final HEAD with zero offenders: the tree audit checked 245 tracked paths against 20 purge rules and the forbidden-hash list, and the history audit checked all 22 commits on main (the 21 not yet on GitHub included). No game-derived byte is in any commit, so main is safe to publish. The no-rom CI workflow has never run because it is not yet on GitHub's default branch; it starts on your push.
 
 Decisions needed:
 <!-- field: decisions -->

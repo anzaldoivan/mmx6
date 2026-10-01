@@ -112,4 +112,14 @@ Columns: TUs = lib + gap; weak = rows not split; jtbl = table rows incl. inside-
 5. The exe game gap [0x800120A0, 0x80054AD0) (0x42A30 B) is one TU; splitting it needs evidence (padding, rodata
    order, file-boundary heuristics) that this phase does not gather.
 6. Overlay text extent: overlays count their whole image as one TU; code vs rodata/data inside each image is not
-   yet recorded.
+   yet recorded (partly answered for rock_17/43/45 below).
+
+## Declared overlay function starts (phase 1.5 T1)
+- rock_17/43/45 split as `dlabel` + `.word` (0 glabel): their header words decode as far forward branches/jumps
+  (spimdisasm `_findFunctions` farthestBranch never returns to 0), so no `jr $ra` ends a function and the one
+  giant function, holding invalid words, is printed as data.
+- Fix: config/symbols.rock_{17,43,45}.txt declare every start `type:func size:` (to its last `jr $ra` + delay
+  slot) and header / ptr table / trailing data as sized `type:s32`, each with a `// basis:` line from retail bytes
+  (post-return, jal, first code after header; never Ghidra). glabel 29/77/52; 5 multi-return functions (a branch
+  targets past an earlier `jr $ra`) are one function each: rock_43 func_800FDCD4, func_800FDD84; rock_45 func_800FB6F0.
+- These starts are ours, not spimdisasm's: a boundary oracle comparing against splat must treat them as declared.

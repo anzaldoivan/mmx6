@@ -10,10 +10,11 @@
          `CORPUS <n> functions <b> bytes of <T> text bytes in <m> programs; game <g> lib <l>; c <c> c-empty <e>
           asm <a>; uncovered 0` (a = asm + include_asm)
   corpus.py --c-names
-      -> fleet_c_names(), one name per line, sorted (fleet.sh `C MATCHED`, harness.py P1: one instrument)
+      -> fleet_c_names(), one `<prog> <name>` per line, sorted (fleet.sh `C MATCHED`, harness.py P1: one instrument;
+         per program since T5.c3: overlays share names at the same vram)
   corpus.py --self-test
       -> on the real build: func_80055A04 include_asm/LIBSPU_S_M_UTIL/lib; the `banked` rows of config/probes.txt
-         are the `c` set; c-empty = (fleet.sh `C MATCHED` method, readelf on build/src/**/*.c.o, minus INCLUDE_ASM
+         plus the `gated` members of config/dedup_registry.txt are the `c` set; c-empty = (fleet.sh `C MATCHED` method, readelf on build/src/**/*.c.o, minus INCLUDE_ASM
          names) - banked; planted control (one function start moved up one non-zero word, in memory) must refuse
          naming that vram. Ends `CORPUS CONTROL OK` (rc 0), else rc 1.
 
@@ -334,16 +335,20 @@ def summary(res):
 
 
 def fleet_c_names():
-    """fleet.sh :29-34: global non-UND sized FUNC symbols of build/src/**/*.c.o minus INCLUDE_ASM names of src/**/*.c."""
-    objs = sorted(glob.glob("build/src/**/*.c.o", recursive=True))
-    out = subprocess.run(["mipsel-linux-gnu-readelf", "-sW"] + objs, capture_output=True, text=True).stdout if objs else ""
-    defd = {t[7] for t in (l.split() for l in out.splitlines())
-            if len(t) >= 8 and t[3] == "FUNC" and t[4] == "GLOBAL" and t[6] != "UND" and t[2] != "0"}
-    inc = set()
-    for path in glob.glob("src/**/*.c", recursive=True):
-        with open(path, errors="replace") as f:
-            inc |= set(INC_RE.findall(f.read()))
-    return defd - inc
+    """fleet.sh :29-34: {(prog, name)}: global non-UND sized FUNC symbols of build/src/<prog>/**/*.c.o minus INCLUDE_ASM
+    names of src/<prog>/**/*.c, per program (T5.c3: was one name set over all programs, which merged overlay twins)."""
+    out = set()
+    for prog in programs():
+        objs = sorted(glob.glob(f"build/src/{prog}/**/*.c.o", recursive=True))
+        txt = subprocess.run(["mipsel-linux-gnu-readelf", "-sW"] + objs, capture_output=True, text=True).stdout if objs else ""
+        defd = {t[7] for t in (l.split() for l in txt.splitlines())
+                if len(t) >= 8 and t[3] == "FUNC" and t[4] == "GLOBAL" and t[6] != "UND" and t[2] != "0"}
+        inc = set()
+        for path in glob.glob(f"src/{prog}/**/*.c", recursive=True):
+            with open(path, errors="replace") as f:
+                inc |= set(INC_RE.findall(f.read()))
+        out |= {(prog, n) for n in defd - inc}
+    return out
 
 
 def self_test():
@@ -366,13 +371,22 @@ def self_test():
             t = line.split()
             if t and not t[0].startswith("#") and t[-1] == "banked":
                 banked.add((t[1], t[0]))
+    nprobe = len(banked)
+    names = {(f["prog"], f["vram"]): f["name"] for f in fs}
+    if os.path.exists("config/dedup_registry.txt"):  # propagated members (T5.c3)
+        with open("config/dedup_registry.txt") as rf:
+            for line in rf:
+                t = line.split()
+                if len(t) >= 5 and not t[0].startswith("#") and t[4] == "gated":
+                    p, _, v = t[3].rpartition(":")
+                    banked.add((p, names.get((p, int(v, 16)), t[3])))
     cset = {(f["prog"], f["name"]) for f in fs if f["state"] == "c"}
-    ok(len(banked) == 4 and cset == banked,  # was 3 (T4.c1 banked func_8003744C)
-       f"banked {len(banked)} == c set {len(cset)}")
+    ok(nprobe == 4 and cset == banked,  # was 3 (T4.c1 banked func_8003744C)
+       f"banked {nprobe} probes + {len(banked) - nprobe} registry == c set {len(cset)}")
     fleet = fleet_c_names()
-    empty = {f["name"] for f in fs if f["state"] == "c-empty"}
-    want = fleet - {n for _, n in banked}
-    ok(empty == want, f"c-empty {len(empty)} == fleet C MATCHED {len(fleet)} - banked {len(fleet & {n for _, n in banked})}")
+    empty = {(f["prog"], f["name"]) for f in fs if f["state"] == "c-empty"}
+    want = fleet - banked
+    ok(empty == want, f"c-empty {len(empty)} == fleet C MATCHED {len(fleet)} - banked {len(fleet & banked)}")
     # Planted control: one game function whose first word is non-zero and in no jtbl/data region starts a word later.
     p = next(p for p, _, _ in res if p["prog"] == "SLUS_013.95")
     cand = next(f for f in sorted(p["funcs"], key=lambda f: f["vram"])
@@ -405,8 +419,8 @@ def main():
     os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
     try:
         if a.c_names:
-            for n in sorted(fleet_c_names()):
-                print(n)
+            for p, n in sorted(fleet_c_names()):
+                print(p, n)
             return 0
         if a.self_test:
             return self_test()

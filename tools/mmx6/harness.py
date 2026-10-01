@@ -13,8 +13,10 @@
          `HARNESS CONTROL OK` (rc 0), else rc 1.
 
 Pairs (A vs B; each side calls an existing instrument, never re-implements it, G33):
-  P1 matched?    corpus.parse_c C definitions (all programs) vs corpus.fleet_c_names() (object FUNC symbols); names.
-  P2 compiles?   per corpus `c` function: probe.compile_obj of its config/probes.txt `banked` src under the Makefile
+  P1 matched?    corpus.parse_c C definitions (all programs) vs corpus.fleet_c_names() (object FUNC symbols); (prog, name).
+  P2 compiles?   per corpus `c` function: probe.compile_obj of its config/probes.txt `banked` src (else, for a gated
+                 config/dedup_registry.txt member, a .run/harness/p2/ wrapper: bank.block of the shared body under the
+                 row's defines; compiles in parallel, T5.c3) under the Makefile
                  TRIPLE + probe.elf_function vs the words of build/<p>.elf at the corpus extent, under probe's
                  relocation mask (both trimmed by probe.trim).
   P3 fleet?      sha1 of every BINS output now vs after `touch` of src/SLUS_013.95/120A0.c and one asm unit and
@@ -28,6 +30,7 @@ Pairs (A vs B; each side calls an existing instrument, never re-implements it, G
 Firewall G12: names, counts and hashes of build outputs only; never words or bytes.
 """
 import argparse
+import concurrent.futures
 import datetime
 import glob
 import hashlib
@@ -40,6 +43,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
+import bank  # noqa: E402
 import bound2  # noqa: E402
 import census  # noqa: E402
 import corpus  # noqa: E402
@@ -86,7 +90,7 @@ def parsed(p):
 def p1_gather():
     a = set()
     for p in corpus.programs():
-        a |= set(corpus.parse_c(p)[0])
+        a |= {(p, n) for n in corpus.parse_c(p)[0]}
     return a, corpus.fleet_c_names(), len(rows())
 
 
@@ -118,15 +122,32 @@ def linked_words(elf, lo, hi):
 def p2_gather():
     triple = makefile_triple()
     src = {(t[1], t[0]): t[2] for t in (r.split() for r in probe.read_rows("config/probes.txt")) if t[-1] == "banked"}
-    out = []
+    reg = {}  # (prog, vram) -> (shared body, defines) of gated registry members
+    with open(bank.REGISTRY) as f:
+        for t in (line.split() for line in f):
+            if len(t) >= 6 and not t[0].startswith("#") and t[4] == "gated" and t[5] == "define":
+                p, _, v = t[3].rpartition(":")
+                reg[(p, int(v, 16))] = (t[2], [tuple(d.split("=", 1)) for d in t[6:]])
+    out, todo = [], []
     cs = [r for r in rows() if r["state"] == "c"]
     for r in cs:
-        key = (r["prog"], r["name"])
-        if key not in src:
-            raise NotRun(f"{r['prog']} {r['name']} has no banked row in config/probes.txt")
-        obj = probe.compile_obj(src[key], triple)
+        key, pv = (r["prog"], r["name"]), (r["prog"], int(r["vram"], 16))
+        if key in src:
+            todo.append((r, src[key]))
+        elif pv in reg:
+            d = os.path.join(".run", "harness", "p2")
+            os.makedirs(d, exist_ok=True)
+            w = os.path.join(d, f"{r['prog']}.{r['name']}.c")
+            with open(w, "w") as f:
+                f.write("\n".join(bank.block(reg[pv][0], d, reg[pv][1])) + "\n")
+            todo.append((r, w))
+        else:
+            raise NotRun(f"{r['prog']} {r['name']} has no banked row in config/probes.txt or gated registry row")
+    with concurrent.futures.ThreadPoolExecutor(os.cpu_count() or 1) as ex:
+        objs = list(ex.map(lambda rs: probe.compile_obj(rs[1], triple), todo))
+    for (r, s), obj in zip(todo, objs):
         if obj is None:
-            raise NotRun(f"{src[key]} does not compile under {triple}")
+            raise NotRun(f"{s} does not compile under {triple}")
         ours, masks = probe.elf_function(obj, r["name"])
         linked = probe.trim(linked_words(f"build/{r['prog']}.elf", int(r["vram"], 16), int(r["end"], 16)))
         out.append((r["name"], ours, masks, linked))

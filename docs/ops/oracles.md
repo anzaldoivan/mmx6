@@ -84,10 +84,26 @@ GhidrAssistMCP (extension in `$GHIDRA_HOME/Ghidra/Extensions/GhidrAssistMCP`), h
 - Flags found necessary (2026-10-01, build f7b388cc): without `-interpreter` the arm64 dynarec dies (SIGBUS/SIGILL)
   ~1 s into emulation; Exec breakpoints fire only with `-debugger`; a missing `-dofile` file does not exit (hangs).
 - `tools/mmx6/redux/lib.lua`: `breakpoint(addr,label,fn(regs))`, `onVsync(fn(frame))` (frame = `GPU::Vsync` count),
-  `dumpRange/dumpRAM/writeText`, `loadState()`, `quit`. Sets `PCSX.settings.spu.Speed = 0` (unthrottled, ~150 fps).
+  `dumpRange/dumpRAM/writeText/dumpScreen`, `word(addr)`, pad `press/release/mash/padSchedule`, `loadState()`, `quit`. Sets `PCSX.settings.spu.Speed = 0` (unthrottled, ~150 fps).
   Anchors listeners/breakpoints in global `MMX6_LIB`: anything only reachable from chunk locals is GC'd after the
   chunk returns and the next callback crashes Redux.
 - Determinism (no input; frames 1478/7787 in 3 runs, 8862 in 2, 8886 in 1): BinSeek 0x80016858 hits at frames 1478 (a0 0x12, a1 0x800E9860, ra 0x80013E84),
   7787 (same), 8862 (a0 0, a1 0x801EA000, ra 0x80013CE4), 8886 (a0 2, a1 0x800E9860).
+- `make redux-loads` (T5.c1; same vars) → `MMX6_INPUTS=<f> run.sh tools/mmx6/redux/loads.lua --timeout 600` for every
+  `tools/mmx6/redux/inputs/*.lua`; ~45 s per schedule; stops at the first rc ≠ 0. `loads.lua`: Exec bp BinSeek
+  0x80016858 → record (caller = ra, index = a0, dest = a1, size = TOC word 0x800E0B58+8·index+4) and dump
+  `[dest,dest+size)` before; "after" dump at 0x80016628 in ready callback 0x800165A4 on the first hit with remaining
+  (word 0x800E01A8) = 0 (all callers). Out `.run/redux/loads/<run>.jsonl` (`seq frame caller index dest size before
+  after w10000`; `w10000` = word at 0x80010000 = the 0x80013E7C base), `<run>-<seq>-{before,after}.bin`,
+  `<run>.summary.txt`. Optional `MMX6_SCREEN_EVERY=N` → `.run/redux/screens/<run>/f<frame>-<w>x<h>-<bpp>.bin`
+  (`PCSX.GPU.takeScreenShot`, raw pixels; bpp 0 = BGR555, 1 = RGB24) for finding pad timings.
+- Pad schedules `inputs/<name>.lua` return `{name, steps = {{frame,'BUTTON',hold},…}, stop}` (frames = Vsync count
+  from power-on; `MMX6_LIB.mash(btn, from, to, every, hold)` builds taps). Pad API (in the Redux binary's pad.cc Lua
+  binding): `PCSX.SIO0.slots[1].pads[1].setOverride(PCSX.CONSTS.PAD.BUTTON.START)` holds a button,
+  `clearOverride(b)` releases; lib `press/release(name)`, `padSchedule(steps)`. `intro_stage`: START taps skip the
+  intro story and pick Game Start (stage load ~2773), CROSS advances the dialog (START does not), RIGHT walks;
+  gameplay by ~3500. Deterministic: same jsonl in 2 runs.
+- `PY tools/mmx6/loadmap.py --captures .run/redux/loads --summary`: counts per dest and caller; rc 0 iff ≥ 1 load to
+  0x801EA000, 0x800FA000 and from 0x80013E7C (observed base 0x800E9860 = w10000).
 - Exe load proof: `PY tools/mmx6/exeproof.py .run/redux/smoke [--base 0x80010000]` (body words + whole-image fraction
   per dump). Proof row for `docs/memory-map.md` pending: 4 body words differ (T4.c1 log).

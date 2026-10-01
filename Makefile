@@ -3,7 +3,7 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check extract scratch-check ghidra-import ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke
+.PHONY: format format-check extract scratch-check ghidra-import ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads
 
 # Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
 PYTHON ?= python3
@@ -45,6 +45,13 @@ REDUX_CUE ?= /Users/ThinkPad/GameInputs/megaman-x6/Mega Man X6 (USA) (v1.1).cue
 
 redux-smoke:
 	REDUX="$(REDUX)" BIOS="$(BIOS)" REDUX_CUE="$(REDUX_CUE)" bash tools/mmx6/redux/run.sh tools/mmx6/redux/smoke.lua --timeout 240
+
+# Overlay load captures: loads.lua once per pad schedule tools/mmx6/redux/inputs/*.lua → .run/redux/loads/<run>.jsonl.
+redux-loads:
+	for f in tools/mmx6/redux/inputs/*.lua; do \
+	  MMX6_INPUTS="$$PWD/$$f" REDUX="$(REDUX)" BIOS="$(BIOS)" REDUX_CUE="$(REDUX_CUE)" \
+	    bash tools/mmx6/redux/run.sh tools/mmx6/redux/loads.lua --timeout 600 || exit 1; \
+	done
 
 format:
 	find src -type f \( -name '*.c' -o -name '*.h' \) -not -name '.*' -print0 | xargs -0 -r clang-format -i --style=file

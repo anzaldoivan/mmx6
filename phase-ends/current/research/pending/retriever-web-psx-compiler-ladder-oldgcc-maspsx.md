@@ -1,0 +1,39 @@
+# PSX compiler ladder: old-gcc, maspsx, PsyQ versions
+task: Candidate compiler ladder for MMX6 PSX (phase 1.4)
+agent: retriever-web
+tags: psx, old-gcc, maspsx, aspsx, gcc-2.7.2, decomp
+
+## Answer
+- old-gcc latest release tag 0.17 (published 2026-05-13). All PSX variants you listed exist as prebuilt tarballs.
+- Pattern: https://github.com/decompals/old-gcc/releases/download/<tag>/gcc-<ver>[-psx].tar.gz (mmx4 uses tag 0.9: gcc-2.7.2.tar.gz).
+- maspsx supports ASPSX 1.05..2.86 via --aspsx-version. Per-version thresholds NOT retrieved (see Dead ends).
+- Most likely MMX6 ladder: gcc 2.7.2 (and 2.7.2-psx) + maspsx 2.56 --expand-div (as mmx4); fallbacks 2.8.1-psx, 2.6.3-psx, 2.95.2-psx; ASPSX 2.67/2.77/2.79/2.81/2.86 as later-SDK probes.
+
+## Findings
+1. old-gcc (fetched 2026-10-01)
+- Versions: 2.5.7, 2.6.0, 2.6.3, 2.7.0, 2.7.1, 2.7.2 (+2.7.2.1/.2/.3), 2.8.0, 2.8.1, 2.91.66, 2.95.2. All mipsel; 2.7.0+ accept -meb.
+- Release 0.17 assets: gcc-{2.5.7,2.6.0,2.6.3,2.8.0,2.91.66,2.95.2}-psx.tar.gz, gcc-2.7.2-psx.tar.gz, gcc-2.7.2-psx-macos.tar.gz, gcc-2.8.1-psx.tar.gz, gcc-2.8.1-psx-macos.tar.gz, gcc-2.7.2-cdk(.macos), plus non-psx 2.7.0/2.7.1/2.7.2.x/2.8.1 etc. (25 archives).
+- Binary type: README says built via Dockerfiles / `VERSION=x make`; linux archives are presumably x86-64 linux (static-ness NOT verified); macOS variants exist only for 2.7.2-psx and 2.8.1-psx (relevant: your host is darwin).
+- mmx4 compiler.sh: `wget https://github.com/decompals/old-gcc/releases/download/0.9/gcc-2.7.2.tar.gz`, extracted into bin/ (non-psx 2.7.2 tarball, tag 0.9).
+2. maspsx (mkst/maspsx; fetched 2026-10-01)
+- Files: maspsx.py (wrapper), maspsx/__init__.py (logic), aspsx/ dir, tests/. No semver release; only tag/release "aspsx" = collection of recovered ASPSX.EXE binaries (aspsx-binaries.tar.gz, published 2026-08-29). Pin by git commit SHA (could not retrieve a pip package name; assume git clone/commit pin as mmx4-style projects do).
+- Flags: --aspsx-version (README example 2.78), --run-assembler (calls mipsel-linux-gnu-as), --gnu-as-path, --passthrough, --use-comm-section, --use-comm-for-lcomm, -G<n> single arg (required for $gp projects, e.g. -G8; INCLUDE_ASM workaround for non-zero -G), --dont-force-G0 (otherwise G0 forced to as), --expand-div (expands div/divu/rem/remu with zero/overflow break checks), --macro-inc.
+- Internal per-version toggles (names from __init__.py summary): expand_li, nop_at_expansion, nop_mflo_mfhi, nop_lw_lw, sltu_at, addiu_at, gp_allow_offset, gp_allow_la, sdata_limit, use_comm_section. Which version enables which: NOT retrieved.
+- Invocation: gcc cc1 emits .s on stdout -> maspsx -> GNU as (or --run-assembler). Projects use `cc1 ... | maspsx --aspsx-version=X [--expand-div] | as`.
+3. Users: SOTN, Silent Hill, Spyro, Soul Reaver, MediEvil (README).
+4. PsyQ/gcc mapping: only weak datum found: gcc 2.8.1 shipped with PsyQ "Runtime Libraries 4.4" (via search summary). Exact 4.6/4.7 cc1 and ASPSX versions NOT confirmed. Known community lore (unverified here): 4.x CCPSX is gcc 2.8.1 with newer ASPSX; mmx4 (1999-ish Capcom) shows 2.7.2 + ASPSX 2.56 was in use, so MMX6 (2001, libs 4.7) may differ - test 2.8.1 early.
+
+## Dead ends
+- Could not fetch maspsx source thresholds (raw main/ master paths: __init__.py summarized only; version-to-flag table absent). Next step: clone mkst/maspsx and read maspsx/__init__.py `aspsx_version` comparisons, tests/.
+- mmx4 CMakeLists lacks cc flags; actual -O2 -G0 flags are in your KNOWN, not re-verified. Look at mmx4 Makefile/ splat / build scripts.
+- psxdev.net thread 22710 (PsyQ version detection) returned 403.
+- Not found: decomp.me psx preset list, Dino Crisis 2 / MML / RE2 / BoF compiler triples, fingerprint tells (div/break, mflo nops, jump tables), asm-differ psx invocation, m2c psx flags. Suggest m2c: `--target mipsel-gcc-c` (unverified) and asm-differ with `--arch mipsel` (unverified).
+
+sources:
+https://github.com/decompals/old-gcc (fetched 2026-10-01)
+https://api.github.com/repos/decompals/old-gcc/releases/latest (fetched 2026-10-01)
+https://github.com/mkst/maspsx (fetched 2026-10-01)
+https://raw.githubusercontent.com/mkst/maspsx/master/maspsx/__init__.py (fetched 2026-10-01)
+https://raw.githubusercontent.com/mkst/maspsx/master/README.md (fetched 2026-10-01)
+https://api.github.com/repos/mkst/maspsx/releases/latest (fetched 2026-10-01)
+https://raw.githubusercontent.com/sozud/mmx4/master/compiler.sh (fetched 2026-10-01)

@@ -11,3 +11,4 @@
      or an earlier phase, or an id not in GENERATION_PLAN.md, routes now. -->
 
 - <note, correction, priority change, or question>
+- resolve the 15 exe inter-lib gaps (segmentation.md open Q2) once the PsyQ version is pinned (phase 1.4)

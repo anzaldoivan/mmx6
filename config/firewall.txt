@@ -13,6 +13,9 @@
 
 # ---- purge rules: the nine classes of the ROM firewall (mirror .gitignore's paths) ----
 purge: disks/
+purge: disc/
+glob:  SCPH*.BIN
+glob:  **/SCPH*.BIN
 purge: SLUS_013.95
 purge: extracted/
 glob:  extracted/**

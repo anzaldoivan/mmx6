@@ -11,6 +11,8 @@ __pycache__/
 
 # 1. The disc / ROM dump — never committed; your own copy goes here
 /disks/
+/disc/
+**/SCPH*.BIN
 
 # 2. Extracted payloads — regenerated from YOUR dump by the extractor and verified against the
 #    committed manifest of hashes, the only thing tracked under extracted/

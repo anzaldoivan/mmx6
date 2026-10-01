@@ -1,0 +1,28 @@
+# Compiler pin — mmx6
+
+The triple ladder and its verdict live here (T7 writes the pin). Evidence is counts, addresses and idiom names only (G12).
+
+## Per-module variation
+
+Census: `mx.sh run python3 tools/mmx6/optscan.py --all` (phase 1.4 T5, after `make extract split`), last line
+`SCANNED 6784 functions in 57 programs`, rc 0; log `.run/logs/optscan.log` (container asm, not tracked).
+
+Classes (decoded instruction words, per function = splat glabel extent):
+- `O0`: prologue `addu|or $fp,$sp,$zero` in the first 8 insns and nop-after-load density >= 0.5 (or < 2 loads).
+  `O2`: no -O0 tell (includes hand-written asm and lib objects). `fp-only`: the fp move without the nop density.
+- `gprel`: >= 1 load/store/addiu based on `$gp` (rs = 28).
+- `div-expand`: div/divu followed within 4 insns by `break 7` (maspsx `--expand-div` / assembler macro form);
+  `div-bare`: div/divu without it.
+- `unsplit`: program whose asm subsegment splat emitted as `dlabel` + `.word` only; functions carved per C0021
+  (`jr $ra` + delay slot), named `anon_<vram>`; words after the last `jr $ra` counted as `dropped`.
+
+Findings (denominator: 6784 functions, 57 programs):
+- O0: 0 of 6784 in every program. fp-only: 0. No -O0 module exists, so the pin is a single opt level (-O2 class).
+- gprel: 0 of 6784, including the exe (1920 functions) despite gp = 0x8008EAA4 in the exe: `-G0` everywhere.
+- div-expand: 41 functions (exe 23: 13 in game TU 120A0 = 0x800120A0..0x80054AD0, 10 in PsyQ lib TUs;
+  overlays rock_03/04/07/08/15/16/22/33/34/36/37 hold the other 18). Expanded division is the norm.
+- div-bare: 16 functions: exe 2, both game TU (func_8002B410, func_8004BB5C); overlays rock_04, 07, 09, 11, 15,
+  25, 26, 34, 36, 40. A bare div beside expanded ones is a probe target for T6 (raw `div $zero` form or asm).
+- Contiguous runs: one run per program (57 RUN lines, all `O2`); no per-module class change by address.
+- unsplit: rock_17 (29 carved, 513 words dropped), rock_43 (81, 283), rock_45 (53, 248) — 163 carved functions;
+  their split config yields no glabel (scope: a split fix, not this census).

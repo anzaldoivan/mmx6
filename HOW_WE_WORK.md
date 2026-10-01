@@ -41,7 +41,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 | probe | `mx.sh run make probe-ladder`; `tools/mmx6/probe.py <func> --prog p --src c --triple t` | masked compare to retail; `PIN …`, rc 0 iff unique |
 | decompile | `mx.sh run python3 tools/mmx6/decompile.py <func> [--prog p]` | m2c scaffold on stdout |
 | diff | `mx.sh run bash tools/mmx6/diff.sh <func>` (after `make extract build expected`) | asm-differ; ends `DIFF <func> <n> …`, rc 0 iff n=0 |
-| optscan | `mx.sh run python3 tools/mmx6/optscan.py --all\|--prog p` (after `make extract split`) | codegen census |
+| optscan | `mx.sh run python3 tools/mmx6/optscan.py --all\|--prog p` (after `make extract build` + corpus) | codegen census; rc 1 if n≠corpus N |
 | corpus | `mx.sh run python3 tools/mmx6/corpus.py --all\|--prog p\|--self-test` (after `make extract build`) | function/span oracle → build/corpus/*.jsonl; text bytes from build/<p>.elf; `make tools-health` (mk/tools-health.mk, run by `make health`) |
 | toolchain-check | `mx.sh run make toolchain-check` | versions + cc1/maspsx smoke; rc≠0 on drift |
 

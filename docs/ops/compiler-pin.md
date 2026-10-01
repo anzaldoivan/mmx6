@@ -37,8 +37,10 @@ Residual doubts:
 
 ## Per-module variation
 
-Census: `mx.sh run python3 tools/mmx6/optscan.py --all` (phase 1.4 T5, after `make extract split`), last line
-`SCANNED 6784 functions in 57 programs`, rc 0; log `.run/logs/optscan.log` (container asm, not tracked).
+Census: `mx.sh run python3 tools/mmx6/optscan.py --all` (phase 1.4 T5; since 1.5 T3 after `make extract build` and
+`corpus.py --all`, rung `th-optscan` of `make tools-health`), last line `SCANNED 6494 of 6494 functions in 57 of 57
+programs` (N per program = corpus rows state asm|include_asm; any n != N printed and rc 1; was `SCANNED 6784
+functions in 57 programs` at 1.4 T5); `--self-test` ends `OPTSCAN CONTROL OK` (planted narrowing refused).
 
 Classes (decoded instruction words, per function = splat glabel extent):
 - `O0`: prologue `addu|or $fp,$sp,$zero` in the first 8 insns and nop-after-load density >= 0.5 (or < 2 loads).

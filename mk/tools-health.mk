@@ -2,7 +2,7 @@
 # `make fleet`). One rung per phase tool: a rung runs the tool's --self-test, then its real run; later tasks append
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
-TOOLS_HEALTH_RUNGS := th-corpus
+TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan
 
 .PHONY: tools-health $(TOOLS_HEALTH_RUNGS)
 
@@ -13,3 +13,13 @@ tools-health: $(TOOLS_HEALTH_RUNGS)
 th-corpus:
 	$(PYTHON) tools/mmx6/corpus.py --self-test
 	$(PYTHON) tools/mmx6/corpus.py --all
+
+# Every forced lib edge is a subsegment edge of its yaml, over all config/*.yaml (tools/mmx6/boundcheck.py).
+th-boundcheck:
+	$(PYTHON) tools/mmx6/boundcheck.py --self-test
+	$(PYTHON) tools/mmx6/boundcheck.py
+
+# The codegen census covers every corpus asm function, per program (tools/mmx6/optscan.py; needs the corpus).
+th-optscan: th-corpus
+	$(PYTHON) tools/mmx6/optscan.py --self-test
+	$(PYTHON) tools/mmx6/optscan.py --all

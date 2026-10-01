@@ -9,13 +9,19 @@
                         `RUN <prog> <O0|O2> 0x<first>-0x<last> <k> functions <firstTU>..<lastTU>` per maximal
                         same-class run in vram order (first = first function's start vram, last = last function's
                         last instruction vram; TU = nonmatchings/<TU>/ dir, else the .s file stem)
-         last line:     `SCANNED <n> functions in <m> programs`; rc 1 if a program has no asm/<p>/ after
-                        `make -s build/split/<p>.stamp`, or 0 functions
+         coverage (G28): N(p) = rows of build/corpus/functions.jsonl (corpus.py --all) with state asm|include_asm;
+                        each n != N printed `optscan: <p> scanned <n> of <N>`
+         last line:     `SCANNED <n> of <N> functions in <m> of <P> programs` (m = programs with n = N, P = programs
+                        asked); rc 1 if the corpus file is absent, a program is missing from it, any n != N, a program
+                        has no asm/<p>/ after `make -s build/split/<p>.stamp`, or 0 functions
   optscan.py --self-test
       -> two synthetic functions (encoder helpers, no literal words) written as splat .s under
          .run/optscan/selftest/ and scanned by the same parser; planted -O0 must be O0 gprel=1 div=1/0, planted
          -O2 must be O2 div=0/1; the same two plus one trailing word as one data-only dlabel .s must carve into
-         2 functions (O0, O2, first named by its dlabel) and 1 dropped word; `SELF-TEST OK` (rc 0) or `SELF-TEST FAIL` (rc 1)
+         2 functions (O0, O2, first named by its dlabel) and 1 dropped word; `SELF-TEST OK` or `SELF-TEST FAIL`;
+         planted narrowing: the same coverage over .run/optscan/selftest/narrow/ (symlinks to every real asm/<p> but
+         one, no make) must be refused naming that program; last line `OPTSCAN CONTROL OK` (rc 0) or
+         `OPTSCAN CONTROL FAIL` (rc 1)
 
 Functions: `glabel <f>` .. `endlabel <f>` or the next glabel, under asm/<p>/ (incl. nonmatchings/); words from the
 splat comment `/* <off> <vram> <word> */` (word printed in file byte order, i.e. little-endian bytes); deduped by vram, sorted by vram; nothing trimmed.
@@ -36,8 +42,10 @@ Firewall G12: prints names, addresses and counts only, never instruction words, 
 under .run/.
 """
 import argparse
+import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 
@@ -47,6 +55,7 @@ STORE_OPS = {0x28, 0x29, 0x2A, 0x2B, 0x2E, 0x3A}
 ADDIU = 0x09
 F_ADDU, F_OR, F_DIV, F_DIVU, F_BREAK = 0x21, 0x25, 0x1A, 0x1B, 0x0D
 SELFTEST_DIR = ".run/optscan/selftest"
+CORPUS = "build/corpus/functions.jsonl"
 
 
 # ---- encoders (self-test) ------------------------------------------------------------------------------------------
@@ -214,14 +223,46 @@ def scan(prog, root, out):
     return len(recs)
 
 
-def scan_prog(prog):
-    root = f"asm/{prog}"
-    if not os.path.isdir(root):
-        subprocess.run(["make", "-s", f"build/split/{prog}.stamp"], check=False, stdout=subprocess.DEVNULL)
-    if not os.path.isdir(root):
-        print(f"optscan: no {root}/")
-        return 0
-    return scan(prog, root, print)
+def corpus_counts(path=CORPUS):
+    """{prog: N} = rows of the function corpus with state asm|include_asm; None if the corpus file is absent."""
+    if not os.path.isfile(path):
+        return None
+    counts = {}
+    with open(path) as f:
+        for line in f:
+            if line.strip():
+                r = json.loads(line)
+                counts.setdefault(r["prog"], 0)
+                if r["state"] in ("asm", "include_asm"):
+                    counts[r["prog"]] += 1
+    return counts
+
+
+def coverage(base, progs, expected, out, make=True):
+    """Scan base/<p> for every p; return (rc, lines) where lines name each n != N and end with the SCANNED line."""
+    lines, total, want, m, rc = [], 0, 0, 0, 0
+    for p in progs:
+        root = os.path.join(base, p)
+        if make and not os.path.isdir(root):
+            subprocess.run(["make", "-s", f"build/split/{p}.stamp"], check=False, stdout=subprocess.DEVNULL)
+        n = scan(p, root, out) if os.path.isdir(root) else 0
+        if not os.path.isdir(root):
+            lines.append(f"optscan: no {root}/")
+        if n == 0:
+            lines.append(f"optscan: {p} has 0 functions")
+            rc = 1
+        if p not in expected:
+            lines.append(f"optscan: {p} missing from {CORPUS} (run corpus.py --all)")
+            rc = 1
+        elif n != expected[p]:
+            lines.append(f"optscan: {p} scanned {n} of {expected[p]}")
+            rc = 1
+        else:
+            m += 1
+        total += n
+        want += expected.get(p, 0)
+    lines.append(f"SCANNED {total} of {want} functions in {m} of {len(progs)} programs")
+    return rc, lines
 
 
 # ---- self-test -----------------------------------------------------------------------------------------------------
@@ -284,7 +325,30 @@ def self_test():
               f"div={c['expand']}/{c['bare']}")
     print(f"carved {len(carved)} functions dropped {dropped}w classes {' '.join(c for _, c in dgot)}")
     print("SELF-TEST OK" if ok else "SELF-TEST FAIL")
+    # planted narrowing (G28): a scratch asm root of symlinks to every real asm/<p> but one must be refused naming it
+    progs, expected = all_progs(), corpus_counts()
+    control = False
+    if expected is None:
+        print(f"optscan: no {CORPUS} (run corpus.py --all)")
+    else:
+        hidden = next((p for p in progs if expected.get(p)), None)
+        nroot = os.path.join(SELFTEST_DIR, "narrow")
+        shutil.rmtree(nroot, ignore_errors=True)
+        os.makedirs(nroot)
+        for p in progs:
+            if p != hidden and os.path.isdir(os.path.join("asm", p)):
+                os.symlink(os.path.abspath(os.path.join("asm", p)), os.path.join(nroot, p))
+        nrc, nlines = coverage(nroot, progs, expected, lambda s: None, make=False)
+        print(f"narrowing: hid {hidden}; {nlines[-1]}")
+        control = hidden is not None and nrc == 1 and f"optscan: {hidden} scanned 0 of {expected[hidden]}" in nlines \
+            and sum(1 for l in nlines if " scanned " in l) == 1
+    ok = ok and control
+    print("OPTSCAN CONTROL OK" if ok else "OPTSCAN CONTROL FAIL")
     return 0 if ok else 1
+
+
+def all_progs():
+    return sorted(f[:-5] for f in os.listdir("config") if f.endswith(".yaml"))
 
 
 def main():
@@ -296,17 +360,15 @@ def main():
     args = ap.parse_args()
     if args.self_test:
         return self_test()
-    progs = [args.prog] if args.prog else sorted(f[:-5] for f in os.listdir("config") if f.endswith(".yaml"))
-    total, rc = 0, 0
-    for p in progs:
-        n = scan_prog(p)
-        if n == 0:
-            print(f"optscan: {p} has 0 functions")
-            rc = 1
-        total += n
-    print(f"SCANNED {total} functions in {len(progs)} programs")
+    progs = [args.prog] if args.prog else all_progs()
+    expected = corpus_counts()
+    if expected is None:
+        print(f"optscan: no {CORPUS}; run `make extract build` and corpus.py --all first")
+        return 1
+    rc, lines = coverage("asm", progs, expected, print)
+    for line in lines:
+        print(line)
     return rc
-
 
 if __name__ == "__main__":
     sys.exit(main())

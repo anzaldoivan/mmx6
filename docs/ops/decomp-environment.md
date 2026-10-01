@@ -31,7 +31,9 @@ the rules behind them are the G group in `rules/`.*
 bash tools/docker/mx.sh sync && bash tools/docker/mx.sh run make extract
 # the clean fleet verification — every binary from clean → extract → split → build → health, exit code read;
 # last line `FLEET 57 of 57` (tools/mmx6/fleet.sh; gate config/check.<bin>.sha per binary), preceded by
-# `C MATCHED <f>` = C-defined functions in build/src/**/*.c.o (incl. splat's empty-body emissions; 285 at 1.4 T8)
+# `C MATCHED <c> of <F> functions (<e> empty-body; banked <c-e>)`: c = C-defined functions in build/src/**/*.c.o,
+# F = build/corpus/functions.jsonl rows, e = its c-empty rows; rc 1 if the corpus is absent or its c + c-empty != c
+# (`C MATCHED 285 of 6779 functions (282 empty-body; banked 3)` at 1.5 T3)
 bash tools/docker/mx.sh sync && bash tools/docker/mx.sh run make fleet
 # asm-differ baseline after a green build: build/ copied to expected/build/ (container only; mx.sh pull refuses it)
 bash tools/docker/mx.sh run make expected
@@ -108,10 +110,10 @@ Breadth — the same analysis over many independent items — is fan-out, not de
 | Tool | Location | Purpose |
 |---|---|---|
 | `tools/audit_public.py` | `tools/` | the ROM audit (purge paths, the derived hash set, the size cap, the pasted-disassembly check); the first-push gate and the CI job; its sources are `config/firewall.txt` |
-| `tools/mmx6/segment.py <bin> [--print]` / `make health` | `tools/mmx6/`, `Makefile` | segment.py regenerates the subsegment block of `config/<bin>.yaml` from `config/boundaries.txt` per `config/segmentation.md`; `make health` (container, boundcheck.py, `--self-test`) fails unless every forced lib edge is a subsegment edge |
+| `tools/mmx6/segment.py <bin> [--print]` / `make health` | `tools/mmx6/`, `Makefile` | segment.py regenerates the subsegment block of `config/<bin>.yaml` from `config/boundaries.txt` per `config/segmentation.md`; `make health` (container, boundcheck.py, `--self-test`) fails unless every forced lib edge is a subsegment edge; last line `BOUNDARIES OK <k> of <N> programs` only when k = N = config/*.yaml count, an empty forced-edge list refused; `--self-test` (dropped edge, hidden yaml, empty edge list) ends `BOUNDCHECK CONTROL OK`; rung `th-boundcheck` |
 | `tools/mmx6/segment.py rock_NN --init` | `tools/mmx6/`, `Makefile` | writes `config/rock_NN.yaml`, `config/symbols.rock_NN.txt`, `config/check.rock_NN.sha` (sha1 from the manifest), generated, never hand-edited; Makefile `BINS` is a wildcard over `config/*.yaml`; overlays assemble with `-march=r4000 -mno-fix-loongson3-llsc` (phase 1.3 T5) |
 | `make fleet` / `make expected` | `Makefile`, `tools/mmx6/fleet.sh` | the clean fleet verification (`FLEET <n> of <n>`); `expected/build/` asm-differ baseline from hash-green outputs |
-| `tools/mmx6/corpus.py --all \| --prog P \| --self-test` / `make tools-health` | `tools/mmx6/`, `mk/tools-health.mk` | the function corpus over the linked build (container): `build/corpus/{functions,spans,denominators}.jsonl` (text = `<seg>_TEXT_START/_END` of `build/<p>.elf`; uncovered text words classed jtbl > libgap > data > pad, else refused); last line `CORPUS <n> functions <b> bytes of <T> text bytes in <m> programs; game <g> lib <l>; c <c> c-empty <e> asm <a>; uncovered 0` (6779 at 1.5 T2); `--self-test` ends `CORPUS CONTROL OK`. The tools-health chain: `mk/tools-health.mk` (`TOOLS_HEALTH_RUNGS`, one rung per tool: --self-test then the real run; last line `TOOLS-HEALTH OK <k> rungs`) is called from `make health`, so from `make fleet` |
+| `tools/mmx6/corpus.py --all \| --prog P \| --self-test` / `make tools-health` | `tools/mmx6/`, `mk/tools-health.mk` | the function corpus over the linked build (container): `build/corpus/{functions,spans,denominators}.jsonl` (text = `<seg>_TEXT_START/_END` of `build/<p>.elf`; uncovered text words classed jtbl > libgap > data > pad, else refused); last line `CORPUS <n> functions <b> bytes of <T> text bytes in <m> programs; game <g> lib <l>; c <c> c-empty <e> asm <a>; uncovered 0` (6779 at 1.5 T2); `--self-test` ends `CORPUS CONTROL OK`. The tools-health chain: `mk/tools-health.mk` (`TOOLS_HEALTH_RUNGS` = th-corpus th-boundcheck th-optscan since 1.5 T3, one rung per tool: --self-test then the real run; last line `TOOLS-HEALTH OK <k> rungs`) is called from `make health`, so from `make fleet` |
 | `make format` | `Makefile` | clang-format over `src/` with the tracked `.clang-format` (the community style) |
 | TODO(phase-1): the extractor, the manifest | `tools/` | — |
 

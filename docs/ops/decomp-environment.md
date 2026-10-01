@@ -80,6 +80,7 @@ Breadth — the same analysis over many independent items — is fan-out, not de
 | Tool | Location | Purpose |
 |---|---|---|
 | `tools/audit_public.py` | `tools/` | the ROM audit (purge paths, the derived hash set, the size cap, the pasted-disassembly check); the first-push gate and the CI job; its sources are `config/firewall.txt` |
+| `tools/mmx6/segment.py <bin> [--print]` / `make health` | `tools/mmx6/`, `Makefile` | segment.py regenerates the subsegment block of `config/<bin>.yaml` from `config/boundaries.txt` per `config/segmentation.md`; `make health` (container, boundcheck.py, `--self-test`) fails unless every forced lib edge is a subsegment edge |
 | `make format` | `Makefile` | clang-format over `src/` with the tracked `.clang-format` (the community style) |
 | TODO(phase-1): the extractor, the manifest | `tools/` | — |
 

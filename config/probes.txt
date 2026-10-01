@@ -1,0 +1,3 @@
+# config/probes.txt — probe functions of the triple ladder (tools/mmx6/probe.py --ladder, make probe-ladder).
+# <func> <prog> <src path> <idiom class> [banked]
+# One row per probe; the ladder pins the one triple of config/triples.txt that matches every row.

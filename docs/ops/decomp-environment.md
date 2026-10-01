@@ -46,6 +46,11 @@ bash tools/docker/mx.sh run make expected
   `TRIPLE ?= gcc2.7.2-aspsx2.56` picks the row of `config/triples.txt`
   (`<name> | cc1: /opt/cc/<ver>/cc1 | cflags: <...> | maspsx: <...>`) that sets CC1/CFLAGS/MASPSX_FLAGS; an unknown
   name stops make. `asm/<bin>/nonmatchings/` is included by C units, never assembled on its own.
+- **Probes (Phase 1.4 T3):** `tools/mmx6/probe.py <func> --prog <p> --src <c> --triple <t>` (container) compiles via
+  `make -B TRIPLE=<t> build/<c>.o` and prints `<func> <t> MATCH|FAIL <m>/<n> words` (relocated fields masked, extent
+  trimmed to last `jr $ra` + delay slot, C0021). `make probe-ladder` runs `config/probes.txt` × `config/triples.txt`;
+  rc 0 only on a unique `PIN <t> <k> of <k>`. `--self-test`: control `src/probes/selftest_func_80055A04.c` must MATCH
+  and a planted one-instruction mutation (`.run/probe/mut/`) must FAIL `n-1/n` under every triple.
 
 ## The oracles (decomp)
 

@@ -1,3 +1,34 @@
 # config/triples.txt — compiler triples (cc1 + flags + maspsx flags); the Makefile's TRIPLE selects one row by name.
 # <name> | cc1: /opt/cc/<ver>/cc1 | cflags: <...> | maspsx: <...>
 gcc2.7.2-aspsx2.56 | cc1: /opt/cc/2.7.2/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.56 --expand-div
+gcc2.7.2-aspsx2.67 | cc1: /opt/cc/2.7.2/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.67 --expand-div
+gcc2.7.2-aspsx2.79 | cc1: /opt/cc/2.7.2/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.79 --expand-div
+gcc2.7.2-aspsx2.86 | cc1: /opt/cc/2.7.2/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.86 --expand-div
+gcc2.7.2-psx-aspsx2.56 | cc1: /opt/cc/2.7.2-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.56 --expand-div
+gcc2.7.2-psx-aspsx2.67 | cc1: /opt/cc/2.7.2-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.67 --expand-div
+gcc2.7.2-psx-aspsx2.79 | cc1: /opt/cc/2.7.2-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.79 --expand-div
+gcc2.7.2-psx-aspsx2.86 | cc1: /opt/cc/2.7.2-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.86 --expand-div
+gcc2.7.2-cdk-aspsx2.56 | cc1: /opt/cc/2.7.2-cdk/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.56 --expand-div
+gcc2.7.2-cdk-aspsx2.67 | cc1: /opt/cc/2.7.2-cdk/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.67 --expand-div
+gcc2.7.2-cdk-aspsx2.79 | cc1: /opt/cc/2.7.2-cdk/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.79 --expand-div
+gcc2.7.2-cdk-aspsx2.86 | cc1: /opt/cc/2.7.2-cdk/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.86 --expand-div
+gcc2.6.3-psx-aspsx2.56 | cc1: /opt/cc/2.6.3-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.56 --expand-div
+gcc2.6.3-psx-aspsx2.67 | cc1: /opt/cc/2.6.3-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.67 --expand-div
+gcc2.6.3-psx-aspsx2.79 | cc1: /opt/cc/2.6.3-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.79 --expand-div
+gcc2.6.3-psx-aspsx2.86 | cc1: /opt/cc/2.6.3-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.86 --expand-div
+gcc2.8.0-psx-aspsx2.56 | cc1: /opt/cc/2.8.0-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.56 --expand-div
+gcc2.8.0-psx-aspsx2.67 | cc1: /opt/cc/2.8.0-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.67 --expand-div
+gcc2.8.0-psx-aspsx2.79 | cc1: /opt/cc/2.8.0-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.79 --expand-div
+gcc2.8.0-psx-aspsx2.86 | cc1: /opt/cc/2.8.0-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.86 --expand-div
+gcc2.8.1-psx-aspsx2.56 | cc1: /opt/cc/2.8.1-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.56 --expand-div
+gcc2.8.1-psx-aspsx2.67 | cc1: /opt/cc/2.8.1-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.67 --expand-div
+gcc2.8.1-psx-aspsx2.79 | cc1: /opt/cc/2.8.1-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.79 --expand-div
+gcc2.8.1-psx-aspsx2.86 | cc1: /opt/cc/2.8.1-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.86 --expand-div
+gcc2.91.66-psx-aspsx2.56 | cc1: /opt/cc/2.91.66-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.56 --expand-div
+gcc2.91.66-psx-aspsx2.67 | cc1: /opt/cc/2.91.66-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.67 --expand-div
+gcc2.91.66-psx-aspsx2.79 | cc1: /opt/cc/2.91.66-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.79 --expand-div
+gcc2.91.66-psx-aspsx2.86 | cc1: /opt/cc/2.91.66-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.86 --expand-div
+gcc2.95.2-psx-aspsx2.56 | cc1: /opt/cc/2.95.2-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.56 --expand-div
+gcc2.95.2-psx-aspsx2.67 | cc1: /opt/cc/2.95.2-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.67 --expand-div
+gcc2.95.2-psx-aspsx2.79 | cc1: /opt/cc/2.95.2-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.79 --expand-div
+gcc2.95.2-psx-aspsx2.86 | cc1: /opt/cc/2.95.2-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.86 --expand-div

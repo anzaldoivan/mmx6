@@ -3,7 +3,7 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check split build build-bins clean extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check health fleet expected
+.PHONY: format format-check split build build-bins clean extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check health fleet expected probe-ladder
 
 # Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
 PYTHON ?= python3
@@ -137,6 +137,11 @@ fleet:
 # asm-differ baseline: expected/<repo-relative path> of every build output.
 expected: build
 	rm -rf expected && mkdir -p expected && cp -R build expected/build
+
+# The triple ladder (container): every config/probes.txt row under every config/triples.txt row; rc 0 only on a
+# unique `PIN <triple> <k> of <k>`.
+probe-ladder:
+	$(PYTHON) tools/mmx6/probe.py --ladder
 
 toolchain-check:
 	sh tools/mmx6/toolchain_check.sh "$(SPLAT_PIN)" "$(BINUTILS_PIN)" "$(CPP_PIN)" "$(CC1_SET)" "$(MASPSX_PIN)"

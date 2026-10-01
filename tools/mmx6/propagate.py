@@ -11,7 +11,8 @@
          each member's linked extent vs retail; on a program R5 failure every member is retried alone, failing
          members restored. One line per member `<prog:vram> gated|refused <reason>`, last
          `PROPAGATE <key> gated <m> of <M> members` (rc 0 iff m = M); registry rows appended/updated in place.
-      --dry-run: the same gates in a scratch copy of the tree (.run/propagate/tree); src/ and the registry are never
+      --dry-run: the same gates in scratch copies of the tree (.run/propagate/tree/w<i>, one per worker process;
+         programs run in parallel, output printed in program order); src/ and the registry are never
          written (their sha1 checked unchanged at the end); last `PROPAGATE DRY-RUN <key> gated <m> of <M> members`.
   propagate.py --check
       -> per registry row the member's dup key recomputed from the built object (census.read_words + dup_key); refusal
@@ -25,6 +26,7 @@ Firewall G12: names, addresses, counts and hashes of our own files only.
 import argparse
 import hashlib
 import json
+import multiprocessing
 import os
 import shutil
 import sys
@@ -39,7 +41,8 @@ import probe  # noqa: E402
 CLASSES = "build/census/classes.jsonl"
 FUNCS = "build/corpus/functions.jsonl"
 SCRATCH = ".run/propagate"
-TREE = SCRATCH + "/tree"
+TREE = SCRATCH + "/tree"  # the dry run's worker trees TREE/w<i>
+WORKERS = os.cpu_count() or 1
 COPY = ("Makefile", "mk", "include", "config", "src", "tools", "asm", "build")  # the dry run's scratch tree
 LINK = ("extracted",)  # read-only inputs
 LOAD_OPS = (0x23, 0x09)  # lw, addiu: the %lo half of the table address
@@ -163,64 +166,98 @@ def propagate(key, dry):
         body = f.read()
     if ex_tab is None or f"D_{ex_tab:08X}" not in body or ex_name not in body:
         sys.exit(f"propagate: exemplar table D_{ex_tab or 0:08X} / name {ex_name} not in {src} (contract)")
-    results, by_prog = [], {}
+    by_prog = {}
     for m in cls:
         by_prog.setdefault(m[0], []).append(m)
-    for prog in sorted(by_prog):
-        log = f"propagate-{prog}"
-        gated = []
-        for m in by_prog[prog]:
-            r = rows.get(m)
-            if r is None:
-                results.append((pv(m), "refused", "preflight: no corpus row"))
-                print(f"{pv(m)} refused preflight: no corpus row", flush=True)
-                continue
-            if m == ex:
-                defines = []
-            else:
-                t = table_addr(probe.retail_words(prog, r["name"]))
-                if t is None:
-                    results.append((pv(m), "refused", "R1: no lui/lw table pair in retail words"))
-                    print(f"{pv(m)} refused R1: no lui/lw table pair in retail words", flush=True)
-                    continue
-                defines = [(ex_name, r["name"]), (f"D_{ex_tab:08X}", f"D_{t:08X}")]
-            g, why = gate(prog, m[1], src, defines, log)
-            if g is None:
-                results.append((pv(m), "refused", why[len("refused "):]))
-                print(f"{pv(m)} {why}", flush=True)
-            else:
-                gated.append(g)
-        if gated:
-            try:
-                program_r5(prog, src, gated, log)
-            except bank.Stop as e:  # isolate per member: undo all, retry each alone
-                print(f"propagate: {prog} R5 {e.cause}; isolating {len(gated)} members", flush=True)
-                for g in reversed(gated):
-                    bank.restore(g["saved"])
-                bank.rebuild(prog, log)
-                kept = []
-                for g0 in gated:
-                    g, why = gate(prog, g0["vram"], src, g0["defines"], log)
-                    if g is not None:
-                        try:
-                            program_r5(prog, src, kept + [g], log)
-                            kept.append(g)
-                            continue
-                        except bank.Stop as e2:
-                            bank.restore(g["saved"])
-                            bank.rebuild(prog, log)
-                            why = f"refused R5: {e2.cause}"
-                    results.append((pv((prog, g0["vram"])), "refused", why[len("refused "):]))
-                    print(f"{pv((prog, g0['vram']))} {why}", flush=True)
-                gated = kept
-        for g in gated:
-            d = g["defines"]
-            reason = "exemplar" if not d else "define " + " ".join(f"{o}={n}" for o, n in d)
-            results.append((pv((prog, g["vram"])), "gated", reason))
-            print(f"{pv((prog, g['vram']))} gated {reason}", flush=True)
+    ctx = (ex, ex_name, ex_tab, src, rows)
+    results = []
+    if not dry:
+        for prog in sorted(by_prog):
+            results += run_prog(prog, by_prog[prog], ctx, lambda s: print(s, flush=True))
+    else:  # one scratch tree per worker; programs in parallel, output in program order
+        n = min(WORKERS, len(by_prog))
+        trees = [f"{TREE}/w{i}" for i in range(n)]
+        for t in trees:
+            make_tree(t)
+        mp = multiprocessing.get_context("fork")
+        q = mp.Queue()
+        for t in trees:
+            q.put(t)
+        order = sorted(by_prog, key=lambda p: (-len(by_prog[p]), p))  # longest first
+        with mp.Pool(n, initializer=_worker_init, initargs=(q,)) as pool:
+            jobs = {p: pool.apply_async(_worker_prog, (p, by_prog[p], ctx)) for p in order}
+            for prog in sorted(by_prog):
+                res, lines = jobs[prog].get()
+                print("\n".join(lines), flush=True)
+                results += res
     if not dry:
         write_registry(key, pv(ex), src, results)
     return sum(s == "gated" for _, s, _ in results), len(cls), results
+
+
+def run_prog(prog, ms, ctx, out):
+    """[(member pv, state, reason)] of one program: R1-R4 per member, then R5 (isolating members on a red R5)."""
+    ex, ex_name, ex_tab, src, rows = ctx
+    log, results, gated = f"propagate-{prog}", [], []
+    for m in ms:
+        r = rows.get(m)
+        if r is None:
+            results.append((pv(m), "refused", "preflight: no corpus row"))
+            out(f"{pv(m)} refused preflight: no corpus row")
+            continue
+        if m == ex:
+            defines = []
+        else:
+            t = table_addr(probe.retail_words(prog, r["name"]))
+            if t is None:
+                results.append((pv(m), "refused", "R1: no lui/lw table pair in retail words"))
+                out(f"{pv(m)} refused R1: no lui/lw table pair in retail words")
+                continue
+            defines = [(ex_name, r["name"]), (f"D_{ex_tab:08X}", f"D_{t:08X}")]
+        g, why = gate(prog, m[1], src, defines, log)
+        if g is None:
+            results.append((pv(m), "refused", why[len("refused "):]))
+            out(f"{pv(m)} {why}")
+        else:
+            gated.append(g)
+    if gated:
+        try:
+            program_r5(prog, src, gated, log)
+        except bank.Stop as e:  # isolate per member: undo all, retry each alone
+            out(f"propagate: {prog} R5 {e.cause}; isolating {len(gated)} members")
+            for g in reversed(gated):
+                bank.restore(g["saved"])
+            bank.rebuild(prog, log)
+            kept = []
+            for g0 in gated:
+                g, why = gate(prog, g0["vram"], src, g0["defines"], log)
+                if g is not None:
+                    try:
+                        program_r5(prog, src, kept + [g], log)
+                        kept.append(g)
+                        continue
+                    except bank.Stop as e2:
+                        bank.restore(g["saved"])
+                        bank.rebuild(prog, log)
+                        why = f"refused R5: {e2.cause}"
+                results.append((pv((prog, g0["vram"])), "refused", why[len("refused "):]))
+                out(f"{pv((prog, g0['vram']))} {why}")
+            gated = kept
+    for g in gated:
+        d = g["defines"]
+        reason = "exemplar" if not d else "define " + " ".join(f"{o}={n}" for o, n in d)
+        results.append((pv((prog, g["vram"])), "gated", reason))
+        out(f"{pv((prog, g['vram']))} gated {reason}")
+    return results
+
+
+def _worker_init(q):
+    os.chdir(q.get())
+
+
+def _worker_prog(prog, ms, ctx):
+    lines = []
+    return run_prog(prog, ms, ctx, lines.append), lines
 
 
 def write_registry(key, ex, src, results):
@@ -240,16 +277,15 @@ def write_registry(key, ex, src, results):
         f.write("\n".join(lines))
 
 
-def make_tree():
-    shutil.rmtree(TREE, ignore_errors=True)
-    os.makedirs(TREE)
+def make_tree(tree):
+    os.makedirs(tree)
     for p in COPY:  # copy2/copytree keep mtimes, so make sees the copied build/ as up to date
         if os.path.isdir(p):
-            shutil.copytree(p, os.path.join(TREE, p), symlinks=True)
+            shutil.copytree(p, os.path.join(tree, p), symlinks=True)
         else:
-            shutil.copy2(p, os.path.join(TREE, p))
+            shutil.copy2(p, os.path.join(tree, p))
     for p in LINK:
-        os.symlink(os.path.abspath(p), os.path.join(TREE, p))
+        os.symlink(os.path.abspath(p), os.path.join(tree, p))
 
 
 # ---- registry check ------------------------------------------------------------------------------------------------
@@ -370,12 +406,8 @@ def main():
         return 0 if m == n else 1
     watch = ["src", bank.REGISTRY]
     before = tree_sha(watch)
-    make_tree()
-    os.chdir(TREE)
-    try:
-        m, n, _ = propagate(a.key, True)
-    finally:
-        os.chdir(root)
+    shutil.rmtree(TREE, ignore_errors=True)
+    m, n, _ = propagate(a.key, True)
     after = tree_sha(watch)
     print(f"propagate: dry run wall {time.time() - t0:.0f}s; src/ + registry sha1 {after[:12]} "
           f"{'unchanged' if after == before else 'CHANGED from ' + before[:12]}")

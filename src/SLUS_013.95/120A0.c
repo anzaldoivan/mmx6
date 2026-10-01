@@ -1608,7 +1608,11 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80041BA8);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80041BC8);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80041BE8);
+#define func_8003744C func_80041BE8
+#define D_80073C1C D_80076048
+#include "../shared/entity/state_dispatch.c"
+#undef func_8003744C
+#undef D_80073C1C
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80041C24);
 
@@ -1624,7 +1628,11 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80041EBC);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80041F10);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80041F30);
+#define func_8003744C func_80041F30
+#define D_80073C1C D_80076038
+#include "../shared/entity/state_dispatch.c"
+#undef func_8003744C
+#undef D_80073C1C
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80041F6C);
 
@@ -1642,7 +1650,11 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80042150);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80042214);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80042250);
+#define func_8003744C func_80042250
+#define D_80073C1C D_80076078
+#include "../shared/entity/state_dispatch.c"
+#undef func_8003744C
+#undef D_80073C1C
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8004228C);
 
@@ -1658,7 +1670,11 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80042538);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8004260C);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80042658);
+#define func_8003744C func_80042658
+#define D_80073C1C D_80076094
+#include "../shared/entity/state_dispatch.c"
+#undef func_8003744C
+#undef D_80073C1C
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80042694);
 
@@ -1672,7 +1688,11 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800427E0);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8004283C);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8004289C);
+#define func_8003744C func_8004289C
+#define D_80073C1C D_800760B4
+#include "../shared/entity/state_dispatch.c"
+#undef func_8003744C
+#undef D_80073C1C
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800428D8);
 

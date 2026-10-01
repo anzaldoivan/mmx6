@@ -27,6 +27,8 @@ Residual doubts:
 - One idiom class decides 2.95.2 over 2.91.66 (division); the two sltiu probes do not separate them.
 - All probes come from the exe game TU 120A0. Overlays (same O2/-G0 census) and the PsyQ 4.7 library TUs are unprobed;
   library objects were built by Sony and may need their own triple when a lib TU becomes a C unit.
+- First overlay C (phase 1.6 T5.c3): 410 overlay members of dup class 6d5cbe29… (36 overlays, names in
+  phase-ends/current/logs/T5.c3.md) gated byte-identical under the pin, no per-unit override (I3); one 15-word body only.
 - Flags `-msoft-float -funsigned-char` were never varied by a rung (X4's set, kept); no probe exercises float code or
   plain `char` signedness. The kit's extra cc1 flags (`-mips1 -mcpu=3000 -mgas -fgnu-linker`) were not compared.
 - `--expand-div` in the pin row is inert for 2.95.2 (cc1 emits the `div $0,a,b` form itself); kept for row parity.

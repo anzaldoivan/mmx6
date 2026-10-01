@@ -114,9 +114,17 @@ INCLUDE_ASM("asm/rock_06/nonmatchings/E9860", func_800EC7F8);
 
 INCLUDE_ASM("asm/rock_06/nonmatchings/E9860", func_800EC844);
 
-INCLUDE_ASM("asm/rock_06/nonmatchings/E9860", func_800EC880);
+#define func_8003744C func_800EC880
+#define D_80073C1C D_800F3928
+#include "../shared/entity/state_dispatch.c"
+#undef func_8003744C
+#undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_06/nonmatchings/E9860", func_800EC8BC);
+#define func_8003744C func_800EC8BC
+#define D_80073C1C D_800F39C4
+#include "../shared/entity/state_dispatch.c"
+#undef func_8003744C
+#undef D_80073C1C
 
 INCLUDE_ASM("asm/rock_06/nonmatchings/E9860", func_800EC8F8);
 

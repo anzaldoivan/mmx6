@@ -2,12 +2,13 @@
 # `make fleet`). One rung per phase tool: a rung runs the tool's --self-test, then its real run; later tasks append
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
-TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync
+TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
-# --self-test that is not a rung.
-TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-selftests
+# --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
+TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
+	th-selftests
 
-.PHONY: tools-health tools-health-full $(TOOLS_HEALTH_RUNGS) th-harness-full th-selftests
+.PHONY: tools-health tools-health-full $(TOOLS_HEALTH_RUNGS) th-harness-full th-propagate-full th-selftests
 
 tools-health: $(TOOLS_HEALTH_RUNGS)
 	@echo "TOOLS-HEALTH OK $(words $(TOOLS_HEALTH_RUNGS)) rungs"
@@ -67,6 +68,18 @@ th-types:
 # Declaration sync, reconcile rung R3 (tools/mmx6/declsync.py; text only, in memory): synced/refused/uncast controls.
 th-declsync:
 	$(PYTHON) tools/mmx6/declsync.py --self-test
+
+# Shared-body propagation (tools/mmx6/propagate.py; needs the corpus and census): planted registry controls, then
+# every config/dedup_registry.txt row's built dup key vs its row (`REGISTRY OK <r> rows`). The --dry-run per registry
+# key (`PROPAGATE DRY-RUN <key> gated <m> of <M> members`, rc 1 if m < M) takes ~260 s on 8 workers, so it runs in
+# tools-health-full only (T5.c3).
+PROPAGATE_KEYS = $(shell awk '!/^\#/ && NF >= 5 {print $$1}' config/dedup_registry.txt | sort -u)
+
+th-propagate: th-corpus th-census
+	$(PYTHON) tools/mmx6/propagate.py --self-test && $(PYTHON) tools/mmx6/propagate.py --check
+
+th-propagate-full: th-propagate
+	@set -e; for k in $(PROPAGATE_KEYS); do $(PYTHON) tools/mmx6/propagate.py $$k --dry-run; done
 
 # The other tools' self-tests (not rungs of their own): boundaries.py, loadmap.py, probe.py, bank.py (the reconcile
 # ladder's planted controls: clean rebuilds of the exe, tree restored after).

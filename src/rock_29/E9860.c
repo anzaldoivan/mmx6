@@ -20,7 +20,11 @@ INCLUDE_ASM("asm/rock_29/nonmatchings/E9860", func_800EA13C);
 
 INCLUDE_ASM("asm/rock_29/nonmatchings/E9860", func_800EA17C);
 
-INCLUDE_ASM("asm/rock_29/nonmatchings/E9860", func_800EA1A8);
+#define func_8003744C func_800EA1A8
+#define D_80073C1C D_800EC490
+#include "../shared/entity/state_dispatch.c"
+#undef func_8003744C
+#undef D_80073C1C
 
 INCLUDE_ASM("asm/rock_29/nonmatchings/E9860", func_800EA1E4);
 

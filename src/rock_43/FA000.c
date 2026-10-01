@@ -46,7 +46,11 @@ INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FC128);
 
 INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FC188);
 
-INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FC190);
+#define func_8003744C func_800FC190
+#define D_80073C1C D_800FE174
+#include "../shared/entity/state_dispatch.c"
+#undef func_8003744C
+#undef D_80073C1C
 
 INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FC1CC);
 
@@ -60,7 +64,11 @@ INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FC49C);
 
 INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FC500);
 
-INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FC508);
+#define func_8003744C func_800FC508
+#define D_80073C1C D_800FE18C
+#include "../shared/entity/state_dispatch.c"
+#undef func_8003744C
+#undef D_80073C1C
 
 INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FC544);
 
@@ -70,7 +78,11 @@ INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FC6B0);
 
 INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FC76C);
 
-INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FC800);
+#define func_8003744C func_800FC800
+#define D_80073C1C D_800FE19C
+#include "../shared/entity/state_dispatch.c"
+#undef func_8003744C
+#undef D_80073C1C
 
 INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FC83C);
 
@@ -84,7 +96,11 @@ INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FCA6C);
 
 INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FCB58);
 
-INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FCC18);
+#define func_8003744C func_800FCC18
+#define D_80073C1C D_800FE1B4
+#include "../shared/entity/state_dispatch.c"
+#undef func_8003744C
+#undef D_80073C1C
 
 INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FCC54);
 
@@ -106,7 +122,11 @@ INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FD120);
 
 INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FD17C);
 
-INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FD264);
+#define func_8003744C func_800FD264
+#define D_80073C1C D_800FE1D4
+#include "../shared/entity/state_dispatch.c"
+#undef func_8003744C
+#undef D_80073C1C
 
 INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FD2A0);
 

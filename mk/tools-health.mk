@@ -24,7 +24,7 @@ th-optscan: th-corpus
 	$(PYTHON) tools/mmx6/optscan.py --self-test
 	$(PYTHON) tools/mmx6/optscan.py --all
 
-# The second boundary oracle's controls (tools/mmx6/bound2.py; needs the corpus). Self-test only: `--all` is rc 1
-# until T5 ledgers or clears the B2 disagreements.
+# The second boundary oracle (tools/mmx6/bound2.py; needs the corpus): controls, then `--all` (rc 0 iff no phantom
+# or truncation; T5 cleared them with declared overlay boundaries, config/segmentation.md).
 th-bound2: th-corpus
-	$(PYTHON) tools/mmx6/bound2.py --self-test
+	$(PYTHON) tools/mmx6/bound2.py --self-test && $(PYTHON) tools/mmx6/bound2.py --all

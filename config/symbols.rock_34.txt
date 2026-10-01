@@ -1,2 +1,6 @@
 // splat symbol_addrs for rock_34. splat parses `key:value` tokens in a trailing comment as attributes, so each
-// symbol's `basis: <src>` sits on the comment line above it (G62). No symbols yet.
+// symbol's `basis: <src>` sits on the comment line above it (G62). Declared from retail bytes (phase 1.5 T5).
+// basis: data overlay header: word 0 and the header words before the first code word; no jr ra in [0x800fa000, 0x800fa008), 2 words, 0 pointer-valued
+D_800FA000 = 0x800FA000; // type:s32 size:0x8
+// basis: first code word after header (+0x8)
+func_800FA008 = 0x800FA008; // type:func size:0x288

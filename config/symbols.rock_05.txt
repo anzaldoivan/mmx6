@@ -1,2 +1,186 @@
 // splat symbol_addrs for rock_05. splat parses `key:value` tokens in a trailing comment as attributes, so each
-// symbol's `basis: <src>` sits on the comment line above it (G62). No symbols yet.
+// symbol's `basis: <src>` sits on the comment line above it (G62). Declared from retail bytes (phase 1.5 T5).
+// basis: data overlay header: word 0 and the header words before the first code word; no jr ra in [0x800e9860, 0x800e98bc), 23 words, 5 pointer-valued
+D_800E9860 = 0x800E9860; // type:s32 size:0x5C
+// basis: first code word after header (+0x5c)
+func_800E98BC = 0x800E98BC; // type:func size:0x148
+// basis: post-return 0x800e99fc
+func_800E9A04 = 0x800E9A04; // type:func size:0x168
+// basis: post-return 0x800e9b64
+func_800E9B6C = 0x800E9B6C; // type:func size:0x150
+// basis: post-return 0x800e9cb4
+func_800E9CBC = 0x800E9CBC; // type:func size:0x3C
+// basis: post-return 0x800e9cf0
+func_800E9CF8 = 0x800E9CF8; // type:func size:0xC8
+// basis: post-return 0x800e9db8
+func_800E9DC0 = 0x800E9DC0; // type:func size:0x20
+// basis: post-return 0x800e9dd8
+func_800E9DE0 = 0x800E9DE0; // type:func size:0x8
+// basis: post-return 0x800e9de0
+func_800E9DE8 = 0x800E9DE8; // type:func size:0x3C
+// basis: post-return 0x800e9e1c
+func_800E9E24 = 0x800E9E24; // type:func size:0x5C
+// basis: post-return 0x800e9e78
+func_800E9E80 = 0x800E9E80; // type:func size:0x2C
+// basis: post-return 0x800e9ea4
+func_800E9EAC = 0x800E9EAC; // type:func size:0x3C
+// basis: post-return 0x800e9ee0
+func_800E9EE8 = 0x800E9EE8; // type:func size:0xEC
+// basis: post-return 0x800e9fcc; spans the returns at 0x800e9ff4, 0x800ea048 (its branches target past those returns)
+func_800E9FD4 = 0x800E9FD4; // type:func size:0xA8
+// basis: post-return 0x800ea074
+func_800EA07C = 0x800EA07C; // type:func size:0x1A8
+// basis: post-return 0x800ea21c
+func_800EA224 = 0x800EA224; // type:func size:0x1B0
+// basis: post-return 0x800ea3cc
+func_800EA3D4 = 0x800EA3D4; // type:func size:0x4C
+// basis: post-return 0x800ea418
+func_800EA420 = 0x800EA420; // type:func size:0xFC
+// basis: post-return 0x800ea514
+func_800EA51C = 0x800EA51C; // type:func size:0x20
+// basis: post-return 0x800ea534
+func_800EA53C = 0x800EA53C; // type:func size:0x54
+// basis: post-return 0x800ea588
+func_800EA590 = 0x800EA590; // type:func size:0x38
+// basis: post-return 0x800ea5c0
+func_800EA5C8 = 0x800EA5C8; // type:func size:0x188
+// basis: post-return 0x800ea748
+func_800EA750 = 0x800EA750; // type:func size:0x198
+// basis: post-return 0x800ea8e0
+func_800EA8E8 = 0x800EA8E8; // type:func size:0x7C
+// basis: post-return 0x800ea95c
+func_800EA964 = 0x800EA964; // type:func size:0x20
+// basis: post-return 0x800ea97c
+func_800EA984 = 0x800EA984; // type:func size:0x94
+// basis: post-return 0x800eaa10
+func_800EAA18 = 0x800EAA18; // type:func size:0x8C
+// basis: post-return 0x800eaa9c
+func_800EAAA4 = 0x800EAAA4; // type:func size:0x38
+// basis: post-return 0x800eaad4
+func_800EAADC = 0x800EAADC; // type:func size:0x4C
+// basis: post-return 0x800eab20
+func_800EAB28 = 0x800EAB28; // type:func size:0x7DC
+// basis: post-return 0x800eb2fc
+func_800EB304 = 0x800EB304; // type:func size:0x234
+// basis: post-return 0x800eb530
+func_800EB538 = 0x800EB538; // type:func size:0x15C
+// basis: post-return 0x800eb68c
+func_800EB694 = 0x800EB694; // type:func size:0x204
+// basis: post-return 0x800eb890
+func_800EB898 = 0x800EB898; // type:func size:0x238
+// basis: post-return 0x800ebac8
+func_800EBAD0 = 0x800EBAD0; // type:func size:0x124
+// basis: post-return 0x800ebbec
+func_800EBBF4 = 0x800EBBF4; // type:func size:0x1B4
+// basis: post-return 0x800ebda0
+func_800EBDA8 = 0x800EBDA8; // type:func size:0x174
+// basis: post-return 0x800ebf14
+func_800EBF1C = 0x800EBF1C; // type:func size:0x22C
+// basis: post-return 0x800ec140
+func_800EC148 = 0x800EC148; // type:func size:0x188
+// basis: post-return 0x800ec2c8
+func_800EC2D0 = 0x800EC2D0; // type:func size:0x264
+// basis: post-return 0x800ec52c
+func_800EC534 = 0x800EC534; // type:func size:0x4C
+// basis: post-return 0x800ec578
+func_800EC580 = 0x800EC580; // type:func size:0xB0
+// basis: post-return 0x800ec628
+func_800EC630 = 0x800EC630; // type:func size:0x3C
+// basis: post-return 0x800ec664
+func_800EC66C = 0x800EC66C; // type:func size:0x5C
+// basis: post-return 0x800ec6c0
+func_800EC6C8 = 0x800EC6C8; // type:func size:0x3C
+// basis: post-return 0x800ec6fc
+func_800EC704 = 0x800EC704; // type:func size:0x3C
+// basis: post-return 0x800ec738
+func_800EC740 = 0x800EC740; // type:func size:0x3C
+// basis: post-return 0x800ec774
+func_800EC77C = 0x800EC77C; // type:func size:0x124
+// basis: post-return 0x800ec898
+func_800EC8A0 = 0x800EC8A0; // type:func size:0x3C
+// basis: post-return 0x800ec8d4
+func_800EC8DC = 0x800EC8DC; // type:func size:0x3C
+// basis: post-return 0x800ec910
+func_800EC918 = 0x800EC918; // type:func size:0x28
+// basis: post-return 0x800ec938
+func_800EC940 = 0x800EC940; // type:func size:0xC4
+// basis: post-return 0x800ec9fc
+func_800ECA04 = 0x800ECA04; // type:func size:0xC4
+// basis: post-return 0x800ecac0
+func_800ECAC8 = 0x800ECAC8; // type:func size:0xC0
+// basis: post-return 0x800ecb80
+func_800ECB88 = 0x800ECB88; // type:func size:0x9C
+// basis: post-return 0x800ecc1c
+func_800ECC24 = 0x800ECC24; // type:func size:0x28
+// basis: post-return 0x800ecc44
+func_800ECC4C = 0x800ECC4C; // type:func size:0xC4
+// basis: post-return 0x800ecd08
+func_800ECD10 = 0x800ECD10; // type:func size:0x14
+// basis: post-return 0x800ecd1c
+func_800ECD24 = 0x800ECD24; // type:func size:0x9C
+// basis: post-return 0x800ecdb8
+func_800ECDC0 = 0x800ECDC0; // type:func size:0x28
+// basis: post-return 0x800ecde0
+func_800ECDE8 = 0x800ECDE8; // type:func size:0x14
+// basis: post-return 0x800ecdf4
+func_800ECDFC = 0x800ECDFC; // type:func size:0x24
+// basis: post-return 0x800ece18
+func_800ECE20 = 0x800ECE20; // type:func size:0xA0
+// basis: post-return 0x800eceb8
+func_800ECEC0 = 0x800ECEC0; // type:func size:0x14
+// basis: post-return 0x800ececc
+func_800ECED4 = 0x800ECED4; // type:func size:0xB0
+// basis: post-return 0x800ecf7c
+func_800ECF84 = 0x800ECF84; // type:func size:0xA8
+// basis: post-return 0x800ed024
+func_800ED02C = 0x800ED02C; // type:func size:0x14
+// basis: post-return 0x800ed038
+func_800ED040 = 0x800ED040; // type:func size:0xB8
+// basis: post-return 0x800ed0f0
+func_800ED0F8 = 0x800ED0F8; // type:func size:0x14
+// basis: post-return 0x800ed104
+func_800ED10C = 0x800ED10C; // type:func size:0x84
+// basis: post-return 0x800ed188; spans the returns at 0x800ed1d0 (its branches target past those returns)
+func_800ED190 = 0x800ED190; // type:func size:0x68
+// basis: post-return 0x800ed1f0
+func_800ED1F8 = 0x800ED1F8; // type:func size:0xC0
+// basis: post-return 0x800ed2b0
+func_800ED2B8 = 0x800ED2B8; // type:func size:0xB8
+// basis: post-return 0x800ed368
+func_800ED370 = 0x800ED370; // type:func size:0xB4
+// basis: post-return 0x800ed41c
+func_800ED424 = 0x800ED424; // type:func size:0x80
+// basis: post-return 0x800ed49c
+func_800ED4A4 = 0x800ED4A4; // type:func size:0x70
+// basis: post-return 0x800ed50c
+func_800ED514 = 0x800ED514; // type:func size:0x48
+// basis: post-return 0x800ed554
+func_800ED55C = 0x800ED55C; // type:func size:0x90
+// basis: post-return 0x800ed5e4
+func_800ED5EC = 0x800ED5EC; // type:func size:0x24
+// basis: post-return 0x800ed608
+func_800ED610 = 0x800ED610; // type:func size:0xD8
+// basis: post-return 0x800ed6e0
+func_800ED6E8 = 0x800ED6E8; // type:func size:0xF0
+// basis: post-return 0x800ed7d0
+func_800ED7D8 = 0x800ED7D8; // type:func size:0x88
+// basis: post-return 0x800ed858
+func_800ED860 = 0x800ED860; // type:func size:0xA4
+// basis: post-return 0x800ed8fc
+func_800ED904 = 0x800ED904; // type:func size:0x64
+// basis: post-return 0x800ed960
+func_800ED968 = 0x800ED968; // type:func size:0xD4
+// basis: post-return 0x800eda34
+func_800EDA3C = 0x800EDA3C; // type:func size:0x20
+// basis: post-return 0x800eda54
+func_800EDA5C = 0x800EDA5C; // type:func size:0x5C
+// basis: post-return 0x800edab0
+func_800EDAB8 = 0x800EDAB8; // type:func size:0x2C
+// basis: post-return 0x800edadc
+func_800EDAE4 = 0x800EDAE4; // type:func size:0x8
+// basis: post-return 0x800edae4
+func_800EDAEC = 0x800EDAEC; // type:func size:0xA4
+// basis: post-return 0x800edb88
+func_800EDB90 = 0x800EDB90; // type:func size:0x140
+// basis: post-return 0x800eddbc
+func_800EDDC4 = 0x800EDDC4; // type:func size:0xC4

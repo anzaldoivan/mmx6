@@ -1,2 +1,86 @@
 // splat symbol_addrs for rock_36. splat parses `key:value` tokens in a trailing comment as attributes, so each
-// symbol's `basis: <src>` sits on the comment line above it (G62). No symbols yet.
+// symbol's `basis: <src>` sits on the comment line above it (G62). Declared from retail bytes (phase 1.5 T5).
+// basis: data overlay header: word 0 and the header words before the first code word; no jr ra in [0x800fa000, 0x800fa230), 140 words, 133 pointer-valued
+D_800FA000 = 0x800FA000; // type:s32 size:0x230
+// basis: first code word after header (+0x230)
+func_800FA230 = 0x800FA230; // type:func size:0x1BC
+// basis: post-return 0x800fa3e4
+func_800FA3EC = 0x800FA3EC; // type:func size:0x204
+// basis: post-return 0x800fa5e8
+func_800FA5F0 = 0x800FA5F0; // type:func size:0x128
+// basis: post-return 0x800fa710
+func_800FA718 = 0x800FA718; // type:func size:0x188
+// basis: post-return 0x800fa898
+func_800FA8A0 = 0x800FA8A0; // type:func size:0x148
+// basis: post-return 0x800fa9e0
+func_800FA9E8 = 0x800FA9E8; // type:func size:0x14C
+// basis: post-return 0x800fab2c
+func_800FAB34 = 0x800FAB34; // type:func size:0x180
+// basis: post-return 0x800facac
+func_800FACB4 = 0x800FACB4; // type:func size:0x234
+// basis: post-return 0x800faee0
+func_800FAEE8 = 0x800FAEE8; // type:func size:0x160
+// basis: post-return 0x800fb040
+func_800FB048 = 0x800FB048; // type:func size:0x14C
+// basis: post-return 0x800fb18c
+func_800FB194 = 0x800FB194; // type:func size:0x130
+// basis: post-return 0x800fb2bc
+func_800FB2C4 = 0x800FB2C4; // type:func size:0x16C
+// basis: post-return 0x800fb428
+func_800FB430 = 0x800FB430; // type:func size:0x110
+// basis: post-return 0x800fb538
+func_800FB540 = 0x800FB540; // type:func size:0x168
+// basis: post-return 0x800ff208
+func_800FF210 = 0x800FF210; // type:func size:0x40
+// basis: post-return 0x800ff248
+func_800FF250 = 0x800FF250; // type:func size:0x84
+// basis: post-return 0x800ff2cc
+func_800FF2D4 = 0x800FF2D4; // type:func size:0x74
+// basis: post-return 0x800ff340
+func_800FF348 = 0x800FF348; // type:func size:0x3C
+// basis: post-return 0x800ff37c
+func_800FF384 = 0x800FF384; // type:func size:0x20
+// basis: post-return 0x800ff39c
+func_800FF3A4 = 0x800FF3A4; // type:func size:0x3C
+// basis: post-return 0x800ff3d8
+func_800FF3E0 = 0x800FF3E0; // type:func size:0xA8
+// basis: post-return 0x800ff480
+func_800FF488 = 0x800FF488; // type:func size:0x4C
+// basis: post-return 0x800ff4cc
+func_800FF4D4 = 0x800FF4D4; // type:func size:0x98
+// basis: post-return 0x800ff564
+func_800FF56C = 0x800FF56C; // type:func size:0xF8
+// basis: post-return 0x800ff65c
+func_800FF664 = 0x800FF664; // type:func size:0x3C
+// basis: post-return 0x800ff698
+func_800FF6A0 = 0x800FF6A0; // type:func size:0xD4
+// basis: post-return 0x800ff76c
+func_800FF774 = 0x800FF774; // type:func size:0x3C
+// basis: post-return 0x800ff7a8
+func_800FF7B0 = 0x800FF7B0; // type:func size:0x54
+// basis: post-return 0x800ff7fc; spans the returns at 0x800ff820 (its branches target past those returns)
+func_800FF804 = 0x800FF804; // type:func size:0x84
+// basis: post-return 0x800ff880
+func_800FF888 = 0x800FF888; // type:func size:0x48
+// basis: post-return 0x800ff8c8
+func_800FF8D0 = 0x800FF8D0; // type:func size:0x3C
+// basis: post-return 0x800ff904
+func_800FF90C = 0x800FF90C; // type:func size:0x84
+// basis: post-return 0x800ff988
+func_800FF990 = 0x800FF990; // type:func size:0x68
+// basis: post-return 0x800ff9f0
+func_800FF9F8 = 0x800FF9F8; // type:func size:0x34
+// basis: post-return 0x800ffa24
+func_800FFA2C = 0x800FFA2C; // type:func size:0x4C
+// basis: post-return 0x800ffa70
+func_800FFA78 = 0x800FFA78; // type:func size:0x58
+// basis: post-return 0x800ffac8
+func_800FFAD0 = 0x800FFAD0; // type:func size:0xA8
+// basis: post-return 0x800ffb70
+func_800FFB78 = 0x800FFB78; // type:func size:0x74
+// basis: post-return 0x800ffbe4
+func_800FFBEC = 0x800FFBEC; // type:func size:0x34
+// basis: post-return 0x800ffc18
+func_800FFC20 = 0x800FFC20; // type:func size:0x60
+// basis: data trailing words after the last function's jr ra; no jr ra in [0x800ffc80, 0x80100534), 557 words, 176 pointer-valued
+D_800FFC80 = 0x800FFC80; // type:s32 size:0x8B4

@@ -427,16 +427,21 @@ def self_test():
         if bs != "head":
             fails.append(f"head control: {p} {h(a)} basis {bs}, want head")
     names = sorted(dens)
-    r0 = account(names, inv, spans, jt, b2, {})
-    known = next(((p, d[1], d[0]) for p in names for d in disagree(p, b2[p], sorted(inv.get(p, [])))), None)
+    # ledger control on an injected disagreement (the cut above), so it holds when the real run is 0/0 (T5)
+    known, inv2 = None, dict(inv)
+    if cut is not None:
+        v, e, n = byv[cut]
+        inv2[EXE] = sorted([r for r in ex if r[0] != v] + [(v, e - 8, n)])
+        known = (EXE, v, "truncation")
+    r0 = account(names, inv2, spans, jt, b2, {})
     if known is None:
-        fails.append("ledger control: no known disagreement to ledger")
+        fails.append("ledger control: no injected disagreement to ledger")
     else:
-        r1 = account(names, inv, spans, jt, b2, {known: ("carve", "control row")})
+        r1 = account(names, inv2, spans, jt, b2, {known: ("carve", "control row")})
         if r1["led"] != 1 or r1["ph"] + r1["tr"] != r0["ph"] + r0["tr"] - 1 or r1["stale"]:
             fails.append(f"ledger control: row on {known[0]} {h(known[1])} {known[2]} not counted ledgered")
         ghost = (names[0], 0, "phantom")
-        r2 = account(names, inv, spans, jt, b2, {ghost: ("carve", "ghost row")})
+        r2 = account(names, inv2, spans, jt, b2, {ghost: ("carve", "ghost row")})
         if r2["stale"] != [ghost] or r2["rc"] != 1:
             fails.append("ledger control: row matching nothing not reported stale with rc 1")
     for f in fails:

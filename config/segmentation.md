@@ -123,3 +123,13 @@ Columns: TUs = lib + gap; weak = rows not split; jtbl = table rows incl. inside-
   (post-return, jal, first code after header; never Ghidra). glabel 29/77/52; 5 multi-return functions (a branch
   targets past an earlier `jr $ra`) are one function each: rock_43 func_800FDCD4, func_800FDD84; rock_45 func_800FB6F0.
 - These starts are ours, not spimdisasm's: a boundary oracle comparing against splat must treat them as declared.
+
+## Declared overlay boundaries (phase 1.5 T5)
+- Cause: B2 (tools/mmx6/bound2.py) found phantoms/truncations in 53 overlays: header words inside the first splat
+  function, code printed as data (header-side and tail-side data spans), data words cut into functions.
+- Kind A (header): 52 `D_<text_lo>` header symbols (word 0, plus header / jump-table words) and 50 head functions.
+- Kind B (code printed as data): 581 more declared `type:func size:` starts (post-return / jal target), 23 of them
+  multi-return merges; rock_03 isolation: header + first function + trailing data gives B2 0/0 but splat merged 33
+  B2 functions into one, so the runs are declared start by start. Kind C (data cut into functions): 14 `type:s32`.
+- spimdisasm ends a sized symbol only at size >= 8: a 4-byte header word is declared without size, followed by a
+  declared function at +4. Result: `BOUND2 phantoms=0 truncations=0`; th-bound2 runs `--all` (mk/tools-health.mk).

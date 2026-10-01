@@ -1,2 +1,30 @@
 // splat symbol_addrs for rock_10. splat parses `key:value` tokens in a trailing comment as attributes, so each
-// symbol's `basis: <src>` sits on the comment line above it (G62). No symbols yet.
+// symbol's `basis: <src>` sits on the comment line above it (G62). Declared from retail bytes (phase 1.5 T5).
+// basis: data overlay header: word 0 and the header words before the first code word; no jr ra in [0x800e9860, 0x800e9e4c), 379 words, 355 pointer-valued
+D_800E9860 = 0x800E9860; // type:s32 size:0x5EC
+// basis: first code word after header (+0x5ec)
+func_800E9E4C = 0x800E9E4C; // type:func size:0x3C
+// basis: post-return 0x800e9e80
+func_800E9E88 = 0x800E9E88; // type:func size:0x68
+// basis: post-return 0x800e9ee8
+func_800E9EF0 = 0x800E9EF0; // type:func size:0x28
+// basis: post-return 0x800e9f10
+func_800E9F18 = 0x800E9F18; // type:func size:0x114
+// basis: post-return 0x800ea024
+func_800EA02C = 0x800EA02C; // type:func size:0x3C
+// basis: post-return 0x800ea060
+func_800EA068 = 0x800EA068; // type:func size:0x74
+// basis: post-return 0x800ea0d4
+func_800EA0DC = 0x800EA0DC; // type:func size:0x40
+// basis: post-return 0x800ea114
+func_800EA11C = 0x800EA11C; // type:func size:0x20
+// basis: post-return 0x800ea134
+func_800EA13C = 0x800EA13C; // type:func size:0x390
+// basis: post-return 0x800ea4c4
+func_800EA4CC = 0x800EA4CC; // type:func size:0x184
+// basis: post-return 0x800ea648
+func_800EA650 = 0x800EA650; // type:func size:0x178
+// basis: post-return 0x800ea7c0
+func_800EA7C8 = 0x800EA7C8; // type:func size:0x238
+// basis: data trailing words after the last function's jr ra; no jr ra in [0x800fa900, 0x800fd008), 2498 words, 794 pointer-valued
+D_800FA900 = 0x800FA900; // type:s32 size:0x2708

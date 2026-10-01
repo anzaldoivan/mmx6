@@ -7,7 +7,8 @@ manifest/retail.jsonl record, else rc 2), mapped at --base. Each <dumpdir>/*.bin
   (a) every 32-bit word inside a function body equals the image word at the same address;
   (b) whole-image match fraction, printed as equal/total words.
 Function bodies (config/ghidra/SLUS_013.95.jsonl, func rows carry no extent): [func addr, next start), next
-start = next func row or next data row addr inside the CODE block 0x80010000..0x8008EFFF (last: block end).
+start = next func row or next data row addr inside the CODE block 0x80010000..0x8008EFFF (last: block end),
+trimmed to the last `jr ra` + delay slot before it (untyped data tails are not body; none found: untrimmed).
 rc 0 iff (a) holds at every dump; 1 otherwise; 2 on bad inputs. Stdlib only.
 """
 import argparse
@@ -24,6 +25,7 @@ ANNOT = REPO / "config/ghidra/SLUS_013.95.jsonl"
 HDR, TEXT_SIZE = 0x800, 0x7F000
 CODE_LO, CODE_END = 0x80010000, 0x8008F000
 RAM_BASE, RAM_SIZE = 0x80000000, 0x200000
+JR_RA = (0x03E00008).to_bytes(4, "little")
 
 
 def fail(msg):
@@ -48,7 +50,7 @@ def load_image():
     return data[HDR:HDR + TEXT_SIZE]
 
 
-def load_bodies():
+def load_bodies(image):
     funcs, starts = [], set()
     for line in ANNOT.read_text().splitlines():
         rec = json.loads(line)
@@ -62,7 +64,17 @@ def load_bodies():
             funcs.append((a, rec.get("name", "")))
     order = sorted(starts)
     nxt = {a: (order[i + 1] if i + 1 < len(order) else CODE_END) for i, a in enumerate(order)}
-    return [(a, nxt[a], name) for a, name in sorted(funcs)]
+    out = []
+    for a, name in sorted(funcs):
+        hi = nxt[a]
+        # T4: trim untyped data tails: end at the last `jr ra` (0x03E00008) + delay slot before hi, read
+        # from the exe's own image at its header load address (never the --base under test); none → keep hi.
+        for p in range(hi - 4, a - 1, -4):
+            if image[p - CODE_LO:p - CODE_LO + 4] == JR_RA:
+                hi = min(hi, p + 8)
+                break
+        out.append((a, hi, name))
+    return out
 
 
 def main():
@@ -72,7 +84,7 @@ def main():
     args = ap.parse_args()
 
     image = load_image()
-    bodies = load_bodies()
+    bodies = load_bodies(image)
     dumps = sorted(Path(args.dumpdir).glob("*.bin"))
     if not dumps:
         fail(f"no *.bin in {args.dumpdir}")

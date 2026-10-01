@@ -1,7 +1,7 @@
 # Build host for a PlayStation / PsyQ matching decompilation (x86-64 Linux, Ubuntu 24.04).
 # Use it when the host is not x86-64 Linux, for example an arm64 Mac.
 # Keep the source tree in a named volume. Do not build on a host bind mount.
-FROM ubuntu:24.04
+FROM ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3
 ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8
 RUN apt-get update && apt-get install -y --no-install-recommends \
       bchunk binutils-mipsel-linux-gnu bsdmainutils clang-format coreutils curl gcc-mipsel-linux-gnu \
@@ -10,5 +10,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 RUN git config --global --add safe.directory '*'
 WORKDIR /work
-# Build:  docker build --platform linux/amd64 -t <project>-build .
+# Build:  bash tools/docker/mx.sh build   (docker build --platform linux/amd64 -t mmx6-build -f tools/docker/Dockerfile tools/docker)
 # TODO(phase-4): add the pinned compiler's own packages when the pin needs them.

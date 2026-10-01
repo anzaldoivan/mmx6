@@ -1,6 +1,37 @@
 # Compiler pin — mmx6
 
-The triple ladder and its verdict live here (T7 writes the pin). Evidence is counts, addresses and idiom names only (G12).
+The triple ladder and its verdict live here. Evidence is counts, addresses and idiom names only (G12).
+
+## Pin (phase 1.4 T7, 2026-10-01)
+
+- Triple: `gcc2.95.2-psx-aspsx2.86` = cc1 `/opt/cc/2.95.2-psx/cc1` (decompals old-gcc 0.17 `gcc-2.95.2-psx`)
+  `-O2 -G0 -msoft-float -funsigned-char -quiet` → maspsx @7686f84 `--aspsx-version=2.86 --expand-div` → GNU as 2.42
+  (Makefile `ASFLAGS`). Row of `config/triples.txt`; the Makefile default `TRIPLE`, used by every C unit.
+- Assembler version: 2.86 (passed explicitly; 2.56-2.86 byte-equivalent under -G0, representative)
+- Fingerprint evidence: 3 probes, exe game TU 120A0, ladder of 8 cc1 rungs (`### After-run (T6.1)` below):
+  func_8001E78C (0x8001E78C, 13 words, `sltiu` range check + frame + `jal`) and func_800473EC (0x800473EC, 29 words,
+  `lb` of an s8 global, `sltiu`, halfword decrement) each eliminate 2.7.2, 2.7.2-psx, 2.7.2-cdk, 2.6.3-psx, 2.8.0-psx,
+  2.8.1-psx (best 11/13, 25/29); func_8002B410 (0x8002B410, 79 words, `divu` by a variable, compiler zero trap
+  `bne b,$0; break 7` with `mflo` scheduled before it, 5th arg on stack) eliminates all seven others, incl. 2.91.66-psx
+  (8/79). Only 2.95.2-psx matches all three (`PIN gcc2.95.2-psx-aspsx2.86 3 of 3`, rc 0). Corroboration: game TU 120A0
+  has 45 div/divu, 45 `break 7`, 0 `break 6`; every `--expand-div` rung adds `break 6` to a signed div macro (T6).
+- Per-module variation: none found. O0 0, fp-only 0, gprel 0 of 6784 functions; one O2 run per program (57 of 57)
+  (`## Per-module variation` below). One triple for all 57 programs; no per-unit override in the Makefile.
+
+Residual doubts:
+- aspsx class: 2.56/2.67/2.79/2.86 are byte-equivalent under `-G0` with gprel 0 (`### aspsx equivalence class`);
+  2.86 is an arbitrary representative, accepted at T7's review. A function with `sltu rd,rs,<negative imm>` (2.56 alone
+  emits `li $at` + `sltu`) or any `$gp` access would split it; the split corpus has neither.
+- One idiom class decides 2.95.2 over 2.91.66 (division); the two sltiu probes do not separate them.
+- All probes come from the exe game TU 120A0. Overlays (same O2/-G0 census) and the PsyQ 4.7 library TUs are unprobed;
+  library objects were built by Sony and may need their own triple when a lib TU becomes a C unit.
+- Flags `-msoft-float -funsigned-char` were never varied by a rung (X4's set, kept); no probe exercises float code or
+  plain `char` signedness. The kit's extra cc1 flags (`-mips1 -mcpu=3000 -mgas -fgnu-linker`) were not compared.
+- `--expand-div` in the pin row is inert for 2.95.2 (cc1 emits the `div $0,a,b` form itself); kept for row parity.
+- func_8004BB5C (signed div) dropped at 52/219 words: residue is register allocation, unexplained, not counter-evidence.
+- old-gcc 2.95.2-psx is a rebuild; which cc1 Sony shipped with PsyQ 4.7 is unknown (R1.4-001). Matching bytes, not
+  provenance, is the claim.
+- rock_17/43/45 are `.word`-only (unsplit); their 163 carved functions entered the census by carving only.
 
 ## Per-module variation
 

@@ -45,8 +45,9 @@ ASFLAGS := -EL -march=r3000 -mtune=r3000 -mabi=32 -no-pad-sections -G0 -Iinclude
 build/asm/rock_%.o: ASFLAGS := $(subst -march=r3000,-march=r4000,$(ASFLAGS)) -mno-fix-loongson3-llsc
 # C compiler triple: one row of config/triples.txt (`<name> | cc1: ... | cflags: ... | maspsx: ...`) sets CC1,
 # CFLAGS, MASPSX_FLAGS; an unknown TRIPLE stops make before any rule runs.
-# was gcc2.7.2-aspsx2.56 (row collapsed in T6.1: aspsx 2.56-2.86 one -G0 class, docs/ops/compiler-pin.md)
-TRIPLE ?= gcc2.7.2-aspsx2.86
+# The pin (phase 1.4 T7, docs/ops/compiler-pin.md); was gcc2.7.2-aspsx2.86 (T6.1), gcc2.7.2-aspsx2.56 before
+# (row collapsed in T6.1: aspsx 2.56-2.86 one -G0 class).
+TRIPLE ?= gcc2.95.2-psx-aspsx2.86
 TRIPLE_FIELD = $(strip $(shell awk -F'|' -v t='$(TRIPLE)' -v k='$(1): ' '{ n = $$1; gsub(/^ +| +$$/, "", n) } \
   n == t { for (i = 2; i <= NF; i++) { f = $$i; gsub(/^ +| +$$/, "", f); if (index(f, k) == 1) print substr(f, length(k) + 1) } }' \
   config/triples.txt))

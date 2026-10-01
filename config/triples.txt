@@ -1,6 +1,7 @@
 # config/triples.txt — compiler triples (cc1 + flags + maspsx flags); the Makefile's TRIPLE selects one row by name.
 # <name> | cc1: /opt/cc/<ver>/cc1 | cflags: <...> | maspsx: <...>
 # One rung per cc1: aspsx 2.56-2.86 are one -G0 equivalence class (2.86 represents it), see docs/ops/compiler-pin.md.
+# Pin (phase 1.4 T7): gcc2.95.2-psx-aspsx2.86 = Makefile default TRIPLE; the other rows stay as the ladder's negative rungs.
 gcc2.7.2-aspsx2.86 | cc1: /opt/cc/2.7.2/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.86 --expand-div
 gcc2.7.2-psx-aspsx2.86 | cc1: /opt/cc/2.7.2-psx/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.86 --expand-div
 gcc2.7.2-cdk-aspsx2.86 | cc1: /opt/cc/2.7.2-cdk/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.86 --expand-div

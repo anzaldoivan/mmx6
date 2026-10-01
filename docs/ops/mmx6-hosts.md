@@ -33,7 +33,8 @@ As known at generation (2026-10-01). Update in the same change as whatever chang
 - Compiler candidates (Phase 1.4 T1, 2026-10-01, R1.4-001): cc1 only, from decompals/old-gcc release tag `0.17`
   (`gcc-<name>.tar.gz`: 2.7.2-psx 2.7.2-cdk 2.6.3-psx 2.8.0-psx 2.8.1-psx 2.91.66-psx 2.95.2-psx) + tag `0.9`
   (`gcc-2.7.2.tar.gz`, name `2.7.2`), each sha256-asserted in the Dockerfile, at `/opt/cc/<name>/cc1` (static i386 ELF).
-  Makefile `OLDGCC_PIN`/`CC1_SET`. The triple itself is pinned by probes later in Phase 1.4 (mmx4's X4 triple is a lead, G101).
+  Makefile `OLDGCC_PIN`/`CC1_SET`. Pinned triple (Phase 1.4 T7): `gcc2.95.2-psx-aspsx2.86`
+  (docs/ops/compiler-pin.md); the other cc1 stay installed as the ladder's negative rungs.
 - splat / binutils / cpp (Phase 1.3 T1, 2026-10-01): `splat64[mips]==0.50.0` + `spimdisasm==1.42.4` + `rabbitizer==1.16.2`
   (PyPI; `pip index versions splat64` checked 2026-10-01: newest 0.50.0; deps from the first build's `pip freeze`) in venv
   `/opt/splat-venv` on PATH; `binutils-mipsel-linux-gnu` 2.42 (as/ld/objcopy) and `cpp-mipsel-linux-gnu` 12.4.0 from

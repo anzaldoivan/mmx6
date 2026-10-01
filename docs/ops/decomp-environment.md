@@ -7,8 +7,8 @@ the rules behind them are the G group in `rules/`.*
 
 | Component | Version | Notes / why pinned |
 |---|---|---|
-| The pinned toolchain triple (compiler → assembler shim → binutils, with flags) | candidates in image (Phase 1.4 T1): cc1 set `/opt/cc/<name>/cc1` (old-gcc 0.17 + 0.9), maspsx @7686f84 `/usr/local/bin/maspsx`, binutils 2.42; triple TODO(phase 1.4 probes) | pinned by fingerprint evidence down the candidate ladder; the assembler's compatibility version is always passed explicitly — a shim's default is not "latest" |
-| Candidate compiler family (from the SDK evidence) | PsyQ-era GCC cc1 + aspsx: mmx4's X4 triple first (gcc 2.7.2 cc1 + maspsx --aspsx-version=2.56 --expand-div, a lead; docs/prior-art.md L1), then the other PsyQ-era cc1 builds (X6 links PsyQ 4.7 libraries, L2); pinned by probes in Phase 1.4; installed set + smoke: `make toolchain-check` (docs/ops/mmx6-hosts.md Pins) | the candidate set the pin phase runs down; never a sibling project's triple |
+| The pinned toolchain triple (compiler → assembler shim → binutils, with flags) | candidates in image (Phase 1.4 T1): cc1 set `/opt/cc/<name>/cc1` (old-gcc 0.17 + 0.9), maspsx @7686f84 `/usr/local/bin/maspsx`, binutils 2.42; pinned (Phase 1.4 T7): `gcc2.95.2-psx-aspsx2.86` = 2.95.2-psx cc1 `-O2 -G0 -msoft-float -funsigned-char` → maspsx `--aspsx-version=2.86` → as; evidence and residual doubts `docs/ops/compiler-pin.md` | pinned by fingerprint evidence down the candidate ladder; the assembler's compatibility version is always passed explicitly — a shim's default is not "latest" |
+| Candidate compiler family (from the SDK evidence) | PsyQ-era GCC cc1 + aspsx: mmx4's X4 triple first (gcc 2.7.2 cc1 + maspsx --aspsx-version=2.56 --expand-div, a lead; docs/prior-art.md L1), then the other PsyQ-era cc1 builds (X6 links PsyQ 4.7 libraries, L2); pinned by probes in Phase 1.4 (result: gcc 2.95.2-psx; X4's 2.7.2 refuted, L1); installed set + smoke: `make toolchain-check` (docs/ops/mmx6-hosts.md Pins) | the candidate set the pin phase runs down; never a sibling project's triple |
 | Decompile scaffold and differ | m2c @708d2d2 (`/opt/m2c`), asm-differ @0dd09af (`/opt/asm-differ`), deps in /opt/splat-venv (docs/ops/mmx6-hosts.md Pins) | Makefile `M2C_PIN`/`ASMDIFFER_PIN`; make toolchain-check |
 | The splitter / disassembler and its config | `splat64 0.50.0` (+ spimdisasm 1.42.4, rabbitizer 1.16.2) | venv /opt/splat-venv in image; make toolchain-check |
 | The build host | x86-64 Linux, Ubuntu 24.04, ext4 | On another host, use the container `tools/docker/Dockerfile` (`--platform linux/amd64`). Keep the tree in a named volume. The vintage 32-bit compiler runs under the container's emulation. |
@@ -44,7 +44,7 @@ bash tools/docker/mx.sh run make expected
   lines, `include/common.h`) once, then it is hand-edited. Rule `build/%.c.o: %.c` =
   `mipsel-linux-gnu-cpp -nostdinc -undef -D__GNUC__=2 -DPSX -Iinclude | $(CC1) $(CFLAGS) | maspsx $(MASPSX_FLAGS) | as`
   (exe ASFLAGS), under bash `-o pipefail`; `-nostdinc` keeps cpp 12's stdc-predef.h line markers away from old cc1.
-  `TRIPLE ?= gcc2.7.2-aspsx2.86` picks the row of `config/triples.txt`
+  `TRIPLE ?= gcc2.95.2-psx-aspsx2.86` (the pin) picks the row of `config/triples.txt`
   (`<name> | cc1: /opt/cc/<ver>/cc1 | cflags: <...> | maspsx: <...>`) that sets CC1/CFLAGS/MASPSX_FLAGS; an unknown
   name stops make. `asm/<bin>/nonmatchings/` is included by C units, never assembled on its own.
 - **Probes (Phase 1.4 T3):** `tools/mmx6/probe.py <func> --prog <p> --src <c> --triple <t>` (container) compiles via

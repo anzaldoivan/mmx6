@@ -152,6 +152,7 @@ options:
   section_order: [".rodata", ".text", ".data", ".bss"]
   subalign: 4 # as config/SLUS_013.95.yaml (T4.c1)
   ld_align_section_vram_end: false # as config/SLUS_013.95.yaml (T4.c1)
+  auto_decompile_empty_functions: false # include_asm, not auto C bodies (T5.c1)
 segments:
   - name: {prog}
     type: code

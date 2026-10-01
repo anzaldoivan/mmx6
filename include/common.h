@@ -19,4 +19,9 @@
 /* Label macros (glabel, endlabel, ...) for the included .s, once per unit. */
 __asm__(".include \"macro.inc\"\n");
 
+/* Overlay units (Makefile -DMMX6_OVERLAY): their data words decode as MIPS `ll`, which splat's
+ * GTE `ll` macro shadows; purge it as the overlay asm rule does (build/asm/rock_%.s.o). */
+#ifdef MMX6_OVERLAY
+__asm__(".purgem ll\n");
+#endif
 #endif /* COMMON_H */

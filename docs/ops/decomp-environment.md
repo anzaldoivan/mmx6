@@ -50,6 +50,9 @@ bash tools/docker/mx.sh run make expected
   `TRIPLE ?= gcc2.95.2-psx-aspsx2.86` (the pin) picks the row of `config/triples.txt`
   (`<name> | cc1: /opt/cc/<ver>/cc1 | cflags: <...> | maspsx: <...>`) that sets CC1/CFLAGS/MASPSX_FLAGS; an unknown
   name stops make. `asm/<bin>/nonmatchings/` is included by C units, never assembled on its own.
+  Overlays may be c units (Phase 2 T5.c1: 36 whole-overlay TUs): `build/src/rock_%.c.o` gets the overlay ASFLAGS
+  (`-march=r4000 -mno-fix-loongson3-llsc`) and `-DMMX6_OVERLAY` (common.h purges the GTE `ll` macro); their yamls set
+  `auto_decompile_empty_functions: false`, so every overlay function stays include_asm.
 - **Probes (Phase 1.4 T3):** `tools/mmx6/probe.py <func> --prog <p> --src <c> --triple <t>` (container) compiles via
   `make -B TRIPLE=<t> build/<c>.o` and prints `<func> <t> MATCH|FAIL <m>/<n> words` (relocated fields masked, extent
   trimmed to last `jr $ra` + delay slot, C0021). `make probe-ladder` runs `config/probes.txt` × `config/triples.txt`;

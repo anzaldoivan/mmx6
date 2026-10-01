@@ -1,0 +1,627 @@
+#include "common.h"
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", D_800E9860);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800E9C98);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800E9CF8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800E9D38);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800E9D78);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800E9E08);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EA0B4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EA1CC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EA2E0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EA3F4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EA4F4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EA860);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EAA2C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EAB50);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EAE90);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EAFFC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB114);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB2E8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB4C8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB504);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB540);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB5C0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB62C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB6B8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB770);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB790);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB7CC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB80C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB87C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB910);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EB9B8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBA04);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBA84);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBAC0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBAD8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBB14);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBB78);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBBC4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBBF8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBC80);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBD0C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBD88);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBDC4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBE00);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBE14);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBE78);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBEFC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBF1C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBF58);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EBFB8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC000);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC0F0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC138);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC174);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC1D0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC218);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC240);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC2B0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC2D8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC338);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC380);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC3BC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC418);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC460);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC4B4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC508);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC550);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC5AC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC640);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC6BC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC6C4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC700);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC7DC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC7F4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC928);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC95C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EC9C8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECA28);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECA7C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECAB8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECB64);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECBC4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECC18);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECC3C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECC44);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECCD8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECD7C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECDF8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECE40);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECE7C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECF20);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECFA0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ECFF0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED03C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED064);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED0F0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED120);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED140);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED17C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED19C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED1D8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED258);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED264);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED364);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED3A0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED42C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED434);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED470);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED484);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED48C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED494);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED4D0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED764);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED8AC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800ED998);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EDBB8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EDD00);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EDD3C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EDD7C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EDDD8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EDF90);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EE2BC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EE3F8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EE444);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EE464);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EE64C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EE790);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EEA90);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EEADC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EEAFC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EEB1C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EEC50);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EEED8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EF100);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EFB14);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EFD00);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F00B4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F0114);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F01B4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F01BC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F036C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F04A4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F04F0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F0510);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F0530);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F0994);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F0CF4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F10A8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F10C8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1204);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F13A4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1590);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F16CC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F180C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1958);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1994);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1A34);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1AD0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1B78);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1C7C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1D64);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1DA4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1DE0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1E98);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1F60);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F1F80);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F213C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F2340);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F2468);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F25F0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F2738);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F2884);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F2A04);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F2C38);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F2D98);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F2EE4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F3014);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F3180);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F3290);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F33F8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F35A8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F37DC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F3988);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F3B9C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F3C80);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F3F94);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4144);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4230);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F428C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F42C8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4360);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4454);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4490);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F44CC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4504);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F45A0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4674);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F46CC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F472C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F47C8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F480C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4848);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F48CC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F48F8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4934);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F49D8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4A18);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4A9C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4AD8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4B14);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4BE4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4C28);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4C88);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4CC4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4D00);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4DB0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4DFC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4E4C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4EE0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4F1C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4F58);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4FA8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5094);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F50EC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F51F0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5254);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5284);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F52C0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F52FC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F53C8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5430);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5530);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5580);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F55BC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F55F8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5648);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F56F0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5764);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5814);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5884);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F58E8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5934);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5970);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F59AC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5A1C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5AA8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5B9C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5C00);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5C64);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5C94);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5C9C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5CD8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5D28);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5D3C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5DA4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5DF8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5E48);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5EBC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5EEC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5F7C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F5FB8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6008);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6118);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6180);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F61D4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6220);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F62AC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6318);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6354);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F63AC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F64BC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6524);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6578);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F65C4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F668C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F66FC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F67D0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6880);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6948);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6A1C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6AD0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6B94);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6C70);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6D4C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6E48);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6E78);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6F60);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F6FA0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F7024);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F7098);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F70D4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F70F4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F7130);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F71D8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F7224);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F72BC);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F73B4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F73F0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F74C4);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F7500);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F7554);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F75D8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F7620);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F765C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F76E0);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F7748);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F777C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F77C8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F7820);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F78C8);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F793C);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F7970);
+
+INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", D_800F79D0);

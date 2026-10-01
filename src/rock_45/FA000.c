@@ -1,0 +1,111 @@
+#include "common.h"
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", D_800FA000);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", D_800FA014);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FA028);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FA23C);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FA454);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FA5A0);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FA6EC);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FA864);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FA984);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FABC0);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB214);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB274);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB27C);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB2B8);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB350);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB414);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB4E8);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB54C);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB650);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB6B4);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB6F0);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB74C);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB824);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB888);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB8EC);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB9F8);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FBA6C);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FBAD0);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FBBD0);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FBC84);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FBCF8);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FBD4C);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FBDB8);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FBE94);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FBF00);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FBF78);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC038);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC09C);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC13C);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC1A0);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC1FC);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC2F0);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC3C0);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC3FC);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC470);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC570);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC67C);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC6E4);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC74C);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC7D8);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC898);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC8CC);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FC9AC);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FCA64);
+
+INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", D_800FCA84);

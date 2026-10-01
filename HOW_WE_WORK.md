@@ -42,6 +42,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 | decompile | `mx.sh run python3 tools/mmx6/decompile.py <func> [--prog p]` | m2c scaffold on stdout |
 | diff | `mx.sh run bash tools/mmx6/diff.sh <func>` (after `make extract build expected`) | asm-differ; ends `DIFF <func> <n> …`, rc 0 iff n=0 |
 | optscan | `mx.sh run python3 tools/mmx6/optscan.py --all\|--prog p` (after `make extract split`) | codegen census |
+| corpus | `mx.sh run python3 tools/mmx6/corpus.py --all\|--prog p\|--self-test` (after `make extract build`) | function/span oracle → build/corpus/*.jsonl; text bytes from build/<p>.elf; `make tools-health` (mk/tools-health.mk, run by `make health`) |
 | toolchain-check | `mx.sh run make toolchain-check` | versions + cc1/maspsx smoke; rc≠0 on drift |
 
 ## Skills <!-- roles: expert planner -->
@@ -61,7 +62,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 ## Build / run / test <!-- roles: expert coder router planner review critic discuss auditor curator -->
 - Build: `mx.sh sync && mx.sh run make fleet` (clean → extract → split → build → health; sync wipes /work); `mx.sh run make expected` → asm-differ baseline
 - Run: `make redux-smoke` / `bash tools/mmx6/redux/run.sh <lua> [--timeout S]` (PCSX-Redux headless; docs/ops/oracles.md)
-- Test / the gate: `make fleet` (as Build) → rc 0 + last line `FLEET 57 of 57`, then `PY tools/audit_public.py` → rc 0
+- Test / the gate: `make fleet` (as Build; its health step runs `tools-health`) → rc 0 + last line `FLEET 57 of 57`, then `PY tools/audit_public.py` → rc 0
 - Modes: format `mx.sh sync && mx.sh run make format-check` (rc 0); fix: `mx.sh run make format && mx.sh pull <paths>`
 
 ## Conventions & house style <!-- roles: expert coder router planner review critic discuss auditor curator -->

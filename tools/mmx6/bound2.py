@@ -2,7 +2,7 @@
 """bound2.py -- second boundary oracle B2, built from retail bytes independently of splat (phase 1.5 T4; stdlib).
 
   bound2.py --all | --prog <p>
-      -> build/bound2/<prog>.jsonl {"prog","vram","end","basis":"ghidra|jal|post-ret"} (end null if unended)
+      -> build/bound2/<prog>.jsonl {"prog","vram","end","basis":"ghidra|jal|head|post-ret"} (end null if unended)
          build/bound2/disagreements.txt  `## <class>` groups, lines `<kind> <prog> <vram> <detail>`
          stdout ends `BOUND2 UNENDED <k>`, `BOUND2 CLASSES <class>=<n> ...`,
          `BOUND2 phantoms=<p> truncations=<t> ledgered=<x> of <N> functions in <P> programs`;
@@ -10,14 +10,19 @@
   bound2.py --self-test
       -> real data: the `banked` rows of config/probes.txt and func_80055A04 agree with B2; in-memory controls (a
          function split at a mid non-B2 word -> phantom there; a function's end cut by 8 -> truncation at its start)
-         must be reported. Ends `BOUND2 CONTROL OK` (rc 0), else rc 1 naming what was missed.
+         must be reported; HEAD_CONTROL starts have basis head; an in-memory ledger row on a known disagreement is
+         ledgered and leaves the counts, a row matching nothing is stale with rc 1. Ends `BOUND2 CONTROL OK` (rc 0),
+         else rc 1 naming what was missed.
 
 B2 inputs (never asm/, config/*.yaml, splat output or corpus spans): retail bytes (boundaries.programs(): exe image
 and rock/NN.bin, sha1-checked), text range = build/corpus/denominators.jsonl [text_lo, text_hi), config/ghidra/<p>.jsonl,
 config/boundaries.txt `jtbl` rows (numeric hi only exclude post-ret starts).
-Starts (basis precedence ghidra > jal > post-ret): (a) Ghidra `func` addrs in text; (b) post-ret: after each
-`jr $ra` (0x03E00008) at a, the first non-zero word at/after a+8 unless inside a jtbl span; (c) jal targets of jal
-words inside the trimmed bodies of (a)u(b), target in the program's text or (overlay only) the exe's text.
+Starts (basis precedence ghidra > jal > head > post-ret): (a) Ghidra `func` addrs in text; (b) post-ret: after each
+`jr $ra` (0x03E00008) at a, the first non-zero word at/after a+8 unless inside a jtbl span; (b') head (overlays only):
+f = first jr $ra at/after text_lo, scan back from f-4 while plausible() (stop at text_lo), skip zero words forward;
+plausible(w) = w == 0 or a valid R3000 word that is not a load/store with base $zero, a non-jr/jalr/syscall/break/
+mfhi/lo/mthi/lo/mult/div SPECIAL with rd $zero, or an I-type ALU with rt $zero; (c) jal targets of jal words inside
+the trimmed bodies of (a)u(b)u(b'), target in the program's text or (overlay only) the exe's text.
 Extent (C0021): start s, next start n (or text_hi): end = last jr $ra in [s, n) + 8; none -> unended (start kept, no
 bytes). Inventory = build/corpus/functions.jsonl. phantom: an inventory vram that is not a B2 start. truncation: a
 B2 function [s, end) with a word covered by != 1 inventory function, or the inventory function at s ends before end.
@@ -49,8 +54,15 @@ JR_RA = 0x03E00008
 CARVE = {"rock_17", "rock_43", "rock_45"}
 Q1 = (0x8006D5D0, 0x8006D5D8)  # words 0x8006D5D0..0x8006D5D4 inclusive
 CLASSES = ["jtbl-label", "carve", "q1-text-end", "data-tail", "ghidra-missed-start", "unclassified"]
-BASIS_RANK = {"ghidra": 0, "jal": 1, "post-ret": 2}
+BASIS_RANK = {"ghidra": 0, "jal": 1, "head": 2, "post-ret": 3}
 CONTROL_FUNC = 0x80055A04
+# T1's retail-derived "first code word after header" starts; must carry basis head
+HEAD_CONTROL = [("rock_17", 0x800E986C), ("rock_43", 0x800FA054), ("rock_45", 0x800FA028), ("rock_46", 0x800FA004)]
+OPS_OK = set(range(2, 16)) | {16, 18, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 46, 50, 58}
+OPS_MEM = {32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 46, 50, 58}
+SPECIAL_OK = {0, 2, 3, 4, 6, 7, 8, 9, 12, 13, 16, 17, 18, 19, 24, 25, 26, 27} | set(range(32, 40)) | {42, 43}
+SPECIAL_RD0 = {8, 9, 12, 13, 16, 17, 18, 19, 24, 25, 26, 27}  # functs that may have rd = $zero
+REGIMM_OK = {0, 1, 16, 17}
 
 
 def h(a):
@@ -60,6 +72,25 @@ def h(a):
 def bad(msg):
     print(f"bound2: {msg}", file=sys.stderr)
     sys.exit(2)
+
+
+def plausible(w):
+    """w is zero or a valid R3000 word that real code would plausibly contain."""
+    if w == 0:
+        return True
+    op, rs, rt, rd = w >> 26, (w >> 21) & 31, (w >> 16) & 31, (w >> 11) & 31
+    if op == 0:
+        f = w & 63
+        return f in SPECIAL_OK and (rd != 0 or f in SPECIAL_RD0)
+    if op == 1:
+        return rt in REGIMM_OK
+    if op not in OPS_OK:
+        return False
+    if op in OPS_MEM:
+        return rs != 0
+    if 8 <= op <= 15:
+        return rt != 0
+    return True
 
 
 def jsonl(path):
@@ -138,6 +169,17 @@ class Text:
                 out.add(b)
         return out
 
+    def head(self):
+        """overlay head start: back from the first jr $ra over plausible words, then past zero words; else None."""
+        if not self.jrs:
+            return None
+        s = self.jrs[0]
+        while s - 4 >= self.lo and plausible(self.word(s - 4)):
+            s -= 4
+        while s < self.hi and self.word(s) == 0:
+            s += 4
+        return s if s < self.hi else None
+
 
 def extents(t, starts):
     ss = sorted(starts)
@@ -149,6 +191,9 @@ def build_b2(texts, ghidra):
     basis = {}
     for name, t in texts.items():
         b = {a: "post-ret" for a in t.post_ret()}
+        hd = t.head() if name != EXE else None
+        if hd is not None:
+            b[hd] = "head"
         b.update({a: "ghidra" for a in ghidra[name]})
         basis[name] = b
     jal = {name: set() for name in texts}
@@ -271,24 +316,14 @@ def compute():
     return dens, inv, spans, jt, b2
 
 
-def run(sel):
-    dens, inv, spans, jt, b2 = compute()
-    names = sorted(dens) if sel is None else [sel]
-    if sel is not None and sel not in dens:
-        bad(f"unknown program {sel}")
-    ledger = load_ledger()
-    OUT.mkdir(parents=True, exist_ok=True)
+def account(names, inv, spans, jt, b2, ledger):
+    """ledger accounting, no I/O -> dict groups, cls_n, ph, tr, led, nfun, stale, rc."""
     groups = {c: [] for c in CLASSES + ["ledgered"]}
     cls_n = Counter()
-    used, ph, tr, led, unended, nfun = set(), 0, 0, 0, 0, 0
+    used, ph, tr, led, nfun = set(), 0, 0, 0, 0
     for p in names:
         rows = sorted(inv.get(p, []))
         nfun += len(rows)
-        with open(OUT / f"{p}.jsonl", "w") as fh:
-            for s, (e, bs) in sorted(b2[p].items()):
-                fh.write(json.dumps({"prog": p, "vram": h(s), "end": h(e) if e is not None else None,
-                                     "basis": bs}) + "\n")
-                unended += e is None
         for d in disagree(p, b2[p], rows):
             kind, a, det = d[0], d[1], d[2]
             line = f"{kind} {p} {h(a)} {det}"
@@ -306,18 +341,38 @@ def run(sel):
             else:
                 tr += 1
     stale = sorted(k for k in ledger if k not in used and k[0] in names)
+    return {"groups": groups, "cls_n": cls_n, "ph": ph, "tr": tr, "led": led, "nfun": nfun, "stale": stale,
+            "rc": 0 if ph == tr == 0 and not stale else 1}
+
+
+def run(sel):
+    dens, inv, spans, jt, b2 = compute()
+    names = sorted(dens) if sel is None else [sel]
+    if sel is not None and sel not in dens:
+        bad(f"unknown program {sel}")
+    ledger = load_ledger()
+    OUT.mkdir(parents=True, exist_ok=True)
+    unended = 0
+    for p in names:
+        with open(OUT / f"{p}.jsonl", "w") as fh:
+            for s, (e, bs) in sorted(b2[p].items()):
+                fh.write(json.dumps({"prog": p, "vram": h(s), "end": h(e) if e is not None else None,
+                                     "basis": bs}) + "\n")
+                unended += e is None
+    r = account(names, inv, spans, jt, b2, ledger)
     with open(OUT / "disagreements.txt", "w") as fh:
         fh.write("# generated by tools/mmx6/bound2.py; do not edit\n")
         for c in CLASSES + ["ledgered"]:
             fh.write(f"## {c}\n")
-            for line in groups[c]:
+            for line in r["groups"][c]:
                 fh.write(line + "\n")
-    for k in stale:
+    for k in r["stale"]:
         print(f"BOUND2 STALE {ledger[k][1]}")
     print(f"BOUND2 UNENDED {unended}")
-    print("BOUND2 CLASSES " + " ".join(f"{c}={cls_n[c]}" for c in CLASSES))
-    print(f"BOUND2 phantoms={ph} truncations={tr} ledgered={led} of {nfun} functions in {len(names)} programs")
-    return 0 if ph == tr == 0 and not stale else 1
+    print("BOUND2 CLASSES " + " ".join(f"{c}={r['cls_n'][c]}" for c in CLASSES))
+    print(f"BOUND2 phantoms={r['ph']} truncations={r['tr']} ledgered={r['led']} of {r['nfun']} functions in "
+          f"{len(names)} programs")
+    return r["rc"]
 
 
 def self_test():
@@ -367,11 +422,29 @@ def self_test():
         rows = [r for r in ex if r[0] != v] + [(v, e - 8, n)]
         if ("truncation", v) not in keys(sorted(rows)):
             fails.append(f"cut control missed: no truncation at {h(v)}")
+    for p, a in HEAD_CONTROL:
+        bs = b2.get(p, {}).get(a, (None, None))[1]
+        if bs != "head":
+            fails.append(f"head control: {p} {h(a)} basis {bs}, want head")
+    names = sorted(dens)
+    r0 = account(names, inv, spans, jt, b2, {})
+    known = next(((p, d[1], d[0]) for p in names for d in disagree(p, b2[p], sorted(inv.get(p, [])))), None)
+    if known is None:
+        fails.append("ledger control: no known disagreement to ledger")
+    else:
+        r1 = account(names, inv, spans, jt, b2, {known: ("carve", "control row")})
+        if r1["led"] != 1 or r1["ph"] + r1["tr"] != r0["ph"] + r0["tr"] - 1 or r1["stale"]:
+            fails.append(f"ledger control: row on {known[0]} {h(known[1])} {known[2]} not counted ledgered")
+        ghost = (names[0], 0, "phantom")
+        r2 = account(names, inv, spans, jt, b2, {ghost: ("carve", "ghost row")})
+        if r2["stale"] != [ghost] or r2["rc"] != 1:
+            fails.append("ledger control: row matching nothing not reported stale with rc 1")
     for f in fails:
         print(f"BOUND2 FAIL {f}")
     if fails:
         return 1
-    print(f"BOUND2 agree {' '.join(h(v) for v in agree)}; split {h(split)}, cut {h(cut)}")
+    print(f"BOUND2 agree {' '.join(h(v) for v in agree)}; split {h(split)}, cut {h(cut)}; "
+          f"head {len(HEAD_CONTROL)}; ledger {known[0]} {h(known[1])} {known[2]}")
     print("BOUND2 CONTROL OK")
     return 0
 

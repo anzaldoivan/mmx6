@@ -142,9 +142,13 @@ GhidrAssistMCP (extension in `$GHIDRA_HOME/Ghidra/Extensions/GhidrAssistMCP`), h
 - Inputs (B2 is built without asm/, config/*.yaml, splat output or corpus spans): retail bytes via
   `boundaries.programs()` (sha1-checked), text = `build/corpus/denominators.jsonl` [text_lo, text_hi),
   `config/ghidra/<p>.jsonl` funcs, `config/boundaries.txt` `jtbl` rows. Compared to `build/corpus/functions.jsonl`.
-- Starts (basis ghidra > jal > post-ret): Ghidra func addrs in text; post-ret = first non-zero word at/after a+8 of
-  each `jr $ra` at a, unless inside a numeric-hi jtbl span; jal targets of jals inside the trimmed bodies of the
-  first two sets, target in the program's text or (overlay only) the exe text.
+- Starts (basis ghidra > jal > head > post-ret): Ghidra func addrs in text; post-ret = first non-zero word at/after a+8
+  of each `jr $ra` at a, unless inside a numeric-hi jtbl span; jal targets of jals inside the trimmed bodies of the
+  other sets, target in the program's text or (overlay only) the exe text.
+- head (overlays only, 1.5 T5): from the first `jr $ra` at/after text_lo scan back while `plausible(w)` (stop at
+  text_lo), then skip zero words forward. `plausible(w)`: w = 0, or a valid R3000 word that is not a load/store with
+  base $zero, a SPECIAL with rd $zero (except jr/jalr/syscall/break/mfhi/mthi/mflo/mtlo/mult/div), or an I-type ALU
+  with rt $zero. Self-test: rock_17/43/45/46 head starts; in-memory ledger rows (ledgered; stale -> rc 1).
 - Extent (C0021): end = last `jr $ra` in [start, next start or text_hi) + 8; none -> unended (start kept, no bytes).
 - phantom = inventory vram not a B2 start; truncation = a B2 function [s, end) with a word covered by != 1 inventory
   function, or the inventory function at s ends before end.

@@ -1,0 +1,3 @@
+# config/triples.txt — compiler triples (cc1 + flags + maspsx flags); the Makefile's TRIPLE selects one row by name.
+# <name> | cc1: /opt/cc/<ver>/cc1 | cflags: <...> | maspsx: <...>
+gcc2.7.2-aspsx2.56 | cc1: /opt/cc/2.7.2/cc1 | cflags: -O2 -G0 -msoft-float -funsigned-char -quiet | maspsx: --aspsx-version=2.56 --expand-div

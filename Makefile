@@ -40,8 +40,22 @@ ASFLAGS := -EL -march=r3000 -mtune=r3000 -mabi=32 -no-pad-sections -G0 -Iinclude
 # the accepted set: same encodings under `.set noreorder`, and the sha1 gate checks every overlay byte (T5.c1).
 # -mno-fix-loongson3-llsc: this binutils build otherwise inserts a `sync` before every `ll` (rock_03 +0xE488).
 build/asm/rock_%.o: ASFLAGS := $(subst -march=r3000,-march=r4000,$(ASFLAGS)) -mno-fix-loongson3-llsc
-# No C compiler is pinned before phase 1.4; any .c reaching the rule below fails loudly.
-CC1 ?=
+# C compiler triple: one row of config/triples.txt (`<name> | cc1: ... | cflags: ... | maspsx: ...`) sets CC1,
+# CFLAGS, MASPSX_FLAGS; an unknown TRIPLE stops make before any rule runs.
+TRIPLE ?= gcc2.7.2-aspsx2.56
+TRIPLE_FIELD = $(strip $(shell awk -F'|' -v t='$(TRIPLE)' -v k='$(1): ' '{ n = $$1; gsub(/^ +| +$$/, "", n) } \
+  n == t { for (i = 2; i <= NF; i++) { f = $$i; gsub(/^ +| +$$/, "", f); if (index(f, k) == 1) print substr(f, length(k) + 1) } }' \
+  config/triples.txt))
+CC1 := $(call TRIPLE_FIELD,cc1)
+CFLAGS := $(call TRIPLE_FIELD,cflags)
+MASPSX_FLAGS := $(call TRIPLE_FIELD,maspsx)
+ifeq ($(CC1),)
+$(error TRIPLE '$(TRIPLE)' has no row in config/triples.txt)
+endif
+CPP := mipsel-linux-gnu-cpp
+# -nostdinc: cpp 12 otherwise injects stdc-predef.h, whose line markers old cc1 warns on ("unrecognized text").
+CPPFLAGS := -nostdinc -undef -D__GNUC__=2 -DPSX -Iinclude
+MASPSX := maspsx
 
 # One stamp per binary, so `make -jN split` runs the splat processes in parallel.
 split: $(foreach b,$(BINS),build/split/$(b).stamp)
@@ -61,8 +75,10 @@ build: split
 
 build-bins: $(BIN_OUTS)
 
-# Objects of one binary: every .s and every bin subsegment (asset .bin) splat wrote under asm/<bin>/.
-O_FILES = $(patsubst %,build/%.o,$(shell find asm/$(1) \( -name '*.s' -o -name '*.bin' \) 2>/dev/null))
+# Objects of one binary: every .s and every bin subsegment (asset .bin) splat wrote under asm/<bin>/, except
+# asm/<bin>/nonmatchings/ (INCLUDE_ASM pulls those into their C unit), and every C unit under src/<bin>/.
+O_FILES = $(patsubst %,build/%.o,$(shell find asm/$(1) -path asm/$(1)/nonmatchings -prune -o \
+  \( -name '*.s' -o -name '*.bin' \) -print 2>/dev/null) $(shell find src/$(1) -name '*.c' 2>/dev/null))
 
 # An overlay's data words reach gas as code, so they reference D_<addr>/func_<addr> names splat counts as defined
 # (inside the segment) but never labels, or j/jal targets outside RAM it never lists: build/<bin>.provide.ld
@@ -100,9 +116,12 @@ build/%.bin.o: %.bin
 	@mkdir -p $(dir $@)
 	printf '.section .data\n.incbin "%s"\n' $< | $(AS) $(ASFLAGS) -o $@ --
 
-%.s: %.c
-	@if [ -z "$(CC1)" ]; then echo "CC1 unset: no C compiler pinned until phase 1.4: $<" >&2; exit 1; fi
-	$(CC1) $< -o $@
+# A C unit: cpp | cc1 | maspsx | as (exe ASFLAGS). bash with pipefail, so a failing stage fails the rule (sh is dash).
+build/%.c.o: SHELL := /bin/bash
+build/%.c.o: .SHELLFLAGS := -o pipefail -c
+build/%.c.o: %.c include/common.h include/macro.inc
+	@mkdir -p $(dir $@)
+	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(ASFLAGS) -o $@ --
 
 clean:
 	rm -rf asm build

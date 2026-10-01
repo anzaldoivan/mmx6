@@ -38,6 +38,14 @@ bash tools/docker/mx.sh run make expected
 - **The gate:** a binary is green only when its hash check inside `make build` passes; a match is verified from a CLEAN
   rebuild, never incremental; the executable is gated only by a clean rebuild; a build is verified by its exit code. The
   clean fleet verification is the natural `verified by:` clause of every matching phase's milestone.
+- **C units (Phase 1.4 T2):** a TU named in `config/c_units.txt` (`<prog> <tu_name>`) is emitted `c` by
+  `tools/mmx6/segment.py` (rerun it; never hand-edit the yaml block); splat writes `src/<prog>/<tu>.c` (INCLUDE_ASM
+  lines, `include/common.h`) once, then it is hand-edited. Rule `build/%.c.o: %.c` =
+  `mipsel-linux-gnu-cpp -nostdinc -undef -D__GNUC__=2 -DPSX -Iinclude | $(CC1) $(CFLAGS) | maspsx $(MASPSX_FLAGS) | as`
+  (exe ASFLAGS), under bash `-o pipefail`; `-nostdinc` keeps cpp 12's stdc-predef.h line markers away from old cc1.
+  `TRIPLE ?= gcc2.7.2-aspsx2.56` picks the row of `config/triples.txt`
+  (`<name> | cc1: /opt/cc/<ver>/cc1 | cflags: <...> | maspsx: <...>`) that sets CC1/CFLAGS/MASPSX_FLAGS; an unknown
+  name stops make. `asm/<bin>/nonmatchings/` is included by C units, never assembled on its own.
 
 ## The oracles (decomp)
 

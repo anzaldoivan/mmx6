@@ -1,0 +1,3 @@
+# config/c_units.txt -- TUs splat emits as `c` (src/<prog>/<tu>.c) instead of `asm`; read by tools/mmx6/segment.py.
+# <prog> <tu_name>
+SLUS_013.95 LIBSPU_S_M_UTIL

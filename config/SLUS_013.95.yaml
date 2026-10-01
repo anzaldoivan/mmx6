@@ -45,7 +45,7 @@ segments:
       - [0x45534, asm, LIBSPU_SPU]
       - [0x46074, asm, LIBSPU_S_INI]
       - [0x461D4, asm, LIBSPU_S_DCB]
-      - [0x46204, asm, LIBSPU_S_M_UTIL]
+      - [0x46204, c, LIBSPU_S_M_UTIL]
       - [0x46314, asm, LIBSPU_S_GKS]
       - [0x463A4, asm, LIBSPU_S_STM]
       - [0x463D4, asm, LIBSND_SSCLOSE]

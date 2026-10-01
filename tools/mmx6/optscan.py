@@ -4,8 +4,8 @@
   optscan.py --prog <p>
   optscan.py --all            (programs = config/*.yaml stems, sorted)
       -> per function:  `<prog> <func> 0x<vram> <n>w <O0|O2> fp=<0|1> nopld=<a>/<b> gprel=<k> div=<expand>/<bare>`
-         per program:   `<prog> functions <n> O0 <a> O2 <b> gprel <g> div-expand <d> div-bare <e> fp-only <f>`
-                        (g, d, e = functions having >= 1), then
+         per program:   `<prog> functions <n> O0 <a> O2 <b> gprel <g> div-expand <d> div-bare <e> fp-only <f>
+                        unsplit <u> dropped <w>w` (g, d, e = functions having >= 1; u, w: data-only fallback), then
                         `RUN <prog> <O0|O2> 0x<first>-0x<last> <k> functions <firstTU>..<lastTU>` per maximal
                         same-class run in vram order (first = first function's start vram, last = last function's
                         last instruction vram; TU = nonmatchings/<TU>/ dir, else the .s file stem)
@@ -14,10 +14,16 @@
   optscan.py --self-test
       -> two synthetic functions (encoder helpers, no literal words) written as splat .s under
          .run/optscan/selftest/ and scanned by the same parser; planted -O0 must be O0 gprel=1 div=1/0, planted
-         -O2 must be O2 div=0/1; `SELF-TEST OK` (rc 0) or `SELF-TEST FAIL` (rc 1)
+         -O2 must be O2 div=0/1; the same two plus one trailing word as one data-only dlabel .s must carve into
+         2 functions (O0, O2, first named by its dlabel) and 1 dropped word; `SELF-TEST OK` (rc 0) or `SELF-TEST FAIL` (rc 1)
 
 Functions: `glabel <f>` .. `endlabel <f>` or the next glabel, under asm/<p>/ (incl. nonmatchings/); words from the
 splat comment `/* <off> <vram> <word> */` (word printed in file byte order, i.e. little-endian bytes); deduped by vram, sorted by vram; nothing trimmed.
+Data-only fallback (C0021; a program with 0 glabel functions, e.g. text split as one dlabel `.word` block): the
+words of every dlabel block inside `.section .text` (same comment parse, deduped, sorted by vram) are carved into
+chunks; a chunk ends at `jr $ra` plus its delay slot, the next starts right after; trailing words with no `jr $ra`
+are dropped (counted in `dropped`). Each chunk is a function named by the dlabel starting exactly there, else
+`anon_<vram>`; its line ends ` unsplit`.
 Classification decodes words (opcode/rs/rt/rd/funct), never mnemonic text:
   fp       `addu|or $fp,$sp,$zero` (rs=29 rt=0 rd=30) within the first 8 instructions
   nopld    a/b: b = loads (lb lh lwl lw lbu lhu lwr lwc2), a = loads immediately followed by word 0
@@ -98,6 +104,59 @@ def parse_dir(root):
     return funcs
 
 
+def is_jr_ra(w):
+    return w >> 26 == 0 and w & 63 == 0x08 and (w >> 21) & 31 == 31
+
+
+def carve_dir(root):
+    """Data-only fallback: ({vram: (name, tu, [words])}, dropped words) carved from the dlabel blocks under root."""
+    rows, labels = {}, {}
+    for d, dirs, files in sorted(os.walk(root)):
+        dirs.sort()
+        for fname in sorted(files):
+            if not fname.endswith(".s"):
+                continue
+            path = os.path.join(d, fname)
+            rel = os.path.relpath(path, root).split(os.sep)
+            tu = rel[rel.index("nonmatchings") + 1] if "nonmatchings" in rel[:-1] else fname[:-2]
+            text, cur, pending = False, None, None
+            with open(path, errors="replace") as f:
+                for line in f:
+                    s = line.strip()
+                    if s.startswith(".section") or s in (".text", ".data", ".rodata", ".bss"):
+                        text, cur = s.split(",")[0].split()[-1] == ".text", None
+                        continue
+                    if s.startswith("dlabel "):
+                        cur = pending = s.split()[1] if text else None
+                        continue
+                    if s.startswith("enddlabel "):
+                        cur = None
+                        continue
+                    if cur is None:
+                        continue
+                    m = INSN_RE.search(line)
+                    if m:
+                        v = int(m.group(1), 16)
+                        if v not in rows:
+                            rows[v] = (int.from_bytes(bytes.fromhex(m.group(2)), "little"), tu)
+                        if pending:
+                            labels.setdefault(v, pending)
+                            pending = None
+    funcs, start = {}, None
+    vs = sorted(rows)
+    i = 0
+    while i < len(vs):
+        if start is None:
+            start = i
+        if is_jr_ra(rows[vs[i]][0]) and i + 1 < len(vs):
+            v = vs[start]
+            funcs[v] = (labels.get(v) or f"anon_{v:08X}", rows[v][1], [rows[u][0] for u in vs[start:i + 2]])
+            start, i = None, i + 2
+            continue
+        i += 1
+    return funcs, (len(vs) - start if start is not None else 0)
+
+
 # ---- classify ------------------------------------------------------------------------------------------------------
 
 def classify(words):
@@ -128,19 +187,21 @@ def classify(words):
 
 def scan(prog, root, out):
     """Print function, summary and RUN lines; return the function count."""
-    funcs = parse_dir(root)
+    funcs, dropped, unsplit = parse_dir(root), 0, False
+    if not funcs:
+        (funcs, dropped), unsplit = carve_dir(root), True
     recs = []
     for v in sorted(funcs):
         name, tu, words = funcs[v]
         c = classify(words)
         recs.append((v, name, tu, len(words), c))
         out(f"{prog} {name} 0x{v:08X} {len(words)}w {c['cls']} fp={c['fp']} nopld={c['a']}/{c['b']} "
-            f"gprel={c['gprel']} div={c['expand']}/{c['bare']}")
+            f"gprel={c['gprel']} div={c['expand']}/{c['bare']}" + (" unsplit" if unsplit else ""))
     cs = [r[4] for r in recs]
     o0 = sum(1 for c in cs if c["cls"] == "O0")
     out(f"{prog} functions {len(recs)} O0 {o0} O2 {len(recs) - o0} gprel {sum(1 for c in cs if c['gprel'])} "
         f"div-expand {sum(1 for c in cs if c['expand'])} div-bare {sum(1 for c in cs if c['bare'])} "
-        f"fp-only {sum(1 for c in cs if c['fponly'])}")
+        f"fp-only {sum(1 for c in cs if c['fponly'])} unsplit {len(recs) if unsplit else 0} dropped {dropped}w")
     i = 0
     while i < len(recs):
         j = i
@@ -205,10 +266,23 @@ def self_test():
           and (got["planted_O0"]["expand"], got["planted_O0"]["bare"]) == (1, 0)
           and got["planted_O2"]["cls"] == "O2" and got["planted_O2"]["fp"] == 0
           and (got["planted_O2"]["expand"], got["planted_O2"]["bare"]) == (0, 1))
+    droot = os.path.join(SELFTEST_DIR, "asm", "SELFDATA")
+    os.makedirs(droot, exist_ok=True)
+    with open(os.path.join(droot, "planted_data.s"), "w") as f:
+        f.write('.section .text, "ax"\n\ndlabel D_80020000\n')
+        for k, w in enumerate(o0 + o2 + [nop]):              # trailing word without jr $ra -> dropped
+            v = 0x80020000 + 4 * k
+            f.write(f"  /* {4 * k:X} {v:08X} {w.to_bytes(4, 'little').hex().upper()} */ .word 0x{w:08X}\n")
+        f.write("enddlabel D_80020000\n")
+    carved, dropped = carve_dir(droot)
+    dgot = [(carved[v][0],classify(carved[v][2])["cls"]) for v in sorted(carved)] if len(carved) == 2 else []
+    ok = ok and dropped == 1 and [c for _, c in dgot] == ["O0", "O2"] and dgot[0][0] == "D_80020000" \
+        and parse_dir(droot) == {}
     for name in sorted(got):
         c = got[name]
         print(f"{name} {c['cls']} fp={c['fp']} nopld={c['a']}/{c['b']} gprel={c['gprel']} "
               f"div={c['expand']}/{c['bare']}")
+    print(f"carved {len(carved)} functions dropped {dropped}w classes {' '.join(c for _, c in dgot)}")
     print("SELF-TEST OK" if ok else "SELF-TEST FAIL")
     return 0 if ok else 1
 

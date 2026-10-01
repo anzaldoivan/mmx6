@@ -11,3 +11,4 @@
      or an earlier phase, or an id not in GENERATION_PLAN.md, routes now. -->
 
 - <note, correction, priority change, or question>
+- planner: bound2 merge check + split-independence measure for the 53 overlays whose starts T5 declared from bound2's own byte rules; 1266 pre-existing merges unverified (rock_07 248, rock_11 307, exe 75)

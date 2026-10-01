@@ -38,4 +38,9 @@ As known at generation (2026-10-01). Update in the same change as whatever chang
   (T4; image id `sha256:d4bd99d9…` informational, changes per build with the attestation manifest).
 - mkpsxiso / dumpsxiso (T4, 2026-10-01): commit `54fb1644ed8741223583e2dcda358b75a205e214` (v2.30), built in the image
   (`cmake` from apt), `dumpsxiso` at `/usr/local/bin`; reference extractor for `make extract`.
+- Ghidra (2026-10-01): 12.1.3 at `~/ghidra_12.1.3_PUBLIC`, run headless by `make ghidra-import` (docs/ops/oracles.md);
+  Java `openjdk version "21.0.4" 2024-07-16 LTS` (Temurin-21.0.4+7), the `java` on PATH.
+- Ghidra extensions (2026-10-01): `ghidra_psx_ldr` (DrMefistO) and `GhidrAssistMCP` (jtang613 per README), both
+  `extension.properties version=12.1.3`; no release/commit id in Module.manifest, README or jar manifests
+  (empty `MANIFEST.MF`); psx_ldr `-src.zip` entries dated 2026-09-03.
 - PA3 tier: `max5` (Claude Max 5x).

@@ -6,3 +6,4 @@ T3 | done | Annotation text export and rebuild round trip | - | tasks/T3.md | lo
 T4 | done | PCSX-Redux bridge and the exe load proof | - | tasks/T4.md | logs/T4.md | R1.2-001
 T5 | done | overlay load capture across the three bases | - | tasks/T5.md | logs/T5.md | R1.2-001
 T6 | done | load-map tool, control rows, memory map and N | - | tasks/T6.md | logs/T6.md | -
+T7 | done | overlay programs in Ghidra and L4 address check | - | tasks/T7.md | logs/T7.md | -

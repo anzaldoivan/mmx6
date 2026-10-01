@@ -128,3 +128,11 @@ GhidrAssistMCP (extension in `$GHIDRA_HOME/Ghidra/Extensions/GhidrAssistMCP`), h
   0x801EA000, 0x800FA000 and from 0x80013E7C (observed base 0x800E9860 = w10000).
 - Exe load proof: `PY tools/mmx6/exeproof.py .run/redux/smoke [--base 0x80010000]` (body words + whole-image fraction
   per dump). Proof row for `docs/memory-map.md` pending: 4 body words differ (T4.c1 log).
+
+## Load map and boundaries (T6, T8; added at PhaseEnd 1.2)
+- `make loadmap PYTHON=<py>` → `tools/mmx6/loadmap.py --out config/loadmap.txt` (exe row + 59 member rows; static
+  decode of the BinSeek call sites + `.run/redux/loads` captures); prints `N = <n>` and `CONTROLS <p>/<p> pass`;
+  `--self-test`. Gate: rc 0 and `git diff --exit-code config/loadmap.txt`. Criteria: docs/memory-map.md.
+- `make boundaries PYTHON=<py>` → `tools/mmx6/boundaries.py` writes `config/boundaries.txt` (jtbl/lib/optcand/fstart
+  rows per load-map program; PsyQ objs from `$(GHIDRA_HOME)/Ghidra/Extensions/ghidra_psx_ldr/data/psyq`; needs the
+  `config/ghidra/*.jsonl` exports); `--self-test`. Gate: rc 0 and `git diff --exit-code config/boundaries.txt`.

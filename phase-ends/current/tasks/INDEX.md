@@ -6,3 +6,4 @@ T3 | done | coverage assertions on the existing scanners | - | tasks/T3.md | log
 T4 | done | second boundary oracle and its first disagreement run | - | tasks/T4.md | logs/T4.md | -
 T5 | review | boundary disagreements adjudicated to 0 | - | tasks/T5.md | logs/T5.md | -
 T6 | done | census of duplication, families, reach × size, unique tail | - | tasks/T6.md | logs/T6.md | R1.5-001
+T7 | done | progress, difficulty and duplicate reports | - | tasks/T7.md | logs/T7.md | -

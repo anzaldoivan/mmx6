@@ -37,4 +37,4 @@ glob:  **/*.safetensors
 fixture:  config/firewall-fixture.sha1
 required: manifest/retail.jsonl
 required: config/medium.sha1
-pending:  config/check.*.sha                     # TODO(phase-3): the per-binary contracts (a glob) — promote to required:
+required: config/check.*.sha

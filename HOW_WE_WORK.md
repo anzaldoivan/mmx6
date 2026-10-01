@@ -58,9 +58,9 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 - Scratch: `.run/` (gitignored; never the system temp)
 
 ## Build / run / test <!-- roles: expert coder router planner review critic discuss auditor curator -->
-- Build: `bash tools/docker/mx.sh sync && bash tools/docker/mx.sh run sh -c 'make extract && make clean && make split build BINS=SLUS_013.95'` → rc 0 + `build/SLUS_013.95: OK` (sync wipes /work; image: `mx.sh build`)
+- Build: `bash tools/docker/mx.sh sync && bash tools/docker/mx.sh run make fleet` (clean → extract → split → build → health; sync wipes /work; image: `mx.sh build`); `mx.sh run make expected` → asm-differ baseline expected/build/
 - Run: `make redux-smoke` / `bash tools/mmx6/redux/run.sh <lua> [--timeout S]` (PCSX-Redux headless; docs/ops/oracles.md)
-- Test / the gate: byte gate TODO(phase 1.3); today `PY tools/audit_public.py` — green means rc 0
+- Test / the gate: `make fleet` (as Build) → rc 0 + last line `FLEET 57 of 57`, then `PY tools/audit_public.py` → rc 0
 - Modes: format `mx.sh sync && mx.sh run make format-check` (rc 0); fix: `mx.sh run make format && mx.sh pull <paths>`
 Long gates go through `tools/run.sh` with a raised timeout, never a poll loop.
 

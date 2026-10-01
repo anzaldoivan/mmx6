@@ -8,7 +8,7 @@ the rules behind them are the G group in `rules/`.*
 | Component | Version | Notes / why pinned |
 |---|---|---|
 | The pinned toolchain triple (compiler → assembler shim → binutils, with flags) | TODO(phase-4) | TODO(phase-4): pinned by fingerprint evidence down the candidate ladder; the assembler's compatibility version is always passed explicitly — a shim's default is not "latest" |
-| Candidate compiler family (from the SDK evidence) | PsyQ-era GCC cc1 + aspsx: gcc 2.6.3 + aspsx 2.63 first (mmx4's X4 pin, a lead), then gcc 2.7.2 builds; pinned by probes in Phase 1.4 | the candidate set the pin phase runs down; never a sibling project's triple |
+| Candidate compiler family (from the SDK evidence) | PsyQ-era GCC cc1 + aspsx: mmx4's X4 triple first (gcc 2.7.2 cc1 + maspsx --aspsx-version=2.56 --expand-div, a lead; docs/prior-art.md L1), then the other PsyQ-era cc1 builds (X6 links PsyQ 4.7 libraries, L2); pinned by probes in Phase 1.4 | the candidate set the pin phase runs down; never a sibling project's triple |
 | The splitter / disassembler and its config | TODO(phase-3) | version pinned in the bootstrap script |
 | The build host | x86-64 Linux, Ubuntu 24.04, ext4 | On another host, use the container `tools/docker/Dockerfile` (`--platform linux/amd64`). Keep the tree in a named volume. The vintage 32-bit compiler runs under the container's emulation. |
 | The disassembler database and its agent server | TODO(phase-2) | the static oracle; the database is tracked as a TEXT export with a rebuild script |

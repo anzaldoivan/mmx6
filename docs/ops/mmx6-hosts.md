@@ -20,6 +20,6 @@ As known at generation (2026-10-01). Update in the same change as whatever chang
 
 ## Pins
 - Python: `/opt/homebrew/opt/python@3.14/bin/python3.14` (from `.claude/pa.json`).
-- Compiler triple: TODO — pinned by evidence in Phase 1.4 (first candidate: gcc 2.6.3 cc1 + aspsx 2.63, a lead, G101).
+- Compiler triple: TODO — pinned by evidence in Phase 1.4 (first candidate: mmx4's X4 triple — gcc 2.7.2 cc1 + maspsx 2.56 `--expand-div`, `-O2 -G0 -msoft-float -funsigned-char` — a lead, G101; docs/prior-art.md L1).
 - splat, binutils, the assembler shim, the formatter: TODO — pinned by the phase that installs them.
 - PA3 tier: `max5` (Claude Max 5x).

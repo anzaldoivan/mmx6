@@ -3,3 +3,4 @@
 T1 | done | firewall verify, history audit, purge gaps | - | tasks/T1.md | logs/T1.md | -
 T2 | done | pinned image and the Mac↔volume arrangement | - | tasks/T2.md | logs/T2.md | -
 T3 | done | make format proven in the container | - | tasks/T3.md | logs/T3.md | -
+T4 | done | layout READMEs and the card's TODOs | - | tasks/T4.md | logs/T4.md | -

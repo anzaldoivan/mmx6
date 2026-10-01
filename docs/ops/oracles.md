@@ -1,6 +1,6 @@
-# Oracles: static (Ghidra + psx_ldr) commands
+# Oracles: static (Ghidra + psx_ldr) and runtime (PCSX-Redux Lua) commands
 
-Mac-only, native (never the container). Runtime oracle (PCSX-Redux Lua): TODO(T5).
+Mac-only, native (never the container). Runtime oracle (PCSX-Redux Lua): `## Runtime` below (T4.c1).
 
 ## Import
 - `make ghidra-import PYTHON=<py>` (`GHIDRA_HOME ?= $(HOME)/ghidra_12.1.3_PUBLIC`) runs
@@ -72,3 +72,22 @@ GhidrAssistMCP (extension in `$GHIDRA_HOME/Ghidra/Extensions/GhidrAssistMCP`), h
 - Negative control: rename one func in a copy (`.run/ghidra/neg.jsonl`), `roundtrip.sh SLUS_013.95 --jsonl .run/ghidra/neg.jsonl`
   → rc 1 with the differing line (the unchanged label row renames the function back).
 - Precondition: MCP server stopped (exclusive project lock).
+
+## Runtime
+- `make redux-smoke` (`REDUX ?= ~/Applications/PCSX-Redux.app/Contents/MacOS/PCSX-Redux`, `BIOS ?=` SCPH1001.BIN,
+  `REDUX_CUE ?=` the host .cue; not `CUE`, the container path) → `tools/mmx6/redux/run.sh tools/mmx6/redux/smoke.lua
+  --timeout 240`. ~52 s wall; rc 0; `.run/redux/smoke/{binseek1,frame4000,binseek2}.{bin,json}` (2 MiB RAM at 0x80000000).
+- `run.sh <lua> [--timeout S] [--state F]`: `-no-ui -testmode -stdout -lua_stdout -portable -interpreter -debugger
+  -bios -iso -run -dofile <lua>`, cwd `.run/redux/work` (portable config + memcards there), log
+  `.run/redux/logs/<stem>-<stamp>.log`; rc = `PCSX.quit(code)`; timeout → kill by pid, rc 124. Env to Lua:
+  `MMX6_ROOT`, `MMX6_REDUX_STATE`.
+- Flags found necessary (2026-10-01, build f7b388cc): without `-interpreter` the arm64 dynarec dies (SIGBUS/SIGILL)
+  ~1 s into emulation; Exec breakpoints fire only with `-debugger`; a missing `-dofile` file does not exit (hangs).
+- `tools/mmx6/redux/lib.lua`: `breakpoint(addr,label,fn(regs))`, `onVsync(fn(frame))` (frame = `GPU::Vsync` count),
+  `dumpRange/dumpRAM/writeText`, `loadState()`, `quit`. Sets `PCSX.settings.spu.Speed = 0` (unthrottled, ~150 fps).
+  Anchors listeners/breakpoints in global `MMX6_LIB`: anything only reachable from chunk locals is GC'd after the
+  chunk returns and the next callback crashes Redux.
+- Determinism (no input; frames 1478/7787 in 3 runs, 8862 in 2, 8886 in 1): BinSeek 0x80016858 hits at frames 1478 (a0 0x12, a1 0x800E9860, ra 0x80013E84),
+  7787 (same), 8862 (a0 0, a1 0x801EA000, ra 0x80013CE4), 8886 (a0 2, a1 0x800E9860).
+- Exe load proof: `PY tools/mmx6/exeproof.py .run/redux/smoke [--base 0x80010000]` (body words + whole-image fraction
+  per dump). Proof row for `docs/memory-map.md` pending: 4 body words differ (T4.c1 log).

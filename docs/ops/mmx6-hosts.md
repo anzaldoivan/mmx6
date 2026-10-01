@@ -43,4 +43,7 @@ As known at generation (2026-10-01). Update in the same change as whatever chang
 - Ghidra extensions (2026-10-01): `ghidra_psx_ldr` (DrMefistO) and `GhidrAssistMCP` (jtang613 per README), both
   `extension.properties version=12.1.3`; no release/commit id in Module.manifest, README or jar manifests
   (empty `MANIFEST.MF`); psx_ldr `-src.zip` entries dated 2026-09-03.
+- PCSX-Redux (2026-10-01): dev channel build 279, changeset `f7b388cc1e6555e2caf3ad78ed431126a546214a` (timestamp
+  1790813560), from the bundle's `Contents/Resources/share/pcsx-redux/version.json` (Info.plist has no version);
+  `~/Applications/PCSX-Redux.app`, macOS arm64; LuaJIT 2.1.1785598229 (startup banner). Runtime oracle, docs/ops/oracles.md.
 - PA3 tier: `max5` (Claude Max 5x).

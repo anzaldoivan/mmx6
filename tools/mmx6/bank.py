@@ -317,20 +317,20 @@ def self_test():
     cls = dup_key(prog, ev)
     rows = {int(r["vram"], 16): r for r in map(json.loads, open("build/corpus/functions.jsonl")) if r["prog"] == prog}
     sibs = sorted(int(m[1], 16) for m in (cls["members"] if cls else []) if m[0] == prog and int(m[1], 16) != ev
-                  and rows.get(int(m[1], 16), {}).get("tu") == "120A0"
+                  and os.path.exists(f"src/{prog}/{rows.get(int(m[1], 16), {}).get('tu')}.c")  # any exe c unit (T6 opt carve split 120A0)
                   and rows[int(m[1], 16)]["state"] == "include_asm")
     if len(sibs) < 2:
-        print(f"bank: {len(sibs)} include_asm 120A0 siblings of {ename}'s dup class; need 2")
+        print(f"bank: {len(sibs)} include_asm c-unit siblings of {ename}'s dup class; need 2")
         print("RECONCILE SELF-TEST FAIL")
         return 1
     with open(esrc) as f:
         body = f.read()
     x, y = rows[sibs[0]]["name"], rows[sibs[1]]["name"]
     controls = [  # (name, func, vram, table, plant prototype, expect)
-        ("A", x, sibs[0], table_of(prog, "120A0", x), True, " R5 banked; "),
+        ("A", x, sibs[0], table_of(prog, rows[sibs[0]]["tu"], x), True, " R5 banked; "),
         ("B", y, sibs[1], etable, False, " stopped R5: "),
     ]
-    snap = [f"src/{prog}/120A0.c", PLANT_UNIT, REGISTRY]
+    snap = sorted({f"src/{prog}/{rows[v]['tu']}.c" for v in sibs[:2]}) + [PLANT_UNIT, REGISTRY]
     fails = 0
     for name, func, vram, table, plant, expect in controls:
         orig = {p: (open(p, "rb").read() if os.path.exists(p) else None) for p in snap}

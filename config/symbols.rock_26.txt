@@ -1,0 +1,2 @@
+// splat symbol_addrs for rock_26. splat parses `key:value` tokens in a trailing comment as attributes, so each
+// symbol's `basis: <src>` sits on the comment line above it (G62). No symbols yet.

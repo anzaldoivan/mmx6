@@ -100,6 +100,13 @@ Per program (denominators: dispatch sites found by the scan, Ghidra switchdata l
 - rock_58: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
 Totals: programs=57 sites=224 switchdata=431 both=212 scan=12 ghidra=219 hi_mismatch=48 lib=239 lib_funcs=828/1815 optcand_funcs=0/1815 fstart=122 unexplained=0
 
+## Overlay builds (T5.c1, 2026-10-01; `make split build`, configs from `tools/mmx6/segment.py rock_NN --init`)
+- 56 `code` members of config/loadmap.txt, each config/rock_NN.yaml → build/rock/NN.bin, gate config/check.rock_NN.sha; all 56 byte-identical (clean rebuild); not built: member 13 (data), 41/42 (empty)
+- vram per base: members 0-1 0x801EA000; 2-12, 14-32 0x800E9860; 33-40, 43-58 0x800FA000 (raw image, file off = vram - base)
+- tail: asm TU to size & ~3; sizes not ≡ 0 mod 4 (16 17 21 24 28 45 46 51) end in a 1-3 byte splat `bin` subsegment (`.incbin`, .data)
+- gp: exe gp 0x8008EAA4 (`gp_value`); the build passes with it, not otherwise proven for overlays
+- one asm TU per overlay, so data words reach gas as code: overlay objects use `-march=r4000 -mno-fix-loongson3-llsc` (MIPS II/III decodes, no `sync` before `ll`), purge splat's GTE `ll` macro, and the link PROVIDEs unlabelled `D_`/`func_<addr>` refs at their named address (Makefile)
+
 ## Address ledger
 Version SLUS-01395 v1.1 throughout. Status: proven runtime (observed live in our captures) | consistent-with-bytes
 (decoded from the retail bytes, not observed) | lead.

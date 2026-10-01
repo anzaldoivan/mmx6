@@ -8,6 +8,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       cpp-mipsel-linux-gnu git libelf-dev make ninja-build p7zip-full python3 python3-pip python3-venv \
       python3-dev build-essential unzip wget file xxd ca-certificates time cmake \
     && rm -rf /var/lib/apt/lists/*
+# Splitter: splat64 pinned with its resolved disassembler deps (pip freeze of the first build), in a venv on PATH.
+RUN python3 -m venv /opt/splat-venv \
+    && /opt/splat-venv/bin/pip install --no-cache-dir "splat64[mips]==0.50.0" "spimdisasm==1.42.4" "rabbitizer==1.16.2"
+ENV PATH=/opt/splat-venv/bin:$PATH
 # Reference ISO extractor: mkpsxiso (Lameguy64, GPL-2.0) v2.30, pinned by commit; only dumpsxiso is installed.
 RUN git clone https://github.com/Lameguy64/mkpsxiso.git /tmp/mkpsxiso \
     && cd /tmp/mkpsxiso && git checkout 54fb1644ed8741223583e2dcda358b75a205e214 \

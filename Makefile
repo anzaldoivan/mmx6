@@ -3,16 +3,23 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries
+.PHONY: format format-check extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check
 
 # Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
 PYTHON ?= python3
 CUE ?= /disc/Mega Man X6 (USA) (v1.1).cue
 SCRATCH_CAP_GB ?= 25
 SCRATCH_WARN_GB ?= 20
+# Toolchain pins (container; docs/ops/mmx6-hosts.md Pins): `make toolchain-check` fails on drift.
+SPLAT_PIN ?= 0.50.0
+BINUTILS_PIN ?= 2.42
+CPP_PIN ?= 12.4.0
 
 extract:
 	$(PYTHON) tools/mmx6/extract.py --cue "$(CUE)" --out extracted/retail --manifest manifest/retail.jsonl --medium config/medium.sha1
+
+toolchain-check:
+	sh tools/mmx6/toolchain_check.sh "$(SPLAT_PIN)" "$(BINUTILS_PIN)" "$(CPP_PIN)"
 
 scratch-check:
 	$(PYTHON) tools/mmx6/scratch.py --root .run --cap-gb $(SCRATCH_CAP_GB) --warn-gb $(SCRATCH_WARN_GB)

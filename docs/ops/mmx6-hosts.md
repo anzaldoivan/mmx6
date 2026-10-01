@@ -31,11 +31,15 @@ As known at generation (2026-10-01). Update in the same change as whatever chang
 ## Pins
 - Python: `/opt/homebrew/opt/python@3.14/bin/python3.14` (from `.claude/pa.json`).
 - Compiler triple: TODO — pinned by evidence in Phase 1.4 (first candidate: mmx4's X4 triple — gcc 2.7.2 cc1 + maspsx 2.56 `--expand-div`, `-O2 -G0 -msoft-float -funsigned-char` — a lead, G101; docs/prior-art.md L1).
-- splat, binutils, the assembler shim: TODO — pinned by the phase that installs them.
+- splat / binutils / cpp (Phase 1.3 T1, 2026-10-01): `splat64[mips]==0.50.0` + `spimdisasm==1.42.4` + `rabbitizer==1.16.2`
+  (PyPI; `pip index versions splat64` checked 2026-10-01: newest 0.50.0; deps from the first build's `pip freeze`) in venv
+  `/opt/splat-venv` on PATH; `binutils-mipsel-linux-gnu` 2.42 (as/ld/objcopy) and `cpp-mipsel-linux-gnu` 12.4.0 from
+  Ubuntu 24.04 apt via the pinned base. Makefile `SPLAT_PIN`/`BINUTILS_PIN`/`CPP_PIN`; `mx.sh run make toolchain-check`.
+- Assembler shim: TODO(phase 1.4).
 - Formatter (2026-10-01): `Ubuntu clang-format version 18.1.3 (1ubuntu1)` from the pinned image's apt (≥ 15, so `.clang-format` InsertBraces applies); runs only in the container: `mx.sh sync && mx.sh run make format && mx.sh pull <paths>`.
 - Build image (2026-10-01): base `ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3`
-  (multi-arch index); `mmx6-build` config `sha256:ed5326e03e94633fac41906116909e5f9af03ffc19c5dd146b95e0da9fe5334e`
-  (T4; image id `sha256:d4bd99d9…` informational, changes per build with the attestation manifest).
+  (multi-arch index); `mmx6-build` config `sha256:c3628cd307dd4af667c5422aabbca63fae4ea34d78763efb3b1f4176220de8af`
+  (Phase 1.3 T1, was `sha256:ed5326e0…` at 1.1 T4; image id `sha256:d4bd99d9…` informational, changes per build with the attestation manifest).
 - mkpsxiso / dumpsxiso (T4, 2026-10-01): commit `54fb1644ed8741223583e2dcda358b75a205e214` (v2.30), built in the image
   (`cmake` from apt), `dumpsxiso` at `/usr/local/bin`; reference extractor for `make extract`.
 - Ghidra (2026-10-01): 12.1.3 at `~/ghidra_12.1.3_PUBLIC`, run headless by `make ghidra-import` (docs/ops/oracles.md);

@@ -23,12 +23,17 @@
          `#undef OLD` lines, in place of the INCLUDE_ASM line; R3 syncs against the renamed definition. A unit that
          already holds the block (corpus state c) is re-gated, not re-edited. No registry row (propagate.py writes it).
   bank.py --self-test
-      -> planted controls (C0054) on two include_asm 120A0 siblings X, Y of the exemplar's dup class, bodies generated
-         from src/shared/entity/state_dispatch.c into src/shared/_selftest/: A = X with X's own table and a planted
-         width-compatible prototype `void X(s32);` in src/SLUS_013.95/LIBSPU_S_M_UTIL.c -> R3 syncs it, `R5 banked`;
-         B = Y with the exemplar's table (masked standalone MATCH, wrong binary) -> `stopped R5`. Never writes the
-         registry; every planted file removed, every edited file restored and the program rebuilt after each control.
-         Prints each control's verdict line, then `RECONCILE CONTROL OK` (rc 0), else rc 1.
+      -> planted controls (C0054) on planted include_asm siblings: X, Y = the two lowest-vram exe members of the
+         exemplar's dup class whose unit holds a define block for src/shared/entity/state_dispatch.c; each block becomes
+         `INCLUDE_ASM(...)` of a generated asm/<prog>/nonmatchings/<tu>/<func>.s (`.word`s of probe.retail_words plus
+         the untrimmed tail); the program must rebuild to its pre-test sha1 (else FAIL); corpus.py --all regenerates
+         the corpus. Bodies generated into src/shared/_selftest/: A = X with X's own table (its block's define) and a
+         planted width-compatible prototype `void X(s32);` in src/SLUS_013.95/LIBSPU_S_M_UTIL.c -> R3 syncs it,
+         `R5 banked`; B = Y with the exemplar's table (masked standalone MATCH, wrong binary) -> `stopped R5`. Never
+         writes the registry; after each control the planted state is restored and rebuilt; teardown restores src/,
+         the registry and build/corpus/*.jsonl byte-exact, deletes the planted .s files and rebuilds; fail-closed end
+         check: src/ tree, registry and program binary sha1 equal their pre-test values.
+         Prints each control's verdict line, then `RECONCILE CONTROL OK` (rc 0), else `RECONCILE SELF-TEST FAIL` rc 1.
 Firewall G12: names, addresses, counts and hashes of our own files only.
 """
 import argparse
@@ -307,56 +312,127 @@ def bank(pv, src, registry=True, defines=()):
 
 # ---- self-test -----------------------------------------------------------------------------------------------------
 
-def table_of(prog, tu, func):
-    with open(f"asm/{prog}/nonmatchings/{tu}/{func}.s") as f:
-        return re.search(r"%hi\((\w+)\)", f.read()).group(1)
+def member_block(prog, func):
+    """(unit .c, line index, the member's table) of func's define block for the exemplar body, or None."""
+    _, _, ename, etable, esrc = EXEMPLAR
+    for unit_c in sorted(glob.glob(f"src/{prog}/*.c")):
+        with open(unit_c) as f:
+            lines = f.read().split("\n")
+        for i in range(len(lines) - 1):
+            m = re.fullmatch(rf"#define {etable} (\w+)", lines[i + 1])
+            if lines[i] == f"#define {ename} {func}" and m:
+                blk = block(esrc, os.path.dirname(unit_c), [(ename, func), (etable, m.group(1))])
+                if lines[i:i + len(blk)] == blk:
+                    return unit_c, i, m.group(1)
+    return None
+
+
+def plant_words(prog, func, vram, end):
+    """Retail words of [vram, end): probe.retail_words (trimmed, C0021) plus the untrimmed tail words."""
+    words = probe.retail_words(prog, func)
+    n = (end - vram) // 4
+    if len(words) < n:
+        target, seg_start, seg_vram = probe.yaml_layout(prog)
+        with open(target, "rb") as f:
+            f.seek(seg_start + vram - seg_vram + 4 * len(words))
+            words += list(struct.unpack(f"<{n - len(words)}I", f.read(4 * (n - len(words)))))
+    return words
+
+
+def tree_sums(root):
+    return {p: sha1(p) for p in sorted(glob.glob(f"{root}/**/*", recursive=True)) if os.path.isfile(p)}
 
 
 def self_test():
     prog, ev, ename, etable, esrc = EXEMPLAR
-    cls = dup_key(prog, ev)
-    rows = {int(r["vram"], 16): r for r in map(json.loads, open("build/corpus/functions.jsonl")) if r["prog"] == prog}
-    sibs = sorted(int(m[1], 16) for m in (cls["members"] if cls else []) if m[0] == prog and int(m[1], 16) != ev
-                  and os.path.exists(f"src/{prog}/{rows.get(int(m[1], 16), {}).get('tu')}.c")  # any exe c unit (T6 opt carve split 120A0)
-                  and rows[int(m[1], 16)]["state"] == "include_asm")
-    if len(sibs) < 2:
-        print(f"bank: {len(sibs)} include_asm c-unit siblings of {ename}'s dup class; need 2")
-        print("RECONCILE SELF-TEST FAIL")
-        return 1
-    with open(esrc) as f:
-        body = f.read()
-    x, y = rows[sibs[0]]["name"], rows[sibs[1]]["name"]
-    controls = [  # (name, func, vram, table, plant prototype, expect)
-        ("A", x, sibs[0], table_of(prog, rows[sibs[0]]["tu"], x), True, " R5 banked; "),
-        ("B", y, sibs[1], etable, False, " stopped R5: "),
-    ]
-    snap = sorted({f"src/{prog}/{rows[v]['tu']}.c" for v in sibs[:2]}) + [PLANT_UNIT, REGISTRY]
-    fails = 0
-    for name, func, vram, table, plant, expect in controls:
-        orig = {p: (open(p, "rb").read() if os.path.exists(p) else None) for p in snap}
-        try:
-            os.makedirs(SELFTEST_DIR, exist_ok=True)
-            src = os.path.join(SELFTEST_DIR, func + ".c")
-            with open(src, "w") as f:
-                f.write(body.replace(ename, func).replace(etable, table))
-            h0 = sha1(src)
-            if plant:
-                with open(PLANT_UNIT, "a") as f:
-                    f.write(f"\nvoid {func}(s32);\n")
-            rc, out = bank(f"{prog}:0x{vram:08X}", src, registry=False)
-            good = expect in out and (rc == 0) == plant
-            if plant:
-                synced = f"void {func}(s8* arg0);" in open(PLANT_UNIT).read()
-                good &= synced and f"body sha1 {h0} unchanged" in out
-            print(f"control {name} {func} {'ok' if good else 'FAIL'}: want {expect.strip(' :;')}")
-            fails += not good
-        finally:
-            restore(orig)
-            shutil.rmtree(SELFTEST_DIR, ignore_errors=True)
-            shutil.rmtree(f"build/{SELFTEST_DIR}", ignore_errors=True)
-            if rebuild(prog, "selftest-restore"):
-                print(f"control {name}: restore rebuild of {prog} red")
-                fails += 1
+    corpus_out = [f"build/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
+    pre_src, pre_reg, pre_bin = tree_sums("src"), sha1(REGISTRY), sha1(bin_out(prog))
+    pre_corpus = {p: open(p, "rb").read() for p in corpus_out}
+    saved, fails = {}, 0
+    try:
+        cls = dup_key(prog, ev)
+        rows = {int(r["vram"], 16): r for r in map(json.loads, open(corpus_out[0])) if r["prog"] == prog}
+        sibs = [(v, member_block(prog, rows[v]["name"])) for v in sorted(int(m[1], 16) for m in (cls["members"] if cls else [])
+                                                                         if m[0] == prog and int(m[1], 16) != ev)
+                if v in rows]
+        sibs = [(v, b) for v, b in sibs if b][:2]
+        if len(sibs) < 2:
+            raise Stop(0, f"{len(sibs)} c-unit siblings of {ename}'s dup class with a define block; need 2")
+        # plant (C0054): each member's define block -> INCLUDE_ASM of a generated .s of its retail words
+        for v, (unit_c, i, _) in sorted(sibs, key=lambda s: (s[1][0], -s[1][1])):  # bottom-up within a unit
+            func, tu = rows[v]["name"], os.path.basename(unit_c)[:-2]
+            words = plant_words(prog, func, v, int(rows[v]["end"], 16))
+            _, seg_start, seg_vram = probe.yaml_layout(prog)
+            off = seg_start + v - seg_vram
+            with open(unit_c) as f:
+                lines = f.read().split("\n")
+            put(saved, unit_c, "\n".join(lines[:i] + [f'INCLUDE_ASM("asm/{prog}/nonmatchings/{tu}", {func});']
+                                         + lines[i + 5:]))
+            put(saved, f"asm/{prog}/nonmatchings/{tu}/{func}.s",
+                ".set noat      /* allow manual use of $at */\n.set noreorder /* don't insert nops after branches */\n\n"
+                f"nonmatching {func}, 0x{4 * len(words):X}\n\nglabel {func}\n"
+                + "".join(f"    /* {off + 4 * k:X} {v + 4 * k:08X} {struct.pack('<I', w).hex().upper()} */  .word 0x{w:08X}\n"
+                          for k, w in enumerate(words)) + f"endlabel {func}\n")  # neighbour row comment (corpus ROW_RE)
+        if rebuild(prog, "selftest-plant") or sha1(bin_out(prog)) != pre_bin:
+            raise Stop(0, f"plant rebuild of {prog} red (log {LOGDIR}/selftest-plant.log)")
+        if sh([sys.executable, "tools/mmx6/corpus.py", "--all"], "selftest-plant"):
+            raise Stop(0, "corpus.py --all rc != 0 on the planted tree")
+        rows = {int(r["vram"], 16): r for r in map(json.loads, open(corpus_out[0])) if r["prog"] == prog}
+        (vx, (ux, _, tx)), (vy, (uy, _, _)) = sibs
+        if any(rows[v]["state"] != "include_asm" for v in (vx, vy)):
+            raise Stop(0, "planted siblings not include_asm in the regenerated corpus")
+        with open(esrc) as f:
+            body = f.read()
+        x, y = rows[vx]["name"], rows[vy]["name"]
+        controls = [  # (name, func, vram, table, plant prototype, expect)
+            ("A", x, vx, tx, True, " R5 banked; "),
+            ("B", y, vy, etable, False, " stopped R5: "),
+        ]
+        snap = sorted({ux, uy}) + [PLANT_UNIT, REGISTRY]
+        for name, func, vram, table, plant, expect in controls:
+            orig = {p: (open(p, "rb").read() if os.path.exists(p) else None) for p in snap}
+            try:
+                os.makedirs(SELFTEST_DIR, exist_ok=True)
+                src = os.path.join(SELFTEST_DIR, func + ".c")
+                with open(src, "w") as f:
+                    f.write(body.replace(ename, func).replace(etable, table))
+                h0 = sha1(src)
+                if plant:
+                    with open(PLANT_UNIT, "a") as f:
+                        f.write(f"\nvoid {func}(s32);\n")
+                rc, out = bank(f"{prog}:0x{vram:08X}", src, registry=False)
+                good = expect in out and (rc == 0) == plant
+                if plant:
+                    synced = f"void {func}(s8* arg0);" in open(PLANT_UNIT).read()
+                    good &= synced and f"body sha1 {h0} unchanged" in out
+                print(f"control {name} {func} {'ok' if good else 'FAIL'}: want {expect.strip(' :;')}")
+                fails += not good
+            finally:
+                restore(orig)
+                shutil.rmtree(SELFTEST_DIR, ignore_errors=True)
+                shutil.rmtree(f"build/{SELFTEST_DIR}", ignore_errors=True)
+                if rebuild(prog, "selftest-restore"):
+                    print(f"control {name}: restore rebuild of {prog} red")
+                    fails += 1
+    except (Exception, SystemExit) as e:
+        print(f"bank: self-test {e}")
+        fails += 1
+    finally:
+        restore(saved)
+        shutil.rmtree(SELFTEST_DIR, ignore_errors=True)
+        shutil.rmtree(f"build/{SELFTEST_DIR}", ignore_errors=True)
+        for p, b in pre_corpus.items():
+            with open(p, "wb") as f:
+                f.write(b)
+        if rebuild(prog, "selftest-teardown"):
+            print(f"bank: teardown rebuild of {prog} red")
+            fails += 1
+    # fail-closed: the tree, the registry and the binary are what they were before the test
+    for what, ok in (("src/", tree_sums("src") == pre_src), (REGISTRY, sha1(REGISTRY) == pre_reg),
+                     (bin_out(prog), os.path.exists(bin_out(prog)) and sha1(bin_out(prog)) == pre_bin)):
+        if not ok:
+            print(f"bank: {what} sha1 differs from the pre-test value")
+            fails += 1
     if fails:
         print(f"RECONCILE SELF-TEST FAIL {fails}")
         return 1

@@ -3,7 +3,7 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap
+.PHONY: format format-check extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries
 
 # Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
 PYTHON ?= python3
@@ -61,6 +61,10 @@ redux-loads:
 # Member -> base map (Mac-only: exe + members + captures + smoke dumps) → config/loadmap.txt; rc 1 on a failed control.
 loadmap:
 	$(PYTHON) tools/mmx6/loadmap.py --out config/loadmap.txt
+
+# Forced boundaries (jump tables, PsyQ objects, -O0 candidates, missed func starts) per program → config/boundaries.txt.
+boundaries:
+	$(PYTHON) tools/mmx6/boundaries.py --out config/boundaries.txt --psyq-dir "$(GHIDRA_HOME)/Ghidra/Extensions/ghidra_psx_ldr/data/psyq"
 
 format:
 	find src -type f \( -name '*.c' -o -name '*.h' \) -not -name '.*' -print0 | xargs -0 -r clang-format -i --style=file

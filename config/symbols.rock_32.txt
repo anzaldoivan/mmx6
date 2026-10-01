@@ -4,3 +4,5 @@
 D_800E9860 = 0x800E9860; // type:s32 size:0x18
 // basis: first code word after header (+0x18)
 func_800E9878 = 0x800E9878; // type:func size:0x1D4
+// basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T5.c3; was D_800ED5DC)
+func_800ED5DC = 0x800ED5DC;

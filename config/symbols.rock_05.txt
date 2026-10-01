@@ -184,3 +184,5 @@ func_800EDAEC = 0x800EDAEC; // type:func size:0xA4
 func_800EDB90 = 0x800EDB90; // type:func size:0x140
 // basis: post-return 0x800eddbc
 func_800EDDC4 = 0x800EDDC4; // type:func size:0xC4
+// basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T5.c3; was D_800F2F20)
+func_800F2F20 = 0x800F2F20;

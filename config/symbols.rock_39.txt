@@ -20,3 +20,5 @@ func_800FAC48 = 0x800FAC48; // type:func size:0x168
 func_800FADB0 = 0x800FADB0; // type:func size:0x170
 // basis: post-return 0x800faf18
 func_800FAF20 = 0x800FAF20; // type:func size:0x228
+// basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T5.c3; was D_801004A8)
+func_801004A8 = 0x801004A8;

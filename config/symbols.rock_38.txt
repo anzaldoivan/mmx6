@@ -180,3 +180,5 @@ func_800FE78C = 0x800FE78C; // type:func size:0x80
 func_800FE80C = 0x800FE80C; // type:func size:0x20
 // basis: data trailing words after the last function's jr ra; no jr ra in [0x800fe82c, 0x800feedc), 428 words, 120 pointer-valued
 D_800FE82C = 0x800FE82C; // type:s32 size:0x6B0
+// basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T5.c3; was D_800FA000)
+func_800FA000 = 0x800FA000;

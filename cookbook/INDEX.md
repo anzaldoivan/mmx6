@@ -47,3 +47,13 @@ C0044 | maspsx aspsx-version rungs >= 2.60 are byte-identical under -G0 with no 
 C0045 | A trailing # comment on a make VAR ?= value line keeps the space before # in the value | make,variables,comments | 2026-10-01 | 1.4/T6.1 | mmx6 T6.1
 C0046 | splat 0.50 c-mode writes a jr ra; nop function as empty C; measure the stub-only baseline before banking | splat,c-mode,count,baseline | 2026-10-01 | 1.4/T8 | mmx6 T8
 C0047 | Once a function is C, splat writes no nonmatchings .s for it; extent tools must fall back to symbol order | splat,nonmatchings,extent,probe | 2026-10-01 | 1.4/T8 | mmx6 T8
+C0048 | spimdisasm farthestBranch survives function ends; declare sized func symbols | splat,spimdisasm,overlay,boundaries | 2026-10-01 | 1.5/T1 | T1 overlay 0-glabel fix
+C0049 | jr ra count overcounts functions (multi-return) | boundaries,census,mips | 2026-10-01 | 1.5/T1 | T1
+C0050 | Coverage oracle: closed set of uncovered-byte kinds with precedence | oracle,coverage,corpus | 2026-10-01 | 1.5/T2 | T2 corpus spans
+C0051 | Narrowing control from the real population (hide one input dir) | self-test,control,scanner | 2026-10-01 | 1.5/T3 | T3 optscan
+C0052 | Post-return start rule chains through data; scope it | boundaries,bound2,data | 2026-10-01 | 1.5/T4 | T4 bound2
+C0053 | spimdisasm ends sized symbols only at size >= 8 | splat,spimdisasm,symbols | 2026-10-01 | 1.5/T5 | T5 symbols
+C0054 | Self-test controls inject disagreements, never borrow real ones | self-test,control | 2026-10-01 | 1.5/T5 | T5 bound2 ledger
+C0055 | Dup census: load-bearing-mask control (twin must split unmasked) | census,duplicates,control | 2026-10-01 | 1.5/T6 | T6 census
+C0056 | Report over a census: currency guard plus planted mutation | report,census,control | 2026-10-01 | 1.5/T7 | T7 report
+C0057 | Harness pair whose instrument never ran is NOT-RUN, counted as disagreement | harness,differential,control | 2026-10-01 | 1.5/T8 | T8 harness P3

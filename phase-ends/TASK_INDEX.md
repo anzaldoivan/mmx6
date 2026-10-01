@@ -18,3 +18,10 @@
 1.2 | T6 | done | load-map tool, control rows, memory map and N | - | phase-1.2/tasks/T6.md | phase-1.2/logs/T6.md | -
 1.2 | T7 | done | overlay programs in Ghidra and L4 address check | - | phase-1.2/tasks/T7.md | phase-1.2/logs/T7.md | -
 1.2 | T8 | done | span/boundary indicator and forced boundaries | - | phase-1.2/tasks/T8.md | phase-1.2/logs/T8.md | -
+1.3 | T1 | done | pin splat and binutils in the image | - | phase-1.3/tasks/T1.md | phase-1.3/logs/T1.md | R1.3-001,R1.3-002
+1.3 | T2 | done | exe pipeline byte-identical with coarse segments | - | phase-1.3/tasks/T2.md | phase-1.3/logs/T2.md | -
+1.3 | T3 | review | segmentation rules from forced boundaries | - | phase-1.3/tasks/T3.md | phase-1.3/logs/T3.md | -
+1.3 | T4 | done | segments at forced boundaries and the boundary check | - | phase-1.3/tasks/T4.md | phase-1.3/logs/T4.md | -
+1.3 | T5 | done | 56 overlays byte-identical, one link each | - | phase-1.3/tasks/T5.md | phase-1.3/logs/T5.md | -
+1.3 | T6 | done | fleet check, expected baseline, contracts required | - | phase-1.3/tasks/T6.md | phase-1.3/logs/T6.md | -
+1.3 | T7 | done | trim the card under its cap for the phase-end archive | - | phase-1.3/tasks/T7.md | phase-1.3/logs/T7.md | -

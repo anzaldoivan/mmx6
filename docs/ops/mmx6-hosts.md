@@ -20,6 +20,9 @@ As known at generation (2026-10-01). Update in the same change as whatever chang
 - Dump: `/Users/ThinkPad/GameInputs/megaman-x6/Mega Man X6 (USA) (v1.1).cue` (+ `.bin`, 599,985,792 bytes);
   Redump USA v1.1, SHA-1 `d4f7e08371027a87a3bf13311db5a4c56733f4ea`, verified 2026-10-01.
 - BIOS for the emulator: `/Users/ThinkPad/GameInputs/megaman-x6/SCPH1001.BIN`.
+- Extraction: `make extract` (Mac: `PYTHON=<PY> CUE=<dump cue>`; container: `mx.sh sync && mx.sh run make extract`) writes
+  ignored `extracted/retail/` and tracked `manifest/retail.jsonl` (68 records, sha1 `262452fe…b0`, identical Mac py3.14 /
+  container py3.12, Phase 1.1 T5); firewall `required:` sources: `manifest/retail.jsonl`, `config/medium.sha1`.
 - Layout: one MODE2/2352 track; `SYSTEM.CNF` boots `SLUS_013.95`; code overlays in `ROCK_X6.BIN`; XA/STR streams.
 
 ## Scratch

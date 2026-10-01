@@ -35,6 +35,6 @@ glob:  **/*.safetensors
 
 # ---- hash sources ----
 fixture:  config/firewall-fixture.sha1
-pending:  extracted/retail/manifest.jsonl        # TODO(phase-1): the extraction manifest — promote to required:
-pending:  config/medium.sha1                     # TODO(phase-1): the medium's own track/image hash — promote to required:
+required: manifest/retail.jsonl
+required: config/medium.sha1
 pending:  config/check.*.sha                     # TODO(phase-3): the per-binary contracts (a glob) — promote to required:

@@ -2,8 +2,8 @@
 
 What lives here: `firewall.txt`, the ROM firewall's one source (purge/glob rules + hash sources, read by
 `tools/audit_public.py`); `firewall-fixture.sha1`, the planted-fixture control hash; `decomp-hooks.snippet.json`;
-`mcp.json.template`. Later phases add the files `firewall.txt` lists as `pending:` (`medium.sha1`, `check.*.sha`) and the
-splat/symbol configuration.
+`mcp.json.template`; `medium.sha1`, the dump's sha1 (sha1sum format), a `required:` source with `manifest/retail.jsonl`
+(Phase 1.1 T5). Later phases add `check.*.sha` (still `pending:`) and the splat/symbol configuration.
 
 Hand-edited: everything here; hash files are written from the tool run that verified them, never typed.
 Generated: nothing. What these files drive lands in the ignored `asm/`, `build/`, `expected/`, `extracted/`.

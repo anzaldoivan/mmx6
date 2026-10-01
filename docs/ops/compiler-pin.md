@@ -29,6 +29,8 @@ Findings (denominator: 6784 functions, 57 programs):
 
 ## Ladder
 
+### Before-run (T6): 32 rungs
+
 Run (phase 1.4 T6): `bash tools/docker/mx.sh run make extract probe-ladder` (32 rungs of `config/triples.txt` x 3 probes of
 `config/probes.txt`, all game TU 120A0); 96 result lines, make rc 2 (ladder rc 1: no unique pin); log `.run/logs/t6c1.log`.
 
@@ -74,4 +76,32 @@ The four aspsx rungs tie on every probe (maspsx flags inert under `-G0`).
 | gcc2.95.2-psx-aspsx2.56 | MATCH 13/13 | MATCH 29/29 | MATCH 79/79 |
 | gcc2.95.2-psx-aspsx2.67 | MATCH 13/13 | MATCH 29/29 | MATCH 79/79 |
 | gcc2.95.2-psx-aspsx2.79 | MATCH 13/13 | MATCH 29/29 | MATCH 79/79 |
+| gcc2.95.2-psx-aspsx2.86 | MATCH 13/13 | MATCH 29/29 | MATCH 79/79 |
+
+### aspsx equivalence class
+
+- aspsx 2.56/2.67/2.79/2.86 are byte-identical on all 3 probes under every cc1 (table above).
+- Mechanism, container `/opt/maspsx/maspsx.py:42-47` (version gates; `:40-41` `expand_li` off at >= 2.50, all four):
+  `sltu_at` only below 2.60 (2.56); `gp_allow_offset` >= 2.70, `gp_allow_la` >= 2.80, inert under `-G0`.
+- Corpus (phase 1.4 T6.1; `asm/SLUS_013.95/120A0.s` + 56 `asm/rock_*/` files, 1121 `sltiu`, 287 `sltu`):
+  negative-immediate `sltiu` 0, `sltu ..,$at` 0. gprel 0 of 6784 functions (T5). Unsplit rock_17/43/45 are
+  `.word`-only and not in the mnemonic counts.
+- No probe within 5 can split the class; 2.86 is an arbitrary representative within it.
+
+### After-run (T6.1): 8 rungs
+
+Run (phase 1.4 T6.1): `bash tools/docker/mx.sh run make TRIPLE=gcc2.7.2-aspsx2.86 extract probe-ladder` (8 rungs, one per
+cc1, `-aspsx2.86` only, x 3 probes); 24 result lines, make rc 0; log `.run/logs/t61c1.log`.
+
+`PIN gcc2.95.2-psx-aspsx2.86 3 of 3`
+
+| triple | func_8001E78C | func_800473EC | func_8002B410 |
+|---|---|---|---|
+| gcc2.7.2-aspsx2.86 | FAIL 9/13 | FAIL 25/29 | FAIL 9/79 |
+| gcc2.7.2-psx-aspsx2.86 | FAIL 9/13 | FAIL 25/29 | FAIL 9/79 |
+| gcc2.7.2-cdk-aspsx2.86 | FAIL 9/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.6.3-psx-aspsx2.86 | FAIL 9/13 | FAIL 25/29 | FAIL 8/79 |
+| gcc2.8.0-psx-aspsx2.86 | FAIL 11/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.8.1-psx-aspsx2.86 | FAIL 11/13 | FAIL 25/29 | FAIL 3/79 |
+| gcc2.91.66-psx-aspsx2.86 | MATCH 13/13 | MATCH 29/29 | FAIL 8/79 |
 | gcc2.95.2-psx-aspsx2.86 | MATCH 13/13 | MATCH 29/29 | MATCH 79/79 |

@@ -70,6 +70,20 @@ func_800EAA78 = 0x800EAA78; // type:func size:0x9C
 func_800EAB14 = 0x800EAB14; // type:func size:0x20
 // basis: post-return 0x800eab2c
 func_800EAB34 = 0x800EAB34; // type:func size:0x8
+// basis: post-return 0x800eaca8; first of the split of 0x800eacb0 (1.6 T1 merge check)
+func_800EACB0 = 0x800EACB0; // type:func size:0x30
+// basis: post-return 0x800eacd8; no branch of 0x800eacb0 crosses it (1.6 T1 merge check)
+func_800EACE0 = 0x800EACE0; // type:func size:0xEC
+// basis: post-return 0x800eadc4; no branch of 0x800eacb0 crosses it (1.6 T1 merge check)
+func_800EADCC = 0x800EADCC; // type:func size:0x20
+// basis: post-return 0x800eade4; no branch of 0x800eacb0 crosses it (1.6 T1 merge check)
+func_800EADEC = 0x800EADEC; // type:func size:0x20
+// basis: post-return 0x800eae04; no branch of 0x800eacb0 crosses it (1.6 T1 merge check)
+func_800EAE0C = 0x800EAE0C; // type:func size:0x88
+// basis: post-return 0x800eae8c; no branch of 0x800eacb0 crosses it (1.6 T1 merge check)
+func_800EAE94 = 0x800EAE94; // type:func size:0x20C
+// basis: post-return 0x800eb098; no branch of 0x800eacb0 crosses it (1.6 T1 merge check)
+func_800EB0A0 = 0x800EB0A0; // type:func size:0xD0
 // basis: post-return 0x800eb168
 func_800EB170 = 0x800EB170; // type:func size:0x158
 // basis: data trailing words after the last function's jr ra; no jr ra in [0x800f5ec4, 0x800f84d0), 2435 words, 659 pointer-valued

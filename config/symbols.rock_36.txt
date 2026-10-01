@@ -30,6 +30,198 @@ func_800FB2C4 = 0x800FB2C4; // type:func size:0x16C
 func_800FB430 = 0x800FB430; // type:func size:0x110
 // basis: post-return 0x800fb538
 func_800FB540 = 0x800FB540; // type:func size:0x168
+// basis: post-return 0x800fb6a0; first of the split of 0x800fb6a8 (1.6 T1 merge check)
+func_800FB6A8 = 0x800FB6A8; // type:func size:0x1B0
+// basis: post-return 0x800fb850; no branch of 0x800fb6a8 crosses it (1.6 T1 merge check)
+func_800FB858 = 0x800FB858; // type:func size:0x234
+// basis: post-return 0x800fba84; no branch of 0x800fb6a8 crosses it (1.6 T1 merge check)
+func_800FBA8C = 0x800FBA8C; // type:func size:0x1AC
+// basis: post-return 0x800fbc30; no branch of 0x800fb6a8 crosses it (1.6 T1 merge check)
+func_800FBC38 = 0x800FBC38; // type:func size:0x214
+// basis: post-return 0x800fbe44; no branch of 0x800fb6a8 crosses it (1.6 T1 merge check)
+func_800FBE4C = 0x800FBE4C; // type:func size:0xE4
+// basis: post-return 0x800fbf28; no branch of 0x800fb6a8 crosses it (1.6 T1 merge check)
+func_800FBF30 = 0x800FBF30; // type:func size:0x314
+// basis: post-return 0x800fc23c; no branch of 0x800fb6a8 crosses it (1.6 T1 merge check)
+func_800FC244 = 0x800FC244; // type:func size:0x1B0
+// basis: post-return 0x800fc3ec; first of the split of 0x800fc3f4 (1.6 T1 merge check)
+func_800FC3F4 = 0x800FC3F4; // type:func size:0xEC
+// basis: post-return 0x800fc4d8; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FC4E0 = 0x800FC4E0; // type:func size:0x5C
+// basis: post-return 0x800fc534; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FC53C = 0x800FC53C; // type:func size:0x3C
+// basis: post-return 0x800fc570; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FC578 = 0x800FC578; // type:func size:0x98
+// basis: post-return 0x800fc608; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FC610 = 0x800FC610; // type:func size:0xF4
+// basis: post-return 0x800fc6fc; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FC704 = 0x800FC704; // type:func size:0x3C
+// basis: post-return 0x800fc738; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FC740 = 0x800FC740; // type:func size:0x3C
+// basis: post-return 0x800fc774; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FC77C = 0x800FC77C; // type:func size:0x38
+// basis: post-return 0x800fc7ac; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FC7B4 = 0x800FC7B4; // type:func size:0x9C
+// basis: post-return 0x800fc848; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FC850 = 0x800FC850; // type:func size:0xD4
+// basis: post-return 0x800fc91c; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FC924 = 0x800FC924; // type:func size:0x58
+// basis: post-return 0x800fc974; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FC97C = 0x800FC97C; // type:func size:0x60
+// basis: post-return 0x800fc9d4; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FC9DC = 0x800FC9DC; // type:func size:0x9C
+// basis: post-return 0x800fca70; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCA78 = 0x800FCA78; // type:func size:0x44
+// basis: post-return 0x800fcab4; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCABC = 0x800FCABC; // type:func size:0x3C
+// basis: post-return 0x800fcaf0; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCAF8 = 0x800FCAF8; // type:func size:0x84
+// basis: post-return 0x800fcb74; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCB7C = 0x800FCB7C; // type:func size:0x2C
+// basis: post-return 0x800fcba0; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCBA8 = 0x800FCBA8; // type:func size:0x3C
+// basis: post-return 0x800fcbdc; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCBE4 = 0x800FCBE4; // type:func size:0xA4
+// basis: post-return 0x800fcc80; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCC88 = 0x800FCC88; // type:func size:0x40
+// basis: post-return 0x800fccc0; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCCC8 = 0x800FCCC8; // type:func size:0x84
+// basis: post-return 0x800fcd44; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCD4C = 0x800FCD4C; // type:func size:0x3C
+// basis: post-return 0x800fcd80; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCD88 = 0x800FCD88; // type:func size:0x3C
+// basis: post-return 0x800fcdbc; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCDC4 = 0x800FCDC4; // type:func size:0xD0
+// basis: post-return 0x800fce8c; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCE94 = 0x800FCE94; // type:func size:0x44
+// basis: post-return 0x800fced0; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCED8 = 0x800FCED8; // type:func size:0x60
+// basis: post-return 0x800fcf30; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCF38 = 0x800FCF38; // type:func size:0x3C
+// basis: post-return 0x800fcf6c; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCF74 = 0x800FCF74; // type:func size:0x3C
+// basis: post-return 0x800fcfa8; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FCFB0 = 0x800FCFB0; // type:func size:0xB0
+// basis: post-return 0x800fd058; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD060 = 0x800FD060; // type:func size:0x4C
+// basis: post-return 0x800fd0a4; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD0AC = 0x800FD0AC; // type:func size:0x50
+// basis: post-return 0x800fd0f4; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD0FC = 0x800FD0FC; // type:func size:0x94
+// basis: post-return 0x800fd188; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD190 = 0x800FD190; // type:func size:0x3C
+// basis: post-return 0x800fd1c4; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD1CC = 0x800FD1CC; // type:func size:0x3C
+// basis: post-return 0x800fd200; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD208 = 0x800FD208; // type:func size:0x50
+// basis: post-return 0x800fd250; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD258 = 0x800FD258; // type:func size:0xEC
+// basis: post-return 0x800fd33c; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD344 = 0x800FD344; // type:func size:0x58
+// basis: post-return 0x800fd394; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD39C = 0x800FD39C; // type:func size:0x104
+// basis: post-return 0x800fd498; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD4A0 = 0x800FD4A0; // type:func size:0x64
+// basis: post-return 0x800fd4fc; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD504 = 0x800FD504; // type:func size:0x30
+// basis: post-return 0x800fd52c; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD534 = 0x800FD534; // type:func size:0x3C
+// basis: post-return 0x800fd568; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD570 = 0x800FD570; // type:func size:0x3C
+// basis: post-return 0x800fd5a4; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD5AC = 0x800FD5AC; // type:func size:0xCC
+// basis: post-return 0x800fd670; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD678 = 0x800FD678; // type:func size:0x68
+// basis: post-return 0x800fd6d8; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD6E0 = 0x800FD6E0; // type:func size:0x100
+// basis: post-return 0x800fd7d8; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD7E0 = 0x800FD7E0; // type:func size:0x50
+// basis: post-return 0x800fd828; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD830 = 0x800FD830; // type:func size:0x3C
+// basis: post-return 0x800fd864; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD86C = 0x800FD86C; // type:func size:0x3C
+// basis: post-return 0x800fd8a0; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD8A8 = 0x800FD8A8; // type:func size:0x50
+// basis: post-return 0x800fd8f0; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD8F8 = 0x800FD8F8; // type:func size:0xA8
+// basis: post-return 0x800fd998; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FD9A0 = 0x800FD9A0; // type:func size:0x74
+// basis: post-return 0x800fda0c; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDA14 = 0x800FDA14; // type:func size:0xB0
+// basis: post-return 0x800fdabc; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDAC4 = 0x800FDAC4; // type:func size:0x70
+// basis: post-return 0x800fdb2c; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDB34 = 0x800FDB34; // type:func size:0x64
+// basis: post-return 0x800fdb90; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDB98 = 0x800FDB98; // type:func size:0x4C
+// basis: post-return 0x800fdbdc; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDBE4 = 0x800FDBE4; // type:func size:0x3C
+// basis: post-return 0x800fdc18; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDC20 = 0x800FDC20; // type:func size:0x3C
+// basis: post-return 0x800fdc54; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDC5C = 0x800FDC5C; // type:func size:0x70
+// basis: post-return 0x800fdcc4; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDCCC = 0x800FDCCC; // type:func size:0x8C
+// basis: post-return 0x800fdd50; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDD58 = 0x800FDD58; // type:func size:0xF4
+// basis: post-return 0x800fde44; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDE4C = 0x800FDE4C; // type:func size:0x64
+// basis: post-return 0x800fdea8; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDEB0 = 0x800FDEB0; // type:func size:0x64
+// basis: post-return 0x800fdf0c; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDF14 = 0x800FDF14; // type:func size:0x30
+// basis: post-return 0x800fdf3c; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDF44 = 0x800FDF44; // type:func size:0x8
+// basis: post-return 0x800fdf44; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDF4C = 0x800FDF4C; // type:func size:0x3C
+// basis: post-return 0x800fdf80; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDF88 = 0x800FDF88; // type:func size:0x50
+// basis: post-return 0x800fdfd0; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDFD8 = 0x800FDFD8; // type:func size:0x14
+// basis: post-return 0x800fdfe4; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FDFEC = 0x800FDFEC; // type:func size:0x68
+// basis: post-return 0x800fe04c; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE054 = 0x800FE054; // type:func size:0x54
+// basis: post-return 0x800fe0a0; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE0A8 = 0x800FE0A8; // type:func size:0x50
+// basis: post-return 0x800fe0f0; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE0F8 = 0x800FE0F8; // type:func size:0x74
+// basis: post-return 0x800fe164; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE16C = 0x800FE16C; // type:func size:0x30
+// basis: post-return 0x800fe194; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE19C = 0x800FE19C; // type:func size:0x90
+// basis: post-return 0x800fe224; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE22C = 0x800FE22C; // type:func size:0x3C
+// basis: post-return 0x800fe260; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE268 = 0x800FE268; // type:func size:0x50
+// basis: post-return 0x800fe2b0; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE2B8 = 0x800FE2B8; // type:func size:0x110
+// basis: post-return 0x800fe3c0; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE3C8 = 0x800FE3C8; // type:func size:0x68
+// basis: post-return 0x800fe428; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE430 = 0x800FE430; // type:func size:0x54
+// basis: post-return 0x800fe47c; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE484 = 0x800FE484; // type:func size:0x4C
+// basis: post-return 0x800fe4c8; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE4D0 = 0x800FE4D0; // type:func size:0x8C
+// basis: post-return 0x800fe554; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE55C = 0x800FE55C; // type:func size:0x6C
+// basis: post-return 0x800fe5c0; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE5C8 = 0x800FE5C8; // type:func size:0x3C
+// basis: post-return 0x800fe5fc; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE604 = 0x800FE604; // type:func size:0x58
+// basis: post-return 0x800fe654; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE65C = 0x800FE65C; // type:func size:0x110
+// basis: post-return 0x800fe764; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE76C = 0x800FE76C; // type:func size:0x68
+// basis: post-return 0x800fe7cc; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE7D4 = 0x800FE7D4; // type:func size:0x54
+// basis: post-return 0x800fe820; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE828 = 0x800FE828; // type:func size:0x4C
+// basis: post-return 0x800fe86c; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE874 = 0x800FE874; // type:func size:0xC8
+// basis: post-return 0x800fe934; no branch of 0x800fc3f4 crosses it (1.6 T1 merge check)
+func_800FE93C = 0x800FE93C; // type:func size:0x70
 // basis: post-return 0x800ff208
 func_800FF210 = 0x800FF210; // type:func size:0x40
 // basis: post-return 0x800ff248

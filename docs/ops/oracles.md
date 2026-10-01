@@ -174,5 +174,6 @@ GhidrAssistMCP (extension in `$GHIDRA_HOME/Ghidra/Extensions/GhidrAssistMCP`), h
 - Independence: each `type:func` start of `config/symbols.<p>.txt`, basis `ghidra` (Ghidra func addr) > `pointer`
   (value stored as an aligned word in the program's own image) > `none`; out `build/bound2/independence.jsonl`.
 - stdout adds `BOUND2 INNER <total> (<prog> <n> x5)`, `BOUND2 merges=<over-merge> multi-return=<m> of <N> functions`,
-  `BOUND2 INDEPENDENT <i> of <S> declared starts (ghidra <g> pointer <p> none <z>)`; merges do not yet affect rc.
+  `BOUND2 INDEPENDENT <i> of <S> declared starts (ghidra <g> pointer <p> none <z>)`; `--all`/`--prog` rc 1 when over-merge > 0, as for
+  phantoms/truncations (1.6 T1.c2); multi-return does not affect rc.
   Self-test adds injected merge controls (synthetic multi-return/over-merge, two exe functions fused in memory).

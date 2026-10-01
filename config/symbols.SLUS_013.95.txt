@@ -2,3 +2,7 @@
 // symbol's `basis: <src>` sits on the comment line above it.
 // basis: exe header pc0 (retail bytes, phase 1.3 T2)
 __start = 0x80054AD8;
+// basis: no fallthrough (0x8006a668 unconditional jr, then pad); first of the split of 0x8006a674 (1.6 T1 merge check)
+func_8006A674 = 0x8006A674; // type:func size:0x14
+// basis: no fallthrough (0x8006a680 unconditional), no branch of 0x8006a674 crosses it (1.6 T1 merge check)
+func_8006A688 = 0x8006A688; // type:func size:0x14

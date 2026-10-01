@@ -18,7 +18,8 @@
   --all/--prog also write build/bound2/merges.txt `<prog> <F vram> <s vram> multi-return|over-merge <site|->` (sorted
   prog, s) and build/bound2/independence.jsonl {"prog","vram","basis":"ghidra|pointer|none"}; stdout adds
   `BOUND2 INNER <n> (<prog> <n> x5)`, `BOUND2 merges=<over> multi-return=<m> of <N> functions`,
-  `BOUND2 INDEPENDENT <i> of <S> declared starts (ghidra <g> pointer <p> none <z>)`. Merges do not affect rc (1.6 T1.c1).
+  `BOUND2 INDEPENDENT <i> of <S> declared starts (ghidra <g> pointer <p> none <z>)`. rc 1 also when over> 0, as for phantoms/truncations
+      (1.6 T1.c2); multi-return merges do not affect rc.
 
 Merge: inventory F=[v,e) holding a B2 start s, v < s < e. g = s, or for a post-ret s the word after the preceding
 jr ra's delay slot. multi-return iff a crossing: a branch/j with site and target in F on opposite sides of g (site =
@@ -505,7 +506,7 @@ def run(sel):
           f"pointer {bn['pointer']} none {bn['none']})")
     print(f"BOUND2 phantoms={r['ph']} truncations={r['tr']} ledgered={r['led']} of {r['nfun']} functions in "
           f"{len(names)} programs")
-    return r["rc"]
+    return 1 if cls["over-merge"] else r["rc"]
 
 
 def self_test():

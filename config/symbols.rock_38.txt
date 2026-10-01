@@ -1,5 +1,27 @@
 // splat symbol_addrs for rock_38. splat parses `key:value` tokens in a trailing comment as attributes, so each
 // symbol's `basis: <src>` sits on the comment line above it (G62). Declared from retail bytes (phase 1.5 T5).
+// basis: no fallthrough (0x800fa05c..0x800fa06c not plausible code: loads with base $zero); first of the split of 0x800fa070 (1.6 T1 merge check)
+func_800FA070 = 0x800FA070; // type:func size:0x280
+// basis: post-return 0x800fa2e8; no branch of 0x800fa070 crosses it (1.6 T1 merge check)
+func_800FA2F0 = 0x800FA2F0; // type:func size:0x25C
+// basis: post-return 0x800fa544; no branch of 0x800fa070 crosses it (1.6 T1 merge check)
+func_800FA54C = 0x800FA54C; // type:func size:0x37C
+// basis: post-return 0x800fa8c0; no branch of 0x800fa070 crosses it (1.6 T1 merge check)
+func_800FA8C8 = 0x800FA8C8; // type:func size:0x128
+// basis: post-return 0x800fa9e8; no branch of 0x800fa070 crosses it (1.6 T1 merge check)
+func_800FA9F0 = 0x800FA9F0; // type:func size:0x124
+// basis: post-return 0x800fab0c; no branch of 0x800fa070 crosses it (1.6 T1 merge check)
+func_800FAB14 = 0x800FAB14; // type:func size:0xC4
+// basis: post-return 0x800fabd0; no branch of 0x800fa070 crosses it (1.6 T1 merge check)
+func_800FABD8 = 0x800FABD8; // type:func size:0xC8
+// basis: post-return 0x800fac98; no branch of 0x800fa070 crosses it (1.6 T1 merge check)
+func_800FACA0 = 0x800FACA0; // type:func size:0xE0
+// basis: post-return 0x800fad78; no branch of 0x800fa070 crosses it (1.6 T1 merge check)
+func_800FAD80 = 0x800FAD80; // type:func size:0x140
+// basis: post-return 0x800faeb8; no branch of 0x800fa070 crosses it (1.6 T1 merge check)
+func_800FAEC0 = 0x800FAEC0; // type:func size:0x118
+// basis: post-return 0x800fafd0; no branch of 0x800fa070 crosses it (1.6 T1 merge check)
+func_800FAFD8 = 0x800FAFD8; // type:func size:0x138
 // basis: post-return 0x800fb108
 func_800FB110 = 0x800FB110; // type:func size:0x2D8
 // basis: post-return 0x800fb3e0

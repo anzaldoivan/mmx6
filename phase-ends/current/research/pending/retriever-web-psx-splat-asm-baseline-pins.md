@@ -1,0 +1,28 @@
+# PSX splat all-asm baseline: splat/binutils/maspsx pins
+task: PSX matching decomp (MMX6) splat setup, overlays, binutils, maspsx
+agent: retriever-web
+tags: splat, psx, binutils, maspsx, overlays
+
+## Answer
+- splat64 latest seen: 0.50.0 (PyPI upload 2024-11-20; src/splat/__init__.py on main also says 0.50.0). Not independently confirmed newer; today is 2026-10-01, so re-check `pip index versions splat64` in the container before pinning. Install: `pip install splat64[mips]==0.50.0` (python>=3.9). GitHub has no Releases page entries.
+- maspsx (mkst/maspsx): no release numbers; only tag "aspsx" dated 2026-08-29 (commit 86ccd7d, "Fix unnecessary nops between lwl/lwr on aspsx < 2.30 (#139)"). Pin by commit SHA / git submodule (sotn uses submodule at tools/maspsx).
+- binutils: Ubuntu pkg binutils-mips-linux-gnu (mipsel-linux-gnu is the other prefix; mmx4 lists binutils-mipsel-linux-gnu). Version 2.42 on 24.04 NOT verified by me.
+
+## Findings
+1. splat docs (Configuration.md): platform psx; ld_bss_is_noload default true; migrate_rodata_to_functions (rodata moved into per-function .s, needs rodata segment paired with text); use_legacy_include_asm default false (use non-legacy INCLUDE_ASM); asm_jtbl_label_macro default `jlabel`; gp_value = $gp for %gp_rel resolution (ld_gp_expression optional); section_order global default, overridable per segment; symbol_addrs_path single file or list (default symbol_addrs.txt); compiler GCC is generic, docs prefer a specific compiler class. Segment type `lib` links objects from `lib_path` (PsyQ .LIB members extracted to objects); jump tables: labelled with the jlabel macro in the function .s, which needs the macro defined in macro.inc.
+2. Overlays: sotn-decomp uses one splat yaml per overlay/version (config/splat.*.yaml), built by Makefile + ninja (tools/build); splat invoked as `splat split`; maspsx is the assembler shim from submodule; sotn Makefile sha256-checks downloaded tool archives (`sha256sum --check`). mmx4 (sozud): check.us.txt / check.jp.txt (sha1 lists, run with sha1sum -c), diff_settings.py, build.sh/build.py, deps binutils-mipsel-linux-gnu. Details of the per-overlay yaml fields (vram, ram addr) and exact as/ld flags I could not fetch (see Dead ends). Recommended shape: one yaml per overlay with its own vram (three shared bases -> 3 vram values, 56 yamls) plus a sha1 file per binary.
+3. Flags from your brief (unverified by sources): `as -march=r3000 -mtune=r3000 -no-pad-sections -G0 -EL`, ld with splat-generated .ld, objcopy -O binary. Pitfalls to verify empirically: need `.set noreorder`, `.set noat` (splat's macro.inc/include header provides); li/la macro expansion and %gp_rel depend on -G0 vs gp_value; alignment padding between sections (-no-pad-sections); rodata migration shifting jtbl alignment; GAS branch-likely/delay-slot handling. Pure-asm baseline should not pass through maspsx; maspsx only needed once C is compiled (flags --aspsx-version, --run-assembler, --expand-div, --macro-inc, --use-comm-section, -G).
+4. maspsx: see Answer.
+
+## Dead ends
+- sotn Makefile via WebFetch gave summary only, no as flags; ninja.py 404.
+- PyPI JSON page for maspsx 404 (not on PyPI). pypi.org/project page failed to render. Search engine returned nothing for sotn yaml / mmx4 yaml content; dino-crisis not examined.
+
+sources:
+https://pypi.org/pypi/splat64/json (fetched 2026-10-01)
+https://raw.githubusercontent.com/ethteck/splat/main/docs/Configuration.md (fetched 2026-10-01)
+https://raw.githubusercontent.com/ethteck/splat/main/src/splat/__init__.py (fetched 2026-10-01)
+https://github.com/mkst/maspsx (fetched 2026-10-01)
+https://github.com/mkst/maspsx/tags (fetched 2026-10-01)
+https://github.com/sozud/mmx4 (fetched 2026-10-01)
+https://raw.githubusercontent.com/Xeeynamo/sotn-decomp/master/Makefile (fetched 2026-10-01)

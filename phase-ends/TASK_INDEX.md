@@ -25,3 +25,12 @@
 1.3 | T5 | done | 56 overlays byte-identical, one link each | - | phase-1.3/tasks/T5.md | phase-1.3/logs/T5.md | -
 1.3 | T6 | done | fleet check, expected baseline, contracts required | - | phase-1.3/tasks/T6.md | phase-1.3/logs/T6.md | -
 1.3 | T7 | done | trim the card under its cap for the phase-end archive | - | phase-1.3/tasks/T7.md | phase-1.3/logs/T7.md | -
+1.4 | T1 | done | candidate compilers and maspsx in the image | - | phase-1.4/tasks/T1.md | phase-1.4/logs/T1.md | R1.4-001
+1.4 | T2 | done | C build path and an all-stub C unit | - | phase-1.4/tasks/T2.md | phase-1.4/logs/T2.md | -
+1.4 | T3 | done | probe harness and ladder runner with controls | - | phase-1.4/tasks/T3.md | phase-1.4/logs/T3.md | -
+1.4 | T4 | done | decompile scaffold and differ invocation | - | phase-1.4/tasks/T4.md | phase-1.4/logs/T4.md | -
+1.4 | T5 | done | per-module codegen census | - | phase-1.4/tasks/T5.md | phase-1.4/logs/T5.md | -
+1.4 | T6 | blocked | probes drafted and the ladder run | - | phase-1.4/tasks/T6.md | phase-1.4/logs/T6.md | -
+1.4 | T6.1 | done | aspsx -G0 equivalence class collapsed; ladder pins one triple | - | phase-1.4/tasks/T6.1.md | phase-1.4/logs/T6.1.md | -
+1.4 | T7 | review | the pin recorded and ratified | - | phase-1.4/tasks/T7.md | phase-1.4/logs/T7.md | R1.4-001
+1.4 | T8 | done | first functions banked end to end | - | phase-1.4/tasks/T8.md | phase-1.4/logs/T8.md | -

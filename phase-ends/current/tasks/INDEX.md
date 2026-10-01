@@ -6,3 +6,4 @@ T3 | review | segmentation rules from forced boundaries | - | tasks/T3.md | logs
 T4 | done | segments at forced boundaries and the boundary check | - | tasks/T4.md | logs/T4.md | -
 T5 | done | 56 overlays byte-identical, one link each | - | tasks/T5.md | logs/T5.md | -
 T6 | done | fleet check, expected baseline, contracts required | - | tasks/T6.md | logs/T6.md | -
+T7 | done | trim the card under its cap for the phase-end archive | - | tasks/T7.md | logs/T7.md | -

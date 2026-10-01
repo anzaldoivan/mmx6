@@ -1,6 +1,6 @@
 # config/probes.txt — probe functions of the triple ladder (tools/mmx6/probe.py --ladder, make probe-ladder).
 # <func> <prog> <src path> <idiom class> [banked]
 # One row per probe; the ladder pins the one triple of config/triples.txt that matches every row.
-func_8001E78C SLUS_013.95 src/probes/func_8001E78C.c sltiu-range
-func_800473EC SLUS_013.95 src/probes/func_800473EC.c lb-s8-sltiu-halfword
-func_8002B410 SLUS_013.95 src/probes/func_8002B410.c divu-var-mflo-hazard
+func_8001E78C SLUS_013.95 src/probes/func_8001E78C.c sltiu-range banked
+func_800473EC SLUS_013.95 src/probes/func_800473EC.c lb-s8-sltiu-halfword banked
+func_8002B410 SLUS_013.95 src/probes/func_8002B410.c divu-var-mflo-hazard banked

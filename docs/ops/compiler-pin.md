@@ -17,6 +17,8 @@ The triple ladder and its verdict live here. Evidence is counts, addresses and i
   has 45 div/divu, 45 `break 7`, 0 `break 6`; every `--expand-div` rung adds `break 6` to a signed div macro (T6).
 - Per-module variation: none found. O0 0, fp-only 0, gprel 0 of 6784 functions; one O2 run per program (57 of 57)
   (`## Per-module variation` below). One triple for all 57 programs; no per-unit override in the Makefile.
+- Banked (T8): func_8001E78C, func_800473EC, func_8002B410 are C in their real TU `src/SLUS_013.95/120A0.c` under
+  the pin; whole-binary hash green (`make fleet`). The TU's 282 splat-emitted empty `void f(void) {}` also build.
 
 Residual doubts:
 - aspsx class: 2.56/2.67/2.79/2.86 are byte-equivalent under `-G0` with gprel 0 (`### aspsx equivalence class`);

@@ -93,6 +93,7 @@ def find_extent(prog, func):
     if not os.path.isdir(root):
         subprocess.run(["make", "-s", f"build/split/{prog}.stamp"], check=True, stdout=subprocess.DEVNULL)
     tag = f"glabel {func}"
+    starts = set()  # every glabel func_<addr> / D_<addr> vram: bounds a function banked as C (no .s, T8)
     for d, dirs, files in sorted(os.walk(root)):
         dirs.sort()
         for name in sorted(files):
@@ -100,6 +101,7 @@ def find_extent(prog, func):
                 continue
             with open(os.path.join(d, name), errors="replace") as f:
                 text = f.read()
+            starts.update(int(a, 16) for a in re.findall(r"^\s*glabel \w+_([0-9A-Fa-f]{8})\s*$", text, re.M))
             if tag not in text:
                 continue
             vrams, inside = [], False
@@ -115,6 +117,22 @@ def find_extent(prog, func):
                     vrams.append(int(m.group(1), 16))
             if vrams:
                 return vrams[0], len(vrams)
+    # Banked as C in src/<prog>/ (splat writes no .s): [func_<addr>, next function start); retail_words trims (C0021).
+    m = re.fullmatch(r"func_([0-9A-Fa-f]{8})", func)
+    if m:
+        for d, dirs, files in os.walk(f"src/{prog}"):
+            for name in files:
+                if name.endswith(".c"):
+                    with open(os.path.join(d, name), errors="replace") as f:
+                        src = f.read()
+                    if not re.search(rf"^\w[^;(]*\b{func}\(", src, re.M):
+                        continue
+                    starts.update(int(a, 16) for a in re.findall(r"^\w[^;(]*\bfunc_([0-9A-Fa-f]{8})\(", src, re.M))
+                    starts.update(int(a, 16) for a in re.findall(r"^INCLUDE_ASM\([^,]*, *\w+_([0-9A-Fa-f]{8})\)", src, re.M))
+                    lo = int(m.group(1), 16)
+                    hi = min((a for a in starts if a > lo), default=None)
+                    if hi is not None:
+                        return lo, (hi - lo) // 4
     sys.exit(f"probe: {func} not found under {root}/")
 
 

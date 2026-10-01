@@ -26,5 +26,11 @@ rc=0
 [ "$rc_health" -eq 0 ] || { echo "fleet: make health rc $rc_health"; rc=1; }
 [ "$n" = "$k" ] || { echo "fleet: $n config/*.yaml but config/loadmap.txt N = ${k:-?}"; rc=1; }
 [ "$ok" -eq "$n" ] || { echo "fleet: $((n - ok)) binaries missing or red"; rc=1; }
+# C MATCHED f: global function symbols of build/src/**/*.c.o minus INCLUDE_ASM entries of their sources (T8);
+# local/jump labels and gcc2_compiled. are not global functions; alabel entries (size 0) are not counted.
+defd=$(find build/src -name '*.c.o' -exec mipsel-linux-gnu-readelf -sW {} + 2>/dev/null |
+  awk '$4 == "FUNC" && $5 == "GLOBAL" && $7 != "UND" && $3 != 0 {print $8}' | sort -u)
+inc=$(find src -name '*.c' -exec sed -n 's/^INCLUDE_ASM("[^"]*", *\([A-Za-z0-9_]*\));.*/\1/p' {} + | sort -u)
+echo "C MATCHED $(comm -23 <(printf '%s\n' "$defd" | sed '/^$/d') <(printf '%s\n' "$inc" | sed '/^$/d') | wc -l | tr -d ' ')"
 echo "FLEET $ok of $n"
 exit "$rc"

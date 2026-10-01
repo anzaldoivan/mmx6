@@ -1177,7 +1177,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800372DC);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8003737C);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8003744C);
+#include "../shared/entity/state_dispatch.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80037488);
 

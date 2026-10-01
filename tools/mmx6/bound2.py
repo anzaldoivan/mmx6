@@ -524,8 +524,8 @@ def self_test():
         f = line.split()
         if len(f) >= 5 and not f[0].startswith("#") and f[1] == EXE and f[-1] == "banked":
             want.append(int(f[0].split("_")[-1], 16))
-    if len(want) != 3:
-        fails.append(f"probes.txt banked rows = {len(want)}, want 3")
+    if len(want) != 4:  # was 3 (T4.c1 banked func_8003744C)
+        fails.append(f"probes.txt banked rows = {len(want)}, want 4")
     want.append(CONTROL_FUNC)
     agree = []
     for v in want:

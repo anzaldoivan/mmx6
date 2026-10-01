@@ -2,7 +2,7 @@
 # `make fleet`). One rung per phase tool: a rung runs the tool's --self-test, then its real run; later tasks append
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
-TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types
+TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-selftests
@@ -64,8 +64,14 @@ th-harness-full: th-corpus th-optscan th-bound2 th-census
 th-types:
 	$(PYTHON) tools/mmx6/typecheck.py --self-test && $(PYTHON) tools/mmx6/typecheck.py --all
 
-# The other tools' self-tests (not rungs of their own): boundaries.py, loadmap.py, probe.py.
+# Declaration sync, reconcile rung R3 (tools/mmx6/declsync.py; text only, in memory): synced/refused/uncast controls.
+th-declsync:
+	$(PYTHON) tools/mmx6/declsync.py --self-test
+
+# The other tools' self-tests (not rungs of their own): boundaries.py, loadmap.py, probe.py, bank.py (the reconcile
+# ladder's planted controls: clean rebuilds of the exe, tree restored after).
 th-selftests:
 	$(PYTHON) tools/mmx6/boundaries.py --self-test
 	$(PYTHON) tools/mmx6/loadmap.py --self-test
 	$(PYTHON) tools/mmx6/probe.py --self-test
+	$(PYTHON) tools/mmx6/bank.py --self-test

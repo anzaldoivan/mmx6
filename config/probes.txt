@@ -4,3 +4,4 @@
 func_8001E78C SLUS_013.95 src/probes/func_8001E78C.c sltiu-range banked
 func_800473EC SLUS_013.95 src/probes/func_800473EC.c lb-s8-sltiu-halfword banked
 func_8002B410 SLUS_013.95 src/probes/func_8002B410.c divu-var-mflo-hazard banked
+func_8003744C SLUS_013.95 src/shared/entity/state_dispatch.c lb-jalr-table banked

@@ -1,0 +1,3 @@
+# config/dedup_registry.txt -- shared bodies and their members (tools/mmx6/bank.py); line-preserving.
+# <dup key> <exemplar prog:vram> <shared path> <member prog:vram> <state gated|pending|refused> <reason>
+6d5cbe2977a0458aae5ce636a33413369a570006 SLUS_013.95:0x8003744C src/shared/entity/state_dispatch.c SLUS_013.95:0x8003744C gated exemplar

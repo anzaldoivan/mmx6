@@ -19,8 +19,8 @@
 
 Programs = config/*.yaml stems, sorted. Functions: glabel..endlabel (or the next glabel/dlabel) rows of
 asm/<p>/**/*.s; under asm/<p>/nonmatchings/<tu>/ and named by INCLUDE_ASM in src/<p>/<tu>.c -> include_asm, else
-asm; C definitions in src/<p>/*.c (clang-formatted, name at column 0) -> c-empty when the body is `{` ws `}`,
-else c; C extent = build/<p>.elf symtab value + st_size (size 0: up to the next function start, C0047).
+asm; C definitions in src/<p>/*.c and the `#include "<rel>.c"` files they include (src/shared/ bodies; clang-formatted,
+name at column 0) -> c-empty when the body is `{` ws `}`, else c; C extent = build/<p>.elf symtab value + st_size (size 0: up to the next function start, C0047).
 Lane: exe TU 120A0 -> game, other exe TUs -> lib, every overlay function -> game.
 Text = [<seg>_TEXT_START, <seg>_TEXT_END) of build/<p>.elf (the only *_TEXT_START symbol). Every text word is a
 function word or exactly one span kind, by precedence jtbl (config/boundaries.txt `jtbl lo hi` of the program) >
@@ -41,6 +41,7 @@ import sys
 ROW_RE = re.compile(r"/\*\s+[0-9A-Fa-f]+\s+([0-9A-Fa-f]{8})(?:\s+([0-9A-Fa-f]{8}))?\s+\*/")
 INC_RE = re.compile(r"^INCLUDE_ASM\(\"[^\"]*\", *(\w+)\);", re.M)
 CDEF_RE = re.compile(r"^(?!INCLUDE_ASM\b)[A-Za-z_][^;{}()#]*?\b([A-Za-z_]\w*)\s*\([^;{}]*?\)\s*\{(\s*\})?", re.M)
+CINC_RE = re.compile(r"^#include \"([^\"]+\.c)\"[ \t]*$", re.M)  # a shared body included by its member TU
 GAME_TU = "120A0"  # the exe game TU [0x800120A0, 0x80054AD0) (config/segmentation.md); every other exe TU is lib
 HEX_TU = re.compile(r"[0-9A-F]+")
 OUT = "build/corpus"
@@ -136,13 +137,19 @@ def parse_asm(prog):
     return funcs, words, data, tus
 
 
+def read_c(path):
+    """Text of the C file at path with each local `#include "<rel>.c"` (relative to it) inlined (src/shared/ bodies)."""
+    with open(path, errors="replace") as f:
+        src = f.read()
+    return CINC_RE.sub(lambda m: read_c(os.path.normpath(os.path.join(os.path.dirname(path), m.group(1)))), src)
+
+
 def parse_c(prog):
-    """({name: (tu, empty)} of C definitions, {tu: {INCLUDE_ASM names}}) of src/<prog>/*.c."""
+    """({name: (tu, empty)} of C definitions, {tu: {INCLUDE_ASM names}}) of src/<prog>/*.c (+ their included .c)."""
     defs, inc = {}, {}
     for path in sorted(glob.glob(f"src/{prog}/*.c")):
         tu = os.path.basename(path)[:-2]
-        with open(path, errors="replace") as f:
-            src = f.read()
+        src = read_c(path)
         inc[tu] = set(INC_RE.findall(src))
         for m in CDEF_RE.finditer(src):
             defs[m.group(1)] = (tu, m.group(2) is not None)
@@ -353,7 +360,8 @@ def self_test():
             if t and not t[0].startswith("#") and t[-1] == "banked":
                 banked.add((t[1], t[0]))
     cset = {(f["prog"], f["name"]) for f in fs if f["state"] == "c"}
-    ok(len(banked) == 3 and cset == banked, f"banked {len(banked)} == c set {len(cset)}")
+    ok(len(banked) == 4 and cset == banked,  # was 3 (T4.c1 banked func_8003744C)
+       f"banked {len(banked)} == c set {len(cset)}")
     fleet = fleet_c_names()
     empty = {f["name"] for f in fs if f["state"] == "c-empty"}
     want = fleet - {n for _, n in banked}

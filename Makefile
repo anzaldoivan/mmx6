@@ -128,6 +128,11 @@ build/%.c.o: %.c include/common.h include/mmx6/types.h include/macro.inc
 	@mkdir -p $(dir $@)
 	$(CPP) $(CPPFLAGS) $< | $(CC1) $(CFLAGS) | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(ASFLAGS) -o $@ --
 
+# An overlay C unit (T5.c1) INCLUDE_ASMs the same data-as-code words: the overlay ASFLAGS above, and
+# -DMMX6_OVERLAY makes include/common.h purge the GTE `ll` macro.
+build/src/rock_%.c.o: ASFLAGS := $(subst -march=r3000,-march=r4000,$(ASFLAGS)) -mno-fix-loongson3-llsc
+build/src/rock_%.c.o: CPPFLAGS += -DMMX6_OVERLAY
+
 clean:
 	rm -rf asm build
 

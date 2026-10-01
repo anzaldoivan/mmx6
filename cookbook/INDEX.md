@@ -26,3 +26,11 @@ C0023 | macOS host has no MIPS objdump; disassemble in the build container or de
 C0024 | Ghidra BinaryLoader headless -loader-baseAddr can leave image_base 0; import at 0 and setImageBase in a preScript | ghidra,binaryloader,image-base,headless,overlay | 2026-10-01 | 1.2/T7 | mmx6 T7
 C0025 | Ghidra multi-import JVM: per-program analysis summary missing from log; check per-program artifacts | ghidra,headless,batch,log,verification | 2026-10-01 | 1.2/T7 | mmx6 T7
 C0026 | Ghidra may emit switchdataD_ labels every 8 B inside one switch table; merge labels within a bounded table | ghidra,switch,jump-table,labels,boundaries | 2026-10-01 | 1.2/T8 | mmx6 T8
+C0027 | make target failure rc is 2, not 1 | make,gates | 2026-10-01 | 1.3/T1 | -
+C0028 | splat symbol_addrs parses trailing // comments | splat,symbols | 2026-10-01 | 1.3/T2 | -
+C0029 | .DELETE_ON_ERROR for rules ending in a hash check | make,hash,gates | 2026-10-01 | 1.3/T2 | -
+C0030 | Count TUs from forced edges before editing yaml | segmentation,splat | 2026-10-01 | 1.3/T3 | -
+C0031 | splat psx many asm subsegments: subalign 4 | splat,psx,linker,hash | 2026-10-01 | 1.3/T4 | -
+C0032 | mipsel as inserts sync before ll: -mno-fix-loongson3-llsc | binutils,mips,asm | 2026-10-01 | 1.3/T5 | -
+C0033 | All-asm overlays: data words through gas need -march=r4000 | binutils,mips,overlays | 2026-10-01 | 1.3/T5 | -
+C0034 | A gate that must re-hash needs a clean step | make,hash,gates | 2026-10-01 | 1.3/T6 | -

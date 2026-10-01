@@ -83,6 +83,8 @@ Breadth — the same analysis over many independent items — is fan-out, not de
 |---|---|---|
 | `tools/audit_public.py` | `tools/` | the ROM audit (purge paths, the derived hash set, the size cap, the pasted-disassembly check); the first-push gate and the CI job; its sources are `config/firewall.txt` |
 | `tools/mmx6/segment.py <bin> [--print]` / `make health` | `tools/mmx6/`, `Makefile` | segment.py regenerates the subsegment block of `config/<bin>.yaml` from `config/boundaries.txt` per `config/segmentation.md`; `make health` (container, boundcheck.py, `--self-test`) fails unless every forced lib edge is a subsegment edge |
+| `tools/mmx6/segment.py rock_NN --init` | `tools/mmx6/`, `Makefile` | writes `config/rock_NN.yaml`, `config/symbols.rock_NN.txt`, `config/check.rock_NN.sha` (sha1 from the manifest), generated, never hand-edited; Makefile `BINS` is a wildcard over `config/*.yaml`; overlays assemble with `-march=r4000 -mno-fix-loongson3-llsc` (phase 1.3 T5) |
+| `make fleet` / `make expected` | `Makefile`, `tools/mmx6/fleet.sh` | the clean fleet verification (`FLEET <n> of <n>`); `expected/build/` asm-differ baseline from hash-green outputs |
 | `make format` | `Makefile` | clang-format over `src/` with the tracked `.clang-format` (the community style) |
 | TODO(phase-1): the extractor, the manifest | `tools/` | — |
 

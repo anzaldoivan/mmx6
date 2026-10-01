@@ -2,3 +2,4 @@
 <!-- T<n> | <status> | <title> | <tags> | tasks/T<n>.md | logs/T<n>.md | <research ids, comma-separated> -->
 T1 | done | firewall verify, history audit, purge gaps | - | tasks/T1.md | logs/T1.md | -
 T2 | done | pinned image and the Mac↔volume arrangement | - | tasks/T2.md | logs/T2.md | -
+T3 | done | make format proven in the container | - | tasks/T3.md | logs/T3.md | -

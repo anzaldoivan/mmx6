@@ -45,6 +45,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 ## Skills <!-- roles: expert planner -->
 <!-- one line per captured workflow; the SKILL.md is the canonical text -->
 - docker-vm-no-privileged — Never probe the Docker VM with --privileged or --pid=host; the classifier treats it as containment escape
+- ci-wait-after-push — Wait for GitHub CI after a push: run.sh --bg gh run watch, then run.sh --wait under 285 s
 
 ## Paths <!-- roles: expert coder router planner review critic discuss auditor curator -->
 - Oracles: TODO(phase 1.2) — Ghidra + psx_ldr (static), PCSX-Redux Lua (runtime), native on the Mac

@@ -12,12 +12,14 @@
          `SELF-TEST OK` (rc 0) or `SELF-TEST FAIL` (rc 1)
 
 Compiles through the product C rule (`make -s -B TRIPLE=<t> build/<src>.o`), serially, copying each object to
-.run/probe/<t>/. Retail extent: splat glabel..endlabel (or next glabel) under asm/<p>/; bytes from the yaml
+.run/probe/<t>/. Retail extent: splat glabel..endlabel (or next glabel) under asm/<p>/ (a body
+#included from src/shared/: its build/corpus/functions.jsonl row); bytes from the yaml
 target_path at segment start + (vram - segment vram); both sides trimmed to the last `jr $ra` + delay slot (C0021).
 Relocated fields of the compiled .o (.rel.text) are masked on both sides: R_MIPS_26 low 26 bits, HI16/LO16/GPREL16
 low 16 bits. Firewall G12: prints counts and offsets only, never bytes, words or disassembly; scratch under .run/.
 """
 import argparse
+import json
 import os
 import re
 import shutil
@@ -32,6 +34,7 @@ SELFTEST_PROG = "SLUS_013.95"
 SELFTEST_SRC = "src/probes/selftest_func_80055A04.c"
 SELFTEST_ASM = "asm/SLUS_013.95/nonmatchings/LIBSPU_S_M_UTIL/func_80055A04.s"
 MUT_DIR = ".run/probe/mut"
+CORPUS = "build/corpus/functions.jsonl"
 INSN_RE = re.compile(r"/\*\s+[0-9A-Fa-f]+\s+([0-9A-Fa-f]{8})\s+[0-9A-Fa-f]{8}\s+\*/\s+(\S+)(.*)")
 MUT_OPS = ("addu", "subu", "and", "or", "xor", "nor", "slt", "sltu")  # one-word R-type, never relocated
 
@@ -133,6 +136,14 @@ def find_extent(prog, func):
                     hi = min((a for a in starts if a > lo), default=None)
                     if hi is not None:
                         return lo, (hi - lo) // 4
+    # A body reached through an #include (src/shared, T5: no .s, no def text under its name): its corpus row extent.
+    if os.path.isfile(CORPUS):
+        with open(CORPUS) as f:
+            for line in f:
+                r = json.loads(line)
+                if r["prog"] == prog and r["name"] == func:
+                    lo = int(r["vram"], 16)
+                    return lo, (int(r["end"], 16) - lo) // 4
     sys.exit(f"probe: {func} not found under {root}/")
 
 

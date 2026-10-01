@@ -42,6 +42,7 @@ ROW_RE = re.compile(r"/\*\s+[0-9A-Fa-f]+\s+([0-9A-Fa-f]{8})(?:\s+([0-9A-Fa-f]{8}
 INC_RE = re.compile(r"^INCLUDE_ASM\(\"[^\"]*\", *(\w+)\);", re.M)
 CDEF_RE = re.compile(r"^(?!INCLUDE_ASM\b)[A-Za-z_][^;{}()#]*?\b([A-Za-z_]\w*)\s*\([^;{}]*?\)\s*\{(\s*\})?", re.M)
 CINC_RE = re.compile(r"^#include \"([^\"]+\.c)\"[ \t]*$", re.M)  # a shared body included by its member TU
+DEF_RE = re.compile(r"^#(define|undef)[ \t]+(\w+)(?:[ \t]+(\w+))?[ \t]*$", re.M)  # a member's name for the body (T5)
 GAME_TU = "120A0"  # the exe game TU [0x800120A0, 0x80054AD0) (config/segmentation.md); every other exe TU is lib
 HEX_TU = re.compile(r"[0-9A-F]+")
 OUT = "build/corpus"
@@ -151,8 +152,14 @@ def parse_c(prog):
         tu = os.path.basename(path)[:-2]
         src = read_c(path)
         inc[tu] = set(INC_RE.findall(src))
+        ev = [(d.start(), d.group(2), d.group(1) == "define" and d.group(3)) for d in DEF_RE.finditer(src)]
         for m in CDEF_RE.finditer(src):
-            defs[m.group(1)] = (tu, m.group(2) is not None)
+            name = {}  # a preceding `#define <defname> <name>` (not yet #undef'd) renames the def, as cpp does
+            for pos, old, new in ev:
+                if pos > m.start():
+                    break
+                name[old] = new
+            defs[name.get(m.group(1)) or m.group(1)] = (tu, m.group(2) is not None)
     return defs, inc
 
 

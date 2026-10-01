@@ -17,6 +17,11 @@
          One verdict line: `RECONCILE <func> R5 banked; body sha1 <h> unchanged since R1` (rc 0) or
          `RECONCILE <func> stopped R<k>: <cause>` (rc 1). A stop restores every edited file byte-exact and rebuilds
          the program so build/ matches the tree; it never asks for a body redraft. Logs under .run/bank/.
+  bank.py <prog:vram> --src <shared body> --define OLD=NEW [--define ...]
+      -> a shared body under other names (T5, tools/mmx6/propagate.py): R1 probes a scratch wrapper
+         .run/bank/wrap/<func>.c (`#define OLD NEW` lines + `#include` of the body); R2 writes that block, then
+         `#undef OLD` lines, in place of the INCLUDE_ASM line; R3 syncs against the renamed definition. A unit that
+         already holds the block (corpus state c) is re-gated, not re-edited. No registry row (propagate.py writes it).
   bank.py --self-test
       -> planted controls (C0054) on two include_asm 120A0 siblings X, Y of the exemplar's dup class, bodies generated
          from src/shared/entity/state_dispatch.c into src/shared/_selftest/: A = X with X's own table and a planted
@@ -148,13 +153,42 @@ def dup_key(prog, vram):
     return None
 
 
+def subst(text, defines):
+    """text with each whole-word OLD of defines [(OLD, NEW)] replaced by NEW (what cpp makes of the body)."""
+    for old, new in defines:
+        text = re.sub(rf"\b{re.escape(old)}\b", new, text)
+    return text
+
+
+def block(src, where, defines):
+    """Lines that instantiate src from a file in directory where: defines, the #include, the #undefs."""
+    return ([f"#define {o} {n}" for o, n in defines] + [f'#include "{os.path.relpath(src, where)}"']
+            + [f"#undef {o}" for o, _ in defines])
+
+
+def placed(lines, blk, defines):
+    """Indexes where blk starts in lines (a bare include preceded by a #define is another member's block)."""
+    return [i for i in range(len(lines)) if lines[i:i + len(blk)] == blk
+            and (defines or not (i and lines[i - 1].startswith("#define ")))]
+
+
+def wrapper(src, func, defines):
+    """Scratch C file instantiating src as func (R1 under defines)."""
+    d = os.path.join(LOGDIR, "wrap")
+    os.makedirs(d, exist_ok=True)
+    p = os.path.join(d, func + ".c")
+    with open(p, "w") as f:
+        f.write("\n".join(block(src, d, defines)) + "\n")
+    return p
+
+
 # ---- the ladder ----------------------------------------------------------------------------------------------------
 
-def ladder(prog, vram, src, func, tu, saved, log):
-    """Walk R1-R5; raises Stop; returns the R1 sha1."""
+def ladder(prog, vram, src, func, tu, saved, log, defines=(), r5=True):
+    """Walk R1-R4 (and R5 when r5); raises Stop; returns the R1 sha1."""
     h1 = sha1(src)
     try:
-        ok, m, n = probe.probe(func, prog, src, makefile_triple())
+        ok, m, n = probe.probe(func, prog, wrapper(src, func, defines) if defines else src, makefile_triple())
     except SystemExit as e:
         raise Stop(1, f"probe error: {e}")
     if not ok:
@@ -163,19 +197,24 @@ def ladder(prog, vram, src, func, tu, saved, log):
     if not os.path.isfile(unit_o) and sh(["make", "-s", unit_o], log):
         raise Stop(2, f"pre-bank {unit_o} does not build")
     pre_ro = rodata_size(unit_o)
-    # R2
+    # R2 (a unit already holding the block is re-gated: compiled, not edited)
     line = f'INCLUDE_ASM("asm/{prog}/nonmatchings/{tu}", {func});'
     with open(unit_c) as f:
         text = f.read()
     lines = text.split("\n")
-    if lines.count(line) != 1:
-        raise Stop(2, f"{lines.count(line)} lines `{line}` in {unit_c}")
-    lines[lines.index(line)] = f'#include "{os.path.relpath(src, os.path.dirname(unit_c))}"'
-    put(saved, unit_c, "\n".join(lines))
+    blk = block(src, os.path.dirname(unit_c), defines)
+    at = placed(lines, blk, defines)
+    if lines.count(line) == 1 and not at:
+        i = lines.index(line)
+        put(saved, unit_c, "\n".join(lines[:i] + blk + lines[i + 1:]))
+    elif lines.count(line) or len(at) != 1:
+        raise Stop(2, f"{lines.count(line)} lines `{line}`, {len(at)} placed blocks in {unit_c}")
     if sh(["make", "-s", "-B", unit_o], log):
         raise Stop(2, f"{unit_o} does not compile (log {LOGDIR}/{log}.log)")
     # R3
-    edits, dl, refused, _ = declsync.sync(prog, src)
+    with open(src, errors="replace") as f:
+        body = f.read()
+    edits, dl, refused, _ = declsync.sync(prog, src, texts={src: subst(body, defines)})
     with open(os.path.join(LOGDIR, log + ".log"), "a") as f:
         f.write("\n".join(dl) + "\n")
     if refused:
@@ -198,7 +237,13 @@ def ladder(prog, vram, src, func, tu, saved, log):
     post_ro = rodata_size(unit_o)
     if post_ro > pre_ro:
         raise Stop(4, f"rodata needs placement (+{post_ro - pre_ro} bytes)")
-    # R5
+    if r5:
+        rung5(prog, src, h1, log)
+    return h1
+
+
+def rung5(prog, src, h1, log):
+    """R5 over the whole program (once per program when propagating); raises Stop."""
     if rebuild(prog, log):
         raise Stop(5, f"{bin_out(prog)} whole-binary hash red from a clean rebuild (log {LOGDIR}/{log}.log)")
     if sha1(src) != h1:
@@ -207,18 +252,29 @@ def ladder(prog, vram, src, func, tu, saved, log):
         raise Stop(5, "typecheck.py --all rc != 0")
     if sh([sys.executable, "tools/mmx6/sig.py", "--rescan"], log):
         raise Stop(5, "sig.py --rescan rc != 0")
-    return h1
 
 
-def bank(pv, src, registry=True):
+def preflight(prog, vram, src, defines=()):
+    """(corpus row or None, func, refusal cause or ''); a c row passes only when its unit holds src's block."""
+    r = corpus_row(prog, vram) if os.path.isfile("build/corpus/functions.jsonl") else None
+    func = r["name"] if r else f"{prog}:0x{vram:08X}"
+    regate = False
+    if r is not None and r["state"] == "c" and os.path.isfile(f"src/{prog}/{r['tu']}.c") and os.path.isfile(src):
+        unit_c = f"src/{prog}/{r['tu']}.c"
+        with open(unit_c) as f:
+            regate = len(placed(f.read().split("\n"), block(src, os.path.dirname(unit_c), defines), defines)) == 1
+    cause = ("no corpus row" if r is None
+             else f"state {r['state']}, not include_asm" if r["state"] != "include_asm" and not regate
+             else f"TU {r['tu']} not in config/c_units.txt" if r["tu"] not in c_units(prog)
+             else f"no file {src}" if not os.path.isfile(src) else "")
+    return r, func, cause
+
+
+def bank(pv, src, registry=True, defines=()):
     """(rc, verdict line); prints the verdict line."""
     prog, _, v = pv.rpartition(":")
     vram = int(v, 16)
-    r = corpus_row(prog, vram) if os.path.isfile("build/corpus/functions.jsonl") else None
-    func = r["name"] if r else f"{prog}:0x{vram:08X}"
-    cause = ("no corpus row" if r is None else f"state {r['state']}, not include_asm" if r["state"] != "include_asm"
-             else f"TU {r['tu']} not in config/c_units.txt" if r["tu"] not in c_units(prog)
-             else f"no file {src}" if not os.path.isfile(src) else "")
+    r, func, cause = preflight(prog, vram, src, defines)
     if cause:
         out = f"RECONCILE {func} refused: {cause}"
         print(out, flush=True)
@@ -228,14 +284,14 @@ def bank(pv, src, registry=True):
         os.remove(os.path.join(LOGDIR, log + ".log"))
     saved = {}
     try:
-        h1 = ladder(prog, vram, src, func, r["tu"], saved, log)
+        h1 = ladder(prog, vram, src, func, r["tu"], saved, log, defines)
     except Stop as e:
         restore(saved)
         rc = rebuild(prog, log)
         out = f"RECONCILE {func} stopped R{e.rung}: {e.cause}" + (f" (restore rebuild rc {rc})" if rc else "")
         print(out, flush=True)
         return 1, out
-    if registry and os.path.abspath(src).startswith(os.path.abspath("src/shared") + os.sep):
+    if registry and not defines and os.path.abspath(src).startswith(os.path.abspath("src/shared") + os.sep):
         cls = dup_key(prog, vram)
         if cls is not None:
             ex = f"{prog}:0x{vram:08X}"
@@ -313,13 +369,14 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n", 1)[0])
     ap.add_argument("pv", nargs="?", metavar="prog:vram")
     ap.add_argument("--src")
+    ap.add_argument("--define", action="append", default=[], metavar="OLD=NEW")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
-    if not (a.pv and a.src):
-        ap.error("need <prog:vram> --src <file>, or --self-test")
-    return bank(a.pv, a.src)[0]
+    if not (a.pv and a.src) or any(d.count("=") != 1 for d in a.define):
+        ap.error("need <prog:vram> --src <file> [--define OLD=NEW ...], or --self-test")
+    return bank(a.pv, a.src, defines=[tuple(d.split("=")) for d in a.define])[0]
 
 
 if __name__ == "__main__":

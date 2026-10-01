@@ -1,0 +1,1358 @@
+{"k":"program","name":"rock_08","lang":"PSX:LE:32:default","cspec":"default","image_base":"0x800e9860","format":"Raw Binary"}
+{"k":"block","name":"GTEMAC","start":"0x20000000","end":"0x20000263","perm":"r-x","init":false}
+{"k":"block","name":"ram","start":"0x800e9860","end":"0x800f6afb","perm":"rwx","init":true}
+{"k":"archive","name":"psyq470"}
+{"k":"func","addr":"0x20000000","name":"gte_ldv0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000004","name":"gte_ldv1","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000008","name":"gte_ldv2","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000000c","name":"gte_ldv3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000010","name":"gte_ldv3c","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000014","name":"gte_ldv3c_vertc","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGS.H/VERTC *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000018","name":"gte_ldv01","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000001c","name":"gte_ldv01c","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000020","name":"gte_ldrgb","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/CVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000024","name":"gte_ldrgb3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/CVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/CVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/CVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000028","name":"gte_ldrgb3c","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/CVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000002c","name":"gte_ldlv0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000030","name":"gte_ldlvl","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000034","name":"gte_ldsv","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000038","name":"gte_ldbv","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/char *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000003c","name":"gte_ldcv","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/CVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000040","name":"gte_ldclmv","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000044","name":"gte_lddp","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000048","name":"gte_ldsxy0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000004c","name":"gte_ldsxy1","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000050","name":"gte_ldsxy2","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000054","name":"gte_ldsxy3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000058","name":"gte_ldsxy3c","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000005c","name":"gte_ldsz3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000060","name":"gte_ldsz4","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long","storage":"gte3:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000064","name":"gte_ldopv1","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000068","name":"gte_ldopv2","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000006c","name":"gte_ldopv1SV","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000070","name":"gte_ldopv2SV","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000074","name":"gte_ldlzc","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000078","name":"gte_SetRGBcd","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/CVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000007c","name":"gte_ldbkdir","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000080","name":"gte_SetBackColor","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000084","name":"gte_ldfcdir","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000088","name":"gte_SetFarColor","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000008c","name":"gte_SetGeomOffset","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000090","name":"gte_SetGeomScreen","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000094","name":"gte_ldsvrtrow0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000098","name":"gte_SetRotMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000009c","name":"gte_ldsvllrow0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000a0","name":"gte_SetLightMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000a4","name":"gte_ldsvlcrow0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000a8","name":"gte_SetColorMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000ac","name":"gte_SetTransMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000b0","name":"gte_ldtr","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000b4","name":"gte_SetTransVector","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000b8","name":"gte_ld_intpol_uv0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/char *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000bc","name":"gte_ld_intpol_uv1","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/char *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000c0","name":"gte_ld_intpol_bv0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/char *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000c4","name":"gte_ld_intpol_bv1","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/char *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000c8","name":"gte_ld_intpol_sv0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000cc","name":"gte_ldfc","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000d0","name":"gte_stsxy","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000d4","name":"gte_stsxy3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000d8","name":"gte_stsxy3c","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000dc","name":"gte_stsxy2","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000e0","name":"gte_stsxy1","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000e4","name":"gte_stsxy0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000e8","name":"gte_stsxy01","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long *","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000ec","name":"gte_stsxy01c","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000f0","name":"gte_stsxy3_f3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/TYPES.H/u_long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000f4","name":"gte_stsxy3_g3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/TYPES.H/u_long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000f8","name":"gte_stsxy3_ft3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/TYPES.H/u_long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200000fc","name":"gte_stsxy3_gt3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/TYPES.H/u_long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000100","name":"gte_stsxy3_f4","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/TYPES.H/u_long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000104","name":"gte_stsxy3_g4","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/TYPES.H/u_long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000108","name":"gte_stsxy3_ft4","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/TYPES.H/u_long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000010c","name":"gte_stsxy3_gt4","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/TYPES.H/u_long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000110","name":"gte_stdp","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000114","name":"gte_stflg","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000118","name":"gte_stflg_4","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000011c","name":"gte_stsz","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000120","name":"gte_stsz3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000124","name":"gte_stsz4","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long *","storage":"gte3:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000128","name":"gte_stsz3c","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000012c","name":"gte_stsz4c","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000130","name":"gte_stszotz","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000134","name":"gte_stotz","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000138","name":"gte_stopz","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000013c","name":"gte_stlvl","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000140","name":"gte_stlvnl","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000144","name":"gte_stlvnl0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000148","name":"gte_stlvnl1","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000014c","name":"gte_stlvnl2","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000150","name":"gte_stsv","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000154","name":"gte_stclmv","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000158","name":"gte_stbv","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/char *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000015c","name":"gte_stcv","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/CVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000160","name":"gte_strgb","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/CVECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000164","name":"gte_strgb3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/CVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/CVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/CVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000168","name":"gte_strgb3_g3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/TYPES.H/u_long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000016c","name":"gte_strgb3_gt3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/TYPES.H/u_long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000170","name":"gte_strgb3_g4","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/TYPES.H/u_long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000174","name":"gte_strgb3_gt4","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/TYPES.H/u_long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000178","name":"gte_ReadGeomOffset","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long *","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000017c","name":"gte_ReadGeomScreen","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000180","name":"gte_ReadRotMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000184","name":"gte_sttr","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000188","name":"gte_ReadLightMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000018c","name":"gte_ReadColorMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000190","name":"gte_stlzc","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000194","name":"gte_stfc","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long *","storage":"gte0:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000198","name":"gte_subdvl","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/DVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/DVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/VECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000019c","name":"gte_subdvd","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/DVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/DVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/DVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001a0","name":"gte_adddvl","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/DVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/DVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/VECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001a4","name":"gte_adddvd","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/DVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/DVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/DVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001a8","name":"gte_RotTransPers","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long *","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/long *","storage":"gte4:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001ac","name":"gte_RotTransPers3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long *","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/long *","storage":"gte4:4","src":"USER_DEFINED"},{"name":"r5","type":"/long *","storage":"gte5:4","src":"USER_DEFINED"},{"name":"r6","type":"/long *","storage":"gte6:4","src":"USER_DEFINED"},{"name":"r7","type":"/long *","storage":"gte7:4","src":"USER_DEFINED"},{"name":"r8","type":"/long *","storage":"gte8:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001b0","name":"gte_RotTrans","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/VECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001b4","name":"gte_LocalLight","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/VECTOR *","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001b8","name":"gte_LightColor","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/VECTOR *","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001bc","name":"gte_DpqColorLight","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/CVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/LIBGTE.H/CVECTOR *","storage":"gte3:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001c0","name":"gte_DpqColor","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/CVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/CVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001c4","name":"gte_DpqColor3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/CVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/CVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/CVECTOR *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/LIBGTE.H/CVECTOR *","storage":"gte4:4","src":"USER_DEFINED"},{"name":"r5","type":"/LIBGTE.H/CVECTOR *","storage":"gte5:4","src":"USER_DEFINED"},{"name":"r6","type":"/LIBGTE.H/CVECTOR *","storage":"gte6:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001c8","name":"gte_Intpl","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/CVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001cc","name":"gte_Square12","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/VECTOR *","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001d0","name":"gte_Square0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/VECTOR *","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001d4","name":"gte_NormalColor","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/CVECTOR *","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001d8","name":"gte_NormalColor3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/LIBGTE.H/CVECTOR *","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/LIBGTE.H/CVECTOR *","storage":"gte4:4","src":"USER_DEFINED"},{"name":"r5","type":"/LIBGTE.H/CVECTOR *","storage":"gte5:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001dc","name":"gte_NormalColorDpq","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/CVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/LIBGTE.H/CVECTOR *","storage":"gte3:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001e0","name":"gte_NormalColorDpq3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/LIBGTE.H/CVECTOR *","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/long","storage":"gte4:4","src":"USER_DEFINED"},{"name":"r5","type":"/LIBGTE.H/CVECTOR *","storage":"gte5:4","src":"USER_DEFINED"},{"name":"r6","type":"/LIBGTE.H/CVECTOR *","storage":"gte6:4","src":"USER_DEFINED"},{"name":"r7","type":"/LIBGTE.H/CVECTOR *","storage":"gte7:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001e4","name":"gte_NormalColorCol","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/CVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/CVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001e8","name":"gte_NormalColorCol3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/LIBGTE.H/CVECTOR *","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/LIBGTE.H/CVECTOR *","storage":"gte4:4","src":"USER_DEFINED"},{"name":"r5","type":"/LIBGTE.H/CVECTOR *","storage":"gte5:4","src":"USER_DEFINED"},{"name":"r6","type":"/LIBGTE.H/CVECTOR *","storage":"gte6:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001ec","name":"gte_ColorDpq","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/CVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/LIBGTE.H/CVECTOR *","storage":"gte3:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001f0","name":"gte_ColorCol","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/CVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/CVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001f4","name":"gte_NormalClip","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long *","storage":"gte3:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001f8","name":"gte_AverageZ3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long *","storage":"gte3:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x200001fc","name":"gte_AverageZ4","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/long *","storage":"gte4:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000200","name":"gte_OuterProduct12","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/VECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/VECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000204","name":"gte_OuterProduct0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/VECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/VECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000208","name":"gte_OuterProduct12SVL","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/VECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000020c","name":"gte_OuterProduct0SVL","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/VECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000210","name":"gte_OuterProduct12SV","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000214","name":"gte_OuterProduct0SV","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000218","name":"gte_Lzc","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/long","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/long *","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000021c","name":"gte_RotAverage3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long *","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/long *","storage":"gte4:4","src":"USER_DEFINED"},{"name":"r5","type":"/long *","storage":"gte5:4","src":"USER_DEFINED"},{"name":"r6","type":"/long *","storage":"gte6:4","src":"USER_DEFINED"},{"name":"r7","type":"/long *","storage":"gte7:4","src":"USER_DEFINED"},{"name":"r8","type":"/long *","storage":"gte8:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000220","name":"gte_RotNclip3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long *","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/long *","storage":"gte4:4","src":"USER_DEFINED"},{"name":"r5","type":"/long *","storage":"gte5:4","src":"USER_DEFINED"},{"name":"r6","type":"/long *","storage":"gte6:4","src":"USER_DEFINED"},{"name":"r7","type":"/long *","storage":"gte7:4","src":"USER_DEFINED"},{"name":"r8","type":"/long *","storage":"gte8:4","src":"USER_DEFINED"},{"name":"r9","type":"/long *","storage":"gte9:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000224","name":"gte_RotAverageNclip3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long *","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/long *","storage":"gte4:4","src":"USER_DEFINED"},{"name":"r5","type":"/long *","storage":"gte5:4","src":"USER_DEFINED"},{"name":"r6","type":"/long *","storage":"gte6:4","src":"USER_DEFINED"},{"name":"r7","type":"/long *","storage":"gte7:4","src":"USER_DEFINED"},{"name":"r8","type":"/long *","storage":"gte8:4","src":"USER_DEFINED"},{"name":"r9","type":"/long *","storage":"gte9:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000228","name":"gte_RotColorDpq","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/CVECTOR *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long *","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/LIBGTE.H/CVECTOR *","storage":"gte4:4","src":"USER_DEFINED"},{"name":"r5","type":"/long *","storage":"gte5:4","src":"USER_DEFINED"},{"name":"r6","type":"/long *","storage":"gte6:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000022c","name":"gte_RotColorDpq3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/LIBGTE.H/SVECTOR *","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/LIBGTE.H/SVECTOR *","storage":"gte4:4","src":"USER_DEFINED"},{"name":"r5","type":"/LIBGTE.H/SVECTOR *","storage":"gte5:4","src":"USER_DEFINED"},{"name":"r6","type":"/LIBGTE.H/CVECTOR *","storage":"gte6:4","src":"USER_DEFINED"},{"name":"r7","type":"/long *","storage":"gte7:4","src":"USER_DEFINED"},{"name":"r8","type":"/long *","storage":"gte8:4","src":"USER_DEFINED"},{"name":"r9","type":"/long *","storage":"gte9:4","src":"USER_DEFINED"},{"name":"r10","type":"/LIBGTE.H/CVECTOR *","storage":"gte10:4","src":"USER_DEFINED"},{"name":"r11","type":"/LIBGTE.H/CVECTOR *","storage":"gte11:4","src":"USER_DEFINED"},{"name":"r12","type":"/LIBGTE.H/CVECTOR *","storage":"gte12:4","src":"USER_DEFINED"},{"name":"r13","type":"/long *","storage":"gte13:4","src":"USER_DEFINED"},{"name":"r14","type":"/long *","storage":"gte14:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000230","name":"gte_RotAverageNclipColorDpq3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/LIBGTE.H/SVECTOR *","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/LIBGTE.H/SVECTOR *","storage":"gte4:4","src":"USER_DEFINED"},{"name":"r5","type":"/LIBGTE.H/SVECTOR *","storage":"gte5:4","src":"USER_DEFINED"},{"name":"r6","type":"/LIBGTE.H/CVECTOR *","storage":"gte6:4","src":"USER_DEFINED"},{"name":"r7","type":"/long *","storage":"gte7:4","src":"USER_DEFINED"},{"name":"r8","type":"/long *","storage":"gte8:4","src":"USER_DEFINED"},{"name":"r9","type":"/long *","storage":"gte9:4","src":"USER_DEFINED"},{"name":"r10","type":"/LIBGTE.H/CVECTOR *","storage":"gte10:4","src":"USER_DEFINED"},{"name":"r11","type":"/LIBGTE.H/CVECTOR *","storage":"gte11:4","src":"USER_DEFINED"},{"name":"r12","type":"/LIBGTE.H/CVECTOR *","storage":"gte12:4","src":"USER_DEFINED"},{"name":"r13","type":"/long *","storage":"gte13:4","src":"USER_DEFINED"},{"name":"r14","type":"/long *","storage":"gte14:4","src":"USER_DEFINED"},{"name":"r15","type":"/long *","storage":"gte15:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000234","name":"gte_RotAverageNclipColorCol3","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/LIBGTE.H/SVECTOR *","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/LIBGTE.H/SVECTOR *","storage":"gte4:4","src":"USER_DEFINED"},{"name":"r5","type":"/LIBGTE.H/SVECTOR *","storage":"gte5:4","src":"USER_DEFINED"},{"name":"r6","type":"/LIBGTE.H/CVECTOR *","storage":"gte6:4","src":"USER_DEFINED"},{"name":"r7","type":"/long *","storage":"gte7:4","src":"USER_DEFINED"},{"name":"r8","type":"/long *","storage":"gte8:4","src":"USER_DEFINED"},{"name":"r9","type":"/long *","storage":"gte9:4","src":"USER_DEFINED"},{"name":"r10","type":"/LIBGTE.H/CVECTOR *","storage":"gte10:4","src":"USER_DEFINED"},{"name":"r11","type":"/LIBGTE.H/CVECTOR *","storage":"gte11:4","src":"USER_DEFINED"},{"name":"r12","type":"/LIBGTE.H/CVECTOR *","storage":"gte12:4","src":"USER_DEFINED"},{"name":"r13","type":"/long *","storage":"gte13:4","src":"USER_DEFINED"},{"name":"r14","type":"/long *","storage":"gte14:4","src":"USER_DEFINED"},{"name":"r15","type":"/long *","storage":"gte15:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000238","name":"gte_LoadAverage12","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/VECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/LIBGTE.H/VECTOR *","storage":"gte4:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000023c","name":"gte_LoadAverage0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/VECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/VECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/LIBGTE.H/VECTOR *","storage":"gte4:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000240","name":"gte_LoadAverageShort12","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/LIBGTE.H/SVECTOR *","storage":"gte4:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000244","name":"gte_LoadAverageShort0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/LIBGTE.H/SVECTOR *","storage":"gte4:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000248","name":"gte_LoadAverageByte","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/char *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/char *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/char *","storage":"gte4:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000024c","name":"gte_LoadAverageCol","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/CVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/CVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/long","storage":"gte2:4","src":"USER_DEFINED"},{"name":"r3","type":"/long","storage":"gte3:4","src":"USER_DEFINED"},{"name":"r4","type":"/LIBGTE.H/CVECTOR *","storage":"gte4:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000250","name":"gte_MulMatrix0","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/MATRIX *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/MATRIX *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000254","name":"gte_ApplyMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/VECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000258","name":"gte_ApplyMatrixSV","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x2000025c","name":"gte_CompMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/MATRIX *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/MATRIX *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x20000260","name":"gte_ApplyRotMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/VECTOR *","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x800ea740","name":"FUN_800ea740","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
+{"k":"func","addr":"0x800efc60","name":"FUN_800efc60","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
+{"k":"func","addr":"0x800efef8","name":"FUN_800efef8","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_10","type":"/undefined4","storage":"Stack[-0x10]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_c","type":"/undefined4","storage":"Stack[-0xc]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
+{"k":"func","addr":"0x800f2d7c","name":"FUN_800f2d7c","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
+{"k":"func","addr":"0x800f32a8","name":"FUN_800f32a8","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
+{"k":"data","addr":"0x20000000","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000004","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000008","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000000c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000010","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000014","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000018","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000001c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000020","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000024","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000028","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000002c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000030","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000034","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000038","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000003c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000040","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000044","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000048","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000004c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000050","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000054","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000058","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000005c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000060","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000064","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000068","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000006c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000070","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000074","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000078","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000007c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000080","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000084","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000088","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000008c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000090","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000094","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000098","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000009c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000a0","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000a4","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000a8","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000ac","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000b0","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000b4","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000b8","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000bc","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000c0","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000c4","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000c8","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000cc","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000d0","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000d4","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000d8","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000dc","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000e0","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000e4","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000e8","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000ec","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000f0","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000f4","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000f8","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200000fc","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000100","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000104","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000108","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000010c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000110","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000114","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000118","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000011c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000120","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000124","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000128","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000012c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000130","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000134","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000138","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000013c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000140","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000144","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000148","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000014c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000150","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000154","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000158","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000015c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000160","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000164","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000168","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000016c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000170","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000174","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000178","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000017c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000180","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000184","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000188","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000018c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000190","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000194","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000198","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000019c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001a0","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001a4","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001a8","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001ac","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001b0","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001b4","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001b8","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001bc","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001c0","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001c4","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001c8","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001cc","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001d0","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001d4","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001d8","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001dc","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001e0","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001e4","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001e8","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001ec","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001f0","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001f4","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001f8","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x200001fc","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000200","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000204","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000208","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000020c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000210","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000214","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000218","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000021c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000220","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000224","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000228","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000022c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000230","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000234","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000238","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000023c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000240","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000244","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000248","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000024c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000250","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000254","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000258","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x2000025c","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x20000260","type":"/byte[4]","len":4}
+{"k":"data","addr":"0x800e9874","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9878","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e987c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9880","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9884","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9888","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e988c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9890","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9894","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9898","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e989c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98a0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98a4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98a8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98ac","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98b4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98b8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98bc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98c0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98c4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98cc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98d0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98d4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98d8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98dc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98e0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98e4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98e8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98ec","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98f0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98f4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98f8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e98fc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9900","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9904","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9908","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e990c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9910","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9914","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9918","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e991c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9920","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9924","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9928","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e992c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9930","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9934","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9938","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e993c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9940","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9944","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9948","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e994c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9950","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9954","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9958","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e995c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9960","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9964","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e9968","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800e996c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f375c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f3760","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f3764","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f3768","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f376c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4c34","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4c38","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4c3c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4c40","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4c44","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4c48","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4c9c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4ca0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4ca4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4e7c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4e80","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4e84","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4e88","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4ea4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4ea8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4eac","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4eb0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4eb4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4eb8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4ebc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4ec0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4ec4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f4ec8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5560","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5564","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5568","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f556c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5570","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5574","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5578","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f557c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5580","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5584","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5588","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f558c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5590","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5594","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5598","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f559c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55a0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55a4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55a8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55ac","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55b0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55b4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55b8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55bc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55c0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55c4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55c8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55cc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55d0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55d4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f55d8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5600","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5604","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5608","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f560c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5610","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5614","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5618","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f561c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5620","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5624","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5628","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f562c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5630","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5634","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5638","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f563c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5640","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5854","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5858","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f585c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5860","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5864","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5868","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f587c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5880","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5884","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f58d8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f58dc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f58e0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f58e4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f58e8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f58f0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f58f4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f58f8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f58fc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5904","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5908","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f590c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f59a0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f59a4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f59a8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f59ac","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f59b0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f59b4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a20","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a24","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a28","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a2c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a30","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a34","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a38","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a3c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a40","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a44","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a48","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a4c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a50","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a54","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a58","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a5c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a60","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a64","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5a68","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5aac","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ab0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ab4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ab8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b08","type":"/pointer","len":4}
+{"k":"data","addr":"0x800f5b14","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b18","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b1c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b20","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b24","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b28","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b2c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b6c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b70","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b78","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b7c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b80","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b84","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b8c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b90","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b94","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b98","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5b9c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ba0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ba4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ba8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5c3c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5c40","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5c44","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5c48","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5c4c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5c50","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5cbc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5cc0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5cc4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5cc8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ccc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5cd0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5cd4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5cd8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5cdc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ce0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ce4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ce8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5cec","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5cf0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5cf4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5cf8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5cfc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d00","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d04","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d48","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d4c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d50","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d54","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d58","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d5c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d60","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d64","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d68","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d80","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d84","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d88","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d8c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d90","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5d94","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5eb4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5eb8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ebc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ec0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ec4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ec8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ecc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f34","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f38","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f3c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f44","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f48","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f4c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f50","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f54","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f58","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f5c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f60","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f64","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f68","type":"/pointer","len":4}
+{"k":"data","addr":"0x800f5f6c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f70","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f74","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f78","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f7c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f80","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f84","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f88","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f8c","type":"/pointer","len":4}
+{"k":"data","addr":"0x800f5f90","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f94","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f98","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5f9c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fa0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fa4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fa8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fac","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fb0","type":"/pointer","len":4}
+{"k":"data","addr":"0x800f5fb4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fb8","type":"/pointer","len":4}
+{"k":"data","addr":"0x800f5fbc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fc0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fc4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fc8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fcc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fd0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fd4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fd8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fdc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fe0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fe4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fe8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5fec","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ff0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ff4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ff8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f5ffc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6000","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6004","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6008","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f600c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6010","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6014","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6018","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f601c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6234","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6238","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f623c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6240","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6244","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6248","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f624c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6250","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6254","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6258","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f625c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6260","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6264","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6268","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f626c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6270","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6274","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6278","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f627c","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6280","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f6284","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62ac","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62b0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62b4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62b8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62bc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62c0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62c4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62c8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62cc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62d0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62d4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62d8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62dc","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62e0","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62e4","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62e8","type":"/undefined *","len":4}
+{"k":"data","addr":"0x800f62ec","type":"/undefined *","len":4}
+{"k":"comment","addr":"0x800e9ab0","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800e9be8","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800ea06c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800ec6bc","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800ecda4","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800ee240","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800ef11c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800efd8c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800f2f04","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800f32d0","type":"pre","text":"Possible PsyQ macro: setLineF2()"}
+{"k":"comment","addr":"0x800f3334","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"bookmark","addr":"0x800e9874","type":"Analysis","cat":"Address Table","text":"Address table[15] created"}
+{"k":"bookmark","addr":"0x800e98b4","type":"Analysis","cat":"Address Table","text":"Address table[5] created"}
+{"k":"bookmark","addr":"0x800e98cc","type":"Analysis","cat":"Address Table","text":"Address table[41] created"}
+{"k":"bookmark","addr":"0x800e99d4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800e99d4)"}
+{"k":"bookmark","addr":"0x800e9a4c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179d0 (flow from 800e9a4c)"}
+{"k":"bookmark","addr":"0x800e9a74","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800e9a74)"}
+{"k":"bookmark","addr":"0x800e9a84","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800e9a84)"}
+{"k":"bookmark","addr":"0x800e9ab8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800e9ab8)"}
+{"k":"bookmark","addr":"0x800e9b30","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800e9b30)"}
+{"k":"bookmark","addr":"0x800e9b94","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800e9b94)"}
+{"k":"bookmark","addr":"0x800e9bcc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800e9bcc)"}
+{"k":"bookmark","addr":"0x800e9bf0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800e9bf0)"}
+{"k":"bookmark","addr":"0x800e9c28","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800e9c28)"}
+{"k":"bookmark","addr":"0x800e9d18","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c7f0 (flow from 800e9d18)"}
+{"k":"bookmark","addr":"0x800ea014","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800328b0 (flow from 800ea014)"}
+{"k":"bookmark","addr":"0x800ea074","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800ea074)"}
+{"k":"bookmark","addr":"0x800ea234","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b54c (flow from 800ea234)"}
+{"k":"bookmark","addr":"0x800ea244","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b3d4 (flow from 800ea244)"}
+{"k":"bookmark","addr":"0x800ea39c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002cbfc (flow from 800ea39c)"}
+{"k":"bookmark","addr":"0x800ea484","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b54c (flow from 800ea484)"}
+{"k":"bookmark","addr":"0x800ea494","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b3d4 (flow from 800ea494)"}
+{"k":"bookmark","addr":"0x800ea564","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b54c (flow from 800ea564)"}
+{"k":"bookmark","addr":"0x800ea574","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b3d4 (flow from 800ea574)"}
+{"k":"bookmark","addr":"0x800ea648","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b54c (flow from 800ea648)"}
+{"k":"bookmark","addr":"0x800ea658","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b3d4 (flow from 800ea658)"}
+{"k":"bookmark","addr":"0x800ea6ac","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b54c (flow from 800ea6ac)"}
+{"k":"bookmark","addr":"0x800ea6bc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b3d4 (flow from 800ea6bc)"}
+{"k":"bookmark","addr":"0x800ea7dc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80027ba0 (flow from 800ea7dc)"}
+{"k":"bookmark","addr":"0x800ea8c0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002a47c (flow from 800ea8c0)"}
+{"k":"bookmark","addr":"0x800eaa14","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002bfd0 (flow from 800eaa14)"}
+{"k":"bookmark","addr":"0x800eaad0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800eaad0)"}
+{"k":"bookmark","addr":"0x800eaaec","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002a47c (flow from 800eaaec)"}
+{"k":"bookmark","addr":"0x800eab6c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002a47c (flow from 800eab6c)"}
+{"k":"bookmark","addr":"0x800eabe8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800eabe8)"}
+{"k":"bookmark","addr":"0x800eabfc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800eabfc)"}
+{"k":"bookmark","addr":"0x800eac2c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800eac2c)"}
+{"k":"bookmark","addr":"0x800eac50","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800eac50)"}
+{"k":"bookmark","addr":"0x800eac74","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800eac74)"}
+{"k":"bookmark","addr":"0x800ead10","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800ead10)"}
+{"k":"bookmark","addr":"0x800ead3c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049e50 (flow from 800ead3c)"}
+{"k":"bookmark","addr":"0x800ead50","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800477e4 (flow from 800ead50)"}
+{"k":"bookmark","addr":"0x800eade0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800477e4 (flow from 800eade0)"}
+{"k":"bookmark","addr":"0x800eadf0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800eadf0)"}
+{"k":"bookmark","addr":"0x800eae14","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800eae14)"}
+{"k":"bookmark","addr":"0x800eae24","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800477e4 (flow from 800eae24)"}
+{"k":"bookmark","addr":"0x800eae7c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800eae7c)"}
+{"k":"bookmark","addr":"0x800eaec0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031da8 (flow from 800eaec0)"}
+{"k":"bookmark","addr":"0x800eaed8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800eaed8)"}
+{"k":"bookmark","addr":"0x800eaf44","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c398 (flow from 800eaf44)"}
+{"k":"bookmark","addr":"0x800eaf70","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d30c (flow from 800eaf70)"}
+{"k":"bookmark","addr":"0x800eaffc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800477e4 (flow from 800eaffc)"}
+{"k":"bookmark","addr":"0x800eb01c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8004e654 (flow from 800eb01c)"}
+{"k":"bookmark","addr":"0x800eb0a4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800eb0a4)"}
+{"k":"bookmark","addr":"0x800eb0ac","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800eb0ac)"}
+{"k":"bookmark","addr":"0x800eb188","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800eb188)"}
+{"k":"bookmark","addr":"0x800eb1b0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800eb1b0)"}
+{"k":"bookmark","addr":"0x800eb21c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065b74 (flow from 800eb21c)"}
+{"k":"bookmark","addr":"0x800eb228","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065a14 (flow from 800eb228)"}
+{"k":"bookmark","addr":"0x800eb238","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065944 (flow from 800eb238)"}
+{"k":"bookmark","addr":"0x800eb27c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800eb27c)"}
+{"k":"bookmark","addr":"0x800eb2b4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d654 (flow from 800eb2b4)"}
+{"k":"bookmark","addr":"0x800eb2d8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800eb2d8)"}
+{"k":"bookmark","addr":"0x800eb340","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003f3dc (flow from 800eb340)"}
+{"k":"bookmark","addr":"0x800eb348","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003cdf0 (flow from 800eb348)"}
+{"k":"bookmark","addr":"0x800eb350","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003ce30 (flow from 800eb350)"}
+{"k":"bookmark","addr":"0x800eb358","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003c4ec (flow from 800eb358)"}
+{"k":"bookmark","addr":"0x800eb360","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b6b0 (flow from 800eb360)"}
+{"k":"bookmark","addr":"0x800eb438","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800eb438)"}
+{"k":"bookmark","addr":"0x800eb4a8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800139f4 (flow from 800eb4a8)"}
+{"k":"bookmark","addr":"0x800eb510","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800eb510)"}
+{"k":"bookmark","addr":"0x800eb530","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80027ba0 (flow from 800eb530)"}
+{"k":"bookmark","addr":"0x800eb634","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800eb634)"}
+{"k":"bookmark","addr":"0x800eb654","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80027ba0 (flow from 800eb654)"}
+{"k":"bookmark","addr":"0x800eb7d0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800eb7d0)"}
+{"k":"bookmark","addr":"0x800eb7f0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80027ba0 (flow from 800eb7f0)"}
+{"k":"bookmark","addr":"0x800eb8cc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800eb8cc)"}
+{"k":"bookmark","addr":"0x800eb8ec","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80027ba0 (flow from 800eb8ec)"}
+{"k":"bookmark","addr":"0x800eb950","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800eb950)"}
+{"k":"bookmark","addr":"0x800eb970","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80027ba0 (flow from 800eb970)"}
+{"k":"bookmark","addr":"0x800eba4c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800eba4c)"}
+{"k":"bookmark","addr":"0x800eba6c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80027ba0 (flow from 800eba6c)"}
+{"k":"bookmark","addr":"0x800ebb98","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800ebb98)"}
+{"k":"bookmark","addr":"0x800ebbb8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80027ba0 (flow from 800ebbb8)"}
+{"k":"bookmark","addr":"0x800ebd5c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800ebd5c)"}
+{"k":"bookmark","addr":"0x800ebd7c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80027ba0 (flow from 800ebd7c)"}
+{"k":"bookmark","addr":"0x800ebfc4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b36c (flow from 800ebfc4)"}
+{"k":"bookmark","addr":"0x800ec268","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b6b0 (flow from 800ec268)"}
+{"k":"bookmark","addr":"0x800ec294","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80029f38 (flow from 800ec294)"}
+{"k":"bookmark","addr":"0x800ec29c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800139a0 (flow from 800ec29c)"}
+{"k":"bookmark","addr":"0x800ec2b4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ec2b4)"}
+{"k":"bookmark","addr":"0x800ec3c8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003ad18 (flow from 800ec3c8)"}
+{"k":"bookmark","addr":"0x800ec45c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065b74 (flow from 800ec45c)"}
+{"k":"bookmark","addr":"0x800ec468","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065a14 (flow from 800ec468)"}
+{"k":"bookmark","addr":"0x800ec484","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065944 (flow from 800ec484)"}
+{"k":"bookmark","addr":"0x800ec4f0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800ec4f0)"}
+{"k":"bookmark","addr":"0x800ec634","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031da8 (flow from 800ec634)"}
+{"k":"bookmark","addr":"0x800ec63c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800ec63c)"}
+{"k":"bookmark","addr":"0x800ec644","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002f288 (flow from 800ec644)"}
+{"k":"bookmark","addr":"0x800ec654","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800ec654)"}
+{"k":"bookmark","addr":"0x800ec678","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049ebc (flow from 800ec678)"}
+{"k":"bookmark","addr":"0x800ec694","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800477e4 (flow from 800ec694)"}
+{"k":"bookmark","addr":"0x800ec6a0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800ec6a0)"}
+{"k":"bookmark","addr":"0x800ec6c4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800ec6c4)"}
+{"k":"bookmark","addr":"0x800ec73c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800ec73c)"}
+{"k":"bookmark","addr":"0x800ec764","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800ec764)"}
+{"k":"bookmark","addr":"0x800ec7c4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ec7c4)"}
+{"k":"bookmark","addr":"0x800ec808","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800ec808)"}
+{"k":"bookmark","addr":"0x800ec830","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800ec830)"}
+{"k":"bookmark","addr":"0x800ec890","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ec890)"}
+{"k":"bookmark","addr":"0x800ec8d4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800ec8d4)"}
+{"k":"bookmark","addr":"0x800ec940","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800ec940)"}
+{"k":"bookmark","addr":"0x800ec9c4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800ec9c4)"}
+{"k":"bookmark","addr":"0x800ec9e0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c458 (flow from 800ec9e0)"}
+{"k":"bookmark","addr":"0x800eca28","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800eca28)"}
+{"k":"bookmark","addr":"0x800ecb9c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ecb9c)"}
+{"k":"bookmark","addr":"0x800ecbd4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800ecbd4)"}
+{"k":"bookmark","addr":"0x800ecbf0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800ecbf0)"}
+{"k":"bookmark","addr":"0x800ecc1c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800ecc1c)"}
+{"k":"bookmark","addr":"0x800ecc50","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065b74 (flow from 800ecc50)"}
+{"k":"bookmark","addr":"0x800ecc5c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065a14 (flow from 800ecc5c)"}
+{"k":"bookmark","addr":"0x800ecc6c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065944 (flow from 800ecc6c)"}
+{"k":"bookmark","addr":"0x800eccac","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800eccac)"}
+{"k":"bookmark","addr":"0x800eccb4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800eccb4)"}
+{"k":"bookmark","addr":"0x800ecd24","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ecd24)"}
+{"k":"bookmark","addr":"0x800ecdac","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800ecdac)"}
+{"k":"bookmark","addr":"0x800ecdd0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800ecdd0)"}
+{"k":"bookmark","addr":"0x800ecdd8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800ecdd8)"}
+{"k":"bookmark","addr":"0x800ecdec","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800ecdec)"}
+{"k":"bookmark","addr":"0x800ece0c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049e50 (flow from 800ece0c)"}
+{"k":"bookmark","addr":"0x800ece1c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049d90 (flow from 800ece1c)"}
+{"k":"bookmark","addr":"0x800ece3c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800ece3c)"}
+{"k":"bookmark","addr":"0x800ece70","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ee10 (flow from 800ece70)"}
+{"k":"bookmark","addr":"0x800eceac","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002cbfc (flow from 800eceac)"}
+{"k":"bookmark","addr":"0x800ecec4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800ecec4)"}
+{"k":"bookmark","addr":"0x800ecef0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800ecef0)"}
+{"k":"bookmark","addr":"0x800ecf88","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c398 (flow from 800ecf88)"}
+{"k":"bookmark","addr":"0x800ecfb4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d30c (flow from 800ecfb4)"}
+{"k":"bookmark","addr":"0x800ed054","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800477e4 (flow from 800ed054)"}
+{"k":"bookmark","addr":"0x800ed190","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ed190)"}
+{"k":"bookmark","addr":"0x800ed200","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003f3dc (flow from 800ed200)"}
+{"k":"bookmark","addr":"0x800ed208","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003cdf0 (flow from 800ed208)"}
+{"k":"bookmark","addr":"0x800ed210","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003ce30 (flow from 800ed210)"}
+{"k":"bookmark","addr":"0x800ed218","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003c4ec (flow from 800ed218)"}
+{"k":"bookmark","addr":"0x800ed220","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b6b0 (flow from 800ed220)"}
+{"k":"bookmark","addr":"0x800ed35c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b36c (flow from 800ed35c)"}
+{"k":"bookmark","addr":"0x800ed424","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b6b0 (flow from 800ed424)"}
+{"k":"bookmark","addr":"0x800ed450","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80029f38 (flow from 800ed450)"}
+{"k":"bookmark","addr":"0x800ed458","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800139a0 (flow from 800ed458)"}
+{"k":"bookmark","addr":"0x800ed474","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ed474)"}
+{"k":"bookmark","addr":"0x800ed56c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003ad18 (flow from 800ed56c)"}
+{"k":"bookmark","addr":"0x800ed6d8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800ed6d8)"}
+{"k":"bookmark","addr":"0x800ed748","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800ed748)"}
+{"k":"bookmark","addr":"0x800ed76c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800ed76c)"}
+{"k":"bookmark","addr":"0x800ed788","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800ed788)"}
+{"k":"bookmark","addr":"0x800ed7c4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ca14 (flow from 800ed7c4)"}
+{"k":"bookmark","addr":"0x800ed7d4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ca54 (flow from 800ed7d4)"}
+{"k":"bookmark","addr":"0x800ed7f8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800ed7f8)"}
+{"k":"bookmark","addr":"0x800ed800","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800ed800)"}
+{"k":"bookmark","addr":"0x800ed8c0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800139f4 (flow from 800ed8c0)"}
+{"k":"bookmark","addr":"0x800ed95c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c4c4 (flow from 800ed95c)"}
+{"k":"bookmark","addr":"0x800ed9c4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800ed9c4)"}
+{"k":"bookmark","addr":"0x800ed9f0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800ed9f0)"}
+{"k":"bookmark","addr":"0x800eda04","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800eda04)"}
+{"k":"bookmark","addr":"0x800eda74","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002a47c (flow from 800eda74)"}
+{"k":"bookmark","addr":"0x800edba8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800edba8)"}
+{"k":"bookmark","addr":"0x800edc54","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800edc54)"}
+{"k":"bookmark","addr":"0x800edc88","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800477e4 (flow from 800edc88)"}
+{"k":"bookmark","addr":"0x800edc9c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049ebc (flow from 800edc9c)"}
+{"k":"bookmark","addr":"0x800edd88","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800edd88)"}
+{"k":"bookmark","addr":"0x800eddd0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800eddd0)"}
+{"k":"bookmark","addr":"0x800eddd8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031da8 (flow from 800eddd8)"}
+{"k":"bookmark","addr":"0x800eddf0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031f4c (flow from 800eddf0)"}
+{"k":"bookmark","addr":"0x800ede00","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002cbfc (flow from 800ede00)"}
+{"k":"bookmark","addr":"0x800ede14","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800ede14)"}
+{"k":"bookmark","addr":"0x800ede84","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800ede84)"}
+{"k":"bookmark","addr":"0x800edec8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800edec8)"}
+{"k":"bookmark","addr":"0x800edf00","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002a47c (flow from 800edf00)"}
+{"k":"bookmark","addr":"0x800ee010","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800ee010)"}
+{"k":"bookmark","addr":"0x800ee03c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800ee03c)"}
+{"k":"bookmark","addr":"0x800ee094","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800ee094)"}
+{"k":"bookmark","addr":"0x800ee0a4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049e50 (flow from 800ee0a4)"}
+{"k":"bookmark","addr":"0x800ee0dc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80032be8 (flow from 800ee0dc)"}
+{"k":"bookmark","addr":"0x800ee0e4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003208c (flow from 800ee0e4)"}
+{"k":"bookmark","addr":"0x800ee0f4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002cbfc (flow from 800ee0f4)"}
+{"k":"bookmark","addr":"0x800ee10c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800ee10c)"}
+{"k":"bookmark","addr":"0x800ee134","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ca14 (flow from 800ee134)"}
+{"k":"bookmark","addr":"0x800ee150","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002f288 (flow from 800ee150)"}
+{"k":"bookmark","addr":"0x800ee16c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031da8 (flow from 800ee16c)"}
+{"k":"bookmark","addr":"0x800ee174","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031f4c (flow from 800ee174)"}
+{"k":"bookmark","addr":"0x800ee248","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ca54 (flow from 800ee248)"}
+{"k":"bookmark","addr":"0x800ee2c4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049ebc (flow from 800ee2c4)"}
+{"k":"bookmark","addr":"0x800ee2d8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ca14 (flow from 800ee2d8)"}
+{"k":"bookmark","addr":"0x800ee314","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800ee314)"}
+{"k":"bookmark","addr":"0x800ee334","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ee334)"}
+{"k":"bookmark","addr":"0x800ee33c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80012d9c (flow from 800ee33c)"}
+{"k":"bookmark","addr":"0x800ee368","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002943c (flow from 800ee368)"}
+{"k":"bookmark","addr":"0x800ee3c4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800ee3c4)"}
+{"k":"bookmark","addr":"0x800ee4d8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800ee4d8)"}
+{"k":"bookmark","addr":"0x800ee4ec","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800ee4ec)"}
+{"k":"bookmark","addr":"0x800ee500","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800ee500)"}
+{"k":"bookmark","addr":"0x800ee5d0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003f3dc (flow from 800ee5d0)"}
+{"k":"bookmark","addr":"0x800ee5d8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003cdf0 (flow from 800ee5d8)"}
+{"k":"bookmark","addr":"0x800ee5e0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003ce30 (flow from 800ee5e0)"}
+{"k":"bookmark","addr":"0x800ee5e8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003c4ec (flow from 800ee5e8)"}
+{"k":"bookmark","addr":"0x800ee5f0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b6b0 (flow from 800ee5f0)"}
+{"k":"bookmark","addr":"0x800ee61c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ee61c)"}
+{"k":"bookmark","addr":"0x800ee730","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ee730)"}
+{"k":"bookmark","addr":"0x800ee7a4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003f3dc (flow from 800ee7a4)"}
+{"k":"bookmark","addr":"0x800ee7ac","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003cdf0 (flow from 800ee7ac)"}
+{"k":"bookmark","addr":"0x800ee7b4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003ce30 (flow from 800ee7b4)"}
+{"k":"bookmark","addr":"0x800ee7bc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003c4ec (flow from 800ee7bc)"}
+{"k":"bookmark","addr":"0x800ee7c4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b6b0 (flow from 800ee7c4)"}
+{"k":"bookmark","addr":"0x800ee9b4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b36c (flow from 800ee9b4)"}
+{"k":"bookmark","addr":"0x800eeb70","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002b6b0 (flow from 800eeb70)"}
+{"k":"bookmark","addr":"0x800eeb9c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80029f38 (flow from 800eeb9c)"}
+{"k":"bookmark","addr":"0x800eeba4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800139a0 (flow from 800eeba4)"}
+{"k":"bookmark","addr":"0x800eebcc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800eebcc)"}
+{"k":"bookmark","addr":"0x800eeca0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003ad18 (flow from 800eeca0)"}
+{"k":"bookmark","addr":"0x800eed64","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800eed64)"}
+{"k":"bookmark","addr":"0x800eedac","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800eedac)"}
+{"k":"bookmark","addr":"0x800eeddc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ca14 (flow from 800eeddc)"}
+{"k":"bookmark","addr":"0x800eedec","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ca54 (flow from 800eedec)"}
+{"k":"bookmark","addr":"0x800eee20","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d654 (flow from 800eee20)"}
+{"k":"bookmark","addr":"0x800eefe8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800139f4 (flow from 800eefe8)"}
+{"k":"bookmark","addr":"0x800ef08c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800139f4 (flow from 800ef08c)"}
+{"k":"bookmark","addr":"0x800ef124","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800ef124)"}
+{"k":"bookmark","addr":"0x800ef150","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800ef150)"}
+{"k":"bookmark","addr":"0x800ef164","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800ef164)"}
+{"k":"bookmark","addr":"0x800ef1d4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002a47c (flow from 800ef1d4)"}
+{"k":"bookmark","addr":"0x800ef2e8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800ef2e8)"}
+{"k":"bookmark","addr":"0x800ef358","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800ef358)"}
+{"k":"bookmark","addr":"0x800ef378","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800ef378)"}
+{"k":"bookmark","addr":"0x800ef394","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800477e4 (flow from 800ef394)"}
+{"k":"bookmark","addr":"0x800ef3b8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049e50 (flow from 800ef3b8)"}
+{"k":"bookmark","addr":"0x800ef424","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8004e654 (flow from 800ef424)"}
+{"k":"bookmark","addr":"0x800ef438","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800ef438)"}
+{"k":"bookmark","addr":"0x800ef484","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800ef484)"}
+{"k":"bookmark","addr":"0x800ef494","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002cbfc (flow from 800ef494)"}
+{"k":"bookmark","addr":"0x800ef4cc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800ef4cc)"}
+{"k":"bookmark","addr":"0x800ef4dc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ca54 (flow from 800ef4dc)"}
+{"k":"bookmark","addr":"0x800ef518","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002f288 (flow from 800ef518)"}
+{"k":"bookmark","addr":"0x800ef540","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800ef540)"}
+{"k":"bookmark","addr":"0x800ef578","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ef578)"}
+{"k":"bookmark","addr":"0x800ef5a0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ccc (flow from 800ef5a0)"}
+{"k":"bookmark","addr":"0x800ef65c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049e50 (flow from 800ef65c)"}
+{"k":"bookmark","addr":"0x800ef664","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800ef664)"}
+{"k":"bookmark","addr":"0x800ef680","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800477e4 (flow from 800ef680)"}
+{"k":"bookmark","addr":"0x800ef71c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ef71c)"}
+{"k":"bookmark","addr":"0x800ef728","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ca14 (flow from 800ef728)"}
+{"k":"bookmark","addr":"0x800ef7c0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800ef7c0)"}
+{"k":"bookmark","addr":"0x800ef7f8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ef7f8)"}
+{"k":"bookmark","addr":"0x800ef800","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049e50 (flow from 800ef800)"}
+{"k":"bookmark","addr":"0x800ef808","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800ef808)"}
+{"k":"bookmark","addr":"0x800ef824","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800477e4 (flow from 800ef824)"}
+{"k":"bookmark","addr":"0x800ef868","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800ef868)"}
+{"k":"bookmark","addr":"0x800ef88c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800ef88c)"}
+{"k":"bookmark","addr":"0x800ef904","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049e50 (flow from 800ef904)"}
+{"k":"bookmark","addr":"0x800ef90c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800ef90c)"}
+{"k":"bookmark","addr":"0x800ef928","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800477e4 (flow from 800ef928)"}
+{"k":"bookmark","addr":"0x800ef9c4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065b74 (flow from 800ef9c4)"}
+{"k":"bookmark","addr":"0x800ef9d0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065a14 (flow from 800ef9d0)"}
+{"k":"bookmark","addr":"0x800ef9e0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065944 (flow from 800ef9e0)"}
+{"k":"bookmark","addr":"0x800efa1c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800efa1c)"}
+{"k":"bookmark","addr":"0x800efa34","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049e50 (flow from 800efa34)"}
+{"k":"bookmark","addr":"0x800efa3c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800efa3c)"}
+{"k":"bookmark","addr":"0x800efa58","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800477e4 (flow from 800efa58)"}
+{"k":"bookmark","addr":"0x800efab4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800efab4)"}
+{"k":"bookmark","addr":"0x800efb10","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800efb10)"}
+{"k":"bookmark","addr":"0x800efb38","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002a47c (flow from 800efb38)"}
+{"k":"bookmark","addr":"0x800efbe0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800efbe0)"}
+{"k":"bookmark","addr":"0x800efd94","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800efd94)"}
+{"k":"bookmark","addr":"0x800efe6c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800efe6c)"}
+{"k":"bookmark","addr":"0x800efe74","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800efe74)"}
+{"k":"bookmark","addr":"0x800efebc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002cbfc (flow from 800efebc)"}
+{"k":"bookmark","addr":"0x800efed4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800efed4)"}
+{"k":"bookmark","addr":"0x800eff0c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002bbf4 (flow from 800eff0c)"}
+{"k":"bookmark","addr":"0x800f0018","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80027ba0 (flow from 800f0018)"}
+{"k":"bookmark","addr":"0x800f0160","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f0160)"}
+{"k":"bookmark","addr":"0x800f018c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c458 (flow from 800f018c)"}
+{"k":"bookmark","addr":"0x800f0310","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800f0310)"}
+{"k":"bookmark","addr":"0x800f0318","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800f0318)"}
+{"k":"bookmark","addr":"0x800f0480","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800f0480)"}
+{"k":"bookmark","addr":"0x800f0488","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800f0488)"}
+{"k":"bookmark","addr":"0x800f0620","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800f0620)"}
+{"k":"bookmark","addr":"0x800f06ac","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800f06ac)"}
+{"k":"bookmark","addr":"0x800f0704","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002bbf4 (flow from 800f0704)"}
+{"k":"bookmark","addr":"0x800f077c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800f077c)"}
+{"k":"bookmark","addr":"0x800f07cc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c458 (flow from 800f07cc)"}
+{"k":"bookmark","addr":"0x800f0858","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800f0858)"}
+{"k":"bookmark","addr":"0x800f09e0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800f09e0)"}
+{"k":"bookmark","addr":"0x800f09f8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800f09f8)"}
+{"k":"bookmark","addr":"0x800f0a14","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f0a14)"}
+{"k":"bookmark","addr":"0x800f0a1c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800f0a1c)"}
+{"k":"bookmark","addr":"0x800f0a70","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80021760 (flow from 800f0a70)"}
+{"k":"bookmark","addr":"0x800f0a84","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f0a84)"}
+{"k":"bookmark","addr":"0x800f0abc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f0abc)"}
+{"k":"bookmark","addr":"0x800f0ac4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800f0ac4)"}
+{"k":"bookmark","addr":"0x800f0b18","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800f0b18)"}
+{"k":"bookmark","addr":"0x800f0b8c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800f0b8c)"}
+{"k":"bookmark","addr":"0x800f0bac","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f0bac)"}
+{"k":"bookmark","addr":"0x800f0c78","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065b74 (flow from 800f0c78)"}
+{"k":"bookmark","addr":"0x800f0c84","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065a14 (flow from 800f0c84)"}
+{"k":"bookmark","addr":"0x800f0c9c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065944 (flow from 800f0c9c)"}
+{"k":"bookmark","addr":"0x800f0d40","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f0d40)"}
+{"k":"bookmark","addr":"0x800f0d90","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002a47c (flow from 800f0d90)"}
+{"k":"bookmark","addr":"0x800f0e68","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800f0e68)"}
+{"k":"bookmark","addr":"0x800f12ec","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800f12ec)"}
+{"k":"bookmark","addr":"0x800f1318","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800f1318)"}
+{"k":"bookmark","addr":"0x800f1410","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f1410)"}
+{"k":"bookmark","addr":"0x800f1428","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800f1428)"}
+{"k":"bookmark","addr":"0x800f14cc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049ebc (flow from 800f14cc)"}
+{"k":"bookmark","addr":"0x800f1520","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800477e4 (flow from 800f1520)"}
+{"k":"bookmark","addr":"0x800f16b8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065b74 (flow from 800f16b8)"}
+{"k":"bookmark","addr":"0x800f16c4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065a14 (flow from 800f16c4)"}
+{"k":"bookmark","addr":"0x800f16dc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80065944 (flow from 800f16dc)"}
+{"k":"bookmark","addr":"0x800f1700","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800f1700)"}
+{"k":"bookmark","addr":"0x800f1740","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f1740)"}
+{"k":"bookmark","addr":"0x800f1748","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800f1748)"}
+{"k":"bookmark","addr":"0x800f1750","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800f1750)"}
+{"k":"bookmark","addr":"0x800f1778","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800f1778)"}
+{"k":"bookmark","addr":"0x800f1824","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f1824)"}
+{"k":"bookmark","addr":"0x800f182c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800f182c)"}
+{"k":"bookmark","addr":"0x800f1834","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800f1834)"}
+{"k":"bookmark","addr":"0x800f185c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800f185c)"}
+{"k":"bookmark","addr":"0x800f1864","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80012d9c (flow from 800f1864)"}
+{"k":"bookmark","addr":"0x800f1928","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800f1928)"}
+{"k":"bookmark","addr":"0x800f19d4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f19d4)"}
+{"k":"bookmark","addr":"0x800f19dc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800f19dc)"}
+{"k":"bookmark","addr":"0x800f1a00","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800f1a00)"}
+{"k":"bookmark","addr":"0x800f1a08","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80012d9c (flow from 800f1a08)"}
+{"k":"bookmark","addr":"0x800f1a30","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800f1a30)"}
+{"k":"bookmark","addr":"0x800f1a58","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800f1a58)"}
+{"k":"bookmark","addr":"0x800f1b74","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c458 (flow from 800f1b74)"}
+{"k":"bookmark","addr":"0x800f1c44","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800f1c44)"}
+{"k":"bookmark","addr":"0x800f1cf8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003d308 (flow from 800f1cf8)"}
+{"k":"bookmark","addr":"0x800f1d18","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f1d18)"}
+{"k":"bookmark","addr":"0x800f1d3c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800f1d3c)"}
+{"k":"bookmark","addr":"0x800f1d84","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c3f8 (flow from 800f1d84)"}
+{"k":"bookmark","addr":"0x800f1dc8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800f1dc8)"}
+{"k":"bookmark","addr":"0x800f1ee8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f1ee8)"}
+{"k":"bookmark","addr":"0x800f1f70","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f1f70)"}
+{"k":"bookmark","addr":"0x800f1f78","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800f1f78)"}
+{"k":"bookmark","addr":"0x800f212c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f212c)"}
+{"k":"bookmark","addr":"0x800f21b4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f21b4)"}
+{"k":"bookmark","addr":"0x800f21bc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800f21bc)"}
+{"k":"bookmark","addr":"0x800f2254","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800f2254)"}
+{"k":"bookmark","addr":"0x800f2260","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f2260)"}
+{"k":"bookmark","addr":"0x800f2274","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f2274)"}
+{"k":"bookmark","addr":"0x800f22ac","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800f22ac)"}
+{"k":"bookmark","addr":"0x800f2344","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f2344)"}
+{"k":"bookmark","addr":"0x800f234c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f234c)"}
+{"k":"bookmark","addr":"0x800f2384","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f2384)"}
+{"k":"bookmark","addr":"0x800f23dc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f23dc)"}
+{"k":"bookmark","addr":"0x800f2410","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f2410)"}
+{"k":"bookmark","addr":"0x800f242c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800f242c)"}
+{"k":"bookmark","addr":"0x800f2444","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c458 (flow from 800f2444)"}
+{"k":"bookmark","addr":"0x800f24fc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f24fc)"}
+{"k":"bookmark","addr":"0x800f2534","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f2534)"}
+{"k":"bookmark","addr":"0x800f25e0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f25e0)"}
+{"k":"bookmark","addr":"0x800f2610","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f2610)"}
+{"k":"bookmark","addr":"0x800f26ac","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f26ac)"}
+{"k":"bookmark","addr":"0x800f2714","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f2714)"}
+{"k":"bookmark","addr":"0x800f271c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800f271c)"}
+{"k":"bookmark","addr":"0x800f2824","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f2824)"}
+{"k":"bookmark","addr":"0x800f297c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f297c)"}
+{"k":"bookmark","addr":"0x800f2984","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800f2984)"}
+{"k":"bookmark","addr":"0x800f2a64","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003d308 (flow from 800f2a64)"}
+{"k":"bookmark","addr":"0x800f2b00","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003d308 (flow from 800f2b00)"}
+{"k":"bookmark","addr":"0x800f2b34","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c3f8 (flow from 800f2b34)"}
+{"k":"bookmark","addr":"0x800f2ba8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003d308 (flow from 800f2ba8)"}
+{"k":"bookmark","addr":"0x800f2be0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80025fd8 (flow from 800f2be0)"}
+{"k":"bookmark","addr":"0x800f2c30","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f2c30)"}
+{"k":"bookmark","addr":"0x800f2c4c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80040488 (flow from 800f2c4c)"}
+{"k":"bookmark","addr":"0x800f2c80","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f2c80)"}
+{"k":"bookmark","addr":"0x800f2c88","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80040498 (flow from 800f2c88)"}
+{"k":"bookmark","addr":"0x800f2ce8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f2ce8)"}
+{"k":"bookmark","addr":"0x800f2d10","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800f2d10)"}
+{"k":"bookmark","addr":"0x800f2d5c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003d330 (flow from 800f2d5c)"}
+{"k":"bookmark","addr":"0x800f2dd4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f2dd4)"}
+{"k":"bookmark","addr":"0x800f2e1c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f2e1c)"}
+{"k":"bookmark","addr":"0x800f2e24","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800f2e24)"}
+{"k":"bookmark","addr":"0x800f2f0c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f2f0c)"}
+{"k":"bookmark","addr":"0x800f2f30","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f2f30)"}
+{"k":"bookmark","addr":"0x800f2f38","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800f2f38)"}
+{"k":"bookmark","addr":"0x800f2f64","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80012d9c (flow from 800f2f64)"}
+{"k":"bookmark","addr":"0x800f2f74","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80029478 (flow from 800f2f74)"}
+{"k":"bookmark","addr":"0x800f2fbc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f2fbc)"}
+{"k":"bookmark","addr":"0x800f3000","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f3000)"}
+{"k":"bookmark","addr":"0x800f30b4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f30b4)"}
+{"k":"bookmark","addr":"0x800f313c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f313c)"}
+{"k":"bookmark","addr":"0x800f31b4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f31b4)"}
+{"k":"bookmark","addr":"0x800f31bc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c458 (flow from 800f31bc)"}
+{"k":"bookmark","addr":"0x800f3254","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f3254)"}
+{"k":"bookmark","addr":"0x800f325c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2d4 (flow from 800f325c)"}
+{"k":"bookmark","addr":"0x800f3274","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800f3274)"}
+{"k":"bookmark","addr":"0x800f333c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800f333c)"}
+{"k":"bookmark","addr":"0x800f3360","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f3360)"}
+{"k":"bookmark","addr":"0x800f3368","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800f3368)"}
+{"k":"bookmark","addr":"0x800f3370","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800f3370)"}
+{"k":"bookmark","addr":"0x800f3380","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80049d90 (flow from 800f3380)"}
+{"k":"bookmark","addr":"0x800f33a0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ee10 (flow from 800f33a0)"}
+{"k":"bookmark","addr":"0x800f3498","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800f3498)"}
+{"k":"bookmark","addr":"0x800f355c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800f355c)"}
+{"k":"bookmark","addr":"0x800f35d4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800f35d4)"}
+{"k":"bookmark","addr":"0x800f35dc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800f35dc)"}
+{"k":"bookmark","addr":"0x800f3608","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800f3608)"}
+{"k":"bookmark","addr":"0x800f363c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800f363c)"}
+{"k":"bookmark","addr":"0x800f3644","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80012d9c (flow from 800f3644)"}
+{"k":"bookmark","addr":"0x800f3690","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d2b0 (flow from 800f3690)"}
+{"k":"bookmark","addr":"0x800f3698","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800f3698)"}
+{"k":"bookmark","addr":"0x800f36a8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800f36a8)"}
+{"k":"bookmark","addr":"0x800f36dc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 800f36dc)"}
+{"k":"bookmark","addr":"0x800f36e4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80012d9c (flow from 800f36e4)"}
+{"k":"bookmark","addr":"0x800f375c","type":"Analysis","cat":"Address Table","text":"Address table[5] created"}
+{"k":"bookmark","addr":"0x800f4c34","type":"Analysis","cat":"Address Table","text":"Address table[6] created"}
+{"k":"bookmark","addr":"0x800f4c9c","type":"Analysis","cat":"Address Table","text":"Address table[3] created"}
+{"k":"bookmark","addr":"0x800f4e7c","type":"Analysis","cat":"Address Table","text":"Address table[4] created"}
+{"k":"bookmark","addr":"0x800f4ea4","type":"Analysis","cat":"Address Table","text":"Address table[10] created"}
+{"k":"bookmark","addr":"0x800f5560","type":"Analysis","cat":"Address Table","text":"Address table[31] created"}
+{"k":"bookmark","addr":"0x800f5600","type":"Analysis","cat":"Address Table","text":"Address table[17] created"}
+{"k":"bookmark","addr":"0x800f5854","type":"Analysis","cat":"Address Table","text":"Address table[6] created"}
+{"k":"bookmark","addr":"0x800f587c","type":"Analysis","cat":"Address Table","text":"Address table[3] created"}
+{"k":"bookmark","addr":"0x800f58d8","type":"Analysis","cat":"Address Table","text":"Address table[5] created"}
+{"k":"bookmark","addr":"0x800f58f0","type":"Analysis","cat":"Address Table","text":"Address table[4] created"}
+{"k":"bookmark","addr":"0x800f5904","type":"Analysis","cat":"Address Table","text":"Address table[3] created"}
+{"k":"bookmark","addr":"0x800f59a0","type":"Analysis","cat":"Address Table","text":"Address table[6] created"}
+{"k":"bookmark","addr":"0x800f5a20","type":"Analysis","cat":"Address Table","text":"Address table[19] created"}
+{"k":"bookmark","addr":"0x800f5aac","type":"Analysis","cat":"Address Table","text":"Address table[4] created"}
+{"k":"bookmark","addr":"0x800f5b14","type":"Analysis","cat":"Address Table","text":"Address table[7] created"}
+{"k":"bookmark","addr":"0x800f5b6c","type":"Analysis","cat":"Address Table","text":"Address table[2] created"}
+{"k":"bookmark","addr":"0x800f5b78","type":"Analysis","cat":"Address Table","text":"Address table[4] created"}
+{"k":"bookmark","addr":"0x800f5b8c","type":"Analysis","cat":"Address Table","text":"Address table[8] created"}
+{"k":"bookmark","addr":"0x800f5c3c","type":"Analysis","cat":"Address Table","text":"Address table[6] created"}
+{"k":"bookmark","addr":"0x800f5cbc","type":"Analysis","cat":"Address Table","text":"Address table[19] created"}
+{"k":"bookmark","addr":"0x800f5d48","type":"Analysis","cat":"Address Table","text":"Address table[9] created"}
+{"k":"bookmark","addr":"0x800f5d80","type":"Analysis","cat":"Address Table","text":"Address table[6] created"}
+{"k":"bookmark","addr":"0x800f5eb4","type":"Analysis","cat":"Address Table","text":"Address table[7] created"}
+{"k":"bookmark","addr":"0x800f5f34","type":"Analysis","cat":"Address Table","text":"Address table[3] created"}
+{"k":"bookmark","addr":"0x800f5f44","type":"Analysis","cat":"Address Table","text":"Address table[9] created"}
+{"k":"bookmark","addr":"0x800f5f68","type":"Analysis","cat":"Address Table","text":"Address table[2] created"}
+{"k":"bookmark","addr":"0x800f5f70","type":"Analysis","cat":"Address Table","text":"Address table[3] created"}
+{"k":"bookmark","addr":"0x800f5f7c","type":"Analysis","cat":"Address Table","text":"Address table[4] created"}
+{"k":"bookmark","addr":"0x800f5f8c","type":"Analysis","cat":"Address Table","text":"Address table[2] created"}
+{"k":"bookmark","addr":"0x800f5f94","type":"Analysis","cat":"Address Table","text":"Address table[3] created"}
+{"k":"bookmark","addr":"0x800f5fa0","type":"Analysis","cat":"Address Table","text":"Address table[4] created"}
+{"k":"bookmark","addr":"0x800f5fb0","type":"Analysis","cat":"Address Table","text":"Address table[2] created"}
+{"k":"bookmark","addr":"0x800f5fb8","type":"Analysis","cat":"Address Table","text":"Address table[2] created"}
+{"k":"bookmark","addr":"0x800f5fc0","type":"Analysis","cat":"Address Table","text":"Address table[6] created"}
+{"k":"bookmark","addr":"0x800f5fd8","type":"Analysis","cat":"Address Table","text":"Address table[8] created"}
+{"k":"bookmark","addr":"0x800f5ff8","type":"Analysis","cat":"Address Table","text":"Address table[5] created"}
+{"k":"bookmark","addr":"0x800f600c","type":"Analysis","cat":"Address Table","text":"Address table[5] created"}
+{"k":"bookmark","addr":"0x800f6234","type":"Analysis","cat":"Address Table","text":"Address table[21] created"}
+{"k":"bookmark","addr":"0x800f62ac","type":"Analysis","cat":"Address Table","text":"Address table[17] created"}
+{"k":"label","addr":"0x20000000","name":"gte_ldv0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000004","name":"gte_ldv1","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000008","name":"gte_ldv2","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000000c","name":"gte_ldv3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000010","name":"gte_ldv3c","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000014","name":"gte_ldv3c_vertc","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000018","name":"gte_ldv01","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000001c","name":"gte_ldv01c","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000020","name":"gte_ldrgb","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000024","name":"gte_ldrgb3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000028","name":"gte_ldrgb3c","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000002c","name":"gte_ldlv0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000030","name":"gte_ldlvl","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000034","name":"gte_ldsv","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000038","name":"gte_ldbv","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000003c","name":"gte_ldcv","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000040","name":"gte_ldclmv","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000044","name":"gte_lddp","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000048","name":"gte_ldsxy0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000004c","name":"gte_ldsxy1","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000050","name":"gte_ldsxy2","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000054","name":"gte_ldsxy3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000058","name":"gte_ldsxy3c","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000005c","name":"gte_ldsz3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000060","name":"gte_ldsz4","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000064","name":"gte_ldopv1","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000068","name":"gte_ldopv2","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000006c","name":"gte_ldopv1SV","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000070","name":"gte_ldopv2SV","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000074","name":"gte_ldlzc","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000078","name":"gte_SetRGBcd","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000007c","name":"gte_ldbkdir","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000080","name":"gte_SetBackColor","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000084","name":"gte_ldfcdir","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000088","name":"gte_SetFarColor","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000008c","name":"gte_SetGeomOffset","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000090","name":"gte_SetGeomScreen","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000094","name":"gte_ldsvrtrow0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000098","name":"gte_SetRotMatrix","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000009c","name":"gte_ldsvllrow0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000a0","name":"gte_SetLightMatrix","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000a4","name":"gte_ldsvlcrow0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000a8","name":"gte_SetColorMatrix","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000ac","name":"gte_SetTransMatrix","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000b0","name":"gte_ldtr","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000b4","name":"gte_SetTransVector","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000b8","name":"gte_ld_intpol_uv0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000bc","name":"gte_ld_intpol_uv1","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000c0","name":"gte_ld_intpol_bv0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000c4","name":"gte_ld_intpol_bv1","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000c8","name":"gte_ld_intpol_sv0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000cc","name":"gte_ldfc","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000d0","name":"gte_stsxy","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000d4","name":"gte_stsxy3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000d8","name":"gte_stsxy3c","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000dc","name":"gte_stsxy2","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000e0","name":"gte_stsxy1","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000e4","name":"gte_stsxy0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000e8","name":"gte_stsxy01","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000ec","name":"gte_stsxy01c","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000f0","name":"gte_stsxy3_f3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000f4","name":"gte_stsxy3_g3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000f8","name":"gte_stsxy3_ft3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200000fc","name":"gte_stsxy3_gt3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000100","name":"gte_stsxy3_f4","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000104","name":"gte_stsxy3_g4","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000108","name":"gte_stsxy3_ft4","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000010c","name":"gte_stsxy3_gt4","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000110","name":"gte_stdp","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000114","name":"gte_stflg","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000118","name":"gte_stflg_4","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000011c","name":"gte_stsz","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000120","name":"gte_stsz3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000124","name":"gte_stsz4","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000128","name":"gte_stsz3c","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000012c","name":"gte_stsz4c","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000130","name":"gte_stszotz","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000134","name":"gte_stotz","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000138","name":"gte_stopz","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000013c","name":"gte_stlvl","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000140","name":"gte_stlvnl","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000144","name":"gte_stlvnl0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000148","name":"gte_stlvnl1","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000014c","name":"gte_stlvnl2","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000150","name":"gte_stsv","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000154","name":"gte_stclmv","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000158","name":"gte_stbv","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000015c","name":"gte_stcv","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000160","name":"gte_strgb","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000164","name":"gte_strgb3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000168","name":"gte_strgb3_g3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000016c","name":"gte_strgb3_gt3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000170","name":"gte_strgb3_g4","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000174","name":"gte_strgb3_gt4","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000178","name":"gte_ReadGeomOffset","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000017c","name":"gte_ReadGeomScreen","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000180","name":"gte_ReadRotMatrix","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000184","name":"gte_sttr","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000188","name":"gte_ReadLightMatrix","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000018c","name":"gte_ReadColorMatrix","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000190","name":"gte_stlzc","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000194","name":"gte_stfc","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000198","name":"gte_subdvl","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000019c","name":"gte_subdvd","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001a0","name":"gte_adddvl","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001a4","name":"gte_adddvd","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001a8","name":"gte_RotTransPers","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001ac","name":"gte_RotTransPers3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001b0","name":"gte_RotTrans","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001b4","name":"gte_LocalLight","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001b8","name":"gte_LightColor","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001bc","name":"gte_DpqColorLight","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001c0","name":"gte_DpqColor","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001c4","name":"gte_DpqColor3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001c8","name":"gte_Intpl","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001cc","name":"gte_Square12","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001d0","name":"gte_Square0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001d4","name":"gte_NormalColor","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001d8","name":"gte_NormalColor3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001dc","name":"gte_NormalColorDpq","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001e0","name":"gte_NormalColorDpq3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001e4","name":"gte_NormalColorCol","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001e8","name":"gte_NormalColorCol3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001ec","name":"gte_ColorDpq","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001f0","name":"gte_ColorCol","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001f4","name":"gte_NormalClip","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001f8","name":"gte_AverageZ3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x200001fc","name":"gte_AverageZ4","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000200","name":"gte_OuterProduct12","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000204","name":"gte_OuterProduct0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000208","name":"gte_OuterProduct12SVL","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000020c","name":"gte_OuterProduct0SVL","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000210","name":"gte_OuterProduct12SV","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000214","name":"gte_OuterProduct0SV","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000218","name":"gte_Lzc","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000021c","name":"gte_RotAverage3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000220","name":"gte_RotNclip3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000224","name":"gte_RotAverageNclip3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000228","name":"gte_RotColorDpq","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000022c","name":"gte_RotColorDpq3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000230","name":"gte_RotAverageNclipColorDpq3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000234","name":"gte_RotAverageNclipColorCol3","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000238","name":"gte_LoadAverage12","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000023c","name":"gte_LoadAverage0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000240","name":"gte_LoadAverageShort12","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000244","name":"gte_LoadAverageShort0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000248","name":"gte_LoadAverageByte","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000024c","name":"gte_LoadAverageCol","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000250","name":"gte_MulMatrix0","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000254","name":"gte_ApplyMatrix","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000258","name":"gte_ApplyMatrixSV","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x2000025c","name":"gte_CompMatrix","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x20000260","name":"gte_ApplyRotMatrix","primary":true,"src":"IMPORTED","func":true}
+{"k":"label","addr":"0x800e9874","name":"switchdataD_800e9874","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800e98b4","name":"switchdataD_800e98b4","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800e98cc","name":"switchdataD_800e98cc","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800e98ec","name":"switchdataD_800e98ec","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800e9900","name":"switchdataD_800e9900","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ea9f8","name":"switchD","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eaa00","name":"caseD_0","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eaae0","name":"caseD_1","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eaae0","name":"caseD_4","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eab60","name":"caseD_2","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eab60","name":"caseD_3","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eabf8","name":"caseD_a","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eabf8","name":"caseD_b","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eac18","name":"caseD_c","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eac3c","name":"caseD_d","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eac60","name":"caseD_e","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eac7c","name":"caseD_5","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eac7c","name":"caseD_6","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eac7c","name":"caseD_7","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eac7c","name":"caseD_8","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eac7c","name":"caseD_9","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eadac","name":"switchD","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eadb4","name":"caseD_0","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eadc0","name":"caseD_1","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eadcc","name":"caseD_2","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eae00","name":"caseD_3","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eae0c","name":"caseD_4","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eaee0","name":"default","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eb508","name":"switchD","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eb510","name":"caseD_0","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eb634","name":"caseD_1","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eb7d0","name":"caseD_2","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eb8cc","name":"caseD_3","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eb950","name":"caseD_4","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800eba4c","name":"caseD_5","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ebb98","name":"caseD_6","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ebd5c","name":"caseD_7","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ebe7c","name":"default","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ee4cc","name":"switchD","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ee4d4","name":"caseD_0","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ee4e8","name":"caseD_1","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ee4fc","name":"caseD_2","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ee510","name":"caseD_3","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ee518","name":"caseD_4","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ee524","name":"default","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5cc","name":"switchD","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5d4","name":"caseD_1","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5d4","name":"caseD_11","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5d4","name":"caseD_12","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5d4","name":"caseD_13","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5d4","name":"caseD_14","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5d4","name":"caseD_19","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5d4","name":"caseD_1a","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5d4","name":"caseD_2","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5d4","name":"caseD_3","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5d4","name":"caseD_4","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5d4","name":"caseD_9","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5d4","name":"caseD_a","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5ec","name":"caseD_15","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5ec","name":"caseD_16","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5ec","name":"caseD_17","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5ec","name":"caseD_18","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5ec","name":"caseD_1b","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5ec","name":"caseD_1c","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5ec","name":"caseD_5","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5ec","name":"caseD_6","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5ec","name":"caseD_7","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5ec","name":"caseD_8","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5ec","name":"caseD_b","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef5ec","name":"caseD_c","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef600","name":"caseD_10","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef600","name":"caseD_d","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef600","name":"caseD_e","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ef600","name":"caseD_f","primary":false,"src":"ANALYSIS","func":false}

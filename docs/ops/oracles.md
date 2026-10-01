@@ -5,9 +5,19 @@ Mac-only, native (never the container). Runtime oracle (PCSX-Redux Lua): `## Run
 ## Import
 - `make ghidra-import PYTHON=<py>` (`GHIDRA_HOME ?= $(HOME)/ghidra_12.1.3_PUBLIC`) runs
   `tools/mmx6/ghidra/import.sh --program SLUS_013.95`. ~2.5 min (PsyQ Signatures analyzer ~2 min).
-- `import.sh [--program SLUS_013.95 | --member NN --base 0xADDR] [--project DIR]`:
+- `make ghidra-import-overlays PYTHON=<py>` runs `import.sh --member all`: every `code` row of `config/loadmap.txt`
+  (56) as program `rock_NN`, one JVM per base group (0x800E9860 ×30, 0x800FA000 ×24, 0x801EA000 ×2); ~6 min total.
+- `import.sh [--program SLUS_013.95 | --member NN[,NN…]|all [--base 0xADDR] | --list] [--project DIR]`:
   - `--program <name>`: input `extracted/retail/iso/<name>`; program name = basename. Default `SLUS_013.95`.
-  - `--member`: not yet (T4); exits 2.
+  - `--member`: input `extracted/retail/rock/NN.bin` (manifest path `rock/NN.bin`, sha1-checked), hard-linked as
+    `.run/ghidra/stage/rock_NN` (the program name). Base = the loadmap row for NN; rc 2 if the row is not `code`
+    (e.g. `--member 13` data, 41 empty) or `--base` differs (`--member 0 --base 0x801EA004`). Raw import
+    `-loader BinaryLoader -loader-baseAddr 0x0 -processor PSX:LE:32:default -cspec default`, then
+    `-preScript PrepareOverlay.java 4.7.0 <base>`: `setImageBase(base)` moves the block to the base (BinaryLoader at
+    the base itself leaves image base 0) and sets Program Information "PsyQ Version" = 4.7.0 (the exe's detected
+    version). Full auto-analysis; psx_ldr "PsyQ Signatures" accepts raw programs by language (`canAnalyze`:
+    language `PSX:LE:32:default`) and reads `psyq/470/`. Overlays are separate raw programs (no headless OverlayManager).
+  - `--list`: prints `rock_NN 0xBASE` per code member (used by export.sh `--all`, roundtrip.sh, Makefile).
   - `--project DIR`: project dir (default `<repo>/ghidra`, project name `mmx6`; ignored + purged, never tracked).
     Ghidra rejects any path element starting with `.` (so not under `.run/`).
   - Refuses (rc 2) when the file's sha1 != its `manifest/retail.jsonl` record (G22); missing input → `make extract`.
@@ -20,7 +30,8 @@ Mac-only, native (never the container). Runtime oracle (PCSX-Redux Lua): `## Run
   (docs/ops/disassembler-mcp.md, G2).
 
 ## Info file `.run/ghidra/info/<program>.txt`
-One `key: value` per line, hex lowercase 8 digits:
+One `key: value` per line, hex lowercase 8 digits (rock_NN: `entry: none`, `image_base` = loadmap base,
+`psyq_version` set by PrepareOverlay; batch mode `DumpProgramInfo.java <info-dir> <sha1-map>`):
 `language: <languageID>:<compilerSpec>` · `image_base: 0x…` · `entry: 0x…` (first external entry point in an
 initialized non-GTEMAC block) · `psyq_version: <v|none>` (Program Information property "PsyQ Version", set by the
 loader's DetectPsyQ) · `sig_functions: <n>` · `functions: <n>` (all functions) · `input_sha1: <sha1>` (verified
@@ -37,6 +48,10 @@ USER_DEFINED/IMPORTED split.
   the analyzer still ran (35 s, 402 counted); do not rely on that option headlessly.
 - Values (SLUS_013.95, 2026-10-01): `psyq_version: 4.7.0`, `sig_functions: 811` (543−2 USER_DEFINED + 270 IMPORTED),
   `functions: 1520`, `entry: 0x80054ad8`, `image_base: 0x80000000`, `language: PSX:LE:32:default:default`.
+- Overlays (rock_NN, T7.c1, 2026-10-01): `sig_functions: 0` for all 56 (no PsyQ library code matched); proof the
+  analyzer ran per program: each export has `archive psyq470` and block `GTEMAC` (both made by PsxAnalyzer.added after
+  signature application). Positive control: the exe through the same raw path (base 0x8000F800, PrepareOverlay)
+  → `sig_functions: 484` (313 USER_DEFINED + 171 IMPORTED), PsyQ Signatures 151 s.
 
 ## MCP server
 GhidrAssistMCP (extension in `$GHIDRA_HOME/Ghidra/Extensions/GhidrAssistMCP`), headless on `ghidra/mmx6`, program `SLUS_013.95`.
@@ -56,18 +71,24 @@ GhidrAssistMCP (extension in `$GHIDRA_HOME/Ghidra/Extensions/GhidrAssistMCP`), h
   docs/ops/disassembler-mcp.md).
 
 ## Annotation export and round trip
-- Export: `make ghidra-export PYTHON=<py>` → `tools/mmx6/ghidra/export.sh SLUS_013.95` (`[PROG] [--project DIR] [--out F]`):
-  `analyzeHeadless ghidra mmx6 -process <PROG> -readOnly -noanalysis -postScript ExportAnnotations.java <out>`; default
-  out `config/ghidra/<PROG>.jsonl` (tracked); log `.run/ghidra/export-<PROG>.log`; ~10 s. Never writes the project.
+- Export: `make ghidra-export PYTHON=<py>` → `tools/mmx6/ghidra/export.sh --all` (`[PROG… | --all] [--project DIR]
+  [--out F|DIR]`; `--all` = SLUS_013.95 + `import.sh --list`): one program → `analyzeHeadless ghidra mmx6 -process <PROG>
+  -readOnly -noanalysis -postScript ExportAnnotations.java <out>`, log `.run/ghidra/export-<PROG>.log`; several → one JVM
+  `-process` (every program) into `.run/ghidra/export/`, requested files moved to `config/ghidra/` (or `--out DIR`),
+  log `.run/ghidra/export-batch.log`. Default out `config/ghidra/<PROG>.jsonl` (tracked). Never writes the project.
+  Batch output = one-by-one output (rock_03 import+export batch vs single `cmp`-equal, 2026-10-01).
 - Format: one JSON object per line, fixed key order, no whitespace, addresses `"0x%08x"`, rows sorted per kind; byte-stable
   (two exports `cmp`-equal). Kinds `k`: program (lang, cspec, image_base, format), block, archive, type (local
   types, namespace `/mmx6/`), func (name, ret, cc, flags, params, locals, comment), data (addr, type path, len; no values),
   comment (eol/pre/post/plate/repeat), bookmark, equate, label (non-default). No instruction words or bytes (G12).
-- Round trip: `make ghidra-roundtrip PYTHON=<py>` → `tools/mmx6/ghidra/roundtrip.sh SLUS_013.95` (`[PROG…] [--jsonl F]`):
-  fresh `import.sh` into scratch project `.run/ghidra/rebuild/` (opened via symlink `ghidra/rebuild`, since Ghidra rejects
-  `.`-leading path elements), `ImportAnnotations.java` of the committed file (or `--jsonl F`), re-export to
-  `.run/ghidra/rebuild/<PROG>.jsonl`, `cmp`. rc 0 + `ROUNDTRIP OK <k> programs`, else first differing line, rc 1.
-  ~146 s (import 140 s, apply 3 s, export 3 s). Logs `.run/ghidra/rebuild/<PROG>.{import,apply,export}.log`.
+- Round trip: `make ghidra-roundtrip PYTHON=<py>` → `tools/mmx6/ghidra/roundtrip.sh` (`[PROG…] [--jsonl F]`; default
+  SLUS_013.95 + every loadmap code member): scratch project `.run/ghidra/rebuild/` recreated (opened via symlink
+  `ghidra/rebuild`, since Ghidra rejects `.`-leading path elements), fresh `import.sh` (exe; members batched per base),
+  one JVM `ImportAnnotations.java .run/ghidra/rebuild/in` (copies of the committed files, or `--jsonl F`; dir mode reads
+  `<dir>/<program>.jsonl`), one batch export to `.run/ghidra/rebuild/out/`, `cmp` each. rc 0 + `ROUNDTRIP OK <k>
+  programs`, else first differing line per program, rc 1. 57 programs (T7.c1, 2026-10-01): import 505 s
+  (exe ~140 s + 56 members in 3 JVMs), apply 13 s, export 4 s.
+  Logs `.run/ghidra/rebuild/{<exe>.import,members.import,apply,export}.log`.
 - ImportAnnotations refuses (prints `MMX6ANN ERROR`, applies nothing) on a language/image-base mismatch or an unknown `k`.
 - Negative control: rename one func in a copy (`.run/ghidra/neg.jsonl`), `roundtrip.sh SLUS_013.95 --jsonl .run/ghidra/neg.jsonl`
   → rc 1 with the differing line (the unchanged label row renames the function back).

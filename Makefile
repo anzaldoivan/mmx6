@@ -3,7 +3,7 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check extract scratch-check ghidra-import ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap
+.PHONY: format format-check extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap
 
 # Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
 PYTHON ?= python3
@@ -23,12 +23,17 @@ GHIDRA_HOME ?= $(HOME)/ghidra_12.1.3_PUBLIC
 ghidra-import:
 	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/import.sh --program SLUS_013.95
 
-# Annotation export (read-only) to config/ghidra/<program>.jsonl, and its round trip into .run/ghidra/rebuild/.
+# Every `code` member of config/loadmap.txt as raw program rock_NN at its loadmap base (one JVM per base group).
+ghidra-import-overlays:
+	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/import.sh --member all
+
+# Annotation export (read-only) to config/ghidra/<program>.jsonl, and its round trip into .run/ghidra/rebuild/;
+# both cover SLUS_013.95 + every code member of config/loadmap.txt.
 ghidra-export:
-	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/export.sh SLUS_013.95
+	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/export.sh --all
 
 ghidra-roundtrip:
-	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/roundtrip.sh SLUS_013.95
+	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/roundtrip.sh
 
 # GhidrAssistMCP server (headless, detached) on ghidra/mmx6; stop saves, releases the lock, proves a read-only reopen.
 ghidra-mcp-start:

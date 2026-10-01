@@ -40,9 +40,12 @@ public class ImportAnnotations extends GhidraScript {
     @Override
     protected void run() throws Exception {
         String[] args = getScriptArgs();
-        if (args == null || args.length < 1) { println("MMX6ANN ERROR: usage <in.jsonl>"); return; }
+        if (args == null || args.length < 1) { println("MMX6ANN ERROR: usage <in.jsonl|in_dir>"); return; }
+        java.nio.file.Path in = Paths.get(args[0]);
+        if (Files.isDirectory(in)) in = in.resolve(currentProgram.getName() + ".jsonl"); // batch: <dir>/<program>.jsonl
+        if (!Files.isRegularFile(in)) { println("MMX6ANN ERROR: input missing: " + in); return; }
         List<JsonObject> rows = new ArrayList<>();
-        for (String ln : Files.readAllLines(Paths.get(args[0]), StandardCharsets.UTF_8)) {
+        for (String ln : Files.readAllLines(in, StandardCharsets.UTF_8)) {
             if (ln.trim().isEmpty()) continue;
             JsonObject o = JsonParser.parseString(ln).getAsJsonObject();
             String k = s(o, "k");

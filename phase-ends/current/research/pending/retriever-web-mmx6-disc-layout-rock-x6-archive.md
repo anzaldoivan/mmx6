@@ -1,0 +1,30 @@
+# MMX6 disc layout, ROCK_X6 archive, tools
+task: disc layout, ROCK_X6.BIN container, compression, extractors/tools (SLUS-01395)
+agent: retriever-web
+tags: mmx6, psx, disc, archive, extractor, licenses
+
+## Answer
+Parts (1)-(3): NOT FOUND in public web sources. No public doc of the ISO file list, container TOC, or compression was located. Only a lead: the MegaManX6Recomp README names the overlay "ROCK_X6.DAT" (not .BIN); verify the actual name against the local ISO (dumpsxiso). Part (4) tool facts below.
+
+## Findings
+- ROCK_X6.DAT: MegaManX6Recomp README says it "loads ROCK_X6.DAT" as the overlay of streamed game logic. Possible name mismatch with the brief's ROCK_X6.BIN; the local dump is authoritative.
+- mstan/MegaManX6Recomp: PolyForm Noncommercial 1.0.0 (non-permissive; do not copy code). Uses psxrecomp/tools/extract_psx_exe.py for the PS-X EXE only. Targets USA v1.1 SLUS-01395. No container format documented on the page.
+- sozud/mmx4 (MMX4 PS1 WIP decompilation): C, AGPL-3.0; scripts cd_rip.sh, extract.sh, split.sh, cd_build.sh; compression/container not documented on the repo front page. Copyleft: reference facts only. Sibling MegaManX5Recomp exists (tomevault listing).
+- mkpsxiso/dumpsxiso (Lameguy64, GitHub): GPL-2.0 per mintlify docs mirror. Version evidence conflicts: GitHub releases page showed v2.30 (6 Jul 2024); mintlify changelog said v2.20 (24 Dec 2025). Treat v2.30+ as current; recheck the tag before pinning. dumpsxiso emits an mkpsxiso XML with LBA, file order and license data, useful for rebuilding byte-identical images.
+- jPSXdec (m35/jpsxdec): Java, v2.1 beta, license "free for non-commercial use" (custom LICENSE.txt, not OSI). Handles XA audio, STR video, TIM. Use as a tool only, not as source.
+- psxdatacenter SLUS-01395 page has no file list (approx size on disc 520 MB).
+
+## Dead ends
+- Searches for ROCK_X6.BIN/ROCK_X5 extractors, TCRF, datacrystal, and romhacking.net returned nothing relevant (no fetch of those sites made; unchecked: TCRF, datacrystal, romhacking.net direct pages, Jayveer/Rex which surfaced but looked unrelated).
+- Compression: no source confirmed a Capcom LZ variant for X4/X5/X6.
+
+## Next step (local)
+Run dumpsxiso on the local dump to get the real file list, then reverse the container from the data itself.
+
+sources:
+https://github.com/mstan/MegaManX6Recomp (fetched 2026-10-01)
+https://github.com/sozud/mmx4 (fetched 2026-10-01)
+https://github.com/Lameguy64/mkpsxiso/releases (fetched 2026-10-01)
+https://www.mintlify.com/lameguy64/mkpsxiso/reference/changelog (search snippet 2026-10-01)
+https://github.com/m35/jpsxdec (fetched 2026-10-01)
+https://psxdatacenter.com/games/U/M/SLUS-01395.html (fetched 2026-10-01)

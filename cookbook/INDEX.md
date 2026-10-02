@@ -89,3 +89,16 @@ C0086 | Struct base reloaded per member store: name the pointer-derived base in 
 C0087 | Loop guard: while copies its exit test as the guard; a written guard + do-while keeps yours | idiom,sym-loop-reversed,G-jump,jump,loop,guard | 2026-10-02 | 1.7/T6 | BFM §279 re-proven
 C0088 | lhu vs lh on a masked short: & in the expression is shortened; an int temp keeps lh | idiom,sym-narrow-load,G-expr,rtl,shorten,short | 2026-10-02 | 1.7/T6 | BFM §329 re-proven
 C0089 | Volatile short read: lhu + sll/sra instead of lh (combine skips volatile) | idiom,sym-narrow-load,G-combine,combine,volatile,short | 2026-10-02 | 1.7/T6 | BFM §345 re-proven
+C0090 | A release archive's sha256 is not its binary's; prove a binary by the extracted file | pin,hash,toolchain,provenance | 2026-10-02 | 1.7/T1 | mmx6 T1
+C0091 | decompals/old-gcc releases rebuild bit-identical from the tag's Dockerfile on a pinned focal base | toolchain,provenance,gcc,docker,pin | 2026-10-02 | 1.7/T1 | mmx6 T1
+C0092 | Target-specific make vars are invisible to other targets: splice make -n -B's recipe line | make,toolchain,flags,dumps | 2026-10-02 | 1.7/T2 | mmx6 T2
+C0093 | Prove an instrumented compile matches the build by diffing .text bytes, not RTL insn counts | toolchain,dumps,control,gcc | 2026-10-02 | 1.7/T2 | mmx6 T2
+C0094 | Line-numbered citations into C sources: split on \n only, never str.splitlines() | python,citations,gcc,self-test | 2026-10-02 | 1.7/T3 | mmx6 T3
+C0095 | Allocation-order reproducers must keep values live across a block boundary | gcc,greg,regalloc,reproducer | 2026-10-02 | 1.7/T3 | mmx6 T3
+C0096 | Pipe-delimited rows break on citation fragments containing a pipe | docs,format,citations | 2026-10-02 | 1.7/T4 | mmx6 T4
+C0097 | The same C idiom can move pass between gcc versions: re-prove, never port the citation | gcc,G67,citations,porting | 2026-10-02 | 1.7/T4 | mmx6 T4
+C0098 | A spill-slot swap lever cannot be a pure order diff: declare a length 0 diff | reproducer,spill,G-alloc,diff | 2026-10-02 | 1.7/T5 | mmx6 T5
+C0099 | Inherited gcc 2.7.2 idioms often go byte-identical under 2.95.2: reproduce before entering | gcc,porting,BFM,reproducer | 2026-10-02 | 1.7/T6 | mmx6 T6
+C0100 | decomp-permuter --seed random-walks one candidate; seed 0 means unseeded | permuter,seed,random | 2026-10-02 | 1.7/T7 | mmx6 T7
+C0101 | decomp-permuter writes its iteration status with \b/\r: split on \r and \n to count | permuter,parsing,iterations | 2026-10-02 | 1.7/T7 | mmx6 T7
+C0102 | Stock permuter objdump scorer never reaches 0 on a relocated function: mask relocations both sides | permuter,relocation,scorer,masking | 2026-10-02 | 1.7/T7 | mmx6 T7

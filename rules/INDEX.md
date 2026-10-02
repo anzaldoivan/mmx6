@@ -181,3 +181,5 @@ G105 | Types live in one evidence-backed header, keyed by shape and fleet-gated 
 G106 | A shared body is one src/shared file included per member; members differ only by name defines | decomp,dedup,bank | active | mmx6 1.6/T4,T5
 
 G107 | Sibling-game C is measured and adopted under this binary's pin | decomp,prior-art,pin,license | active | mmx6 1.6/T8
+
+G108 | A codegen claim cites the pinned compiler source and carries a byte-proven reproducer pair | decomp,compiler-walls,citations,pin | active | mmx6 1.7/T1-T6

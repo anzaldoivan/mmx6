@@ -305,8 +305,10 @@ def report(files):
 
 def self_test():
     real = read(all_paths())
-    refusals, summary, d, s = check(real)
-    assert not refusals and d == s == 7, (refusals, summary)
+    refusals, summary, _, _ = check(real)
+    assert not refusals, (refusals, summary)
+    _, summary, d, s = check({p: t for p, t in real.items() if p != X4H})  # ours only: x4.h's X4_ types are counted
+    assert d == s == 7, summary  # but not ours (T7.c3: x4.h tracked)
     known = {}
     probe = [k for _, n, k, _ in defs_of(strip(real[HOME + "types.h"]), known) if n == "Probe800473EC"]
     assert probe == [("struct", 0x20, ((0, 5), (5, 1), (6, 14), (0x14, 2), (0x16, 2), (0x18, 4), (0x1C, 4)))], probe

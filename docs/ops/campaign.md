@@ -321,8 +321,9 @@ asm|include_asm function, sorted (prog, vram), tab-separated `<prog> <vram 0x%08
 `report.py --all`), `config/boundaries.txt`, `config/walls.txt`, `config/dedup_registry.txt`, the scaffold rows
 (`build/scaffold/scaffold.jsonl`, else `campaign/scaffold/scaffold.jsonl`), the journals
 (`campaign/scaffold/journal.jsonl`, then `campaign/journal.jsonl`) and tracked `drafts/<prog>/<func>.c`.
-- class, first that holds: lane lib → `vendor:<LIB>/<tu>` (LIB from the `config/boundaries.txt` lib row holding the
-  vram, else `unproven`); census dup class ≥ 2 → `dup:<key>`; census family ≥ 2 → `family:<key>`; exact sig twin →
+- class, first that holds: lane lib → exe vram with a `docs/ops/compiler-pin.md ## Lib provenance` row
+  `- gap <0xVRAM> <L>.LIB/<O>.OBJ` → `vendor:<L>.LIB/<L>_<O>` (T8), else `vendor:<LIB>/<tu>` (LIB from the
+  `config/boundaries.txt` lib row holding the vram, else `unproven`, which `--check` refuses); census dup class ≥ 2 → `dup:<key>`; census family ≥ 2 → `family:<key>`; exact sig twin →
   `twin:<pv>` (lowest other member of its exact-twin component); `x4` (a `campaign/x4/partners.tsv` row: an exact
   mmx4 partner, ## X4 lane); else `unique`. Input `campaign/x4/partners.tsv` (required).
 - closeness: `m/n` (m matched words) of the best (m/n, then m) of the scaffold row (m = max(0, n − score)), journal

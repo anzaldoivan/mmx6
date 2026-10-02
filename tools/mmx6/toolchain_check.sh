@@ -1,10 +1,14 @@
 #!/bin/sh
-# toolchain_check.sh SPLAT_PIN BINUTILS_PIN CPP_PIN CC1_SET MASPSX_PIN M2C_PIN ASMDIFFER_PIN — print each tool's version,
+# toolchain_check.sh SPLAT_PIN BINUTILS_PIN CPP_PIN CC1_SET MASPSX_PIN M2C_PIN ASMDIFFER_PIN GCCSRC_SHA GCCSRC_TREE
+#   GCCSRC_PATCHES — print each tool's version,
 # compare to its pin (version string only, not the banner); rc 1 on any mismatch, a missing tool counts as a mismatch.
 # Each cc1 of CC1_SET (/opt/cc/<name>/cc1) must report version <name> minus its suffix and pass a cpp|cc1|maspsx|as
 # smoke compile; maspsx (/opt/maspsx), m2c (/opt/m2c) and asm-differ (/opt/asm-differ) must be at their commit pins.
+# /opt/gcc-2.95.2-src (cc1 2.95.2-psx source) must carry a stamp naming the tarball pin and GCCSRC_PATCHES patches, and
+# hash to GCCSRC_TREE (sorted `find -type f` minus the stamp → sha256sum → sha256); missing tree = drift.
 # Called by `make toolchain-check`.
 splat_pin=$1 binutils_pin=$2 cpp_pin=$3 cc1_set=$4 maspsx_pin=$5 m2c_pin=$6 asmdiffer_pin=$7
+gccsrc_sha=$8 gccsrc_tree=$9 gccsrc_patches=${10}
 rc=0
 # ver <cmd...>: first dotted version number in the `--version` output (banner text skipped).
 ver() { "$@" --version 2>/dev/null | grep -oE '[0-9]+(\.[0-9]+)+' | head -n1; }
@@ -44,4 +48,13 @@ commit() {
 }
 commit m2c /opt/m2c "$m2c_pin"
 commit asm-differ /opt/asm-differ "$asmdiffer_pin"
+src=/opt/gcc-2.95.2-src stamp=/opt/gcc-2.95.2-src/.mmx6-gccsrc
+if [ -f "$stamp" ]; then
+    t=$(sed -n 's/^tarball //p' "$stamp"); k=$(grep -c '^patch ' "$stamp")
+    d=$(cd "$src" && find . -type f ! -path ./.mmx6-gccsrc -print0 | LC_ALL=C sort -z | xargs -0 sha256sum | sha256sum)
+    d=${d%% *}
+else t=missing k=0 d=missing; fi
+if [ "$t" = "$gccsrc_sha" ] && [ "$k" = "$gccsrc_patches" ] && [ "$d" = "$gccsrc_tree" ]; then
+    echo "GCCSRC 2.95.2 $t patches $k"
+else echo "DRIFT gccsrc tarball $t patches $k tree $d (pin $gccsrc_sha patches $gccsrc_patches tree $gccsrc_tree)"; rc=1; fi
 exit $rc

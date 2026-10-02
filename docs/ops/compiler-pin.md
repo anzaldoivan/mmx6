@@ -37,6 +37,30 @@ Residual doubts:
   provenance, is the claim.
 - rock_17/43/45 are `.word`-only (unsplit); their 163 carved functions entered the census by carving only.
 
+## Source (phase 1.7 T1, 2026-10-01)
+
+- Tarball: `https://ftp.gnu.org/gnu/gcc/gcc-2.95.2.tar.gz` (upstream's URL; the `gcc-2.95.2/` subdir has only split
+  tarballs), sha256 `064e1cb06ea5d2f4a07ec46c1c64d771f74d04f404b6a6766bca2477f7d72482`, same bytes from
+  mirrors.kernel.org/gnu. Makefile `GCCSRC_SHA`.
+- Recipe: decompals/old-gcc commit `b74211c9d959e9724802f3177c8229cd67202c87` = tag `0.17` (the release our cc1 comes
+  from; its `.github/workflows/build.yml` builds release assets at the tag via `make` = `docker build -f
+  gcc-<v>.Dockerfile --target export`), file `gcc-2.95.2-psx.Dockerfile`, base `ubuntu:focal` (pinned by digest).
+- The 4 edits, verbatim, in stage `gccsrc` of tools/docker/Dockerfile: `sed` varargs.h → stdarg.h over `**/*.c`
+  (dash: one level), `obstack-2.95.2.h.patch` (include/obstack.h), `mips.patch` (gcc/config/mips/mips.h),
+  `psx-2.91.patch` (-p1 tree); patches fetched at the commit, each sha256-asserted. Makefile `GCCSRC_PATCHES ?= 3`.
+- Staged: `/opt/gcc-2.95.2-src` in the image (pre-configure, no build outputs) + stamp `.mmx6-gccsrc` (tarball sha,
+  old-gcc commit, 3 patch names). Tree digest (sorted `find -type f` minus stamp → sha256sum → sha256)
+  `8d8a1a5be69d98ae9921359eb356de36d7689f37c854bef29c6f77737e59781e`, 2777 files; Makefile `GCCSRC_TREE`.
+  `make toolchain-check` prints `GCCSRC 2.95.2 <tarball sha> patches 3` or `DRIFT gccsrc …` (rc 1).
+- Proof A held: stage `cc1-rebuild` (upstream configure/make, full target list) gives cc1 sha256
+  `2aa85925dfa10855107c78e29ec36965b953976a45b1a47fb68beb5a74096079` = sha256 of the installed
+  `/opt/cc/2.95.2-psx/cc1` (byte-identical, `cmp` clean, 3504368 bytes). `932ed366…` (Dockerfile cc1 set) is the
+  sha256 of the release tarball `gcc-2.95.2-psx.tar.gz`, not of cc1.
+- Proof B also held: clean `make fleet CC1=/work/.run/t1/cc1-rebuild/cc1` → `FLEET 57 of 57`; all 39 make-driven cc1
+  invocations in the log used the override, 0 used `/opt/cc/2.95.2-psx/cc1`.
+- Re-prove: `docker build --platform linux/amd64 --target cc1-export --output type=local,dest=.run/t1/cc1-rebuild
+  -f tools/docker/Dockerfile tools/docker`, then sha256 `.run/t1/cc1-rebuild/cc1` == the installed cc1's sha256.
+
 ## Per-module variation
 
 Census: `mx.sh run python3 tools/mmx6/optscan.py --all` (phase 1.4 T5; since 1.5 T3 after `make extract build` and

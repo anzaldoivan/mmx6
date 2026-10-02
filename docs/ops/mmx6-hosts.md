@@ -35,6 +35,11 @@ As known at generation (2026-10-01). Update in the same change as whatever chang
   (`gcc-2.7.2.tar.gz`, name `2.7.2`), each sha256-asserted in the Dockerfile, at `/opt/cc/<name>/cc1` (static i386 ELF).
   Makefile `OLDGCC_PIN`/`CC1_SET`. Pinned triple (Phase 1.4 T7): `gcc2.95.2-psx-aspsx2.86`
   (docs/ops/compiler-pin.md); the other cc1 stay installed as the ladder's negative rungs.
+- cc1 2.95.2-psx source (Phase 1.7 T1, 2026-10-01): GNU `gcc-2.95.2.tar.gz` sha256
+  `064e1cb06ea5d2f4a07ec46c1c64d771f74d04f404b6a6766bca2477f7d72482` + old-gcc @`b74211c9d959e9724802f3177c8229cd67202c87`
+  (tag 0.17) psx edits, built in stage `gccsrc` from `ubuntu:focal@sha256:8feb4d8ca5354def3d8fce243717141ce31e2c428701f6682bd2fafe15388214`;
+  staged at `/opt/gcc-2.95.2-src`, tree digest `8d8a1a5be69d98ae9921359eb356de36d7689f37c854bef29c6f77737e59781e`.
+  Makefile `GCCSRC_SHA`/`GCCSRC_TREE`/`GCCSRC_PATCHES`; `make toolchain-check` line `GCCSRC …` (docs/ops/compiler-pin.md ## Source).
 - splat / binutils / cpp (Phase 1.3 T1, 2026-10-01): `splat64[mips]==0.50.0` + `spimdisasm==1.42.4` + `rabbitizer==1.16.2`
   (PyPI; `pip index versions splat64` checked 2026-10-01: newest 0.50.0; deps from the first build's `pip freeze`) in venv
   `/opt/splat-venv` on PATH; `binutils-mipsel-linux-gnu` 2.42 (as/ld/objcopy) and `cpp-mipsel-linux-gnu` 12.4.0 from

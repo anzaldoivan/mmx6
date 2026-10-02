@@ -20,3 +20,6 @@
 L04 | G-combine | tell: `lw` + `andi rX,rY,0xff` where the target has a single `lbu` (or the reverse) | mechanism: combine src:gcc-2.95.2/gcc/combine.c:6037 "else if ((i = exact_log2 (INTVAL (XEXP (x, 1)) + 1)) >= 0)" src:gcc-2.95.2/gcc/combine.c:1600 "added_sets_2 = ! dead_or_set_p (i3, i2dest);" | lever: a masked word whose only use is the mask folds into `lbu`; a second use of the full word (another read of `*p`, even after cse merges it) keeps `lw` + `andi` | proof: repro/G-combine/extmerge | retail: -
   - dump (a-side .combine): "(zero_extend:SI (mem:QI (reg:SI 4 a0) 0)))"
   - cookbook: C0078
+L15 | G-combine | tell: `lhu` + `sll 16` + `sra 16` where the target has one `lh` (or the reverse) | mechanism: combine src:gcc-2.95.2/gcc/combine.c:1047 "volatile_refs_p (src))" | lever: a `volatile` read keeps the HImode load apart from its sign extend (combine refuses to move a volatile MEM); drop `volatile` for one `lh`; a 6 insns, b 3 | proof: repro/G-combine/volatile | retail: -
+  - dump (a-side .combine): "(mem/v:HI (reg/v:SI 81) 0)) 256 {movhi_internal2}"
+  - cookbook: C0089

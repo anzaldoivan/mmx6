@@ -85,3 +85,7 @@ C0082 | beqz vs bnez: the if arm falls through; invert the condition and swap ar
 C0083 | Cross-jump: a fall-through arm ending in a call never merges; a store tail merges the call | idiom,sym-cross-jump,G-jump,jump2,cross-jump,call | 2026-10-02 | 1.7/T5 | mmx6 repro
 C0084 | Index sll 2 vs none: p[i] on int * scales, a char * byte offset does not | idiom,sym-shift-x4,G-expr,rtl,pointer,shift | 2026-10-02 | 1.7/T5 | mmx6 repro
 C0085 | Spill slots swapped: reload assigns slots in pseudo (declaration) order | idiom,sym-spill-slot,G-alloc,greg,spill,decl-order | 2026-10-02 | 1.7/T5 | mmx6 repro
+C0086 | Struct base reloaded per member store: name the pointer-derived base in a local | idiom,sym-global-reload,G-expr,cse,alias,struct | 2026-10-02 | 1.7/T6 | BFM §193-H re-proven
+C0087 | Loop guard: while copies its exit test as the guard; a written guard + do-while keeps yours | idiom,sym-loop-reversed,G-jump,jump,loop,guard | 2026-10-02 | 1.7/T6 | BFM §279 re-proven
+C0088 | lhu vs lh on a masked short: & in the expression is shortened; an int temp keeps lh | idiom,sym-narrow-load,G-expr,rtl,shorten,short | 2026-10-02 | 1.7/T6 | BFM §329 re-proven
+C0089 | Volatile short read: lhu + sll/sra instead of lh (combine skips volatile) | idiom,sym-narrow-load,G-combine,combine,volatile,short | 2026-10-02 | 1.7/T6 | BFM §345 re-proven

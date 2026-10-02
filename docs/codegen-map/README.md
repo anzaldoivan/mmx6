@@ -25,4 +25,8 @@ a global `lw` held below a pointer store, or hoisted above it sym-load-below-sto
 two `jal` to one callee in if/else arms vs one shared `jal` sym-cross-jump | G-jump | L09 | permuter (T7)
 an index scaled `sll rI,rI,2` before the `addu` vs an unscaled byte-offset `addu` sym-shift-x4 | G-expr | L10 | permuter (T7)
 two spilled values' stack slots swapped (`sw $2,52($sp)` vs `56($sp)`) sym-spill-slot | G-alloc | L11 | permuter (T7)
+a pointer loaded out of a struct (`p->a`) again after each member store through it, or loaded once sym-global-reload | G-expr | L12 | permuter (T7)
+a loop guarded by its own copied exit test (`sltu`+`beqz`) vs a cheaper source guard (`blez` on the count) sym-loop-reversed | G-jump | L13 | permuter (T7)
+a masked `short` read as `lhu` vs `lh` sym-narrow-load | G-expr | L14 | permuter (T7)
+`lhu` + `sll 16` + `sra 16` vs one `lh` (a volatile read) sym-narrow-load | G-combine | L15 | permuter (T7)
 every small edit moves 20+ instructions (a register-pressure lock) sym-register-pressure | G-alloc | → permuter | permuter (T7)

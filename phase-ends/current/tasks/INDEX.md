@@ -6,3 +6,4 @@ T3 | done | directory gate in worktrees, verbatim check, recovery ladder | - | t
 T4 | done | harvest tools, lanes and the wave procedure | - | tasks/T4.md | logs/T4.md | -
 T5 | done | scaffold lane (first free cracks) and the ledger | - | tasks/T5.md | logs/T5.md | -
 T6 | done | family 40505e80 by a parameterised body | - | tasks/T6.md | logs/T6.md | -
+T7 | done | X4 port lane from mmx4's matched C | - | tasks/T7.md | logs/T7.md | -

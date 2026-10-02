@@ -1,0 +1,3 @@
+# config/walls.txt -- compiler walls (tools/mmx6/walls.py --check; G52: a wall names the pass and quotes the dump line).
+# <prog> <vram 0x%08X> <pass> <dumpfile>:<line> <evidence = the quoted dump line, rest of row>
+# pass: rtl jump cse addressof gcse loop cse2 flow combine regmove sched lreg greg flow2 peephole2 sched2 stack dbr mach maspsx

@@ -64,6 +64,14 @@ Findings (denominator: 6784 functions, 57 programs):
 - unsplit: rock_17 (29 carved, 513 words dropped), rock_43 (81, 283), rock_45 (53, 248) — 163 carved functions;
   their split config yields no glabel (scope: a split fix, not this census).
 
+## Proven lib units
+
+Machine-read by `tools/mmx6/draw.py` (L1: a lib-lane function whose `config/boundaries.txt` `lib` OBJ is not listed
+here is refused `lib triple unproven <OBJ>`). Rows: `- <LIB/OBJ> <evidence>` (evidence = the probe/bank that matched a
+function of that OBJ under the pin).
+
+none
+
 ## Ladder
 
 ### Before-run (T6): 32 rungs

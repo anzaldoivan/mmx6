@@ -2,7 +2,8 @@
 # `make fleet`). One rung per phase tool: a rung runs the tool's --self-test, then its real run; later tasks append
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
-TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap
+TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
+	th-walls th-draw
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -52,12 +53,12 @@ th-report: th-census
 	$(PYTHON) tools/mmx6/report.py --self-test && $(PYTHON) tools/mmx6/report.py --all
 
 # The differential harness (tools/mmx6/harness.py; needs the corpus, bound2 and census outputs): planted
-# disagreement per pair + NOT-RUN control, then the sampled pairs P1 P2 P4 P5 P6 P7 (build/harness/runs.log; last line
+# disagreement per pair + NOT-RUN control, then the sampled pairs P1 P2 P4-P8 (build/harness/runs.log; last line
 # `HARNESS <d> disagreements in <p> pairs`, rc 0 iff d = 0).
-th-harness: th-corpus th-optscan th-bound2 th-census
+th-harness: th-corpus th-optscan th-bound2 th-census th-draw
 	$(PYTHON) tools/mmx6/harness.py --self-test && $(PYTHON) tools/mmx6/harness.py --sampled
 
-th-harness-full: th-corpus th-optscan th-bound2 th-census
+th-harness-full: th-corpus th-optscan th-bound2 th-census th-draw
 	$(PYTHON) tools/mmx6/harness.py --self-test && $(PYTHON) tools/mmx6/harness.py --full
 
 # One home for types (tools/mmx6/typecheck.py; text only, no deps): planted dup/raw-cast/outside/unkeyable controls,
@@ -88,6 +89,16 @@ th-carve: th-corpus
 # pair); tree, registry, corpus and exe restored byte-exact. ~19 s, so a fast rung (T7.c1).
 th-remap: th-corpus th-census
 	$(PYTHON) tools/mmx6/family_remap.py --self-test
+
+# The wall oracle (tools/mmx6/walls.py; needs the corpus): planted valid/unknown-pass/no-ref/C-function rows in
+# .run/walls-selftest/, then --check of config/walls.txt (last line `WALLS CHECK OK <r> rows`).
+th-walls: th-corpus
+	$(PYTHON) tools/mmx6/walls.py --self-test && $(PYTHON) tools/mmx6/walls.py --check
+
+# The draw filter (tools/mmx6/draw.py; needs the reports, twins and walls): planted L1-L4 controls and a stale exclude
+# in .run/draw-selftest/, then the real draw (build/draw/draw.jsonl; last line `DRAW refused <r> of <n> (…); drawn <k>`).
+th-draw: th-report th-sig th-walls
+	$(PYTHON) tools/mmx6/draw.py --self-test && $(PYTHON) tools/mmx6/draw.py
 
 th-propagate-full: th-propagate
 	@set -e; for k in $(PROPAGATE_KEYS); do $(PYTHON) tools/mmx6/propagate.py $$k --dry-run; done

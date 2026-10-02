@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """harness.py -- the differential harness: one question answered by two existing instruments (container, stdlib only).
 
-  harness.py --sampled   pairs P1 P2 P4 P5 P6 P7
-  harness.py --full      all seven pairs (adds P3: touch + rebuild)
+  harness.py --sampled   pairs P1 P2 P4 P5 P6 P7 P8
+  harness.py --full      all eight pairs (adds P3: touch + rebuild)
       -> appends to build/harness/runs.log, and prints, one line per pair
          `<utc> P<n> <question> AGREE|DISAGREE|NOT-RUN <a> <b> of <N> <unit>`, then
          `HARNESS <d> disagreements in <p> pairs`; d counts DISAGREE and NOT-RUN (an instrument that raises or
@@ -27,6 +27,9 @@ Pairs (A vs B; each side calls an existing instrument, never re-implements it, G
   P6 programs?   config/*.yaml stems (corpus.programs) vs config/loadmap.txt `N = <k>` vs config/ghidra/*.jsonl stems.
   P7 stubs?      corpus c-empty rows + asm|include_asm rows whose optscan.parse_dir words are `jr $ra; nop` vs the
                  members of the census dup class of `jr $ra; nop` (build/census/classes.jsonl); (prog, vram) sets.
+  P8 bankable?   build/draw/draw.jsonl (draw.py) vs U = difficulty functions walls.bankable says no or with a
+                 config/dedup_registry.txt row (propagate.registry_rows); AGREE iff draw keys = difficulty keys, no U
+                 member is draw|eligible, every L3 row is wall-unbankable.
 Firewall G12: names, counts and hashes of build outputs only; never words or bytes.
 """
 import argparse
@@ -49,15 +52,19 @@ import census  # noqa: E402
 import corpus  # noqa: E402
 import optscan  # noqa: E402
 import probe  # noqa: E402
+import propagate  # noqa: E402
+import walls  # noqa: E402
 
 RUNS = "build/harness/runs.log"
 SELFLOG = ".run/harness/selftest.log"
 FUNCS = "build/corpus/functions.jsonl"
 CLASSES = "build/census/classes.jsonl"
+DRAW = "build/draw/draw.jsonl"
+DIFF = "build/reports/difficulty.json"
 JR_NOP = [probe.JR_RA, 0]
 P3_C = "src/SLUS_013.95/120A0.c"
-SAMPLED = [1, 2, 4, 5, 6, 7]
-FULL = [1, 2, 3, 4, 5, 6, 7]
+SAMPLED = [1, 2, 4, 5, 6, 7, 8]
+FULL = [1, 2, 3, 4, 5, 6, 7, 8]
 
 
 class NotRun(Exception):
@@ -271,6 +278,26 @@ def p7_compare(a, b, n):
     return a == b, len(a), len(b), n, "functions"
 
 
+def p8_gather():
+    for p in (DRAW, DIFF):
+        if not os.path.isfile(p):
+            raise NotRun(f"missing {p}")
+    with open(DRAW) as f:
+        draw = {(r["prog"], r["vram"]): r for r in (json.loads(x) for x in f if x.strip())}
+    with open(DIFF) as f:
+        keys = {(d["prog"], d["vram"]) for d in json.load(f)}
+    reg = {tuple(t[3].rsplit(":", 1)) for _, t in propagate.registry_rows()}
+    w = {k for k in keys if not walls.bankable(*k)[0]}
+    return draw, keys, w | (keys & reg), w
+
+
+def p8_compare(draw, keys, u, w):
+    drawable = {k for k, r in draw.items() if r["verdict"] in ("draw", "eligible")}
+    o = len(u & drawable)
+    agree = set(draw) == keys and o == 0 and all(k in w for k, r in draw.items() if r["layer"] == "L3")
+    return agree, f"drawable={len(drawable)}", f"unbankable={len(u)} overlap={o}", len(keys), "functions"
+
+
 PAIRS = {
     1: ("matched?", p1_gather, p1_compare),
     2: ("compiles?", p2_gather, p2_compare),
@@ -279,6 +306,7 @@ PAIRS = {
     5: ("boundaries?", p5_gather, p5_compare),
     6: ("programs?", p6_gather, p6_compare),
     7: ("stubs?", p7_gather, p7_compare),
+    8: ("bankable?", p8_gather, p8_compare),
 }
 
 
@@ -347,6 +375,9 @@ def plant(n, g):
     if n == 7:
         a, b, N = g
         return a, b - {sorted(b)[0]}, N
+    if n == 8:
+        draw, keys, u, w = g
+        return draw, keys, u | {sorted(k for k, r in draw.items() if r["verdict"] in ("draw", "eligible"))[0]}, w
 
 
 def self_test():

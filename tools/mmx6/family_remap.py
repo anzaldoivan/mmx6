@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """family_remap.py -- remap a banked exemplar's shared body onto its structural family (container python3, stdlib).
 
-  family_remap.py <family key> [--dry-run]
+  family_remap.py <family key> [--exemplar <prog:vram>] [--dry-run]
       -> the exemplar = the config/dedup_registry.txt row `gated exemplar` whose member lies in the family class of
-         build/census/classes.jsonl (none, or no such family: rc 2). Siblings = family members outside the exemplar's
-         dup class, (prog, vram) order. Per sibling, rungs:
+         build/census/classes.jsonl (--exemplar: that row, else the first; none, or no such family: rc 2). Siblings =
+         family members outside the exemplar's dup class, (prog, vram) order; one already holding a `gated` registry
+         row (any key) is skipped and counted `already`, never re-banked. Per sibling, rungs:
          preflight bank.preflight (corpus row include_asm in a config/c_units.txt TU).
          pair     relocation targets (`readelf -rW`, offset order, (type, symbol)) of the body compiled standalone
                   (probe.compile_obj, Makefile TRIPLE) inside the exemplar function vs those of the built object holding
@@ -13,17 +14,24 @@
                   target, an inconsistent mapping (one -> two, two -> one) or a reorder/chain (x -> y, y != x, y also an
                   exemplar target). Mapping + `<exemplar func> -> <sibling name>`, identities dropped = the defines.
          R1       bank.wrapper + probe.probe MATCH (before bank, so an R1 refusal costs no program rebuild).
+                  Parameter: a body declaring `#ifndef P` / `#define P <d>` / `#endif` exposes P; when R1 differs from
+                  retail only in one unrelocated word's imm16 and the compiled imm16 is <d>, R1 is retried with the
+                  define P=<retail imm16, signed>, which rides into bank and the family row.
          R2-R5    bank.bank(<sibling>, body, registry=False, defines) (R1 again, then R2..R5).
          One line per sibling `<prog:vram> <func> gated|refused <rung>: <cause>`; a gated sibling appends the registry
-         row `<family key> <exemplar prog:vram> <body> <sibling prog:vram> gated family define A=B ...` (line-preserving).
-         Last line `REMAP <key> gated <g> of <s> siblings; refused <r> (<rung> <n>, ...)`, rc 0 (g = 0 is no failure).
+         row `<family key> <exemplar prog:vram> <body> <sibling prog:vram> gated family define A=B ...` (line-preserving);
+         a refused one the row `... <sibling prog:vram> refused family <rung>: <cause>`.
+         Last line `REMAP <key> gated <g> of <s> siblings; already <a>; refused <r> (<rung> <n>, ...)`, rc 0 (g = 0 is
+         no failure).
       --dry-run: preflight + pair + R1 only, no tree edits; last line ends ` (dry-run: R1 only)`.
   family_remap.py --self-test
       -> C0054 planted controls. G: SLUS_013.95:0x8001E78C (C in src/SLUS_013.95/120A0.c): its targets read from
          120A0.c.o first; its definition becomes INCLUDE_ASM of a bank.plant_words .s, the exe must rebuild to its
          pre-test sha1, corpus.py --all regenerates; exemplar src/shared/_selftest/remap_ex.c = its body as `remap_ex`
          calling `remap_callee` -> must be gated (R5), then its family row is written and `propagate.py --check` must
-         pass. R: `remap_a(1); remap_b(2);` vs the reverse, compiled standalone in .run/remap/ -> must be refused at pair.
+         pass. P (before G, dry-run): the same body with its `>= 2` lifted to REMAP_P (default 3) as
+         src/shared/_selftest/remap_px.c -> must be gated R1 with the define REMAP_P=2.
+         R: `remap_a(1); remap_b(2);` vs the reverse, compiled standalone in .run/remap/ -> must be refused at pair.
          Teardown restores src/, the registry and build/corpus/{functions,spans,denominators}.jsonl byte-exact, deletes
          the plants, rebuilds; fail-closed check of src/, registry, exe sha1. Ends `REMAP CONTROL OK` (rc 0), else
          `REMAP SELF-TEST FAIL <n>` (rc 1). Logs under .run/remap/.
@@ -53,6 +61,8 @@ REL_ROW = re.compile(r"^([0-9a-f]{8})\s+[0-9a-f]{8}\s+(R_MIPS_\w+)(?:\s+[0-9a-f]
 G_SIB = ("SLUS_013.95", 0x8001E78C)
 G_UNIT = "src/SLUS_013.95/120A0.c"
 G_SRC = "src/shared/_selftest/remap_ex.c"
+P_SRC = "src/shared/_selftest/remap_px.c"
+PARAM = re.compile(r"^#ifndef (\w+)\n#define \1 (-?\w+)\n#endif$", re.M)
 
 
 class Refuse(Exception):
@@ -132,6 +142,29 @@ def pair(ex_t, sib_t, ex_func, sib_func):
 
 # ---- remap -----------------------------------------------------------------------------------------------------------
 
+def param_define(body, func, prog, defines):
+    """(P, k) when body exposes parameter P (default d) and its R1 build under defines differs from retail only in one
+    unrelocated word's imm16, compiled d, retail k (signed); else None."""
+    with open(body) as f:
+        m = PARAM.search(f.read())
+    if not m:
+        return None
+    p, d = m.group(1), int(m.group(2), 0)
+    obj = probe.compile_obj(bank.wrapper(body, func, defines, prog), bank.makefile_triple())
+    if obj is None:
+        return None
+    ours, masks = probe.elf_function(obj, func)
+    ret = probe.retail_words(prog, func)
+    diff = [i for i, (a, b) in enumerate(zip(ret, ours)) if (a ^ b) & ~masks.get(i, 0) & 0xFFFFFFFF]
+    if len(ours) != len(ret) or len(diff) != 1 or diff[0] in masks:
+        return None
+    a, b = ret[diff[0]], ours[diff[0]]
+    if (a ^ b) >> 16 or b & 0xFFFF != d & 0xFFFF:
+        return None
+    k = a & 0xFFFF
+    return p, k - 0x10000 if k & 0x8000 else k
+
+
 def remap_one(r, ex_func, ex_t, body, dry, idx, sib_t=None):
     """(state, rung, cause, defines) of one sibling corpus row (sib_t: its targets, read earlier; the self-test)."""
     prog, vram = r["prog"], int(r["vram"], 16)
@@ -156,20 +189,25 @@ def remap_one(r, ex_func, ex_t, body, dry, idx, sib_t=None):
             ok, m, n = probe.probe(func, prog, bank.wrapper(body, func, defines, prog), bank.makefile_triple())
         except SystemExit as e:
             return "refused", "R1", f"probe error: {e}", None
+        param = ""
+        if not ok and (pk := param_define(body, func, prog, defines)):
+            defines, param = defines + [(pk[0], str(pk[1]))], f" (define {pk[0]}={pk[1]})"
+            ok, m, n = probe.probe(func, prog, bank.wrapper(body, func, defines, prog), bank.makefile_triple())
         if not ok:
             return "refused", "R1", f"standalone probe FAIL {m}/{n} words", None
         if dry:
-            return "gated", "R1", "probe MATCH (dry-run)", defines
+            return "gated", "R1", "probe MATCH (dry-run)" + param, defines
         rc, out = bank.bank(pv, body, registry=False, defines=defines)
     if rc == 0:
-        return "gated", "R5", out.split(" R5 ", 1)[1], defines
+        return "gated", "R5", out.split(" R5 ", 1)[1] + param, defines
     m = re.search(r" stopped (R\d): (.*)$", out)
     return ("refused", m.group(1), m.group(2), None) if m else ("refused", "preflight", out.split(": ", 1)[-1], None)
 
 
-def family_row(key, ex_pv, body, pv, defines):
-    """Append (or update in place) the sibling's family row of the registry, line-preserving."""
-    row = f"{key} {ex_pv} {body} {pv} gated family define " + " ".join(f"{o}={n}" for o, n in defines)
+def family_row(key, ex_pv, body, pv, defines, refused=None):
+    """Append (or update in place) the sibling's family row of the registry, line-preserving (refused: its reason)."""
+    row = (f"{key} {ex_pv} {body} {pv} refused family {refused}" if refused else
+           f"{key} {ex_pv} {body} {pv} gated family define " + " ".join(f"{o}={n}" for o, n in defines))
     with open(bank.REGISTRY) as f:
         lines = f.read().split("\n")
     at = [i for i, t in propagate.registry_rows() if t[0] == key and t[3] == pv]
@@ -182,23 +220,25 @@ def family_row(key, ex_pv, body, pv, defines):
 
 
 def summary(key, rs, dry):
-    g = sum(s == "gated" for s, _ in rs)
+    g, a = (sum(s == x for s, _ in rs) for x in ("gated", "already"))
     by = [f"{k} {n}" for k in RUNGS for n in [sum(s == "refused" and g_ == k for s, g_ in rs)] if n]
-    return (f"REMAP {key} gated {g} of {len(rs)} siblings; refused {len(rs) - g}" + (f" ({', '.join(by)})" if by else "")
+    return (f"REMAP {key} gated {g} of {len(rs)} siblings; already {a}; refused {len(rs) - g - a}"
+            + (f" ({', '.join(by)})" if by else "")
             + (" (dry-run: R1 only)" if dry else ""))
 
 
-def run(key, dry):
+def run(key, dry, exemplar=None):
     with open(propagate.CLASSES) as f:
         fam = next((c for c in map(json.loads, f) if c["kind"] == "family" and c["key"] == key), None)
     if fam is None:
         print(f"REMAP {key} refused: no family class in {propagate.CLASSES}")
         return 2
     members = {(p, int(v, 16)) for p, v in fam["members"]}
-    ex = next((t for _, t in propagate.registry_rows() if t[4] == "gated" and t[5] == "exemplar"
-               and propagate.parse_pv(t[3]) in members), None)
+    reg = [t for _, t in propagate.registry_rows()]
+    ex = next((t for t in reg if t[4] == "gated" and t[5] == "exemplar" and propagate.parse_pv(t[3]) in members
+               and (exemplar is None or propagate.parse_pv(t[3]) == propagate.parse_pv(exemplar))), None)
     if ex is None:
-        print(f"REMAP {key} refused: no gated exemplar row of the family in {bank.REGISTRY}")
+        print(f"REMAP {key} refused: no gated exemplar row {exemplar or ''} of the family in {bank.REGISTRY}")
         return 2
     exm, body = propagate.parse_pv(ex[3]), ex[2]
     cls = bank.dup_key(*exm)
@@ -215,17 +255,21 @@ def run(key, dry):
         print(f"REMAP {key} refused: exemplar targets: {e}")
         return 2
     idx = census.asm_index()
+    have = {propagate.parse_pv(t[3]) for t in reg if t[4] == "gated"}
     rs = []
     for m in sorted(members - dup):
         pv = propagate.pv(m)
         r = rows.get(m)
+        if m in have:
+            rs.append(("already", ""))
+            continue
         if r is None:
             state, rung, cause, defines = "refused", "preflight", "no corpus row", None
         else:
             state, rung, cause, defines = remap_one(r, ex_func, ex_t, body, dry, idx)
         print(f"{pv} {r['name'] if r else '?'} {state} {rung}: {cause}", flush=True)
-        if state == "gated" and not dry:
-            family_row(key, ex[3], body, pv, defines)
+        if not dry:
+            family_row(key, ex[3], body, pv, defines, None if state == "gated" else f"{rung}: {cause}")
         rs.append((state, rung))
     print(summary(key, rs, dry))
     return 0
@@ -281,6 +325,13 @@ def control_g():
     with open(G_SRC, "w") as f:
         f.write(bank.subst('/* family_remap.py --self-test exemplar (planted, deleted at teardown). */\n#include "common.h"\n\n'
                            + "\n".join(decls) + "\n\n" + fn + "\n", [(func, "remap_ex"), (callees[0], "remap_callee")]))
+    if fn.count(">= 2)") != 1:
+        raise bank.Stop(0, f"{func}: no single `>= 2)` for control P")
+    with open(P_SRC, "w") as f:  # control P: the immediate 2 lifted to REMAP_P, default 3
+        f.write(bank.subst('/* family_remap.py --self-test parameter exemplar (planted, deleted at teardown). */\n'
+                           '#include "common.h"\n\n#ifndef REMAP_P\n#define REMAP_P 3\n#endif\n\n' + "\n".join(decls)
+                           + "\n\n" + fn.replace(">= 2)", ">= REMAP_P)") + "\n",
+                           [(func, "remap_px"), (callees[0], "remap_callee")]))
     # plant (C0054): the C definition -> INCLUDE_ASM of a generated .s of its retail words
     saved = {}
     words = bank.plant_words(prog, func, gv, int(r["end"], 16))
@@ -313,6 +364,14 @@ def self_test():
         r = propagate.corpus_rows()[G_SIB]
         if r["state"] != "include_asm":
             raise bank.Stop(0, f"planted {func} is {r['state']}, not include_asm, in the regenerated corpus")
+        # control P (dry-run, before G banks the sibling): gated R1 under the parameter define REMAP_P=2
+        obj = probe.compile_obj(P_SRC, bank.makefile_triple())
+        if obj is None:
+            raise bank.Stop(0, f"{P_SRC} does not compile")
+        state, rung, cause, defines = remap_one(r, "remap_px", targets(relocs(obj, "remap_px")), P_SRC, True,
+                                                census.asm_index(), sib_t)
+        print(f"control P {propagate.pv(G_SIB)} {func} {state} {rung}: {cause}; defines {defines}")
+        fails += not (state == "gated" and defines and ("REMAP_P", "2") in defines)
         obj = probe.compile_obj(G_SRC, bank.makefile_triple())
         if obj is None:
             raise bank.Stop(0, f"{G_SRC} does not compile")
@@ -372,14 +431,15 @@ def main():
     os.chdir(os.path.join(HERE, "..", ".."))
     ap = argparse.ArgumentParser(description=__doc__.split("\n", 1)[0])
     ap.add_argument("key", nargs="?", metavar="family key")
+    ap.add_argument("--exemplar", metavar="prog:vram")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
     if not a.key:
-        ap.error("need <family key> [--dry-run], or --self-test")
-    return run(a.key, a.dry_run)
+        ap.error("need <family key> [--exemplar <prog:vram>] [--dry-run], or --self-test")
+    return run(a.key, a.dry_run, a.exemplar)
 
 
 if __name__ == "__main__":

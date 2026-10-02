@@ -40,11 +40,23 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_800346EC);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80034830);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80034874);
+#define func_80041AB8 func_80034874
+#define D_80075FD8 D_800739A4
+#define FAMILY_FIELD 5
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
+#undef FAMILY_FIELD
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_800348B0);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003499C);
+#define func_80041AB8 func_8003499C
+#define D_80075FD8 D_80073A0C
+#define FAMILY_FIELD 5
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
+#undef FAMILY_FIELD
 
 #include "../shared/SLUS_013.95/func_800349D8.c"
 
@@ -341,7 +353,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003CA70);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003CBE4);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003CC78);
+#define func_80041AB8 func_8003CC78
+#define D_80075FD8 D_80073D20
+#define FAMILY_FIELD 5
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
+#undef FAMILY_FIELD
 
 void func_8003CCB4(void) {
 }
@@ -713,7 +731,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004322C);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80043350);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80043460);
+#define func_80041AB8 func_80043460
+#define D_80075FD8 D_80076100
+#define FAMILY_FIELD 5
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
+#undef FAMILY_FIELD
 
 #include "../shared/SLUS_013.95/func_8004349C.c"
 
@@ -819,7 +843,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80046478);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_800464C4);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80046514);
+#define func_80041AB8 func_80046514
+#define D_80075FD8 D_80076210
+#define FAMILY_FIELD 5
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
+#undef FAMILY_FIELD
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80046550);
 
@@ -929,7 +959,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80048030);
 #undef func_80041AB8
 #undef D_80075FD8
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004820C);
+#define func_80041AB8 func_8004820C
+#define D_80075FD8 D_80077B90
+#define FAMILY_FIELD 2
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
+#undef FAMILY_FIELD
 
 #include "../shared/SLUS_013.95/func_80048248.c"
 
@@ -1177,7 +1213,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004D318);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004D6D4);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004D720);
+#define func_80041AB8 func_8004D720
+#define D_80075FD8 D_8007848C
+#define FAMILY_FIELD 5
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
+#undef FAMILY_FIELD
 
 #include "../shared/SLUS_013.95/func_8004D75C.c"
 
@@ -1402,7 +1444,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80053274);
 #undef func_80041AB8
 #undef D_80075FD8
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80053398);
+#define func_80041AB8 func_80053398
+#define D_80075FD8 D_8007ACE0
+#define FAMILY_FIELD 5
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
+#undef FAMILY_FIELD
 
 #include "../shared/SLUS_013.95/func_800533D4.c"
 

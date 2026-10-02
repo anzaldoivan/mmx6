@@ -46,7 +46,13 @@ INCLUDE_ASM("asm/rock_40/nonmatchings/FA000", func_800FC110);
 
 INCLUDE_ASM("asm/rock_40/nonmatchings/FA000", func_800FC364);
 
-INCLUDE_ASM("asm/rock_40/nonmatchings/FA000", func_800FC3D4);
+#define func_80041AB8 func_800FC3D4
+#define D_80075FD8 D_800FFC68
+#define FAMILY_FIELD 5
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
+#undef FAMILY_FIELD
 
 INCLUDE_ASM("asm/rock_40/nonmatchings/FA000", func_800FC410);
 

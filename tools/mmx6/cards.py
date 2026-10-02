@@ -526,7 +526,7 @@ def main():
     os.chdir(ROOT)
     if a.self_test:
         return self_test()
-    if not re.fullmatch(r"W\d+", a.wave) or not tp:
+    if not re.fullmatch(r"W\d+|W-[a-z]+", a.wave) or not tp:
         ap.error("--wave W<n> needs --targets <file>")
     return write_cards(a.wave, tp, root, jp)
 

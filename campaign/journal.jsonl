@@ -1,0 +1,1 @@
+{"wave": "W-fam", "pv": "SLUS_013.95:0x80041AB8", "func": "func_80041AB8", "words": 15, "band": "le16", "runs": 1, "verdict": "banked", "score": "15/15", "label": "-", "draft": "src/shared/SLUS_013.95/func_80041AB8.c", "lever": "-", "notes": "gate banked", "prev": "0000000000000000000000000000000000000000"}

@@ -148,21 +148,45 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EDA64);
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EDCB0);
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EE05C);
+#define func_80041AB8 func_801EE05C
+#define D_80075FD8 D_801F37E4
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EE098);
+#define func_80041AB8 func_801EE098
+#define D_80075FD8 D_801F37F4
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EE0D4);
+#define func_80041AB8 func_801EE0D4
+#define D_80075FD8 D_801F3804
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EE110);
+#define func_80041AB8 func_801EE110
+#define D_80075FD8 D_801F381C
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EE14C);
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EE210);
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EE2D4);
+#define func_80041AB8 func_801EE2D4
+#define D_80075FD8 D_801F382C
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EE310);
+#define func_80041AB8 func_801EE310
+#define D_80075FD8 D_801F3810
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EE34C);
 
@@ -366,7 +390,11 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F3200);
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F33F0);
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F3604);
+#define func_80041AB8 func_801F3604
+#define D_80075FD8 D_801F3B30
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F3640);
 

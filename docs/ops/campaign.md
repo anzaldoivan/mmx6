@@ -17,6 +17,8 @@ Every lane has a cadence and a cap (G39).
 - lib (free; T8): vendor ledger rows.
 - gate: every wave, serial per binary, ≤ 3 binaries at once.
 - harvest: every wave; it closes the wave.
+- lane waves (T6): id `W-<lane>` beside `W<n>` (gate, cards, journal, harvest; draw stays `W<n>`; `journal.py --rate`
+  without `--wave` counts `W<n>` only); W-fam = the family 40505e80 lane.
 
 ## Wave procedure
 

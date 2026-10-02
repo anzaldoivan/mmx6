@@ -61,7 +61,7 @@ SELFTEST = ".run/harvest-selftest"
 SWEEPS = os.path.join(HERE, "sweeps")
 INPUTS = dict(progress="build/reports/progress.json", classes="build/census/classes.jsonl",
               draw="build/draw/draw.jsonl", stubs="build/census/stubs.txt")  # stubs optional (the CENSUS stubs line)
-WAVE_RE = re.compile(r"W\d+")
+WAVE_RE = re.compile(r"W\d+|W-[a-z]+")  # W-<lane>: a lane wave id
 CB_RE = re.compile(r"C\d{4}")
 HUNK_RE = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@")
 STUBS_RE = re.compile(r"CENSUS stubs (\d+) of (\d+) asm functions \(ledgered (\d+)\)")
@@ -456,7 +456,7 @@ def gate_cmd(camp, wave, say):
 
 
 def check_all(camp, say):
-    waves = sorted({r["wave"] for r in journal.records(os.path.join(camp, "journal.jsonl"))}, key=lambda w: int(w[1:]))
+    waves = sorted({r["wave"] for r in journal.records(os.path.join(camp, "journal.jsonl"))}, key=lambda w: (0, int(w[1:]), "") if w[1:].isdigit() else (1, 0, w))
     ok = 0
     for w in waves:
         stamp = hpath(camp, w, ".ok")

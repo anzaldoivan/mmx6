@@ -50,7 +50,7 @@ def why_bad(r):
     if set(r) != set(KEYS):
         miss, extra = sorted(set(KEYS) - set(r)), sorted(set(r) - set(KEYS))
         return f"keys missing {','.join(miss) or '-'} extra {','.join(extra) or '-'}"
-    if not (isinstance(r["wave"], str) and re.fullmatch(r"W\d+", r["wave"])):
+    if not (isinstance(r["wave"], str) and re.fullmatch(r"W\d+|W-[a-z]+", r["wave"])):
         return "wave not W<n>"
     if not (isinstance(r["pv"], str) and PV_RE.fullmatch(r["pv"])):
         return "pv not <prog>:0x<vram>"
@@ -154,7 +154,7 @@ def rate(path, wave, say):
     drafted = {b: set() for b in BINS}
     banked = {b: {} for b in BINS}
     for r in records(path):
-        if wave and r["wave"] != wave:
+        if (r["wave"] != wave) if wave else not re.fullmatch(r"W\d+", r["wave"]):  # no --wave: numbered waves only
             continue
         drafted[r["band"]].add(r["pv"])
         if r["verdict"] == "banked":

@@ -2,7 +2,11 @@
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", D_800E9860);
 
-INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800E9970);
+#define func_80041AB8 func_800E9970
+#define D_80075FD8 D_800F4C34
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800E99AC);
 
@@ -10,7 +14,11 @@ INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800E99EC);
 
 #include "../shared/rock_08/func_800E9AB0.c"
 
-INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800E9AD0);
+#define func_80041AB8 func_800E9AD0
+#define D_80075FD8 D_800F4C40
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800E9B0C);
 
@@ -28,7 +36,11 @@ INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800EA02C);
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800EA08C);
 
-INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800EA2EC);
+#define func_80041AB8 func_800EA2EC
+#define D_80075FD8 D_800F4EA4
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800EA328);
 
@@ -104,7 +116,11 @@ INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800ECDC4);
 
 #include "../shared/rock_08/func_800ECEE8.c"
 
-INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800ECF08);
+#define func_80041AB8 func_800ECF08
+#define D_80075FD8 D_800F587C
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800ECF44);
 
@@ -270,7 +286,11 @@ INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800F19BC);
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800F1AEC);
 
-INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800F1C60);
+#define func_80041AB8 func_800F1C60
+#define D_80075FD8 D_800F5F34
+#include "../shared/SLUS_013.95/func_80041AB8.c"
+#undef func_80041AB8
+#undef D_80075FD8
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800F1C9C);
 

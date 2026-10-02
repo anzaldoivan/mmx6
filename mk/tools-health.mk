@@ -93,9 +93,10 @@ th-propagate-full: th-propagate
 	@set -e; for k in $(PROPAGATE_KEYS); do $(PYTHON) tools/mmx6/propagate.py $$k --dry-run; done
 
 # The other tools' self-tests (not rungs of their own): boundaries.py, loadmap.py, probe.py, bank.py (the reconcile
-# ladder's planted controls: clean rebuilds of the exe, tree restored after).
+# ladder's planted controls: clean rebuilds of the exe, tree restored after), x4share.py (its real run needs network).
 th-selftests:
 	$(PYTHON) tools/mmx6/boundaries.py --self-test
 	$(PYTHON) tools/mmx6/loadmap.py --self-test
 	$(PYTHON) tools/mmx6/probe.py --self-test
 	$(PYTHON) tools/mmx6/bank.py --self-test
+	$(PYTHON) tools/mmx6/x4share.py --self-test

@@ -74,3 +74,7 @@ C0071 | Family-only siblings differ in a non-relocated field; relocation remap g
 C0072 | #define A B with #define B A collapses under cpp rescanning; refuse such mappings | cpp,define,remap | 2026-10-01 | 1.6/T7 | mmx6 T7
 C0073 | Test sibling-game sharing under the target's compiler pin; vary only the compiler as the control | prior-art,sibling-game,pin,control | 2026-10-01 | 1.6/T8 | mmx6 T8
 C0074 | Draw filter over a twin graph: at most one member per connected component per wave | draw,twins,wave,routing | 2026-10-01 | 1.6/T9 | mmx6 T9
+C0075 | Global reloaded after *p= but kept after p[k]=/p->f= (cse /s aliasing) | idiom,sym-global-reload,G-expr,cse,aliasing,reload | 2026-10-01 | 1.7/T4 | mmx6 repro
+C0076 | &local cached in $s0 via a named pointer vs per-site addiu (call args) | idiom,sym-phantom-callee-saved,G-expr,rtl,callee-saved,address | 2026-10-01 | 1.7/T4 | mmx6 repro
+C0077 | Up-count loop reversed to bgez; write the down-count for bgtz/bne | idiom,sym-loop-reversed,G-loop,loop,dbra,branch | 2026-10-01 | 1.7/T4 | mmx6 repro
+C0078 | lw+andi 0xff vs lbu: combine merges the mask only if the word dies | idiom,sym-narrow-load,G-combine,combine,lbu,mask | 2026-10-01 | 1.7/T4 | mmx6 repro

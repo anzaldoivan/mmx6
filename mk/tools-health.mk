@@ -3,7 +3,7 @@
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
 TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
-	th-walls th-draw th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute
+	th-walls th-draw th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -145,3 +145,8 @@ th-selftests:
 # K&R refused, upstream clean); ~15 s. No real run here: the stored draft (T7.c2) runs on its own.
 th-permute:
 	$(PYTHON) tools/mmx6/permute.py --self-test
+
+# The plateau classifier (tools/mmx6/plateau.py): planted regalloc/sched/branch/identical pairs in
+# .run/plateau-selftest/, then the stored draft's residual label and triage rows (`PLATEAU <func> <label> …`).
+th-plateau:
+	$(PYTHON) tools/mmx6/plateau.py --self-test && $(PYTHON) tools/mmx6/plateau.py --draft drafts/SLUS_013.95/func_80042F20.c

@@ -18,3 +18,8 @@ a global reloaded after a store through a pointer, or not reloaded where the tar
 `&local` cached in a callee-saved register vs `addiu $aN,$sp,K` per call sym-phantom-callee-saved | G-expr | L02 | permuter (T7)
 counted loop exit `bgez` vs `bgtz`/`bne`, count `N-1` vs `N` sym-loop-reversed | G-loop | L03 | permuter (T7)
 `lw` + `andi 0xff` vs a single `lbu` sym-narrow-load | G-combine | L04 | permuter (T7)
+two values' `$16`/`$17` swapped, equal ref counts and live lengths sym-sreg-swapped | G-alloc | L05 | permuter (T7)
+two values' `$16`/`$17` swapped, unequal ref counts sym-sreg-swapped | G-alloc | L06 | permuter (T7)
+a global `lw` held below a pointer store, or hoisted above it sym-load-below-store | G-sched | L07 | permuter (T7)
+`beqz` vs `bnez` with the arms' code in the other order sym-branch-arms-swapped | G-jump | L08 | permuter (T7)
+two `jal` to one callee in if/else arms vs one shared `jal` sym-cross-jump | G-jump | L09 | permuter (T7)

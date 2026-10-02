@@ -123,7 +123,7 @@ th-repro:
 
 # T5 widens --groups to all six.
 th-map:
-	$(PYTHON) tools/mmx6/codegen_map.py --self-test && $(PYTHON) tools/mmx6/codegen_map.py --groups G-expr,G-loop,G-combine
+	$(PYTHON) tools/mmx6/codegen_map.py --self-test && $(PYTHON) tools/mmx6/codegen_map.py
 
 th-propagate-full: th-propagate
 	@set -e; for k in $(PROPAGATE_KEYS); do $(PYTHON) tools/mmx6/propagate.py $$k --dry-run; done

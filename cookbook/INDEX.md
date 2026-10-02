@@ -78,3 +78,8 @@ C0075 | Global reloaded after *p= but kept after p[k]=/p->f= (cse /s aliasing) |
 C0076 | &local cached in $s0 via a named pointer vs per-site addiu (call args) | idiom,sym-phantom-callee-saved,G-expr,rtl,callee-saved,address | 2026-10-01 | 1.7/T4 | mmx6 repro
 C0077 | Up-count loop reversed to bgez; write the down-count for bgtz/bne | idiom,sym-loop-reversed,G-loop,loop,dbra,branch | 2026-10-01 | 1.7/T4 | mmx6 repro
 C0078 | lw+andi 0xff vs lbu: combine merges the mask only if the word dies | idiom,sym-narrow-load,G-combine,combine,lbu,mask | 2026-10-01 | 1.7/T4 | mmx6 repro
+C0079 | $16/$17 swapped at equal priority: declaration order breaks the global-alloc tie | idiom,sym-sreg-swapped,G-alloc,greg,regalloc,decl-order | 2026-10-02 | 1.7/T5 | mmx6 repro
+C0080 | $16/$17 swapped by ref count: global-alloc density floor_log2(refs)*refs/live | idiom,sym-sreg-swapped,G-alloc,greg,regalloc,refs | 2026-10-02 | 1.7/T5 | mmx6 repro
+C0081 | Load held below *p= but hoisted above p->f= (sched /s aliasing) | idiom,sym-load-below-store,G-sched,sched,aliasing,order | 2026-10-02 | 1.7/T5 | mmx6 repro
+C0082 | beqz vs bnez: the if arm falls through; invert the condition and swap arms | idiom,sym-branch-arms-swapped,G-jump,jump,polarity,branch | 2026-10-02 | 1.7/T5 | mmx6 repro
+C0083 | Cross-jump: a fall-through arm ending in a call never merges; a store tail merges the call | idiom,sym-cross-jump,G-jump,jump2,cross-jump,call | 2026-10-02 | 1.7/T5 | mmx6 repro

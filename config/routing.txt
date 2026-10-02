@@ -1,0 +1,6 @@
+# routing.txt — the 1.8 routing set: which lane a target goes to, by its size in words (docs/ops/campaign.md).
+# Row: <lo>-<hi> <route: paid|permuter|ledger> <turn cap> <attempt cap>
+#   <lo>-<hi>    inclusive corpus word band (the same band as `draw.py --band <lo>-<hi>`)
+#   route        paid = an agent wave card; permuter = permute.py only; ledger = not drawn, ledgered with its blocker
+#   turn cap     max agent turns per card in this band; attempt cap: max attempts per target
+# Filled by phase 1.8 T9 from the manual wave's bank rate by instruction count; no tool reads this file yet.

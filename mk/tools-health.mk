@@ -3,7 +3,7 @@
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
 TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
-	th-walls th-draw th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau
+	th-walls th-draw th-validate th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -95,10 +95,17 @@ th-remap: th-corpus th-census
 th-walls: th-corpus
 	$(PYTHON) tools/mmx6/walls.py --self-test && $(PYTHON) tools/mmx6/walls.py --check
 
-# The draw filter (tools/mmx6/draw.py; needs the reports, twins and walls): planted L1-L4 controls and a stale exclude
-# in .run/draw-selftest/, then the real draw (build/draw/draw.jsonl; last line `DRAW refused <r> of <n> (…); drawn <k>`).
+# The draw filter (tools/mmx6/draw.py; needs the reports, twins and walls): planted L1-L4, exclude-audit, leverage,
+# --band and harvest-stamp controls in .run/draw-selftest/, then the exclude audit (`EXCLUDE AUDIT <r> rows, <s> stale`,
+# rc 2 if s > 0) and the real draw (build/draw/draw.jsonl; last line `DRAW refused <r> of <n> (…); drawn <k>`).
 th-draw: th-report th-sig th-walls
-	$(PYTHON) tools/mmx6/draw.py --self-test && $(PYTHON) tools/mmx6/draw.py
+	$(PYTHON) tools/mmx6/draw.py --self-test && $(PYTHON) tools/mmx6/draw.py --audit && $(PYTHON) tools/mmx6/draw.py
+
+# The target validator (tools/mmx6/validate.py; needs the draw): planted out-of-range/phantom/banked/no-asm/lib controls
+# in .run/validate-selftest/, then every `draw` row of build/draw/draw.jsonl (INVALID lines only; last
+# `VALIDATE <ok> of <n>`, rc 1 if any invalid: the draw filter never passes an invalid target).
+th-validate: th-draw
+	$(PYTHON) tools/mmx6/validate.py --self-test && $(PYTHON) tools/mmx6/validate.py --drawn
 
 # The citation auditor (tools/mmx6/gccsrc.py; needs /opt/gcc-2.95.2-src only when a citation exists): planted good,
 # drifted, missing and wrong-fragment cites in .run/gccsrc-selftest/, then --check of docs/codegen-map/*.md and

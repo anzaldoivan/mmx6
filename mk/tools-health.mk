@@ -3,7 +3,7 @@
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
 TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
-	th-walls th-draw th-validate th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau th-journal
+	th-walls th-draw th-validate th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau th-journal th-cards
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -162,3 +162,8 @@ th-plateau:
 # the real campaign/journal.jsonl's append-only check (`JOURNAL OK <r> records`).
 th-journal:
 	$(PYTHON) tools/mmx6/journal.py --self-test && $(PYTHON) tools/mmx6/journal.py --check
+
+# The wave cards (tools/mmx6/cards.py): planted cases in .run/cards-selftest/ (a dup-class member seeded by a banked
+# twin, a planted journal record on the next card, unresolved C/L ids refused with no pack dir); `CARDS CONTROL OK`.
+th-cards: th-sig th-journal
+	$(PYTHON) tools/mmx6/cards.py --self-test

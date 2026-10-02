@@ -59,6 +59,24 @@ firewall `glob: waves/**/*.s`. Files: `pack.json` `{pv,prog,func,tu,words}`, `ta
   probe.draft_cflags), compiles under the Makefile `TRIPLE`, removes the snapshot. Line `PACK <pv> match <m>/<n>` |
   `fail <m>/<n>` | `nocompile`, rc 0 on any PACK line. probe.py/dumps.py use repo-relative paths only (checked T2.c1).
   `--no-snapshot` (compile in `/work`, refuses to overwrite a stored draft) is the negative control only.
+- Cards (G44): `cards.py --wave W<n> --targets <file> [--root <dir>] [--journal <path>]` (container; root default
+  `waves`) writes per target `<root>/W<n>/<prog>_<func>/`: `pack.json`, `target.s` (include_asm: its nonmatchings .s;
+  asm: its glabel span of the whole-TU .s), `scaffold.c` (decompile.py m2c stdout, else `/* decompile.py rc <k> */`),
+  `ctx.h` (destination's `#include` lines + its declarations), `card.md`, `seed.c` (the seed's C body, when a seed exists);
+  never writes `draft.c`/`verdict.json`. card.md sections in order: Seed (`<pv> <name> body <path> [reason <define …>]`:
+  a banked twin over the whole fleet, same dup class or exact twin, banked = corpus c|c-empty or a gated registry row;
+  registry exemplar first, then lowest (prog, vram); body = registry shared path, else the C file defining it), Open
+  twins (asm|include_asm, not gated; exact then near by dist, cap 12, `<pv> <tier> <dist> <name>`), Destination
+  (`src/<prog>/<tu>.c c_unit yes|no`), File declarations (top-level `;` prototypes/externs), Callee declaration
+  consensus (`jal` callees: most common prototype/definition signature across src/ with count, else `-`),
+  Shared-global declarations (`%hi/%lo/%gp_rel` data symbols: most common `extern` across src/ with count, else `-`),
+  Journal history (the pv's journal records, notes verbatim), Plateau (latest record's label ≠ `-` else `none`;
+  `plateau.rows(label)`; lever ids). Every `L\d{2,}`/`C\d{4}` token must resolve (codegen_map.read_rows ids,
+  cookbook/INDEX.md rows) or `CARD REFUSED <pv> <id>` and the pack dir is removed (only the card files when a draft.c or
+  verdict.json is there); no corpus row / no asm → `CARD REFUSED <pv> phantom|no-asm`. Lines
+  `CARD <pv> seed <pv|-> twins <k> levers <ids|->`, last `CARDS W<n> <k> packs`; rc 0 iff no refusal and k ≥ 1,
+  rc 3 on k = 0, else rc 1. `--self-test` (`.run/cards-selftest/`, planted journals there) → `CARDS CONTROL OK`; rung
+  `th-cards` (deps th-sig th-journal).
 - Control `bash tools/docker/pack_control.sh` (host; logs `.run/packctl/`), last `PACK CONTROL OK`. Plants a
   pack in `waves/WCTL/` (first SLUS_013.95 INCLUDE_ASM function of 8-40 words without a stored draft; draft = m2c
   scaffold under `#if 0` + the INCLUDE_ASM line, so R is compiled), removes it after. Result at T2.c1

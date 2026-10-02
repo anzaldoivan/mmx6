@@ -57,3 +57,20 @@ C0054 | Self-test controls inject disagreements, never borrow real ones | self-t
 C0055 | Dup census: load-bearing-mask control (twin must split unmasked) | census,duplicates,control | 2026-10-01 | 1.5/T6 | T6 census
 C0056 | Report over a census: currency guard plus planted mutation | report,census,control | 2026-10-01 | 1.5/T7 | T7 report
 C0057 | Harness pair whose instrument never ran is NOT-RUN, counted as disagreement | harness,differential,control | 2026-10-01 | 1.5/T8 | T8 harness P3
+C0058 | Splat can fuse dozens of real functions into one; check B2 starts strictly inside each function | boundaries,splat,spimdisasm,merge,bound2 | 2026-10-01 | 1.6/T1 | mmx6 T1
+C0059 | Code after an interior jr ra reached by no edge is its own function; splitting is byte-neutral | boundaries,mips,multi-return,merge | 2026-10-01 | 1.6/T1 | mmx6 T1
+C0060 | Near-duplicate band: lossless prefilter by length and opcode-histogram bounds | twins,near-dup,edit-distance,census | 2026-10-01 | 1.6/T2 | mmx6 T2
+C0061 | Moving a type to a shared header: remove its copies from probe sources too | types,header,probe,common.h | 2026-10-01 | 1.6/T3 | mmx6 T3
+C0062 | A masked standalone match can name the wrong symbol; only the whole-binary hash catches it | probe,masking,relocation,bank | 2026-10-01 | 1.6/T4 | mmx6 T4
+C0063 | Format a body before the first probe; clang-format changes its sha1 afterwards | clang-format,bank,sha1 | 2026-10-01 | 1.6/T4 | mmx6 T4
+C0064 | Verify c-unit conversions from a clean sync; splat skips .s for functions only named D_<addr> | splat,c-unit,nonmatchings,overlay | 2026-10-01 | 1.6/T5 | mmx6 T5
+C0065 | Parameterise a shared body per member with name #defines; gate with an unmasked linked compare | dedup,propagate,define,relocation | 2026-10-01 | 1.6/T5 | mmx6 T5
+C0066 | Plant a self-test precondition that real progress consumed; prove the plant by the binary hash | self-test,control,plant | 2026-10-01 | 1.6/T6.1 | mmx6 T6.1
+C0067 | A corpus regeneration rewrites several outputs together; scratch runs save and restore all of them | corpus,scratch,self-test | 2026-10-01 | 1.6/T6.1 | mmx6 T6.1
+C0068 | A planted .word .s must span the corpus extent to its end, or the link shifts | plant,probe,extent,link | 2026-10-01 | 1.6/T6.1 | mmx6 T6.1
+C0069 | splat pairs rodata with a c unit only as type .rodata; derive the dispatcher from %hi | splat,rodata,jtbl,carve | 2026-10-01 | 1.6/T6 | mmx6 T6
+C0070 | Splitting a c unit must rewrite the moved INCLUDE_ASM folders to the new unit | splat,carve,include_asm,nonmatchings | 2026-10-01 | 1.6/T6 | mmx6 T6
+C0071 | Family-only siblings differ in a non-relocated field; relocation remap gates few | family,remap,dedup,relocation | 2026-10-01 | 1.6/T7 | mmx6 T7
+C0072 | #define A B with #define B A collapses under cpp rescanning; refuse such mappings | cpp,define,remap | 2026-10-01 | 1.6/T7 | mmx6 T7
+C0073 | Test sibling-game sharing under the target's compiler pin; vary only the compiler as the control | prior-art,sibling-game,pin,control | 2026-10-01 | 1.6/T8 | mmx6 T8
+C0074 | Draw filter over a twin graph: at most one member per connected component per wave | draw,twins,wave,routing | 2026-10-01 | 1.6/T9 | mmx6 T9

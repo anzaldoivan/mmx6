@@ -47,10 +47,11 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 | toolchain-check | `mx.sh run make toolchain-check` | versions + cc1/maspsx smoke; rc≠0 drift |
 
 ## Skills <!-- roles: expert planner -->
-<!-- one line per captured workflow; the SKILL.md is the canonical text -->
-- docker-vm-no-privileged — Never probe the Docker VM with --privileged or --pid=host; the classifier treats it as containment escape
-- ci-wait-after-push — Wait for GitHub CI after a push: run.sh --bg gh run watch, then run.sh --wait under 285 s
-- container-scratch-not-synced — Mac .run/ never syncs; make container scratch in the container's .run/
+<!-- one line per workflow; SKILL.md is canonical -->
+- docker-vm-no-privileged — never probe the Docker VM with --privileged/--pid=host (containment escape)
+- ci-wait-after-push — after a push: run.sh --bg gh run watch, then --wait < 285 s
+- container-scratch-not-synced — Mac .run/ never syncs; scratch in the container's .run/
+- typecheck-fnptr-keyer-first — extend typecheck.py's keyer before the first fn-pointer typedef
 
 ## Paths <!-- roles: expert coder router planner review critic discuss auditor curator -->
 - Oracles (native Mac): Ghidra 12.1.3 + psx_ldr (docs/ops/oracles.md)

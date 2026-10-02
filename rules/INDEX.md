@@ -175,3 +175,9 @@ G65 | Agents assist; a person owns | decomp,ai-conduct | active | decomp-archite
 G103 | A probe compiles through the product build's rule, never a copied flag set | decomp,probe,pin,build | active | mmx6 1.4/T3
 
 G104 | A pin is unique only over rungs a probe can distinguish; collapse byte-equivalent rungs first | decomp,probe,pin,ladder | active | mmx6 1.4/T6,T6.1
+
+G105 | Types live in one evidence-backed header, keyed by shape and fleet-gated | decomp,types,gate | active | mmx6 1.6/T3
+
+G106 | A shared body is one src/shared file included per member; members differ only by name defines | decomp,dedup,bank | active | mmx6 1.6/T4,T5
+
+G107 | Sibling-game C is measured and adopted under this binary's pin | decomp,prior-art,pin,license | active | mmx6 1.6/T8

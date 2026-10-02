@@ -6,7 +6,32 @@ them; this file holds procedure and tool contracts only, never game bytes (G12).
 
 ## Lanes
 
-Stub: filled by 1.8 T4 (lanes and the wave procedure) and T5 (scaffold lane).
+Every lane has a cadence and a cap (G39).
+- drafting (paid clock): waves of 16 cards, ≤ 4 coders concurrent (a harvest workflow included), one run per card + ≤ 1
+  retry inside the band cap of `config/routing.txt` (T9); never stopped to ship a tool change: changes land between
+  waves (G48).
+- scaffold (free; T5): detached, resumable.
+- propagate/remap (free): after every banked exemplar, run by the gate.
+- x4 (free; T7): proven-shared only (G102).
+- permuter (free): plateau fails only, iterations capped per band.
+- lib (free; T8): vendor ledger rows.
+- gate: every wave, serial per binary, ≤ 3 binaries at once.
+- harvest: every wave; it closes the wave.
+
+## Wave procedure
+
+1. `harvest.py --start W<n>` (denominators before the wave).
+2. Draw: `draw.py --rank leverage|difficulty --wave W<n> …` (refused without `campaign/harvest/W<n-1>.ok`).
+3. Audit: `draw.py --audit` (run first by every draw).
+4. Validate: `validate.py --targets build/draw/W<n>.txt`.
+5. Cards: `cards.py --wave W<n> --targets build/draw/W<n>.txt`.
+6. Fan-out: one coder per card; drafts pushed as packs (`mx.sh push waves/W<n>/…`).
+7. Gate the directory: `gate.py --wave W<n>`.
+8. Recover: the gate's ladder (## Recovery); plumbing stops re-gated, never redrafted.
+9. One `make fleet` from a clean rebuild.
+10. Journal: pull `src/`, the registry, `campaign/journal.jsonl` and `campaign/harvest/` before any sync.
+11. Harvest gate: `--inert-wave W<n>`, `--record` per live lever, `--sweep` per mechanical idiom, `--widen W<n>`,
+    `--gate W<n>` (stamps `campaign/harvest/W<n>.ok`, which the next draw needs).
 
 ## Validator
 
@@ -133,7 +158,7 @@ stripped it refuses `include-asm` (INCLUDE_ASM/INCLUDE_RODATA anywhere), `direct
   rebuilt in the tree (`GATE REBUILD <prog> red` rc 1).
 - Then in the tree: each banked exemplar's dup class propagated (propagate.propagate) when it has asm|include_asm members
   with no gated registry row, else `PROPAGATE <key> skipped: no open members`; one `sig.py --rescan` (G46); one journal
-  record per draft (verdict banked|fail|nocompile|verbatim|missing|plumbing; label = plateau label, `R<k>`, `hash`,
+  record per draft (lever per ## Harvest; verdict banked|fail|nocompile|verbatim|missing|plumbing; label = plateau label, `R<k>`, `hash`,
   `refused` or `-`). Last lines `GATE W<n> drafts <d> = banked <a> + failed <b> + no-verdict <c>` (asserted, rc 1 if it
   breaks) and `WAVE W<n> banked <k> (<i> instructions) of <d> drafts; recovered <r>`. rc 0 = completed, 1 = assertion,
   conflict, lock or worker error, 2 usage.
@@ -158,3 +183,47 @@ success wins (`RECOVERED <pv> R<k> via <step>`, k = the rung of the first stop):
 R4 (jtbl not carved, rodata needs placement) is not recoverable. Unrecovered → `STOPPED <pv> R<k>: <cause>`, journal
 `plumbing`, label `R<k>`. An R5 stop (hash) → failed, journal `fail`, label `hash`. A bank preflight refusal →
 `REFUSED <pv> <cause>`, journal `plumbing`, label `refused`.
+
+## Harvest
+
+`tools/mmx6/harvest.py` (container, stdlib; G45): closes a wave. `--campaign <dir>` (default `campaign`) relocates
+`journal.jsonl`, `ledger.tsv` and `harvest/`.
+- Lever = a unified diff in the pack (its relative path in verdict.json `lever`) whose + side is the final draft.c. The
+  gate journals `lever` = `waves/W<n>/<prog>_<func>/<f>` when that file exists in the pack, else `-` (status never read, G50).
+- `--inert <pv> --lever <diff> [--draft <c>] [--wave W<n>]` (draft default: draft.c beside the diff): reverse-apply onto
+  a copy (`patch -R` when in the image, else a stdlib hunk applier); both texts compiled as `drafts/<prog>/<func>.c` in
+  one cards.snapshot (TU flags, Makefile TRIPLE; the tree is never written); elf_function words + masks compared
+  exactly: equal → `inert`, different or reverted nocompile → `live`. Line `HARVEST <pv> lever <path> live|inert`;
+  with-lever nocompile → `HARVEST <pv> lever <path> nocompile` rc 1 (`noapply` when the diff does not reverse-apply,
+  `MISSING <input>`). `--wave` appends the inert record.
+- `--inert-wave W<n>`: every journal record of W<n> with verdict banked and lever ≠ `-` (only banked levers are
+  credited), one snapshot; last `HARVEST INERT W<n> levers <k> live <l> inert <i>`.
+- `campaign/harvest/W<n>.jsonl` (tracked, append; last record per pv/kind wins; our names, numbers, prose only, G12):
+  `inert {pv,lever,state,why}`; `record {pv,cookbook:C<nnnn>|-,reason:<≤ 400 chars>|-,sweep:<id>|-}` from
+  `--record W<n> <pv> (--cookbook C<nnnn> | --reason TEXT) [--sweep ID]` (a reason with asm text refused);
+  `sweep {id,label,tried,edited}`; `widen {rows}`. Every record carries `kind`.
+- `--sweep <id> --wave W<n>`: imports `tools/mmx6/sweeps/<id>.py` (`LABEL`, `apply(text) -> (text, edits)`; README
+  there); targets = the latest journal record per pv with label == LABEL and a readable draft, plus `ledger.tsv` rows
+  with blocker `plateau:<LABEL>` and an existing tracked best draft (the ledger's draft wins); edited drafts written as
+  packs `waves/sweeps/W<n>/<prog>_<func>/{pack.json,draft.c}` (gate them with `gate.py --wave W<n> --root waves/sweeps
+  --journal campaign/harvest/W<n>.sweeps.jsonl`); line `SWEEP <id> tried <t> edited <e>`; sweep record appended.
+- `--start W<n>` writes `campaign/harvest/W<n>.start.json` `{taken, denominators}`: `progress.<fleet|game|lib>.<k>`
+  (build/reports/progress.json), `census.<dup|family>.<classes|members>` (classes of ≥ 2 members,
+  build/census/classes.jsonl), `census.stubs[.asm|.ledgered]` when `build/census/stubs.txt` holds the
+  `CENSUS stubs` line, `draw.<draw|eligible|refused>` and `draw.refused.<L1-L4>` (build/draw/draw.jsonl). `--widen W<n>`
+  recomputes: `WIDEN <scanner> <old> -> <new>` per key, the widen record appended; an input not newer than `taken` →
+  `HARVEST WIDEN STALE <input>` rc 1; no start → `HARVEST WIDEN W<n> MISSING start` rc 1.
+- `--gate W<n>`: (a) every credited lever has an inert record (same lever path), (b) every live lever has a record with
+  a cookbook id resolving in cookbook/INDEX.md (a row, file exists) or a non-empty reason, (c) every sweep-tagged
+  record has a sweep record with counts, (d) a widen record exists. All hold → `campaign/harvest/W<n>.ok` (gate line,
+  `sha1 <W<n>.jsonl>`, counts), `HARVEST GATE W<n> OK` rc 0; else `HARVEST GATE W<n> MISSING inert|record|reason|
+  cookbook <id>|sweep <id>|widen [<pv>]` per miss, rc 1, no stamp. draw.py refuses W<n+1> without the stamp.
+- `--check-all`: every distinct wave of journal.jsonl has an .ok whose sha1 still matches its W<n>.jsonl →
+  `HARVEST GATES OK <w> of <w> waves` rc 0, else `HARVEST GATE W<n> MISSING stamp` | `HARVEST GATE W<n> STALE` rc 1.
+- `--self-test` (`.run/harvest-selftest/`, C0054 planted, the exemplar body src/shared/entity/state_dispatch.c as the
+  draft): live lever (`arg0[6]`→`arg0[7]`) → live; inert lever (a one-line comment rider) → inert; W1 live lever
+  without record → refused, no stamp; W2 sweep-tagged record without sweep record → refused; W3 complete (inert-wave,
+  real cookbook id, sweep record, stale then fresh planted widen inputs) → stamped; check-all: unstamped W1/W2 MISSING,
+  a W3-only copy OK, an append after the stamp STALE; src/ config/ campaign/ cookbook/ drafts/ unchanged, no
+  `waves/.iso/harvest-*`. Ends `HARVEST CONTROL OK` | `HARVEST CONTROL FAIL <cases>` rc 1. Rung `th-harvest`
+  (`--self-test && --check-all`).

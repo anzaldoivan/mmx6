@@ -4,7 +4,7 @@
 
 TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
 	th-walls th-draw th-validate th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau th-journal th-cards \
-	th-verbatim
+	th-verbatim th-harvest
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -173,6 +173,12 @@ th-cards: th-sig th-journal
 # directive, INCLUDE_ASM refused; a pin counted, a commented pin not), then every src/shared and drafts .c file.
 th-verbatim:
 	$(PYTHON) tools/mmx6/verbatim.py --self-test && $(PYTHON) tools/mmx6/verbatim.py --all
+
+# The harvest gate (tools/mmx6/harvest.py, G45): planted live/inert levers (the exemplar body, compiled both ways in
+# a snapshot), refused waves (live lever without record, sweep tag without sweep record), a stamped complete wave and
+# check-all in .run/harvest-selftest/; then every journal wave has a current stamp (`HARVEST GATES OK <w> of <w> waves`).
+th-harvest:
+	$(PYTHON) tools/mmx6/harvest.py --self-test && $(PYTHON) tools/mmx6/harvest.py --check-all
 
 # The wave gate (tools/mmx6/gate.py; full chain only: it plants and banks in /work like bank.py's self-test): planted
 # exe + overlay members in .run/gate-selftest/ (bank, define recovery, plateau-labelled fail, MISSING asm, two

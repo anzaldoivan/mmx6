@@ -18,7 +18,8 @@
          registry rows appended); a tree file changed since the snapshot -> `GATE APPLY CONFLICT <path>`, nothing of that
          program applied, rc 1; the program is rebuilt in the tree. Then: each banked exemplar's dup class propagated
          (propagate.propagate) when it has open members, else `PROPAGATE <key> skipped: no open members`; one
-         `sig.py --rescan`; one journal record per draft (journal.append). Last two lines
+         `sig.py --rescan`; one journal record per draft (journal.append; lever = <pack>/<f> when verdict.json's
+         `lever` names a file in the pack, else `-`). Last two lines
          `GATE W<n> drafts <d> = banked <a> + failed <b> + no-verdict <c>` (asserted; rc 1 if it breaks) and
          `WAVE W<n> banked <k> (<i> instructions) of <d> drafts; recovered <r>`. Every snapshot is removed (finally;
          stale gate-* of a dead pid at start). rc 0 = the gate completed, 1 = assertion/apply conflict/lock, 2 usage.
@@ -361,6 +362,19 @@ def note_ok(s):
     return s if not (journal.REG_RE.search(s) or journal.ASM_RE.search(s)) else ""
 
 
+def lever_of(pack):
+    """The journal `lever`: <pack>/<f> when verdict.json's `lever` names an existing file in the pack, else `-` (its
+    status is never read, G50)."""
+    try:
+        with open(os.path.join(pack, "verdict.json")) as f:
+            f_ = json.load(f).get("lever")
+    except (OSError, ValueError, AttributeError):
+        return "-"
+    if not isinstance(f_, str) or not f_ or os.path.isabs(f_) or ".." in f_.split("/") or any(c.isspace() for c in f_):
+        return "-"
+    return os.path.join(pack, f_) if os.path.isfile(os.path.join(pack, f_)) else "-"
+
+
 def run(wave, root, jpath, j, prop, say=print):
     """(rc, info) of one gate run (cwd = the repo root)."""
     reap()
@@ -438,7 +452,8 @@ def run(wave, root, jpath, j, prop, say=print):
         if r is None or not meta or not meta.get("pv") or not meta.get("words"):
             continue
         record = dict(wave=wave, pv=meta["pv"], func=meta["func"], words=meta["words"], band=journal.band(meta["words"]),
-                      runs=1, verdict=r["verdict"], score=r["score"], label=r["label"], draft=r["draft"], lever="-",
+                      runs=1, verdict=r["verdict"], score=r["score"], label=r["label"], draft=r["draft"],
+                      lever=lever_of(pack),
                       notes=note_ok(r["note"] or f"gate {r['verdict']}") or f"gate {r['verdict']}")
         if journal.append(jpath, json.dumps(record), say):
             rc = 1

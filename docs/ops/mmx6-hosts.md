@@ -51,6 +51,10 @@ As known at generation (2026-10-01). Update in the same change as whatever chang
   `0dd09af8f8008f1f880327cf0aca3b26d2562ea2` at `/opt/asm-differ`; runtime deps in `/opt/splat-venv` at their poetry.lock
   versions (graphviz 0.20.3, colorama 0.4.6, watchdog 6.0.0, levenshtein 0.27.1, rapidfuzz 3.13.0, cxxfilt 0.3.0).
   Makefile `M2C_PIN`/`ASMDIFFER_PIN`; `make toolchain-check` checks both commits.
+- Permuter (Phase 1.7 T7, 2026-10-02, upstream HEAD): decomp-permuter (simonlindholm, MIT) commit
+  `059609d4aec73eb0650726772954e1ad575825f8` at `/opt/decomp-permuter`, never edited; its runtime dep toml 0.10.2 in
+  `/opt/splat-venv`. Makefile `PERMUTER_PIN`; `make toolchain-check` prints `PERMUTER <sha>`. Run only through
+  `tools/mmx6/permute.py` (masked scorer bound at import, tools/mmx6/permuter/masked_scorer.py).
 - Formatter (2026-10-01): `Ubuntu clang-format version 18.1.3 (1ubuntu1)` from the pinned image's apt (≥ 15, so `.clang-format` InsertBraces applies); runs only in the container: `mx.sh sync && mx.sh run make format && mx.sh pull <paths>`.
 - Build image (2026-10-01): base `ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3`
   (multi-arch index); `mmx6-build` config `sha256:5d1d605eab919468afd3208988ee429d1a211a2b382176ab4b5c8a91239c9b7b`

@@ -118,3 +118,9 @@ RUN git clone https://github.com/matt-kempster/m2c.git /opt/m2c \
     && git -C /opt/asm-differ checkout 0dd09af8f8008f1f880327cf0aca3b26d2562ea2 \
     && /opt/splat-venv/bin/pip install --no-cache-dir "graphviz==0.20.3" "colorama==0.4.6" "watchdog==6.0.0" \
        "levenshtein==0.27.1" "rapidfuzz==3.13.0" "cxxfilt==0.3.0"
+# Permuter (decomp-permuter, simonlindholm, MIT), pinned by commit (phase 1.7 T7); run only through
+# tools/mmx6/permute.py, whose masked scorer binds at import (upstream never edited). Its one non-net runtime dep
+# (toml; pynacl is only for -J) in the splat venv.
+RUN git clone https://github.com/simonlindholm/decomp-permuter.git /opt/decomp-permuter \
+    && git -C /opt/decomp-permuter checkout 059609d4aec73eb0650726772954e1ad575825f8 \
+    && /opt/splat-venv/bin/pip install --no-cache-dir "toml==0.10.2"

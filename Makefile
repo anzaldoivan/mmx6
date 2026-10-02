@@ -21,6 +21,8 @@ MASPSX_PIN ?= 7686f845a181700534c83c0419183e38aeb3e49c
 # Decompile scaffold and differ (/opt/m2c, /opt/asm-differ), pinned by commit.
 M2C_PIN ?= 708d2d2cb2698f091a92492b328f73b24209f72d
 ASMDIFFER_PIN ?= 0dd09af8f8008f1f880327cf0aca3b26d2562ea2
+# Permuter (/opt/decomp-permuter), pinned by commit; run through tools/mmx6/permute.py.
+PERMUTER_PIN ?= 059609d4aec73eb0650726772954e1ad575825f8
 # cc1 2.95.2-psx source at /opt/gcc-2.95.2-src (docs/ops/compiler-pin.md ## Source): GNU tarball sha256, staged-tree
 # digest, old-gcc patch count.
 GCCSRC_SHA ?= 064e1cb06ea5d2f4a07ec46c1c64d771f74d04f404b6a6766bca2477f7d72482
@@ -172,7 +174,7 @@ dumps:
 
 toolchain-check:
 	sh tools/mmx6/toolchain_check.sh "$(SPLAT_PIN)" "$(BINUTILS_PIN)" "$(CPP_PIN)" "$(CC1_SET)" "$(MASPSX_PIN)" \
-	  "$(M2C_PIN)" "$(ASMDIFFER_PIN)" "$(GCCSRC_SHA)" "$(GCCSRC_TREE)" "$(GCCSRC_PATCHES)"
+	  "$(M2C_PIN)" "$(ASMDIFFER_PIN)" "$(GCCSRC_SHA)" "$(GCCSRC_TREE)" "$(GCCSRC_PATCHES)" "$(PERMUTER_PIN)"
 
 scratch-check:
 	$(PYTHON) tools/mmx6/scratch.py --root .run --cap-gb $(SCRATCH_CAP_GB) --warn-gb $(SCRATCH_WARN_GB)

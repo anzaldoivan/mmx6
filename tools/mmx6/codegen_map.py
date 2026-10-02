@@ -2,7 +2,8 @@
 """codegen_map.py -- the codegen-map checker: map rows, the triage table, the levers' byte proofs and the gcc source
 citations (container, stdlib only).
 
-  codegen_map.py [--groups G-a,G-b] [--map-dir D]     (default: all six groups, D = docs/codegen-map)
+  codegen_map.py [--check] [--groups G-a,G-b] [--map-dir D]   (default: all six groups, D = docs/codegen-map;
+                                                               --check = this default check)
       every `L<nn> | ...` row of D/*.md (README.md excluded) is validated:
         `L<nn> | <group> | tell: <text> | mechanism: <pass> src:gcc-2.95.2/<path>:<line> "<frag>" [...] |
          lever: <text> | proof: repro/<group>/<id> | retail: <prog>:<8 hex>|-`
@@ -10,7 +11,11 @@ citations (container, stdlib only).
         proof == repro/<group>/<id> with <id>.a.c and <id>.b.c present; ids unique across files, ascending per file.
       D/README.md: `## Pass groups` lists exactly GROUPS (`- G-x: <passes> — G-x.md`); `## Triage` rows
       `tell | group | levers | else` (4 fields; tell ends with `sym-<slug>`; levers = comma list of L ids of that
-      group's file, or TODO; TODO anywhere in a row counts). Only triage rows of requested groups are checked.
+      group's file, or exactly `→ permuter`, or TODO; TODO anywhere in a row counts). Only triage rows of requested
+      groups are checked.
+      <base>/cookbook/C0002.md (base = repo root): every table row `| tell `sym-<slug>` | … | Entries |` needs >= 1
+      README triage row (any group) with that slug; Entries = `→ permuter` or comma list of C ids, each resolving
+      to <base>/cookbook/C<nnnn>.md; TODO in a row counts in the TRIAGE TODO total.
       Each valid row of a requested group: repro.lever (= `repro.py --lever L<nn>`); then `gccsrc.py --check`.
       -> per defect `MAP FAIL <id|file> <why>` / `TRIAGE FAIL <row> <why>`; `LEVER ...` lines from repro;
          gccsrc's non-OK lines and its last line; then `TRIAGE OK <t> rows, 0 TODO` (else
@@ -19,8 +24,10 @@ citations (container, stdlib only).
       rc 0 iff no FAIL, cites OK, triage 0 TODO, every requested group has >= 1 OK lever.
   codegen_map.py --self-test
       planted map dirs and one planted $4/$5 swap pair in .run/map-selftest/ (C0054; never the real rows): a good
-      row -> OK; negatives FAIL: malformed row, pass not in its group, dangling proof, duplicate id, triage lever
-      absent, triage TODO, requested group with 0 levers (no cite check: planted cites do not resolve).
+      row and a `→ permuter` triage/C0002 row -> OK; negatives FAIL: malformed row, pass not in its group, dangling
+      proof, duplicate id, triage lever absent, triage TODO, C0002 slug with no README row, C0002 TODO, C0002
+      dangling C id, requested group with 0 levers (planted C0002 in .run/map-selftest/cookbook/; no cite check:
+      planted cites do not resolve).
       Ends `MAP CONTROL OK`, else `MAP CONTROL FAIL <why>` rc 1.
 Firewall G12: our own C and docs only; prints ids, paths, counts and reasons, never retail bytes.
 """
@@ -51,6 +58,7 @@ ID = re.compile(r"^L\d{2,}$")
 CITE = re.compile(r'src:gcc-2\.95\.2/\S+:\d+ "[^"]*"')
 RETAIL = re.compile(r"^(-|\w+:[0-9a-fA-F]{8})$")
 FIELDS = ("tell", "mechanism", "lever", "proof", "retail")
+PERMUTER = "→ permuter"
 
 
 def parse_row(line, group, base):
@@ -116,12 +124,12 @@ def read_rows(map_dir, base, fail):
 
 
 def read_readme(map_dir, groups, seen, fail, tfail):
-    """(triage rows of requested groups, TODO count)."""
+    """(triage rows of requested groups, TODO count, sym-<slug>s of all valid triage rows)."""
     path = os.path.join(map_dir, "README.md")
     if not os.path.isfile(path):
         fail("README.md", "absent")
-        return 0, 0
-    sec, listed, t, todo = None, {}, 0, 0
+        return 0, 0, set()
+    sec, listed, t, todo, slugs = None, {}, 0, 0, set()
     with open(path, encoding="utf-8") as f:
         for x in f:
             x = x.rstrip("\n")
@@ -145,6 +153,9 @@ def read_readme(map_dir, groups, seen, fail, tfail):
                 if g not in GROUPS:
                     tfail(tell[:60], f"group {g} unknown")
                     continue
+                m = re.search(r"sym-[\w-]+$", tell)
+                if m:
+                    slugs.add(m.group(0))
                 if g not in groups:
                     continue
                 t += 1
@@ -152,15 +163,55 @@ def read_readme(map_dir, groups, seen, fail, tfail):
                     todo += 1
                     tfail(tell[:60], "TODO")
                     continue
-                if not re.search(r"sym-[\w-]+$", tell):
+                if not m:
                     tfail(tell[:60], "tell does not end with sym-<slug>")
+                if levers == PERMUTER:
+                    continue
                 for lid in (s.strip() for s in levers.split(",")):
                     if seen.get(lid) != f"{g}.md":
                         tfail(tell[:60], f"lever {lid} absent from {g}.md")
     want = {g: (p, f"{g}.md") for g, p in GROUPS.items()}
     if listed != want:
         fail("README.md", "## Pass groups differs from GROUPS")
-    return t, todo
+    return t, todo, slugs
+
+
+def read_c0002(base, slugs, tfail):
+    """TODO count of <base>/cookbook/C0002.md's table; each row's `sym-<slug>` needs a README triage row, its
+    Entries cell `→ permuter` or C ids resolving to <base>/cookbook/C<nnnn>.md."""
+    path = os.path.join(base, "cookbook", "C0002.md")
+    if not os.path.isfile(path):
+        tfail("C0002.md", "absent")
+        return 0
+    todo = 0
+    with open(path, encoding="utf-8") as f:
+        for x in f:
+            if not x.startswith("|"):
+                continue
+            cells = [c.strip() for c in x.strip().strip("|").split("|")]
+            if cells[0] == "Tell in the diff" or all(set(c) <= set("-: ") for c in cells):
+                continue
+            if len(cells) != 4:
+                tfail(f"C0002 {x[:50]}", f"{len(cells)} fields, want 4")
+                continue
+            m = re.search(r"`(sym-[\w-]+)`", cells[0])
+            what = f"C0002 {m.group(1) if m else cells[0][:50]}"
+            if "TODO" in x:
+                todo += 1
+                tfail(what, "TODO")
+                continue
+            if not m:
+                tfail(what, "no `sym-<slug>`")
+            elif m.group(1) not in slugs:
+                tfail(what, "no README triage row with this slug")
+            if cells[3] == PERMUTER:
+                continue
+            for cid in (c.strip() for c in cells[3].split(",")):
+                if not re.fullmatch(r"C\d{4}", cid):
+                    tfail(what, f"entry {cid} not a C id or `{PERMUTER}`")
+                elif not os.path.isfile(os.path.join(base, "cookbook", f"{cid}.md")):
+                    tfail(what, f"dangling entry {cid}")
+    return todo
 
 
 def check(groups, map_dir, base=".", cites=True, out=print, memo=None):
@@ -177,7 +228,8 @@ def check(groups, map_dir, base=".", cites=True, out=print, memo=None):
         out(f"TRIAGE FAIL {what} {why}")
 
     rows, seen = read_rows(map_dir, base, fail)
-    t, todo = read_readme(map_dir, groups, seen, fail, tfail)
+    t, todo, slugs = read_readme(map_dir, groups, seen, fail, tfail)
+    todo += read_c0002(base, slugs, tfail)
     g_ok, levers = 0, 0
     for g in groups:
         ok = 0
@@ -219,7 +271,11 @@ README = ("# Codegen map (planted by codegen_map.py --self-test)\n## Pass groups
           + "## Triage\ntell | group | levers | else\n--- | --- | --- | ---\n")
 GOOD = ('L01 | G-expr | tell: planted swap | mechanism: rtl src:gcc-2.95.2/gcc/expr.c:1 "x" | '
         'lever: operand order | proof: repro/G-expr/swap | retail: -\n')
-TRIAGE = "planted subtract sym-planted | G-expr | L01 | permuter (T7)\n"
+TRIAGE = ("planted subtract sym-planted | G-expr | L01 | permuter (T7)\n"
+          f"planted lock sym-planted-lock | G-expr | {PERMUTER} | permuter (T7)\n")
+C2 = ("# C0002 (planted)\n| Tell in the diff | Likely mechanism | Lever family | Entries |\n|---|---|---|---|\n"
+      "| planted subtract `sym-planted` | m | l | C0099 |\n"
+      f"| planted lock `sym-planted-lock` | m | l | {PERMUTER} |\n")
 
 
 def self_test():
@@ -239,11 +295,15 @@ def self_test():
         with open(p, "w") as f:
             f.write(hdr + f"// expect: {exp}\n" + extra + repro.SUB % expr)
 
-    def case(name, files, groups, want, why):
+    def case(name, files, groups, want, why, c2=C2):
+        os.makedirs(os.path.join(SELFTEST, "cookbook"), exist_ok=True)
+        for fn, body in (("C0002.md", c2), ("C0099.md", "# C0099 — planted\n")):
+            with open(os.path.join(SELFTEST, "cookbook", fn), "w", encoding="utf-8") as f:
+                f.write(body)
         d = os.path.join(SELFTEST, name)
         os.makedirs(d, exist_ok=True)
         for fn, body in files.items():
-            with open(os.path.join(d, fn), "w") as f:
+            with open(os.path.join(d, fn), "w", encoding="utf-8") as f:
                 f.write(body)
         got = []
         rc = check(groups, d, SELFTEST, cites=False, out=got.append, memo=memo)
@@ -266,6 +326,10 @@ def self_test():
          ["G-expr"], "TRIAGE FAIL", "lever L07 absent")
     case("tritodo", dict(good, **{"README.md": README + TRIAGE.replace("L01", "TODO")}),
          ["G-expr"], "TRIAGE FAIL", "TODO")
+    case("c2noslug", good, ["G-expr"], "TRIAGE FAIL", "no README triage row",
+         c2=C2 + "| planted orphan `sym-orphan` | m | l | C0099 |\n")
+    case("c2todo", good, ["G-expr"], "TRIAGE FAIL", "TODO", c2=C2.replace("C0099 |", "TODO |"))
+    case("c2dangling", good, ["G-expr"], "TRIAGE FAIL", "dangling entry C0098", c2=C2.replace("C0099 |", "C0098 |"))
     case("nolevers", good, ["G-expr", "G-loop"], "MAP FAIL G-loop", "no byte-proven lever")
     lines.append("MAP CONTROL OK" if not fails else f"MAP CONTROL FAIL {'; '.join(fails)}")
     for x in lines:
@@ -277,6 +341,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--groups", default=",".join(GROUPS))
     ap.add_argument("--map-dir", default="docs/codegen-map")
+    ap.add_argument("--check", action="store_true", help="the default check (alias)")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     map_dir = os.path.abspath(a.map_dir)

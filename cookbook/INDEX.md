@@ -83,3 +83,5 @@ C0080 | $16/$17 swapped by ref count: global-alloc density floor_log2(refs)*refs
 C0081 | Load held below *p= but hoisted above p->f= (sched /s aliasing) | idiom,sym-load-below-store,G-sched,sched,aliasing,order | 2026-10-02 | 1.7/T5 | mmx6 repro
 C0082 | beqz vs bnez: the if arm falls through; invert the condition and swap arms | idiom,sym-branch-arms-swapped,G-jump,jump,polarity,branch | 2026-10-02 | 1.7/T5 | mmx6 repro
 C0083 | Cross-jump: a fall-through arm ending in a call never merges; a store tail merges the call | idiom,sym-cross-jump,G-jump,jump2,cross-jump,call | 2026-10-02 | 1.7/T5 | mmx6 repro
+C0084 | Index sll 2 vs none: p[i] on int * scales, a char * byte offset does not | idiom,sym-shift-x4,G-expr,rtl,pointer,shift | 2026-10-02 | 1.7/T5 | mmx6 repro
+C0085 | Spill slots swapped: reload assigns slots in pseudo (declaration) order | idiom,sym-spill-slot,G-alloc,greg,spill,decl-order | 2026-10-02 | 1.7/T5 | mmx6 repro

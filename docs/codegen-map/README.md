@@ -1,7 +1,7 @@
 # Codegen map — cc1 2.95.2 (pin gcc2.95.2-psx-aspsx2.86)
 A row `L<nn>` names a diff tell, the cc1 pass and gcc 2.95.2 source lines that decide it, and the C lever that moves it.
 Each row is byte-proven by its reproducer pair: `python3 tools/mmx6/repro.py --lever L<nn>` (both sides reproduce, bytes differ, `diff:` kind holds).
-Check the map (rows, triage, proofs, citations): `python3 tools/mmx6/codegen_map.py --groups <G-x,...>` (container).
+Check the map (rows, triage against cookbook/C0002.md, proofs, citations), all groups: `python3 tools/mmx6/codegen_map.py --check` (container). A levers cell `→ permuter` means no C lever: hand the function to the permuter.
 
 ## Pass groups
 - G-expr: rtl cse addressof gcse cse2 — G-expr.md
@@ -23,3 +23,6 @@ two values' `$16`/`$17` swapped, unequal ref counts sym-sreg-swapped | G-alloc |
 a global `lw` held below a pointer store, or hoisted above it sym-load-below-store | G-sched | L07 | permuter (T7)
 `beqz` vs `bnez` with the arms' code in the other order sym-branch-arms-swapped | G-jump | L08 | permuter (T7)
 two `jal` to one callee in if/else arms vs one shared `jal` sym-cross-jump | G-jump | L09 | permuter (T7)
+an index scaled `sll rI,rI,2` before the `addu` vs an unscaled byte-offset `addu` sym-shift-x4 | G-expr | L10 | permuter (T7)
+two spilled values' stack slots swapped (`sw $2,52($sp)` vs `56($sp)`) sym-spill-slot | G-alloc | L11 | permuter (T7)
+every small edit moves 20+ instructions (a register-pressure lock) sym-register-pressure | G-alloc | → permuter | permuter (T7)

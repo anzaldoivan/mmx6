@@ -32,7 +32,7 @@
 - K1 decl order = pseudo order = tie-break: survives. Equal prio (8888 both, tie pair) → lower pseudo first: src:gcc-2.95.2/gcc/global.c:615 "return v1 - v2;". Row L05.
 - K2 density floor_log2(refs)*refs/live decides $s order: survives, same formula: src:gcc-2.95.2/gcc/global.c:603 "(floor_log2 (allocno_n_refs[v1]) * allocno_n_refs[v1])". Row L06.
 - K4 caller-save `sw/lw` hugging jal: survives as code (lead, not reproduced this task): -O2 sets it, src:gcc-2.95.2/gcc/toplev.c:4866 "flag_caller_saves = 1;".
-- K7 spill-slot offsets by regno: survives as code (lead, not reproduced): a slot per spilled pseudo in alter_reg, src:gcc-2.95.2/gcc/reload1.c:2379 "alter_reg (i, from_reg)".
+- K7 spill-slot offsets by regno: survives. reload walks pseudos in regno order and gives each spilled one the next slot (decl order → pseudo order → offset): src:gcc-2.95.2/gcc/reload1.c:797 "alter_reg (i, -1);". Row L11.
 - RC-6 20+ insn explosion = register-pressure lock: survives as triage, no lever: C0002 `sym-register-pressure` → permuter (T7).
 
 ## Levers
@@ -42,3 +42,6 @@ L05 | G-alloc | tell: two values live across calls get `$16`/`$17` swapped again
 L06 | G-alloc | tell: two values live across calls get `$16`/`$17` swapped against the target, ref counts unequal | mechanism: greg src:gcc-2.95.2/gcc/global.c:603 "(floor_log2 (allocno_n_refs[v1]) * allocno_n_refs[v1])" src:gcc-2.95.2/gcc/global.c:604 "/ allocno_live_length[v1])" | lever: move references: the value with the higher floor_log2(refs)*refs/live gets `$16`; a: x=83 refs 6 live 13 prio 9230, y=87 refs 4 live 12 prio 6666 → x `$16`; b (extra uses moved to y): x=83 refs 4 live 13 prio 6153, y=87 refs 6 live 12 prio 10000 → y `$16` | proof: repro/G-alloc/refs | retail: -
   - dump (a-side .greg): ";; 2 regs to allocate: 83 87"
   - cookbook: C0080
+L11 | G-alloc | tell: two spilled values' stack slots swapped against the target (`sw $2,52($sp)` vs `56($sp)`), equal length | mechanism: greg src:gcc-2.95.2/gcc/reload1.c:797 "alter_reg (i, -1);" src:gcc-2.95.2/gcc/reload1.c:2422 "x = assign_stack_local (GET_MODE (regno_reg_rtx[i]), total_size," | lever: declaration order: spilled pseudos get slots in pseudo order, the first-declared spilled value the lower offset (`int v2, v3;` → v2 52, v3 56; `int v3, v2;` → v3 52, v2 56); a: 82 84 85 spilled at 48 52 56 | proof: repro/G-alloc/slot | retail: -
+  - dump (a-side .greg): "(const_int 52 [0x34])) 0)"
+  - cookbook: C0085

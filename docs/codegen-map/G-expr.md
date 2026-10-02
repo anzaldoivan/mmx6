@@ -37,3 +37,6 @@ L01 | G-expr | tell: a global reloaded (`lw` again) after a store through a bare
 L02 | G-expr | tell: `&local` in a callee-saved `$s0` and `move $aN,$s0` per call, vs `addiu $aN,$sp,K` at each call | mechanism: rtl src:gcc-2.95.2/gcc/calls.c:662 "&& rtx_cost (args[i].value, SET) > 2" src:gcc-2.95.2/gcc/calls.c:664 "preserve_subexpressions_p ()" | lever: pass a named pointer variable (`void *q = buf; h(q);`) to cache the address; pass `buf` directly for per-site `addiu` | proof: repro/G-expr/addrcache | retail: -
   - dump (a-side .rtl): "(reg/v:SI 81)) -1 (nil)"
   - cookbook: C0076
+L10 | G-expr | tell: an `sll rI,rI,2` scaling an index before the `addu`, where the target adds a byte offset directly (or the reverse) | mechanism: rtl src:gcc-2.95.2/gcc/c-typeck.c:2680 "size_exp = c_size_in_bytes (TREE_TYPE (result_type));" src:gcc-2.95.2/gcc/c-typeck.c:2726 "build_binary_op (MULT_EXPR, intop," src:gcc-2.95.2/gcc/expmed.c:2352 "synth_mult (&alg, val, mult_cost);" | lever: `p[i]` on `int *p` scales i by 4 (`sll 2`); `*(int *)((char *)p + i)` adds i unscaled (the scaffold's byte offset) | proof: repro/G-expr/shiftx4 | retail: -
+  - dump (a-side .rtl): "(ashift:SI (reg:SI 84)"
+  - cookbook: C0084

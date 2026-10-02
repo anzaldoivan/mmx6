@@ -42,3 +42,13 @@
 1.5 | T6 | done | census of duplication, families, reach × size, unique tail | - | phase-1.5/tasks/T6.md | phase-1.5/logs/T6.md | R1.5-001
 1.5 | T7 | done | progress, difficulty and duplicate reports | - | phase-1.5/tasks/T7.md | phase-1.5/logs/T7.md | -
 1.5 | T8 | done | differential harness on the fleet schedule | - | phase-1.5/tasks/T8.md | phase-1.5/logs/T8.md | -
+1.6 | T1 | done | bound2 merge check and start independence | - | phase-1.6/tasks/T1.md | phase-1.6/logs/T1.md | -
+1.6 | T2 | done | signatures and the twin band | - | phase-1.6/tasks/T2.md | phase-1.6/logs/T2.md | -
+1.6 | T3 | done | canonical type file and its bank-time check | - | phase-1.6/tasks/T3.md | phase-1.6/logs/T3.md | -
+1.6 | T4 | done | reconcile ladder and the hand-matched exemplar | - | phase-1.6/tasks/T4.md | phase-1.6/logs/T4.md | -
+1.6 | T5 | done | overlay C units, dedup propagation and the registry | - | phase-1.6/tasks/T5.md | phase-1.6/logs/T5.md | -
+1.6 | T6 | done | jump-table and opt-level carve tools | - | phase-1.6/tasks/T6.md | phase-1.6/logs/T6.md | -
+1.6 | T6.1 | done | bank.py self-test on planted siblings | - | phase-1.6/tasks/T6.1.md | phase-1.6/logs/T6.1.md | -
+1.6 | T7 | done | family remap from a banked exemplar | - | phase-1.6/tasks/T7.md | phase-1.6/logs/T7.md | -
+1.6 | T8 | done | X4↔X6 sharing number from mmx4's own build | - | phase-1.6/tasks/T8.md | phase-1.6/logs/T8.md | -
+1.6 | T9 | done | wall oracle, draw filter, harness P8 and the milestone | - | phase-1.6/tasks/T9.md | phase-1.6/logs/T9.md | -

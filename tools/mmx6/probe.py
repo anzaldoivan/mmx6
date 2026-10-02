@@ -12,7 +12,7 @@
          `SELF-TEST OK` (rc 0) or `SELF-TEST FAIL` (rc 1)
 
 Compiles through the product C rule (`make -s -B TRIPLE=<t> build/<src>.o`), serially, copying each object to
-.run/probe/<t>/; a stored draft drafts/<p>/<func>.c gets its TU's CFLAGS_<tu> override (draft_cflags).
+.run/probe/<t>/<src dir, / -> _>/; a stored draft drafts/<p>/<func>.c gets its TU's CFLAGS_<tu> override (draft_cflags).
 Retail extent: splat glabel..endlabel (or next glabel) under asm/<p>/ (a body #included from src/shared/: its build/corpus/functions.jsonl row); bytes from the yaml
 target_path at segment start + (vram - segment vram); both sides trimmed to the last `jr $ra` + delay slot (C0021).
 Relocated fields of the compiled .o (.rel.text) are masked on both sides: R_MIPS_26 low 26 bits, HI16/LO16/GPREL16
@@ -228,7 +228,8 @@ def draft_cflags(src, triple=None):
 
 def compile_obj(src, triple):
     obj = f"build/{src}.o"
-    outdir = f".run/probe/{triple}"
+    outdir = os.path.join(".run/probe", triple, os.path.dirname(src).replace("/", "_").lstrip(".") or "_")  # keyed by
+    # the source dir (holds the program): same-named functions of two programs never share a scratch path
     os.makedirs(outdir, exist_ok=True)
     log = os.path.join(outdir, os.path.basename(src) + ".log")
     cflags = draft_cflags(src, triple)

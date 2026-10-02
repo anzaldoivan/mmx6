@@ -393,12 +393,14 @@ def self_test():
                     p, _, v = t[3].rpartition(":")
                     banked.add((p, names.get((p, int(v, 16)), t[3])))
     cset = {(f["prog"], f["name"]) for f in fs if f["state"] == "c"}
-    ok(nprobe == 4 and cset == banked,  # was 3 (T4.c1 banked func_8003744C)
-       f"banked {nprobe} probes + {len(banked) - nprobe} registry == c set {len(cset)}")
-    fleet = fleet_c_names()
     empty = {(f["prog"], f["name"]) for f in fs if f["state"] == "c-empty"}
+    # a banked empty body (T5.c2 scaffold lane) is state c-empty by its body: banked minus those == the c set
+    ok(nprobe == 4 and cset == banked - empty,  # was 3 (T4.c1 banked func_8003744C)
+       f"banked {nprobe} probes + {len(banked) - nprobe} registry - {len(banked & empty)} c-empty == c set {len(cset)}")
+    fleet = fleet_c_names()
     want = fleet - banked
-    ok(empty == want, f"c-empty {len(empty)} == fleet C MATCHED {len(fleet)} - banked {len(fleet & banked)}")
+    ok(empty - banked == want,
+       f"c-empty unbanked {len(empty - banked)} == fleet C MATCHED {len(fleet)} - banked {len(fleet & banked)}")
     # Planted control: one game function whose first word is non-zero and in no jtbl/data region starts a word later.
     p = next(p for p, _, _ in res if p["prog"] == "SLUS_013.95")
     cand = next(f for f in sorted(p["funcs"], key=lambda f: f["vram"])

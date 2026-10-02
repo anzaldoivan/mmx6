@@ -5,12 +5,14 @@
       -> the key's exemplar row of config/dedup_registry.txt names the shared body; members from
          build/census/classes.jsonl. Per member (prog, vram order): defines `<exemplar name> -> <member corpus name>`
          and `D_<exemplar table> -> D_<member table>` (table address = the lui/lw (or addiu) pair of the member's
-         retail words, probe.retail_words; the exemplar needs none), then bank.ladder R1-R4 (R1 probes a scratch
+         retail words, probe.retail_words; the exemplar needs none; only when the body names D_<exemplar table>,
+         else the name define alone), then bank.ladder R1-R4 (R1 probes a scratch
          wrapper, R2 writes the define/include/undef block; a unit already holding it is re-gated, not re-edited).
          R5 (bank.rung5: clean rebuild + hash, body sha1, typecheck, sig) once per program, then an unmasked compare of
          each member's linked extent vs retail; on a program R5 failure every member is retried alone, failing
          members restored. One line per member `<prog:vram> gated|refused <reason>`, last
          `PROPAGATE <key> gated <m> of <M> members` (rc 0 iff m = M); registry rows appended/updated in place.
+         A member already holding a gated row of the key (its own bank, an earlier run) is not re-gated: row kept, counted.
       --dry-run: the same gates in scratch copies of the tree (.run/propagate/tree/w<i>, one per worker process;
          programs run in parallel, output printed in program order); src/ and the registry are never
          written (their sha1 checked unchanged at the end); last `PROPAGATE DRY-RUN <key> gated <m> of <M> members`.
@@ -167,11 +169,16 @@ def propagate(key, dry):
     ex_tab = table_addr(probe.retail_words(ex[0], ex_name))
     with open(src) as f:
         body = f.read()
-    if ex_tab is None or f"D_{ex_tab:08X}" not in body or ex_name not in body:
-        sys.exit(f"propagate: exemplar table D_{ex_tab or 0:08X} / name {ex_name} not in {src} (contract)")
+    if ex_name not in body:
+        sys.exit(f"propagate: exemplar name {ex_name} not in {src} (contract)")
+    if ex_tab is not None and f"D_{ex_tab:08X}" not in body:
+        ex_tab = None  # no table in the body (the lui/lw pair is some other global): the name define only
+    done = {t[3] for _, t in reg if t[0] == key and t[4] == "gated"}  # own banks / earlier runs: rows kept as they are
+    skip = [m for m in cls if m != ex and pv(m) in done]
     by_prog = {}
     for m in cls:
-        by_prog.setdefault(m[0], []).append(m)
+        if m not in skip:
+            by_prog.setdefault(m[0], []).append(m)
     ctx = (ex, ex_name, ex_tab, src, rows)
     results = []
     if not dry:
@@ -195,7 +202,7 @@ def propagate(key, dry):
                 results += res
     if not dry:
         write_registry(key, pv(ex), src, results)
-    return sum(s == "gated" for _, s, _ in results), len(cls), results
+    return sum(s == "gated" for _, s, _ in results) + len(skip), len(cls), results
 
 
 def run_prog(prog, ms, ctx, out):
@@ -210,6 +217,8 @@ def run_prog(prog, ms, ctx, out):
             continue
         if m == ex:
             defines = []
+        elif ex_tab is None:
+            defines = [(ex_name, r["name"])]
         else:
             t = table_addr(probe.retail_words(prog, r["name"]))
             if t is None:

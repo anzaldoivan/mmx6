@@ -153,7 +153,7 @@ def remap_one(r, ex_func, ex_t, body, dry, idx, sib_t=None):
     os.makedirs(SCRATCH, exist_ok=True)
     with open(os.path.join(SCRATCH, "remap.log"), "a") as lf, contextlib.redirect_stdout(lf):
         try:
-            ok, m, n = probe.probe(func, prog, bank.wrapper(body, func, defines), bank.makefile_triple())
+            ok, m, n = probe.probe(func, prog, bank.wrapper(body, func, defines, prog), bank.makefile_triple())
         except SystemExit as e:
             return "refused", "R1", f"probe error: {e}", None
         if not ok:

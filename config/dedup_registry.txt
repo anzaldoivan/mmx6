@@ -724,7 +724,7 @@ e1f1de0794e5c4d4a6a00f3ebf241bfa280cba0e rock_09:0x800F01C0 src/shared/rock_09/f
 e98ec56acea26586012777a5ce19a60ddba90a0b rock_09:0x800F4A90 src/shared/rock_09/func_800F4A90.c rock_09:0x800F4A90 gated exemplar
 7f693e46b2295478282394980377f04c2f3d08dc rock_09:0x800F4B10 src/shared/rock_09/func_800F4B10.c rock_09:0x800F4B10 gated exemplar
 7f693e46b2295478282394980377f04c2f3d08dc rock_09:0x800F4B30 src/shared/rock_09/func_800F4B30.c rock_09:0x800F4B30 gated exemplar
-e98ec56acea26586012777a5ce19a60ddba90a0b rock_09:0x800F4A90 src/shared/rock_09/func_800F4A90.c rock_09:0x800F4B50 refused R2: 0 lines `INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800F4B50);`, 0 placed blocks in src/rock_09/E9860.c
+e98ec56acea26586012777a5ce19a60ddba90a0b rock_09:0x800F4B50 src/shared/rock_09/func_800F4B50.c rock_09:0x800F4B50 gated exemplar
 7f693e46b2295478282394980377f04c2f3d08dc rock_09:0x800F4BD0 src/shared/rock_09/func_800F4BD0.c rock_09:0x800F4BD0 gated exemplar
 7f693e46b2295478282394980377f04c2f3d08dc rock_07:0x800EB770 src/shared/rock_07/func_800EB770.c rock_07:0x800EB770 gated exemplar
 3f1edd1e2595b497a581b0de69b78e4618082972 rock_07:0x800EB7CC src/shared/rock_07/func_800EB7CC.c rock_07:0x800EB7CC gated exemplar
@@ -759,7 +759,7 @@ f1ca0054b363be495303d354d28be8f39ee65a0d rock_07:0x800ED258 src/shared/rock_07/f
 7f693e46b2295478282394980377f04c2f3d08dc rock_07:0x800EE444 src/shared/rock_07/func_800EE444.c rock_07:0x800EE444 gated exemplar
 7f693e46b2295478282394980377f04c2f3d08dc rock_07:0x800EEADC src/shared/rock_07/func_800EEADC.c rock_07:0x800EEADC gated exemplar
 7f693e46b2295478282394980377f04c2f3d08dc rock_07:0x800EEAFC src/shared/rock_07/func_800EEAFC.c rock_07:0x800EEAFC gated exemplar
-7a05626c77715740c3f616bfd359c9c6187a4f8e rock_10:0x800F3BF8 src/shared/rock_10/func_800F3BF8.c rock_07:0x800F0114 refused R2: 0 lines `INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F0114);`, 0 placed blocks in src/rock_07/E9860.c
+7a05626c77715740c3f616bfd359c9c6187a4f8e rock_07:0x800F0114 src/shared/rock_07/func_800F0114.c rock_07:0x800F0114 gated exemplar
 7678540574197b420f17571673856a74783eb9d5 rock_07:0x800F01B4 src/shared/rock_07/func_800F01B4.c rock_07:0x800F01B4 gated exemplar
 7f693e46b2295478282394980377f04c2f3d08dc rock_07:0x800F0510 src/shared/rock_07/func_800F0510.c rock_07:0x800F0510 gated exemplar
 e996675da028c2f601a48b26ce0c10e019509d04 rock_07:0x800F10A8 src/shared/rock_07/func_800F10A8.c rock_07:0x800F10A8 gated exemplar
@@ -1101,7 +1101,7 @@ b113b9a0875b1c38edcf034b10b5cf1a0e941779 rock_31:0x800EE82C src/shared/rock_31/f
 7f693e46b2295478282394980377f04c2f3d08dc rock_31:0x800EF954 src/shared/rock_31/func_800EF954.c rock_31:0x800EF954 gated exemplar
 3eda7eedfbb8a2f5baf5519fae1ec769b9beab47 rock_31:0x800F0610 src/shared/rock_31/func_800F0610.c rock_31:0x800F0610 gated exemplar
 7f693e46b2295478282394980377f04c2f3d08dc rock_31:0x800F080C src/shared/rock_31/func_800F080C.c rock_31:0x800F080C gated exemplar
-7a05626c77715740c3f616bfd359c9c6187a4f8e rock_10:0x800F3BF8 src/shared/rock_10/func_800F3BF8.c rock_31:0x800F1E24 refused R2: 0 lines `INCLUDE_ASM("asm/rock_31/nonmatchings/E9860", func_800F1E24);`, 0 placed blocks in src/rock_31/E9860.c
+7a05626c77715740c3f616bfd359c9c6187a4f8e rock_31:0x800F1E24 src/shared/rock_31/func_800F1E24.c rock_31:0x800F1E24 gated exemplar
 7678540574197b420f17571673856a74783eb9d5 rock_31:0x800F1EC4 src/shared/rock_31/func_800F1EC4.c rock_31:0x800F1EC4 gated exemplar
 7f693e46b2295478282394980377f04c2f3d08dc rock_31:0x800F236C src/shared/rock_31/func_800F236C.c rock_31:0x800F236C gated exemplar
 c4bfbb8e6e6a2c7c450bb5163238c9773e1b0532 rock_31:0x800F238C src/shared/rock_31/func_800F238C.c rock_31:0x800F238C gated exemplar
@@ -1314,7 +1314,7 @@ fff1b15d9de0ac4caa7597dfec7c48d89a299efc rock_06:0x800EC740 src/shared/rock_06/f
 4bb362885c06309e6b6a9b650c33ff3add339ce1 rock_06:0x800EC7F8 src/shared/rock_06/func_800EC7F8.c rock_06:0x800EC7F8 gated exemplar
 e1f1de0794e5c4d4a6a00f3ebf241bfa280cba0e rock_06:0x800EC844 src/shared/rock_06/func_800EC844.c rock_06:0x800EC844 gated exemplar
 7f693e46b2295478282394980377f04c2f3d08dc rock_06:0x800ECA98 src/shared/rock_06/func_800ECA98.c rock_06:0x800ECA98 gated exemplar
-7a05626c77715740c3f616bfd359c9c6187a4f8e rock_10:0x800F3BF8 src/shared/rock_10/func_800F3BF8.c rock_06:0x800EE0B0 refused R2: 0 lines `INCLUDE_ASM("asm/rock_06/nonmatchings/E9860", func_800EE0B0);`, 0 placed blocks in src/rock_06/E9860.c
+7a05626c77715740c3f616bfd359c9c6187a4f8e rock_06:0x800EE0B0 src/shared/rock_06/func_800EE0B0.c rock_06:0x800EE0B0 gated exemplar
 7678540574197b420f17571673856a74783eb9d5 rock_06:0x800EE150 src/shared/rock_06/func_800EE150.c rock_06:0x800EE150 gated exemplar
 9ca41e24053816f24e4cc9b835a290981105b651 rock_06:0x800F1C80 src/shared/rock_06/func_800F1C80.c rock_06:0x800F1C80 gated exemplar
 a7eeaf953fc58f86f5b26340466e2d3aae616c2e rock_06:0x800F26C4 src/shared/rock_06/func_800F26C4.c rock_06:0x800F26C4 gated exemplar

@@ -17,7 +17,8 @@
          After each program worker: apply-back to the tree under .run/gate/locks/apply.lock (changed src/ files; new
          registry rows appended); a tree file changed since the snapshot -> `GATE APPLY CONFLICT <path>`, nothing of that
          program applied, rc 1; the program is rebuilt in the tree. Then: each banked exemplar's dup class propagated
-         (propagate.propagate) when it has open members, else `PROPAGATE <key> skipped: no open members`; one
+         (propagate.propagate; `PROPAGATE <key> gated <m> of <M> members`) when it has open members, else
+         `PROPAGATE <key> skipped: no open members`; one
          `sig.py --rescan`; one journal record per draft (journal.append; lever = <pack>/<f> when verdict.json's
          `lever` names a file in the pack, else `-`). Last two lines
          `GATE W<n> drafts <d> = banked <a> + failed <b> + no-verdict <c>` (asserted; rc 1 if it breaks) and
@@ -171,7 +172,7 @@ def declsync_fix(prog, body, cause, func):
     except SystemExit:
         pass
     names = set(re.findall(r"\b([A-Za-z_]\w*)\b", cause))
-    log = os.path.join(bank.LOGDIR, func + ".log")
+    log = os.path.join(bank.LOGDIR, f"{prog}.{func}.log")
     if os.path.isfile(log):
         with open(log, errors="replace") as f:
             names |= set(QUOTED_RE.findall(f.read()))
@@ -432,7 +433,8 @@ def run(wave, root, jpath, j, prop, say=print):
                 say(f"PROPAGATE {key} skipped: no open members")
                 continue
             try:
-                propagate.propagate(key, False)
+                g, n, _ = propagate.propagate(key, False)
+                say(f"PROPAGATE {key} gated {g} of {n} members")
             except SystemExit as e:
                 say(f"PROPAGATE {key} refused: {e}")
     if banked_pvs:

@@ -19,7 +19,7 @@
          the program so build/ matches the tree; it never asks for a body redraft. Logs under .run/bank/.
   bank.py <prog:vram> --src <shared body> --define OLD=NEW [--define ...]
       -> a shared body under other names (T5, tools/mmx6/propagate.py): R1 probes a scratch wrapper
-         .run/bank/wrap/<func>.c (`#define OLD NEW` lines + `#include` of the body); R2 writes that block, then
+         .run/bank/wrap/<prog>/<func>.c (`#define OLD NEW` lines + `#include` of the body); R2 writes that block, then
          `#undef OLD` lines, in place of the INCLUDE_ASM line; R3 syncs against the renamed definition. A unit that
          already holds the block (corpus state c) is re-gated, not re-edited. No registry row (propagate.py writes it).
   bank.py --self-test
@@ -177,9 +177,9 @@ def placed(lines, blk, defines):
             and (defines or not (i and lines[i - 1].startswith("#define ")))]
 
 
-def wrapper(src, func, defines):
-    """Scratch C file instantiating src as func (R1 under defines)."""
-    d = os.path.join(LOGDIR, "wrap")
+def wrapper(src, func, defines, prog=""):
+    """Scratch C file instantiating src as func (R1 under defines); under wrap/<prog>/ (names repeat across programs)."""
+    d = os.path.join(LOGDIR, "wrap", prog)
     os.makedirs(d, exist_ok=True)
     p = os.path.join(d, func + ".c")
     with open(p, "w") as f:
@@ -193,7 +193,7 @@ def ladder(prog, vram, src, func, tu, saved, log, defines=(), r5=True):
     """Walk R1-R4 (and R5 when r5); raises Stop; returns the R1 sha1."""
     h1 = sha1(src)
     try:
-        ok, m, n = probe.probe(func, prog, wrapper(src, func, defines) if defines else src, makefile_triple())
+        ok, m, n = probe.probe(func, prog, wrapper(src, func, defines, prog) if defines else src, makefile_triple())
     except SystemExit as e:
         raise Stop(1, f"probe error: {e}")
     if not ok:
@@ -284,7 +284,7 @@ def bank(pv, src, registry=True, defines=()):
         out = f"RECONCILE {func} refused: {cause}"
         print(out, flush=True)
         return 2, out
-    log = f"{func}"
+    log = f"{prog}.{func}"  # per program: overlays share function names
     if os.path.exists(os.path.join(LOGDIR, log + ".log")):
         os.remove(os.path.join(LOGDIR, log + ".log"))
     saved = {}
@@ -302,7 +302,14 @@ def bank(pv, src, registry=True, defines=()):
             ex = f"{prog}:0x{vram:08X}"
             row = f"{cls['key']} {ex} {os.path.relpath(src)} {ex} gated exemplar"
             text = open(REGISTRY).read() if os.path.exists(REGISTRY) else REGISTRY_HEAD
-            if row not in text.split("\n"):
+            lines = text.split("\n")
+            stale = [i for i, x in enumerate(lines) if x.split(None, 5)[:4:3] == [cls["key"], ex] and x != row
+                     and not x.startswith("#") and x.split(None, 5)[4:5] != ["gated"]]
+            if stale:  # a refused/open row of this member (an earlier propagate) becomes its gated row, in place
+                lines[stale[0]] = row
+                with open(REGISTRY, "w") as f:
+                    f.write("\n".join(lines))
+            elif row not in lines:
                 with open(REGISTRY, "w") as f:
                     f.write(text + ("" if text.endswith("\n") else "\n") + row + "\n")
     out = f"RECONCILE {func} R5 banked; body sha1 {h1} unchanged since R1"

@@ -1,0 +1,80 @@
+# Phase 1.7 inherited record: codegen map, dumps, alloc table, battery, masked permuter, plateau classifier, cookbook index
+task: what the inherited record says about building each Phase 1.7 piece
+agent: retriever-digest
+tags: phase-1.7, codegen-map, permuter, plateau, cookbook-index, dumps, G67
+
+## Answer
+See Findings; every item points at BFM-decomp paths (B = /Users/ThinkPad/orca/BFM-decomp).
+
+## Findings
+1. Codegen map (DK-6, DK-52). Catalogue pass -> residual pattern -> byte-proven C lever, triage table keyed by the diff tell.
+   Pass groups used: scheduling (sched.c+reorg.c+mips hooks), regalloc/reload (local-alloc, global, reload, reload1), loop, cse/expr
+   (B/decomp-architect/corpus/cookbook/gcc-2.7.2-map/{sched,regalloc,loop,cse_expr}.md; README.md there holds the table).
+   Triage row shape = `pass group | STEERABLE (lever ids, byte-proven) | INTRINSIC -> permuter`; per-class "tell" tables
+   (tell -> mechanism -> lever). Lever = byte-proven on a NAMED function with diff before/after. Method: read the allocator, scheduler,
+   loop and CSE source once; if no source, build from systematic probes. Needs no matched function (mine it early).
+   Incident: map was written against gcc-papermario = 2.8.1, not 2.7.2 (biv-elimination paths differ; line drift: combine_regs +103,
+   allocate_reload_reg +377). DK-52 audit: 135 cites -> 119 confirmed, 40 line-drift, 7 refuted of 21 raised (README says 184 claims,
+   same audit). Adapt: stage the VANILLA 2.95.2 source for the pin, tag every citation with its tree (B/tools/gccmap_cites.py),
+   have each refutation challenged independently. Verdict rule: name the pass and quote the dump line (R65/G52).
+2. Dump scripts: B/tools/cc1_dumps.sh (standalone draft), B/tools/cc1_dumps_tu.sh (spliced REAL TU; standalone was unfaithful:
+   427 vs 518 ins). cc1 flags: `-quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker -dr -ds -dj -dl -dg -df -dc -dS -dL
+   -dR -dt -dJ -dd` = rtl, sched, jump, lreg(.lreg), greg, flow, combine, sched2, loop, reload(-dR), cse2(-dt), jump2(-dJ), dbr(-dd).
+   Output to $DUMP_ROOT/dumps_<tag>/<tag>.<pass>. Lessons: .cse2 and .jump2 and .dbr each held the decisive fact once; cpp
+   must carry the TU's include dir or you get a "CPP-EMPTY" refusal (rc 3, <200 lines). Quote form: `dumpfile:line` + the dump line
+   (mmx6 walls.txt row: prog vram pass dumpfile:line quoted-line). Adapt: gcc 2.95.2 flags differ (check cc1 -d letters), maspsx 2.86.
+3. Allocation table: B/tools/alloc_table.py. Per pseudo: refs, live length, block, hard reg, priority
+   floor(log2 refs)*refs/live*1e4 (global.c allocno_compare); .greg dump gives INPUTS (order line `;; N regs to allocate:`, conflicts,
+   `;; N preferences:`), not the final assignment (hard reg prints `-`). Incident (P36 S102): printed empty/one-row tables because it
+   only listed $s0..$s7 pseudos and relied on `Register N in M.` lines; fix = print every pseudo and ASSERT OWN COVERAGE (rc!=0 if
+   order line names allocnos missing from the table, R32). Controls: coverage assertion; proof it works = priority arithmetic
+   (6524->6808 past 6666 flipped a 34-ins residual; live length 44->43). Also B/tools/ghost_census.py, localalloc_sim.py.
+4. Reproducer battery (DK-45, R73): five-line functions per mechanism, compiled with dumps, one-second run, BEFORE probing the
+   real 500-ins function (decomp-architect.md:253, how-to 07-compiler-source.md:76). No stand-alone battery tool found; build one.
+5. Permuter + masked scorer: doc B/docs/permuter-ils.md (read it fully). Pinned decomp-permuter submodule (commit b44b0622) with
+   B/tools/{masked_scorer.py,permuter/run_masked.py (rebinds scorer, no submodule edit),permuter/compile.sh (= build rule),
+   p16_permute.py,permuter_ils.py,masked_diff.py(shared with matcher)}. Stock scorer: field_matches_any_symbol is `"." in field`,
+   so splitter names (func_80012345) charged as register penalty -> score floor (base 225 / best 210, never 0). Mask rules from the
+   TARGET's relocs: R_MIPS_26 keep opcode mask 26; HI16/LO16/PC16/GPREL16 etc. keep opcode+rs+rt mask 16; none -> full word;
+   score = mismatches + |len diff|, 0 iff links to same bytes. Four byte-bought rules: objdump `-drz` not `-dr` (nop elision);
+   mask j target only if the assembler left it to the linker (internal j compared relative to fn start); keep opcode at masked slot;
+   PC16 masked like HI16 (cured 151/155 false non-zeros). Proof it iterates (miniature): 5-ins fn with two xor operands swapped:
+   masked base score 4 -> 0 at iteration 256 (<40 s, -j4), stock scorer 3585 -> 3420. Stored-draft proof: ILS func_80148094 72 -> 36
+   over ~8 restarts. ILS guards: hide `register __asm__` pins (base64 pragma) and RE-hide each waypoint, else cycle 2+ is silent
+   parser refusal reading "unchanged"; refused cycle aborts run (R61); strip header comment before cpp -P; flush stdout; score-0
+   winner is a CANDIDATE, still goes through the matcher/gate. Incident (DK-15): permuter never ran on pinned/K&R seeds, 436 drafts
+   refused for four phases. Upstream PR #213 closed unmerged; keep local. mmx6 adaptation: PSX gcc 2.95.2 + maspsx; permuter
+   compile.sh must be the real build rule (cc1 -> maspsx -> as); objdump for mips:3000 little-endian.
+6. Plateau classifier: B/tools/autopsy.py (collect: recompute residual of every open draft via the validated match path; report),
+   B/tools/residual_class.py (decodes bytes -> named class), test_residual_class.py. Labels: missing-transform (extend mutation set,
+   permanent offline win) / mis-classified (fix routing) / seed-structural (one redraft) / genuine-wall (reason + expiry, R35).
+   Derive asm subdir and -O0 flag, never guess; unfound stub is REPORTED not dropped (R32). Incident: 91% of backlog unlabelled;
+   1 of 6169 records carried a residual. Planted-plateau construction: NOT FOUND in the files read; mmx6 walls.py --self-test is the
+   house pattern (planted rows in .run/walls-selftest/, expects "yes/no/refused", ends `WALLS CONTROL OK`); mirror it.
+7. Cookbook index tool: B/tools/cookbook_index.py derives symptom-keyed docs/cookbook-index.md from section titles (R33 derived,
+   never hand-kept), `--check` exits non-zero if stale; a section appears under every symptom it addresses; ordered first-bucket
+   matching; "Start here" hand-curated top symptoms. Incident: three agents re-derived idioms already written (discoverability, not
+   coverage; ~85% of gap reports already covered). mmx6 form differs: cookbook/C<nnnn>.md + cookbook/INDEX.md lines
+   `C<nnnn> | title | tags | date | phase/task | origin`; check = every C file has an index row AND every row's file exists.
+   Existing mmx6 shapes: cookbook/C0001.md (idiom: residual, mechanism, lever, byte proof), cookbook/C0002.md triage table
+   `Tell | Likely mechanism | Lever family | Entries` (7 rows, all Entries = TODO -> Phase 1.7 fills them).
+8. Kernels (gist): DK-6 read the compiler's allocator/scheduler/loop/CSE once into a pass->residual->lever map with symptom triage;
+   cost = phases re-deriving, "unsteerable" classes later dissolved (map needed 4 files, giants 400-770 ins then matched). DK-14 seed
+   the knowledge base before first match: compiler source + sibling cookbook, first distillation by hand, index by SYMPTOM. DK-15
+   permuter from first close draft, prove it iterated (an "unchanged" loop must show iteration), classify plateaus from bytes.
+   DK-52 circulating source may be a later version; stage vanilla pinned source, audit every cite, challenge refutations.
+   Registry: G52 wall = pass + quoted dump line, G67 translate idiom via its pass (reproduce with five-line reproducer first).
+9. Seed sources: BFM cookbook B/docs/matching-cookbook.md (~716 KB, 1176 sections; copy also at
+   B/decomp-architect/corpus/cookbook/matching-cookbook.md), symptom index B/docs/cookbook-index.md, map B/docs/gcc-2.7.2-map/ (docs/
+   path not found by glob; copy at corpus/cookbook/gcc-2.7.2-map/). Compiler: gcc 2.7.2 psx + maspsx 2.56 --expand-div (G67: translate
+   to 2.95.2/aspsx 2.86). DC2: /Users/ThinkPad/orca/workspaces/dino-crisis-2-decomp/bootstrap/cookbook/INDEX.md has ~44 entries but it
+   is the architect's generic bootstrap seed (C0001-C0003..), NOT idiom content; DC2 toolchain "Unknown" (2.7.2/2.8.1/2.95 candidates).
+   mmx4: only .run/prior-art/mmx4/tools (oracle recordings); no cookbook found.
+
+## Dead ends
+- No DC2 or mmx4 idiom cookbook found. No planted-plateau recipe, no standalone reproducer-battery script, no B/docs/gcc-2.7.2-map dir,
+  levers.md and lever-progress.tsv not read (budget).
+
+sources: B/decomp-architect/corpus/decomp-kernels.md:80,195,209,666; B/decomp-architect/corpus/tools/INDEX.md:175-198;
+B/docs/permuter-ils.md; B/tools/{cc1_dumps_tu.sh,alloc_table.py,autopsy.py,cookbook_index.py}; mmx6/cookbook/C0002.md;
+mmx6/tools/mmx6/walls.py; mmx6/rules/G67.md

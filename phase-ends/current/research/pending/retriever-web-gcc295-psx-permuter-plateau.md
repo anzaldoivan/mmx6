@@ -1,0 +1,32 @@
+# gcc 2.95.2 source, PSX patches, decomp-permuter CLI, plateau notion
+task: Phase 1.7 plan, mmx6 gcc2.95.2-psx + aspsx via maspsx
+agent: retriever-web
+tags: gcc-2.95.2, psx, permuter, old-gcc
+
+## Answer
+- GNU dir https://ftp.gnu.org/gnu/gcc/gcc-2.95.2/ : gcc-core-2.95.2.tar.gz (~8.5M), gcc-everything-2.95.2.tar.gz (~12M), g++ 1.6M. Checksum NOT FOUND (no .sig/.sha fetched; 404). Pin your own sha256 after first download.
+- old-gcc Dockerfile instead fetches https://ftp.gnu.org/gnu/gcc/gcc-2.95.2.tar.gz (top-level, not fetched/verified by me; size unknown).
+- PSX build = GNU 2.95.2 + patches (see Findings). decomp-permuter: MIT, HEAD 059609d (2026-09-07 "mypy/black fixes").
+
+## Findings
+- Source files (standard gcc/ tree layout, from knowledge, not fetched): cse.c, loop.c, combine.c, flow.c, local-alloc.c, global.c (global-alloc), regclass.c, reload.c/reload1.c, sched.c (haifa-sched.c in 2.95), jump.c (cross-jumping), final.c, config/mips/mips.c, mips.md, mips.h.
+- -d letters (gcc 2.95 docs, gcc.gnu.org/onlinedocs/gcc-2.95.3): r .rtl; j .jump; s .cse; t .cse2 (2nd cse); L .loop; f .flow; c .combine; l .lreg; g .greg; S .sched; R .sched2; J .jump2; d .dbr; M .mach; N .regmove; k .stack; b .bp; F .addressof; G .gcse; a = all; dump files are <src>.<suffix> beside output. m mem stats, p/A asm annotation, x rtl only, D macros.
+- old-gcc (decompals/old-gcc) gcc-2.95.2-psx.Dockerfile (ubuntu:focal): downloads GNU 2.95.2, `sed` varargs.h->stdarg.h in **/*.c, patches obstack.h (patches/obstack-2.95.2.h.patch), gcc/config/mips/mips.h (patches/mips.patch), then patches/psx-2.91.patch (adds config/mips/psx.h, xm-psx.h, config.sub, gcc/configure target mips-sony-psx; R3000, little-endian). Configure --target=mips-sony-psx --with-endian-little --with-gnu-as, host i386 -m32 static, CFLAGS -std=gnu89. Builds cpp cc1 xgcc cc1plus g++. Tests assert -mel, -msoft-float, -msplit-addresses, -mgpopt flags exist. So patches are build/target-config only; no evidence of pass (cse/sched/reg) changes, but mips.patch content not read. Patches dir: github.com/decompals/old-gcc/tree/master/patches. Branch is master (main 404s on raw).
+- Summarizer described psx-2.91.patch as "GCC 2.6.3"; unverified, read the patch directly.
+- permuter CLI (src/main.py): `./permuter.py dir/ -j N`; `--stop-on-zero`, `--seed` (hidden), `--better-only`, `--best-only`, `--quiet`, `--show-errors`, `--show-timings`, `--print-diffs`, `--debug` (compile+score base only), `--stack-diffs`, `--algorithm difflib|levenshtein`, `--keep-prob`, `--only-if-below`. NO iteration-cap flag found (stop after K = external timeout or own wrapper). Seed reproducibility with -j>1 not guaranteed (unverified).
+- Per-iteration output: status line "iteration {n}, {e} errors, {pf} permuter failures, score = {v}"; on improvement "found new best score! (new vs base)", "tied best score!", "found a better score!", writing candidate to dir output-<score>-N/.
+- Setup: dir needs base.c, target.o, compile.sh, settings.toml; import.py generates them. compile.sh gets the input .c path and `-o` output; for PSX use gcc cc1 | maspsx | as. settings.toml may set compiler_type (e.g. "gcc") and weights; ninja via permuter_settings.toml build_system="ninja". Scoring: objdump of .o diffs, penalties for differing/reordered/non-matching lines; stack offsets ignored unless --stack-diffs; branch targets ignored unless --no-ignore-branch-targets. Reloc masking and exact objdump arch flags (mipsel) NOT verified in source.
+- Plateau: no published formal definition found. Informal folklore only: permuter best "when mostly regalloc changes remain"; scheduling and regalloc interact badly. Classification into regalloc/sched/isel is by diffing the diff (reg-name-only = regalloc; same insns reordered = sched; different opcodes = isel), a convention not a source.
+
+## Dead ends
+- gcc ftp checksum/.sig 404; permuter.py is thin entry; raw main-branch old-gcc URLs 404; no source for "plateau" term.
+
+sources:
+https://ftp.gnu.org/gnu/gcc/gcc-2.95.2/ (fetched 2026-10-01)
+https://github.com/simonlindholm/decomp-permuter (fetched 2026-10-01)
+https://raw.githubusercontent.com/simonlindholm/decomp-permuter/main/src/main.py (fetched 2026-10-01)
+https://api.github.com/repos/simonlindholm/decomp-permuter/commits?per_page=1 (fetched 2026-10-01)
+https://github.com/decompals/old-gcc (fetched 2026-10-01)
+https://api.github.com/repos/decompals/old-gcc/contents/gcc-2.95.2-psx.Dockerfile (fetched 2026-10-01)
+https://api.github.com/repos/decompals/old-gcc/contents/patches (fetched 2026-10-01)
+https://gcc.gnu.org/onlinedocs/gcc-2.95.3/gcc_2.html (fetched 2026-10-01)

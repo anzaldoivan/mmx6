@@ -10,16 +10,19 @@
       -> per bad row `LEDGER BAD <prog:vram> <why>` (missing: an asm function with no row; c-function / not-in-corpus /
          func-name / duplicate / unsorted / fields / class / closeness / blocker / draft <why>: best draft absent or
          refused by verbatim.check); then the classes and blockers lines; last `LEDGER OK <r> rows; 0 missing,
-         0 malformed` (rc 0) or `LEDGER FAIL <r> rows; <x> missing, <y> malformed` (rc 1).
+         0 malformed` (rc 0) or `LEDGER FAIL <r> rows; <x> missing, <y> malformed` (rc 1). A `vendor:unproven/…`
+         class is malformed (`class <cls> unproven`).
   ledger.py --self-test
       -> planted inputs in .run/ledger-selftest/ (fictional program PLANT, no game data): --build gives the exact
          expected rows (every class and blocker rule at its precedence); the clean ledger passes --check; a dropped
-         row (missing), a C function's row, an unknown blocker and a best draft holding INCLUDE_ASM are each refused.
+         row (missing), a C function's row, an unknown blocker and a best draft holding INCLUDE_ASM are each refused;
+         a planted `- gap` provenance row names an otherwise unproven lib row, and without it --check refuses.
          Ends `LEDGER CONTROL OK` (rc 0), else rc 1. No tracked file is touched.
 
 Rules (docs/ops/campaign.md ## Ledger), first that holds:
-  class      lane lib -> `vendor:<LIB>/<tu>` (LIB = the config/boundaries.txt `lib` row holding vram, its LIB/OBJ's LIB
-             part, else `unproven`); census dup class of >= 2 members -> `dup:<key>`; census family of >= 2 ->
+  class      lane lib -> exe vram with a docs/ops/compiler-pin.md `## Lib provenance` row `- gap <0xVRAM> <L>.LIB/<O>.OBJ`
+             -> `vendor:<L>.LIB/<L>_<O>`; else `vendor:<LIB>/<tu>` (LIB = the config/boundaries.txt `lib` row holding
+             vram, its LIB/OBJ's LIB part, else `unproven`); census dup class of >= 2 members -> `dup:<key>`; census family of >= 2 ->
              `family:<key>`; an exact sig twin -> `twin:<pv>` (lowest other member, (prog, vram), of its exact-twin
              component); `x4` (a pv with a campaign/x4/partners.tsv row: an exact mmx4 partner, x4share.py
              --partners); `unique`.
@@ -59,8 +62,8 @@ INPUTS = dict(funcs="build/corpus/functions.jsonl", classes="build/census/classe
               walls="config/walls.txt", registry="config/dedup_registry.txt",
               scaffold="build/scaffold/scaffold.jsonl", scaffold_tracked="campaign/scaffold/scaffold.jsonl",
               journal_scaffold="campaign/scaffold/journal.jsonl", journal="campaign/journal.jsonl",
-              partners="campaign/x4/partners.tsv", root=".")
-REQUIRED = ("funcs", "classes", "twins", "draw", "bounds", "walls", "partners")
+              partners="campaign/x4/partners.tsv", pin="docs/ops/compiler-pin.md", root=".", exe="SLUS_013.95")
+REQUIRED = ("funcs", "classes", "twins", "draw", "bounds", "walls", "partners", "pin")
 SELFTEST = ".run/ledger-selftest"
 ASM = ("asm", "include_asm")
 LABELS = ("none", "length", "isel", "sched", "regalloc", "branch")  # plateau.classify's labels
@@ -71,6 +74,7 @@ BLOCK_RE = re.compile(rf"vendor|jtbl-uncarved|opt-mismatch|wall:(\S+)|plateau:({
                       rf"|plumbing:(R[1-5]|refused)|member-of:{PV}|undrawn")
 SCORE_RE = re.compile(r"(\d+)/(\d+)")
 DRAFT_RE = re.compile(r"drafts/([A-Za-z0-9_.]+)/([A-Za-z_]\w*)\.c")
+GAP_RE = re.compile(r"- gap (0x[0-9A-Fa-f]{8}) ([A-Za-z0-9_]+)\.LIB/([A-Za-z0-9_]+)\.OBJ(?:\s|$)")
 
 
 def hexs(v):
@@ -141,8 +145,22 @@ def score_draft(prog, func, vram, src):
         return None, None
 
 
+def provenance(path):
+    """{vram: `<L>.LIB/<L>_<O>`} from the `- gap` rows of compiler-pin.md `## Lib provenance` (exe inter-lib gaps)."""
+    out, sec = {}, False
+    with open(path) as f:
+        for x in f:
+            if x.startswith("## "):
+                sec = x.strip() == "## Lib provenance"
+            m = GAP_RE.match(x) if sec else None
+            if m:
+                out[int(m.group(1), 16)] = f"{m.group(2)}.LIB/{m.group(2)}_{m.group(3)}"
+    return out
+
+
 def classes_of(inp, funcs, asm):
     lib, _ = draw.boundaries(inp["bounds"])
+    gap = provenance(inp["pin"])
     cls = {"dup": {}, "family": {}}
     for c in jl(inp["classes"]):
         if c["kind"] in cls and len(c["members"]) >= 2:
@@ -170,6 +188,9 @@ def classes_of(inp, funcs, asm):
         r = funcs[k]
         if r["lane"] == "lib":
             lo = int(k[1], 16)
+            if k[0] == inp["exe"] and lo in gap:
+                out[k] = f"vendor:{gap[lo]}"
+                continue
             obj = next((o for a, b, o in lib.get(k[0], []) if a <= lo < b), None)
             out[k] = f"vendor:{obj.split('/')[0] if obj else 'unproven'}/{r['tu']}"
         elif k in cls["dup"]:
@@ -296,6 +317,8 @@ def bad_row(t, funcs, root, passes):
         return "func-name"
     if not CLASS_RE.fullmatch(cls):
         return f"class {cls}"
+    if cls.startswith("vendor:unproven/"):
+        return f"class {cls} unproven"
     m = CLOSE_RE.fullmatch(close)
     if not m or (m.group(1) and not 0 <= int(m.group(1)) <= int(m.group(2)) or m.group(2) == "0"):
         return f"closeness {close}"
@@ -359,14 +382,15 @@ def plant(root):
     """Planted inputs (fictional program PLANT) and the expected ledger text."""
     shutil.rmtree(root, ignore_errors=True)
     os.makedirs(root)
-    inp = {k: os.path.join(root, os.path.basename(v)) for k, v in INPUTS.items()}
+    inp = {k: os.path.join(root, os.path.basename(v)) for k, v in INPUTS.items() if k != "exe"}
     inp.update(journal_scaffold=os.path.join(root, "journal_scaffold.jsonl"),
-               scaffold=os.path.join(root, "absent", "scaffold.jsonl"), root=root)
+               scaffold=os.path.join(root, "absent", "scaffold.jsonl"), root=root, exe="PLANT")
     P, wpass = "PLANT", walls.PASSES[0]
     v = lambda i: "0x%08X" % (0x80000000 + 0x20 * i)  # noqa: E731
     fn = [("f_a", "asm", "game", "TA"), ("f_b", "asm", "game", "TA"), ("f_c", "include_asm", "game", "TA"),
           ("f_d", "c", "game", "TA"), ("f_e", "asm", "game", "TA"), ("f_f", "asm", "game", "TA"),
-          ("f_g", "asm", "lib", "LG"), ("f_h", "asm", "game", "TA"), ("f_i", "asm", "game", "TA")]
+          ("f_g", "asm", "lib", "LG"), ("f_h", "asm", "game", "TA"), ("f_i", "asm", "game", "TA"),
+          ("f_j", "asm", "lib", "LJ")]
     files = {
         "funcs": [json.dumps(dict(prog=P, vram=v(i), end=v(i + 1), words=8, name=n, tu=tu, state=s, lane=ln,
                                   src="glabel")) for i, (n, s, ln, tu) in enumerate(fn)],
@@ -386,6 +410,7 @@ def plant(root):
                                              state="nocompile"))],
         "journal_scaffold": [json.dumps(dict(wave="W0", pv=f"{P}:{v(5)}", verdict="fail", score="3/8", label="isel"))],
         "journal": [json.dumps(dict(wave="W1", pv=f"{P}:{v(5)}", verdict="plumbing", score="8/8", label="R2"))],
+        "pin": ["## Lib provenance", f"- gap {v(9)} LIBY.LIB/OJ.OBJ planted evidence", "## Proven lib units"],
         "partners": [f"{P}\t{v(i)}\t{fn[i][0]}\t8\t{'4' * 40}\tsrc/main/plant.c\tx4_{i}\t1\tasm" for i in (0, 7)],
     }
     for k, lines in files.items():
@@ -394,7 +419,8 @@ def plant(root):
     want = [(0, f"dup:{K1}", "6/8", "jtbl-uncarved"), (1, f"dup:{K1}", "nocompile", f"member-of:{P}:{v(3)}"),
             (2, f"family:{K2}", "nocompile", f"wall:{wpass}"), (4, f"twin:{P}:{v(5)}", "nocompile", "undrawn"),
             (5, f"twin:{P}:{v(4)}", "8/8", "plumbing:R2"), (6, "vendor:LIBX.LIB/LG", "nocompile", "vendor"),
-            (7, "x4", "nocompile", "undrawn"), (8, "unique", "nocompile", f"member-of:{P}:{v(5)}")]
+            (7, "x4", "nocompile", "undrawn"), (8, "unique", "nocompile", f"member-of:{P}:{v(5)}"),
+            (9, "vendor:LIBY.LIB/LIBY_OJ", "nocompile", "vendor")]
     text = "".join(f"{P}\t{v(i)}\t{fn[i][0]}\t{c}\t{cl}\tm2c\t{b}\n" for i, c, cl, b in want)
     return inp, text
 
@@ -415,16 +441,29 @@ def self_test():
     print(f"LEDGER CONTROL {'ok' if rc == 0 else 'FAIL'} clean ledger passes")
     if rc:
         fails.append("clean")
+    pin = os.path.join(SELFTEST, "pin-nogap.md")
+    with open(pin, "w") as f:
+        f.write("## Lib provenance\n")
+    out.clear()
+    build(dict(inp, pin=pin), led, say)
+    out.clear()
+    rc = check(inp, led, say)
+    ok = rc == 1 and "LEDGER BAD PLANT:0x80000120 class vendor:unproven/LJ unproven" in out \
+        and sum(x.startswith("LEDGER BAD ") for x in out) == 1
+    print(f"LEDGER CONTROL {'ok' if ok else 'FAIL'} provenance row removed refused")
+    if not ok:
+        fails.append("provenance")
+        print("\n".join(out))
     rows = want.splitlines()
     d_row = "PLANT\t0x80000060\tf_d\tunique\tnocompile\tm2c\tundrawn"
     os.makedirs(os.path.join(SELFTEST, "drafts", "PLANT"))
     with open(os.path.join(SELFTEST, "drafts", "PLANT", "f_h.c"), "w") as f:
         f.write('INCLUDE_ASM("asm/PLANT/nonmatchings/TA", f_h);\n')
-    cases = (("missing function", rows[:-1], "LEDGER BAD PLANT:0x80000100 missing"),
+    cases = (("missing function", rows[:-1], "LEDGER BAD PLANT:0x80000120 missing"),
              ("C function on the ledger", rows[:3] + [d_row] + rows[3:], "LEDGER BAD PLANT:0x80000060 c-function"),
-             ("unknown blocker", rows[:-2] + [rows[-2].replace("\tundrawn", "\ttired")] + rows[-1:],
+             ("unknown blocker", rows[:-3] + [rows[-3].replace("\tundrawn", "\ttired")] + rows[-2:],
               "LEDGER BAD PLANT:0x800000E0 blocker tired"),
-             ("asm best draft", rows[:-2] + [rows[-2].replace("\tm2c\t", "\tdrafts/PLANT/f_h.c\t")] + rows[-1:],
+             ("asm best draft", rows[:-3] + [rows[-3].replace("\tm2c\t", "\tdrafts/PLANT/f_h.c\t")] + rows[-2:],
               "LEDGER BAD PLANT:0x800000E0 draft drafts/PLANT/f_h.c verbatim include-asm"))
     for what, lines, line in cases:
         with open(led, "w") as f:

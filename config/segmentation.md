@@ -111,8 +111,11 @@ Columns: TUs = lib + gap; weak = rows not split; jtbl = table rows incl. inside-
 ## Open questions (not settled by T3)
 1. Exe text end: the yaml text subsegment must reach 0x8006D5D4 (PDRESRES signature end) for the lib edge to exist;
    is 0x8006D5D0..D5D4 code tail or a signature that overruns into data?
-2. The 15 small exe inter-lib gaps (0x10-0x120 B) are each one TU by rule; likely unrecognised or ambiguous PsyQ
-   objects (9 ambiguous_name, 374 ambiguous_plate exe-wide) or padding; resolving them needs the exact PsyQ version.
+2. CLOSED (phase 1.8 T8): the 15 small exe inter-lib gaps (0x10-0x120 B) are all PsyQ 4.7 vendor objects, 25
+   functions, 0 padding, 0 game TUs: every gap span is tiled exactly by `psyq/470` signatures, each matching ≥ 2
+   byte-identical objects (why boundaries.py left them unnamed). Per-function object names, the naming rule and the
+   version table: docs/ops/compiler-pin.md `## Lib provenance`. Seven gaps hold 2-3 objects (579D4, 5BA04, 646E4,
+   64874, 657A4, 657D4, 6A784): per the gap rule they stay one TU each until a lib-lane build needs object TUs.
 3. Contained lib spans (SSSNC, S_IH, PLAY): a real object cannot sit inside another; are these short-signature
    false matches, or is the container's signature too long?
 4. Overlay jtbl rows with func `-`: 219 are inside-table labels; 40 have no recorded dispatcher. Irrelevant while

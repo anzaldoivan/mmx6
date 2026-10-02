@@ -88,6 +88,67 @@ Findings (denominator: 6784 functions, 57 programs):
 - unsplit: rock_17 (29 carved, 513 words dropped), rock_43 (81, 283), rock_45 (53, 248) — 163 carved functions;
   their split config yields no glabel (scope: a split fix, not this census).
 
+## Lib provenance
+
+PsyQ version linked into the exe: **4.7 (psx_ldr `psyq/470`)**, by G56 scoring (phase 1.8 T8, 2026-10-02).
+Method: every psx_ldr signature set (16 versions, `$GHIDRA_HOME/Ghidra/Extensions/ghidra_psx_ldr/data/psyq/<ver>/`)
+scored against the exe lib band [0x80054AD0, 0x8006D5D4) with boundaries.py `load_sigs`/`sig_ok` (masked bytes,
+`??` skipped); scratch `.run/t8/psyqscore.py`, log `.run/logs/t8score.log`; planted control (one byte of row
+0x80054AD0 mutated → 470 agree 233 → 232) `SCORE CONTROL OK`.
+agree = non-weak boundaries `lib` rows (233) whose bytes match that version's same-named object; exclusive = agree rows
+matching in that version only; placed/unique = objects matching at ≥ 1 / exactly 1 aligned offset in the band.
+- 260: agree 33, placed 56, unique 52, exclusive 0 (474 objects with a sig)
+- 300: agree 48, placed 58, unique 53, exclusive 0 (526)
+- 330: agree 50, placed 64, unique 56, exclusive 0 (761)
+- 340: agree 50, placed 62, unique 57, exclusive 0 (781)
+- 350: agree 52, placed 68, unique 58, exclusive 0 (846)
+- 3610, 3611: agree 52, placed 71, unique 57, exclusive 0 (1021 each)
+- 370: agree 56, placed 84, unique 68, exclusive 0 (1098)
+- 400: agree 57, placed 87, unique 70, exclusive 0 (1238)
+- 410: agree 169, placed 189, unique 169, exclusive 0 (1339)
+- 420: agree 171, placed 190, unique 171, exclusive 0 (1471)
+- 430: agree 180, placed 199, unique 180, exclusive 0 (1672)
+- 440: agree 197, placed 216, unique 197, exclusive 0 (1766)
+- 450: agree 200, placed 218, unique 199, exclusive 0 (1771)
+- 460: agree 228, placed 282, unique 234, exclusive 0 (2187)
+- 470: agree 233 of 233, placed 285, unique 239, exclusive 5 (2190) — the only version placing every row; linked
+Next evidence (archive link, G56): the PsyQ 4.7 LIB archives, objects linked as-is; not fetched (lib lane stays `vendor`).
+
+Inter-lib gap objects (machine-read by `tools/mmx6/ledger.py`: rows `- gap <0xVRAM> <LIB.LIB/OBJ.OBJ> <evidence>`;
+a lib-lane function at `<VRAM>` gets class `vendor:<LIB.LIB>/<LIB>_<OBJ>`). All 15 exe inter-lib gaps are 470
+objects: each gap's span is tiled exactly by 470 signatures; none is padding (zero words ≤ 12 of 36, every gap holds
+called code), none a game TU. Each span matches ≥ 2 byte-identical objects; the name is chosen by this rule, in order:
+(1) candidates = 470 objects whose sig spans exactly the function (inner shorter matches dropped, T3 containment);
+(2) drop objects already placed by a boundaries row or an earlier slot (an object links once); (3) prefer the LIB of
+the prev/next lib row (skipped when it empties the set); (4) prefer a name between prev and next in member order;
+(5) Ghidra plate hint, then lowest name by ascending address. Alternatives are byte-identical: the choice names, it
+does not change bytes.
+- gap 0x80055F34 LIBSPU.LIB/S_I.OBJ alt UT_ROFF (taken by 0x8005BA04); caller SSINIT_C (SsInit → SpuInit)
+- gap 0x80057974 LIBSND.LIB/DE_15.OBJ alt DE_17/18/19; between DE_14 and DE_16
+- gap 0x800579D4 LIBSND.LIB/DE_17.OBJ alt DE_15/18/19; between DE_16 and MIDIBEND, 3 slots DE_17..19
+- gap 0x80057A04 LIBSND.LIB/DE_18.OBJ same slot run
+- gap 0x80057A34 LIBSND.LIB/DE_19.OBJ same slot run
+- gap 0x80058574 LIBSND.LIB/SSQUIT.OBJ alt 11 generic 0x20 stubs; after SSPLAY_2 (member order); caller game shutdown
+- gap 0x8005BA04 LIBSND.LIB/UT_ROFF.OBJ alt LIBSPU S_I; between UT_RFB and UT_SVA
+- gap 0x8005BA24 LIBSND.LIB/UT_RON.OBJ alt LIBSPU S_IH (placed at 0x80058DF4); between UT_ROFF and UT_SVA
+- gap 0x800617A4 LIBCD.LIB/SYS.OBJ alt LIBDS D3_006; between EVENT and ISO9660; hint CdPosToInt
+- gap 0x800646E4 LIBCD.LIB/S_002.OBJ alt LIBDS D3_005; between BIOS_1 and S_007; hint CdIntToPos
+- gap 0x800647F4 LIBCD.LIB/S_003.OBJ alt S_004/S_005 (3 slots: 0x800647F4, 0x800657A4, 0x800657B4)
+- gap 0x80064874 LIBCD.LIB/S_008.OBJ alt S_012/S_013/S_024 + 8 non-LIBCD stubs; between S_007 and S_016
+- gap 0x80064894 LIBCD.LIB/S_012.OBJ same stub set
+- gap 0x800648B4 LIBCD.LIB/S_009.OBJ alt CDR_2/CDR_3/S_014/S_015, LIBDS D3_007; between S_007 and S_016
+- gap 0x80064C94 LIBCD.LIB/S_020.OBJ alt LIBDS DSSYS_3; after S_016; hint CdMix
+- gap 0x80064DD4 LIBCD.LIB/S_023.OBJ alt LIBDS DSCB_4; between BIOS_2 and CDR_1; caller CDR_1 x8
+- gap 0x800657A4 LIBCD.LIB/S_004.OBJ alt S_005; before S_006
+- gap 0x800657B4 LIBCD.LIB/S_005.OBJ last of S_003..S_005
+- gap 0x800657D4 LIBCD.LIB/S_013.OBJ alt S_024; after S_006
+- gap 0x800657F4 LIBCD.LIB/S_014.OBJ alt CDR_2/CDR_3/S_015; after S_006
+- gap 0x80065814 LIBCD.LIB/S_021.OBJ alt S_022, LIBDS D3_003 (D3_002 placed at 0x80064CB4)
+- gap 0x80065924 LIBCD.LIB/S_024.OBJ last LIBCD stub; after BIOS_3
+- gap 0x800698C4 LIBCARD.LIB/C112.OBJ alt LIBAPI C112; before C171
+- gap 0x8006A784 LIBDS.LIB/DSCB_1.OBJ alt DSCB_2/DSCB_3; neighbours LIBAPI/LIBPAD (rule 3 empty)
+- gap 0x8006A7A4 LIBDS.LIB/DSCB_4.OBJ alt LIBCD S_023 (taken by 0x80064DD4)
+
 ## Proven lib units
 
 Machine-read by `tools/mmx6/draw.py` (L1: a lib-lane function whose `config/boundaries.txt` `lib` OBJ is not listed

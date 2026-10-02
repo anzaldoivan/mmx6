@@ -4,7 +4,7 @@
 
 TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
 	th-walls th-draw th-validate th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau th-journal th-cards \
-	th-verbatim th-harvest
+	th-verbatim th-harvest th-scaffold
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -179,6 +179,12 @@ th-verbatim:
 # check-all in .run/harvest-selftest/; then every journal wave has a current stamp (`HARVEST GATES OK <w> of <w> waves`).
 th-harvest:
 	$(PYTHON) tools/mmx6/harvest.py --self-test && $(PYTHON) tools/mmx6/harvest.py --check-all
+
+# The scaffold lane (tools/mmx6/scaffold.py): planted c-empty functions in build/scaffold/selftest/ (a trivial m2c
+# scaffold scores 0, a one-word mutation > 0, a planted syntax error nocompile, a re-run adds no rows, the match's gate
+# pack). No real run here: `scaffold.py --all` is the detached lane run (docs/ops/campaign.md ## Scaffold lane).
+th-scaffold: th-corpus
+	$(PYTHON) tools/mmx6/scaffold.py --self-test
 
 # The wave gate (tools/mmx6/gate.py; full chain only: it plants and banks in /work like bank.py's self-test): planted
 # exe + overlay members in .run/gate-selftest/ (bank, define recovery, plateau-labelled fail, MISSING asm, two

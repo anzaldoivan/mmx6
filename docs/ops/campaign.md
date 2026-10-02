@@ -227,3 +227,32 @@ R4 (jtbl not carved, rodata needs placement) is not recoverable. Unrecovered →
   a W3-only copy OK, an append after the stamp STALE; src/ config/ campaign/ cookbook/ drafts/ unchanged, no
   `waves/.iso/harvest-*`. Ends `HARVEST CONTROL OK` | `HARVEST CONTROL FAIL <cases>` rc 1. Rung `th-harvest`
   (`--self-test && --check-all`).
+
+## Scaffold lane
+
+`tools/mmx6/scaffold.py` (container, stdlib; T5.c1): the free first crack at every asm function. Detached:
+`bash tools/run.sh --bg scaffold -- bash tools/docker/mx.sh run python3 tools/mmx6/scaffold.py --all -j 8`.
+- Per `build/corpus/functions.jsonl` row with state asm|include_asm, sorted (prog, vram): m2c (decompile.py's command:
+  the nonmatchings .s + the TU's data .s, `-t mipsel-gcc-c`, plus `--valid-syntax` so untyped field access is
+  `M2C_FIELD`) → one fixed normalisation pass (`#include "common.h"`, a prelude of `#define`s for NULL/s64/u64/f32/f64
+  and `M2C_UNK*`/`M2C_FIELD`/`M2C_BITWISE`, each only when used and never a typedef (bank R3 typecheck), `?` → s32, top-level initialised data → `extern`; never a
+  per-function fix; `M2C_ERROR` and the other placeholders stay undefined) → `make build/<src>.o` with the TU's cc1 flags
+  as `CFLAGS_<func>` (the C rule's recipe for `src/<prog>/<tu>.c`, as probe.draft_cflags) → masked compare vs the
+  retail words of the corpus extent (probe.trim, relocation masks as probe.probe). Whole-TU `asm` rows have no
+  nonmatchings .s: nocompile.
+- Record (one per function, appended; resumable: a pv already in the file is skipped):
+  `build/scaffold/scaffold.jsonl` `{pv,func,words,score,n,state}`, state `match|compile|nocompile`, score = masked
+  mismatches `max(retail, ours) - matched` (0 iff probe MATCH), null when nocompile; n = trimmed retail words. Scaffold C
+  kept at `build/scaffold/src/<prog>/<func>.c` (game-derived, ignored, G12). `--jsonl PATH` relocates both (scratch
+  runs). `--limit K` = deterministic stride sample of the (prog, vram) order; `--prog P`; `-j N` (default nproc).
+  Last lines `SCAFFOLD RATE <k> functions in <s> s (<r>/s)`, `SCAFFOLD <done> of <a>: match <m> compile <c> nocompile <x>`.
+- Pack → gate: `scaffold.py --packs <dir>` (alone or with `--all`) writes every match row as a pack
+  `<dir>/W0/<prog>_<func>/` (pack.json `{pv,prog,func,tu,words}`, draft.c = the scaffold C, verdict.json
+  `{"pv","status":"match","score":0,"lever":"-","notes":"m2c scaffold"}`); line `SCAFFOLD PACKS <k> in <dir>/W0`. Then
+  `gate.py --wave W0 --root <dir>` (## Gate) banks them: the scaffold tool never calls bank.py (G61: only the
+  whole-binary hash banks), and the gate's own probe, not the jsonl, decides.
+- `--self-test` (`build/scaffold/selftest/`): three SLUS_013.95 c-empty functions (banked C: they never lose their
+  retail words, and no lane banks them again) get planted generic `.s` (`jr $ra` + delay slot, m2c run on it):
+  trivial → match score 0 (retail extent equal to probe.retail_words), delay slot `addiu $v0, $zero, 1` → compile
+  score > 0, a planted syntax error → nocompile (score null), a re-run adds no rows, `--packs` writes exactly the match's
+  pack. Ends `SCAFFOLD CONTROL OK` | `SCAFFOLD CONTROL FAIL <cases>` rc 1. Rung `th-scaffold`.

@@ -4,7 +4,7 @@
      Read via `tools/card.py slice <role>`. Edited in the task that changes a fact (H7). -->
 
 ## Project <!-- roles: expert coder router planner review critic discuss auditor curator -->
-mmx6 — a matching decompilation of Mega Man X6 (PlayStation, USA SLUS-01395 v1.1): byte-identical C, hash-checked in the build. Constitution `PROJECT_CONTEXT.md`; roadmap `GENERATION_PLAN.md`.
+mmx6 — a matching decompilation of Mega Man X6 (PlayStation, USA SLUS-01395 v1.1): byte-identical C, hash-checked in the build.
 
 ## Developer <!-- roles: router planner review discuss auditor curator -->
 Who: anzaldoivan, solo. Experience: advanced; shipped BFM-decomp (PSX) to 100% byte-identical; runs
@@ -41,8 +41,9 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 | probe | `mx.sh run make probe-ladder`; `probe.py <func> --prog p --src c --triple t` | masked compare to retail; `PIN …` |
 | decompile | `mx.sh run python3 tools/mmx6/decompile.py <func> [--prog p]` | m2c scaffold |
 | diff | `mx.sh run bash tools/mmx6/diff.sh <func>` (after `make expected`) | asm-differ; `DIFF <func> <n>`, rc 0 iff n=0 |
-| scanners | `mx.sh run python3 tools/mmx6/<t>.py --all\|--self-test`, t = corpus optscan bound2 census report sig walls draw (after `make extract build`) | → build/; rungs of mk/tools-health.mk |
+| scanners | `mx.sh run python3 tools/mmx6/<t>.py --all\|--self-test`, t = corpus optscan bound2 census report sig walls draw (after `make extract build`) | → build/; tools-health rungs |
 | bank path | `mx.sh run python3 tools/mmx6/<t>.py`, t = bank propagate family_remap carve typecheck declsync x4share | usage: docs/ops/decomp-environment.md |
+| codegen | same, t = gccsrc dumps alloc_table repro codegen_map cookbook_check permute plateau | as bank path; map docs/codegen-map/README.md |
 | harness | `mx.sh run python3 tools/mmx6/harness.py --sampled\|--full\|--self-test` | pairs P1-P8 → build/harness/runs.log |
 | toolchain-check | `mx.sh run make toolchain-check` | versions + cc1/maspsx smoke; rc≠0 drift |
 
@@ -62,7 +63,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 - Scratch: `.run/` (gitignored; never the system temp)
 
 ## Build / run / test <!-- roles: expert coder router planner review critic discuss auditor curator -->
-- Build: `mx.sh sync && mx.sh run make fleet` (sync wipes /work); `mx.sh run make expected` → asm-differ baseline
+- Build: `mx.sh sync && mx.sh run make fleet` (sync wipes /work)
 - Run: `make redux-smoke`, `tools/mmx6/redux/run.sh <lua>` (PCSX-Redux headless; docs/ops/oracles.md)
 - Test / the gate: `make fleet` (health runs `make tools-health`, harness `--sampled`) → rc 0 + last line `FLEET 57 of 57`, then `PY tools/audit_public.py` → rc 0
 - Exhaustive: after fleet, `mx.sh run make tools-health-full` (every self-test, harness `--full`) → `TOOLS-HEALTH OK <k> rungs`
@@ -75,7 +76,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 ## Environment <!-- roles: expert coder router planner review critic discuss auditor curator -->
 - OS / shells: Darwin / bash, zsh
 - Python: PY (3.14.7)
-- Pins (image, clang-format, splat64, binutils, cpp, cc1 set, maspsx, m2c, asm-differ): docs/ops/mmx6-hosts.md
+- Pins (image and every tool): docs/ops/mmx6-hosts.md
 - Compiler pin: `gcc2.95.2-psx-aspsx2.86` = Makefile `TRIPLE`, all programs (docs/ops/compiler-pin.md)
 - Harness gotchas: `tools/audit_public.py --help` runs the full audit; a hook denies `cat` of product files (use Read)
 

@@ -3,7 +3,7 @@
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
 TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
-	th-walls th-draw
+	th-walls th-draw th-cites
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -99,6 +99,12 @@ th-walls: th-corpus
 # in .run/draw-selftest/, then the real draw (build/draw/draw.jsonl; last line `DRAW refused <r> of <n> (…); drawn <k>`).
 th-draw: th-report th-sig th-walls
 	$(PYTHON) tools/mmx6/draw.py --self-test && $(PYTHON) tools/mmx6/draw.py
+
+# The citation auditor (tools/mmx6/gccsrc.py; needs /opt/gcc-2.95.2-src only when a citation exists): planted good,
+# drifted, missing and wrong-fragment cites in .run/gccsrc-selftest/, then --check of docs/codegen-map/*.md and
+# cookbook/C*.md (last line `CITES OK <c> of <c> citations`).
+th-cites:
+	$(PYTHON) tools/mmx6/gccsrc.py --self-test && $(PYTHON) tools/mmx6/gccsrc.py --check
 
 th-propagate-full: th-propagate
 	@set -e; for k in $(PROPAGATE_KEYS); do $(PYTHON) tools/mmx6/propagate.py $$k --dry-run; done

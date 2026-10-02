@@ -14,11 +14,13 @@
       c>0 and R absent -> `CITES NOSRC <R>` rc 2; c=0 needs no R.
   gccsrc.py --self-test
       plants a scratch source tree + docs under .run/gccsrc-selftest (never the real ones) and runs the same check:
-      good cite OK; drifted line DRIFT nearest <exact>; missing file MISSING; wrong fragment DRIFT nearest -;
+      good cite OK; a cite past a form-feed line OK; drifted line DRIFT nearest <exact>; missing file MISSING;
+      wrong fragment DRIFT nearest -;
       ends `CITES CONTROL OK` (rc 0), else a `CITES CONTROL FAIL` line, rc 1.
 
-Sources are read as bytes decoded latin-1 (gcc 2.95 sources are not UTF-8); lines 1-based; the fragment is compared
-verbatim (no whitespace folding) and cannot itself contain `"`.
+Sources are read as bytes decoded latin-1 (gcc 2.95 sources are not UTF-8); lines split on "\\n" only (not
+splitlines(), which also breaks at \\f), 1-based; the fragment is compared verbatim (no whitespace folding) and
+cannot itself contain `"`.
 """
 import argparse
 import glob
@@ -50,7 +52,7 @@ def scan(paths):
     for p in paths:
         with open(p, "rb") as f:
             text = f.read().decode("utf-8", "replace")
-        for ln in text.splitlines():
+        for ln in text.split("\n"):  # "\n" only: splitlines() also breaks at \f, \x1c, \x85
             i = ln.find(TOKEN)
             while i >= 0:
                 m = CITE.match(ln, i)
@@ -77,7 +79,7 @@ def check(paths, root):
             continue
         if fp not in cache:
             with open(fp, "rb") as f:
-                cache[fp] = f.read().decode("latin-1").splitlines()
+                cache[fp] = f.read().decode("latin-1").split("\n")  # not splitlines(): \f lines
         src = cache[fp]
         if line <= len(src) and frag in src[line - 1]:
             continue
@@ -104,7 +106,9 @@ def self_test():
                 b"{\n"                                          # 5
                 b"  return x + 1;  /* caf\xe9 */\n"             # 6 latin-1 byte, not UTF-8
                 b"}\n"                                          # 7
-                b"int beta_marker;\n")                          # 8
+                b"int beta_marker;\n"                            # 8
+                b"\f\n"                                         # 9 form feed (gcc sources have them)
+                b"int after_ff;\n")                              # 10
     lines, fails = [], []
 
     def run(name, body, want_rc, want):
@@ -127,6 +131,7 @@ def self_test():
     run("missing", m, 1, [f"CITES MISSING {m}"])
     run("wrong", w, 1, [f"CITES DRIFT {w} nearest -"])
     run("malformed", 'src:gcc-2.95.2/gcc/planted.c:x "int"', 1, ['CITES MALFORMED src:gcc-2.95.2/gcc/planted.c:x "int"'])
+    run("formfeed", 'src:gcc-2.95.2/gcc/planted.c:10 "int after_ff;"', 0, ["CITES OK 1 of 1 citations"])
     run("empty", "no citations here", 0, ["CITES OK 0 of 0 citations"])
     lines.append("CITES CONTROL OK" if not fails else f"CITES CONTROL FAIL {len(fails)}: {' '.join(fails)}")
     for x in lines:

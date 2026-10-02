@@ -3,7 +3,7 @@
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
 TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
-	th-walls th-draw th-cites th-dumps
+	th-walls th-draw th-cites th-dumps th-alloc
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -111,6 +111,12 @@ th-cites:
 # (last line `DUMPS TEXT SLUS_013.95/120A0 words <a> built <b> identical`).
 th-dumps:
 	$(PYTHON) tools/mmx6/dumps.py --self-test && $(PYTHON) tools/mmx6/dumps.py --tu SLUS_013.95/120A0
+
+# The allocation table (tools/mmx6/alloc_table.py; needs the built C objects' asm): planted A/B pair whose reference
+# counts swap global-alloc's order and hard regs 16<->17, a truncated .greg and a missing order pseudo, in
+# .run/alloc-selftest/; then 120A0's table (an `ALLOC SLUS_013.95/120A0:<f> pseudos <n> order <k>` line per function).
+th-alloc:
+	$(PYTHON) tools/mmx6/alloc_table.py --self-test && $(PYTHON) tools/mmx6/alloc_table.py --tu SLUS_013.95/120A0
 
 th-propagate-full: th-propagate
 	@set -e; for k in $(PROPAGATE_KEYS); do $(PYTHON) tools/mmx6/propagate.py $$k --dry-run; done

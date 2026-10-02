@@ -37,7 +37,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 | commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes |
 | run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
 | extract | `mx.sh run make extract` | dump → `extracted/retail/` + `manifest/retail.jsonl` |
-| mx.sh | `bash tools/docker/mx.sh build\|sync\|pull <path>\|disc <dir>\|run <cmd>` | amd64 container `mmx6-build`; tree at /work, dump at /disc:ro |
+| mx.sh | `bash tools/docker/mx.sh build\|sync\|push <waves/…>\|pull <path>\|disc <dir>\|run <cmd>` | amd64 container `mmx6-build`; tree at /work, dump at /disc:ro |
 | probe | `mx.sh run make probe-ladder`; `probe.py <func> --prog p --src c --triple t` | masked compare to retail; `PIN …` |
 | decompile | `mx.sh run python3 tools/mmx6/decompile.py <func> [--prog p]` | m2c scaffold |
 | diff | `mx.sh run bash tools/mmx6/diff.sh <func>` (after `make expected`) | asm-differ; `DIFF <func> <n>`, rc 0 iff n=0 |

@@ -3,7 +3,7 @@
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
 TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
-	th-walls th-draw th-validate th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau
+	th-walls th-draw th-validate th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau th-journal
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -157,3 +157,8 @@ th-permute:
 # .run/plateau-selftest/, then the stored draft's residual label and triage rows (`PLATEAU <func> <label> …`).
 th-plateau:
 	$(PYTHON) tools/mmx6/plateau.py --self-test && $(PYTHON) tools/mmx6/plateau.py --draft drafts/SLUS_013.95/func_80042F20.c
+
+# The campaign journal (tools/mmx6/journal.py): planted append/refusals/edit/rate in .run/journal-selftest/, then
+# the real campaign/journal.jsonl's append-only check (`JOURNAL OK <r> records`).
+th-journal:
+	$(PYTHON) tools/mmx6/journal.py --self-test && $(PYTHON) tools/mmx6/journal.py --check

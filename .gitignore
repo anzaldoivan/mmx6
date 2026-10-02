@@ -24,6 +24,8 @@ __pycache__/
 /assets/
 /build/
 /expected/
+# wave packs (target asm, m2c scaffolds, drafts; docs/ops/campaign.md ## Packs)
+/waves/
 /undefined_syms_auto.txt
 /undefined_funcs_auto.txt
 

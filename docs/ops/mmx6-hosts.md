@@ -6,11 +6,14 @@ As known at generation (2026-10-01). Update in the same change as whatever chang
 - **Mac (arm64):** Claude Code + PA3, the repository at `~/orca/mmx6`; Ghidra 12.1.x + psx_ldr + GhidrAssistMCP
   (static oracle); PCSX-Redux with Lua (runtime oracle).
 - **amd64 Docker host:** Docker Desktop on the Mac (context `desktop-linux`); builds run there with the source in a
-  named volume (the DC2 arrangement). One tree, driven by `tools/docker/mx.sh build|sync|pull|disc|run` (Phase 1.0, T2):
+  named volume (the DC2 arrangement). One tree, driven by `tools/docker/mx.sh build|sync|push|pull|disc|run` (Phase 1.0, T2):
   - Agents edit the Mac clone only; volume `mmx6-work` is a disposable copy mounted at `/work`.
-  - `mx.sh sync` before any run after host edits: wipes `/work` (except `/work/.run`) and copies tracked +
+  - `mx.sh sync` before any run after host edits: wipes `/work` (except `/work/.run` and `/work/waves`, the wave packs) and copies tracked +
     untracked-non-ignored files; never `.git` or ignored paths. Container edits outside `/work/.run` are lost on the next sync.
-  - `mx.sh pull <path>...` brings named relative container outputs back; refuses absolute, `..`, firewall paths (G12).
+  - `mx.sh pull <path>...` brings named relative container outputs back; refuses absolute, `..`, firewall paths (G12);
+    never a `*.s` under `waves/`.
+  - `mx.sh push <waves/path>...` copies clone pack edits to the same relpath in `/work` (no wipe; `waves/` paths only,
+    `.s` refused). Packs: docs/ops/campaign.md `## Packs`.
   - No bind mounts of host paths. Image `mmx6-build`. Env overrides `MX6_IMAGE`, `MX6_VOLUME`, `MX6_DISC_VOLUME`
     (override per worktree, cookbook C0004).
   - Dump loaded via `mx.sh disc /Users/ThinkPad/GameInputs/megaman-x6` (top-level `*.cue`/`*.bin` only, BIOS skipped)

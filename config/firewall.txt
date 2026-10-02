@@ -23,6 +23,7 @@ purge: asm/
 purge: assets/
 purge: build/
 purge: expected/
+glob:  waves/**/*.s
 purge: dumps/
 glob:  dumps/**/*.bin
 purge: ghidra/

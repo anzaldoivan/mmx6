@@ -42,3 +42,44 @@ difficulty = `build/reports/difficulty.json` order. `--band` keeps lo ≤ words 
 Harvest-stamp refusal: for W<n> with n ≥ 1 the draw refuses `DRAW HARVEST-MISSING W<n-1>` (rc 2, checked before any
 input is read, no W<n>.txt) unless `campaign/harvest/W<n-1>.ok` exists (written by the harvest gate, G45); W0 needs no
 stamp.
+
+## Packs
+
+Location: `waves/W<n>/<prog>_<func>/` at the repo root of both trees (Mac clone and `/work`); `.gitignore` `/waves/`,
+firewall `glob: waves/**/*.s`. Files: `pack.json` `{pv,prog,func,tu,words}`, `target.s` (game asm, container only),
+`draft.c` (the drafter writes first, rewrites on every improvement), `verdict.json` (the drafter's, last).
+
+- Transport: `mx.sh sync` spares top-level `/work/waves` (as `/work/.run`), so a sync never wipes packs or a running
+  gate's snapshot. Coders edit `draft.c` in the clone, then `mx.sh push <waves/…>` (clone → `/work`, same relpath, no
+  wipe; only `waves/` paths; a `.s` is refused by the firewall glob and excluded from the tar). `mx.sh pull <waves/…>`
+  excludes `*.s` under `waves/`: game asm never reaches the clone.
+- Snapshot: `cards.py --probe-pack <dir> [--hold S] [--no-snapshot]` (container) builds `waves/.iso/<prog>_<func>.<pid>/`
+  (asm/ and extracted/ hardlinked `cp -al`: nothing writes them in place; Makefile mk include src config tools
+  build/corpus build/split copied), chdirs there, writes draft.c as `drafts/<prog>/<func>.c` (the TU's CFLAGS via
+  probe.draft_cflags), compiles under the Makefile `TRIPLE`, removes the snapshot. Line `PACK <pv> match <m>/<n>` |
+  `fail <m>/<n>` | `nocompile`, rc 0 on any PACK line. probe.py/dumps.py use repo-relative paths only (checked T2.c1).
+  `--no-snapshot` (compile in `/work`, refuses to overwrite a stored draft) is the negative control only.
+- Control `bash tools/docker/pack_control.sh` (host; logs `.run/packctl/`), last `PACK CONTROL OK`. Plants a
+  pack in `waves/WCTL/` (first SLUS_013.95 INCLUDE_ASM function of 8-40 words without a stored draft; draft = m2c
+  scaffold under `#if 0` + the INCLUDE_ASM line, so R is compiled), removes it after. Result at T2.c1
+  (func_80012FA0, 17 words): (1) push sha1 equal clone/`/work`, `.s` push refused; (2) pull: pack.json + draft.c, 0 `.s`;
+  (3) R = `match 17/17`; (4) `--hold 40` + sync during the hold (sync wiped `/work/asm`): `match 17/17`, draft sha1
+  unchanged, `/work/waves/WCTL` kept, `waves/.iso` empty after; (5) `--no-snapshot --hold 40` + sync: rc 1, no PACK line
+  (probe's `make build/split/SLUS_013.95.stamp` fails: the tree was wiped).
+
+## Journal
+
+`campaign/journal.jsonl` (tracked, append-only), `tools/mmx6/journal.py` (container, stdlib). One JSON object per line,
+keys exactly `{wave, pv, func, words, band, runs, verdict, score, label, draft, lever, notes, prev}`.
+
+- `band` from words: `le16|17-40|41-80|81-160|gt160` (must agree); `verdict` ∈ `banked|fail|nocompile|verbatim|missing|plumbing`;
+  `score` `m/n` or `-`; `label`/`draft`/`lever` a token (path, plateau label) or `-`; `notes` ≤ 400 chars of our prose,
+  refused if it holds a MIPS register operand (`$a0`, `$sp`, `$4`…), `.word` or `glabel` (G12); `prev` = sha1 of the
+  previous line's text (40 zeros first): the append-only check (the container has no .git).
+- `--append <json>`: validates, sets prev (any given prev is replaced), appends; `JOURNAL REFUSED <why>` rc 1, file untouched.
+  `--for <pv>`: that pv's lines, last `JOURNAL FOR <pv> <k> records`. `--rate [--wave W<n>]`: all five bins
+  `RATE <bin> drafted <d> banked <b> instructions <i>` (d distinct pv with a record, b distinct pv banked, i sum of their
+  words). `--check`: `JOURNAL OK <r> records` rc 0 | `JOURNAL BAD <line> <why>` rc 1. `--journal <path>` overrides the file.
+- `--self-test` (`.run/journal-selftest/`): good append, 14 refusals (each schema rule) leave the file byte-identical,
+  rate bins on planted records (with `--wave`), `--for`, an edited earlier line caught by `--check`; ends
+  `JOURNAL CONTROL OK`. Rung `th-journal` (`--self-test && --check`).

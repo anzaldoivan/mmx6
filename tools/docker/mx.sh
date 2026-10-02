@@ -2,8 +2,10 @@
 # mx.sh — the Mac clone <-> amd64 build container arrangement (docs/ops/mmx6-hosts.md).
 # The Mac clone is the only tree agents edit; the volume is a disposable copy at /work.
 #   build [args]   build the image (linux/amd64)
-#   sync           replace /work with the clone's tracked + untracked-non-ignored files (/work/.run kept)
-#   pull <path>... copy named relative paths from /work back into the clone (firewall paths refused)
+#   sync           replace /work with the clone's tracked + untracked-non-ignored files (/work/.run, /work/waves kept)
+#   push <path>... copy named waves/ paths from the clone to /work (same relpath, no wipe; firewall paths refused)
+#   pull <path>... copy named relative paths from /work back into the clone (firewall paths refused; no *.s under
+#                  waves/: game asm never reaches the clone, G12)
 #   disc <dir>     load <dir>'s top-level *.cue/*.bin into the disc volume at /disc
 #   run <cmd...>   run a command in /work with /disc mounted read-only
 # Env overrides (per worktree, cookbook C0004): MX6_IMAGE, MX6_VOLUME, MX6_DISC_VOLUME.
@@ -47,11 +49,20 @@ case "$cmd" in
       | while IFS= read -r -d '' f; do if [[ -e "$f" ]]; then printf '%s\0' "$f"; fi; done \
       | COPYFILE_DISABLE=1 tar --no-xattrs --no-mac-metadata --null -T - -cf - \
       | docker run -i --rm "${PLAT[@]}" -v "$VOL:/work" -w /work "$IMAGE" \
-          sh -c 'find /work -mindepth 1 -maxdepth 1 ! -name .run -exec rm -rf {} + && tar -xf - -C /work' ;;
+          sh -c 'find /work -mindepth 1 -maxdepth 1 ! -name .run ! -name waves -exec rm -rf {} + && tar -xf - -C /work' ;;
+  push)
+    [[ $# -gt 0 ]] || die "usage: mx.sh push <waves/relative-path>..."
+    for p in "$@"; do
+      check_path "$p"
+      case "$p" in waves/?*) ;; *) die "push is for waves/ paths only: $p" ;; esac
+      [[ -e "$p" ]] || die "no such path: $p"
+    done
+    COPYFILE_DISABLE=1 tar --no-xattrs --no-mac-metadata --exclude='*.s' -cf - "$@" \
+      | docker run -i --rm "${PLAT[@]}" -v "$VOL:/work" "$IMAGE" tar -xf - -C /work ;;
   pull)
     [[ $# -gt 0 ]] || die "usage: mx.sh pull <relative-path>..."
     for p in "$@"; do check_path "$p"; done
-    docker run --rm "${PLAT[@]}" -v "$VOL:/work" "$IMAGE" tar -cf - -C /work "$@" | tar -xf - ;;
+    docker run --rm "${PLAT[@]}" -v "$VOL:/work" "$IMAGE" tar -cf - -C /work --exclude='waves/*.s' "$@" | tar -xf - ;;
   disc)
     [[ $# -eq 1 && -d "$1" ]] || die "usage: mx.sh disc <dir>"
     files=()
@@ -64,5 +75,5 @@ case "$cmd" in
     [[ $# -gt 0 ]] || die "usage: mx.sh run <cmd...>"
     exec docker run --rm "${PLAT[@]}" -v "$VOL:/work" -v "$DISC:/disc:ro" -w /work "$IMAGE" "$@" ;;
   *)
-    die "usage: mx.sh build|sync|pull|disc|run ..." ;;
+    die "usage: mx.sh build|sync|push|pull|disc|run ..." ;;
 esac

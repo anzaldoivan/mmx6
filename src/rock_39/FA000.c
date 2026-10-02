@@ -230,7 +230,7 @@ INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FF4B4);
 
 INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FF570);
 
-INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FF5A4);
+#include "../shared/rock_39/func_800FF5A4.c"
 
 INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FF5C4);
 

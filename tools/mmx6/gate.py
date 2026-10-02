@@ -10,7 +10,7 @@
          drafts of one program serially. Per draft, cwd = the snapshot: the draft is clang-formatted (repo
          .clang-format, C0063) as src/shared/<prog>/<func>.c; the standalone masked probe (cards.score) compiles it as
          drafts/<prog>/<func>.c (TU flags; `#define <draft name> <func>` first when the draft defines another name);
-         verbatim.check; bank.bank on the body copy; on a bank stop R1-R4 the recovery ladder (`define`, `declsync`);
+         verbatim.check; bank.bank on the body copy; on a bank stop R1-R4 the recovery ladder (`define`, `declsync`, `cast`);
          on a probe fail the plateau label (plateau.classify). Lines per draft:
          `GATE <pv> match <m>/<n>|fail <m>/<n>|nocompile|verbatim|MISSING <input>`, then `BANKED <pv> <words>` |
          `RECOVERED <pv> R<k> via <step>` (+ BANKED) | `STOPPED <pv> R<k>: <cause>` | `REFUSED <pv> <cause>`.
@@ -62,6 +62,7 @@ EXTRA = (".clang-format", "docs/codegen-map")  # copied into the snapshot after 
 SELFTEST = ".run/gate-selftest"
 STOP_RE = re.compile(r" stopped R(\d): (.*)$")
 QUOTED_RE = re.compile(r"[`'‘]([A-Za-z_]\w*)['’]")
+CONFLICT_RE = re.compile(r"(too (?:few|many) arguments to function|conflicting types for) [`'‘]([A-Za-z_]\w*)['’]")
 
 
 def sha1b(b):
@@ -192,6 +193,37 @@ def declsync_fix(prog, body, cause, func):
     return new if new != text else None
 
 
+def cast_fix(prog, body, cause, func):
+    """New body text for a call/declaration conflict named in cause (the stop cause + the first-stop bank log's conflict
+    lines), or None. `too few|many arguments to function 'X'` / `conflicting types for 'X'` on this body's lines (or in
+    the stop cause): every call of X after the draft's own prototype of X made through an unprototyped cast
+    `((<draft's return type> (*)())X)(`; the prototype dropped for `conflicting types` only (an arity conflict keeps it,
+    the bank's standalone probe needs X declared). `too few|many arguments` on another body's lines: the draft's own
+    prototype of X loses its parameter list (`<ret> X();`), its calls unchanged."""
+    with open(body) as f:
+        text = f.read()
+    own, other = set(), set()
+    for ln in cause.splitlines():
+        for h in CONFLICT_RE.findall(ln):
+            (other if ".c:" in ln and f"/{func}.c:" not in ln else own).add(h)
+    new = text
+    for kind, n in sorted(own):
+        mo = next((m for m in cards.PROTO_RE.finditer(new) if m.group(2) == n), None)
+        if n == func or mo is None:
+            continue
+        ret = " ".join(mo.group(1).split())
+        head, end = new[:mo.end()], mo.end()
+        if kind == "conflicting types for":
+            tail = re.match(r"[ \t]*(?:/\*[^\n]*?\*/)?[ \t]*\n", new[end:])  # the prototype's line with its `/* extern */`
+            head, end = new[:mo.start()], end + (tail.end() if tail else 0)
+        new = head + re.sub(rf"(?<![\w.>]){re.escape(n)}(?=\s*\()", f"(({ret} (*)()){n})", new[end:])
+    for kind, n in sorted(other):
+        mo = next((m for m in cards.PROTO_RE.finditer(new) if m.group(2) == n), None)
+        if kind != "conflicting types for" and n not in {func} | {x for _, x in own} and mo and mo.group(3).strip():
+            new = new[:mo.start(3)] + new[mo.end(3):]
+    return new if new != text else None
+
+
 def gate_draft(d, t, say):
     """Result dict of one draft (cwd = the snapshot)."""
     pv, prog, func, row = d["pv"], d["prog"], d["func"], d["row"]
@@ -248,10 +280,14 @@ def gate_draft(d, t, say):
         if k in (2, 3) and (cause.startswith("declaration ") or "declsync would edit the body" in cause
                             or "does not compile" in cause):
             steps.append(("declsync", cause, defs))
+        if k in (2, 3):  # the first stop's log lines of this body: a later step's bank run rewrites the log
+            log = os.path.join(bank.LOGDIR, f"{prog}.{func}.log")
+            lines = open(log, errors="replace").read().splitlines() if os.path.isfile(log) else []
+            steps.append(("cast", "\n".join([cause] + [ln for ln in lines if CONFLICT_RE.search(ln)]), defs))
     for step, cause, defs in steps:
         orig = open(body).read()
-        if step == "declsync":
-            new = declsync_fix(prog, body, cause, func)
+        if step in ("declsync", "cast"):
+            new = (declsync_fix if step == "declsync" else cast_fix)(prog, body, cause, func)
             if new is None:
                 continue
             write(body, fmt(new, body))  # declsync's spelling is whitespace-normalised: re-format (format-check)
@@ -522,14 +558,17 @@ def self_test():
             if blk and os.path.basename(blk[0])[:-2] in cu.get(m[0], ()):
                 mem.setdefault(m[0], []).append((m[1], r, blk))
         ov = next((p for p in sorted(mem) if p.startswith("rock_")), None)
-        if len(mem.get(exe, [])) < 4 or ov is None:
-            raise RuntimeError("need 4 exe and 1 overlay c-unit members of the exemplar class with a define block")
-        A, B, C, D = mem[exe][:4]
+        if len(mem.get(exe, [])) < 5 or ov is None:
+            raise RuntimeError("need 5 exe and 1 overlay c-unit members of the exemplar class with a define block")
+        A, B, C, D, F = mem[exe][:5]
+        Y = D  # case F: Y's define block (unplanted before the gate) precedes F's in their unit
+        if Y[2][0] != F[2][0] or Y[2][1] > F[2][1]:
+            raise RuntimeError("case F needs D's define block before F's in one unit")
         E = mem[ov][0]
         progs = [exe, ov]
         pre_bin = {p: bank.sha1(bank.bin_out(p)) for p in progs}
         # plant (C0054): define blocks -> INCLUDE_ASM of generated .s files; proven by the binaries' sha1
-        for prog, ms in ((exe, [A, B, C, D]), (ov, [E])):
+        for prog, ms in ((exe, [A, B, C, D, F]), (ov, [E])):
             units = {}
             for v, r, (unit_c, i, _) in ms:
                 plant_s(saved, prog, r["tu"], r["name"], v, int(r["end"], 16))
@@ -542,11 +581,12 @@ def self_test():
         if bank.sh([sys.executable, "tools/mmx6/corpus.py", "--all"], "gate-selftest"):
             raise RuntimeError("corpus.py --all rc != 0 on the planted tree")
         rows = {(r["prog"], int(r["vram"], 16)): r for r in map(json.loads, open(corpus_out[0]))}
-        if any(rows[(p, m[0])]["state"] != "include_asm" for p, m in ((exe, A), (exe, B), (exe, C), (exe, D), (ov, E))):
+        if any(rows[(p, m[0])]["state"] != "include_asm" for p, m in ((exe, A), (exe, B), (exe, C), (exe, D), (exe, F),
+                                                               (ov, E))):
             raise RuntimeError("planted members not include_asm in the regenerated corpus")
         # D: its unit block back, its .s gone; the corpus still names it include_asm -> MISSING asm
-        for unit_c in sorted({m[2][0] for m in (A, B, C, D)}):
-            plant_unit(saved, unit_c, exe, [(m[2][1], m[1]["name"]) for m in (A, B, C) if m[2][0] == unit_c])
+        for unit_c in sorted({m[2][0] for m in (A, B, C, D, F)}):
+            plant_unit(saved, unit_c, exe, [(m[2][1], m[1]["name"]) for m in (A, B, C, F) if m[2][0] == unit_c])
         os.remove(f"asm/{exe}/nonmatchings/{D[1]['tu']}/{D[1]['name']}.s")
         if bank.rebuild(exe, "gate-selftest") or bank.sha1(bank.bin_out(exe)) != pre_bin[exe]:
             raise RuntimeError(f"D unplant rebuild of {exe} red")
@@ -557,9 +597,11 @@ def self_test():
         cases = {}
         for case, prog, (v, r, (_, _, table)), name, mut in (
                 ("A", exe, A, None, None), ("B", exe, B, "_w", None), ("C", exe, C, None, ("arg0[6]", "arg0[7]")),
-                ("D", exe, D, None, None), ("E", ov, E, None, None)):
+                ("D", exe, D, None, None), ("E", ov, E, None, None), ("F", exe, F, None, None)):
             func = r["name"]
             text = body.replace(ename, func + (name or "")).replace(etable, table)
+            if case == "F":  # arity conflict: a 2-parameter prototype of Y, defined earlier in the unit with 1 -> cast drops it
+                text = text.replace(f"void {func}(", f"void {Y[1]['name']}(s8* arg0, s32 arg1);\n\nvoid {func}(", 1)
             if mut:
                 if mut[0] not in text:
                     raise RuntimeError(f"case C: no `{mut[0]}` in the body")
@@ -581,22 +623,30 @@ def self_test():
                 os.close(x)
         lines = []
         rc, info = run("W0", root, jp, 3, True, lambda s: (print(s, flush=True), lines.append(s)))
-        words = sum(cases[k][1] for k in "ABE")
+        words = sum(cases[k][1] for k in "ABEF")
         want = {"A": [f"BANKED {cases['A'][0]} {cases['A'][1]}"],
                 "B": [f"RECOVERED {cases['B'][0]} R1 via define", f"BANKED {cases['B'][0]} {cases['B'][1]}"],
                 "D": [f"GATE {cases['D'][0]} MISSING asm/{exe}/nonmatchings/{D[1]['tu']}/{D[1]['name']}.s"],
                 "E": [f"BANKED {cases['E'][0]} {cases['E'][1]}"],
-                "coverage": ["GATE W0 drafts 5 = banked 3 + failed 1 + no-verdict 1"],
-                "wave": [f"WAVE W0 banked 3 ({words} instructions) of 5 drafts; recovered 1"]}
+                "F": [f"BANKED {cases['F'][0]} {cases['F'][1]}"],
+                "coverage": ["GATE W0 drafts 6 = banked 4 + failed 1 + no-verdict 1"],
+                "wave": [f"WAVE W0 banked 4 ({words} instructions) of 6 drafts; recovered 2"]}
         for case, ls in want.items():
             if any(x not in lines for x in ls):
                 fail(case)
+        if not any(re.fullmatch(rf"RECOVERED {re.escape(cases['F'][0])} R[23] via cast", x) for x in lines):
+            fail("F")
+        # the call path of cast_fix on a planted text: an arity conflict on the draft's own call
+        write(os.path.join(SELFTEST, "cast.c"), "M2C_UNK func_A();  /* extern */\nvoid f(void) { func_A(); }\n")
+        if cast_fix(exe, os.path.join(SELFTEST, "cast.c"), "x/f.c:1: too few arguments to function `func_A'", "f") != \
+                "M2C_UNK func_A();  /* extern */\nvoid f(void) { ((M2C_UNK (*)())func_A)(); }\n":
+            fail("cast-call")
         recs = {r["pv"]: r for r in journal.records(jp)} if os.path.isfile(jp) else {}
         rc_c = recs.get(cases["C"][0], {})
         if not any(x.startswith(f"GATE {cases['C'][0]} fail ") for x in lines) or rc_c.get("verdict") != "fail" \
                 or rc_c.get("label") in (None, "-", "none"):
             fail("C")
-        if len(recs) != 5 or journal.check(jp, lambda s: None):
+        if len(recs) != 6 or journal.check(jp, lambda s: None):
             fail("journal")
         iv = info["intervals"]
         if len(iv) != 2 or max(a for a, _ in iv.values()) >= min(b for _, b in iv.values()):

@@ -1003,7 +1003,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800304D8);
 
 #include "../shared/SLUS_013.95/func_8003056C.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800305B0);
+#include "../shared/SLUS_013.95/func_800305B0.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800305F4);
 

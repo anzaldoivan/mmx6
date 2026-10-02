@@ -516,7 +516,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F57F4);
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F5840);
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F58BC);
+#include "../shared/rock_11/func_800F58BC.c"
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F58FC);
 
@@ -542,7 +542,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F5B18);
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F5BAC);
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F5C14);
+#include "../shared/rock_11/func_800F5C14.c"
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F5C34);
 
@@ -612,7 +612,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F84A8);
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F856C);
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F8638);
+#include "../shared/rock_11/func_800F8638.c"
 
 #define func_8003744C func_800F869C
 #define D_80073C1C D_800FD364
@@ -816,7 +816,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FA72C);
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FA76C);
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FA7E0);
+#include "../shared/rock_11/func_800FA7E0.c"
 
 #define func_8003744C func_800FA82C
 #define D_80073C1C D_800FD4AC
@@ -860,11 +860,11 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FABA0);
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FAC50);
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FACD8);
+#include "../shared/rock_11/func_800FACD8.c"
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FACF8);
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FAD90);
+#include "../shared/rock_11/func_800FAD90.c"
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FADB0);
 
@@ -880,7 +880,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FAE34);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FAFD0);
+#include "../shared/rock_11/func_800FAFD0.c"
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FB020);
 

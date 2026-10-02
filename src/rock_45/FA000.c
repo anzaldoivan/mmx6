@@ -72,7 +72,7 @@ INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FBDB8);
 
 #include "../shared/rock_45/func_800FBE94.c"
 
-INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FBF00);
+#include "../shared/rock_45/func_800FBF00.c"
 
 INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FBF78);
 

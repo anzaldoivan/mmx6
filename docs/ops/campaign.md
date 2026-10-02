@@ -180,6 +180,11 @@ success wins (`RECOVERED <pv> R<k> via <step>`, k = the rung of the first stop):
    declsync.sync's own edit of the body, and its top-level prototypes/externs named by the stop cause or by quoted names
    in `.run/bank/<prog>.<func>.log` rewritten to the program's prevailing spelling (most common across declsync.unit_files);
    skipped when nothing changes; carries the define of step 1 when the names differ.
+3. `cast` (first stop R2/R3; a call/declaration conflict in the stop cause or the first-stop bank log): on the body's own
+   lines, `too few|many arguments to function 'X'` / `conflicting types for 'X'` → every call of X after the draft's own
+   prototype becomes `((<its return type> (*)())X)(…)`; the prototype is dropped for `conflicting types` only (the bank's
+   standalone probe needs X declared); on another body's lines, `too few|many arguments … 'X'` → the draft's own
+   prototype of X loses its parameter list. Re-formatted; skipped when nothing changes; carries step 1's define.
 R4 (jtbl not carved, rodata needs placement) is not recoverable. Unrecovered → `STOPPED <pv> R<k>: <cause>`, journal
 `plumbing`, label `R<k>`. An R5 stop (hash) → failed, journal `fail`, label `hash`. A bank preflight refusal →
 `REFUSED <pv> <cause>`, journal `plumbing`, label `refused`.

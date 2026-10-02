@@ -104,7 +104,7 @@ INCLUDE_ASM("asm/rock_26/nonmatchings/E9860", func_800EE3F4);
 
 #include "../shared/rock_26/func_800EE46C.c"
 
-INCLUDE_ASM("asm/rock_26/nonmatchings/E9860", func_800EE48C);
+#include "../shared/rock_26/func_800EE48C.c"
 
 #define func_8003744C func_800EE4AC
 #define D_80073C1C D_800EFC80

@@ -18,13 +18,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80012D9C);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80012EB4);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80012FA0);
+#include "../shared/SLUS_013.95/func_80012FA0.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80012FE4);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013008);
+#include "../shared/SLUS_013.95/func_80013008.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013024);
+#include "../shared/SLUS_013.95/func_80013024.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013064);
 
@@ -60,9 +60,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800139A0);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800139F4);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013A48);
+#include "../shared/SLUS_013.95/func_80013A48.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013AA4);
+#include "../shared/SLUS_013.95/func_80013AA4.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013AE0);
 
@@ -84,9 +84,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013D10);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013DE8);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001447C);
+#include "../shared/SLUS_013.95/func_8001447C.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800144AC);
+#include "../shared/SLUS_013.95/func_800144AC.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800144DC);
 
@@ -128,11 +128,11 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800163A4);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001642C);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001651C);
+#include "../shared/SLUS_013.95/func_8001651C.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80016548);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80016570);
+#include "../shared/SLUS_013.95/func_80016570.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800165A4);
 
@@ -163,7 +163,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001717C);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001731C);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80017488);
+#include "../shared/SLUS_013.95/func_80017488.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800174D4);
 
@@ -191,7 +191,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80017CD8);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80017E24);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80017E6C);
+#include "../shared/SLUS_013.95/func_80017E6C.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80017E98);
 
@@ -207,7 +207,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80018290);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80018444);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800184C8);
+#include "../shared/SLUS_013.95/func_800184C8.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800184F4);
 
@@ -217,25 +217,25 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001854C);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800185B4);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800186A8);
+#include "../shared/SLUS_013.95/func_800186A8.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80018774);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800187A0);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001881C);
+#include "../shared/SLUS_013.95/func_8001881C.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80018838);
+#include "../shared/SLUS_013.95/func_80018838.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800188BC);
+#include "../shared/SLUS_013.95/func_800188BC.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80018948);
+#include "../shared/SLUS_013.95/func_80018948.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800189E4);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80018A90);
+#include "../shared/SLUS_013.95/func_80018A90.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80018B10);
+#include "../shared/SLUS_013.95/func_80018B10.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80018B60);
 
@@ -265,7 +265,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001A4FC);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001A570);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001A5F8);
+#include "../shared/SLUS_013.95/func_8001A5F8.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001A604);
 
@@ -295,19 +295,19 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001B7A8);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001B84C);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001B900);
+#include "../shared/SLUS_013.95/func_8001B900.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001B90C);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001B984);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001BA04);
+#include "../shared/SLUS_013.95/func_8001BA04.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001BA1C);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001BD40);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001C024);
+#include "../shared/SLUS_013.95/func_8001C024.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001C1AC);
 
@@ -327,15 +327,15 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001C8C4);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001C938);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001CA0C);
+#include "../shared/SLUS_013.95/func_8001CA0C.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001CA64);
+#include "../shared/SLUS_013.95/func_8001CA64.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001CAAC);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001CB3C);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001CBE0);
+#include "../shared/SLUS_013.95/func_8001CBE0.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001CC1C);
 
@@ -349,9 +349,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001D0E4);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001D218);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001D25C);
+#include "../shared/SLUS_013.95/func_8001D25C.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001D2A0);
+#include "../shared/SLUS_013.95/func_8001D2A0.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001D2CC);
 
@@ -359,7 +359,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001D338);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001D3C0);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001D414);
+#include "../shared/SLUS_013.95/func_8001D414.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001D424);
 
@@ -387,9 +387,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DA20);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DAF8);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DBAC);
+#include "../shared/SLUS_013.95/func_8001DBAC.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DBD8);
+#include "../shared/SLUS_013.95/func_8001DBD8.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DC04);
 
@@ -399,9 +399,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DCF8);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DD74);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DDB0);
+#include "../shared/SLUS_013.95/func_8001DDB0.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DDE0);
+#include "../shared/SLUS_013.95/func_8001DDE0.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DE10);
 
@@ -409,7 +409,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DEB8);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DF5C);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DFB0);
+#include "../shared/SLUS_013.95/func_8001DFB0.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001DFDC);
 
@@ -438,11 +438,11 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001E7C0);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001E81C);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001E880);
+#include "../shared/SLUS_013.95/func_8001E880.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001E8CC);
+#include "../shared/SLUS_013.95/func_8001E8CC.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001E908);
+#include "../shared/SLUS_013.95/func_8001E908.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001E914);
 
@@ -454,13 +454,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001EB48);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001EC0C);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001EC40);
+#include "../shared/SLUS_013.95/func_8001EC40.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001EC68);
+#include "../shared/SLUS_013.95/func_8001EC68.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001ED44);
+#include "../shared/SLUS_013.95/func_8001ED44.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001ED88);
+#include "../shared/SLUS_013.95/func_8001ED88.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001EDDC);
 
@@ -492,9 +492,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001FD10);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001FE74);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001FF30);
+#include "../shared/SLUS_013.95/func_8001FF30.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001FF78);
+#include "../shared/SLUS_013.95/func_8001FF78.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001FFC0);
 
@@ -520,7 +520,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80020A08);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80020AA8);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80020C40);
+#include "../shared/SLUS_013.95/func_80020C40.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80020D18);
 
@@ -530,7 +530,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80020DC8);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80020E1C);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80020F24);
+#include "../shared/SLUS_013.95/func_80020F24.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80020F8C);
 
@@ -540,13 +540,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800210E8);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80021194);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80021208);
+#include "../shared/SLUS_013.95/func_80021208.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80021254);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002129C);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002130C);
+#include "../shared/SLUS_013.95/func_8002130C.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002132C);
 
@@ -615,9 +615,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80025E1C);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80025F34);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80025F84);
+#include "../shared/SLUS_013.95/func_80025F84.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80025FB0);
+#include "../shared/SLUS_013.95/func_80025FB0.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80025FD8);
 
@@ -723,14 +723,14 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800296A8);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80029718);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002974C);
+#include "../shared/SLUS_013.95/func_8002974C.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80029780);
 
 void func_800297B4(void) {
 }
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800297BC);
+#include "../shared/SLUS_013.95/func_800297BC.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800297D8);
 
@@ -740,7 +740,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80029818);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800298F4);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002992C);
+#include "../shared/SLUS_013.95/func_8002992C.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80029958);
 
@@ -749,7 +749,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002998C);
 void func_800299C4(void) {
 }
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800299CC);
+#include "../shared/SLUS_013.95/func_800299CC.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800299E8);
 
@@ -893,7 +893,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002C850);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002C950);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002C9B0);
+#include "../shared/SLUS_013.95/func_8002C9B0.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002C9D4);
 
@@ -913,7 +913,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002CD6C);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002CE18);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002CEF0);
+#include "../shared/SLUS_013.95/func_8002CEF0.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002CF0C);
 
@@ -923,13 +923,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002D0D8);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002D230);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002D2B0);
+#include "../shared/SLUS_013.95/func_8002D2B0.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002D2D4);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002D30C);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002D354);
+#include "../shared/SLUS_013.95/func_8002D354.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002D380);
 
@@ -937,7 +937,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002D3B4);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002D454);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002D4F4);
+#include "../shared/SLUS_013.95/func_8002D4F4.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002D51C);
 
@@ -1001,7 +1001,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8003040C);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800304D8);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8003056C);
+#include "../shared/SLUS_013.95/func_8003056C.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800305B0);
 

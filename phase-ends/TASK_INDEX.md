@@ -52,3 +52,11 @@
 1.6 | T7 | done | family remap from a banked exemplar | - | phase-1.6/tasks/T7.md | phase-1.6/logs/T7.md | -
 1.6 | T8 | done | X4↔X6 sharing number from mmx4's own build | - | phase-1.6/tasks/T8.md | phase-1.6/logs/T8.md | -
 1.6 | T9 | done | wall oracle, draw filter, harness P8 and the milestone | - | phase-1.6/tasks/T9.md | phase-1.6/logs/T9.md | -
+1.7 | T1 | done | compiler source staged and the citation auditor | - | phase-1.7/tasks/T1.md | phase-1.7/logs/T1.md | R1.7-001,R1.7-002
+1.7 | T2 | done | dump scripts and the pass list reconciled | - | phase-1.7/tasks/T2.md | phase-1.7/logs/T2.md | -
+1.7 | T3 | done | allocation-table reader and the reproducer runner | - | phase-1.7/tasks/T3.md | phase-1.7/logs/T3.md | -
+1.7 | T4 | done | codegen map, front-end groups (expr, loop, combine) | - | phase-1.7/tasks/T4.md | phase-1.7/logs/T4.md | R1.7-003
+1.7 | T5 | done | codegen map, back-end groups (alloc, sched, jump) and the triage table | - | phase-1.7/tasks/T5.md | phase-1.7/logs/T5.md | R1.7-004
+1.7 | T6 | done | cookbook seeded by symptom and the index check | - | phase-1.7/tasks/T6.md | phase-1.7/logs/T6.md | R1.7-005
+1.7 | T7 | done | permuter, masked scorer and the stored draft | - | phase-1.7/tasks/T7.md | phase-1.7/logs/T7.md | -
+1.7 | T8 | done | plateau classifier and the milestone | - | phase-1.7/tasks/T8.md | phase-1.7/logs/T8.md | -

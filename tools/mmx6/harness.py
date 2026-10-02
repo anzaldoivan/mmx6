@@ -16,7 +16,7 @@ Pairs (A vs B; each side calls an existing instrument, never re-implements it, G
   P1 matched?    corpus.parse_c C definitions (all programs) vs corpus.fleet_c_names() (object FUNC symbols); (prog, name).
   P2 compiles?   per corpus `c` function: probe.compile_obj of its config/probes.txt `banked` src (else, for a gated
                  config/dedup_registry.txt member, a .run/harness/p2/ wrapper: bank.block of the shared body under the
-                 row's defines; compiles in parallel, T5.c3) under the Makefile
+                 row's defines; a `gated exemplar` row's body as is (T5.c2); compiles in parallel, T5.c3) under the Makefile
                  TRIPLE + probe.elf_function vs the words of build/<p>.elf at the corpus extent, under probe's
                  relocation mask (both trimmed by probe.trim).
   P3 fleet?      sha1 of every BINS output now vs after `touch` of src/SLUS_013.95/120A0.c and one asm unit and
@@ -132,15 +132,17 @@ def p2_gather():
     reg = {}  # (prog, vram) -> (shared body, defines) of gated registry members
     with open(bank.REGISTRY) as f:
         for t in (line.split() for line in f):
-            if len(t) >= 6 and not t[0].startswith("#") and t[4] == "gated" and t[5] == "define":
+            if len(t) >= 6 and not t[0].startswith("#") and t[4] == "gated" and t[5] in ("define", "exemplar"):
                 p, _, v = t[3].rpartition(":")
-                reg[(p, int(v, 16))] = (t[2], [tuple(d.split("=", 1)) for d in t[6:]])
+                reg[(p, int(v, 16))] = (t[2], [tuple(d.split("=", 1)) for d in t[6:]] if t[5] == "define" else [])
     out, todo = [], []
     cs = [r for r in rows() if r["state"] == "c"]
     for r in cs:
         key, pv = (r["prog"], r["name"]), (r["prog"], int(r["vram"], 16))
         if key in src:
             todo.append((r, src[key]))
+        elif pv in reg and not reg[pv][1]:  # a gated exemplar (the gate's own bank): its body compiled as is
+            todo.append((r, reg[pv][0]))
         elif pv in reg:
             d = os.path.join(".run", "harness", "p2")
             os.makedirs(d, exist_ok=True)

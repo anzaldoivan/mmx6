@@ -278,8 +278,8 @@ def write_registry(key, ex, src, results):
         lines = f.read().split("\n")
     at = {(t[0], t[3]): i for i, t in registry_rows()}
     for m, state, reason in sorted(results):
-        if m == ex and state == "gated":
-            continue  # the exemplar row stays
+        if m == ex:
+            continue  # the exemplar row stays (a refused re-gate, e.g. a c-empty exemplar, never overwrites it)
         row = f"{key} {ex} {src} {m} {state} {reason}"
         if (key, m) in at:
             lines[at[(key, m)]] = row

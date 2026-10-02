@@ -4,7 +4,7 @@
 
 s8 func_80064874(M2C_UNK, u8*);           /* extern */
 s32 func_800648D4(M2C_UNK, M2C_UNK, u8*); /* extern */
-s32 func_80064A10(M2C_UNK, M2C_UNK*);          /* extern */
+s32 func_80064A10(M2C_UNK, M2C_UNK*);     /* extern */
 extern M2C_UNK D_800E2E04;
 extern s32 D_800E2E18;
 extern s32 D_800E2E4C;

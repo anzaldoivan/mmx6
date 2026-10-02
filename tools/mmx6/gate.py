@@ -254,7 +254,7 @@ def gate_draft(d, t, say):
             new = declsync_fix(prog, body, cause, func)
             if new is None:
                 continue
-            write(body, new)
+            write(body, fmt(new, body))  # declsync's spelling is whitespace-normalised: re-format (format-check)
         rc, out = bank.bank(pv, body, defines=defs)
         if rc == 0:
             res["recovered"] = (first[0], step)

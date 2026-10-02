@@ -6,3 +6,4 @@ T3 | done | allocation-table reader and the reproducer runner | - | tasks/T3.md 
 T4 | done | codegen map, front-end groups (expr, loop, combine) | - | tasks/T4.md | logs/T4.md | R1.7-003
 T5 | done | codegen map, back-end groups (alloc, sched, jump) and the triage table | - | tasks/T5.md | logs/T5.md | R1.7-004
 T6 | done | cookbook seeded by symptom and the index check | - | tasks/T6.md | logs/T6.md | R1.7-005
+T7 | done | permuter, masked scorer and the stored draft | - | tasks/T7.md | logs/T7.md | -

@@ -277,6 +277,8 @@ def main():
     if a.seed == 0 or a.iterations < 1:
         ap.error("--seed must be nonzero (upstream treats 0 as unseeded) and --iterations >= 1")
     prog, func = m.groups()
+    if not os.path.isfile(f"extracted/retail/iso/{prog}"):  # a fresh sync wipes extracted/: the draft runs from clean
+        subprocess.run(["make", "-s", "extract"], check=True, stdout=subprocess.DEVNULL)
     vram = probe.find_extent(prog, func)[0]
     return cycle(func, a.draft, probe.retail_words(prog, func), vram, a.iterations, a.seed)["rc"]
 

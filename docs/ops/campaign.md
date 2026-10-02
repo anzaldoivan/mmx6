@@ -182,7 +182,8 @@ success wins (`RECOVERED <pv> R<k> via <step>`, k = the rung of the first stop):
 1. `define` (first stop R1-R3, the draft's defined function name ≠ the target func): `bank --define <draftname>=<func>`.
 2. `declsync` (first stop R2 compile error, `declaration …` or `declsync would edit the body`): the body copy gets
    declsync.sync's own edit of the body, and its top-level prototypes/externs named by the stop cause or by quoted names
-   in `.run/bank/<prog>.<func>.log` rewritten to the program's prevailing spelling (most common across declsync.unit_files);
+   in `.run/bank/<prog>.<func>.log` rewritten to the program's prevailing spelling (most common across declsync.unit_files;
+   a spelling using `M2C_UNK` brings the scaffold prelude's `#define M2C_UNK s32` after `#include "common.h"`, T7.c3);
    skipped when nothing changes; carries the define of step 1 when the names differ.
 3. `cast` (first stop R2/R3; a call/declaration conflict in the stop cause or the first-stop bank log): on the body's own
    lines, `too few|many arguments to function 'X'` / `conflicting types for 'X'` → every call of X after the draft's own

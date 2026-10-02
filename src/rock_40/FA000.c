@@ -270,7 +270,9 @@ INCLUDE_ASM("asm/rock_40/nonmatchings/FA000", func_800FE848);
 
 INCLUDE_ASM("asm/rock_40/nonmatchings/FA000", func_800FE944);
 
-INCLUDE_ASM("asm/rock_40/nonmatchings/FA000", func_800FE9F4);
+#define func_80042C18 func_800FE9F4
+#include "../shared/SLUS_013.95/func_80042C18.c"
+#undef func_80042C18
 
 INCLUDE_ASM("asm/rock_40/nonmatchings/FA000", func_800FEA24);
 

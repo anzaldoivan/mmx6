@@ -190,6 +190,8 @@ def declsync_fix(prog, body, cause, func):
             best = sorted(spell[n].items(), key=lambda x: (-x[1], x[0]))[0][0]
             if best != s:
                 new = new[:span[0]] + best + new[span[1]:]
+    if re.search(r"\bM2C_UNK\b", new) and not re.search(r"^#define M2C_UNK\b", new, re.M):  # the scaffold prelude's
+        new = re.sub(r'^(#include "common.h"\n)', r"\1#define M2C_UNK s32\n", new, count=1, flags=re.M)  # spelling
     return new if new != text else None
 
 

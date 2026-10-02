@@ -7,7 +7,7 @@
          R1 sha1 of --src recorded; probe.probe under the Makefile default TRIPLE must MATCH.
          R2 in src/<prog>/<tu>.c the line `INCLUDE_ASM("asm/<prog>/nonmatchings/<tu>", <func>);` becomes
             `#include "<src relative to src/<prog>/>"`; the unit object must compile.
-         R3 declsync.sync over the program's C files (refusal stops); typecheck.py --files <edited + body>; edited
+         R3 declsync.sync over the program's C files (refusal or declsync error stops); typecheck.py --files <edited + body>; edited
             units recompile.
          R4 stop on a config/boundaries.txt jtbl row of the program with lo inside the function ("jtbl not carved"),
             or on unit .rodata grown vs the pre-bank object ("rodata needs placement").
@@ -219,7 +219,10 @@ def ladder(prog, vram, src, func, tu, saved, log, defines=(), r5=True):
     # R3
     with open(src, errors="replace") as f:
         body = f.read()
-    edits, dl, refused, _ = declsync.sync(prog, src, texts={src: subst(body, defines)})
+    try:
+        edits, dl, refused, _ = declsync.sync(prog, src, texts={src: subst(body, defines)})
+    except SystemExit as e:  # e.g. a definition DEF_RE cannot read (function-pointer parameter): a stop, not a crash
+        raise Stop(3, f"declsync error: {e}")
     with open(os.path.join(LOGDIR, log + ".log"), "a") as f:
         f.write("\n".join(dl) + "\n")
     if refused:

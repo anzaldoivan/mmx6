@@ -126,7 +126,7 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801ECC94);
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801ECCDC);
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801ECD24);
+#include "../shared/rock_00/func_801ECD24.c"
 
 #include "../shared/rock_00/func_801ECD60.c"
 

@@ -12,7 +12,7 @@ Every lane has a cadence and a cap (G39).
   waves (G48).
 - scaffold (free; T5): detached, resumable.
 - propagate/remap (free): after every banked exemplar, run by the gate.
-- x4 (free; T7): proven-shared only (G102).
+- x4 (free; T7): proven-shared only (G102): `x4port.py --wave W-x4` packs (## X4 lane), gated as a lane wave.
 - permuter (free): plateau fails only, iterations capped per band.
 - lib (free; T8): vendor ledger rows.
 - gate: every wave, serial per binary, ≤ 3 binaries at once.
@@ -266,6 +266,39 @@ R4 (jtbl not carved, rodata needs placement) is not recoverable. Unrecovered →
   score > 0, a planted syntax error → nocompile (score null), a re-run adds no rows, `--packs` writes exactly the match's
   pack. Ends `SCAFFOLD CONTROL OK` | `SCAFFOLD CONTROL FAIL <cases>` rc 1. Rung `th-scaffold`.
 
+## X4 lane
+
+The free lane of X6 functions with an exact mmx4 partner (sozud/mmx4 @29b62af, AGPL-3.0, THIRD_PARTY.md; G102, G54).
+- `x4share.py --triple gcc2.95.2-psx-aspsx2.86 --partners` (container; clone `.run/mmx4`, objects
+  `.run/x4share/<triple>/obj/`, never tracked) → tracked `campaign/x4/partners.tsv`: one row per (X6 function, exact
+  X4 partner), sorted (prog, vram, src, func), tab-separated `<prog> <0xVRAM> <x6 func> <words> <exact key> <mmx4 src>
+  <mmx4 func> <state>` (x6 func, state: corpus row); exact = words equal except relocated fields (sig.py exact key).
+  Line `X4SHARE partners <rows> rows; x6 <p> functions, open <o>, open keys <k>`. Names, addresses, keys, paths only.
+- `x4port.py --wave W-x4 [--root waves] [--pv P]... [--limit K]` → packs `<root>/W-x4/<prog>_<func>/` (pack.json,
+  draft.c, verdict.json `status:"draft"`), as ## Packs; then `cards.py --probe-pack`, `gate.py --wave W-x4` as a lane
+  wave (## Gate, ## Recovery). One pack per census dup class (= exact key) with an open member, none when the class
+  has a gated registry row (`class gated`) or a banked member (`class banked <pv>`: propagate's job).
+- representative: the lowest (prog, vram) member bank can take (include_asm in a `config/c_units.txt` unit); a class
+  with none → `X4PORT <pv> skipped no-c-unit` (counted in the last line).
+- port (spelling first): the mmx4 definition's own text, `static`/`inline` dropped; every relocated mmx4 symbol → its
+  X6 name by relocation alignment (X6 base = X6 relocation target − X4 offset into its symbol; an X6 ELF symbol at
+  that address, else `D_/func_<ADDR>`). Draft = attribution header, `#include "common.h"`, `#include "mmx6/x4.h"`
+  (when used), macros that name a relocated symbol, extern/prototype declarations (initialisers dropped, G12), inline
+  helpers, the body; never a struct/typedef (bank R3 typecheck). Skipped: string literals, function-scope statics,
+  verbatim.check refusal, `x4.h conflict <name>`, `not exact`, unaligned/unresolved relocations (in the notes).
+- `include/mmx6/x4.h`: generated each lane run (never hand-edited), the union of the run's packs' blocks: mmx4 macros
+  (`#ifndef` guarded, ours win, sorted) then struct/union/enum/typedef blocks (tags and typedef names `X4_`-prefixed
+  unless common.h defines the typedef; guard `X4_D_<name>`; first-seen order); types and macros only, no data. A pack
+  whose block differs from an earlier same-named block is skipped. typecheck.py reads it, never refuses it, and does
+  not register its shapes.
+- attribution header, first line of every draft: `/* Adapted from sozud/mmx4 @29b62af <src>:<func>, AGPL-3.0; proven
+  shared with X6 by exact signature <key12> (see THIRD_PARTY.md). */`; of x4.h: the same with its mmx4 source files
+  in place of `<src>:<func>` and no key.
+- lines `X4PORT <pv> drafted <src>:<func>` | `X4PORT <pv> skipped <why>`, last `X4PORT <wave> <k> packs of <o> open;
+  <n> classes skipped no-c-unit; include/mmx6/x4.h <b> blocks`. `--self-test` (our func_8001E78C as a renamed fake
+  mmx4 source/object: names map back, pack probes match; bit flip → not exact; X6 addend +4 → other symbol) ends
+  `X4PORT CONTROL OK`; in th-selftests.
+
 ## Ledger
 
 `tools/mmx6/ledger.py --build | --check | --self-test [--ledger P]` (container, stdlib; T5.c4) →
@@ -278,8 +311,8 @@ asm|include_asm function, sorted (prog, vram), tab-separated `<prog> <vram 0x%08
 (`campaign/scaffold/journal.jsonl`, then `campaign/journal.jsonl`) and tracked `drafts/<prog>/<func>.c`.
 - class, first that holds: lane lib → `vendor:<LIB>/<tu>` (LIB from the `config/boundaries.txt` lib row holding the
   vram, else `unproven`); census dup class ≥ 2 → `dup:<key>`; census family ≥ 2 → `family:<key>`; exact sig twin →
-  `twin:<pv>` (lowest other member of its exact-twin component); `x4` (mmx4 exact partner; in the vocabulary, never
-  assigned yet: x4share.py prints counts only); else `unique`.
+  `twin:<pv>` (lowest other member of its exact-twin component); `x4` (a `campaign/x4/partners.tsv` row: an exact
+  mmx4 partner, ## X4 lane); else `unique`. Input `campaign/x4/partners.tsv` (required).
 - closeness: `m/n` (m matched words) of the best (m/n, then m) of the scaffold row (m = max(0, n − score)), journal
   scores, the tracked draft compiled and masked-scored; `nocompile` if none compiled.
 - best draft: the tracked `drafts/<prog>/<func>.c`, else `m2c` (regenerable by the pinned scaffold, never tracked).

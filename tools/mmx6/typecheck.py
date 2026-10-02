@@ -14,6 +14,8 @@
 Refusals: `TYPES REFUSE <dup|outside|raw-cast|unkeyable> <path>:<line> <name/text>`.
   dup       a definition whose shape (or name) an earlier one already has (include/mmx6/ is read first).
   outside   a definition in a file not under include/mmx6/.
+include/mmx6/x4.h (x4port.py's generated X4_ mirror of mmx4 types, its own namespace) is read and counted, never
+refused, and its shapes are not registered (an X4_ type may share a shape with ours).
   raw-cast  `*(T *)0x...` (any spacing, any pointer depth) in comment-stripped src/<prog>/ text.
   unkeyable a definition the parser cannot key (unknown member type, fn pointer, bitfield, inline nested struct...);
             refused with the reason, never skipped.
@@ -29,6 +31,7 @@ import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 HOME = "include/mmx6/"
+X4H = HOME + "x4.h"
 QUALIFIERS = {"const", "volatile", "register", "static", "extern"}
 SCALAR_WORDS = {"unsigned", "signed", "char", "short", "int", "long", "float", "double"}
 TOKEN = re.compile(r"\[[^\]]*\]|\w+|\S")
@@ -254,6 +257,8 @@ def check(files):
         line = lambda off: text.count("\n", 0, off) + 1
         for off, name, key, reason in defs_of(text, known):
             d += 1
+            if path == X4H:
+                continue
             where = "%s:%d" % (path, line(off))
             if reason:
                 refusals.append("TYPES REFUSE unkeyable %s %s (%s)" % (where, name, reason))

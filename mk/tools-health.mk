@@ -3,7 +3,7 @@
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
 TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
-	th-walls th-draw th-cites th-dumps th-alloc th-repro
+	th-walls th-draw th-cites th-dumps th-alloc th-repro th-map
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -120,6 +120,10 @@ th-alloc:
 
 th-repro:
 	$(PYTHON) tools/mmx6/repro.py --self-test && $(PYTHON) tools/mmx6/repro.py --all
+
+# T5 widens --groups to all six.
+th-map:
+	$(PYTHON) tools/mmx6/codegen_map.py --self-test && $(PYTHON) tools/mmx6/codegen_map.py --groups G-expr,G-loop,G-combine
 
 th-propagate-full: th-propagate
 	@set -e; for k in $(PROPAGATE_KEYS); do $(PYTHON) tools/mmx6/propagate.py $$k --dry-run; done

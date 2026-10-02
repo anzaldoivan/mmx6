@@ -8,9 +8,9 @@ TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
-	th-selftests
+	th-selftests th-gate
 
-.PHONY: tools-health tools-health-full $(TOOLS_HEALTH_RUNGS) th-harness-full th-propagate-full th-selftests
+.PHONY: tools-health tools-health-full $(TOOLS_HEALTH_RUNGS) th-harness-full th-propagate-full th-selftests th-gate
 
 tools-health: $(TOOLS_HEALTH_RUNGS)
 	@echo "TOOLS-HEALTH OK $(words $(TOOLS_HEALTH_RUNGS)) rungs"
@@ -173,3 +173,9 @@ th-cards: th-sig th-journal
 # directive, INCLUDE_ASM refused; a pin counted, a commented pin not), then every src/shared and drafts .c file.
 th-verbatim:
 	$(PYTHON) tools/mmx6/verbatim.py --self-test && $(PYTHON) tools/mmx6/verbatim.py --all
+
+# The wave gate (tools/mmx6/gate.py; full chain only: it plants and banks in /work like bank.py's self-test): planted
+# exe + overlay members in .run/gate-selftest/ (bank, define recovery, plateau-labelled fail, MISSING asm, two
+# programs concurrently, lock refused); /work restored byte-exact and both binaries rebuilt to their sha1 after.
+th-gate:
+	$(PYTHON) tools/mmx6/gate.py --self-test

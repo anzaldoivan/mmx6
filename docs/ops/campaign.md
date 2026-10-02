@@ -110,3 +110,51 @@ stripped it refuses `include-asm` (INCLUDE_ASM/INCLUDE_RODATA anywhere), `direct
 - `<file>…` → `VERBATIM <file> ok pins <p>` | `VERBATIM <file> refused <why>`; `--all` (src/shared and tracked drafts .c)
   last `VERBATIM ALL <k> files; refused <r>; pins <p>`. rc 0 iff none refused, 1 otherwise, 2 usage/unreadable.
 - `--self-test` (`.run/verbatim-selftest/`) ends `VERBATIM CONTROL OK` | `VERBATIM CONTROL FAIL <case>` rc 1; rung `th-verbatim`.
+
+## Gate
+
+`tools/mmx6/gate.py --wave W<n> [--root waves] [--journal campaign/journal.jsonl] [-j 1..3] [--no-propagate]`
+(container, stdlib; T3.c2). Scores every pack dir `<root>/W<n>/<prog>_<func>/` (its `draft.c`; never verdict.json's status, G50).
+- Inputs (ignored/generated; a missing one is `GATE <pv> MISSING <input>`, never a verdict): pack.json, draft.c, the
+  build/corpus row, build/census/classes.jsonl, the retail binary (config/<prog>.yaml target), the asm .s holding the glabel.
+- Isolation (C0004): drafts grouped by program; ≤ j programs at once (default 3), each in its own snapshot
+  `waves/.iso/gate-<prog>.<pid>/` (cards.snapshot + all of build/, .clang-format, docs/codegen-map; src/ copied, never
+  hardlinked) holding `.run/gate/locks/<prog>.lock` (fcntl.flock non-blocking; busy → `GATE LOCKED <prog>`, rc 1);
+  drafts of one program serially. Snapshots removed in `finally`; stale `gate-*` of a dead pid reaped at start.
+- Per draft (cwd = snapshot): clang-format (repo .clang-format, C0063) as `src/shared/<prog>/<func>.c` (a different body
+  already there → `REFUSED`); standalone masked probe (cards.score) of that text as `drafts/<prog>/<func>.c` (TU flags;
+  `#define <draft name> <func>` first when the draft defines another name); verbatim.check; bank.bank on the body copy
+  (registry exemplar row when a dup class exists); probe fail → plateau label (plateau.classify, `PLATEAU …` line).
+  Lines `GATE <pv> match <m>/<n>|fail <m>/<n>|nocompile|verbatim|MISSING <input>`, then `BANKED <pv> <words>` |
+  `RECOVERED <pv> R<k> via <step>` (+ BANKED) | `STOPPED <pv> R<k>: <cause>` | `REFUSED <pv> <cause>`.
+- Apply-back after each program worker, under `.run/gate/locks/apply.lock`: snapshot src/ files whose sha1 changed since the
+  snapshot start are copied to the tree, new registry rows appended; a tree file changed meanwhile → `GATE APPLY CONFLICT
+  <path>`, nothing of that program applied (its banks journaled `plumbing`, label `conflict`), rc 1. The program is then
+  rebuilt in the tree (`GATE REBUILD <prog> red` rc 1).
+- Then in the tree: each banked exemplar's dup class propagated (propagate.propagate) when it has asm|include_asm members
+  with no gated registry row, else `PROPAGATE <key> skipped: no open members`; one `sig.py --rescan` (G46); one journal
+  record per draft (verdict banked|fail|nocompile|verbatim|missing|plumbing; label = plateau label, `R<k>`, `hash`,
+  `refused` or `-`). Last lines `GATE W<n> drafts <d> = banked <a> + failed <b> + no-verdict <c>` (asserted, rc 1 if it
+  breaks) and `WAVE W<n> banked <k> (<i> instructions) of <d> drafts; recovered <r>`. rc 0 = completed, 1 = assertion,
+  conflict, lock or worker error, 2 usage.
+- `--self-test` (`.run/gate-selftest/`, wave W0; C0054 planted): four exe and one overlay c-unit member of the
+  state_dispatch class reverted to INCLUDE_ASM of generated .s files (proven by both binaries' sha1); drafts = the shared
+  body with each member's name/table: A byte-identical → BANKED; B renamed `<func>_w` → RECOVERED R1 via define; C
+  `arg0[6]`→`arg0[7]` → `fail 14/15`, label isel, journal fail; D block restored and its .s removed (corpus still
+  include_asm) → MISSING asm; E overlay → BANKED; the two workers' intervals overlap; a second non-blocking lock refused;
+  coverage and WAVE lines exact. Teardown restores src/, registry, corpus jsonl trio byte-exact, real journal untouched,
+  both binaries rebuilt to their sha1, no `waves/.iso/gate-*`; ends `GATE CONTROL OK` | `GATE CONTROL FAIL <cases>` rc 1.
+  Rung `th-gate` in `make tools-health-full` only (mutates /work like bank's self-test).
+
+## Recovery
+
+Plumbing (G50) = probe match but a bank stop R1-R4: no redraft; the ladder re-runs bank.bank on the gate's body copy, first
+success wins (`RECOVERED <pv> R<k> via <step>`, k = the rung of the first stop):
+1. `define` (first stop R1-R3, the draft's defined function name ≠ the target func): `bank --define <draftname>=<func>`.
+2. `declsync` (first stop R2 compile error, `declaration …` or `declsync would edit the body`): the body copy gets
+   declsync.sync's own edit of the body, and its top-level prototypes/externs named by the stop cause or by quoted names
+   in `.run/bank/<func>.log` rewritten to the program's prevailing spelling (most common across declsync.unit_files);
+   skipped when nothing changes; carries the define of step 1 when the names differ.
+R4 (jtbl not carved, rodata needs placement) is not recoverable. Unrecovered → `STOPPED <pv> R<k>: <cause>`, journal
+`plumbing`, label `R<k>`. An R5 stop (hash) → failed, journal `fail`, label `hash`. A bank preflight refusal →
+`REFUSED <pv> <cause>`, journal `plumbing`, label `refused`.

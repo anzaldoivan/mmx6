@@ -112,3 +112,5 @@ Approved: 2026-10-01   Planner: claude-opus-5-5/medium   Plan-hash: 5aabe1fe47b0
 - 2026-10-01 router: T6.1 next -> done
 - 2026-10-01 router: T7 next -> done
 - 2026-10-01 router: T8 next -> done
+- 2026-10-01 critic: critic: T8 deviation accepted. The plan's cc1 2.6.3 triple compiled 0 of 402 files (recorded). The number was measured under X6's pin gcc2.95.2-psx-aspsx2.86 (prior-art L1 already supersedes 2.6.3). The milestone clause is unchanged and T9 consumes it as is.
+- 2026-10-01 critic: critic: deferred, not in 1.6 scope: banking from mmx4's 2042 exact X4 partners. It goes to the 1.7/1.8 planner as a bank source for leverage-first waves, under the standing G102 rule (proven-shared functions only, THIRD_PARTY.md credit). No X4 byte, object or per-function list is tracked (G12).

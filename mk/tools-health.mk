@@ -3,7 +3,8 @@
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
 TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
-	th-walls th-draw th-validate th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau th-journal th-cards
+	th-walls th-draw th-validate th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau th-journal th-cards \
+	th-verbatim
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -167,3 +168,8 @@ th-journal:
 # twin, a planted journal record on the next card, unresolved C/L ids refused with no pack dir); `CARDS CONTROL OK`.
 th-cards: th-sig th-journal
 	$(PYTHON) tools/mmx6/cards.py --self-test
+
+# The verbatim check (tools/mmx6/verbatim.py, DK-29): planted bodies in .run/verbatim-selftest/ (inline asm,
+# directive, INCLUDE_ASM refused; a pin counted, a commented pin not), then every src/shared and drafts .c file.
+th-verbatim:
+	$(PYTHON) tools/mmx6/verbatim.py --self-test && $(PYTHON) tools/mmx6/verbatim.py --all

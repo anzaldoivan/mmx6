@@ -101,3 +101,12 @@ keys exactly `{wave, pv, func, words, band, runs, verdict, score, label, draft, 
 - `--self-test` (`.run/journal-selftest/`): good append, 14 refusals (each schema rule) leave the file byte-identical,
   rate bins on planted records (with `--wave`), `--for`, an edited earlier line caught by `--check`; ends
   `JOURNAL CONTROL OK`. Rung `th-journal` (`--self-test && --check`).
+
+## Verbatim
+
+`tools/mmx6/verbatim.py` (DK-29, stdlib, container or host): a banked or ledgered body must be C. After C comments are
+stripped it refuses `include-asm` (INCLUDE_ASM/INCLUDE_RODATA anywhere), `directive <d>` (assembler directive text) and
+`inline-asm` (any asm statement or expression other than a register pin); register pins are allowed and counted (1.10).
+- `<file>…` → `VERBATIM <file> ok pins <p>` | `VERBATIM <file> refused <why>`; `--all` (src/shared and tracked drafts .c)
+  last `VERBATIM ALL <k> files; refused <r>; pins <p>`. rc 0 iff none refused, 1 otherwise, 2 usage/unreadable.
+- `--self-test` (`.run/verbatim-selftest/`) ends `VERBATIM CONTROL OK` | `VERBATIM CONTROL FAIL <case>` rc 1; rung `th-verbatim`.

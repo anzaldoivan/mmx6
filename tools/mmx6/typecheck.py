@@ -14,7 +14,8 @@
 Refusals: `TYPES REFUSE <dup|outside|raw-cast|unkeyable> <path>:<line> <name/text>`.
   dup       a definition whose shape (or name) an earlier one already has (include/mmx6/ is read first).
   outside   a definition in a file not under include/mmx6/.
-include/mmx6/x4.h (x4port.py's generated X4_ mirror of mmx4 types, its own namespace) is read and counted, never
+include/mmx6/x4.h (x4port.py's generated X4_ mirror of mmx4 types, its own namespace) and include/mmx6/psyq_api.h (its
+hand-written X4_ PsyQ types, T7.c4) are read and counted, never
 refused, and its shapes are not registered (an X4_ type may share a shape with ours).
   raw-cast  `*(T *)0x...` (any spacing, any pointer depth) in comment-stripped src/<prog>/ text.
   unkeyable a definition the parser cannot key (unknown member type, fn pointer, bitfield, inline nested struct...);
@@ -31,7 +32,7 @@ import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 HOME = "include/mmx6/"
-X4H = HOME + "x4.h"
+X4H = (HOME + "x4.h", HOME + "psyq_api.h")  # the X4_ namespace
 QUALIFIERS = {"const", "volatile", "register", "static", "extern"}
 SCALAR_WORDS = {"unsigned", "signed", "char", "short", "int", "long", "float", "double"}
 TOKEN = re.compile(r"\[[^\]]*\]|\w+|\S")
@@ -257,7 +258,7 @@ def check(files):
         line = lambda off: text.count("\n", 0, off) + 1
         for off, name, key, reason in defs_of(text, known):
             d += 1
-            if path == X4H:
+            if path in X4H:
                 continue
             where = "%s:%d" % (path, line(off))
             if reason:
@@ -307,7 +308,7 @@ def self_test():
     real = read(all_paths())
     refusals, summary, _, _ = check(real)
     assert not refusals, (refusals, summary)
-    _, summary, d, s = check({p: t for p, t in real.items() if p != X4H})  # ours only: x4.h's X4_ types are counted
+    _, summary, d, s = check({p: t for p, t in real.items() if p not in X4H})  # ours only: x4.h's X4_ types are counted
     assert d == s == 7, summary  # but not ours (T7.c3: x4.h tracked)
     known = {}
     probe = [k for _, n, k, _ in defs_of(strip(real[HOME + "types.h"]), known) if n == "Probe800473EC"]

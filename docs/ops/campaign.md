@@ -30,7 +30,8 @@ Every lane has a cadence and a cap (G39).
 6. Fan-out: one coder per card; drafts pushed as packs (`mx.sh push waves/W<n>/…`).
 7. Gate the directory: `gate.py --wave W<n>`.
 8. Recover: the gate's ladder (## Recovery); plumbing stops re-gated, never redrafted.
-9. Ledger: `ledger.py --build` (after the gate's banks; needs corpus, census, sig and a default `draw.py` run), pull
+9. Ledger: `corpus.py --all` (and `census.py --all`) then `ledger.py --build` (after the gate's banks; needs corpus,
+   census, sig and a default `draw.py` run; a stale corpus gives `LEDGER FAIL … malformed`, T7.c3), pull
    `campaign/ledger.tsv` (## Ledger).
 10. One `make fleet` from a clean rebuild.
 11. Journal: pull `src/`, the registry, `campaign/journal.jsonl` and `campaign/harvest/` before any sync.
@@ -293,6 +294,11 @@ The free lane of X6 functions with an exact mmx4 partner (sozud/mmx4 @29b62af, A
   unless common.h defines the typedef; guard `X4_D_<name>`; first-seen order); types and macros only, no data. A pack
   whose block differs from an earlier same-named block is skipped. typecheck.py reads it, never refuses it, and does
   not register its shapes.
+- PsyQ types (G102): a block whose mmx4 origin is `include/psy-q-4.0/*` (mmx4's copies of Sony SDK headers, outside
+  mmx4's AGPL) is never emitted (listed `X4PORT psy-q blocks not emitted (<n>): …`); x4.h includes the hand-written
+  `include/mmx6/psyq_api.h` instead (our own re-expression from facts: member order, types, sizes, constant values;
+  same `X4_` names). A new psy-q name a pack needs → add it there by hand, then rerun. `--self-test` asserts it.
+  `x4port.py --wave W-x4 --x4h` rewrites x4.h only from every `waves/W-x4/*/pack.json` pv (open or banked), no packs.
 - attribution header, first line of every draft: `/* Adapted from sozud/mmx4 @29b62af <src>:<func>, AGPL-3.0; proven
   shared with X6 by exact signature <key12> (see THIRD_PARTY.md). */`; of x4.h: the same with its mmx4 source files
   in place of `<src>:<func>` and no key.

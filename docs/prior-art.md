@@ -11,6 +11,7 @@ non-commercial sources; mmx4 C only for proven-shared functions, listed in `THIR
 | Source | License | Use allowed (G102) |
 |---|---|---|
 | [sozud/mmx4](https://github.com/sozud/mmx4) — matching decomp of Mega Man X4 (US + JP) | AGPL-3.0 | Facts; C adapted for proven-shared functions, with attribution |
+| PsyQ runtime-library API (Sony), as copied in mmx4's `include/psy-q-4.0/` (LIBCD.H, LIBGPU.H, SYS/TYPES.H) | not licensed by mmx4's AGPL | Facts only (member order, types, sizes, constant values), re-expressed in our own `include/mmx6/psyq_api.h`; verified by the byte gate (T7.c4) |
 | Kuumba123 — `MegaManX6_PS1_Modding`, `MegaManX6_Practice` | none | Facts only, never copied |
 | mstan/MegaManX6Recomp — static recompilation (psxrecomp) | PolyForm Noncommercial | Facts only; generated C never an input |
 | acediez — *Mega Man X6 Tweaks* (romhacking.net) | — | Facts only |

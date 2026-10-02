@@ -12,7 +12,7 @@ build verifies, once their phase pins them.
 <!-- x4port credits -->
 | Component | Upstream | Commit / version | License | Paths here | Basis (proof it is shared) |
 |---|---|---|---|---|---|
-| mmx4 port | [sozud/mmx4](https://github.com/sozud/mmx4) | `29b62af` | AGPL-3.0 | `include/mmx6/x4.h` | types and macros of `include/common.h, include/func_tables.h, include/psy-q-4.0/LIBCD.H, include/psy-q-4.0/LIBGPU.H, include/psy-q-4.0/SYS/TYPES.H, include/scratchpad.h, src/main/3D88.c` used by the rows below |
+| mmx4 port | [sozud/mmx4](https://github.com/sozud/mmx4) | `29b62af` | AGPL-3.0 | `include/mmx6/x4.h` | types and macros of `include/common.h, include/func_tables.h, include/scratchpad.h, src/main/3D88.c` used by the rows below |
 | mmx4 port | [sozud/mmx4](https://github.com/sozud/mmx4) | `29b62af` | AGPL-3.0 | `src/shared/SLUS_013.95/func_80013480.c` | exact signature `ea1f214c77bc`, `src/main/2824.c:func_800128EC` |
 | mmx4 port | [sozud/mmx4](https://github.com/sozud/mmx4) | `29b62af` | AGPL-3.0 | `src/shared/SLUS_013.95/func_800134A4.c` | exact signature `56ff4cada450`, `src/main/2824.c:func_80012910` |
 | mmx4 port | [sozud/mmx4](https://github.com/sozud/mmx4) | `29b62af` | AGPL-3.0 | `src/shared/SLUS_013.95/func_80014D50.c` | exact signature `630fc0e04ff1`, `src/main/3D88.c:func_800136B0` |

@@ -38,12 +38,12 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 | run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
 | extract | `mx.sh run make extract` | dump → `extracted/retail/` + `manifest/retail.jsonl` |
 | mx.sh | `bash tools/docker/mx.sh build\|sync\|push <waves/…>\|pull <path>\|disc <dir>\|run <cmd>` | amd64 container `mmx6-build`; tree at /work, dump at /disc:ro |
-| probe | `mx.sh run make probe-ladder`; `probe.py <func> --prog p --src c --triple t` | masked compare to retail; `PIN …` |
-| decompile | `mx.sh run python3 tools/mmx6/decompile.py <func> [--prog p]` | m2c scaffold |
+| probe | `mx.sh run make probe-ladder`; `probe.py <func> --prog p --src c --triple t`; `decompile.py <func> [--prog p]` | masked compare to retail, `PIN …`; m2c |
 | diff | `mx.sh run bash tools/mmx6/diff.sh <func>` (after `make expected`) | asm-differ; `DIFF <func> <n>`, rc 0 iff n=0 |
-| scanners | `mx.sh run python3 tools/mmx6/<t>.py --all\|--self-test`, t = corpus optscan bound2 census report sig walls draw validate (after `make extract build`) | → build/; tools-health rungs |
-| bank path | `mx.sh run python3 tools/mmx6/<t>.py`, t = bank propagate family_remap carve typecheck declsync x4share | usage: docs/ops/decomp-environment.md |
-| codegen | same, t = gccsrc dumps alloc_table repro codegen_map cookbook_check permute plateau | as bank path; map docs/codegen-map/README.md |
+| scanners | `mx.sh run python3 tools/mmx6/<t>.py --all\|--self-test`, t = corpus optscan bound2 census report sig walls (after `make extract build`) | → build/; rungs |
+| bank path | `mx.sh run python3 tools/mmx6/<t>.py`, t = bank propagate family_remap carve typecheck declsync x4share | docs/ops/decomp-environment.md |
+| codegen | same, t = gccsrc dumps alloc_table repro codegen_map cookbook_check permute plateau | map docs/codegen-map/README.md |
+| campaign | same, t = draw validate cards journal gate verbatim harvest | waves: docs/ops/campaign.md |
 | harness | `mx.sh run python3 tools/mmx6/harness.py --sampled\|--full\|--self-test` | pairs P1-P8 → build/harness/runs.log |
 | toolchain-check | `mx.sh run make toolchain-check` | versions + cc1/maspsx smoke; rc≠0 drift |
 

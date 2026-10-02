@@ -51,7 +51,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 <!-- one line per workflow; SKILL.md is canonical -->
 - docker-vm-no-privileged — never probe the Docker VM with --privileged/--pid=host (containment escape)
 - ci-wait-after-push — after a push: run.sh --bg gh run watch, then --wait < 285 s
-- container-scratch-not-synced — Mac .run/ never syncs; scratch in the container's .run/
+- container-scratch-not-synced — Mac .run/ never syncs, sync wipes build/: make and read in one run
 - typecheck-fnptr-keyer-first — extend typecheck.py's keyer before the first fn-pointer typedef
 
 ## Paths <!-- roles: expert coder router planner review critic discuss auditor curator -->

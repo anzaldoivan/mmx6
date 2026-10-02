@@ -8,3 +8,4 @@ T5 | done | overlay C units, dedup propagation and the registry | - | tasks/T5.m
 T6 | done | jump-table and opt-level carve tools | - | tasks/T6.md | logs/T6.md | -
 T6.1 | done | bank.py self-test on planted siblings | - | tasks/T6.1.md | logs/T6.1.md | -
 T7 | done | family remap from a banked exemplar | - | tasks/T7.md | logs/T7.md | -
+T8 | done | X4↔X6 sharing number from mmx4's own build | - | tasks/T8.md | logs/T8.md | -

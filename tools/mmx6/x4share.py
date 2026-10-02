@@ -13,6 +13,12 @@
          against build/sig/sigs.jsonl. Last two lines:
          `X4SHARE-DETAIL commit <hash> triple <name> exact_ge8w <k> failed <F-f>`
          `X4SHARE exact <a> near <b> of <N> X6 functions; X4 side <x> functions from <f> of <F> C files; lib <l> game <g>`
+  x4share.py --triple <name> --partners
+      -> the same run, then keeps exact key -> [(mmx4 src, func)] and writes tracked campaign/x4/partners.tsv, one row
+         per (X6 function, exact X4 partner), sorted (prog, vram, src, func), tab-separated
+         `<prog> <0xVRAM> <x6 func> <words> <exact key> <mmx4 src> <mmx4 func> <state>` (x6 func, state: corpus row);
+         line `X4SHARE partners <rows> rows; x6 <p> functions, open <o>, open keys <k>` (open = state asm|include_asm,
+         k = their distinct exact keys). Names, addresses, keys and mmx4 paths only (G12).
   x4share.py --self-test
       -> build/src/SLUS_013.95/120A0.c.o as a fake X4 object through the same object -> sig -> match path: X6
          SLUS_013.95 func_8001E78C must be exact; control: one unmasked bit of its words flipped -> not exact.
@@ -59,6 +65,8 @@ OVERRIDE = '/* x4share: INCLUDE_ASM / INCLUDE_RODATA -> nothing (mmx4 common.h S
 C_SEG = re.compile(r"^\s*-\s*\[\s*0x([0-9A-Fa-f]+)\s*,\s*c\s*(?:,\s*([^\],]+?))?\s*\]")
 SELF_OBJ = "build/src/SLUS_013.95/120A0.c.o"
 SELF_FUNC, SELF_PROG, SELF_VRAM = "func_8001E78C", "SLUS_013.95", "0x8001E78C"
+PARTNERS = "campaign/x4/partners.tsv"
+OPEN = ("asm", "include_asm")
 
 
 def die(msg):
@@ -222,14 +230,39 @@ def self_test():
     return 0
 
 
-def run(name):
+def write_partners(x6, objs, objdir, rows):
+    """partners.tsv rows per (X6 function, exact X4 partner); the X6 side's name and state from the corpus rows."""
+    base = os.path.abspath(objdir)
+    by_key = {}
+    for o in objs:
+        src = os.path.relpath(o, base)[:-2]
+        for name, w, m in functions(o):
+            by_key.setdefault(sig.sig_of("X4", name, w, m)["exact"], set()).add((src, name))
+    out = []
+    for s in x6:
+        r = rows.get((s["prog"], s["vram"]), {})
+        for src, name in sorted(by_key.get(s["exact"], ())):
+            out.append((s["prog"], int(s["vram"], 16), r.get("name", "-"), s["words"], s["exact"], src, name,
+                        r.get("state", "-")))
+    out.sort(key=lambda x: (x[0], x[1], x[5], x[6]))
+    os.makedirs(os.path.dirname(PARTNERS), exist_ok=True)
+    with open(PARTNERS, "w") as f:
+        for p, v, fn, w, k, src, name, st in out:
+            f.write(f"{p}\t0x{v:08X}\t{fn}\t{w}\t{k}\t{src}\t{name}\t{st}\n")
+    x6f = {(x[0], x[1]) for x in out}
+    op = {(x[0], x[1]): x[4] for x in out if x[7] in OPEN}
+    print(f"X4SHARE partners {len(out)} rows; x6 {len(x6f)} functions, open {len(op)}, open keys {len(set(op.values()))}")
+
+
+def run(name, partners=False):
     t = triple(name)
     x6 = load_x6()
-    lane = {}
+    lane, rows = {}, {}
     with open(CORPUS) as f:
         for line in f:
             r = json.loads(line)
             lane[(r["prog"], r["vram"])] = r["lane"]
+            rows[(r["prog"], r["vram"])] = r
     head = clone()
     inc = os.path.abspath(f"{SCR}/inc")
     os.makedirs(inc, exist_ok=True)
@@ -246,15 +279,18 @@ def run(name):
     print(f"X4SHARE-DETAIL commit {head} triple {t['name']} exact_ge8w {ge8} failed {len(srcs) - len(objs)}")
     print(f"X4SHARE exact {len(exact)} near {len(near)} of {len(x6)} X6 functions; X4 side {len(x4)} functions "
           f"from {len(objs)} of {len(srcs)} C files; lib {lib} game {len(both) - lib}")
+    if partners:
+        write_partners(x6, objs, objdir, rows)
     return 0
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--triple", help="a config/triples.txt row (default: the plan's gcc2.6.3-psx + aspsx 2.63)")
+    ap.add_argument("--partners", action="store_true", help=f"also write {PARTNERS} (exact partners per X6 function)")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
-    sys.exit(self_test() if a.self_test else run(a.triple))
+    sys.exit(self_test() if a.self_test else run(a.triple, a.partners))
 
 
 if __name__ == "__main__":

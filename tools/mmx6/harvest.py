@@ -61,7 +61,7 @@ SELFTEST = ".run/harvest-selftest"
 SWEEPS = os.path.join(HERE, "sweeps")
 INPUTS = dict(progress="build/reports/progress.json", classes="build/census/classes.jsonl",
               draw="build/draw/draw.jsonl", stubs="build/census/stubs.txt")  # stubs optional (the CENSUS stubs line)
-WAVE_RE = re.compile(r"W\d+|W-[a-z]+")  # W-<lane>: a lane wave id
+WAVE_RE = re.compile(r"W\d+|W-[a-z0-9]+")  # W-<lane>: a lane wave id
 CB_RE = re.compile(r"C\d{4}")
 HUNK_RE = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@")
 STUBS_RE = re.compile(r"CENSUS stubs (\d+) of (\d+) asm functions \(ledgered (\d+)\)")

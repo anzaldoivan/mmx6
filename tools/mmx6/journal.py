@@ -50,7 +50,7 @@ def why_bad(r):
     if set(r) != set(KEYS):
         miss, extra = sorted(set(KEYS) - set(r)), sorted(set(r) - set(KEYS))
         return f"keys missing {','.join(miss) or '-'} extra {','.join(extra) or '-'}"
-    if not (isinstance(r["wave"], str) and re.fullmatch(r"W\d+|W-[a-z]+", r["wave"])):
+    if not (isinstance(r["wave"], str) and re.fullmatch(r"W\d+|W-[a-z0-9]+", r["wave"])):
         return "wave not W<n>"
     if not (isinstance(r["pv"], str) and PV_RE.fullmatch(r["pv"])):
         return "pv not <prog>:0x<vram>"

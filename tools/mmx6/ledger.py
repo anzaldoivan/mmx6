@@ -21,7 +21,8 @@ Rules (docs/ops/campaign.md ## Ledger), first that holds:
   class      lane lib -> `vendor:<LIB>/<tu>` (LIB = the config/boundaries.txt `lib` row holding vram, its LIB/OBJ's LIB
              part, else `unproven`); census dup class of >= 2 members -> `dup:<key>`; census family of >= 2 ->
              `family:<key>`; an exact sig twin -> `twin:<pv>` (lowest other member, (prog, vram), of its exact-twin
-             component); `unique`. (`x4` is in the vocabulary; x4share.py prints counts only, so it is never assigned.)
+             component); `x4` (a pv with a campaign/x4/partners.tsv row: an exact mmx4 partner, x4share.py
+             --partners); `unique`.
   closeness  `m/n`, m matched words, best (m/n, then m; ties by source order) of: the scaffold row
              (build/scaffold/scaffold.jsonl, else campaign/scaffold/scaffold.jsonl; m = max(0, n - score)), journal
              records with an `m/n` score (campaign/scaffold/journal.jsonl, then campaign/journal.jsonl), the tracked
@@ -57,8 +58,9 @@ INPUTS = dict(funcs="build/corpus/functions.jsonl", classes="build/census/classe
               twins="build/sig/twins.jsonl", draw="build/draw/draw.jsonl", bounds="config/boundaries.txt",
               walls="config/walls.txt", registry="config/dedup_registry.txt",
               scaffold="build/scaffold/scaffold.jsonl", scaffold_tracked="campaign/scaffold/scaffold.jsonl",
-              journal_scaffold="campaign/scaffold/journal.jsonl", journal="campaign/journal.jsonl", root=".")
-REQUIRED = ("funcs", "classes", "twins", "draw", "bounds", "walls")
+              journal_scaffold="campaign/scaffold/journal.jsonl", journal="campaign/journal.jsonl",
+              partners="campaign/x4/partners.tsv", root=".")
+REQUIRED = ("funcs", "classes", "twins", "draw", "bounds", "walls", "partners")
 SELFTEST = ".run/ledger-selftest"
 ASM = ("asm", "include_asm")
 LABELS = ("none", "length", "isel", "sched", "regalloc", "branch")  # plateau.classify's labels
@@ -158,6 +160,8 @@ def classes_of(inp, funcs, asm):
             a, b = find(key(*t["a"])), find(key(*t["b"]))
             if a != b:
                 parent[max(a, b, key=order)] = min(a, b, key=order)
+    with open(inp["partners"]) as f:
+        x4 = {key(*x.split("\t")[:2]) for x in f if x.strip()}
     comp = {}
     for k in nodes:
         comp.setdefault(find(k), []).append(k)
@@ -174,6 +178,8 @@ def classes_of(inp, funcs, asm):
             out[k] = f"family:{cls['family'][k]}"
         elif k in nodes:
             out[k] = "twin:" + pv(min((x for x in comp[find(k)] if x != k), key=order))
+        elif k in x4:
+            out[k] = "x4"
         else:
             out[k] = "unique"
     return out
@@ -380,6 +386,7 @@ def plant(root):
                                              state="nocompile"))],
         "journal_scaffold": [json.dumps(dict(wave="W0", pv=f"{P}:{v(5)}", verdict="fail", score="3/8", label="isel"))],
         "journal": [json.dumps(dict(wave="W1", pv=f"{P}:{v(5)}", verdict="plumbing", score="8/8", label="R2"))],
+        "partners": [f"{P}\t{v(i)}\t{fn[i][0]}\t8\t{'4' * 40}\tsrc/main/plant.c\tx4_{i}\tasm" for i in (0, 7)],
     }
     for k, lines in files.items():
         with open(inp[k], "w") as f:
@@ -387,7 +394,7 @@ def plant(root):
     want = [(0, f"dup:{K1}", "6/8", "jtbl-uncarved"), (1, f"dup:{K1}", "nocompile", f"member-of:{P}:{v(3)}"),
             (2, f"family:{K2}", "nocompile", f"wall:{wpass}"), (4, f"twin:{P}:{v(5)}", "nocompile", "undrawn"),
             (5, f"twin:{P}:{v(4)}", "8/8", "plumbing:R2"), (6, "vendor:LIBX.LIB/LG", "nocompile", "vendor"),
-            (7, "unique", "nocompile", "undrawn"), (8, "unique", "nocompile", f"member-of:{P}:{v(5)}")]
+            (7, "x4", "nocompile", "undrawn"), (8, "unique", "nocompile", f"member-of:{P}:{v(5)}")]
     text = "".join(f"{P}\t{v(i)}\t{fn[i][0]}\t{c}\t{cl}\tm2c\t{b}\n" for i, c, cl, b in want)
     return inp, text
 

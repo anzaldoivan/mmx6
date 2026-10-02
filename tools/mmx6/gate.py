@@ -709,7 +709,7 @@ def main():
     a = ap.parse_args()
     if a.self_test:
         return self_test()
-    if not (a.wave and re.fullmatch(r"W\d+|W-[a-z]+", a.wave)):
+    if not (a.wave and re.fullmatch(r"W\d+|W-[a-z0-9]+", a.wave)):
         ap.error("need --wave W<n>, or --self-test")
     return run(a.wave, a.root, a.journal, a.j, not a.no_propagate)[0]
 

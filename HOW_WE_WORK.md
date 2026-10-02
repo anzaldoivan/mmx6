@@ -41,7 +41,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 | probe | `mx.sh run make probe-ladder`; `probe.py <func> --prog p --src c --triple t` | masked compare to retail; `PIN …` |
 | decompile | `mx.sh run python3 tools/mmx6/decompile.py <func> [--prog p]` | m2c scaffold |
 | diff | `mx.sh run bash tools/mmx6/diff.sh <func>` (after `make expected`) | asm-differ; `DIFF <func> <n>`, rc 0 iff n=0 |
-| scanners | `mx.sh run python3 tools/mmx6/<t>.py --all\|--self-test`, t = corpus optscan bound2 census report sig walls draw (after `make extract build`) | → build/; tools-health rungs |
+| scanners | `mx.sh run python3 tools/mmx6/<t>.py --all\|--self-test`, t = corpus optscan bound2 census report sig walls draw validate (after `make extract build`) | → build/; tools-health rungs |
 | bank path | `mx.sh run python3 tools/mmx6/<t>.py`, t = bank propagate family_remap carve typecheck declsync x4share | usage: docs/ops/decomp-environment.md |
 | codegen | same, t = gccsrc dumps alloc_table repro codegen_map cookbook_check permute plateau | as bank path; map docs/codegen-map/README.md |
 | harness | `mx.sh run python3 tools/mmx6/harness.py --sampled\|--full\|--self-test` | pairs P1-P8 → build/harness/runs.log |

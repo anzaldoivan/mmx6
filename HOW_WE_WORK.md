@@ -24,9 +24,9 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 
 | Name | Command | Purpose |
 |---|---|---|
-| launch | `PY tools/launch.py --seed-only` | the pa-session's state detector; writes `.run/seed.md`; never typed by the developer |
+| launch | `PY tools/launch.py --seed-only` | state detector → `.run/seed.md` |
 | plan_edit | `PY tools/plan_edit.py` | the only writer of `PHASE_PLAN.md` (status, Changes, add/reopen) |
-| status | `PY tools/status.py` | `.run/status.json` for the statusline; INBOX consume; waiting flags |
+| status | `PY tools/status.py` | statusline `.run/status.json`; INBOX; waiting flags |
 | task_log | `PY tools/task_log.py` | lint and finish a task summary (`Verified:` required) |
 | research_add | `PY tools/research_add.py` | allocate a report id, write the index line |
 | rules_add | `PY tools/rules_add.py` | add, supersede, promote, retire a rule |
@@ -36,14 +36,15 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 | genend_index | `PY tools/genend_index.py` | assemble and lint a GenerationEnd |
 | commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes |
 | run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
-| extract | `mx.sh run make extract` | dump → ignored `extracted/retail/` + `manifest/retail.jsonl` |
+| extract | `mx.sh run make extract` | dump → `extracted/retail/` + `manifest/retail.jsonl` |
 | mx.sh | `bash tools/docker/mx.sh build\|sync\|pull <path>\|disc <dir>\|run <cmd>` | amd64 container `mmx6-build`; tree at /work, dump at /disc:ro |
 | probe | `mx.sh run make probe-ladder`; `probe.py <func> --prog p --src c --triple t` | masked compare to retail; `PIN …` |
 | decompile | `mx.sh run python3 tools/mmx6/decompile.py <func> [--prog p]` | m2c scaffold |
 | diff | `mx.sh run bash tools/mmx6/diff.sh <func>` (after `make expected`) | asm-differ; `DIFF <func> <n>`, rc 0 iff n=0 |
-| scanners | `mx.sh run python3 tools/mmx6/<t>.py --all\|--self-test`, t = corpus optscan bound2 census report sig (after `make extract build`) | → build/; rungs of mk/tools-health.mk |
-| harness | `mx.sh run python3 tools/mmx6/harness.py --sampled\|--full\|--self-test` | differential pairs P1-P7 → build/harness/runs.log |
-| toolchain-check | `mx.sh run make toolchain-check` | versions + cc1/maspsx smoke; rc≠0 on drift |
+| scanners | `mx.sh run python3 tools/mmx6/<t>.py --all\|--self-test`, t = corpus optscan bound2 census report sig walls draw (after `make extract build`) | → build/; rungs of mk/tools-health.mk |
+| bank path | `mx.sh run python3 tools/mmx6/<t>.py`, t = bank propagate family_remap carve typecheck declsync x4share | usage: docs/ops/decomp-environment.md |
+| harness | `mx.sh run python3 tools/mmx6/harness.py --sampled\|--full\|--self-test` | pairs P1-P8 → build/harness/runs.log |
+| toolchain-check | `mx.sh run make toolchain-check` | versions + cc1/maspsx smoke; rc≠0 drift |
 
 ## Skills <!-- roles: expert planner -->
 <!-- one line per captured workflow; the SKILL.md is the canonical text -->
@@ -52,7 +53,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 - container-scratch-not-synced — Mac .run/ never syncs; make container scratch in the container's .run/
 
 ## Paths <!-- roles: expert coder router planner review critic discuss auditor curator -->
-- Oracles (native Mac): static Ghidra 12.1.3 + psx_ldr, `make ghidra-import PYTHON=PY` (docs/ops/oracles.md)
+- Oracles (native Mac): Ghidra 12.1.3 + psx_ldr (docs/ops/oracles.md)
 - Data: dump `/Users/ThinkPad/GameInputs/megaman-x6/` (never under the repo) → volume `mmx6-disc` at /disc:ro (`mx.sh disc`)
 - Generated (never hand-edited, H1; ignored): `asm/`, `build/`, `expected/`, `extracted/`
 - Manifest: `manifest/retail.jsonl` (tracked; hashes only; firewall `required:`)
@@ -63,7 +64,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 - Build: `mx.sh sync && mx.sh run make fleet` (sync wipes /work); `mx.sh run make expected` → asm-differ baseline
 - Run: `make redux-smoke`, `tools/mmx6/redux/run.sh <lua>` (PCSX-Redux headless; docs/ops/oracles.md)
 - Test / the gate: `make fleet` (health runs `make tools-health`, harness `--sampled`) → rc 0 + last line `FLEET 57 of 57`, then `PY tools/audit_public.py` → rc 0
-- Exhaustive: after fleet, `mx.sh run make tools-health-full` (every self-test, harness `--full` incl. P3) → `TOOLS-HEALTH OK <k> rungs`
+- Exhaustive: after fleet, `mx.sh run make tools-health-full` (every self-test, harness `--full`) → `TOOLS-HEALTH OK <k> rungs`
 - Format: `mx.sh run make format-check` (rc 0); fix: `mx.sh run make format && mx.sh pull <paths>`
 
 ## Conventions & house style <!-- roles: expert coder router planner review critic discuss auditor curator -->
@@ -75,7 +76,7 @@ PY = /opt/homebrew/opt/python@3.14/bin/python3.14
 - Python: PY (3.14.7)
 - Pins (image, clang-format, splat64, binutils, cpp, cc1 set, maspsx, m2c, asm-differ): docs/ops/mmx6-hosts.md
 - Compiler pin: `gcc2.95.2-psx-aspsx2.86` = Makefile `TRIPLE`, all programs (docs/ops/compiler-pin.md)
-- Harness gotchas that bite here: `tools/audit_public.py --help` runs the full audit; a hook denies `cat` of product files (use Read)
+- Harness gotchas: `tools/audit_public.py --help` runs the full audit; a hook denies `cat` of product files (use Read)
 
 ## Docs map <!-- roles: expert coder router planner review critic discuss auditor curator -->
 - `docs/ops/INDEX.md` ops notes; `cookbook/INDEX.md` techniques; `rules/INDEX.md` rule texts

@@ -270,9 +270,10 @@ R4 (jtbl not carved, rodata needs placement) is not recoverable. Unrecovered →
 
 The free lane of X6 functions with an exact mmx4 partner (sozud/mmx4 @29b62af, AGPL-3.0, THIRD_PARTY.md; G102, G54).
 - `x4share.py --triple gcc2.95.2-psx-aspsx2.86 --partners` (container; clone `.run/mmx4`, objects
-  `.run/x4share/<triple>/obj/`, never tracked) → tracked `campaign/x4/partners.tsv`: one row per (X6 function, exact
-  X4 partner), sorted (prog, vram, src, func), tab-separated `<prog> <0xVRAM> <x6 func> <words> <exact key> <mmx4 src>
-  <mmx4 func> <state>` (x6 func, state: corpus row); exact = words equal except relocated fields (sig.py exact key).
+  `.run/x4share/<triple>/obj/`, never tracked) → tracked `campaign/x4/partners.tsv`: one row per X6 function with an
+  exact X4 partner, sorted (prog, vram), tab-separated `<prog> <0xVRAM> <x6 func> <words> <exact key> <mmx4 src>
+  <mmx4 func> <partners> <state>` (src, func = the first partner by (src, func), the one x4port ports; partners = their
+  count; x6 func, state: corpus row); exact = words equal except relocated fields (sig.py exact key).
   Line `X4SHARE partners <rows> rows; x6 <p> functions, open <o>, open keys <k>`. Names, addresses, keys, paths only.
 - `x4port.py --wave W-x4 [--root waves] [--pv P]... [--limit K]` → packs `<root>/W-x4/<prog>_<func>/` (pack.json,
   draft.c, verdict.json `status:"draft"`), as ## Packs; then `cards.py --probe-pack`, `gate.py --wave W-x4` as a lane
@@ -298,6 +299,10 @@ The free lane of X6 functions with an exact mmx4 partner (sozud/mmx4 @29b62af, A
   <n> classes skipped no-c-unit; include/mmx6/x4.h <b> blocks`. `--self-test` (our func_8001E78C as a renamed fake
   mmx4 source/object: names map back, pack probes match; bit flip → not exact; X6 addend +4 → other symbol) ends
   `X4PORT CONTROL OK`; in th-selftests.
+- `x4port.py --credits` (Mac or container, after a lane wave's banks are pulled): rewrites the marked block
+  `<!-- x4port credits -->` of THIRD_PARTY.md (first run: in place of the empty table and `*(none yet)*`), one row per
+  adapted file (include/mmx6/x4.h, each src/shared body opening with the attribution header): sozud/mmx4, pin,
+  AGPL-3.0, path, basis `exact signature <key12>, <src>:<func>`. Line `X4PORT CREDITS <n> rows`.
 
 ## Ledger
 

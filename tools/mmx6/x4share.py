@@ -15,8 +15,9 @@
          `X4SHARE exact <a> near <b> of <N> X6 functions; X4 side <x> functions from <f> of <F> C files; lib <l> game <g>`
   x4share.py --triple <name> --partners
       -> the same run, then keeps exact key -> [(mmx4 src, func)] and writes tracked campaign/x4/partners.tsv, one row
-         per (X6 function, exact X4 partner), sorted (prog, vram, src, func), tab-separated
-         `<prog> <0xVRAM> <x6 func> <words> <exact key> <mmx4 src> <mmx4 func> <state>` (x6 func, state: corpus row);
+         per X6 function with an exact X4 partner, sorted (prog, vram), tab-separated
+         `<prog> <0xVRAM> <x6 func> <words> <exact key> <mmx4 src> <mmx4 func> <partners> <state>` (src, func = the
+         first partner by (src, func); partners = their count; x6 func, state: corpus row);
          line `X4SHARE partners <rows> rows; x6 <p> functions, open <o>, open keys <k>` (open = state asm|include_asm,
          k = their distinct exact keys). Names, addresses, keys and mmx4 paths only (G12).
   x4share.py --self-test
@@ -231,7 +232,8 @@ def self_test():
 
 
 def write_partners(x6, objs, objdir, rows):
-    """partners.tsv rows per (X6 function, exact X4 partner); the X6 side's name and state from the corpus rows."""
+    """partners.tsv: one row per X6 function with an exact X4 partner (the first by (src, func) + the partner count);
+    the X6 side's name and state from the corpus rows."""
     base = os.path.abspath(objdir)
     by_key = {}
     for o in objs:
@@ -241,16 +243,17 @@ def write_partners(x6, objs, objdir, rows):
     out = []
     for s in x6:
         r = rows.get((s["prog"], s["vram"]), {})
-        for src, name in sorted(by_key.get(s["exact"], ())):
-            out.append((s["prog"], int(s["vram"], 16), r.get("name", "-"), s["words"], s["exact"], src, name,
-                        r.get("state", "-")))
-    out.sort(key=lambda x: (x[0], x[1], x[5], x[6]))
+        ps = sorted(by_key.get(s["exact"], ()))
+        if ps:
+            out.append((s["prog"], int(s["vram"], 16), r.get("name", "-"), s["words"], s["exact"], ps[0][0], ps[0][1],
+                        len(ps), r.get("state", "-")))
+    out.sort(key=lambda x: (x[0], x[1]))
     os.makedirs(os.path.dirname(PARTNERS), exist_ok=True)
     with open(PARTNERS, "w") as f:
-        for p, v, fn, w, k, src, name, st in out:
-            f.write(f"{p}\t0x{v:08X}\t{fn}\t{w}\t{k}\t{src}\t{name}\t{st}\n")
+        for p, v, fn, w, k, src, name, n, st in out:
+            f.write(f"{p}\t0x{v:08X}\t{fn}\t{w}\t{k}\t{src}\t{name}\t{n}\t{st}\n")
     x6f = {(x[0], x[1]) for x in out}
-    op = {(x[0], x[1]): x[4] for x in out if x[7] in OPEN}
+    op = {(x[0], x[1]): x[4] for x in out if x[8] in OPEN}
     print(f"X4SHARE partners {len(out)} rows; x6 {len(x6f)} functions, open {len(op)}, open keys {len(set(op.values()))}")
 
 

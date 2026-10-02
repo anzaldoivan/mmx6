@@ -8,7 +8,7 @@ INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", D_800E9860);
 #undef func_80041AB8
 #undef D_80075FD8
 
-INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800E99AC);
+#include "../shared/rock_08/func_800E99AC.c"
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800E99EC);
 
@@ -20,7 +20,7 @@ INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800E99EC);
 #undef func_80041AB8
 #undef D_80075FD8
 
-INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800E9B0C);
+#include "../shared/rock_08/func_800E9B0C.c"
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800E9B48);
 
@@ -142,7 +142,11 @@ INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800ED258);
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800ED4B0);
 
-INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800ED5C4);
+#define func_800EA1D8 func_800ED5C4
+#define D_800FAA64 D_800F58F0
+#include "../shared/rock_02/func_800EA1D8.c"
+#undef func_800EA1D8
+#undef D_800FAA64
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800ED610);
 
@@ -202,7 +206,11 @@ INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800EE7FC);
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800EEBF0);
 
-INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800EECFC);
+#define func_800EA1D8 func_800EECFC
+#define D_800FAA64 D_800F5B78
+#include "../shared/rock_02/func_800EA1D8.c"
+#undef func_800EA1D8
+#undef D_800FAA64
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800EED48);
 
@@ -320,7 +328,7 @@ INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800F1AEC);
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800F1CD8);
 
-INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800F1D54);
+#include "../shared/rock_08/func_800F1D54.c"
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800F1E48);
 
@@ -434,7 +442,7 @@ INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800F31A8);
 
 INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800F3230);
 
-INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800F32A8);
+#include "../shared/rock_08/func_800F32A8.c"
 
 #include "../shared/rock_08/func_800F32D8.c"
 

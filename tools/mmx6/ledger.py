@@ -386,7 +386,7 @@ def plant(root):
                                              state="nocompile"))],
         "journal_scaffold": [json.dumps(dict(wave="W0", pv=f"{P}:{v(5)}", verdict="fail", score="3/8", label="isel"))],
         "journal": [json.dumps(dict(wave="W1", pv=f"{P}:{v(5)}", verdict="plumbing", score="8/8", label="R2"))],
-        "partners": [f"{P}\t{v(i)}\t{fn[i][0]}\t8\t{'4' * 40}\tsrc/main/plant.c\tx4_{i}\tasm" for i in (0, 7)],
+        "partners": [f"{P}\t{v(i)}\t{fn[i][0]}\t8\t{'4' * 40}\tsrc/main/plant.c\tx4_{i}\t1\tasm" for i in (0, 7)],
     }
     for k, lines in files.items():
         with open(inp[k], "w") as f:

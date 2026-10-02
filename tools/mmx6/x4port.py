@@ -7,13 +7,18 @@
          member (corpus asm|include_asm): skipped `class gated` (a gated registry row of the key) or `class banked <pv>`
          (a c|c-empty member: propagate's job) or `skipped no-c-unit` (no member bank can take); else the representative,
          its lowest (prog, vram) member that is include_asm in a config/c_units.txt unit (--pv: among those pvs), is
-         ported from its first portable partner (sorted src, func) into <root>/<wave>/<prog>_<func>/: pack.json
+         ported from its partners.tsv partner (the first by src, func) into <root>/<wave>/<prog>_<func>/: pack.json
          {pv,prog,func,tu,words}, draft.c, verdict.json {pv,status:"draft",score:"-",lever:"-",notes}. --limit K: a
          deterministic stride sample of K representatives. Writes include/mmx6/x4.h (every run, the union of the run's
          packs' type/macro blocks; a pack whose block differs from an earlier pack's same-named block is skipped
          `x4.h conflict <name>`). Lines `X4PORT <pv> drafted <mmx4 src>:<func>` | `X4PORT <pv> skipped <why>`, last
          `X4PORT <wave> <k> packs of <o> open; <n> classes skipped no-c-unit; include/mmx6/x4.h <b> blocks`
          (o = open X6 functions in partners.tsv).
+  x4port.py --credits
+      -> (re)writes the marked block (`<!-- x4port credits -->` .. `<!-- /x4port credits -->`, else in place of
+         `*(none yet)*` and the table head above it) of THIRD_PARTY.md: the components table, one row per adapted file
+         (include/mmx6/x4.h, each src/shared/**/*.c that opens with the attribution header), sorted by path. Line
+         `X4PORT CREDITS <n> rows`.
   x4port.py --self-test
       -> planted control (C0054) in .run/x4port-selftest/: our banked func_8001E78C (src/SLUS_013.95/120A0.c) as a fake
          mmx4 source and object, every D_8/func_8 name renamed (Q_8/fanc_8, the object's strtab patched in place, same
@@ -732,7 +737,7 @@ def lane(wave, root, pvs, limit):
     funcs = {(r["prog"], r["vram"]): r for r in jl(FUNCS)}
     rows = [x.rstrip("\n").split("\t") for x in open(PARTNERS) if x.strip()]
     partners, key_of = {}, {}
-    for p, v, _, _, k, src, fn, _ in rows:
+    for p, v, _, _, k, src, fn, _, _ in rows:
         partners.setdefault((p, v), []).append((src, fn))
         key_of[(p, v)] = k
     opn = sorted((pv for pv in key_of if funcs.get(pv, {}).get("state") in OPEN), key=lambda x: (x[0], int(x[1], 16)))
@@ -799,6 +804,42 @@ def lane(wave, root, pvs, limit):
     for rep, what in sorted(lines, key=lambda x: (x[0][0], int(x[0][1], 16))):
         print(f"X4PORT {rep[0]}:{rep[1]} {what}")
     print(f"X4PORT {wave} {k} packs of {len(opn)} open; {nounit} classes skipped no-c-unit; {X4H} {len(blocks)} blocks")
+    return 0
+
+
+# ---- credits ---------------------------------------------------------------------------------------------------------
+
+THIRD = "THIRD_PARTY.md"
+CREDITS = ("<!-- x4port credits -->", "<!-- /x4port credits -->")
+TABLE = ("| Component | Upstream | Commit / version | License | Paths here | Basis (proof it is shared) |\n"
+         "|---|---|---|---|---|---|\n")
+ADAPTED = re.compile(r"/\* Adapted from sozud/mmx4 @(\w+) (.+?), AGPL-3\.0; proven shared with X6 by "
+                     r"(?:exact signature (\w+)|the exact signature each including draft names)")
+
+
+def credits():
+    rows = []
+    for f in [X4H] + sorted(str(x) for x in Path("src/shared").rglob("*.c")):
+        if not os.path.isfile(f):
+            continue
+        head = Path(f).read_text().split("*/", 1)[0]  # the leading comment, reflow-proof (clang-format)
+        m = ADAPTED.match(" ".join(head.split()))
+        if not m:
+            continue
+        pin, what, key = m.groups()
+        basis = f"exact signature `{key}`, `{what}`" if key else f"types and macros of `{what}` used by the rows below"
+        rows.append(f"| mmx4 port | [sozud/mmx4](https://github.com/sozud/mmx4) | `{pin}` | AGPL-3.0 | `{f}` | {basis} |")
+    block = CREDITS[0] + "\n" + TABLE + "".join(r + "\n" for r in rows) + CREDITS[1]
+    text = Path(THIRD).read_text()
+    if CREDITS[0] in text:
+        a, b = text.index(CREDITS[0]), text.index(CREDITS[1]) + len(CREDITS[1])
+    elif TABLE + "\n*(none yet)*" in text:
+        a = text.index(TABLE + "\n*(none yet)*")
+        b = a + len(TABLE + "\n*(none yet)*")
+    else:
+        sys.exit(f"x4port: {THIRD} has neither the credits block nor the empty table")
+    Path(THIRD).write_text(text[:a] + block + text[b:])
+    print(f"X4PORT CREDITS {len(rows)} rows")
     return 0
 
 
@@ -894,10 +935,13 @@ def main():
     ap.add_argument("--root", default="waves")
     ap.add_argument("--pv", action="append", default=[], help="port only the class of this prog:0xVRAM (repeatable)")
     ap.add_argument("--limit", type=int, default=0, help="a deterministic stride sample of K representatives")
+    ap.add_argument("--credits", action="store_true", help=f"rewrite the mmx4 credits table of {THIRD}")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         sys.exit(self_test())
+    if a.credits:
+        sys.exit(credits())
     if not (a.wave and re.fullmatch(r"W-[a-z0-9]+", a.wave)):
         ap.error("--wave W-<lane> required")
     sys.exit(lane(a.wave, a.root, a.pv, a.limit))

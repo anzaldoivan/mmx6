@@ -28,7 +28,9 @@ INCLUDE_ASM("asm/rock_27/nonmatchings/E9860", func_800E9CB4);
 
 INCLUDE_ASM("asm/rock_27/nonmatchings/E9860", func_800E9DE0);
 
-INCLUDE_ASM("asm/rock_27/nonmatchings/E9860", func_800E9E3C);
+#define func_800E9E80 func_800E9E3C
+#include "../shared/rock_05/func_800E9E80.c"
+#undef func_800E9E80
 
 #define func_8003744C func_800E9E68
 #define D_80073C1C D_800EB41C

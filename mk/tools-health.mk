@@ -3,7 +3,7 @@
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
 TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
-	th-walls th-draw th-cites
+	th-walls th-draw th-cites th-dumps
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -105,6 +105,12 @@ th-draw: th-report th-sig th-walls
 # cookbook/C*.md (last line `CITES OK <c> of <c> citations`).
 th-cites:
 	$(PYTHON) tools/mmx6/gccsrc.py --self-test && $(PYTHON) tools/mmx6/gccsrc.py --check
+
+# Per-pass cc1 dumps (tools/mmx6/dumps.py; needs the built C objects): planted function's every -da suffix and an
+# empty .c refused CPP-EMPTY in .run/dumps-selftest/, then 120A0's dumps with its .text equal to the built object
+# (last line `DUMPS TEXT SLUS_013.95/120A0 words <a> built <b> identical`).
+th-dumps:
+	$(PYTHON) tools/mmx6/dumps.py --self-test && $(PYTHON) tools/mmx6/dumps.py --tu SLUS_013.95/120A0
 
 th-propagate-full: th-propagate
 	@set -e; for k in $(PROPAGATE_KEYS); do $(PYTHON) tools/mmx6/propagate.py $$k --dry-run; done

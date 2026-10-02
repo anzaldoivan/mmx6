@@ -3,7 +3,7 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check split build build-bins clean extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check health tools-health fleet expected probe-ladder
+.PHONY: format format-check split build build-bins clean extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check health tools-health fleet expected probe-ladder dumps
 
 # Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
 PYTHON ?= python3
@@ -164,6 +164,11 @@ expected: build
 # unique `PIN <triple> <k> of <k>`.
 probe-ladder:
 	$(PYTHON) tools/mmx6/probe.py --ladder
+
+# Per-pass cc1 dumps of one C unit (container; tools/mmx6/dumps.py splices the C rule's dry-run recipe, adds -da):
+# `make dumps PROG=<prog> TU=<tu>` -> build/dumps/<prog>/<tu>/<tu>.<suffix>, `.text` checked against the built object.
+dumps:
+	$(PYTHON) tools/mmx6/dumps.py --tu $(PROG)/$(TU)
 
 toolchain-check:
 	sh tools/mmx6/toolchain_check.sh "$(SPLAT_PIN)" "$(BINUTILS_PIN)" "$(CPP_PIN)" "$(CC1_SET)" "$(MASPSX_PIN)" \

@@ -25,8 +25,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 WALLS = "config/walls.txt"
 FUNCS = "build/corpus/functions.jsonl"
 SELFTEST = ".run/walls-selftest"
-PASSES = ("rtl", "jump", "cse", "addressof", "gcse", "loop", "cse2", "flow", "combine", "regmove", "sched", "lreg",
-          "greg", "flow2", "peephole2", "sched2", "stack", "dbr", "mach", "maspsx")
+sys.path.insert(0, HERE)
+from dumps import SUFFIXES  # noqa: E402
+PASSES = SUFFIXES + ("maspsx",)  # cc1 2.95.2 -da suffixes (dumps.py, observed T2) + maspsx; was + peephole2 stack
 REF = re.compile(r"^[^:\s]+:[0-9]+$")
 
 
@@ -136,7 +137,7 @@ def self_test():
     ok(check(good, FUNCS, quiet) == 0, "planted valid row passes --check")
     ok(not bankable(f0["prog"], f0["vram"], good)[0], f"planted wall {f0['prog']}:{f0['vram']} -> no")
     ok(bankable(nb["prog"], nb["vram"], good)[0], f"neighbour {nb['prog']}:{nb['vram']} -> yes")
-    for name, row in (("pass", f'{f0["prog"]} {f0["vram"]} nosuchpass dump.combine:12 "x"'),
+    for name, row in (("pass", f'{f0["prog"]} {f0["vram"]} peephole2 dump.combine:12 "x"'),
                       ("ref", f'{f0["prog"]} {f0["vram"]} combine dump.combine "x"'),
                       ("cfunc", f'{cf["prog"]} {cf["vram"]} combine dump.combine:12 "x"')):
         p = plant(f"bad_{name}.txt", row)

@@ -518,7 +518,7 @@ def self_test():
             if final is None:
                 ls = text.split("\n")
                 i = next(k for k, x in enumerate(ls) if x.startswith("{") or x.rstrip().endswith("{")) + 1
-                final = "\n".join(ls[:i] + ["    /* harvest control: an inert rider */"] + ls[i:])
+                final = "\n".join(ls[:i] + ["    int harvest_rider; /* inert: an unused local, compiled */"] + ls[i:])
             else:
                 final = final.replace(ename, name)
             pack = os.path.join(SELFTEST, "packs", f"{prog}_{name}")

@@ -8,7 +8,9 @@
       -> planted controls in .run/permute/ (xor operand swap must reach masked 0; stock contrast
          `PERMUTE STOCK <n>`; register-pin hide/restore; K&R refusal; upstream clean); last line `PERMUTE CONTROL OK`
 
-One cycle: .run/permute/<func>/ gets base.c (the draft through the product cpp flags), target.o (retail words from
+One cycle: .run/permute/<func>/ gets base.c (the draft through the cpp stage of the C rule's dry-run recipe for the
+draft, `make -n`: the Makefile's CPPFLAGS, never a copied list, plus -P), cflags (probe.draft_cflags: the draft TU's
+cc1 flags, CFLAGS_<tu> override included, which compile.sh passes as CFLAGS_cand; absent outside a C TU), target.o (retail words from
 probe.retail_words as `.word` data, symbol <func>), compile.sh (tools/mmx6/permuter/compile.sh: the product C rule),
 settings.toml, mmx6.json {func, vram}; then `masked_scorer.py <permdir> -j1 --seed S` runs as a subprocess.
 Its stdout (permuter.log) is split on \\r and \\n; `iteration N, ...` lines are counted and the child is killed by
@@ -33,13 +35,13 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, "tools", "mmx6"))
 sys.path.insert(0, os.path.join(ROOT, "tools", "mmx6", "permuter"))
+import dumps  # noqa: E402
 import probe  # noqa: E402
 import masked_scorer  # noqa: E402
 
 RUN = ".run/permute"
 COMPILE_SH = "tools/mmx6/permuter/compile.sh"
 SCORER = "tools/mmx6/permuter/masked_scorer.py"
-CPP = ["mipsel-linux-gnu-cpp", "-P", "-nostdinc", "-undef", "-D__GNUC__=2", "-DPSX", "-Iinclude"]  # Makefile CPPFLAGS
 AS = ["mipsel-linux-gnu-as", "-EL", "-march=r3000", "-mabi=32", "-G0"]
 ITER_RE = re.compile(rb"iteration (\d+),")
 BASE_RE = re.compile(rb"base score = (\d+)")
@@ -76,6 +78,14 @@ def restore_pins(text, pins):
     for p in pins:
         text = text.replace(f"PERM_IGNORE({p})", p, 1)
     return text
+
+
+def cpp_argv(src):
+    """The C rule's cpp stage for src (make dry run, so the Makefile's CPPFLAGS), input dropped, plus -P."""
+    stage = dumps.recipe(src)[0]
+    if stage[-1] != src:
+        raise RuntimeError(f"cpp stage of {src} does not end in its input: {stage[-1]}")
+    return stage[:1] + ["-P"] + stage[1:-1]
 
 
 def write_target(permdir, func, words):
@@ -116,7 +126,12 @@ def cycle(func, draft, words, vram, iterations, seed, stop_on_zero=False):
     with open(os.path.join(permdir, "mmx6.json"), "w") as f:
         json.dump({"func": func, "vram": f"0x{vram:08X}"}, f)
     write_target(permdir, func, words)
-    base = subprocess.run(CPP + [draft], check=True, capture_output=True, text=True).stdout
+    cflags = probe.draft_cflags(draft)
+    if cflags:
+        with open(os.path.join(permdir, "cflags"), "w") as f:
+            f.write(" ".join(cflags))
+        print(f"PERMUTE CFLAGS {func} {' '.join(cflags)}", flush=True)
+    base = subprocess.run(cpp_argv(draft) + [draft], check=True, capture_output=True, text=True).stdout
     if is_kr(base, func):
         print(f"PERMUTE REFUSED K&R {func}", flush=True)
         res["refused"] = True

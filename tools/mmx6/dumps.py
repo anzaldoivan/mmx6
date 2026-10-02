@@ -33,10 +33,10 @@ SUFFIXES = ("rtl", "jump", "cse", "addressof", "gcse", "loop", "cse2", "bp", "fl
 PLANT = "extern int g(int);\nint f(int a)\n{\n    int b = a * 3;\n    if (g(a)) b += a;\n    return b + g(b);\n}\n"
 
 
-def recipe(c):
-    """[cpp, cc1, maspsx, as] argv lists of the C rule for repo-relative c, from make's dry run."""
-    p = subprocess.run([os.environ.get("MAKE", "make"), "-s", "-n", "-B", f"build/{c}.o"], capture_output=True,
-                       text=True)
+def recipe(c, extra=()):
+    """[cpp, cc1, maspsx, as] argv lists of the C rule for repo-relative c, from make's dry run (extra: make args)."""
+    p = subprocess.run([os.environ.get("MAKE", "make"), "-s", "-n", "-B", f"build/{c}.o", *extra],
+                       capture_output=True, text=True)
     if p.returncode != 0:
         raise RuntimeError(f"make -n build/{c}.o rc {p.returncode}: {p.stderr.strip()[-200:]}")
     for line in p.stdout.splitlines():

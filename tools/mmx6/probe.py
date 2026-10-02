@@ -12,13 +12,14 @@
          `SELF-TEST OK` (rc 0) or `SELF-TEST FAIL` (rc 1)
 
 Compiles through the product C rule (`make -s -B TRIPLE=<t> build/<src>.o`), serially, copying each object to
-.run/probe/<t>/. Retail extent: splat glabel..endlabel (or next glabel) under asm/<p>/ (a body
-#included from src/shared/: its build/corpus/functions.jsonl row); bytes from the yaml
+.run/probe/<t>/; a stored draft drafts/<p>/<func>.c gets its TU's CFLAGS_<tu> override (draft_cflags).
+Retail extent: splat glabel..endlabel (or next glabel) under asm/<p>/ (a body #included from src/shared/: its build/corpus/functions.jsonl row); bytes from the yaml
 target_path at segment start + (vram - segment vram); both sides trimmed to the last `jr $ra` + delay slot (C0021).
 Relocated fields of the compiled .o (.rel.text) are masked on both sides: R_MIPS_26 low 26 bits, HI16/LO16/GPREL16
 low 16 bits. Firewall G12: prints counts and offsets only, never bytes, words or disassembly; scratch under .run/.
 """
 import argparse
+import glob
 import json
 import os
 import re
@@ -26,6 +27,9 @@ import shutil
 import struct
 import subprocess
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import dumps  # noqa: E402  (the C rule's dry-run recipe)
 
 JR_RA = 0x03E00008
 MASKS = {4: 0x03FFFFFF, 5: 0xFFFF, 6: 0xFFFF, 7: 0xFFFF}  # R_MIPS_26, HI16, LO16, GPREL16
@@ -206,13 +210,32 @@ def elf_function(path, func):
     return trim(words), masks
 
 
+def draft_cflags(src, triple=None):
+    """A stored draft drafts/<prog>/<func>.c compiles under its function's TU flags: the cc1 args of the C rule's
+    dry-run recipe for src/<prog>/<tu>.c (tu = the asm/<prog>/nonmatchings/<tu>/ holding <func>.s), so a CFLAGS_<tu>
+    override (config/carve.<prog>.mk) carries over; None outside drafts/ or when <func> is in no C TU. Never re-typed."""
+    m = re.search(r"(?:^|/)drafts/([^/]+)/([A-Za-z_]\w*)\.c$", src)
+    if not m:
+        return None
+    prog, func = m.groups()
+    find_extent(prog, func)  # splits the program first when asm/ is missing
+    hits = sorted(glob.glob(f"asm/{prog}/nonmatchings/*/**/{func}.s", recursive=True))
+    tu_c = f"src/{prog}/{hits[0].split('/')[3]}.c" if hits else None
+    if not tu_c or not os.path.isfile(tu_c):
+        return None
+    return dumps.recipe(tu_c, [f"TRIPLE={triple}"] if triple else [])[1][1:]
+
+
 def compile_obj(src, triple):
     obj = f"build/{src}.o"
     outdir = f".run/probe/{triple}"
     os.makedirs(outdir, exist_ok=True)
     log = os.path.join(outdir, os.path.basename(src) + ".log")
+    cflags = draft_cflags(src, triple)
+    over = [f"CFLAGS_{os.path.basename(src)[:-2]}={' '.join(cflags)}"] if cflags else []
     with open(log, "w") as lf:
-        rc = subprocess.run(["make", "-s", "-B", f"TRIPLE={triple}", obj], stdout=lf, stderr=subprocess.STDOUT).returncode
+        rc = subprocess.run(["make", "-s", "-B", f"TRIPLE={triple}", obj] + over, stdout=lf,
+                            stderr=subprocess.STDOUT).returncode
     if rc != 0:
         print(f"probe: compile failed under {triple} (rc {rc}), log {log}", file=sys.stderr)
         return None

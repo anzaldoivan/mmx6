@@ -28,9 +28,11 @@ Every lane has a cadence and a cap (G39).
 6. Fan-out: one coder per card; drafts pushed as packs (`mx.sh push waves/W<n>/…`).
 7. Gate the directory: `gate.py --wave W<n>`.
 8. Recover: the gate's ladder (## Recovery); plumbing stops re-gated, never redrafted.
-9. One `make fleet` from a clean rebuild.
-10. Journal: pull `src/`, the registry, `campaign/journal.jsonl` and `campaign/harvest/` before any sync.
-11. Harvest gate: `--inert-wave W<n>`, `--record` per live lever, `--sweep` per mechanical idiom, `--widen W<n>`,
+9. Ledger: `ledger.py --build` (after the gate's banks; needs corpus, census, sig and a default `draw.py` run), pull
+   `campaign/ledger.tsv` (## Ledger).
+10. One `make fleet` from a clean rebuild.
+11. Journal: pull `src/`, the registry, `campaign/journal.jsonl` and `campaign/harvest/` before any sync.
+12. Harvest gate: `--inert-wave W<n>`, `--record` per live lever, `--sweep` per mechanical idiom, `--widen W<n>`,
     `--gate W<n>` (stamps `campaign/harvest/W<n>.ok`, which the next draw needs).
 
 ## Validator
@@ -261,3 +263,33 @@ R4 (jtbl not carved, rodata needs placement) is not recoverable. Unrecovered →
   trivial → match score 0 (retail extent equal to probe.retail_words), delay slot `addiu $v0, $zero, 1` → compile
   score > 0, a planted syntax error → nocompile (score null), a re-run adds no rows, `--packs` writes exactly the match's
   pack. Ends `SCAFFOLD CONTROL OK` | `SCAFFOLD CONTROL FAIL <cases>` rc 1. Rung `th-scaffold`.
+
+## Ledger
+
+`tools/mmx6/ledger.py --build | --check | --self-test [--ledger P]` (container, stdlib; T5.c4) →
+`campaign/ledger.tsv` (tracked; names, addresses, numbers, keys, our draft paths only, G12). One row per corpus
+asm|include_asm function, sorted (prog, vram), tab-separated `<prog> <vram 0x%08X> <func> <class> <closeness> <best draft>
+<blocker>`. Run `ledger.py --build` after every gate's banks, before `make fleet`; inputs `build/corpus/functions.jsonl`,
+`build/census/classes.jsonl`, `build/sig/twins.jsonl`, `build/draw/draw.jsonl` (a default `draw.py` run, after
+`report.py --all`), `config/boundaries.txt`, `config/walls.txt`, `config/dedup_registry.txt`, the scaffold rows
+(`build/scaffold/scaffold.jsonl`, else `campaign/scaffold/scaffold.jsonl`), the journals
+(`campaign/scaffold/journal.jsonl`, then `campaign/journal.jsonl`) and tracked `drafts/<prog>/<func>.c`.
+- class, first that holds: lane lib → `vendor:<LIB>/<tu>` (LIB from the `config/boundaries.txt` lib row holding the
+  vram, else `unproven`); census dup class ≥ 2 → `dup:<key>`; census family ≥ 2 → `family:<key>`; exact sig twin →
+  `twin:<pv>` (lowest other member of its exact-twin component); `x4` (mmx4 exact partner; in the vocabulary, never
+  assigned yet: x4share.py prints counts only); else `unique`.
+- closeness: `m/n` (m matched words) of the best (m/n, then m) of the scaffold row (m = max(0, n − score)), journal
+  scores, the tracked draft compiled and masked-scored; `nocompile` if none compiled.
+- best draft: the tracked `drafts/<prog>/<func>.c`, else `m2c` (regenerable by the pinned scaffold, never tracked).
+- blocker, first that holds: `vendor` (lane lib, G56); `jtbl-uncarved` | `opt-mismatch` (draw L1); `wall:<pass>`
+  (walls.txt row); the latest journal record: body fail → `plateau:<label>` (plateau.py: none, length, isel, sched,
+  regalloc, branch), plumbing → `plumbing:R<k>` (probe matched, bank stopped at R<k>; a fail `hash` = R5) or
+  `plumbing:refused` (bank refused, a different shared body, apply-back conflict); the tracked draft's plateau label →
+  `plateau:<label>`; draw L2 → `member-of:<pv>` (registry exemplar, banked twin or cluster head); else `undrawn`
+  (never drafted; closeness from the scaffold lane).
+- `--check` → `LEDGER BAD <pv> <why>` per missing asm function, C or non-corpus row, row outside the grammar, best
+  draft absent or refused by verbatim.check; `LEDGER classes <head> <k> …`, `LEDGER blockers <head> <k> …`; last
+  `LEDGER OK <r> rows; 0 missing, 0 malformed` rc 0 | `LEDGER FAIL …` rc 1. `--self-test` (`.run/ledger-selftest/`,
+  fictional program) ends `LEDGER CONTROL OK`. Rung `th-ledger`.
+- census.py prints `CENSUS stubs <s> of <a> asm functions (ledgered <l>)` (stub = asm|include_asm with no ledger row)
+  before its last line, also in `build/census/stubs.txt` (harvest.py's denominator).

@@ -5,6 +5,8 @@
       -> build/census/classes.jsonl {"kind":"dup|family","key","size","members":[[prog,vram],...],"reach"}, every
          fleet-wide class incl. singletons (size = words, reach = distinct programs), sorted (kind, key); stdout per
          lane (game, lib: classes recomputed on that lane's rows) and fleet, every line ending `of <N> functions`;
+         then `CENSUS stubs <s> of <a> asm functions (ledgered <l>)` (stub = asm|include_asm row with no
+         campaign/ledger.tsv row; the line also written to build/census/stubs.txt);
          last line `CENSUS dup_classes=<a> families=<b> reach_size=<c>/16 unique_tail=<d> of <N>` (fleet-wide).
   census.py --self-test
       -> planted functions assembled with the build's assembler (.run/census/selftest) through the real reader:
@@ -36,6 +38,8 @@ from probe import MASKS  # noqa: E402
 
 FUNCS = "build/corpus/functions.jsonl"
 OUT = "build/census"
+LEDGER = "campaign/ledger.tsv"
+STUBS = "build/census/stubs.txt"
 SELFTEST = ".run/census/selftest"
 READELF = "mipsel-linux-gnu-readelf"
 AS = ["mipsel-linux-gnu-as", "-EL", "-march=r3000", "-mtune=r3000", "-mabi=32", "-no-pad-sections", "-G0"]
@@ -233,6 +237,20 @@ def load_rows():
     return sorted(rows, key=lambda r: (r["prog"], int(r["vram"], 16)))
 
 
+def stubs(rows):
+    """The `CENSUS stubs` line (stub = asm|include_asm row with no campaign/ledger.tsv row), also written to STUBS."""
+    led = set()
+    if os.path.isfile(LEDGER):
+        with open(LEDGER) as f:
+            led = {(t[0], int(t[1], 16)) for t in (x.split("\t") for x in f.read().splitlines() if x.strip())}
+    asm = [(r["prog"], int(r["vram"], 16)) for r in rows if r["state"] in ("asm", "include_asm")]
+    n = sum(k in led for k in asm)
+    line = f"CENSUS stubs {len(asm) - n} of {len(asm)} asm functions (ledgered {n})"
+    with open(STUBS, "w") as f:
+        f.write(line + "\n")
+    return line
+
+
 def census():
     rows = load_rows()
     rows = keyed(rows, read_words(rows))
@@ -241,6 +259,7 @@ def census():
         print("\n".join(report(lane, [r for r in rows if r["lane"] == lane])[0]))
     lines, s = report("fleet", rows)
     print("\n".join(lines))
+    print(stubs(rows))
     print(f"CENSUS dup_classes={s['d']} families={s['f']} reach_size={s['cells']}/{len(REACH) * len(SIZE)} "
           f"unique_tail={s['tail']} of {s['n']}")
     return 0

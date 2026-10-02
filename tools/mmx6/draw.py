@@ -21,7 +21,8 @@
          `DRAW HARVEST-MISSING W<n-1>` rc 2; W0 needs no stamp. Then the audit (its EXCLUDE AUDIT line; stale -> rc 2).
          difficulty: difficulty.json rank order. leverage: U by payoff = words x (1 + m) desc, m = distinct other U
          functions sharing f's census dup class or family (build/census/classes.jsonl) or an exact twin; ties by
-         closeness (build/scaffold/scaffold.jsonl `score` ascending; no file/row = last), then (prog, vram).
+         closeness (build/scaffold/scaffold.jsonl, else campaign/scaffold/scaffold.jsonl; `score` ascending; no
+         file/row = last), then (prog, vram).
          --band keeps lo <= corpus words <= hi (inclusive) before the verdicts. Verdicts L1-L4 as below over the ranked
          candidates (components over U). Stdout `DRAW-DETAIL …`, last `DRAW refused <r> of <n> (…); drawn <k>`
          (n = candidates after the band). No W<n>.txt on any refusal (G12: names, addresses, counts only).
@@ -66,7 +67,7 @@ INPUTS = dict(diff="build/reports/difficulty.json", funcs="build/corpus/function
               registry="config/dedup_registry.txt", twins="build/sig/twins.jsonl", walls="config/walls.txt",
               exclude="config/draw_exclude.txt", makefile="Makefile", triples="config/triples.txt",
               classes="build/census/classes.jsonl", scaffold="build/scaffold/scaffold.jsonl",
-              harvest="campaign/harvest", wdir="build/draw")
+              scaffold_tracked="campaign/scaffold/scaffold.jsonl", harvest="campaign/harvest", wdir="build/draw")
 AUDIT_IN = ("funcs", "bounds", "pin", "registry", "twins", "walls", "exclude", "makefile", "triples")
 OUT = "build/draw/draw.jsonl"
 SELFTEST = ".run/draw-selftest"
@@ -377,8 +378,9 @@ def leverage(inp, keys, funcs, twins):
             tw.setdefault(a, set()).add(b)
             tw.setdefault(b, set()).add(a)
     close = {}
-    if os.path.isfile(inp["scaffold"]):
-        for r in jl(inp["scaffold"]):
+    sc = inp["scaffold"] if os.path.isfile(inp["scaffold"]) else inp["scaffold_tracked"]  # sync wipes build/
+    if os.path.isfile(sc):
+        for r in jl(sc):
             p, _, v = r["pv"].rpartition(":")
             if r.get("score") is not None:
                 close[(p, hexs(v))] = r["score"]

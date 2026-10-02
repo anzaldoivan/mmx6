@@ -4,7 +4,7 @@
 
 TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
 	th-walls th-draw th-validate th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau th-journal th-cards \
-	th-verbatim th-harvest th-scaffold
+	th-verbatim th-harvest th-scaffold th-ledger
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -185,6 +185,13 @@ th-harvest:
 # pack). No real run here: `scaffold.py --all` is the detached lane run (docs/ops/campaign.md ## Scaffold lane).
 th-scaffold: th-corpus
 	$(PYTHON) tools/mmx6/scaffold.py --self-test
+
+# The ledger (tools/mmx6/ledger.py): planted inputs in .run/ledger-selftest/ (every class/blocker rule; a missing
+# function, a C function's row, an unknown blocker, an INCLUDE_ASM best draft each refused), then campaign/ledger.tsv
+# against the corpus (one well-formed row per asm function). Rebuilt by `ledger.py --build` (docs/ops/campaign.md ## Ledger).
+th-ledger: th-corpus
+	$(PYTHON) tools/mmx6/ledger.py --self-test
+	$(PYTHON) tools/mmx6/ledger.py --check
 
 # The wave gate (tools/mmx6/gate.py; full chain only: it plants and banks in /work like bank.py's self-test): planted
 # exe + overlay members in .run/gate-selftest/ (bank, define recovery, plateau-labelled fail, MISSING asm, two

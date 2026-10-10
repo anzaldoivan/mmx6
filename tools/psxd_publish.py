@@ -16,6 +16,11 @@
     publish.py release --summary TEXT [--repo DEV] [--rev REV] [--ack-new] [--dry-run] [--push]
                                           DEV's listed files at REV -> branch release/<sha10> in the public cache, one
                                           reproducible commit (Release-Of/-Tree/-Base trailers); developer only
+    publish.py ship --summary TEXT [--repo DEV] [--rev REV] [--ack-new] [--dry-run] [--no-wait] [--timeout MIN]
+                    [--replace] [--merge-reviewed]
+                                          a release end to end: -dev's CI, the gate, the byte build and the game-free
+                                          CI of the projection, the PR, its checks, the merge, public main; resumable;
+                                          developer only (--dry-run stops before the push)
     publish.py import [--repo DEV] [--accept-governance] [--skip SHA ...]
                                           public contributor commits not yet in DEV -> one import commit each, written
                                           to the cache only (refs/psxdecomp/import); touches no DEV ref or worktree
@@ -25,6 +30,14 @@
     publish.py verify-pr N [--merge] [--repo DEV]
                                           a public PR's required checks, their provenance and its claims; --merge squashes
     publish.py ci-log FILE                the last 60 lines of a build log that carry no asm, hex dump or instruction
+    publish.py list [--draft] [--rev REV] [--repo DEV]
+                                          the files the list publishes at REV; --draft: a first list (the tracked files
+                                          outside the deny set, folded to `dir/`), and what it would leave behind
+    publish.py ci-sim [--workflow NAME] [--projection] [--rev REV] [--private DIR] [--image REF] [--repo DEV]
+                                          the workflow's `run:` steps as written, on a fresh clone of REV or on its
+                                          release projection: in a clean ubuntu:24.04 container, or on this machine
+                                          when the steps start containers themselves (build.yml; --private: a local
+                                          <game>-private, --image: the toolchain image in [public].image's place)
     publish.py --self-test
 
 One file, standard library only, no import from the plugin: S10 and /psxdecomp:upgrade copy it byte for byte into a
@@ -48,10 +61,12 @@ import json
 import os
 import pathlib
 import re
+import shlex
 import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import tomllib
 import urllib.parse
 
@@ -1290,6 +1305,9 @@ def projection(cache, dev, rev: str):
     return write_tree(cache, want), want, probs
 
 
+_RELEASE_TREES: dict[tuple[str, str, str], str] = {}     # (cache, dev, Release-Of) -> its projection: a commit is fixed
+
+
 def history(cache, dev, main) -> tuple[list[tuple[str, str, str]], list[str]]:
     """(releases [(public sha, Release-Of, Release-Tree)], contributor commits) of public main's first-parent
     history, oldest first. A release has the `Release: ` subject, the Of and Tree trailers, a Tree that is the
@@ -1309,7 +1327,10 @@ def history(cache, dev, main) -> tuple[list[tuple[str, str, str]], list[str]]:
         ok = subj.startswith("Release: ") and HEX40.match(of) and HEX40.match(tree) and of not in used
         if ok:
             if _git(dev, "cat-file", "-e", of + "^{commit}").returncode == 0:
-                ok = projection(cache, dev, of)[0] == tree
+                key = (str(cache), str(dev), of)
+                if key not in _RELEASE_TREES:
+                    _RELEASE_TREES[key] = projection(cache, dev, of)[0]
+                ok = _RELEASE_TREES[key] == tree
             else:
                 ok = _must(cache, "rev-parse", c + "^{tree}") == tree
         if ok:
@@ -1376,11 +1397,12 @@ def _tail(r: subprocess.CompletedProcess, n: int = 20) -> str:
     return "\n".join(((r.stdout or "") + (r.stderr or "")).strip().splitlines()[-n:])
 
 
-def preflight(cache, dev, cfg, tree: str, want: dict, rev: str) -> list[str]:
-    """The release gate, run on the exported projection before any ref is written: FAIL lines."""
-    fails = []
+def gate_checks(cache, dev, cfg, tree: str, want: dict, rev: str) -> dict[str, list[str]]:
+    """The release gate on an export of the projection, by kind: `paths` (check-public), `readme` (the release lint),
+    `audit` (the game's audit failed) and `noaudit` (nothing audits the tree). Writes no ref."""
+    out = {"paths": [], "readme": [], "audit": [], "noaudit": []}
     lst = _dev_list(cache, tree)[0] or []
-    fails += [d for lv, d in check_paths(sorted(want), lst, deny_entries(dev, rev)) if lv == "FAIL"]
+    out["paths"] = [d for lv, d in check_paths(sorted(want), lst, deny_entries(dev, rev)) if lv == "FAIL"]
     with tempfile.TemporaryDirectory() as td:
         x = pathlib.Path(td) / "tree"
         x.mkdir()
@@ -1390,7 +1412,8 @@ def preflight(cache, dev, cfg, tree: str, want: dict, rev: str) -> list[str]:
         _git(x, "add", "-A", "-f")
         readme = _read(x / "README.md")
         if readme is not None:
-            fails += ["README %s: %s" % (ck, d) for lv, ck, d in lint(readme, Ctx(x), release=True) if lv == "FAIL"]
+            out["readme"] = ["README %s: %s" % (ck, d) for lv, ck, d in lint(readme, Ctx(x), release=True)
+                             if lv == "FAIL"]
         default = (x / "tools" / "audit_public.py").is_file()
         for name in sorted(os.listdir(dev)):                   # ignored hash sources (extracted/...) resolve
             if name != ".git" and not os.path.lexists(x / name):
@@ -1400,25 +1423,36 @@ def preflight(cache, dev, cfg, tree: str, want: dict, rev: str) -> list[str]:
         elif default:
             argv = ["python3", "tools/audit_public.py"]
         else:
-            return fails + ["no tools/audit_public.py in the tree and no [public].audit: nothing audits the release"]
+            out["noaudit"] = ["no tools/audit_public.py in the tree and no [public].audit: nothing audits the release"]
+            return out
         r = subprocess.run(argv, cwd=x, capture_output=True, text=True)
         if r.returncode != 0:
-            fails.append("audit %s exited %d:\n%s" % (" ".join(argv[:2]), r.returncode, _tail(r)))
-    return fails
+            out["audit"] = ["audit %s exited %d:\n%s" % (" ".join(argv[:2]), r.returncode, _tail(r))]
+    return out
 
 
-@_cmd("RELEASE")
-def cmd_release(repo=".", rev=None, summary=None, ack_new=False, dry_run=False, push=False) -> int:
-    if not dry_run:
-        _dev_only("release")
-    if not summary or not summary.strip() or "\n" in summary:
-        raise Fail("--summary: one non-empty line, in your own words (it becomes the release's title)")
-    summary = summary.strip()
-    dev, cfg, cache, main = _split(repo)
-    r = _git(dev, "rev-parse", "--verify", "-q", "%s^{commit}" % (rev or "refs/heads/" + cfg["dev_branch"]))
-    if r.returncode != 0:
-        raise Fail("%s: no such commit in %s" % (rev or cfg["dev_branch"], dev))
-    rev = r.stdout.strip()
+def preflight(cache, dev, cfg, tree: str, want: dict, rev: str) -> list[str]:
+    """The release gate, run on the exported projection before any ref is written: FAIL lines."""
+    g = gate_checks(cache, dev, cfg, tree, want, rev)
+    return g["paths"] + g["readme"] + g["noaudit"] + g["audit"]
+
+
+def tree_check(cache, dev, tree: str, argv: list[str], tip: str) -> subprocess.CompletedProcess:
+    """[public].land_check on an export of tree, run from dev: `{tree}` is the export's directory, `{tip}` the commit
+    it stands for."""
+    with tempfile.TemporaryDirectory() as td:
+        _export(cache, tree, td)
+        argv = [a.replace("{tree}", td).replace("{tip}", tip) for a in argv]
+        try:
+            return subprocess.run(argv, cwd=dev, capture_output=True, text=True)
+        except OSError as e:
+            return subprocess.CompletedProcess(argv, 127, "", str(e))
+
+
+def _prepare(dev, cfg, cache, main, rev: str, summary: str, ack) -> dict | None:
+    """The release gate up to the commit, writing no ref: the sync check, the exact projection (its changes printed),
+    the new paths (`ack(new)` raises Fail unless they are accepted), preflight, then the one reproducible commit in
+    the cache. None when the projection already is public main's tree."""
     rels, contribs = history(cache, dev, main)
     seen = imported(dev, rev)
     pend = [c for c in contribs if c not in seen]
@@ -1430,15 +1464,14 @@ def cmd_release(repo=".", rev=None, summary=None, ack_new=False, dry_run=False, 
         raise Fail("the projection of %s is not publishable:\n%s" % (rev[:10], "\n".join("  " + p for p in probs)))
     base = _must(cache, "rev-parse", main + "^{tree}") if main else None
     if tree == base:
-        print("RELEASE nothing to release: the listed files of %s are already on public" % rev[:10])
-        return 0
+        return None
     old = tree_entries(cache, main) if main else {}
     new = sorted(p for p in want if p not in old)
     for p in sorted(set(want) | set(old)):
         if want.get(p) != old.get(p):
             print("  %s %s" % ("A" if p in new else "D" if p not in want else "M", p))
-    if new and not ack_new:
-        raise Fail("%d new public path(s): review the list above, then rerun with --ack-new" % len(new))
+    if new:
+        ack(new)
     bad = preflight(cache, dev, cfg, tree, want, rev)
     if bad:
         raise Fail("preflight refused the release:\n%s" % "\n".join("  " + b for b in bad))
@@ -1448,20 +1481,86 @@ def cmd_release(repo=".", rev=None, summary=None, ack_new=False, dry_run=False, 
                GIT_COMMITTER_EMAIL=email, GIT_COMMITTER_DATE=when)
     msg = "Release: %s\n\n%s" % (summary, release_body(summary, rev, tree, main, cfg["assisted_by"]))
     sha = _must(cache, "commit-tree", tree, *(["-p", main] if main else []), inp=msg, env=env)
-    br = "release/" + rev[:10]
+    return {"rev": rev, "tree": tree, "want": want, "new": new, "sha": sha, "br": "release/" + rev[:10],
+            "summary": summary, "main": main}
+
+
+def _summary(summary) -> str:
+    if not summary or not summary.strip() or "\n" in summary:
+        raise Fail("--summary: one non-empty line, in your own words (it becomes the release's title)")
+    return summary.strip()
+
+
+def _rev(dev, cfg, rev) -> str:
+    r = _git(dev, "rev-parse", "--verify", "-q", "%s^{commit}" % (rev or "refs/heads/" + cfg["dev_branch"]))
+    if r.returncode != 0:
+        raise Fail("%s: no such commit in %s" % (rev or cfg["dev_branch"], dev))
+    return r.stdout.strip()
+
+
+def _write_release(cache, cfg, p: dict, force: bool = False) -> tuple[str, pathlib.Path]:
+    """The release branch in the cache and its PR body file: (ref, body path)."""
+    ref = "refs/heads/" + p["br"]
+    have = _git(cache, "rev-parse", "--verify", "-q", ref).stdout.strip()
+    if have and have != p["sha"] and not force:
+        raise Fail("%s exists in the cache at %s, not %s: delete it or release another revision" % (
+            p["br"], have[:10], p["sha"][:10]))
+    _must(cache, "update-ref", ref, p["sha"])
+    body = cache / ("PR_BODY-%s.md" % p["rev"][:10])
+    body.write_text(release_body(p["summary"], p["rev"], p["tree"], p["main"], cfg["assisted_by"]), encoding="utf-8")
+    return ref, body
+
+
+def _pr_create(cfg, p: dict, body) -> list[str]:
+    return ["pr", "create", "--repo", cfg["repo"], "--base", "main", "--head", p["br"], "--title",
+            "Release: " + p["summary"], "--body-file", str(body)]
+
+
+def _open_pr(cache, cfg, p: dict, ref: str, body, force: bool = False) -> str:
+    """Push the release branch to public and open its PR: the PR's URL."""
+    _must(cache, "push", "-q", cfg["url"], "%s%s:%s" % ("+" if force else "", ref, ref))
+    r = gh(_pr_create(cfg, p, body))
+    if r.returncode != 0:
+        raise Fail("gh pr create: %s" % (r.stderr.strip() or r.stdout.strip()))
+    return r.stdout.strip()
+
+
+def release_prs(cfg) -> list[dict]:
+    """The open PRs of public whose head is a release/ branch: [{number, headRefName, url}]."""
+    r = gh(["pr", "list", "--repo", cfg["repo"], "--state", "open", "--json", "number,headRefName,url"])
+    if r.returncode != 0:
+        raise Fail("gh pr list: %s" % (r.stderr.strip() or r.stdout.strip()))
+    try:
+        prs = json.loads(r.stdout or "[]")
+    except ValueError:
+        raise Fail("gh pr list: not JSON")
+    return [x for x in prs if str(x.get("headRefName", "")).startswith("release/")]
+
+
+@_cmd("RELEASE")
+def cmd_release(repo=".", rev=None, summary=None, ack_new=False, dry_run=False, push=False) -> int:
+    if not dry_run:
+        _dev_only("release")
+    summary = _summary(summary)
+    dev, cfg, cache, main = _split(repo)
+    rev = _rev(dev, cfg, rev)
+
+    def ack(new):
+        if not ack_new:
+            raise Fail("%d new public path(s): review the list above, then rerun with --ack-new" % len(new))
+    p = _prepare(dev, cfg, cache, main, rev, summary, ack)
+    if p is None:
+        print("RELEASE nothing to release: the listed files of %s are already on public" % rev[:10])
+        return 0
+    sha, br = p["sha"], p["br"]
     if dry_run:
         print("RELEASE dry run: would commit %s on %s (tree %s, %d file(s)); no ref written" % (
-            sha[:10], br, tree[:10], len(want)))
+            sha[:10], br, p["tree"][:10], len(p["want"])))
+        print("RELEASE next: `ci-sim --projection` runs no-rom on this tree in a clean container (and `--workflow "
+              "build`), before it is public")
         return 0
-    ref = "refs/heads/" + br
-    have = _git(cache, "rev-parse", "--verify", "-q", ref).stdout.strip()
-    if have and have != sha:
-        raise Fail("%s exists in the cache at %s, not %s: delete it or release another revision" % (br, have[:10],
-                                                                                                  sha[:10]))
-    _must(cache, "update-ref", ref, sha)
-    body = cache / ("PR_BODY-%s.md" % rev[:10])
-    body.write_text(release_body(summary, rev, tree, main, cfg["assisted_by"]), encoding="utf-8")
-    print("RELEASE %s %s: %d file(s), %d new" % (br, sha[:10], len(want), len(new)))
+    ref, body = _write_release(cache, cfg, p)
+    print("RELEASE %s %s: %d file(s), %d new" % (br, sha[:10], len(p["want"]), len(p["new"])))
     if not main:                        # release 1: no main for a PR to target, so it becomes main, before the rulesets
         first = "git -C %s push %s %s:refs/heads/main" % (cache, cfg["url"], sha)
         if not push:
@@ -1471,28 +1570,16 @@ def cmd_release(repo=".", rev=None, summary=None, ack_new=False, dry_run=False, 
         _must(cache, "push", "-q", cfg["url"], "%s:refs/heads/main" % sha)
         print("RELEASE pushed %s as public main (release 1); next: settings --apply" % sha[:10])
         return 0
-    push_cmd = "git -C %s push %s %s:%s" % (cache, cfg["url"], ref, ref)
-    pr_cmd = ["pr", "create", "--repo", cfg["repo"], "--base", "main", "--head", br, "--title", "Release: " + summary,
-              "--body-file", str(body)]
     if not push:
-        print("RELEASE not pushed; to open the PR:\n  %s\n  gh %s" % (push_cmd, " ".join(
-            "'%s'" % a if " " in a else a for a in pr_cmd)))
+        gh_cmd = " ".join("'%s'" % a if " " in a else a for a in _pr_create(cfg, p, body))
+        print("RELEASE not pushed; to open the PR:\n  git -C %s push %s %s:%s\n  gh %s" % (cache, cfg["url"], ref, ref,
+                                                                                         gh_cmd))
         return 0
-    r = gh(["pr", "list", "--repo", cfg["repo"], "--state", "open", "--json", "headRefName"])
-    if r.returncode != 0:
-        raise Fail("gh pr list: %s" % (r.stderr.strip() or r.stdout.strip()))
-    try:
-        heads = [x.get("headRefName", "") for x in json.loads(r.stdout or "[]")]
-    except ValueError:
-        raise Fail("gh pr list: not JSON")
-    if any(h.startswith("release/") for h in heads):
+    open_ = release_prs(cfg)
+    if open_:
         raise Fail("an open release PR exists (%s): merge or close it first" % ", ".join(
-            h for h in heads if h.startswith("release/")))
-    _must(cache, "push", "-q", cfg["url"], "%s:%s" % (ref, ref))
-    r = gh(pr_cmd)
-    if r.returncode != 0:
-        raise Fail("gh pr create: %s" % (r.stderr.strip() or r.stdout.strip()))
-    print("RELEASE pushed %s; PR: %s" % (br, r.stdout.strip()))
+            x["headRefName"] for x in open_))
+    print("RELEASE pushed %s; PR: %s" % (br, _open_pr(cache, cfg, p, ref, body)))
     return 0
 
 
@@ -1760,13 +1847,7 @@ def land_blockers(dev, cfg, cache, tip) -> list[str]:
     if not cfg["land_check"]:
         out.append("[public].land_check is not set (the byte check of the exported tip)")
     elif not out:
-        with tempfile.TemporaryDirectory() as td:
-            _export(cache, _must(cache, "rev-parse", tip + "^{tree}"), td)
-            argv = [a.replace("{tree}", td).replace("{tip}", tip) for a in cfg["land_check"]]
-            try:
-                r = subprocess.run(argv, cwd=dev, capture_output=True, text=True)
-            except OSError as e:
-                r = subprocess.CompletedProcess(argv, 127, "", str(e))
+        r = tree_check(cache, dev, _must(cache, "rev-parse", tip + "^{tree}"), cfg["land_check"], tip)
         if r.returncode != 0:
             out.append("land_check exited %d:\n%s" % (r.returncode, _tail(r)))
     return out
@@ -1980,10 +2061,12 @@ def cmd_settings(repo=".", apply=False, api=None) -> int:
 
 # ---- verify-pr: a public PR before the developer merges it -------------------------------------------------------
 
-def verify_pr(cfg: dict, n: int, api) -> tuple[list[str], list[str], str]:
+def verify_pr(cfg: dict, n: int, api, release: dict | None = None) -> tuple[list[str], list[str], str]:
     """(failures, warnings, head sha) for public PR n. A `build *` check must come from build.yml run by
     `pull_request_target` at the PR head; any other required check (the no-rom audit) from a run at the PR head whose
-    workflow file the PR does not change (otherwise the PR certifies itself)."""
+    workflow file the PR does not change (otherwise the PR certifies itself). `release` ({br, reviewed}) is ship's
+    own release PR: same-repo, from branch br, titled `Release: `; reviewed means the owner read the workflow diff, so
+    a check from a workflow the release changes is accepted."""
     R, fails, warns = "repos/" + cfg["repo"], [], []
     pr = api("GET", "%s/pulls/%d" % (R, n))
     if not pr:
@@ -1998,6 +2081,10 @@ def verify_pr(cfg: dict, n: int, api) -> tuple[list[str], list[str], str]:
     if fork and ((pr.get("title") or "").startswith("Release:") or re.search(r"^Release-[A-Za-z]+:", pr.get("body") or "",
                                                                              re.M)):
         fails.append("a fork PR claims to be a release (Release: title or Release-* trailer)")
+    if release is not None and (fork or head.get("ref") != release["br"] or
+                                not (pr.get("title") or "").startswith("Release: ")):
+        fails.append("PR #%d is not the release PR of %s (head %s, title %r)" % (n, release["br"], head.get("ref"),
+                                                                                 pr.get("title")))
     files = [f.get("filename", "") for f in api("GET", "%s/pulls/%d/files?per_page=100" % (R, n)) or []]
     runs = (api("GET", "%s/commits/%s/check-runs?per_page=100" % (R, H)) or {}).get("check_runs") or []
     wf = (api("GET", "%s/actions/runs?head_sha=%s&per_page=100" % (R, H)) or {}).get("workflow_runs") or []
@@ -2015,7 +2102,7 @@ def verify_pr(cfg: dict, n: int, api) -> tuple[list[str], list[str], str]:
             if path != TRUSTED_WORKFLOW or w.get("head_sha") != H or w.get("event") != "pull_request_target":
                 fails.append("check %r comes from %s/%s at %s, not %s/pull_request_target at the PR head" % (
                     name, path, w.get("event"), (w.get("head_sha") or "none")[:10], TRUSTED_WORKFLOW))
-        elif w.get("head_sha") != H or path in files or path == "none":
+        elif w.get("head_sha") != H or path == "none" or (path in files and not (release or {}).get("reviewed")):
             fails.append("check %r comes from %s at %s: it must run at the PR head from a workflow the PR does not "
                          "change" % (name, path, (w.get("head_sha") or "none")[:10]))
     if fork:
@@ -2047,6 +2134,285 @@ def cmd_verify_pr(repo=".", n=0, merge=False, api=None) -> int:
             raise Fail("gh pr merge: %s" % _tail(r, 3))
         print("VERIFY-PR merged #%d" % n)
     return 0
+
+
+# ---- ship: one release end to end, resumable ----------------------------------------------------------------------
+
+SHIP_POLL = 30                                   # seconds between two reads of GitHub while ship waits
+CI_PASS = ("success", "skipped", "neutral")      # a job guarded off by its repository condition is skipped
+
+
+def dev_ci(repo: str, sha: str, api) -> tuple[str, list[str]]:
+    """The workflow runs of repo (OWNER/REPO) at sha, the newest per workflow and event: (state, one line per run).
+    state is `ok` (every run completed and passed), `fail` (a run failed: its failing jobs are named), `wait` (a run
+    is not completed) or `none` (no run yet)."""
+    runs = (api("GET", "repos/%s/actions/runs?head_sha=%s&per_page=100" % (repo, sha)) or {}).get("workflow_runs") or []
+    last = {}
+    for r in sorted(runs, key=lambda r: (r.get("created_at") or "", r.get("id") or 0)):
+        last[(r.get("workflow_id") or r.get("path"), r.get("event"))] = r
+    if not last:
+        return "none", ["no workflow run on %s at %s yet" % (repo, sha[:10])]
+    state, lines = "ok", []
+    for r in last.values():
+        name = "%s (%s)" % (r.get("name") or r.get("path"), r.get("event"))
+        if r.get("status") != "completed":
+            state = "fail" if state == "fail" else "wait"
+            lines.append("%s: %s" % (name, r.get("status")))
+        elif r.get("conclusion") not in CI_PASS:
+            state = "fail"
+            jobs = (api("GET", "repos/%s/actions/runs/%s/jobs?per_page=100" % (repo, r.get("id"))) or {}).get("jobs")
+            bad = [j.get("name", "?") for j in jobs or [] if j.get("conclusion") not in CI_PASS + (None,)]
+            lines.append(("%s: %s%s %s" % (name, r.get("conclusion"), " in job " + ", ".join(bad) if bad else "",
+                                           r.get("html_url") or "")).rstrip())
+        else:
+            lines.append("%s: %s" % (name, r.get("conclusion")))
+    return state, lines
+
+
+def _ask(question: str) -> bool:
+    if not sys.stdin.isatty():
+        return False
+    try:
+        return input(question).strip().lower() in ("y", "yes")
+    except EOFError:
+        return False
+
+
+def ships_log(dev) -> pathlib.Path:
+    common = _must(dev, "rev-parse", "--path-format=absolute", "--git-common-dir")
+    return pathlib.Path(common) / "psxdecomp" / "ships.tsv"
+
+
+def _release_head(dev, cfg, cache, rev: str, br: str, H: str, main: str) -> str:
+    """The release PR's head H fetched from public and held to what ship would have built: its Release-Of is rev,
+    its Release-Tree is rev's projection and its own tree, its parent is public main. Returns the projection tree."""
+    _must(cache, "fetch", "-q", "--no-tags", cfg["url"], "+refs/heads/%s:refs/psxdecomp/ship-head" % br)
+    got = _must(cache, "rev-parse", "refs/psxdecomp/ship-head")
+    if got != H:
+        raise Fail("public %s is at %s, the PR's head is %s: rerun ship" % (br, got[:10], H[:10]))
+    tree = projection(cache, dev, rev)[0]
+    of, rt = trailers(cache, H, "Release-Of"), trailers(cache, H, "Release-Tree")
+    if of != [rev] or rt != [tree] or _must(cache, "rev-parse", H + "^{tree}") != tree:
+        raise Fail("%s is not the release of %s (Release-Of %s, Release-Tree %s, tree %s; the projection is %s)" % (
+            br, rev[:10], of, rt, _must(cache, "rev-parse", H + "^{tree}")[:10], tree[:10]))
+    parent = _git(cache, "rev-parse", "-q", "--verify", H + "^").stdout.strip()
+    if parent != main:
+        raise Fail("public main moved to %s since %s was cut on %s: import and land what came in, push, then "
+                   "ship --replace" % (main[:10], br, parent[:10]))
+    return tree
+
+
+def _ship_verify(dev, cfg, cache, rev: str, api, polls: int, sleep, no_wait: bool, record: bool = True) -> int:
+    """Stage 9: public main carries the release of rev, its push runs all passed and every `build <EXE>` run uploaded
+    `<EXE>_report`; then SHIP OK and one line in .git/psxdecomp/ships.tsv."""
+    R = "repos/" + cfg["repo"]
+    main = fetch_public(cache, cfg["url"])
+    hit = [(c, t) for c, of, t in releases(cache, dev, main) if of == rev]
+    if not hit:
+        raise Fail("public main %s carries no release of %s (the merge did not land?)" % ((main or "none")[:10],
+                                                                                            rev[:10]))
+    c, t = hit[-1]
+    if not _subject(cache, c).startswith("Release: ") or trailers(cache, c, "Release-Of") != [rev]:
+        raise Fail("%s is not a release commit of %s" % (c[:10], rev[:10]))
+    if c != main:
+        print("SHIP verify  note: public main moved on to %s since the release %s" % (main[:10], c[:10]))
+    if _must(cache, "rev-parse", c + "^{tree}") != t:
+        print("SHIP verify  WARN %s's tree is not its Release-Tree %s: the PR took other commits (import them)" % (
+            c[:10], t[:10]))
+    runs = []
+    for i in range(polls):
+        runs = (api("GET", "%s/actions/runs?head_sha=%s&event=push&per_page=100" % (R, c)) or {}).get(
+            "workflow_runs") or []
+        if runs and all(r.get("status") == "completed" for r in runs):
+            break
+        if no_wait:
+            print("SHIP verify  wait: %d push run(s) at %s still running (--no-wait); rerun ship to verify" % (
+                len(runs), c[:10]))
+            return 0
+        if i < polls - 1:
+            sleep(SHIP_POLL)
+    else:
+        raise Fail("verify: the push runs at %s did not complete in time (%s); rerun ship to keep waiting" % (
+            c[:10], ", ".join("%s %s" % (r.get("name"), r.get("status")) for r in runs) or "none started"))
+    bad = [r for r in runs if r.get("conclusion") != "success"]
+    if bad:
+        raise Fail("verify: push run(s) at %s did not pass: %s" % (c[:10], "; ".join(
+            "%s %s %s" % (r.get("name"), r.get("conclusion"), r.get("html_url") or "") for r in bad)))
+    build = [r for r in runs if (r.get("path") or "").split("@")[0] == TRUSTED_WORKFLOW]
+    names = set()
+    for r in build:
+        names |= {a.get("name") for a in (api("GET", "%s/actions/runs/%s/artifacts?per_page=100" % (R, r.get("id")))
+                                          or {}).get("artifacts") or []}
+    missing = ["%s_report" % x[len("build "):] for x in cfg["checks"] if x.startswith("build ")
+               and "%s_report" % x[len("build "):] not in names]
+    if missing:
+        raise Fail("verify: no %s uploaded by %s at %s" % (", ".join(missing), TRUSTED_WORKFLOW, c[:10]))
+    m = re.search(r"\(#(\d+)\)$", _subject(cache, c))
+    pr = "https://github.com/%s/pull/%s" % (cfg["repo"], m[1]) if m else "-"
+    log = ships_log(dev)
+    have = _read(log) or ""
+    if record and not any(l.split("\t")[1:2] == [rev] for l in have.splitlines()):
+        files = len(tree_entries(cache, c) or {})
+        log.parent.mkdir(parents=True, exist_ok=True)
+        with open(log, "a", encoding="utf-8") as f:
+            f.write(("" if have else "# date\trev\tpublic\tpr\tfiles\n") + "%s\t%s\t%s\t%s\t%d\n" % (
+                time.strftime("%Y-%m-%d"), rev, c, pr, files))
+    print("SHIP verify  OK %s: Release-Of %s, Release-Tree %s; %d push run(s) passed; %s uploaded" % (
+        c[:10], rev[:10], t[:10], len(runs), ", ".join(sorted(n for n in names if n and n.endswith("_report")))))
+    print("SHIP OK %s\n  PR %s\n%s" % (c[:10], pr, "\n".join("  run %s" % (r.get("html_url") or r.get("name"))
+                                                            for r in runs)))
+    return 0
+
+
+def cmd_ship(repo=".", summary=None, rev=None, ack_new=False, dry_run=False, no_wait=False, timeout=90,
+             replace=False, merge_reviewed=False, api=None, sleep=time.sleep, ask=_ask, ci_sim=None) -> int:
+    """dev -> public in one resumable command. Stages: state, dev-ci, gate, build, ci, push, checks, merge, verify;
+    each prints `SHIP <stage> OK|FAIL ...`. Nothing public is written before the five local stages pass."""
+    stage, api, ci_sim = "state", api or gh_api, ci_sim or cmd_ci_sim
+    polls = max(1, int(timeout * 60) // SHIP_POLL)
+
+    def ok(detail):
+        print("SHIP %-7s OK %s" % (stage, detail))
+    try:
+        if not dry_run:
+            _dev_only("ship")
+        if summary is not None:
+            summary = _summary(summary)
+        dev, cfg, cache, main = _split(repo)
+        if not main:
+            raise Fail("public has no main: release 1 is the cutover's step 5 (`release --push`), not ship")
+        rev = _rev(dev, cfg, rev)
+        pushed = _git(dev, "rev-parse", "-q", "--verify", "refs/remotes/origin/%s^{commit}" % cfg["dev_branch"])
+        pushed = pushed.stdout.strip()
+        if rev != pushed:
+            raise Fail("%s is not origin/%s (%s): ship releases only a commit -dev has and CI tested; push first" % (
+                rev[:10], cfg["dev_branch"], pushed[:10] or "none"))
+        br, R = "release/" + rev[:10], "repos/" + cfg["repo"]
+        if any(of == rev for _, of, _ in releases(cache, dev, main)):
+            ok("%s is already released on public main" % rev[:10])
+            stage = "verify"
+            return _ship_verify(dev, cfg, cache, rev, api, polls, sleep, no_wait, record=not dry_run)
+        prs = release_prs(cfg)
+        mine = [x for x in prs if x["headRefName"] == br]
+        other = [x for x in prs if x["headRefName"] != br]
+        if other and not replace:
+            raise Fail("an open release PR of another revision exists (%s): merge or close it, or rerun with --replace "
+                       "(ship closes it after its own gate passes)" % ", ".join(
+                           "#%s %s" % (x.get("number"), x["headRefName"]) for x in other))
+        if mine:
+            n = int(mine[0]["number"])
+            ok("%s: release PR #%d is open; resuming at its checks" % (rev[:10], n))
+            if dry_run:
+                print("SHIP dry run: ship would wait for PR #%d's checks, then merge it" % n)
+                return 0
+        else:
+            ok("%s = origin/%s; public main %s" % (rev[:10], cfg["dev_branch"], main[:10]))
+            stage = "dev-ci"
+            slug = origin_slug(dev)
+            if not slug:
+                raise Fail("origin is not a GitHub repository: -dev's CI cannot be read")
+            for i in range(polls):
+                state, lines = dev_ci(slug, rev, api)
+                if state in ("ok", "fail") or (state == "none" and i >= 2) or no_wait or i == polls - 1:
+                    break
+                sleep(SHIP_POLL)
+            if state != "ok":
+                raise Fail("%s at %s: %s\n%s" % (slug, rev[:10], {"wait": "still running", "none": "no workflow run",
+                                                                  "fail": "a run failed"}[state],
+                                                 "\n".join("  " + l for l in lines)))
+            ok("%d run(s) passed on %s at %s" % (len(lines), slug, rev[:10]))
+            stage = "gate"
+            if summary is None:
+                raise Fail("--summary: one non-empty line, in your own words (it becomes the release's title)")
+
+            def ack_paths(new):
+                if not ack_new and not ask("%d new public path(s) listed above: publish them? [y/N] " % len(new)):
+                    raise Fail("%d new public path(s): review the list above, then rerun with --ack-new" % len(new))
+            p = _prepare(dev, cfg, cache, main, rev, summary, ack_paths)
+            if p is None:
+                print("SHIP nothing to release: the listed files of %s are already on public" % rev[:10])
+                return 0
+            ok("%d file(s), %d new: in sync with public, exact projection, preflight passed" % (len(p["want"]),
+                                                                                                 len(p["new"])))
+            stage = "build"
+            if not cfg["land_check"]:
+                raise Fail("[public].land_check is not set: nothing proves the projection builds")
+            r = tree_check(cache, dev, p["tree"], cfg["land_check"], rev)
+            if r.returncode:
+                raise Fail("land_check exited %d on the projection:\n%s" % (r.returncode, _tail(r)))
+            ok("land_check passed on the projection %s" % p["tree"][:10])
+            stage = "ci"
+            print("SHIP %-7s ci-sim --projection: no-rom's jobs on the projection in a clean %s ..." % (stage, SIM_BASE),
+                  flush=True)
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                rc = ci_sim(str(dev), "no-rom", rev, True)
+            out = buf.getvalue().strip().splitlines()
+            if rc:
+                raise Fail("no-rom is red on the projection (a file CI needs is unlisted, or a job fails):\n%s" %
+                           "\n".join("  " + l for l in out[-30:]))
+            ok(out[-1] if out else "no-rom green on the projection")
+            if dry_run:
+                print("SHIP dry run: would push %s (%s, %d file(s), %d new) and open its PR; nothing written to "
+                      "public" % (p["br"], p["sha"][:10], len(p["want"]), len(p["new"])))
+                return 0
+            stage = "push"
+            for x in other:
+                r = gh(["pr", "close", str(x["number"]), "--repo", cfg["repo"], "--delete-branch", "--comment",
+                        "Replaced by %s." % br])
+                if r.returncode:
+                    raise Fail("gh pr close %s: %s" % (x["number"], _tail(r, 3)))
+                print("SHIP push    closed #%s %s (--replace)" % (x["number"], x["headRefName"]))
+            ref, body = _write_release(cache, cfg, p, force=True)
+            url = _open_pr(cache, cfg, p, ref, body, force=True)
+            m = re.search(r"/pull/(\d+)", url)
+            if not m:
+                raise Fail("gh pr create printed no PR URL: %s" % url[:200])
+            n = int(m[1])
+            ok("%s %s pushed; PR #%d %s" % (br, p["sha"][:10], n, url))
+        stage = "checks"
+        if no_wait:
+            print("SHIP checks  wait: PR #%d opened (--no-wait); rerun ship to wait for its checks and merge" % n)
+            return 0
+        H = ""
+        for i in range(polls):
+            pr = api("GET", "%s/pulls/%d" % (R, n)) or {}
+            H = (pr.get("head") or {}).get("sha") or ""
+            runs = (api("GET", "%s/commits/%s/check-runs?per_page=100" % (R, H)) or {}).get("check_runs") or []
+            done = {x.get("name") for x in runs if x.get("status") == "completed"}
+            red = [x.get("name") for x in runs if x.get("status") == "completed" and x.get("conclusion") != "success"
+                   and x.get("name") in cfg["checks"]]
+            if red or set(cfg["checks"]) <= done or pr.get("state") != "open":
+                break
+            if i < polls - 1:
+                sleep(SHIP_POLL)
+        else:
+            raise Fail("PR #%d's checks did not complete in %d min (%s); rerun ship to keep waiting" % (
+                n, timeout, ", ".join(sorted(set(cfg["checks"]) - done))))
+        _release_head(dev, cfg, cache, rev, br, H, main)
+        wf = [f for f in _must(cache, "diff", "--name-only", main, H, "--", ".github/workflows/").split() if f]
+        if wf and not merge_reviewed:
+            raise Fail("the release changes %s, so a check from it would certify itself. Review the diff:\n  git -C %s "
+                       "diff %s %s -- .github/\nthen rerun ship --merge-reviewed" % (", ".join(wf), cache, main[:10],
+                                                                                    H[:10]))
+        fails, warns, _ = verify_pr(cfg, n, api, release={"br": br, "reviewed": bool(wf)})
+        for w in warns:
+            print("SHIP checks  WARN %s" % w)
+        if fails:
+            raise Fail("PR #%d:\n%s\nfix forward: close it, fix in dev, push, ship --replace" % (
+                n, "\n".join("  " + f for f in fails)))
+        ok("PR #%d at %s: %s green from GitHub Actions%s" % (n, H[:10], ", ".join(cfg["checks"]),
+                                                             "; workflow diff reviewed" if wf else ""))
+        stage = "merge"
+        r = gh(["pr", "merge", str(n), "--repo", cfg["repo"], "--squash", "--admin", "--match-head-commit", H])
+        if r.returncode:
+            raise Fail("gh pr merge #%d: %s" % (n, _tail(r, 3)))
+        ok("PR #%d squash-merged at %s" % (n, H[:10]))
+        stage = "verify"
+        return _ship_verify(dev, cfg, cache, rev, api, polls, sleep, no_wait)
+    except Fail as e:
+        print("SHIP %-7s FAIL %s" % (stage, e))
+        return 1
 
 
 # ---- pre-push: the local guard on dev -----------------------------------------------------------------------------
@@ -2094,11 +2460,57 @@ def pre_push_refusals(dev, url: str, lines: list[str]) -> list[str]:
     return out
 
 
+def push_gate(dev, cfg, sha: str) -> tuple[list[str], list[str], str]:
+    """The release gate on the projection of a pushed dev commit, offline (the cache as last fetched, no fetch):
+    (blocks, warnings, the release-ready line). Blocks: a listed denied path, symlink or gitlink, a check-public FAIL,
+    a failing audit. Warnings: a README lint FAIL, nothing audits the tree, new public paths, nothing new to release."""
+    cache = public_cache(dev)
+    tree, want, blocks = projection(cache, dev, sha)
+    g = gate_checks(cache, dev, cfg, tree, want, sha)
+    blocks = blocks + g["paths"] + g["audit"]
+    warns = g["readme"] + g["noaudit"]
+    pub = _git(cache, "rev-parse", "-q", "--verify", PUB_REF + "^{commit}").stdout.strip()
+    new = []
+    if pub:
+        old = tree_entries(cache, pub) or {}
+        new = sorted(p for p in want if p not in old)
+        if _must(cache, "rev-parse", pub + "^{tree}") == tree:
+            warns.append("nothing new to release: the projection of %s is public main's tree (as last fetched)"
+                         % sha[:10])
+        elif new:
+            warns.append("%d new public path(s) since public main (as last fetched); ship asks you to confirm them: "
+                         "%s%s" % (len(new), ", ".join(new[:5]), ", ..." if len(new) > 5 else ""))
+    return blocks, warns, "release-ready: %d files, %d new" % (len(want), len(new))
+
+
+def pre_push_report(dev, url: str, lines: list[str]) -> tuple[list[str], list[str], str]:
+    """(blocks, warnings, the last line) for a push: pre_push_refusals, then the gate on each dev-branch tip pushed to
+    a remote that is not the public repository."""
+    blocks = pre_push_refusals(dev, url, lines)
+    cfg = None if blocks else load_public(dev)
+    if cfg is None:
+        return blocks, [], ""
+    warns, last = [], ""
+    for line in lines:
+        parts = line.split()
+        if len(parts) == 4 and parts[2] == "refs/heads/" + cfg["dev_branch"] and parts[1] != ZERO:
+            b, w, last = push_gate(dev, cfg, parts[1])
+            blocks, warns = blocks + b, warns + w
+    return blocks, warns, last
+
+
 def cmd_pre_push(remote: str, url: str, stdin=None) -> int:
-    found = pre_push_refusals(repo_root("."), url or remote, (stdin or sys.stdin).read().splitlines())
-    for f in found:
+    try:
+        blocks, warns, last = pre_push_report(repo_root("."), url or remote, (stdin or sys.stdin).read().splitlines())
+    except Fail as e:
+        blocks, warns, last = [str(e)], [], ""
+    for f in blocks:
         _line("PRE-PUSH", "FAIL", f)
-    return 1 if found else 0
+    for w in warns:
+        _line("PRE-PUSH", "WARN", w)
+    if not blocks and not warns and last:
+        print("PRE-PUSH %s" % last)
+    return 1 if blocks else 0
 
 
 def hook_path(dev) -> pathlib.Path:
@@ -2147,6 +2559,282 @@ def cmd_ci_log(path) -> int:
     print("\n".join(shown))
     print("CI-LOG %d line(s) shown of %d, %d withheld" % (len(shown), total, withheld))
     return 0
+
+
+# ---- list: what the list publishes, and --draft: a first list ----------------------------------------------------
+
+REF_FILES = ("Makefile", "*.mk", ".github/workflows/*", "config/*", "tools/*.py", "tools/*.sh")  # their text names paths
+PATH_TOKEN = re.compile(r"[\w.-]+(?:/[\w.-]+)+")
+DRAFT_HEAD = ("# %s — the files this repository publishes (default deny: a tracked file no entry\n# matches stays "
+              "private). An entry ending in `/` is a directory prefix; any other is a glob.\n" % PUBLIC_PATHS_REL)
+
+
+def draft_list(dev, rev: str) -> tuple[list[str], list[str]]:
+    """(entries, warnings) of a first list for dev at rev: every tracked file outside the deny set, a directory with
+    nothing private below it folded into `dir/` (so a file added there later is public without an edit: dc2 listed
+    tools/ file by file and a new tool stayed behind). A warning names a private path a public build file refers to."""
+    tree = tree_entries(dev, rev) or {}
+    deny = deny_entries(dev, rev)
+    private = {p for p, (mode, _) in tree.items() if is_denied(deny, p) or mode in ("120000", "160000")}
+    above = lambda p: ["/".join(p.split("/")[:i]) + "/" for i in range(1, p.count("/") + 1)]  # noqa: E731
+    closed = {d for p in private for d in above(p)}
+    public = sorted(set(tree) - private)
+    entries = list(dict.fromkeys(next((d for d in above(p) if d not in closed), p) for p in public))
+    if not is_listed(entries, PUBLIC_PATHS_REL):
+        entries.insert(0, PUBLIC_PATHS_REL)
+    refs = [p for p in public if is_listed(REF_FILES, p)]
+    blobs = read_blobs(dev, [tree[p][1] for p in refs])
+    named = {}
+    for p in refs:
+        for tok in set(PATH_TOKEN.findall(blobs[tree[p][1]][:1 << 20].decode("utf-8", errors="replace"))):
+            if tok in private:
+                named.setdefault(tok, []).append(p)
+    warns = ["%s stays private, and %s name%s it" % (t, ", ".join(by[:3]) + (" and %d more" % (len(by) - 3)
+                                                                             if len(by) > 3 else ""),
+                                                     "s" if len(by) == 1 else "") for t, by in sorted(named.items())]
+    return entries, warns
+
+
+@_cmd("LIST")
+def cmd_list(repo=".", draft=False, rev=None) -> int:
+    dev = repo_root(repo)
+    rev = _must(dev, "rev-parse", "--verify", "%s^{commit}" % (rev or "HEAD"))
+    tree = tree_entries(dev, rev) or {}
+    if not draft:
+        lst = _dev_list(dev, rev)[0]
+        if lst is None:
+            raise Fail("%s: missing at %s (list --draft prints a first one)" % (PUBLIC_PATHS_REL, rev[:10]))
+        deny = deny_entries(dev, rev)
+        paths = [p for p in sorted(tree) if is_listed(lst, p) and not is_denied(deny, p)]
+        print("\n".join(paths))
+        print("LIST %d of %d tracked file(s) are public at %s" % (len(paths), len(tree), rev[:10]), file=sys.stderr)
+        return 0
+    entries, warns = draft_list(dev, rev)
+    sys.stdout.write(DRAFT_HEAD + "\n".join(entries) + "\n")
+    for w in warns:
+        print("LIST WARN %s" % w, file=sys.stderr)
+    n = sum(is_listed(entries, p) for p in tree)
+    print("LIST draft: %d entr%s for %d of %d tracked file(s) at %s, %d warning(s); what must stay private beyond the "
+          "agent files goes in [public].deny first" % (len(entries), "y" if len(entries) == 1 else "ies", n, len(tree),
+                                                       rev[:10], len(warns)), file=sys.stderr)
+    return 0
+
+
+# ---- ci-sim: a workflow's `run:` steps as written, on a fresh clone of a revision or on its release projection ---
+
+SIM_BASE = "ubuntu:24.04"
+# What the steps of the kit's workflows take from GitHub's ubuntu-24.04 runner; everything else they install themselves.
+SIM_APT = "git make curl ca-certificates sudo xz-utils unzip python3 python3-venv clang-format build-essential " \
+          "software-properties-common"
+SIM_EXPR = re.compile(r"\$\{\{\s*(?:runner\.(temp)|matrix\.(exe)|env\.(\w+))\s*\}\}")
+SIM_IF = re.compile(r"steps\.([\w-]+)\.outputs\.([\w-]+)\s*==\s*'([^']*)'")
+SIM_DRIVER = """set -u
+export CI=true GITHUB_ACTIONS=true GITHUB_EVENT_NAME=push GITHUB_REF=refs/heads/main GITHUB_SERVER_URL=https://github.com
+export GITHUB_WORKSPACE="$WS" RUNNER_TEMP="$TMP" GITHUB_ENV="$TMP/.env" GITHUB_PATH="$TMP/.path"
+mkdir -p "$TMP"; : > "$GITHUB_ENV"; : > "$GITHUB_PATH"; cd "$WS"
+export GITHUB_SHA="$(git rev-parse HEAD)"
+step() {
+  echo "CI-SIM step $1: $3"
+  ( while IFS= read -r l; do [ -n "$l" ] && export "$l"; done < "$GITHUB_ENV"
+    while IFS= read -r l; do PATH="$l:$PATH"; done < "$GITHUB_PATH"
+    [ -n "${SIM_IMAGE:-}" ] && [ -n "${IMAGE:-}" ] && export IMAGE="$SIM_IMAGE"
+    export GITHUB_OUTPUT="$TMP/.out.$2"; : > "$GITHUB_OUTPUT"
+    cd "$4" && bash -e "$SIM/$1.sh" ) || { echo "CI-SIM FAIL step $1: $3"; exit 1; }
+}
+"""
+
+
+def _sim_expr(s: str) -> str:
+    return SIM_EXPR.sub(lambda m: "${RUNNER_TEMP}" if m[1] else "${EXE}" if m[2] else "${%s}" % m[3], str(s))
+
+
+def _yaml_scalar(v: str, keep_hash: bool = False):
+    if v[:1] in "\"'" and v[1:].find(v[0]) >= 0:
+        return v[1:1 + v[1:].find(v[0])]
+    if not keep_hash:
+        v = re.sub(r"\s+#.*$", "", v)
+    if v.startswith("[") and v.endswith("]"):
+        return [_yaml_scalar(x.strip()) for x in v[1:-1].split(",") if x.strip()]
+    return v
+
+
+def parse_yaml(lines: list[str], i: int = 0, indent: int = -1):
+    """(value, next line) of the block-style YAML a workflow uses: mappings, `- ` lists, `|` scalars, [a, b] lists.
+    Not a YAML parser: this file takes no dependency, and a line it cannot read is a Fail, never a guess."""
+    out = None
+    while i < len(lines):
+        raw = lines[i]
+        ind = len(raw) - len(raw.lstrip())
+        body = raw[ind:]
+        if not body or body.startswith("#"):
+            i += 1
+            continue
+        if out is None:
+            if ind <= indent:
+                break
+            indent = ind
+        if ind < indent:
+            break
+        if ind > indent:
+            raise Fail("workflow line %d: indentation not understood: %s" % (i + 1, body[:60]))
+        if body.startswith("- "):
+            if isinstance(out, dict):
+                break
+            out = [] if out is None else out
+            lines[i] = " " * (ind + 2) + body[2:]
+            if re.match(r"[\w.-]+:(\s|$)", body[2:]):
+                item, i = parse_yaml(lines, i, ind + 1)
+            else:
+                item, i = _yaml_scalar(body[2:].strip()), i + 1
+            out.append(item)
+            continue
+        m = re.match(r"([\w.-]+):(?:\s+(.*))?$", body)
+        if not m or isinstance(out, list):
+            raise Fail("workflow line %d: not understood: %s" % (i + 1, body[:60]))
+        out = {} if out is None else out
+        key, val, i = m[1], (m[2] or "").strip(), i + 1
+        if val[:1] in ("|", ">") and len(val) <= 2:
+            blk = []
+            while i < len(lines) and (not lines[i].strip() or len(lines[i]) - len(lines[i].lstrip()) > ind):
+                blk.append(lines[i])
+                i += 1
+            w = min((len(l) - len(l.lstrip()) for l in blk if l.strip()), default=0)
+            out[key] = "\n".join(l[w:] for l in blk).rstrip("\n") + "\n"
+        elif not val or val.startswith("#"):
+            out[key], i = parse_yaml(lines, i, ind)
+        else:
+            out[key] = _yaml_scalar(val, keep_hash=key == "run")
+    return out, i
+
+
+def sim_job(job: dict, simdir: pathlib.Path, exe: str | None, host: bool) -> None:
+    """Write job.sh and one N.sh per step into simdir. A `run:` body is copied as written; of `uses:` only checkout,
+    setup-python (container only) and upload-artifact (the file exists) are stood in for; no expression is evaluated
+    beyond runner.temp, matrix.exe and env.NAME, and one in a `run:` body is a Fail."""
+    q = shlex.quote
+    push = {"EXE": exe or "", "FORK": "false", "BASE_SHA": "$GITHUB_SHA", "HEAD_SHA": "$GITHUB_SHA", "PR": ""}
+    drv = [SIM_DRIVER]
+    for k, v in (job.get("env") or {}).items():                         # a push to main: what the job's env resolves to
+        drv.append('export %s="%s"' % (k, push.get(k, "") if "${{" in str(v) else str(v).replace('"', '\\"')))
+    for n, st in enumerate(job.get("steps") or [], 1):
+        uses, w = str(st.get("uses") or ""), st.get("with") or {}
+        title = st.get("name") or uses or "run"
+        body = ["export %s=\"%s\"" % (k, _sim_expr(v)) for k, v in (st.get("env") or {}).items()]
+        if "run" in st:
+            body.append(st["run"])
+        elif uses.startswith("actions/checkout@") and w.get("repository"):
+            dest = q(str(w.get("path") or "."))
+            body.append('set -o pipefail\n[ -n "${SIM_PRIVATE:-}" ] || { echo "--private DIR: a local checkout of '
+                        '%s"; exit 1; }\nmkdir -p %s\ngit -C "$SIM_PRIVATE" archive "%s" | tar -x -C %s\n'
+                        % (_sim_expr(w["repository"]), dest, _sim_expr(w.get("ref") or "HEAD"), dest))
+        elif uses.startswith("actions/checkout@"):
+            body.append('echo "the tree at $GITHUB_SHA"\n')
+        elif uses.startswith("actions/setup-python@") and not host:
+            v = q(str(w.get("python-version") or "3"))
+            body.append('v=%s\ncommand -v "python$v" > /dev/null || { add-apt-repository -y ppa:deadsnakes/ppa && '
+                        'apt-get install -y -qq "python$v" "python$v-venv"; } > /dev/null 2>&1\n'
+                        '"python$v" -m venv "/opt/py$v" && echo "/opt/py$v/bin" >> "$GITHUB_PATH"\n' % v)
+        elif uses.startswith("actions/upload-artifact@"):
+            body.append('[ -s "%s" ] || { echo "nothing to upload at %s"; exit 1; }\necho "CI-SIM would upload %s: '
+                        '$(($(wc -c < "%s"))) bytes"\n' % ((_sim_expr(w.get("path", "")),) * 2
+                                                      + (_sim_expr(w.get("name", "artifact")), _sim_expr(w.get("path", "")))))
+        else:
+            body.append("echo %s\n" % q("CI-SIM not simulated: uses %s" % uses))
+        text = "\n".join(body)
+        if "${{" in text:
+            raise Fail("step %d (%s): an expression ci-sim does not evaluate: %s" % (
+                n, title, text[text.index("${{"):][:60].splitlines()[0]))
+        (simdir / ("%d.sh" % n)).write_text(text, encoding="utf-8")
+        call = 'step %d %s %s "%s"' % (n, q(str(st.get("id") or "s%d" % n)), q(title),
+                                       _sim_expr(st.get("working-directory") or "$WS"))
+        cond = SIM_IF.search(str(st.get("if") or ""))
+        if cond:
+            call = "if grep -qx %s \"$TMP/.out.%s\" 2> /dev/null; then %s; else echo %s; fi" % (
+                q("%s=%s" % (cond[2], cond[3])), cond[1], call, q("CI-SIM skip step %d: %s (its `if`)" % (n, title)))
+        drv.append(call)
+    (simdir / "job.sh").write_text("\n".join(drv) + "\n", encoding="utf-8")
+
+
+def sim_tree(dev, rev: str, proj: bool, dest: pathlib.Path) -> None:
+    """A repository at dest with one HEAD: a fresh clone of dev at rev (tracked files only: what actions/checkout
+    gives dev's CI), or rev's release projection as a first commit (what it gives the public repository's)."""
+    if not proj:
+        _must(dev, "clone", "-q", "--no-hardlinks", str(dev), str(dest))
+        _must(dest, "checkout", "-q", "--detach", rev)
+        return
+    cache = public_cache(dev)
+    tree, _, probs = projection(cache, dev, rev)
+    if probs:
+        raise Fail("the projection of %s is not publishable:\n%s" % (rev[:10], "\n".join("  " + x for x in probs)))
+    dest.mkdir()
+    _export(cache, tree, dest)
+    _must(dest, "init", "-q", "-b", "main")
+    _must(dest, "add", "-A", "-f")
+    _must(dest, "-c", "user.name=ci-sim", "-c", "user.email=ci-sim@localhost.invalid", "-c", "commit.gpgsign=false",
+          "commit", "-q", "-m", "the projection of %s" % rev)
+
+
+def _sim_run(argv, env=None) -> int:
+    p = subprocess.Popen(argv, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, errors="replace")
+    for line in p.stdout:
+        print(line, end="", flush=True)
+    return p.wait()
+
+
+@_cmd("CI-SIM")
+def cmd_ci_sim(repo=".", workflow="no-rom", rev=None, proj=False, private=None, image=None, host=None) -> int:
+    dev = repo_root(repo)
+    rev = _must(dev, "rev-parse", "--verify", "%s^{commit}" % (rev or "HEAD"))
+    what = "the projection of %s" % rev[:10] if proj else "a fresh clone at %s" % rev[:10]
+    rel = ".github/workflows/%s.yml" % workflow
+    results = []
+    with tempfile.TemporaryDirectory(prefix="psxd-ci-sim-", ignore_cleanup_errors=True) as td:
+        td = pathlib.Path(td).resolve()
+        sim_tree(dev, rev, proj, td / "tree")
+        text = _read(td / "tree" / rel)
+        if text is None:
+            raise Fail("%s has no %s%s" % (what, rel, ": %s does not list it" % PUBLIC_PATHS_REL if proj else ""))
+        jobs = (parse_yaml(text.splitlines())[0] or {}).get("jobs") or {}
+        if host is None:                                               # steps that start containers run on this machine
+            host = bool(re.search(r"^\s*(?:id=\$\()?docker\s", "\n".join(
+                str(st.get("run", "")) for j in jobs.values() for st in j.get("steps") or []), re.M))
+        img = None
+        if not host:
+            base = image or SIM_BASE
+            img = "psxd-ci-sim:" + re.sub(r"[^a-z0-9]+", "-", base.lower()).strip("-")[:60]
+            df = ("FROM %s\nRUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq %s > "
+                  "/dev/null && git config --system --add safe.directory '*'\n" % (base, SIM_APT))
+            r = subprocess.run(["docker", "build", "-q", "-t", img, "-"], input=df, capture_output=True, text=True)
+            if r.returncode != 0:
+                raise Fail("docker build of %s + the runner's tools: %s" % (base, _tail(r, 5)))
+        private = str(pathlib.Path(private).resolve()) if private else ""
+        n = 0
+        for jid, job in jobs.items():
+            exes = (((job.get("strategy") or {}).get("matrix") or {}).get("exe")) or [None]
+            for exe in exes if isinstance(exes, list) else [exes]:
+                n += 1
+                simdir = td / ("sim-%d" % n)
+                simdir.mkdir()
+                sim_job(job, simdir, exe, host)
+                name = _sim_expr(job.get("name") or jid).replace("${EXE}", exe or "")
+                print("CI-SIM job %s on %s%s" % (name, what, "" if host else " in %s" % (image or SIM_BASE)), flush=True)
+                if host:
+                    rc = _sim_run(["bash", str(simdir / "job.sh")], dict(
+                        os.environ, SIM=str(simdir), WS=str(td / "tree"), TMP=str(td / ("runner-%d" % n)),
+                        SIM_IMAGE=image or "", SIM_PRIVATE=private, GITHUB_REPOSITORY=origin_slug(dev) or ""))
+                else:
+                    rc = _sim_run(["docker", "run", "--rm", "-v", "%s:/src:ro" % (td / "tree"), "-v",
+                                   "%s:/sim:ro" % simdir, "-e", "SIM=/sim", "-e", "WS=/work", "-e", "TMP=/tmp/runner",
+                                   img, "bash", "-c", "cp -a /src /work && exec bash /sim/job.sh"])
+                results.append((name, rc))
+        if host and shutil.which("docker"):                             # containers wrote there as root
+            subprocess.run(["docker", "run", "--rm", "-v", "%s:/t" % td, image or SIM_BASE, "chown", "-R",
+                            "%d:%d" % (os.getuid(), os.getgid()), "/t"], capture_output=True)
+    for name, rc in results:
+        _line("CI-SIM", "OK" if rc == 0 else "FAIL", "%s%s" % (name, "" if rc == 0 else " (exit %d)" % rc))
+    bad = sum(rc != 0 for _, rc in results)
+    print("CI-SIM %s %s on %s: %d job(s)" % ("OK" if results and not bad else "FAIL", rel, what, len(results)))
+    return 0 if results and not bad else 1
 
 
 # ---- self-test --------------------------------------------------------------------------------------------------
@@ -3004,8 +3692,368 @@ def _public_self_test(check, td: str):
         calls.clear()
         verify("verify-pr --merge refused as agent", False, "CLAUDECODE", merge=True)
         check("no merge call as agent", not [c for c in calls if c[:2] == ["pr", "merge"]], calls)
+
+        # ---- ship: a fake GitHub (PRs, their checks, the squash merge, the runs) around the real bare public repo
+        agent(False)
+        DEVR = "example/synthetic-decomp-dev"
+        g(M.dev, "remote", "set-url", "origin", "https://github.com/%s.git" % DEVR)
+        hub = {"prs": {}, "n": 10, "dev": "success", "checks": "success", "lag": 1, "polls": 0, "art": True,
+               "push": "success", "sim": 0}
+        sleeps = []
+
+        def hub_api(method, path, body=None):
+            if method != "GET":
+                raise Fail("unexpected %s %s" % (method, path))
+            m = re.fullmatch(r"repos/%s/actions/runs\?head_sha=\w+&per_page=100" % DEVR, path)
+            if m:
+                st = hub["dev"]
+                return {"workflow_runs": [] if st == "none" else [
+                    {"id": 1, "workflow_id": 1, "name": "no-rom", "event": "push", "created_at": "2026-03-01",
+                     "status": "in_progress" if st == "running" else "completed",
+                     "conclusion": None if st == "running" else st, "html_url": "https://example.invalid/run/1"},
+                    {"id": 0, "workflow_id": 1, "name": "no-rom", "event": "push", "created_at": "2026-02-01",
+                     "status": "completed", "conclusion": "failure"},             # an older run, superseded
+                    {"id": 2, "workflow_id": 2, "name": "build", "event": "push", "created_at": "2026-03-01",
+                     "status": "completed", "conclusion": "skipped"}]}             # guarded off in -dev
+            if path == "repos/%s/actions/runs/1/jobs?per_page=100" % DEVR:
+                return {"jobs": [{"name": "compile-only", "conclusion": "failure"},
+                                 {"name": "lint", "conclusion": "success"}]}
+            m = re.fullmatch(r"%s/pulls/(\d+)" % R, path)
+            if m:
+                pr = hub["prs"].get(int(m[1]))
+                return pr and {"state": pr["state"], "base": {"ref": "main"}, "title": pr["title"], "body": "",
+                               "head": {"sha": pr["sha"], "ref": pr["br"], "repo": {"full_name": cfg["repo"]}}}
+            m = re.fullmatch(r"%s/pulls/(\d+)/files\?per_page=100" % R, path)
+            if m:
+                sha = hub["prs"][int(m[1])]["sha"]
+                return [{"filename": f} for f in _must(M.gh, "diff", "--name-only", sha + "^", sha).split()]
+            if re.fullmatch(r"%s/commits/\w+/check-runs\?per_page=100" % R, path):
+                hub["polls"] += 1
+                done = hub["polls"] > hub["lag"]
+                return {"check_runs": [{"name": c, "status": "completed" if done else "in_progress",
+                                        "conclusion": hub["checks"] if done else None, "app": {"id": ACTIONS_APP},
+                                        "check_suite": {"id": 100 + i}} for i, c in enumerate(cfg["checks"])]}
+            m = re.fullmatch(r"%s/actions/runs\?head_sha=(\w+)&per_page=100" % R, path)
+            if m:
+                return {"workflow_runs": [{"id": 900 + i, "check_suite_id": 100 + i, "head_sha": m[1],
+                                           "path": TRUSTED_WORKFLOW if c.startswith("build ") else
+                                           ".github/workflows/no-rom.yml", "event": "pull_request_target"
+                                           if c.startswith("build ") else "pull_request"}
+                                          for i, c in enumerate(cfg["checks"])]}
+            if re.fullmatch(r"%s/actions/runs\?head_sha=\w+&event=push&per_page=100" % R, path):
+                return {"workflow_runs": [
+                    {"id": 70, "name": "build", "path": TRUSTED_WORKFLOW, "status": "completed",
+                     "conclusion": hub["push"], "html_url": "https://example.invalid/run/70"},
+                    {"id": 71, "name": "no-rom", "path": ".github/workflows/no-rom.yml", "status": "completed",
+                     "conclusion": "success", "html_url": "https://example.invalid/run/71"}]}
+            if path == "%s/actions/runs/70/artifacts?per_page=100" % R:
+                return {"artifacts": [{"name": "PSXD_000.01_report"}] if hub["art"] else []}
+            raise Fail("unexpected GET " + path)
+
+        def hub_gh(args, inp=None):
+            a = list(args)
+            calls.append(a)
+            out = ""
+            if a[:2] == ["pr", "list"]:
+                out = json.dumps([{"number": n, "headRefName": x["br"], "url": x["url"]} for n, x in hub["prs"].items()
+                                  if x["state"] == "open"])
+            elif a[:2] == ["pr", "create"]:
+                br_ = a[a.index("--head") + 1]
+                hub["n"] += 1
+                hub["prs"][hub["n"]] = {"br": br_, "sha": _must(M.gh, "rev-parse", "refs/heads/" + br_),
+                                        "state": "open", "title": a[a.index("--title") + 1],
+                                        "url": "https://github.com/%s/pull/%d" % (cfg["repo"], hub["n"])}
+                out = hub["prs"][hub["n"]]["url"] + "\n"
+            elif a[:2] == ["pr", "close"]:
+                x = hub["prs"][int(a[2])]
+                x["state"] = "closed"
+                g(M.gh, "update-ref", "-d", "refs/heads/" + x["br"])
+            elif a[:2] == ["pr", "merge"]:
+                x = hub["prs"][int(a[2])]
+                if a[a.index("--match-head-commit") + 1] != x["sha"] or "--admin" not in a or "--squash" not in a:
+                    return subprocess.CompletedProcess(a, 1, "", "head moved")
+                M.squash(x["br"], int(a[2]))
+                x["state"] = "merged"
+            else:
+                return subprocess.CompletedProcess(a, 1, "", "unexpected gh " + " ".join(a))
+            return subprocess.CompletedProcess(a, 0, out, "")
+        globals()["gh"] = hub_gh
+
+        sims = []
+
+        def fake_sim(repo, workflow, rev, proj):
+            """ci-sim without docker: the real projection tree, a job that passes unless hub["sim"] says otherwise."""
+            with tempfile.TemporaryDirectory() as std:
+                sim_tree(repo, rev, proj, pathlib.Path(std) / "tree")
+                t = pathlib.Path(std) / "tree"
+                sims.append((workflow, rev, proj, (t / "docs/g.md").is_file() and not (t / "CLAUDE.md").exists()))
+            print("CI-SIM job audit on the projection of %s" % rev[:10])
+            print("CI-SIM %s .github/workflows/%s.yml on the projection of %s: 1 job(s)" % (
+                "FAIL" if hub["sim"] else "OK", workflow, rev[:10]))
+            return hub["sim"]
+
+        def ship(dev=None, **k):
+            k.setdefault("summary", "fourth")
+            k.setdefault("ask", lambda q: False)
+            return call(cmd_ship, str(dev or M.dev), api=hub_api, sleep=sleeps.append, ci_sim=fake_sim, **k)
+
+        def pushed():
+            g(M.dev, "update-ref", "refs/remotes/origin/main", M.head())
+
+        def writes():
+            return [c[:3] for c in calls if c[:2] in (["pr", "create"], ["pr", "merge"], ["pr", "close"])]
+
+        def pub_refs():
+            return _git(M.gh, "for-each-ref", "--format=%(refname) %(objectname)").stdout
+
+        def change(files, msg):
+            put(M.dev, files)
+            commit(M.dev, msg)
+            pushed()
+
+        S = World("ship1")
+        g(S.dev, "update-ref", "refs/remotes/origin/main", S.head())
+        rc, out = ship(S.dev)
+        check("ship refuses release 1", rc == 1 and "release 1" in out and "SHIP state" in out, out)
+        put(M.dev, {"docs/g.md": "g4\n"})
+        commit(M.dev, "dev 4")
+        before, calls[:] = pub_refs(), []
+        agent(True)
+        rc, out = ship()
+        check("ship refused as agent", rc == 1 and "CLAUDECODE" in out, out)
+        agent(False)
+        rc, out = ship()
+        check("ship refuses a commit -dev lacks", rc == 1 and "push first" in out, out)
+        pushed()
+        for st, word in (("failure", "compile-only"), ("none", "no workflow run"), ("running", "still running")):
+            hub["dev"] = st
+            rc, out = ship(timeout=1)
+            check("dev CI %s refuses" % st, rc == 1 and "SHIP dev-ci  FAIL" in out and word in out, out)
+        check("dev CI waits before refusing", len(sleeps) >= 2, sleeps)
+        hub["dev"] = "success"
+        with M.variant({"src/leak.c": "MARKER-BYTES\n"}):
+            pushed()
+            rc, out = ship(ack_new=True)
+        check("a leak refuses at the gate", rc == 1 and "SHIP gate" in out and "audit" in out, out)
+        with M.variant({"src/new.c": "n\n"}):
+            pushed()
+            rc, out = ship()
+            check("new paths refused off a TTY", rc == 1 and "--ack-new" in out and "A src/new.c" in out, out)
+            with with_cfg(land_check=["false"]):
+                rc, out = ship(ask=lambda q: True)
+            check("a confirmed path passes; land_check refuses", rc == 1 and "SHIP build" in out and
+                  "land_check exited 1" in out, out)
+        pushed()
+        with with_cfg(land_check=[]):
+            rc, out = ship()
+        check("no land_check refuses", rc == 1 and "land_check is not set" in out, out)
+        hub["sim"] = 1
+        rc, out = ship()
+        hub["sim"] = 0
+        check("no-rom red on the projection refuses", rc == 1 and "SHIP ci      FAIL" in out and "CI-SIM FAIL" in out,
+              out)
+        check("nothing public before the local stages pass", pub_refs() == before and not writes(), writes())
+        sims.clear()
+        agent(True)
+        rc, out = ship(dry_run=True)
+        agent(False)
+        check("ci-sim runs no-rom on the projection", rc == 0 and "SHIP ci      OK CI-SIM OK" in out and sims == [
+            ("no-rom", M.head(), True, True)], (sims, out))
+        check("dry run as agent: stops before the push", rc == 0 and "would push" in out and pub_refs() == before
+              and not writes(), out)
+        hub["polls"], sleeps[:] = 0, []
+        rc, out = ship()
+        main4 = _must(M.gh, "rev-parse", "main")
+        merge = next((c for c in calls if c[:2] == ["pr", "merge"]), [])
+        check("ship: one push, one PR, waits, merges, verifies", rc == 0 and "SHIP OK" in out and writes() == [
+            ["pr", "create", "--repo"], ["pr", "merge", "11"]] and sleeps and trailers(M.gh, main4, "Release-Of") ==
+              [M.head()] and _subject(M.gh, main4) == "Release: fourth (#11)", out)
+        check("the merge is the admin squash pinned to the head", merge[merge.index("--match-head-commit") + 1] ==
+              hub["prs"][11]["sha"] and "--admin" in merge, merge)
+        led = [l for l in (_read(ships_log(M.dev)) or "").splitlines() if not l.startswith("#")]
+        check("ships.tsv: one line", len(led) == 1 and led[0].split("\t")[1:3] == [M.head(), main4], led)
+        n0 = len(writes())
+        rc, out = ship()
+        led = [l for l in (_read(ships_log(M.dev)) or "").splitlines() if not l.startswith("#")]
+        check("a rerun after the merge only verifies", rc == 0 and "already released" in out and "SHIP OK" in out and
+              len(writes()) == n0 and len(led) == 1, out)
+        change({"phase-ends/z.md": "z\n"}, "private only")
+        rc, out = ship()
+        check("nothing to release", rc == 0 and "nothing to release" in out and len(writes()) == n0, out)
+        change({"docs/g.md": "g5\n"}, "dev 5")
+        rc, out = ship(summary="fifth", no_wait=True)
+        check("--no-wait stops once the PR is open", rc == 0 and "PR #12" in out and writes()[n0:] == [
+            ["pr", "create", "--repo"]], out)
+        rc, out = ship(summary="fifth")
+        check("a rerun resumes at the checks: no second PR", rc == 0 and "resuming" in out and "SHIP OK" in out and
+              writes()[n0:] == [["pr", "create", "--repo"], ["pr", "merge", "12"]], out)
+        change({"docs/g.md": "g6\n"}, "dev 6")
+        ship(summary="sixth", no_wait=True)
+        change({"docs/g.md": "g7\n"}, "dev 7")
+        n0 = len(writes())
+        rc, out = ship(summary="seventh")
+        check("another revision's open PR refuses", rc == 1 and "--replace" in out and len(writes()) == n0, out)
+        rc, out = ship(summary="seventh", replace=True)
+        check("--replace closes it after the gate, then ships", rc == 0 and "SHIP OK" in out and writes()[n0:] == [
+            ["pr", "close", "13"], ["pr", "create", "--repo"], ["pr", "merge", "14"]] and hub["prs"][13]["state"] ==
+              "closed", out)
+        change({PUBLIC_PATHS_REL: WORLD_LIST + ".github/\n", ".github/workflows/no-rom.yml": "on: push\n"}, "dev 8")
+        n0 = len(writes())
+        rc, out = ship(summary="eighth", ack_new=True)
+        check("a workflow-changing release stops for review", rc == 1 and "certify itself" in out and "--merge-reviewed"
+              in out and "diff" in out and writes()[n0:] == [["pr", "create", "--repo"]], out)
+        rc, out = ship(summary="eighth", merge_reviewed=True)
+        check("--merge-reviewed merges it", rc == 0 and "diff reviewed" in out and "SHIP OK" in out, out)
+        change({"docs/g.md": "g9\n"}, "dev 9")
+        hub["checks"], n0 = "failure", len(writes())
+        rc, out = ship(summary="ninth")
+        check("a red check refuses the merge", rc == 1 and "SHIP checks  FAIL" in out and "fix forward" in out and
+              writes()[n0:] == [["pr", "create", "--repo"]], out)
+        hub["checks"], hub["art"] = "success", False
+        rc, out = ship(summary="ninth")
+        check("no report artifact fails the verify", rc == 1 and "SHIP verify  FAIL" in out and "PSXD_000.01_report"
+              in out, out)
+        hub["art"] = True
+        rc, out = ship(summary="ninth")
+        check("a rerun verifies it", rc == 0 and "already released" in out and "SHIP OK" in out, out)
+        change({"docs/g.md": "g10\n"}, "dev 10")
+        ship(summary="tenth", no_wait=True)
+        M.contrib({"src/a.c": a_c2 + "late\n"}, "Late fix")
+        rc, out = ship(summary="tenth")
+        check("public main moved under the PR refuses", rc == 1 and "moved" in out and "--replace" in out, out)
+
+        # ---- the push gate: blocks a leak, warns on the rest, offline
+        M.rewind(_must(M.gh, "rev-parse", "main~1"))
+        fetch_public(M.cache, str(M.gh))
+        base_h = M.head()
+
+        def gate(files=None):
+            with M.variant(files):
+                return pre_push_report(M.dev, dev_url, ["refs/heads/main %s refs/heads/main %s" % (M.head(), base_h)])
+        b, w, last = gate({"docs/g.md": "g11\n"})
+        check("gate: a clean push is release-ready", b == [] and w == [] and last == "release-ready: %d files, 0 new" %
+              len(tree_entries(M.cache, PUB_REF)), (b, w, last))
+        b, w, _ = gate({PUBLIC_PATHS_REL: WORLD_LIST + ".github/\nCLAUDE.md\n"})
+        check("gate blocks a listed denied path", any("CLAUDE.md" in x for x in b), b)
+        b, w, _ = gate({"src/leak.c": "MARKER-BYTES\n"})
+        check("gate blocks an audit failure", any(x.startswith("audit") for x in b) and
+              any("new public" in x for x in w), (b, w))
+        b, w, _ = gate({"README.md": (M.dev / "README.md").read_text() + "\nSee [p](docs/priv.txt).\n"})
+        check("gate only warns on a README lint failure", b == [] and any("README" in x and "docs/priv.txt" in x
+                                                                             for x in w), (b, w))
+        b, w, _ = gate({"docs/g.md": "g9\n"})                             # public main's content
+        check("gate warns: nothing new to release", b == [] and any("nothing new" in x for x in w), (b, w))
+        with M.variant({"src/leak.c": "MARKER-BYTES\n"}), contextlib.chdir(M.dev):
+            rc, out = call(cmd_pre_push, "origin", dev_url, io.StringIO("refs/heads/main %s refs/heads/main %s\n" % (
+                M.head(), base_h)))
+        check("the hook's exit: 1 on a block", rc == 1 and "PRE-PUSH FAIL audit" in out, out)
+        with M.variant({"README.md": (M.dev / "README.md").read_text() + "\nSee [p](docs/priv.txt).\n"}), \
+                contextlib.chdir(M.dev):
+            rc, out = call(cmd_pre_push, "origin", dev_url, io.StringIO("refs/heads/main %s refs/heads/main %s\n" % (
+                M.head(), base_h)))
+        check("the hook's exit: 0 on a warning", rc == 0 and "PRE-PUSH WARN" in out and "release-ready" not in out, out)
+        with contextlib.chdir(M.dev):
+            rc, out = call(cmd_pre_push, "origin", dev_url, io.StringIO("refs/heads/main %s refs/heads/main %s\n" % (
+                M.head(), base_h)))
+        check("the hook ends release-ready", rc == 0 and out.strip() == "PRE-PUSH release-ready: %d files, 0 new" % len(
+            tree_entries(M.cache, PUB_REF)), out)
     finally:
         globals()["gh"], globals()["load_public"] = real_gh, real_load
+        os.environ.clear()
+        os.environ.update(saved)
+
+
+SELF_SIM = """name: sim
+on:
+  push:
+    branches: [main]
+jobs:
+  a:
+    name: job ${{ matrix.exe }}
+    strategy:
+      matrix:
+        exe: ["PSXD_000.01"]
+    env:
+      EXE: ${{ matrix.exe }}
+      PLAIN: "p q"   # a comment
+    steps:
+      - uses: actions/checkout@0000000000000000000000000000000000000000 # v4
+        with:
+          submodules: false
+      - name: env — one, two
+        run: |
+          echo "X=1 2" >> "$GITHUB_ENV"
+          mkdir "$RUNNER_TEMP/work"
+      - name: report
+        id: rep
+        working-directory: ${{ runner.temp }}/work
+        env:
+          WANT: "1 2"
+        run: |
+          [ "$X" = "$WANT" ] && [ "$PLAIN" = "p q" ] && [ -f "$GITHUB_WORKSPACE/Makefile" ]
+          echo "$EXE" > report.json
+          echo "make=yes" >> "$GITHUB_OUTPUT"
+      - name: upload
+        if: success() && steps.rep.outputs.make == 'yes'
+        uses: actions/upload-artifact@0000000000000000000000000000000000000000 # v4
+        with:
+          name: ${{ matrix.exe }}_report
+          path: ${{ runner.temp }}/work/report.json
+      - run: test ! -e tools/private.py   # tracked files only
+"""
+
+
+def _sim_self_test(check, td: str):
+    """list --draft and ci-sim (its steps on this machine: no container) on a throwaway repository."""
+    repo = _self_repo(td)
+    saved = dict(os.environ)
+    os.environ.update(GIT_AUTHOR_NAME="t", GIT_AUTHOR_EMAIL="t@t.invalid", GIT_COMMITTER_NAME="t",
+                      GIT_COMMITTER_EMAIL="t@t.invalid", GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM="1")
+
+    def commit(files: dict):
+        for rel, body in files.items():
+            (repo / rel).parent.mkdir(parents=True, exist_ok=True)
+            (repo / rel).write_text(body, encoding="utf-8")
+        _git(repo, "add", "-A")
+        _git(repo, "-c", "commit.gpgsign=false", "commit", "-qm", "more")
+
+    def sim(**k):
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = cmd_ci_sim(str(repo), "sim", host=True, **k)
+        return rc, buf.getvalue()
+    try:
+        commit({".github/workflows/sim.yml": SELF_SIM, "tools/a.py": "# runs tools/wave.py\n", "tools/wave.py": "#\n",
+                "tools/sub/b.py": "#\n", "src/a.c": A_C, "CLAUDE.md": "agents\n", "notes/keep.md": "private\n",
+                CONFIG_REL: '[public]\nrepo = "example/synthetic"\ndeny = ["notes/"]\n'})
+        entries, warns = draft_list(repo, "HEAD")
+        check("list --draft folds what has nothing private", {"src/", ".github/", "docs/", "tools/sub/", "tools/a.py",
+              "config/"} <= set(entries) and not {"tools/", "tools/wave.py", "CLAUDE.md", "notes/"} & set(entries),
+              entries)
+        check("list --draft names what stays behind", warns == ["tools/wave.py stays private, and tools/a.py names it"],
+              warns)
+        wf = parse_yaml(SELF_SIM.splitlines())[0]
+        job = wf["jobs"]["a"]
+        check("ci-sim reads the workflow", [sorted(s) for s in job["steps"]][:2] == [["uses", "with"], ["name", "run"]]
+              and job["env"]["PLAIN"] == "p q" and job["strategy"]["matrix"]["exe"] == ["PSXD_000.01"]
+              and wf["on"]["push"]["branches"] == ["main"] and job["steps"][1]["name"] == "env — one, two", job)
+        rc, out = sim()
+        check("ci-sim: a fresh clone, green", rc == 0 and "would upload PSXD_000.01_report: 12 bytes" in out
+              and "CI-SIM OK   job PSXD_000.01" in out, out[-400:])
+        commit({".github/workflows/sim.yml": SELF_SIM.replace('echo "$EXE" > report.json', "test -e nowhere")})
+        rc, out = sim()
+        check("ci-sim: a failing step is red", rc == 1 and "CI-SIM FAIL step 3: report" in out
+              and "would upload" not in out, out[-400:])
+        commit({".github/workflows/sim.yml": SELF_SIM, PUBLIC_PATHS_REL: "config/\nMakefile\nsrc/\n"})
+        rc, out = sim(proj=True)
+        check("ci-sim --projection: an unlisted workflow", rc == 1 and "does not list it" in out, out[-300:])
+        commit({PUBLIC_PATHS_REL: "config/\nMakefile\nsrc/\n.github/\n"})
+        rc, out = sim(proj=True)
+        check("ci-sim --projection: the public tree, green", rc == 0 and "on the projection of" in out, out[-400:])
+        commit({".github/workflows/sim.yml": SELF_SIM.replace("test ! -e tools/private.py", "echo ${{ github.sha }}")})
+        rc, out = sim()
+        check("ci-sim refuses an expression in run", rc == 1 and "does not evaluate" in out, out[-300:])
+    finally:
         os.environ.clear()
         os.environ.update(saved)
 
@@ -3156,6 +4204,8 @@ def self_test() -> int:
           and (withheld, kept, total) == (4, 2, 6), shown)
     with tempfile.TemporaryDirectory() as td:
         _public_self_test(check, td)
+    with tempfile.TemporaryDirectory() as td:
+        _sim_self_test(check, td)
     print("publish %s" % ("SELF-TEST OK" if ok else "SELF-TEST FAILED"))
     return 0 if ok else 1
 
@@ -3201,6 +4251,16 @@ def main(argv=None) -> int:
     rl.add_argument("--ack-new", action="store_true", help="allow paths public does not have yet")
     rl.add_argument("--dry-run", action="store_true", help="the checks and the list; no ref is written")
     rl.add_argument("--push", action="store_true", help="push the branch and open the PR (release 1: push main)")
+    sh = sub.add_parser("ship")
+    sh.add_argument("--summary", help="the release's title, in your own words (one line)")
+    sh.add_argument("--rev", help="the dev revision; it must be origin/<dev_branch> (default: dev_branch's tip)")
+    sh.add_argument("--ack-new", action="store_true", help="allow paths public does not have yet without asking")
+    sh.add_argument("--dry-run", action="store_true", help="stop before the push: nothing is written to public")
+    sh.add_argument("--no-wait", action="store_true", help="stop once the PR is open (rerun ship to continue)")
+    sh.add_argument("--timeout", type=int, default=90, metavar="MIN", help="how long to wait for CI (default 90)")
+    sh.add_argument("--replace", action="store_true", help="close an open release PR of another revision")
+    sh.add_argument("--merge-reviewed", action="store_true",
+                    help="the release changes a workflow and you reviewed its diff: merge on its green checks")
     im = sub.add_parser("import")
     im.add_argument("--accept-governance", action="store_true")
     im.add_argument("--skip", action="append", default=[], metavar="SHA", help="a public commit dev must never take")
@@ -3211,10 +4271,20 @@ def main(argv=None) -> int:
     vp = sub.add_parser("verify-pr")
     vp.add_argument("pr", type=int)
     vp.add_argument("--merge", action="store_true")
-    for p in (rl, im, ld, st, vp):
+    for p in (rl, sh, im, ld, st, vp):
         p.add_argument("--repo", default=".", help="the dev repository (default: this one)")
     cl = sub.add_parser("ci-log")
     cl.add_argument("file")
+    ls = sub.add_parser("list")
+    ls.add_argument("--draft", action="store_true", help="print a first config/public-paths.txt")
+    cs = sub.add_parser("ci-sim")
+    cs.add_argument("--workflow", default="no-rom", help="the name in .github/workflows/ (default no-rom)")
+    cs.add_argument("--projection", action="store_true", help="the release projection, not a clone of dev")
+    cs.add_argument("--private", metavar="DIR", help="a local checkout of [public].private_repo (build.yml)")
+    cs.add_argument("--image", metavar="REF", help="the container image to use")
+    for p in (ls, cs):
+        p.add_argument("--rev", help="the dev revision (default HEAD)")
+        p.add_argument("--repo", default=".", help="the dev repository (default: this one)")
     pp = sub.add_parser("pre-push", help="git's pre-push hook calls this (stdin: the refs)")
     pp.add_argument("remote")
     pp.add_argument("url", nargs="?", default="")
@@ -3300,6 +4370,9 @@ def main(argv=None) -> int:
         return cmd_check_public(a.dir)
     if a.cmd == "release":
         return cmd_release(a.repo, a.rev, a.summary, a.ack_new, a.dry_run, a.push)
+    if a.cmd == "ship":
+        return cmd_ship(a.repo, a.summary, a.rev, a.ack_new, a.dry_run, a.no_wait, a.timeout, a.replace,
+                        a.merge_reviewed)
     if a.cmd == "import":
         return cmd_import(a.repo, a.accept_governance, a.skip)
     if a.cmd == "land":
@@ -3310,6 +4383,10 @@ def main(argv=None) -> int:
         return cmd_verify_pr(a.repo, a.pr, a.merge)
     if a.cmd == "ci-log":
         return cmd_ci_log(a.file)
+    if a.cmd == "list":
+        return cmd_list(a.repo, a.draft, a.rev)
+    if a.cmd == "ci-sim":
+        return cmd_ci_sim(a.repo, a.workflow, a.rev, a.projection, a.private, a.image)
     if a.cmd == "pre-push":
         return cmd_pre_push(a.remote, a.url)
     if a.cmd == "hook":

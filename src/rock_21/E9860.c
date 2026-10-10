@@ -4,13 +4,13 @@ INCLUDE_ASM("asm/rock_21/nonmatchings/E9860", D_800E9860);
 
 #include "../shared/rock_21/func_800E9864.c"
 
-INCLUDE_ASM("asm/rock_21/nonmatchings/E9860", func_800E9C9C);
+#include "../shared/rock_21/func_800E9C9C.c"
 
 #include "../shared/rock_21/func_800E9DA8.c"
 
 #include "../shared/rock_21/func_800E9FA4.c"
 
-INCLUDE_ASM("asm/rock_21/nonmatchings/E9860", func_800EA1A0);
+#include "../shared/rock_21/func_800EA1A0.c"
 
 INCLUDE_ASM("asm/rock_21/nonmatchings/E9860", func_800EA3A8);
 

@@ -308,7 +308,9 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FDB30);
 #include "../shared/rock_04/func_800F51F0.c"
 #undef func_800F51F0
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FDE04);
+#define func_800F52AC func_800FDE04
+#include "../shared/rock_04/func_800F52AC.c"
+#undef func_800F52AC
 
 #define func_800F5360 func_800FDEB8
 #include "../shared/rock_04/func_800F5360.c"

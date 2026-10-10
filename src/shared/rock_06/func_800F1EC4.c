@@ -18,7 +18,7 @@ void func_800EE344(void*);
 void func_800EE6C0(void* self);
 void func_800EE828(void);
 void func_800F1C80(void* arg0);
-M2C_UNK func_800F1DA8(void*, M2C_UNK, M2C_UNK);
+s32 func_800F1DA8(void*, s32, s32);
 
 extern M2C_UNK D_800970A0;
 #define F1EC4_PL (*(struct X4_PlayerObj*)&D_800970A0)

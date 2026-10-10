@@ -6,7 +6,7 @@ M2C_UNK func_80017B04(M2C_UNK*, M2C_UNK, M2C_UNK); /* extern */
 void func_8002000C(void);                           /* extern */
 M2C_UNK func_8002012C();                           /* extern */
 void func_80020258(void);                           /* extern */
-M2C_UNK func_80020378();                           /* extern */
+void func_80020378(void);                           /* extern */
 M2C_UNK func_8002048C();                           /* extern */
 M2C_UNK func_800205A0();                           /* extern */
 M2C_UNK func_800206C0();                           /* extern */

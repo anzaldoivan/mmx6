@@ -175,3 +175,7 @@ C0172 | First statement after a do-while(0) loop-end note is a barrier: make it 
 C0173 | Range-test block order: inverted test goto the shared block, then goto the call | lever,goto,block-order,range-test,if-else | 2026-10-09 | 1.8.1/T16 | mmx6 W16 SLUS 4CD3C, rock_02 EDBB4
 C0174 | Table base into a pointer local before a call keeps it callee-saved | lever,callee-saved,regalloc,pointer,table,call | 2026-10-09 | 1.8.1/T16 | mmx6 W16 SLUS 4CD3C, rock_03 F1A3C
 C0175 | Fold the load into the compare: if (g < (t = tbl[i])), if (++field == 50) | lever,compare,assignment,load-order,pre-increment,zero-extend | 2026-10-09 | 1.8.1/T16 | mmx6 W16 rock_11 F95C4, rock_09 F45C0
+C0176 | Empty case 1 plus goto into an if (0) block sets which case cross-jumps | lever,switch,case-tree,cross-jump,goto,block-order | 2026-10-10 | 1.8.1/T17 | mmx6 W17 rock_07 F50EC
+C0177 | Signed /16 with the shift before the sign branch: q = v >> 4; if (v < 0) q = (v + 15) >> 4 | lever,division,shift,rounding,signed | 2026-10-10 | 1.8.1/T17 | mmx6 W17 rock_08 EB098
+C0178 | Explicit byte offset, not a cast view, keeps an offset shared across same-shape arrays | lever,array,offset,cse,cast,view-macro | 2026-10-10 | 1.8.1/T17 | mmx6 W17 SLUS 26ECC
+C0179 | Byte-field increment temp in the wrong register: pinned s32 block local = f + 1 | lever,increment,register-pin,regalloc,byte | 2026-10-10 | 1.8.1/T17 | mmx6 W17 rock_02 F7570, rock_15 ECC78

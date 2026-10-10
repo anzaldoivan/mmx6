@@ -56,3 +56,5 @@ rock_24 0x800EB560 L4 twin of rock_11:0x800EA84C plumbing:R2 (stops at the same 
 rock_32 0x800EA530 L4 twin of rock_11:0x800EA84C plumbing:R2 (stops at the same rung); hold until it closes (T15)
 rock_38 0x800FAD80 L4 twin of rock_09:0x800F1144 plateau:sched (stops at the same rung); hold until it closes (T15)
 rock_38 0x800FAEC0 L4 twin of rock_09:0x800F1144 plateau:sched (stops at the same rung); hold until it closes (T15)
+SLUS_013.95 0x80018178 L4 twin of SLUS_013.95:0x80018060 plateau:isel (stops at the same rung); hold until it closes (T17)
+rock_28 0x800EFB38 L4 twin of rock_06:0x800F1DA8 plumbing:R3 (stops at the same rung); hold until it closes (T17)

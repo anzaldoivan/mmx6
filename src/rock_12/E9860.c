@@ -1,8 +1,6 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/rock_12/nonmatchings/E9860", D_800E9860);
-
-INCLUDE_ASM("asm/rock_12/nonmatchings/E9860", func_800E9884);
+#include "../shared/rock_12/func_800E9884.c"
 
 INCLUDE_ASM("asm/rock_12/nonmatchings/E9860", func_800E9A98);
 

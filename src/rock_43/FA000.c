@@ -12,9 +12,9 @@ INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FA52C);
 
 #include "../shared/rock_43/func_800FA650.c"
 
-INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FA8B4);
+#include "../shared/rock_43/func_800FA8B4.c"
 
-INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FAADC);
+#include "../shared/rock_43/func_800FAADC.c"
 
 INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FACFC);
 

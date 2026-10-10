@@ -1,0 +1,79 @@
+#include "common.h"
+#define M2C_UNK s32
+#include "mmx6/x4.h"
+s8 func_80014D50();
+void func_80055BA4(s32);
+s8 func_800601A4(u8*, u8, s32);
+X4_CdlCB func_800648B4(X4_CdlCB func);
+s32 func_80064B44(M2C_UNK, M2C_UNK, u8*);
+extern u8 D_8008EC08;
+extern s8 D_80090D50[6];
+extern u8 D_8009509C;
+extern u8* D_80097738[];
+extern s32* D_80097750;
+extern s32 D_80097758[];
+extern s32* D_80097778[];
+extern union X4_CdSectorBuffer D_800CF998;
+extern u8 D_800DF999;
+extern s32 D_800E01A8;
+extern u8* D_800E01AC;
+extern u32 D_800E01BC;
+extern u32 D_800E01C8;
+extern u8 D_800E01CD;
+extern u16 D_800E01D4;
+extern u16 D_800E01D6;
+extern struct X4_CdCompletionSlot D_800E01E8[16];
+extern s32 D_800E0374;
+
+void func_80015A0C(void) {
+    u8* p;
+    s32* b;
+    u8 a;
+    s32 n;
+    u32 i;
+
+    D_800E01D6++;
+    if (D_800E01D6 - D_800E01D4 >= 0x20) {
+        func_800648B4(0);
+        func_80064B44(9, 0, 0);
+        D_8009509C = 0x80;
+        return;
+    }
+    a = D_800E01BC;
+    i = (D_800E01BC >> 8) & 0xFF;
+    D_800E01E8[D_800DF999].transfer_pending = 0;
+    if (D_800E01CD != 0) {
+        b = D_80097750;
+        D_80097758[i] = D_800E0374;
+        D_80097778[i] = b + 2;
+        p = (u8*)b + (*b & 0xFFFFFF);
+        D_80097738[i] = p;
+        if ((D_80090D50[i] = func_800601A4(p, a, D_800E0374)) == -1) {
+            func_800648B4(0);
+            func_80064B44(9, 0, 0);
+            D_8009509C = 0x80;
+            return;
+        }
+        func_80055BA4(0);
+        n = D_800E01A8;
+        D_800E01CD = 0;
+        D_800E01E8[D_800DF999].transfer_pending = 0xFFFF;
+        D_800E01C8 = n;
+        D_800E0374 += n;
+    }
+    D_800E01AC = D_800CF998.sectors[D_800DF999];
+    if (func_80014D50() == -1) {
+        func_800648B4(0);
+        func_80064B44(9, 0, 0);
+        D_8009509C = 0x80;
+        return;
+    }
+    D_8008EC08 = 1;
+    D_800E01E8[D_800DF999].pending = 1;
+    D_800E01E8[D_800DF999].callback = 2;
+    D_800E01E8[D_800DF999].callback_arg = i;
+    D_800DF999++;
+    if (D_800DF999 == 0x20) {
+        D_800DF999 = 0;
+    }
+}

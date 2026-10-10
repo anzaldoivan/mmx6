@@ -1,0 +1,46 @@
+#include "common.h"
+#include "mmx6/x4.h"
+#define M2C_UNK s32
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
+
+M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK func_800179A4(void*, M2C_UNK);
+extern s16 D_800970AA;
+extern struct X4_BackgroundObj D_800971F8[3];
+
+#define SPAD (*(u8**)0x1F80004C)
+#define CENTER                                                                 \
+    ({                                                                         \
+        s32 l_ = D_800971F8[0].unk1E - 320;                                    \
+        D_800971F8[0].unk1E + (D_800971F8[0].unk1C - l_) / 2;                  \
+    })
+
+void func_800F303C(void* arg0) {
+    u8* sp = SPAD;
+    u16 x;
+    s32 c;
+    s32 t;
+
+    if (M2C_FIELD(sp, s8*, 0x89) == 0) {
+        M2C_FIELD(sp, s8*, 0x89) = 120;
+    }
+    x = M2C_FIELD(arg0, u16*, 0xA);
+    if ((t = D_800970AA > (c = CENTER)) && c < (s16)x) {
+        M2C_FIELD(arg0, s32*, 0x20) = -0x60000;
+        M2C_FIELD(arg0, s32*, 0x28) = 0;
+        M2C_FIELD(arg0, s32*, 0x24) = 0;
+        M2C_FIELD(arg0, s32*, 0x2C) = 0;
+        M2C_FIELD(arg0, u8*, 0x6)++;
+        return;
+    } else if (!t && (s16)x <= CENTER) {
+        M2C_FIELD(arg0, s32*, 0x20) = 0x60000;
+        M2C_FIELD(arg0, s32*, 0x28) = 0;
+        M2C_FIELD(arg0, s32*, 0x24) = 0;
+        M2C_FIELD(arg0, s32*, 0x2C) = 0;
+        M2C_FIELD(arg0, u8*, 0x6)++;
+        return;
+    }
+    func_80016C48(2, 0x23, arg0);
+    ((void (*)(void*, s32))func_800179A4)(arg0, 0x12);
+    M2C_FIELD(arg0, u8*, 0x6) = 2;
+}

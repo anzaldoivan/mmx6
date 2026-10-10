@@ -1,0 +1,156 @@
+# Segmentation rules (phase 1.3 T3)
+Mechanical rules turning `config/boundaries.txt` rows into splat subsegments (TUs) for every program.
+DK-12: split where the build forces it and nowhere else. Input rows: grammar at config/boundaries.txt:2.
+Consumer: `tools/mmx6/boundcheck.py` (every forced edge below is a subsegment edge in `config/<bin>.yaml`).
+
+## Terms
+- TU: one splat text subsegment = one future `.c`/`.s` object; its rodata/data/bss travel with it.
+- forced edge: an address where a TU must start or end (only `lib` rows, after the rules below, produce one).
+- text extent: exe `[0x800120A0, max(0x8006D5D0, last lib hi))` (config/SLUS_013.95.yaml asm subsegment);
+  overlay `[base, base+size)` until a finer code extent is recorded.
+
+## Rules per row kind
+- lib: each non-weak `lib <lo> <hi> <LIB/OBJ>` row is its own TU `[lo, hi)`, named by the object (`LIB_OBJ`, e.g.
+  `LIBSPU_SPU`); `lo` and `hi` are forced edges. Tie-break on overlap (rows sorted by `lo`): a span wholly inside
+  an earlier span is dropped and the container wins (more signature bytes verified); a partial overlap (none today)
+  merges both into one TU named `A+B`, an open question until resolved. Ambiguous names (header `ambiguous_name`,
+  `ambiguous_plate`) never become rows (tools/mmx6/boundaries.py:19, :358-366), so they fall inside a gap and
+  are no edge.
+- jtbl: no edge. The table belongs to the TU that contains its dispatching function (`func` column) and is emitted
+  in that TU's rodata; a TU edge never separates a function from its table. Rows with note `label-inside-scan-table`
+  (hi `unknown`) are labels inside another table, not tables (C0026). A table whose `func` is `-` takes the TU of
+  the table that contains it, else stays in the program's single rodata block (open question 4).
+- fstart: a symbol only (`func_<ADDR>` in `config/symbols.<bin>.txt`), never a TU edge.
+- weak: `LIBSND.LIB/VM_VIB.OBJ` rows (0x20 B plates; exe :54-55, overlays :656 :677 :742 :912) and any row a later
+  phase marks weak are never a split point in any program, and are dropped before the overlap tie-break (so exe
+  VM_VIB `[0x80054AB8, 0x80054AD8)` does not clip `2MBYTE.OBJ` at 0x80054AD0).
+- optcand: none; 0 rows, and the opt level is no boundary signal (1.2 T8).
+- gap: the text between two consecutive forced edges (or a text-extent end and the nearest edge) with no lib row
+  in it is exactly one TU, named `<vaddr hex>`, until evidence forces more (alignment padding between functions,
+  a rodata-order break, a newly verified lib signature). Exe: 1 game gap + 15 small inter-lib gaps.
+- carve (phase 1.6 T6; `config/carve.<prog>.txt`, written only by `tools/mmx6/carve.py`): deliberate edges, one
+  record per binary (G43). `opt <tu> <vram> <newtu> [cflags]`: a text edge at a corpus function start inside `<tu>`,
+  new TU `<newtu>` (vram hex, kind of the parent; per-unit cc1 flags via `config/carve.<prog>.mk`). `jtbl <lo> <tu>`:
+  the boundaries.txt jtbl row `[lo, hi)` becomes `[off, .rodata, <tu>]`, `<tu>` = the c unit of its
+  dispatcher, so splat migrates the table into the dispatcher's INCLUDE_ASM .s; the rest of the rodata block stays
+  `rodata` pieces named by vram hex. `rodata <lo> <hi> <tu>` (phase 1.8.1 T4, `carve.py rodata <prog> <func>
+  [--bytes N]`): the same cut over a content-derived range, a maximal run (>= 2 words) of retail words in the rodata
+  block whose values all lie in `[func, func end)`; `--bytes N` = tables T + pad P, 0 <= P < the unit object's .rodata
+  alignment; a second table of a unit merges the unit's rows into one contiguous range in TU function order (one row
+  per table, trailing zero pad < alignment included; other bytes refuse `foreign-rodata`; T44.c1). Rodata block: exe `[0x80010000, 0x800120A0)`; overlay
+  `[base, first text function)` when its first TU is a c unit holding `INCLUDE_ASM(..., D_<base>)`. An overlay's first
+  carve drops that line, strips the `D_<base>` attributes in `config/symbols.<prog>.txt` (a sized symbol hides the
+  block's jump tables from spimdisasm, so nothing migrates) and records `block <hi>`; segment.py then emits rodata
+  pieces over `[base, hi)` (the piece at base named `<unit>_rodata`, never the unit's name) and starts the unit at hi.
+  Refused: no jtbl row / func `-` / label-inside-scan-table, no rodata block, no table run (`no-table`), a `--bytes`
+  mismatch, a range straddling two rodata pieces or overlapping a carve, a TU's rodata made non-contiguous, an asm
+  dispatcher TU; opt at a non-start or the TU start. Exe today: jtbl 0x80011378 → 32208, opt 120A0 at 0x80032208
+  (TU 32208, game lane).
+
+## Checks run on the result (scratch .run/t3/segcount.py, T3)
+- Overlaps in boundaries.txt header = 4 = 3 contained (SSCLOSE ⊃ SSSNC, SSSTART ⊃ S_IH, SSSTOP ⊃ PLAY) + 1 weak
+  (VM_VIB vs 2MBYTE).
+- Exe jtbl: 47 tables, 41 in game TUs, 6 in lib TUs, 0 with no func; dispatch-TU order along rodata addresses has
+  0 inversions, so a rodata partition that follows text TU order exists (section_order rodata first holds).
+- Last exe lib span `LIBPAD.LIB/PDRESRES.OBJ` ends at 0x8006D5D4, 4 B past the T2 yaml text end 0x8006D5D0.
+
+## TU counts per program
+Columns: TUs = lib + gap; weak = rows not split; jtbl = table rows incl. inside-table labels.
+
+| program | TUs | lib | gap | weak | jtbl |
+|---|---|---|---|---|---|
+| SLUS_013.95 | 246 | 230 | 16 | 2 | 47 |
+| rock_00 | 1 | 0 | 1 | 0 | 2 |
+| rock_01 | 1 | 0 | 1 | 0 | 0 |
+| rock_02 | 1 | 0 | 1 | 0 | 82 |
+| rock_03 | 1 | 0 | 1 | 0 | 10 |
+| rock_04 | 1 | 0 | 1 | 0 | 11 |
+| rock_05 | 1 | 0 | 1 | 0 | 1 |
+| rock_06 | 1 | 0 | 1 | 0 | 1 |
+| rock_07 | 1 | 0 | 1 | 0 | 7 |
+| rock_08 | 1 | 0 | 1 | 0 | 5 |
+| rock_09 | 1 | 0 | 1 | 0 | 6 |
+| rock_10 | 1 | 0 | 1 | 1 | 93 |
+| rock_11 | 1 | 0 | 1 | 0 | 11 |
+| rock_12 | 1 | 0 | 1 | 1 | 1 |
+| rock_14 | 1 | 0 | 1 | 0 | 3 |
+| rock_15 | 1 | 0 | 1 | 0 | 0 |
+| rock_16 | 1 | 0 | 1 | 0 | 2 |
+| rock_17 | 1 | 0 | 1 | 0 | 0 |
+| rock_18 | 1 | 0 | 1 | 0 | 2 |
+| rock_19 | 1 | 0 | 1 | 0 | 0 |
+| rock_20 | 1 | 0 | 1 | 0 | 2 |
+| rock_21 | 1 | 0 | 1 | 0 | 0 |
+| rock_22 | 1 | 0 | 1 | 1 | 17 |
+| rock_23 | 1 | 0 | 1 | 0 | 5 |
+| rock_24 | 1 | 0 | 1 | 0 | 11 |
+| rock_25 | 1 | 0 | 1 | 0 | 2 |
+| rock_26 | 1 | 0 | 1 | 0 | 9 |
+| rock_27 | 1 | 0 | 1 | 0 | 0 |
+| rock_28 | 1 | 0 | 1 | 0 | 0 |
+| rock_29 | 1 | 0 | 1 | 0 | 1 |
+| rock_30 | 1 | 0 | 1 | 0 | 2 |
+| rock_31 | 1 | 0 | 1 | 1 | 88 |
+| rock_32 | 1 | 0 | 1 | 0 | 1 |
+| rock_33 | 1 | 0 | 1 | 0 | 7 |
+| rock_34 | 1 | 0 | 1 | 0 | 0 |
+| rock_35 | 1 | 0 | 1 | 0 | 0 |
+| rock_36 | 1 | 0 | 1 | 0 | 4 |
+| rock_37 | 1 | 0 | 1 | 0 | 0 |
+| rock_38 | 1 | 0 | 1 | 0 | 3 |
+| rock_39 | 1 | 0 | 1 | 0 | 2 |
+| rock_40 | 1 | 0 | 1 | 0 | 2 |
+| rock_43 | 1 | 0 | 1 | 0 | 2 |
+| rock_44 | 1 | 0 | 1 | 0 | 0 |
+| rock_45 | 1 | 0 | 1 | 0 | 1 |
+| rock_46 | 1 | 0 | 1 | 0 | 0 |
+| rock_47 | 1 | 0 | 1 | 0 | 0 |
+| rock_48 | 1 | 0 | 1 | 0 | 0 |
+| rock_49 | 1 | 0 | 1 | 0 | 0 |
+| rock_50 | 1 | 0 | 1 | 0 | 0 |
+| rock_51 | 1 | 0 | 1 | 0 | 0 |
+| rock_52 | 1 | 0 | 1 | 0 | 0 |
+| rock_53 | 1 | 0 | 1 | 0 | 0 |
+| rock_54 | 1 | 0 | 1 | 0 | 0 |
+| rock_55 | 1 | 0 | 1 | 0 | 0 |
+| rock_56 | 1 | 0 | 1 | 0 | 0 |
+| rock_57 | 1 | 0 | 1 | 0 | 0 |
+| rock_58 | 1 | 0 | 1 | 0 | 0 |
+| total (57 programs) | 302 | 230 | 72 | 6 | 443 |
+
+## Open questions (not settled by T3)
+1. Exe text end: the yaml text subsegment must reach 0x8006D5D4 (PDRESRES signature end) for the lib edge to exist;
+   is 0x8006D5D0..D5D4 code tail or a signature that overruns into data?
+2. CLOSED (phase 1.8 T8): the 15 small exe inter-lib gaps (0x10-0x120 B) are all PsyQ 4.7 vendor objects, 25
+   functions, 0 padding, 0 game TUs: every gap span is tiled exactly by `psyq/470` signatures, each matching ≥ 2
+   byte-identical objects (why boundaries.py left them unnamed). Per-function object names, the naming rule and the
+   version table: docs/ops/compiler-pin.md `## Lib provenance`. Seven gaps hold 2-3 objects (579D4, 5BA04, 646E4,
+   64874, 657A4, 657D4, 6A784): per the gap rule they stay one TU each until a lib-lane build needs object TUs.
+3. Contained lib spans (SSSNC, S_IH, PLAY): a real object cannot sit inside another; are these short-signature
+   false matches, or is the container's signature too long?
+4. Overlay jtbl rows with func `-`: 219 are inside-table labels; 40 have no recorded dispatcher. Irrelevant while
+   each overlay is one TU; must be owned before any overlay is split.
+5. The exe game gap [0x800120A0, 0x80054AD0) (0x42A30 B) is one TU; splitting it needs evidence (padding, rodata
+   order, file-boundary heuristics) that this phase does not gather.
+6. Overlay text extent: overlays count their whole image as one TU; code vs rodata/data inside each image is not
+   yet recorded (partly answered for rock_17/43/45 below).
+
+## Declared overlay function starts (phase 1.5 T1)
+- rock_17/43/45 split as `dlabel` + `.word` (0 glabel): their header words decode as far forward branches/jumps
+  (spimdisasm `_findFunctions` farthestBranch never returns to 0), so no `jr $ra` ends a function and the one
+  giant function, holding invalid words, is printed as data.
+- Fix: config/symbols.rock_{17,43,45}.txt declare every start `type:func size:` (to its last `jr $ra` + delay
+  slot) and header / ptr table / trailing data as sized `type:s32`, each with a `// basis:` line from retail bytes
+  (post-return, jal, first code after header; never Ghidra). glabel 29/77/52; 5 multi-return functions (a branch
+  targets past an earlier `jr $ra`) are one function each: rock_43 func_800FDCD4, func_800FDD84; rock_45 func_800FB6F0.
+- These starts are ours, not spimdisasm's: a boundary oracle comparing against splat must treat them as declared.
+
+## Declared overlay boundaries (phase 1.5 T5)
+- Cause: B2 (tools/mmx6/bound2.py) found phantoms/truncations in 53 overlays: header words inside the first splat
+  function, code printed as data (header-side and tail-side data spans), data words cut into functions.
+- Kind A (header): 52 `D_<text_lo>` header symbols (word 0, plus header / jump-table words) and 50 head functions.
+- Kind B (code printed as data): 581 more declared `type:func size:` starts (post-return / jal target), 23 of them
+  multi-return merges; rock_03 isolation: header + first function + trailing data gives B2 0/0 but splat merged 33
+  B2 functions into one, so the runs are declared start by start. Kind C (data cut into functions): 14 `type:s32`.
+- spimdisasm ends a sized symbol only at size >= 8: a 4-byte header word is declared without size, followed by a
+  declared function at +4. Result: `BOUND2 phantoms=0 truncations=0`; th-bound2 runs `--all` (mk/tools-health.mk).

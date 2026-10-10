@@ -1,0 +1,59 @@
+#include "common.h"
+#define M2C_UNK s32
+#include "mmx6/x4.h"
+
+M2C_UNK func_800179A4(void*, M2C_UNK);
+s32 func_8002CBFC(s32, M2C_UNK, M2C_UNK);
+M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
+s32 func_80065944(s32);
+s32 func_80065A14(s32);
+s32 func_80065B74(s32, s32);
+extern s32 D_8007429C;
+extern struct X4_PlayerObj D_800970A0;
+extern s32 D_800F7154;
+extern s32 D_800F7158;
+extern s32 D_800F715C;
+
+void func_800E9DCC(struct X4_MainObj* self) {
+    s32 a;
+
+    self->contact_damage = 4;
+    self->hp = 1;
+    self->collision_data = &D_8007429C;
+    self->unk16 = 5;
+    self->air_state = 1;
+    func_800179A4(self, 0xA);
+    {
+        register void* r asm("$2") = &D_800F7154;
+        register void* q asm("$3") = &D_800F7158;
+        self->terrain_box = r;
+        self->attack_box = q;
+        self->state = 1;
+        self->hurt_box = &D_800F715C;
+    }
+    self->unk5 = 0;
+    self->unk6 = 0;
+    self->unk7 = 0;
+    {
+        s32 px = D_800970A0.x_pos.i.hi;
+        s32 py = D_800970A0.y_pos.i.hi;
+        a = func_80065B74(self->y_pos.i.hi - py, px - self->x_pos.i.hi);
+    }
+    self->x_accel = 0;
+    self->gravity = 0;
+    {
+        s32 t = func_80065A14(a);
+        s32 u = t << 4;
+        self->x_speed = (t << 6) + u;
+    }
+    {
+        s32 t = func_80065944(a);
+        s32 u = t << 4;
+        self->y_speed = (t << 6) + u;
+    }
+    if (func_8002CBFC(self, 0x20, 0x20) == 0) {
+        func_8002CCB0(self, 0x10, 0x10);
+        return;
+    }
+    self->state++;
+}

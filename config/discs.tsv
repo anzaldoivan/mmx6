@@ -1,0 +1,4 @@
+# config/discs.tsv -- the README disc table's input (psxdecomp publish.py). source redump: PROJECT_CONTEXT.md
+# "Project Assumptions" and docs/formats.md "Medium" record the data-track hash as a Redump match (verified 2026-10-01).
+disc	serial	executable	track	source
+USA v1.1	SLUS-01395	SLUS_013.95	Mega Man X6 (USA) (v1.1).bin	redump

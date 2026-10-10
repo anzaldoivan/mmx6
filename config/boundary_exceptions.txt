@@ -1,0 +1,8 @@
+# config/boundary_exceptions.txt -- bound2 (B2) disagreements ledgered as known (docs/ops/oracles.md:159).
+# <prog> <vram> <phantom|truncation> <class> <evidence...>
+# 1.8.1 T15.c1 re-split: the overlay header table's last entry is a data word that B2 reads as the first code word;
+# the real prologue starts one word later (it saves the register the header word would read; body matches there).
+rock_05 0x800e98bc truncation data-tail header table entry, data word before the prologue (T15.c1)
+rock_05 0x800e98c0 phantom ghidra-missed-start real start after the header table entry (T15.c1)
+rock_27 0x800e9878 truncation data-tail header table entry, data word before the prologue; family twin of rock_05 (T15.c1)
+rock_27 0x800e987c phantom ghidra-missed-start real start after the header table entry (T15.c1)

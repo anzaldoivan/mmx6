@@ -1,0 +1,38 @@
+# What a release publishes (default deny; docs/PUBLISHING.md in psxdecomp). Itself public.
+# `dir/` = a prefix, anything else = an fnmatch glob (`*` crosses `/`). A file no entry matches stays in -dev.
+# Never public whatever this says: the agent paths (CLAUDE.md, .claude/, phase-ends/, rules/, docs/ops/, ...),
+# PA3's managed files and [public].deny.
+.clang-format
+.gitignore
+CONTRIBUTING.md
+diff_settings.py
+LICENSE
+Makefile
+README.md
+SECURITY.md
+THIRD_PARTY.md
+.github/
+config/
+cookbook/
+docs/codegen-map/
+docs/decomp-architect-install.md
+docs/decomp-architect.md
+docs/decomp-kernels.md
+docs/formats.md
+docs/inherited-record.md
+docs/knowledge-corpus.md
+docs/memory-map.md
+docs/prior-art.md
+docs/README.md
+docs/tools-manifest.md
+docs/wave-playbook.md
+include/
+manifest/
+mk/
+src/
+tools/audit_public.py
+tools/bootstrap.sh
+tools/docker/
+tools/gen_objdiff.py
+tools/mmx6/
+tools/psxd_publish.py

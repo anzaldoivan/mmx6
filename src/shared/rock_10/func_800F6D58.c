@@ -1,0 +1,73 @@
+#include "common.h"
+#define M2C_UNK s32
+#include "mmx6/x4.h"
+
+M2C_UNK func_80012D9C(M2C_UNK);
+M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK func_8002D2B0(s32);
+s32 func_80065944(s32);
+s32 func_80065A14(s32);
+s32 func_80065B74(s32, s32);
+extern struct X4_BackgroundObj D_800971F8[3];
+
+#define OFS_X(p) (((s16*)(p))[0x48])
+#define OFS_Y(p) (((s16*)(p))[0x49])
+
+void func_800F6D58(struct X4_AnimatedObj* self) {
+    s32 angle;
+    s32 d;
+    s32 off;
+    s32 st;
+    s32 v;
+
+    angle = func_80065B74(
+        self->y_pos.i.hi - (D_800971F8[0].y_pos.i.hi + OFS_Y(self)),
+        (D_800971F8[0].x_pos.i.hi + OFS_X(self)) - self->x_pos.i.hi);
+    self->x_vel.val = (func_80065A14(angle) << 4) * (self->unk7 / 2 + 6);
+    self->y_vel.val = (func_80065944(angle) << 4) * (self->unk7 / 2 + 6);
+    if (self->x_vel.val >= 0) {
+        self->unk15 = 0x40;
+    } else {
+        self->unk15 = 0;
+    }
+    func_8002D2B0(self);
+    {
+        register struct X4_BackgroundObj* bg asm("$2") = D_800971F8;
+        d = self->x_pos.i.hi - bg->x_pos.i.hi;
+    }
+    off = OFS_X(self);
+    v = off - d;
+    if (v >= 0) {
+        if (v < 6) {
+            goto check_y;
+        }
+    } else if (d - off < 6) {
+    check_y:
+        off = OFS_Y(self);
+        d = self->y_pos.i.hi - D_800971F8[0].y_pos.i.hi;
+        v = off - d;
+        if (v >= 0) {
+            if (v < 6) {
+                goto arrive;
+            }
+        } else if (d - off < 6) {
+        arrive:
+            self->x_pos.i.hi = D_800971F8[0].x_pos.i.hi + OFS_X(self);
+            self->y_pos.i.hi = D_800971F8[0].y_pos.i.hi + OFS_Y(self);
+            self->unk7++;
+            if (self->unk7 >= 7) {
+                self->unk7 = 0;
+                st = (u8)self->unk6 + 1;
+            } else {
+                func_80016C48(2, 0x55, self);
+                func_80012D9C(6);
+                st = (u8)self->unk6;
+                st--;
+            }
+            self->unk6 = st;
+        }
+    }
+}
+
+#undef OFS_X
+#undef OFS_Y

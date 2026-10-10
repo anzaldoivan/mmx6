@@ -1,0 +1,74 @@
+#include "common.h"
+#define M2C_UNK s32
+
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
+
+M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK func_800179A4(void*, M2C_UNK);
+extern s32 D_800F6AB8;
+extern s32 D_800F6ABC;
+
+void func_800EB110(void* self) {
+    void* parent;
+
+    parent = M2C_FIELD(self, void**, 0x7C);
+    M2C_FIELD(self, s32*, 0x30) = M2C_FIELD(parent, s32*, 0x30);
+    M2C_FIELD(self, u16*, 0x40) = M2C_FIELD(parent, u16*, 0x40);
+    M2C_FIELD(self, s32*, 0x3C) = M2C_FIELD(parent, s32*, 0x3C);
+    M2C_FIELD(self, s16*, 0x42) = M2C_FIELD(parent, s16*, 0x42) & 0x7FFF;
+    M2C_FIELD(self, u8*, 0x14) = M2C_FIELD(parent, u8*, 0x14);
+    M2C_FIELD(self, u8*, 0x16) = 4;
+    M2C_FIELD(self, u8*, 0x67) = 0;
+    M2C_FIELD(self, u8*, 0x3) = 0;
+    M2C_FIELD(self, s32*, 0x68) = 0;
+    M2C_FIELD(self, s32*, 0x54) = 0;
+    M2C_FIELD(self, s32*, 0x58) = 0;
+    M2C_FIELD(self, u8*, 0x15) = M2C_FIELD(parent, u8*, 0x15);
+    if (M2C_FIELD(parent, s8*, 0x2) == 0) {
+        if (M2C_FIELD(self, u8*, 0x15) == 0) {
+            M2C_FIELD(self, s16*, 0xA) = M2C_FIELD(parent, s16*, 0xA) - 0x29;
+            M2C_FIELD(self, s16*, 0xE) = M2C_FIELD(parent, s16*, 0xE) + 6;
+            func_800179A4(self, 0xF);
+            {
+                register s32 a asm("$2") = (s32)&D_800F6AB8;
+                M2C_FIELD(self, s32*, 0x50) = a;
+            }
+        } else {
+            M2C_FIELD(self, s16*, 0xA) = M2C_FIELD(parent, s16*, 0xA) + 0x24;
+            M2C_FIELD(self, s16*, 0xE) = M2C_FIELD(parent, s16*, 0xE) - 0x11;
+            func_800179A4(self, 0x1E);
+            {
+                register s32 a asm("$2") = (s32)&D_800F6ABC;
+                M2C_FIELD(self, s32*, 0x50) = a;
+            }
+        }
+    } else {
+        if (M2C_FIELD(self, u8*, 0x15) == 0) {
+            M2C_FIELD(self, s16*, 0xA) = M2C_FIELD(parent, s16*, 0xA) - 0x24;
+            M2C_FIELD(self, s16*, 0xE) = M2C_FIELD(parent, s16*, 0xE) - 0x11;
+            func_800179A4(self, 0x1E);
+            {
+                register s32 a asm("$2") = (s32)&D_800F6ABC;
+                M2C_FIELD(self, s32*, 0x50) = a;
+            }
+        } else {
+            M2C_FIELD(self, s16*, 0xA) = M2C_FIELD(parent, s16*, 0xA) + 0x29;
+            M2C_FIELD(self, s16*, 0xE) = M2C_FIELD(parent, s16*, 0xE) + 6;
+            func_800179A4(self, 0xF);
+            {
+                register s32 a asm("$2") = (s32)&D_800F6AB8;
+                M2C_FIELD(self, s32*, 0x50) = a;
+            }
+        }
+    }
+    M2C_FIELD(self, s32*, 0x20) = 0;
+    M2C_FIELD(self, s32*, 0x24) = 0;
+    M2C_FIELD(self, s32*, 0x28) = 0;
+    M2C_FIELD(self, s32*, 0x2C) = 0;
+    M2C_FIELD(self, u8*, 0x5C) = 1;
+    M2C_FIELD(self, u8*, 0x60) = 4;
+    func_80016C48(2, 0x10, self);
+    M2C_FIELD(self, u8*, 0x6) = 0;
+    M2C_FIELD(self, u8*, 0x5) = 0;
+    M2C_FIELD(self, u8*, 0x4)++;
+}

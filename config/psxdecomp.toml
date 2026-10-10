@@ -1,0 +1,25 @@
+# config/psxdecomp.toml — adopted by /psxdecomp:upgrade (the repository predates psxdecomp).
+
+[psxdecomp]
+version = "0.1.0"
+profile = "psx"
+bootstrapped = "adopted 2026-10-04"
+
+[pa3]
+version = "3.14.2"
+
+[refs]
+file = "config/refs.toml"
+index = "docs/ops/refs.md"
+
+[deviations]
+list = ["adopted: not bootstrapped by psxdecomp; pins recorded as found"]
+
+[public]
+repo = "anzaldoivan/mmx6"
+dev_branch = "main"
+checks = ["build SLUS_013.95", "public-clean audit (no game bytes)"]
+private_repo = "anzaldoivan/mmx6-private"
+private_rev = "663823a6092aa89df5617ffce0cfc88dca313db2"   # the -private commit CI reads
+image = "ghcr.io/anzaldoivan/mmx6-toolchain@sha256:b7a668ec23e399f54824019f503476225b294f9a106c8839b4e4fe2fc2caf811"
+land_check = ["bash", "tools/docker/land_check.sh", "{tree}"]

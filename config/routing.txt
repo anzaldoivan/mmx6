@@ -1,0 +1,12 @@
+# routing.txt — the 1.8 routing set: which lane a target goes to, by its size in words (docs/ops/campaign.md).
+# Row: <lo>-<hi> <route: paid|permuter|ledger> <probe cap> <attempt cap>
+#   <lo>-<hi>    inclusive corpus word band (the same band as `draw.py --band <lo>-<hi>`)
+#   route        paid = an agent wave card; permuter = permute.py only; ledger = not drawn, ledgered with its blocker
+#   probe cap    max `cards.py --probe-pack` runs per attempt (W0 measured probe runs, not turns); attempt cap: max attempts per target (2 = one run + one retry)
+# Filled by phase 1.8 T9 from manual wave W0 (docs/ops/campaign.md ## Routing); read by draw.py --routing (paid rows) and ledger.py --build (ledger rows -> routed:ledger).
+1-16 paid 6 2
+17-40 paid 18 2
+41-80 paid 25 2
+81-160 paid 25 2
+161-900 paid 25 2
+901-99999 ledger 0 0

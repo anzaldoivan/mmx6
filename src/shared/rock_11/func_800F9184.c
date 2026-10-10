@@ -1,0 +1,30 @@
+#include "common.h"
+#define M2C_UNK s32
+
+M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+void func_800F9EB4(void*, s32, s32);
+
+void func_800F9184(u8* arg0) {
+    s8 state = arg0[0x45];
+
+    if (state == 1) {
+        func_80016C48(2, 0x25, arg0);
+        func_80016C48(2, 0x47, arg0);
+        func_800F9EB4(arg0, 0x30, 0);
+        func_800F9EB4(arg0, 0x30, 0x400);
+        func_800F9EB4(arg0, 0x30, 0x800);
+        func_800F9EB4(arg0, 0x30, 0xC00);
+        func_800F9EB4(arg0, 0x30, 0x200);
+        func_800F9EB4(arg0, 0x30, 0x600);
+        func_800F9EB4(arg0, 0x30, 0xA00);
+        func_800F9EB4(arg0, 0x30, 0xE00);
+    } else if (state == 2) {
+        if (--((s8*)arg0)[0x8C] == 0) {
+            *(s16*)(arg0 + 0x84) = 1;
+            arg0[5] = 4;
+            arg0[6] = 0;
+        } else {
+            arg0[6]--;
+        }
+    }
+}

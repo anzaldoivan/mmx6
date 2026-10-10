@@ -1,0 +1,68 @@
+{"form": 1, "kind": "iso", "lba": 211185, "path": "iso/ROCK_X6.BIN", "sectors": 813, "sha1": "00a49b8bc5cfc897276f605c7b92f2d49d42e7fe", "size": 1665024}
+{"form": 1, "kind": "iso", "lba": 211998, "path": "iso/ROCK_X6.DAT", "sectors": 24860, "sha1": "32c2c1e95efd59d8608e169ad41dea201a9c9241", "size": 50913280}
+{"form": 1, "kind": "iso", "lba": 210930, "path": "iso/SLUS_013.95", "sectors": 255, "sha1": "667ce8f792cfaa69abe6e999a87513f798bbcac4", "size": 522240}
+{"form": 2, "kind": "iso", "lba": 25, "path": "iso/STR/CAPLOGO.STR", "sectors": 936, "sha1": "7bc35ac7a4be10c192eab1263a1ee09bc53b5adb", "size": 2186496}
+{"form": 2, "kind": "iso", "lba": 195658, "path": "iso/STR/X6OP.STR", "sectors": 15272, "sha1": "c0fd99cbd538e4daa594e9e5ebb17867ed46d462", "size": 35675392}
+{"form": 1, "kind": "iso", "lba": 195657, "path": "iso/SYSTEM.CNF", "sectors": 1, "sha1": "bf0a8f7bba164858f2805c7387d64206b2b91917", "size": 68}
+{"form": 2, "kind": "iso", "lba": 25217, "path": "iso/XA/BGM.XA", "sectors": 170440, "sha1": "d4241af7041ebeb7109b405de5196019fdc85f6a", "size": 398147840}
+{"form": 2, "kind": "iso", "lba": 961, "path": "iso/XA/DEMO.XA", "sectors": 24256, "sha1": "6b78614ac0c7aa4d6a555c87687b0dfabb90eae2", "size": 56662016}
+{"form": 1, "kind": "iso", "lba": 236858, "path": "iso/ZNULL.DAT", "sectors": 18088, "sha1": "6b7d3dda0242e62c7bc1d32bd898e6f2b6bb0530", "size": 37044000}
+{"compressed": false, "index": 0, "kind": "rock", "path": "rock/00.bin", "sector": 2, "sha1": "69773d2a408885d98d647055d17dc1b282fc5213", "size": 44588, "stored_size": 44588}
+{"compressed": false, "index": 1, "kind": "rock", "path": "rock/01.bin", "sector": 24, "sha1": "d74b4b48b82f2492b6eda8649394a0c4f8f1c2ee", "size": 22964, "stored_size": 22964}
+{"compressed": false, "index": 2, "kind": "rock", "path": "rock/02.bin", "sector": 36, "sha1": "916236d52eb0d35f6f983a9f598b94180e9a62db", "size": 74784, "stored_size": 74784}
+{"compressed": false, "index": 3, "kind": "rock", "path": "rock/03.bin", "sector": 73, "sha1": "7689ce69bda8ccae68752ff6fade03c396a44d7b", "size": 60528, "stored_size": 60528}
+{"compressed": false, "index": 4, "kind": "rock", "path": "rock/04.bin", "sector": 103, "sha1": "5ed3f80f580908d8df4e9a9bc408c2880b9ba1ad", "size": 57316, "stored_size": 57316}
+{"compressed": false, "index": 5, "kind": "rock", "path": "rock/05.bin", "sector": 131, "sha1": "3e39d45c0e054e772c0bafa060f1e33b0e43259e", "size": 44084, "stored_size": 44084}
+{"compressed": false, "index": 6, "kind": "rock", "path": "rock/06.bin", "sector": 153, "sha1": "90557cb4965c0578b32a9169bcc57eb97f1ba49b", "size": 42944, "stored_size": 42944}
+{"compressed": false, "index": 7, "kind": "rock", "path": "rock/07.bin", "sector": 174, "sha1": "298b656815bc90b13bb63fe25a52d2a1b8a803f7", "size": 65564, "stored_size": 65564}
+{"compressed": false, "index": 8, "kind": "rock", "path": "rock/08.bin", "sector": 207, "sha1": "5fd940d4d4cb01c5e97185c02c6269160715fd91", "size": 53916, "stored_size": 53916}
+{"compressed": false, "index": 9, "kind": "rock", "path": "rock/09.bin", "sector": 234, "sha1": "dfafb8496f29e7efa2a8f38f7b6e404a7af4c677", "size": 54192, "stored_size": 54192}
+{"compressed": false, "index": 10, "kind": "rock", "path": "rock/10.bin", "sector": 261, "sha1": "74f1b33a752a4cfd4c9cf287ce5cc50e44718f80", "size": 79784, "stored_size": 79784}
+{"compressed": false, "index": 11, "kind": "rock", "path": "rock/11.bin", "sector": 300, "sha1": "0108365010cac90fb808c71d2107172020fa4792", "size": 82472, "stored_size": 82472}
+{"compressed": false, "index": 12, "kind": "rock", "path": "rock/12.bin", "sector": 341, "sha1": "975b768cf063e3dce274965fe66abfbb30393aa9", "size": 5804, "stored_size": 5804}
+{"compressed": false, "index": 13, "kind": "rock", "path": "rock/13.bin", "sector": 344, "sha1": "b5374cef97f9eca777903368e7c83ba8ff89356f", "size": 1344, "stored_size": 1344}
+{"compressed": false, "index": 14, "kind": "rock", "path": "rock/14.bin", "sector": 345, "sha1": "a58bc53154b7340720bf7873460c36d5a6e8891b", "size": 16312, "stored_size": 16312}
+{"compressed": false, "index": 15, "kind": "rock", "path": "rock/15.bin", "sector": 353, "sha1": "3d9299daa7bdcc31d2e5afa68c2243b11ceed822", "size": 55432, "stored_size": 55432}
+{"compressed": false, "index": 16, "kind": "rock", "path": "rock/16.bin", "sector": 381, "sha1": "04976864e62218942197b1749b79b91ceb7cc30c", "size": 33946, "stored_size": 33946}
+{"compressed": false, "index": 17, "kind": "rock", "path": "rock/17.bin", "sector": 398, "sha1": "7f1970a28e43ea414b45faa5e5584fa930f224c2", "size": 4717, "stored_size": 4717}
+{"compressed": false, "index": 18, "kind": "rock", "path": "rock/18.bin", "sector": 401, "sha1": "ebf545c0aac0b690b7349e271ceeada980c59878", "size": 32488, "stored_size": 32488}
+{"compressed": false, "index": 19, "kind": "rock", "path": "rock/19.bin", "sector": 417, "sha1": "940ee2343906bbfef2a135e7664c46d9dec6d9b9", "size": 3848, "stored_size": 3848}
+{"compressed": false, "index": 20, "kind": "rock", "path": "rock/20.bin", "sector": 419, "sha1": "94a9a050d5edc192def42c276ad9e7f42750a990", "size": 45216, "stored_size": 45216}
+{"compressed": false, "index": 21, "kind": "rock", "path": "rock/21.bin", "sector": 442, "sha1": "95c4e988c7fdccf53b70c0064db50f7704f37a2f", "size": 35303, "stored_size": 35303}
+{"compressed": false, "index": 22, "kind": "rock", "path": "rock/22.bin", "sector": 460, "sha1": "dad0ca8ff0c176e65129dfa60c45579a9efe5454", "size": 81224, "stored_size": 81224}
+{"compressed": false, "index": 23, "kind": "rock", "path": "rock/23.bin", "sector": 500, "sha1": "0ca481a99aae473dd68ffd3df11e21a2f61964ee", "size": 66444, "stored_size": 66444}
+{"compressed": false, "index": 24, "kind": "rock", "path": "rock/24.bin", "sector": 533, "sha1": "d4b105f8aa9052c86596d0ef8c1bfb2783f406c2", "size": 57258, "stored_size": 57258}
+{"compressed": false, "index": 25, "kind": "rock", "path": "rock/25.bin", "sector": 561, "sha1": "6f4aa778f0f4dc799b301b3566386859630cb07a", "size": 26176, "stored_size": 26176}
+{"compressed": false, "index": 26, "kind": "rock", "path": "rock/26.bin", "sector": 574, "sha1": "89b91e4666479c412b48efcd318c710a5ea467f7", "size": 25796, "stored_size": 25796}
+{"compressed": false, "index": 27, "kind": "rock", "path": "rock/27.bin", "sector": 587, "sha1": "6e11c6579585ebe06ef8fb4be32cfa5d866c5314", "size": 7308, "stored_size": 7308}
+{"compressed": false, "index": 28, "kind": "rock", "path": "rock/28.bin", "sector": 591, "sha1": "c1cf8cc83ae4f09fbe8be5d541f7e16b594460cc", "size": 40334, "stored_size": 40334}
+{"compressed": false, "index": 29, "kind": "rock", "path": "rock/29.bin", "sector": 611, "sha1": "8837c66d585f7e14bbe65319345944424801a505", "size": 12116, "stored_size": 12116}
+{"compressed": false, "index": 30, "kind": "rock", "path": "rock/30.bin", "sector": 617, "sha1": "2e885968b2474d4d08754f88cb527fb50d204b2c", "size": 26844, "stored_size": 26844}
+{"compressed": false, "index": 31, "kind": "rock", "path": "rock/31.bin", "sector": 631, "sha1": "ec2ea0b57b623480c9618ed9ee49022665ddd812", "size": 41372, "stored_size": 41372}
+{"compressed": false, "index": 32, "kind": "rock", "path": "rock/32.bin", "sector": 652, "sha1": "63b30f0446dac4fb75247422706189a913783e98", "size": 18736, "stored_size": 18736}
+{"compressed": false, "index": 33, "kind": "rock", "path": "rock/33.bin", "sector": 662, "sha1": "15bee05f7127c9305fcb000055ca2fc056cbd36d", "size": 29444, "stored_size": 29444}
+{"compressed": false, "index": 34, "kind": "rock", "path": "rock/34.bin", "sector": 677, "sha1": "4bbb7f01c79367b5b2c5fc8a63deaff8eb24420e", "size": 19944, "stored_size": 19944}
+{"compressed": false, "index": 35, "kind": "rock", "path": "rock/35.bin", "sector": 687, "sha1": "d01181773f89e73f370ff878828c7ef990c048ef", "size": 18876, "stored_size": 18876}
+{"compressed": false, "index": 36, "kind": "rock", "path": "rock/36.bin", "sector": 697, "sha1": "6d5315a952bd3b537df835c43ac473ef05b471a4", "size": 25908, "stored_size": 25908}
+{"compressed": false, "index": 37, "kind": "rock", "path": "rock/37.bin", "sector": 710, "sha1": "030a298b8a3bc92747dc2a75abea28c77846a146", "size": 15500, "stored_size": 15500}
+{"compressed": false, "index": 38, "kind": "rock", "path": "rock/38.bin", "sector": 718, "sha1": "4442b157e129330de4edc05a65787b0f785f9ab1", "size": 20188, "stored_size": 20188}
+{"compressed": false, "index": 39, "kind": "rock", "path": "rock/39.bin", "sector": 728, "sha1": "6e0475e6ca30bc9d984139325bc5ecba6302d91e", "size": 28008, "stored_size": 28008}
+{"compressed": false, "index": 40, "kind": "rock", "path": "rock/40.bin", "sector": 742, "sha1": "f7bcda171988c8871b25230948235a60272f7d2d", "size": 24108, "stored_size": 24108}
+{"compressed": false, "index": 41, "kind": "rock", "path": "rock/41.bin", "sector": 754, "sha1": "14baecd88cd86197979e9592a3614e57bbd01235", "size": 4, "stored_size": 4}
+{"compressed": false, "index": 42, "kind": "rock", "path": "rock/42.bin", "sector": 755, "sha1": "1a2257adb44ee124e459745b3d42146f9981bfb0", "size": 4, "stored_size": 4}
+{"compressed": false, "index": 43, "kind": "rock", "path": "rock/43.bin", "sector": 756, "sha1": "1b29baf6ce5d07dc5dc40bbcbc0f9744c1966745", "size": 17052, "stored_size": 17052}
+{"compressed": false, "index": 44, "kind": "rock", "path": "rock/44.bin", "sector": 765, "sha1": "72de4346530d54980cfd7a9f0bd2a9d483f16ad7", "size": 33304, "stored_size": 33304}
+{"compressed": false, "index": 45, "kind": "rock", "path": "rock/45.bin", "sector": 782, "sha1": "e932c5f394563add48fa4c07895f6a9908088ba1", "size": 11878, "stored_size": 11878}
+{"compressed": false, "index": 46, "kind": "rock", "path": "rock/46.bin", "sector": 788, "sha1": "8368db0622c366e5f693228c6ca2970f7fdcc4b5", "size": 12578, "stored_size": 12578}
+{"compressed": false, "index": 47, "kind": "rock", "path": "rock/47.bin", "sector": 795, "sha1": "47be8b1836804bf56db7211fe888c4f48daca731", "size": 1788, "stored_size": 1788}
+{"compressed": false, "index": 48, "kind": "rock", "path": "rock/48.bin", "sector": 796, "sha1": "948a7a81a8a49c65138e83134afec32f4254f9d2", "size": 1568, "stored_size": 1568}
+{"compressed": false, "index": 49, "kind": "rock", "path": "rock/49.bin", "sector": 797, "sha1": "036994ba5ae5aeb2f2b362348c0c3d76ec36a397", "size": 1164, "stored_size": 1164}
+{"compressed": false, "index": 50, "kind": "rock", "path": "rock/50.bin", "sector": 798, "sha1": "ff1f40c0d102b526d59b24efc1ea5d75808b78fb", "size": 2040, "stored_size": 2040}
+{"compressed": false, "index": 51, "kind": "rock", "path": "rock/51.bin", "sector": 799, "sha1": "da614fa2c67d3beeefef13b52c15694db83bd6ae", "size": 11786, "stored_size": 11786}
+{"compressed": false, "index": 52, "kind": "rock", "path": "rock/52.bin", "sector": 805, "sha1": "eafa2a10545f413716e8c336237e4a05dd8be9e0", "size": 1104, "stored_size": 1104}
+{"compressed": false, "index": 53, "kind": "rock", "path": "rock/53.bin", "sector": 806, "sha1": "e52c2d8bde811946407f7727427cca137da25b7a", "size": 944, "stored_size": 944}
+{"compressed": false, "index": 54, "kind": "rock", "path": "rock/54.bin", "sector": 807, "sha1": "d2ff1669a0bd7de3e83e84e2941e08e48b518457", "size": 1892, "stored_size": 1892}
+{"compressed": false, "index": 55, "kind": "rock", "path": "rock/55.bin", "sector": 808, "sha1": "2956aaf18cbf62bb87a9e1640125675fe716652b", "size": 2416, "stored_size": 2416}
+{"compressed": false, "index": 56, "kind": "rock", "path": "rock/56.bin", "sector": 810, "sha1": "714cfaa6f4e4d512b08ef2c641a5bda6d6384664", "size": 1400, "stored_size": 1400}
+{"compressed": false, "index": 57, "kind": "rock", "path": "rock/57.bin", "sector": 811, "sha1": "e6a2a5a1a5852e0e01a3fe623dc57f8bdbe2afe6", "size": 1304, "stored_size": 1304}
+{"compressed": false, "index": 58, "kind": "rock", "path": "rock/58.bin", "sector": 812, "sha1": "1340165303294af3acb0804cfa39c215fe47ef9b", "size": 1136, "stored_size": 1136}

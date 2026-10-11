@@ -16,7 +16,7 @@ M2C_UNK func_80049E50(void*);
 M2C_UNK func_80049EBC(void*, M2C_UNK, M2C_UNK, M2C_UNK);
 void func_800EE344(void*);
 void func_800EE6C0(void* self);
-void func_800EE828(void);
+void func_800EE828(void* self);
 void func_800F1C80(void* arg0);
 s32 func_800F1DA8(void*, s32, s32);
 
@@ -107,7 +107,7 @@ void func_800F1EC4(void* self) {
         S8(0x6) = 0;
     }
     func_800EE6C0(self);
-    ((void (*)(void*))func_800EE828)(self);
+    func_800EE828(self);
     func_800EE344(self);
     if (U8(0x8D) == 0) {
         if (S8(0x2) == 0) {
@@ -176,5 +176,5 @@ void func_800F1EC4(void* self) {
         }
         break;
     }
-    ((void (*)(void*))func_800F1DA8)(self);
+    ((s32(*)(void*))func_800F1DA8)(self);
 }

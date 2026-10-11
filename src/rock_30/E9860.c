@@ -30,9 +30,13 @@ INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800E9F64);
 
 INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EA250);
 
-INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EA298);
+#define func_800EA750 func_800EA298
+#include "../shared/rock_09/func_800EA750.c"
+#undef func_800EA750
 
-INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EA314);
+#define func_800EA7CC func_800EA314
+#include "../shared/rock_09/func_800EA7CC.c"
+#undef func_800EA7CC
 
 #include "../shared/rock_30/func_800EA35C.c"
 

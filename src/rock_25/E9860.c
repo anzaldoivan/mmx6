@@ -352,7 +352,9 @@ INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800ED8D8);
 
 #include "../shared/rock_25/func_800ED9A4.c"
 
-INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800ED9EC);
+#define func_800EDACC func_800ED9EC
+#include "../shared/rock_03/func_800EDACC.c"
+#undef func_800EDACC
 
 INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800EDA20);
 

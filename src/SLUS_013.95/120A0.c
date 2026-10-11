@@ -615,7 +615,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800239CC);
 
 #include "../shared/SLUS_013.95/func_800241D4.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800244C0);
+#include "../shared/SLUS_013.95/func_800244C0.c"
 
 #include "../shared/SLUS_013.95/func_800246B4.c"
 
@@ -679,7 +679,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002798C);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80027A50);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80027AA8);
+#include "../shared/SLUS_013.95/func_80027AA8.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80027BA0);
 
@@ -885,7 +885,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002B79C);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002BBF4);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002BCCC);
+#include "../shared/SLUS_013.95/func_8002BCCC.c"
 
 #include "../shared/SLUS_013.95/func_8002BEC4.c"
 
@@ -917,7 +917,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002C590);
 
 #include "../shared/SLUS_013.95/func_8002C5F0.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002C6F0);
+#include "../shared/SLUS_013.95/func_8002C6F0.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002C7F0);
 

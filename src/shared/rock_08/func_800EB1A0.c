@@ -1,0 +1,40 @@
+#include "common.h"
+#include "mmx6/x4.h"
+
+#define M2C_UNK s32
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
+
+M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK func_80017A04();
+s32 func_80065944(s32);
+s32 func_80065A14(s32);
+s32 func_80065B74(s32, s32);
+extern struct X4_PlayerObj D_800970A0;
+extern s32 D_80097420;
+
+void func_800EB1A0(void* arg0) {
+    s32 angle;
+
+    func_80017A04();
+    {
+        register s32 c asm("$2") = M2C_FIELD(arg0, s16*, 0x80);
+        if (c != 0) {
+            M2C_FIELD(arg0, s16*, 0x80)--;
+        } else {
+            struct X4_PlayerObj* p = &D_800970A0;
+            M2C_FIELD(arg0, s16*, 0x82) = M2C_FIELD(p, s16*, 0xA);
+            M2C_FIELD(arg0, s16*, 0x84) = M2C_FIELD(p, s16*, 0xE);
+            M2C_FIELD(arg0, s16*, 0x82) = M2C_FIELD(p, s16*, 0xA);
+            M2C_FIELD(arg0, s16*, 0x84) = M2C_FIELD(p, s16*, 0xE);
+            angle = func_80065B74(
+                M2C_FIELD(arg0, s16*, 0x84) - M2C_FIELD(arg0, s16*, 0xE),
+                M2C_FIELD(arg0, s16*, 0x82) - M2C_FIELD(arg0, s16*, 0xA));
+            M2C_FIELD(arg0, s32*, 0x20) = func_80065A14(angle) << 5;
+            M2C_FIELD(arg0, s32*, 0x24) = -func_80065944(angle) << 5;
+            M2C_FIELD(arg0, s8*, 7) = 2;
+        }
+    }
+    if (M2C_FIELD(arg0, s8*, 3) != 0 && !(D_80097420 & 0x1F)) {
+        func_80016C48(2, 0xD, arg0);
+    }
+}

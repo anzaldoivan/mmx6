@@ -7,7 +7,7 @@ s32 func_80039FFC(void*);              /* extern */
 s32 func_8003A870(void*);              /* extern */
 M2C_UNK func_8003AF1C(void*);          /* extern */
 M2C_UNK func_8003B218(void*);          /* extern */
-M2C_UNK func_8003C7D8(void*);          /* extern */
+void func_8003C7D8(void* arg0);          /* extern */
 M2C_UNK func_8003CCBC();               /* extern */
 void func_8003CD00(void* arg0);          /* extern */
 M2C_UNK func_8003D26C(void*);          /* extern */

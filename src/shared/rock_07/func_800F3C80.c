@@ -1,6 +1,6 @@
 #include "common.h"
 
-void func_800F6B94(u8*, s32, s16, s16);
+void func_800F6B94(u8* arg0, u8 arg1, s16 arg2, s16 arg3);
 
 void func_800F3C80(u8* self) {
     u8* parent = *(u8**)(self + 0x8C);

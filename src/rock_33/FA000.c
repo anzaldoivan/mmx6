@@ -206,7 +206,11 @@ INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_80100378);
 
 #include "../shared/rock_33/func_80100430.c"
 
-INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_80100450);
+#define func_800F5B90 func_80100450
+#define D_800F7DEC D_80100C20
+#include "../shared/rock_03/func_800F5B90.c"
+#undef func_800F5B90
+#undef D_800F7DEC
 
 INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_80100538);
 

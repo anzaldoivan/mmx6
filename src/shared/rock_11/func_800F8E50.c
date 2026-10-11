@@ -5,7 +5,7 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
-void func_800F9EB4(void*, s32, s32);
+void func_800F9EB4(u8* arg0, u8 arg1, s16 arg2);
 
 void func_800F8E50(void* arg0) {
     s8 kind;

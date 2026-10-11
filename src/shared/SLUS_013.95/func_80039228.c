@@ -7,7 +7,7 @@
 void func_8002ABA8();
 void func_8003963C(void* arg0);
 void func_8003A980(void* arg0);
-M2C_UNK func_8003C4EC();
+void func_8003C4EC(struct X4_PlayerObj* self);
 s32 func_8003EB0C(void* arg0, s32 arg1);
 M2C_UNK func_8003F3DC(void*); /* extern */
 extern s8 D_800970FC;

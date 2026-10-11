@@ -1,7 +1,5 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", D_801EA000);
-
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EA0C4);
 
 #include "../shared/rock_00/func_801EA2B8.c"
@@ -140,13 +138,13 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801ECF64);
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801ED058);
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801ED1B8);
+#include "../shared/rock_00/func_801ED1B8.c"
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801ED36C);
+#include "../shared/rock_00/func_801ED36C.c"
 
 #include "../shared/rock_00/func_801ED524.c"
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801ED898);
+#include "../shared/rock_00/func_801ED898.c"
 
 #include "../shared/rock_00/func_801EDA64.c"
 
@@ -240,7 +238,7 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EEFC0);
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EF0FC);
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EF284);
+#include "../shared/rock_00/func_801EF284.c"
 
 #include "../shared/rock_00/func_801EF410.c"
 
@@ -334,7 +332,7 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F120C);
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F1260);
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F129C);
+#include "../shared/rock_00/func_801F129C.c"
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F1450);
 
@@ -382,7 +380,7 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F21AC);
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F226C);
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F23C8);
+#include "../shared/rock_00/func_801F23C8.c"
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F259C);
 
@@ -422,7 +420,7 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F30B0);
 
 #include "../shared/rock_00/func_801F3200.c"
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F33F0);
+#include "../shared/rock_00/func_801F33F0.c"
 
 #define func_80041AB8 func_801F3604
 #define D_80075FD8 D_801F3B30

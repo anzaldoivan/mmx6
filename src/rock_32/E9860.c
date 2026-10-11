@@ -58,7 +58,11 @@ INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EA628);
 
 INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EA664);
 
-INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EA698);
+#define func_800EA9B4 func_800EA698
+#define D_800970A0 D_800970A0
+#include "../shared/rock_11/func_800EA9B4.c"
+#undef func_800EA9B4
+#undef D_800970A0
 
 #include "../shared/rock_32/func_800EA734.c"
 
@@ -66,7 +70,9 @@ INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EA698);
 #include "../shared/rock_11/func_800EAA58.c"
 #undef func_800EAA58
 
-INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EA7E8);
+#define func_800EAB04 func_800EA7E8
+#include "../shared/rock_11/func_800EAB04.c"
+#undef func_800EAB04
 
 #define func_80042C18 func_800EA888
 #include "../shared/SLUS_013.95/func_80042C18.c"
@@ -132,11 +138,17 @@ INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EC25C);
 
 INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EC29C);
 
-INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EC390);
+#define func_800EC6AC func_800EC390
+#include "../shared/rock_11/func_800EC6AC.c"
+#undef func_800EC6AC
 
 #include "../shared/rock_32/func_800EC404.c"
 
-INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EC40C);
+#define func_800EC728 func_800EC40C
+#define D_8008EF48 D_8008EF48
+#include "../shared/rock_11/func_800EC728.c"
+#undef func_800EC728
+#undef D_8008EF48
 
 INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EC484);
 

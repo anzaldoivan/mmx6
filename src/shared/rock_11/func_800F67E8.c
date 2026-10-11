@@ -7,7 +7,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80021760(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK func_800F9F7C(void*, M2C_UNK, M2C_UNK);
+void func_800F9F7C(void* arg0, M2C_UNK arg1, M2C_UNK arg2);
 extern struct X4_EngineObj D_800CCED0;
 
 void func_800F67E8(void* arg0) {

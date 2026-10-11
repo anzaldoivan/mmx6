@@ -176,5 +176,5 @@ void func_800F1EC4(void* self) {
         }
         break;
     }
-    ((s32(*)(void*))func_800F1DA8)(self);
+    ((s32(*)())func_800F1DA8)(self);
 }

@@ -52,13 +52,17 @@ INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FB858);
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FBC38);
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FBE4C);
+#define func_800F3B9C func_800FBE4C
+#include "../shared/rock_07/func_800F3B9C.c"
+#undef func_800F3B9C
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FBF30);
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FC244);
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FC3F4);
+#define func_800F4144 func_800FC3F4
+#include "../shared/rock_07/func_800F4144.c"
+#undef func_800F4144
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FC4E0);
 
@@ -92,7 +96,11 @@ INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FC578);
 #undef func_800F4948
 #undef D_800CCED0
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FC850);
+#define func_800F45A0 func_800FC850
+#define D_800E9A6C D_800FA004
+#include "../shared/rock_07/func_800F45A0.c"
+#undef func_800F45A0
+#undef D_800E9A6C
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FC924);
 
@@ -132,7 +140,9 @@ INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FCD4C);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FCDC4);
+#define func_800F4B14 func_800FCDC4
+#include "../shared/rock_07/func_800F4B14.c"
+#undef func_800F4B14
 
 #define func_800F4BE4 func_800FCE94
 #define D_800F907C D_800FFD80
@@ -168,7 +178,9 @@ INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FD190);
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FD208);
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FD258);
+#define func_800F4FA8 func_800FD258
+#include "../shared/rock_07/func_800F4FA8.c"
+#undef func_800F4FA8
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FD344);
 
@@ -188,7 +200,11 @@ INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FD39C);
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FD570);
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FD5AC);
+#define func_800F52FC func_800FD5AC
+#define D_800970A0 D_800970A0
+#include "../shared/rock_07/func_800F52FC.c"
+#undef func_800F52FC
+#undef D_800970A0
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FD678);
 
@@ -310,7 +326,9 @@ INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FE9AC);
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FEA80);
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FEB30);
+#define func_800F6880 func_800FEB30
+#include "../shared/rock_07/func_800F6880.c"
+#undef func_800F6880
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FEBF8);
 
@@ -318,11 +336,17 @@ INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FEBF8);
 #include "../shared/rock_07/func_800F6A1C.c"
 #undef func_800F6A1C
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FED80);
+#define func_800F6AD0 func_800FED80
+#include "../shared/rock_07/func_800F6AD0.c"
+#undef func_800F6AD0
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FEE44);
+#define func_800F6B94 func_800FEE44
+#include "../shared/rock_07/func_800F6B94.c"
+#undef func_800F6B94
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FEF20);
+#define func_800F6C70 func_800FEF20
+#include "../shared/rock_07/func_800F6C70.c"
+#undef func_800F6C70
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FEFFC);
 
@@ -330,7 +354,7 @@ INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FEFFC);
 #include "../shared/SLUS_013.95/func_80042C18.c"
 #undef func_80042C18
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FF128);
+#include "../shared/rock_36/func_800FF128.c"
 
 #define func_800F54B8 func_800FF210
 #include "../shared/rock_04/func_800F54B8.c"
@@ -370,7 +394,9 @@ INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FF4D4);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FF6A0);
+#define func_800F73F0 func_800FF6A0
+#include "../shared/rock_07/func_800F73F0.c"
+#undef func_800F73F0
 
 #define func_8003744C func_800FF774
 #define D_80073C1C D_801004F0

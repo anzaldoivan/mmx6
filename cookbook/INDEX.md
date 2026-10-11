@@ -179,3 +179,19 @@ C0176 | Empty case 1 plus goto into an if (0) block sets which case cross-jumps 
 C0177 | Signed /16 with the shift before the sign branch: q = v >> 4; if (v < 0) q = (v + 15) >> 4 | lever,division,shift,rounding,signed | 2026-10-10 | 1.8.1/T17 | mmx6 W17 rock_08 EB098
 C0178 | Explicit byte offset, not a cast view, keeps an offset shared across same-shape arrays | lever,array,offset,cse,cast,view-macro | 2026-10-10 | 1.8.1/T17 | mmx6 W17 SLUS 26ECC
 C0179 | Byte-field increment temp in the wrong register: pinned s32 block local = f + 1 | lever,increment,register-pin,regalloc,byte | 2026-10-10 | 1.8.1/T17 | mmx6 W17 rock_02 F7570, rock_15 ECC78
+C0180 | sym+K row base kept split by an s32 offset local; loop body as a macro argument per arm | lever,loop,hoist,offset-local,macro,sym-plus-k | 2026-10-10 | 1.8.1/T18 | mmx6 W18 SLUS 2BCCC
+C0181 | Byte equality chains: one early return per value keeps the beq chain | lever,equality,range-test,switch,beq-chain | 2026-10-10 | 1.8.1/T18 | mmx6 W18 SLUS 3DD6C
+C0182 | Pin the compare result via a comma form when the pinned value dies at the compare | lever,register-pin,compare,slti,regalloc,plateau | 2026-10-10 | 1.8.1/T18 | mmx6 W18 rock_08 F2E10, EF7B4
+C0183 | Word 0 j-to-hook with stack adjust in its delay slot is a runtime hook site, not a lever | classification,hook,runtime-patch,probe,plateau,word0 | 2026-10-10 | 1.8.1/T18 | mmx6 W18 rock_40 FA15C
+C0184 | One-set constant store: write the literal per arm, not via a shared local (sched1 boost) | lever,sched,L07,constant,one-set,store-order | 2026-10-11 | 1.8.1/T19 | mmx6 W19 rock_07 EB114
+C0185 | Retail void return: int return keeps v0 live at the exit join and blocks the delay-slot fill | lever,void,return,delay-slot,tusync,R2 | 2026-10-11 | 1.8.1/T19 | mmx6 W19 rock_11 F9F7C, rock_07 F4144
+C0186 | Constant stored after several calls: block local set before the first call (callee-saved) | lever,callee-saved,constant,rematerialise,block-local | 2026-10-11 | 1.8.1/T19 | mmx6 W19 rock_20 EB78C
+C0187 | Three inlined copies of a routine: one static inline helper called three times | lever,inline,static-inline,helper,R2-risk | 2026-10-11 | 1.8.1/T19 | mmx6 W19 SLUS 1C1AC
+C0188 | Decimal digit split: plain / and % let gcc share quotients (counter-case to C0110) | lever,divide,remainder,quotient,digits,callee-saved | 2026-10-11 | 1.8.1/T20 | mmx6 W20 SLUS 190FC
+C0189 | Same constant address read across calls: spell the second read through a different base | lever,cse,global,scratchpad,extern,callee-saved,length | 2026-10-11 | 1.8.1/T20 | mmx6 W20 SLUS 3C4EC, rock_09 EC6C4, rock_43 FBB70
+C0190 | One call per arm instead of a shared argument local before one call; cross-jump merges | lever,cross-jump,jump2,call,arms,tail | 2026-10-11 | 1.8.1/T20 | mmx6 W20 SLUS 4EA78, rock_04 F351C
+C0191 | Retail narrows a parameter at entry: narrow parameter type, TU prototype via tusync | lever,parameter,prototype,tusync,u8,return-type,R2 | 2026-10-11 | 1.8.1/T20 | mmx6 W20 rock_07 F6B94, SLUS 18290
+C0192 | Call with no arguments where retail sets no argument register; unprototyped cast if the callee takes one | lever,call,argument,implicit,cast,reconcile,R3 | 2026-10-11 | 1.8.1/T21 | mmx6 W21 rock_09 F32B0, rock_07 F6180
+C0193 | Function-table dispatch as (idx << 2) + base cast to a function pointer, not array indexing | lever,dispatch,table,fn-ptr,operand-order,regalloc | 2026-10-11 | 1.8.1/T21 | mmx6 W21 rock_11 F8064
+C0194 | Epilogue restores interleaved with the tail: empty barrier before the previous store, tail unbarriered | lever,epilogue,sched,do-while,barrier,tail | 2026-10-11 | 1.8.1/T22 | mmx6 W22 rock_11 F8130
+C0195 | Global passed to an unprototyped call: s32 local numerically pinned to the argument register | lever,register-pin,argument,call,global,regalloc | 2026-10-11 | 1.8.1/T22 | mmx6 W22 rock_05 F1788

@@ -12,7 +12,7 @@ void func_8001651C(void);
 void func_80017A48(void);
 void func_80017A88(void);
 void func_80017C40(void);
-void func_80018290(void);
+s32 func_80018290(void);
 void func_800185B4(void);
 void func_80027A50(void);
 void func_80054AD0(void);

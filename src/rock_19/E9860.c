@@ -6,7 +6,7 @@ INCLUDE_ASM("asm/rock_19/nonmatchings/E9860", func_800E9864);
 
 INCLUDE_ASM("asm/rock_19/nonmatchings/E9860", func_800E9958);
 
-INCLUDE_ASM("asm/rock_19/nonmatchings/E9860", func_800E9A50);
+#include "../shared/rock_19/func_800E9A50.c"
 
 #define func_8001D9CC func_800E9BDC
 #define D_800710D0 D_800EA164

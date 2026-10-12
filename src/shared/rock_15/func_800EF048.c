@@ -8,6 +8,6 @@ s32 func_800ED484(void*); /* extern */
 void func_800EF048(void* arg0) {
     if (M2C_FIELD(arg0, s8*, 0x45) == 2) {
         M2C_FIELD(arg0, s16*, 0x86) = 0x28;
-        ((s32(*)())func_800ED484)();
+        func_800ED484(arg0);
     }
 }

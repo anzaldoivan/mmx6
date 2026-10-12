@@ -1,0 +1,40 @@
+#include "common.h"
+#include "mmx6/x4.h"
+
+#define M2C_UNK s32
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
+
+struct X4_EffectObj* func_8002C3F8(void);
+M2C_UNK func_8003D308(M2C_UNK, M2C_UNK); /* extern */
+extern s8 D_800970A5;
+extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_EngineObj D_800CCED0;
+extern s16 D_800F6AF8;
+
+void func_800F2A88(void* arg0) {
+    s32 temp_v1;
+    u8* temp_v0;
+
+    if ((D_800CCED0.unkF == 0) && (D_800970A5 == 0x14)) {
+        if (D_800CCED0.stage != 0xC) {
+            M2C_FIELD(arg0, s16*, 0x7C) = 0x64;
+        } else {
+            D_800971F8[0].unk2A = 0xD0;
+            M2C_FIELD(arg0, s16*, 0x7C) = 0xA;
+        }
+        func_8003D308(0x1D, 0x40);
+        M2C_FIELD(arg0, u8*, 0x86) = D_800971F8[0].unk48;
+        D_800971F8[0].unk48 = 1;
+        D_800971F8[0].unk47 = 2;
+        temp_v1 = (u16)D_800F6AF8 + 0x660;
+        D_800971F8[0].unk26 = temp_v1;
+        D_800971F8[0].unk24 = temp_v1;
+        temp_v0 = (u8*)func_8002C3F8();
+        if (temp_v0 != 0) {
+            temp_v0[0] = 1;
+            temp_v0[1] = 0x18;
+            M2C_FIELD(arg0, void**, 0x8C) = temp_v0;
+        }
+        M2C_FIELD(arg0, u8*, 6) = (u8)(M2C_FIELD(arg0, u8*, 6) + 1);
+    }
+}

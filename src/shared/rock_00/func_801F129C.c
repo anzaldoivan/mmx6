@@ -1,0 +1,71 @@
+#include "common.h"
+#define M2C_UNK s32
+#include "mmx6/x4.h"
+
+M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK func_800179A4(void*, M2C_UNK);
+#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
+#define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
+s32 func_801EE34C();
+extern s32 D_80077A28[];
+extern M2C_UNK D_800970A0;
+#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern s32 D_801F3A4C[];
+extern s32 D_801F3A50;
+
+#define SCRATCH_14 (*(u8**)0x1F800014)
+#define SCRATCH_1C (*(u8**)0x1F80001C)
+
+void func_801F129C(struct X4_WeaponObj* arg0) {
+    struct X4_PlayerObj* player;
+    struct X4_WeaponObj* parent;
+    u8* temp_v0;
+    u8* temp_a0;
+    s32 var_a0;
+    s8 kind;
+
+    arg0->on_screen = 1;
+    arg0->unk67 = 1;
+    temp_v0 = SCRATCH_14;
+    arg0->unk38 = temp_v0 + *(s32*)(temp_v0 + 0x1C);
+    temp_a0 = SCRATCH_1C;
+    var_a0 = *(s32*)(temp_a0 + 0x3C);
+    arg0->animation_table = (u32**)D_80077A28;
+    arg0->unk40 = 0x520;
+    arg0->unk42 = 0x7801;
+    arg0->unk16 = 2;
+    arg0->unk3C = temp_a0 + var_a0;
+    player = &D_800970A0;
+    arg0->unk15 = player->unk15;
+    kind = arg0->unk2;
+    arg0->unk64 = 1;
+    if (kind == 0) {
+        func_80016C48(1, 0x1B, arg0);
+        func_801EE34C(arg0, player, arg0->id);
+        func_800179A4(arg0, 0);
+    } else if (kind == 1) {
+        parent = (struct X4_WeaponObj*)arg0->owner;
+        arg0->x_pos.i.hi = parent->x_pos.i.hi;
+        arg0->y_pos.i.hi = parent->y_pos.i.hi - 8;
+        arg0->y_vel.val = 0x40000;
+        arg0->unk50 = D_801F3A4C;
+        arg0->unk68 = (struct X4_Unk_unk68*)&D_801F3A50;
+        arg0->unk5 = parent->unk5 + 1;
+        func_800179A4(arg0, 1);
+    } else if (kind == 2) {
+        parent = (struct X4_WeaponObj*)arg0->owner;
+        arg0->x_pos.i.hi = parent->x_pos.i.hi;
+        arg0->y_pos.i.hi = parent->y_pos.i.hi + 0x11;
+        arg0->y_vel.val = -0x40000;
+        arg0->unk50 = parent->unk50;
+        arg0->unk68 = parent->unk68;
+        arg0->unk5 = parent->unk5 + 1;
+        func_800179A4(arg0, 3);
+    }
+    func_8002CCB0(arg0, 0x20, 0x20);
+    arg0->state++;
+}
+#undef D_800970A0
+#undef func_800179A4
+#undef func_8002CCB0

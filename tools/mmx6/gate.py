@@ -71,7 +71,10 @@ LOCKS = ".run/gate/locks"
 EXTRA = (".clang-format", "docs/codegen-map")  # copied into the snapshot after cards.snapshot (plus all of build/)
 SELFTEST = ".run/gate-selftest"
 TUDECL_F = ("rock_35", 0x800FDD90, "D_800FE9A8")  # self-test case F: a banked body, `extern s16 <sym>` read signed
-RODATA_I = ("rock_04", 0x800EA2A8)  # self-test case I: a body banked via rodata (T4.c2), its carve and bank undone
+RODATA_I = ("rock_04", 0x800E9B30)  # self-test case I: a body banked via rodata, its carve and bank undone
+# was 0x800EA2A8 (T4.c2): later waves carved E9864..E98F4 around its row E9894; undoing a mid-run row splits the unit's
+# .rodata (carve refuses non-contiguous; splat then drops jtbl_800E987C of asm func_800E9DFC), so I and M are the
+# unit's first and last rodata rows (T21.c2)
 RODATA_M = ("rock_04", 0x800ED3A4)  # case M: a second table in I's unit (T44.c1: merged carve, +4 pad), undone as I
 STOP_RE = re.compile(r" stopped R(\d): (.*)$")
 RODATA_RE = re.compile(r"^rodata needs placement \(\+(\d+) bytes\)")

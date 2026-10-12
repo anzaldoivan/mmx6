@@ -6,7 +6,7 @@
 M2C_UNK func_80017A04(void*);              /* extern */
 M2C_UNK func_8002D5D0(void*);              /* extern */
 s32 func_8002FE30(void*);                  /* extern */
-s32 func_80038594();                       /* extern */
+s32 func_80038594(void*);                  /* extern */
 M2C_UNK func_800397F8(void*, s32);         /* extern */
 s32 func_8003A814(void*, s32);             /* extern */
 M2C_UNK func_8003BA04(void*, M2C_UNK);     /* extern */
@@ -20,7 +20,7 @@ void func_80038CD0(void* arg0) {
     u16 temp_v1;
 
     if (M2C_FIELD(arg0, s8*, 0x84) != 0) {
-        var_s2 = func_80038594();
+        var_s2 = func_80038594(arg0);
     } else {
         temp_v1 = M2C_FIELD(arg0, u16*, 0x7C);
         var_s0 = 0;

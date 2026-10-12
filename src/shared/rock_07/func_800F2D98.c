@@ -7,7 +7,7 @@ M2C_UNK func_80012D9C(M2C_UNK);
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
-void func_800F6880(void*, s32, s16, s16);
+void func_800F6880(void* arg0, u8 arg1, s16 arg2, s16 arg3);
 extern struct X4_BackgroundObj D_800971F8[3];
 
 void func_800F2D98(void* arg0) {

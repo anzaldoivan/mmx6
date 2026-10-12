@@ -88,7 +88,9 @@ INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FC39C);
 
 INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FC3E0);
 
-INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FC46C);
+#define func_800F2404 func_800FC46C
+#include "../shared/rock_08/func_800F2404.c"
+#undef func_800F2404
 
 INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FC558);
 

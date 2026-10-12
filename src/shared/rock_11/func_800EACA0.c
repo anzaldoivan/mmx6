@@ -6,7 +6,7 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_800EC728();
+s32 func_800EC728(s8 *arg0);
 extern s32 D_800741FC[];
 extern u8 D_800970B4;
 extern u8 D_800FB26C[];
@@ -16,7 +16,7 @@ extern u8 D_800FBF34[];
 
 void func_800EACA0(void* self) {
     M2C_FIELD(self, u8*, 0x3) = 0;
-    if (func_800EC728() != 0) {
+    if (func_800EC728(self) != 0) {
         M2C_FIELD(self, u8*, 0x4) = 3;
         return;
     }

@@ -7,6 +7,7 @@
          each prototype `<ret> <func>(<params>);` and each call-site cast `((<ret> (*)(<params>))<func>)` that
          differs from the definition is rewritten to the definition's signature (cast removed) when width-compatible
          (same return width, same param count, each param width equal; pointers/s32/u32/int = 4), else refused.
+         An unprototyped cast `((<ret> (*)())<func>)` (C0124) is left as written (return width still compared).
          One line per change `DECLSYNC synced|uncast|refused <path>:<line> <func> [<why>]`; last line
          `DECLSYNC <funcs> synced <s> uncast <c> refused <r> files <k>`; rc 0 iff r = 0. Nothing is written when any
          declaration is refused, or under --dry-run.
@@ -15,7 +16,8 @@
       #include closure of the given files only (one TU).
   declsync.py --self-test
       -> in memory: width-compatible prototype synced, width-incompatible (`s16` param) refused, cast removed;
-         force: the `s16` prototype and an extern object synced.
+         force: the `s16` prototype and an extern object synced; an unprototyped cast of other arity left as
+         written, not refused (plain and force).
          Ends `DECLSYNC CONTROL OK` (rc 0), else rc 1.
 """
 import argparse
@@ -127,7 +129,14 @@ def sync_text(path, text, defs, force=False):
 
         def fix_cast(m):
             nonlocal refused
-            why = "" if force else compatible(want, sig(m.group(1), m.group(2)))
+            got = sig(m.group(1), m.group(2))
+            if not m.group(2).strip():  # unprototyped `(*)()` (C0124): params not compared, never uncast
+                why = "" if force else compatible((want[0], []), (got[0], []))
+                if why:
+                    refused += 1
+                    lines.append(f"DECLSYNC refused {path}:{at(m)} {name} cast {why}")
+                return m.group(0)
+            why = "" if force else compatible(want, got)
             if why:
                 refused += 1
                 lines.append(f"DECLSYNC refused {path}:{at(m)} {name} cast {why}")
@@ -199,6 +208,10 @@ def self_test():
                                   definitions(texts[body]), force=True)
     ok(refused == 0 and b == "extern void func_T(s8* arg0, s32 arg1);\nvoid func_T(s8* arg0, s32 arg1);\n"
        and len(lines) == 2, "force: s16 prototype and extern object synced")
+    u = "void f(void) {\n    ((void (*)())func_T)(0);\n}\n"
+    for force in (False, True):
+        t, lines, refused = sync_text("src/P/c.c", u, definitions(texts[body]), force=force)
+        ok(t == u and refused == 0 and not lines, f"unprototyped cast of other arity left as written (force={force})")
     if fails:
         print(f"DECLSYNC SELF-TEST FAIL {len(fails)}")
         return 1

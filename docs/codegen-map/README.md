@@ -1,7 +1,9 @@
 # Codegen map — cc1 2.95.2 (pin gcc2.95.2-psx-aspsx2.86)
+
 A row `L<nn>` names a diff tell, the cc1 pass and gcc 2.95.2 source lines that decide it, and the C lever that moves it.
-Each row is byte-proven by its reproducer pair: `python3 tools/mmx6/repro.py --lever L<nn>` (both sides reproduce, bytes differ, `diff:` kind holds).
-Check the map (rows, triage against cookbook/C0002.md, proofs, citations), all groups: `python3 tools/mmx6/codegen_map.py --check` (container). A levers cell `→ permuter` means no C lever: hand the function to the permuter.
+Each row is byte-proven by its reproducer pair: `python3 tools/mmx6/repro.py --lever L<nn>` (both sides reproduce, the bytes differ, the `diff:` kind holds).
+Check the map (rows, triage against cookbook/C0002.md, proofs, citations) for all groups: `python3 tools/mmx6/codegen_map.py --check` (container).
+A levers cell `→ permuter` means that there is no C lever. In that case, hand the function to the permuter.
 
 ## Pass groups
 - G-expr: rtl cse addressof gcse cse2 — G-expr.md

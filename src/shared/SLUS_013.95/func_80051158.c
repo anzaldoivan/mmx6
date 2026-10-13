@@ -10,7 +10,7 @@ s32 func_8002A47C(s32);
 void* func_8002C4C4();
 M2C_UNK func_8002CA14();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002F288(M2C_UNK*);
+void func_8002F288(struct X4_PlayerObj*);
 void func_80051828(void*, s32, s32);
 extern s32 D_80075B9C;
 extern s32 D_80078DF8;
@@ -92,7 +92,7 @@ void func_80051158(struct X4_MainObj* self) {
         register void* a asm("$4");
 
         a = self;
-        while (((void (*)(void*))func_8002F288)(a), a = self,
+        while (func_8002F288(a), a = self,
                !(self->collision_flags & 8)) {
             M2C_FIELD(self, u16*, 0xE) += 0x10;
         }

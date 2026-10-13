@@ -7,7 +7,7 @@ M2C_UNK func_80017A04(void*);              /* extern */
 M2C_UNK func_8002D5D0(void*);              /* extern */
 s32 func_8002FE30(void*);                  /* extern */
 s32 func_80038594(void*);                  /* extern */
-M2C_UNK func_800397F8(void*, s32);         /* extern */
+s32 func_800397F8(void*, s32);             /* extern */
 s32 func_8003A814(void*, s32);             /* extern */
 M2C_UNK func_8003BA04(void*, M2C_UNK);     /* extern */
 M2C_UNK func_8003BB94(void*, M2C_UNK, s8); /* extern */

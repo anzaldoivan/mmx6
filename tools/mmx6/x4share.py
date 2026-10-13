@@ -2,14 +2,16 @@
 """x4share.py -- how much of X6 the mmx4 decompilation's own C already covers (container, stdlib).
 
   x4share.py [--triple <name>]
-      -> clones https://github.com/sozud/mmx4 into .run/mmx4 when absent (commit + date in .run/x4share/clone.txt),
-         compiles every US C file of mmx4 (F = src/main/<name>.c of each `c` subsegment of its
+      -> fetches https://github.com/sozud/mmx4 into .run/mmx4 at the pin of config/refs.toml (`[[ref]] name =
+         "mmx4"`; x4core.ensure_clone: the exact commit, shallow; a clone at another commit is refused; commit + date
+         in .run/x4share/clone.txt), compiles every US C file of mmx4 (F = src/main/<name>.c of each `c` subsegment of its
          config/SLUS_005.61.splat.yaml, the files its build.py keeps via main.ld) one by one with INCLUDE_ASM /
          INCLUDE_RODATA stubbed to nothing (override common.h in .run/x4share/inc, first on -I: SKIP_ASM, then
          #include_next): host cpp (mmx4 build.py's defines/include dirs) -> cc1 -> maspsx -> mipsel as ->
          .run/x4share/<triple>/obj/<src>.o; a failing file is counted, its stage + stderr tail in
          .run/x4share/<triple>/log/<src>.log. Every STT_FUNC of every object -> words + relocation mask (extent:
-         st_size, else symbol order as probe.elf_function, C0047; mask = census.elf_masks) -> sig.sig_of, matched
+         st_size, else symbol order as probe.elf_function, C0047; mask = the object's relocation sections,
+         x4core.functions) -> sig.sig_of, matched
          against build/sig/sigs.jsonl. Last two lines:
          `X4SHARE-DETAIL commit <hash> triple <name> exact_ge8w <k> failed <F-f>`
          `X4SHARE exact <a> near <b> of <N> X6 functions; X4 side <x> functions from <f> of <F> C files; lib <l> game <g>`
@@ -23,7 +25,12 @@
   x4share.py --self-test
       -> build/src/SLUS_013.95/120A0.c.o as a fake X4 object through the same object -> sig -> match path: X6
          SLUS_013.95 func_8001E78C must be exact; control: one unmasked bit of its words flipped -> not exact.
-         Ends `X4SHARE CONTROL OK`, rc 1 on any miss.
+         Also: x4core.MASKS equals probe.MASKS, and every function of that object carries the same words and mask
+         under x4core.functions as under census (elf_load + elf_masks). Ends `X4SHARE CONTROL OK`, rc 1 on any miss.
+
+The mmx4 recipe, the ELF reader, the key and the table writer live in x4core.py (shared with mmx5, byte-identical);
+the triple, the clone directory and the X6 functions come from x4adapter.py. This file keeps the CLI, the near
+measure and the names other tools import (CLONE, SCR, CPP, CPP_TAIL, OVERRIDE, functions, load_x6).
 
 Default triple (plan): cc1 /opt/cc/2.6.3-psx/cc1, cflags of config/triples.txt row gcc2.6.3-psx-aspsx2.86, maspsx
 --aspsx-version=2.63 --expand-div. --triple takes a config/triples.txt row. Definitions: a = X6 functions with >= 1
@@ -36,34 +43,28 @@ import argparse
 import datetime
 import json
 import os
-import re
 import struct
-import subprocess
 import sys
-from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import census  # noqa: E402
+import probe  # noqa: E402  (MASKS: the self-test's check of the core's table)
 import sig  # noqa: E402
+import x4adapter  # noqa: E402  (the triple, the clone directory, the X6 functions)
+import x4core  # noqa: E402  (the mmx4 recipe, ELF reader, key, table writer)
 
-REPO = "https://github.com/sozud/mmx4"
-CLONE = ".run/mmx4"
-SCR = ".run/x4share"
-YAML = "config/SLUS_005.61.splat.yaml"
-TRIPLES = "config/triples.txt"
-CORPUS = "build/corpus/functions.jsonl"
-DEFAULT = dict(name="gcc2.6.3-psx-aspsx2.63", cc1="/opt/cc/2.6.3-psx/cc1", row="gcc2.6.3-psx-aspsx2.86",
-               maspsx="--aspsx-version=2.63 --expand-div")
-# mmx4 build.py: host `cpp` (its psy-q headers reach the host's <sys/types.h>) with cpp_flags (VERSION=us), minus -v.
-CPP = ["cpp", "-undef", "-D__GNUC__=2", "-DVERSION_US=1", "-D__OPTIMIZE__"]
-CPP_TAIL = ["-I./src/snd", "-I./include", "-lang-c", "-Dmips", "-D__mips__", "-D__mips", "-Dpsx", "-D__psx__", "-D__psx",
-            "-D__EXTENSIONS__", "-D_MIPSEL", "-D__CHAR_UNSIGNED__", "-D_LANGUAGE_C", "-DLANGUAGE_C"]
-AS = ["mipsel-linux-gnu-as", "-EL", "-march=r3000", "-mtune=r3000", "-mabi=32", "-no-pad-sections", "-G0",
-      "-I./src/main"]
-OVERRIDE = '/* x4share: INCLUDE_ASM / INCLUDE_RODATA -> nothing (mmx4 common.h SKIP_ASM branch) */\n' \
-           '#define SKIP_ASM 1\n#include_next "common.h"\n'
-C_SEG = re.compile(r"^\s*-\s*\[\s*0x([0-9A-Fa-f]+)\s*,\s*c\s*(?:,\s*([^\],]+?))?\s*\]")
+REPO = x4core.REPO
+CLONE = x4adapter.CLONE
+SCR = x4adapter.SCR
+TRIPLES = x4adapter.TRIPLES
+CORPUS = x4adapter.CORPUS
+DEFAULT = x4adapter.DEFAULT
+# the mmx4 recipe (x4core): host cpp flags, assembler, the common.h override
+CPP = x4core.CPP
+CPP_TAIL = x4core.CPP_TAIL
+AS = x4core.AS
+OVERRIDE = x4core.OVERRIDE
 SELF_OBJ = "build/src/SLUS_013.95/120A0.c.o"
 SELF_FUNC, SELF_PROG, SELF_VRAM = "func_8001E78C", "SLUS_013.95", "0x8001E78C"
 PARTNERS = "campaign/x4/partners.tsv"
@@ -74,24 +75,12 @@ def die(msg):
     sys.exit(f"x4share: {msg}")
 
 
-def triple(name):
-    if name is None:
-        cflags = triple(DEFAULT["row"])["cflags"]
-        return dict(DEFAULT, cflags=cflags)
-    for line in open(TRIPLES):
-        f = [x.strip() for x in line.split("|")]
-        if line.startswith("#") or f[0] != name:
-            continue
-        kv = dict(x.split(": ", 1) for x in f[1:])
-        return dict(name=name, cc1=kv["cc1"], cflags=kv["cflags"], maspsx=kv["maspsx"])
-    die(f"no row {name} in {TRIPLES}")
+triple = x4adapter.triple
 
 
 def clone():
-    if not os.path.isdir(CLONE):
-        subprocess.run(["git", "clone", "-q", REPO, CLONE], check=True)
-    head = subprocess.run(["git", "-C", CLONE, "rev-parse", "--short", "HEAD"], capture_output=True, text=True,
-                          check=True).stdout.strip()
+    """The clone at the pin of config/refs.toml (x4core.ensure_clone); its short commit."""
+    head = x4core.short(x4core.ensure_clone(CLONE, x4core.pin(x4adapter.ROOT)))
     os.makedirs(SCR, exist_ok=True)
     if not os.path.isfile(f"{SCR}/clone.txt"):
         Path(f"{SCR}/clone.txt").write_text(f"{head} {datetime.date.today().isoformat()}\n")
@@ -100,71 +89,17 @@ def clone():
 
 def sources():
     """F: src/main/<name>.c of each `c` subsegment (unnamed -> hex offset, splat's default name)."""
-    out = []
-    for line in open(f"{CLONE}/{YAML}"):
-        m = C_SEG.match(line)
-        if m:
-            src = f"src/main/{(m.group(2) or format(int(m.group(1), 16), 'X')).strip()}.c"
-            if os.path.isfile(f"{CLONE}/{src}") and src not in out:
-                out.append(src)
-    return out
+    return x4core.sources(CLONE)
 
 
 def compile_one(src, t, inc, objdir, logdir):
     """Object path, or None (stage + stderr tail in the per-file log)."""
-    obj = os.path.abspath(f"{objdir}/{src}.o")
-    log = f"{logdir}/{src}.log"
-    os.makedirs(os.path.dirname(obj), exist_ok=True)
-    os.makedirs(os.path.dirname(log), exist_ok=True)
-    stages = [("cpp", CPP + [f"-I{inc}"] + CPP_TAIL + [src]), ("cc1", [t["cc1"]] + t["cflags"].split()),
-              ("maspsx", ["maspsx"] + t["maspsx"].split()), ("as", AS + ["-o", obj, "--"])]
-    data = b""
-    for i, (stage, cmd) in enumerate(stages):
-        p = subprocess.run(cmd, input=data if i else None, capture_output=True, cwd=CLONE)
-        if p.returncode != 0:
-            tail = p.stderr.decode(errors="replace").splitlines()[-20:]
-            Path(log).write_text(f"FAIL {stage} rc {p.returncode}\n" + "\n".join(tail) + "\n")
-            if os.path.exists(obj):
-                os.remove(obj)
-            return None
-        data = p.stdout
-    Path(log).write_text("OK\n")
-    return obj
+    return x4core.compile_one(CLONE, src, x4adapter.tools(t), inc, objdir, logdir)
 
 
 def functions(obj):
     """[(name, words, mask)] per STT_FUNC defined in obj; extent st_size, else symbol order (probe.elf_function)."""
-    with open(obj, "rb") as f:
-        b = f.read()
-    shoff, = struct.unpack_from("<I", b, 0x20)
-    shentsize, shnum, shstrndx = struct.unpack_from("<HHH", b, 0x2E)
-    secs = [struct.unpack_from("<10I", b, shoff + i * shentsize) for i in range(shnum)]
-    stro = secs[shstrndx][4]
-    names = [b[stro + s[0]:b.index(b"\0", stro + s[0])].decode() for s in secs]
-    syms = []
-    for s in secs:
-        if s[1] != 2:
-            continue
-        so = secs[s[6]][4]
-        for o in range(s[4], s[4] + s[5], 16):
-            nm, val, size, info, _, shndx = struct.unpack_from("<IIIBBH", b, o)
-            if 0 < shndx < len(secs):
-                syms.append((b[so + nm:b.index(b"\0", so + nm)].decode(), val, size, info, shndx))
-    masks = census.elf_masks(obj)
-    out = []
-    for name, val, size, info, shndx in syms:
-        if info & 0xF != 2 or secs[shndx][1] != 1:
-            continue
-        if size == 0:
-            later = [x[1] for x in syms if x[4] == shndx and x[1] > val and ((x[3] & 0xF) == 2 or (x[3] >> 4) != 0)]
-            size = (min(later) if later else secs[shndx][5]) - val
-        n = size // 4
-        if n == 0:
-            continue
-        sec, off = names[shndx], secs[shndx][4] + val
-        out.append((name, list(struct.unpack_from(f"<{n}I", b, off)),
-                    [masks.get((sec, val + 4 * i), 0) for i in range(n)]))
-    return out
+    return x4core.functions(obj)
 
 
 def sign(objs):
@@ -213,6 +148,16 @@ def self_test():
     print(f"X4SHARE self positive: {SELF_FUNC} exact {tgt in ex}; {len(x4)} functions signed")
     if tgt not in ex:
         fails.append("positive")
+    # the core's mask table and reader against the fleet's own (probe.MASKS; census.elf_load + elf_masks)
+    data, syms = census.elf_load(SELF_OBJ)
+    masks = census.elf_masks(SELF_OBJ)
+    same = x4core.MASKS == probe.MASKS and bool(fs) and all(
+        n in syms and w == list(struct.unpack_from(f"<{len(w)}I", data[syms[n][0]], syms[n][1])) and
+        m == [masks.get((syms[n][0], syms[n][1] + 4 * i), 0) for i in range(len(w))] and
+        x4core.key(w, m) == census.dup_key(w, m) for n, (w, m) in fs.items())
+    print(f"X4SHARE self masks: x4core.MASKS == probe.MASKS, {len(fs)} functions words/mask/key as census {same}")
+    if not same:
+        fails.append("masks")
     if SELF_FUNC not in fs:
         fails.append("no symbol")
     else:
@@ -233,25 +178,9 @@ def self_test():
 
 def write_partners(x6, objs, objdir, rows):
     """partners.tsv: one row per X6 function with an exact X4 partner (the first by (src, func) + the partner count);
-    the X6 side's name and state from the corpus rows."""
-    base = os.path.abspath(objdir)
-    by_key = {}
-    for o in objs:
-        src = os.path.relpath(o, base)[:-2]
-        for name, w, m in functions(o):
-            by_key.setdefault(sig.sig_of("X4", name, w, m)["exact"], set()).add((src, name))
-    out = []
-    for s in x6:
-        r = rows.get((s["prog"], s["vram"]), {})
-        ps = sorted(by_key.get(s["exact"], ()))
-        if ps:
-            out.append((s["prog"], int(s["vram"], 16), r.get("name", "-"), s["words"], s["exact"], ps[0][0], ps[0][1],
-                        len(ps), r.get("state", "-")))
-    out.sort(key=lambda x: (x[0], x[1]))
-    os.makedirs(os.path.dirname(PARTNERS), exist_ok=True)
-    with open(PARTNERS, "w") as f:
-        for p, v, fn, w, k, src, name, n, st in out:
-            f.write(f"{p}\t0x{v:08X}\t{fn}\t{w}\t{k}\t{src}\t{name}\t{n}\t{st}\n")
+    the X6 side's name and state from the corpus rows (x4core.write_partners over x4adapter.game)."""
+    by_key, _ = x4core.partner_map(objdir, objs)
+    out = x4core.write_partners(PARTNERS, x4adapter.game(x6, rows), by_key)
     x6f = {(x[0], x[1]) for x in out}
     op = {(x[0], x[1]): x[4] for x in out if x[8] in OPEN}
     print(f"X4SHARE partners {len(out)} rows; x6 {len(x6f)} functions, open {len(op)}, open keys {len(set(op.values()))}")
@@ -267,13 +196,8 @@ def run(name, partners=False):
             lane[(r["prog"], r["vram"])] = r["lane"]
             rows[(r["prog"], r["vram"])] = r
     head = clone()
-    inc = os.path.abspath(f"{SCR}/inc")
-    os.makedirs(inc, exist_ok=True)
-    Path(f"{inc}/common.h").write_text(OVERRIDE)
     objdir, logdir = f"{SCR}/{t['name']}/obj", f"{SCR}/{t['name']}/log"
-    srcs = sources()
-    with ThreadPoolExecutor(os.cpu_count() or 4) as ex:
-        objs = [o for o in ex.map(lambda s: compile_one(s, t, inc, objdir, logdir), srcs) if o]
+    srcs, objs = x4core.compile_all(CLONE, x4adapter.tools(t), f"{SCR}/inc", objdir, logdir)
     x4 = sign(objs)
     exact, near = match(x6, x4)
     both = exact | near

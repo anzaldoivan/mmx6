@@ -1,0 +1,52 @@
+#include "common.h"
+#define M2C_UNK s32
+
+M2C_UNK func_800139F4(M2C_UNK);
+M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
+extern u16 D_800C456C[];
+
+#define ENG_B(o) ((u8)D_80097420[o])
+#define ENG_SB(o) (D_80097420[o])
+
+void func_800EA76C(u8* arg0) {
+    extern s8 D_80097420[];
+    u8 v;
+
+    if (ENG_SB(4) == 0) {
+        register s32 one asm("$18") = 1;
+        if (D_800C456C[2] & 0x1000) {
+            func_80016C48(0, 0xC, 0);
+            v = ENG_B(7);
+            if (v == 0) {
+                D_80097420[7] = one;
+            } else {
+                D_80097420[7] = v - 1;
+            }
+        } else if (D_800C456C[2] & 0x4000) {
+            func_80016C48(0, 0xC, 0);
+            v = ENG_B(7);
+            if (v == one) {
+                D_80097420[7] = 0;
+            } else {
+                D_80097420[7] = v + 1;
+            }
+        }
+        if (D_800C456C[2] & 0x40) {
+            func_80016C48(0, 0x22, 0);
+            if (ENG_B(7) != 1) {
+                func_800139F4(8);
+            }
+            arg0[1] += 2;
+            *(s16*)(arg0 + 0xA) = ENG_B(7);
+            return;
+        }
+        if (D_800C456C[2] & 0x10) {
+            func_800139F4(8);
+            {
+                register s32 b asm("$2") = arg0[1];
+                *(s16*)(arg0 + 0xA) = 2;
+                arg0[1] = b + 2;
+            }
+        }
+    }
+}

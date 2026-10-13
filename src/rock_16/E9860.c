@@ -2,7 +2,7 @@
 
 INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800E9898);
 
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800E99A4);
+#include "../shared/rock_16/func_800E99A4.c"
 
 INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800E9AF8);
 
@@ -16,7 +16,7 @@ INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EA3FC);
 
 #include "../shared/rock_16/func_800EAEF8.c"
 
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EB080);
+#include "../shared/rock_16/func_800EB080.c"
 
 #include "../shared/rock_16/func_800EB1FC.c"
 
@@ -38,7 +38,7 @@ INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EC508);
 
 INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EC634);
 
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EC6E8);
+#include "../shared/rock_16/func_800EC6E8.c"
 
 INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EC858);
 
@@ -234,9 +234,9 @@ INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EE410);
 
 INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EE438);
 
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EE460);
+#include "../shared/rock_16/func_800EE460.c"
 
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EE5AC);
+#include "../shared/rock_16/func_800EE5AC.c"
 
 #define func_80041AB8 func_800EE708
 #define D_80075FD8 D_800F129C
@@ -296,9 +296,9 @@ INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EFAB4);
 
 INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EFB94);
 
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EFCC0);
+#include "../shared/rock_16/func_800EFCC0.c"
 
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EFE10);
+#include "../shared/rock_16/func_800EFE10.c"
 
 INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EFF60);
 
@@ -306,7 +306,7 @@ INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EFF60);
 
 #include "../shared/rock_16/func_800F01D0.c"
 
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800F0338);
+#include "../shared/rock_16/func_800F0338.c"
 
 #define func_80041AB8 func_800F04A0
 #define D_80075FD8 D_800F1710

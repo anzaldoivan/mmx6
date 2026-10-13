@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_8002C9B0(void*, void*); /* extern */
-void func_80049270(); /* extern */
+void func_80049270(struct X4_VisualObj*); /* extern */
 M2C_UNK func_80049800(void*, void*); /* extern */
 extern s8 D_800970A5;
 

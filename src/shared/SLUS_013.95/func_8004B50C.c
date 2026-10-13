@@ -6,7 +6,7 @@ s32 func_800179A4(void*, s32);
 #define M2C_UNK s32
 M2C_UNK func_80017A04();
 M2C_UNK func_8002C9B0(void*, void*);
-M2C_UNK func_8002CB50();
+s32 func_8002CB50(struct X4_BaseObj*);
 void func_8004B50C(struct X4_VisualObj* arg0) {
     struct X4_PlayerObj* temp_a0;
 
@@ -18,7 +18,7 @@ void func_8004B50C(struct X4_VisualObj* arg0) {
                 func_800179A4(arg0, ((arg0->unk2 - 1) >> 1) + 0x21);
             }
             arg0->unk2++;
-            ((void (*)())func_8002CB50)(arg0);
+            ((s32 (*)())func_8002CB50)(arg0);
         } else {
             arg0->on_screen = 0;
             arg0->state = 2;
@@ -31,7 +31,7 @@ void func_8004B50C(struct X4_VisualObj* arg0) {
             arg0->x_pos.i.hi = temp_a0->x_pos.i.hi;
             arg0->y_pos.i.hi = temp_a0->y_pos.i.hi;
             ((void (*)())func_80017A04)(arg0);
-            ((void (*)())func_8002CB50)(arg0);
+            ((s32 (*)())func_8002CB50)(arg0);
             return;
         }
         arg0->on_screen = 0;

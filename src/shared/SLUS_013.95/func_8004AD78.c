@@ -3,9 +3,9 @@
 
 M2C_UNK func_80017A04();
 M2C_UNK func_8002C9B0();
-M2C_UNK func_8002CB50();
+s32 func_8002CB50(struct X4_BaseObj*);
 #define func_8002C9B0 ((M2C_UNK(*)(u8*))func_8002C9B0)
-#define func_8002CB50 ((M2C_UNK(*)(u8*))func_8002CB50)
+#define func_8002CB50 func_8002CB50
 M2C_UNK func_8002D2B0(void*);
 extern s32 D_80097420;
 

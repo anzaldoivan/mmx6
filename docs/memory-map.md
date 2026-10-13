@@ -1,128 +1,385 @@
 # Memory map — mmx6 (SLUS-01395 v1.1)
 
-Load addresses of the exe and the ROCK_X6.BIN members, each with its evidence. A row is `proven` only with
-3 runtime datapoints (G5); everything else stays a lead. Overlay rows: T6/T7 (`config/loadmap.txt`).
+This document gives the load addresses of the exe and the ROCK_X6.BIN members, each with its evidence. A row is
+`proven` only with 3 runtime datapoints (G5). Everything else stays a lead. Overlay rows: T6/T7 (`config/loadmap.txt`).
 
-- SLUS_013.95 load 0x80010000: proven (3 datapoints, PCSX-Redux build 279, no pad input: first `BinSeek` 0x80016858 hit at frame 1478, frame 4000, second `BinSeek` hit at frame 7787; both hits a0=0x12 a1=0x800E9860). Function-body words 92827/92827 equal at each of the 3 (1343 bodies from `config/ghidra/SLUS_013.95.jsonl`, each [func, next func/data row) trimmed to its last `jr ra` + delay slot); whole text 129880, 129857, 129833 of 130048 words. Negative control `--base 0x80010800` fails (rc 1). Commands: `make redux-smoke PYTHON=PY && PY tools/mmx6/exeproof.py .run/redux/smoke` (T4, 2026-10-01).
+- SLUS_013.95 load 0x80010000: proven (3 datapoints, PCSX-Redux build 279, no pad input).
+  - Datapoints: the first `BinSeek` 0x80016858 hit at frame 1478, frame 4000, the second `BinSeek` hit at frame 7787. Both hits have a0=0x12 a1=0x800E9860.
+  - Function-body words 92827/92827 are equal at each of the 3. The 1343 bodies come from `config/ghidra/SLUS_013.95.jsonl`. Each body is [func, next func/data row) trimmed to its last `jr ra` + delay slot.
+  - Whole text: 129880, 129857, 129833 of 130048 words are equal at each of the 3.
+  - Negative control `--base 0x80010800` fails (rc 1).
+  - Commands: `make redux-smoke PYTHON=PY && PY tools/mmx6/exeproof.py .run/redux/smoke` (T4, 2026-10-01).
 
-## Overlay bases (T6, 2026-10-01; per-member rows: `config/loadmap.txt`, `make loadmap`)
+## Overlay bases (T6, 2026-10-01. Per-member rows: `config/loadmap.txt`, `make loadmap`)
+
 Proof per load: `loadmap.py` checks the BinSeek capture's dumps of [dest, dest+size): before != member, after == member
-("before/after diff"); size = the TOC word, equal to the member's manifest size at every load. Captures:
-`make redux-loads` run `intro_stage` (`.run/redux/loads/intro_stage.jsonl`); reruns in T6.c2 (Redux logs
+("before/after diff"). The size is the TOC word, equal to the member's manifest size at every load. Captures:
+`make redux-loads` run `intro_stage` (`.run/redux/loads/intro_stage.jsonl`). Reruns in T6.c2 (Redux logs
 `.run/redux/logs/loads-20261001-04*.log`) add BinSeek hits with the same a0/a1.
-- L3 base 0x801EA000: proven (run intro_stage seq 5, frame 2773, member 0, caller 0x80013CDC (ra 0x80013CE4), before/after diff; T6.c2 rerun same load before/after diff; 4 more hits a0=0 a1=0x801EA000 in 3 T6.c2 runs (attract demo, frames 2793/4314/3493/2793); static a1 at 0x80013CDC and 0x80013CF0)
-- L3 base 0x800E9860: proven (run intro_stage seqs 1, 2, 4, 6, members 18, 18, 12, 2 = three distinct members, caller 0x80013E7C (ra 0x80013E84), before/after diff each; word at 0x80010000 = 0x800E9860 at every load and static, the a1 source of 0x80013E7C)
-- L3 base 0x800FA000: proven (run intro_stage seq 3, frame 2098, member 46, caller 0x80013E40 (ra 0x80013E48), before/after diff; T6.c2 rerun same load before/after diff; a third hit a0=46 a1=0x800FA000 at frame 2098 in another T6.c2 run; static a1 at 0x80013E40, 0x80013D54, 0x80052E94)
+- L3 base 0x801EA000: proven. Evidence: run intro_stage seq 5, frame 2773, member 0, caller 0x80013CDC (ra 0x80013CE4), before/after diff. T6.c2 rerun same load before/after diff. 4 more hits a0=0 a1=0x801EA000 in 3 T6.c2 runs (attract demo, frames 2793/4314/3493/2793). Static a1 at 0x80013CDC and 0x80013CF0.
+- L3 base 0x800E9860: proven. Evidence: run intro_stage seqs 1, 2, 4, 6, members 18, 18, 12, 2 = three distinct members, caller 0x80013E7C (ra 0x80013E84), before/after diff each. The word at 0x80010000 = 0x800E9860 at every load and static, the a1 source of 0x80013E7C.
+- L3 base 0x800FA000: proven. Evidence: run intro_stage seq 3, frame 2098, member 46, caller 0x80013E40 (ra 0x80013E48), before/after diff. T6.c2 rerun same load before/after diff. A third hit a0=46 a1=0x800FA000 at frame 2098 in another T6.c2 run. Static a1 at 0x80013E40, 0x80013D54, 0x80052E94.
+
 Not reached at runtime (static base only): caller 0x80013D54 (members 33..40), async 0x80052E94 (43, 44, 45),
-0x80013CF0 (member 1). T6.c2 tried title menu (Game Start, Continue, Option), attract demo, stage pause, losing
-all lives (game over, continue): no load from these callers.
+0x80013CF0 (member 1). T6.c2 tried the title menu (Game Start, Continue, Option), the attract demo, stage pause, losing
+all lives (game over, continue). No load came from these callers.
 
 ## Code/data/empty criterion
-Rule (`tools/mmx6/loadmap.py`): empty = size <= 4; code = >= 1 `addiu sp,sp,-N` and a word-aligned `jr ra` and a
-static or runtime base; data = the rest. Counts (59 members): code 56, data 1 (member 13), empty 2 (members 41, 42).
-CONTROLS 23/23 pass (exe bodies at 3 smoke dumps; per proven member: equal at its base, fails at base+4, vs another
-member's after-dump, word-shuffled). N = 1 (exe) + code members:
+
+Rule (`tools/mmx6/loadmap.py`):
+- empty = size <= 4
+- code = >= 1 `addiu sp,sp,-N` and a word-aligned `jr ra` and a static or runtime base
+- data = the rest
+
+Counts (59 members): code 56, data 1 (member 13), empty 2 (members 41, 42).
+
+CONTROLS 23/23 pass: exe bodies at 3 smoke dumps. Per proven member: equal at its base, fails at base+4, vs another
+member's after-dump, word-shuffled.
+
+N = 1 (exe) + code members:
 N = 57
 
-## Forced boundaries (T8, 2026-10-01; rows: `config/boundaries.txt`, `make boundaries`)
-Generated by `tools/mmx6/boundaries.py` (rule texts in its doc header); regenerate with `make boundaries`
-(Mac: needs extracted/retail, config/ghidra/*.jsonl, psx_ldr's `data/psyq`); `--self-test` checks the scan on
-synthetic bytes. Status: consistent-with-bytes (decoded from retail bytes + Ghidra export), none runtime.
-Rows → TUs: `config/segmentation.md` (1.3 T3; exe 246 TUs, each overlay 1; exe last lib span ends 0x8006D5D4).
-- jtbl: `jr X` fed by `lw X,off(lui-const + sll 2 index)`, extent = `sltiu` bound (222 of 224 sites; 2 by consecutive code-pointer words) vs
+## Forced boundaries (T8, 2026-10-01. Rows: `config/boundaries.txt`, `make boundaries`)
+
+`tools/mmx6/boundaries.py` generates the rows (rule texts in its doc header). Regenerate with `make boundaries`
+(Mac: needs extracted/retail, config/ghidra/*.jsonl, psx_ldr's `data/psyq`). `--self-test` checks the scan on
+synthetic bytes.
+
+Status: consistent-with-bytes (decoded from retail bytes + Ghidra export), none runtime.
+Rows → TUs: `config/segmentation.md` (1.3 T3). The exe has 246 TUs, each overlay 1. The exe last lib span ends 0x8006D5D4.
+- jtbl: `jr X` fed by `lw X,off(lui-const + sll 2 index)`, extent = `sltiu` bound (222 of 224 sites, 2 by consecutive code-pointer words) vs
   Ghidra `switchdataD_*` labels. Ghidra-only reasons: `label-inside-scan-table` 219 (rock_02/10/31: labels every
   8 B inside a table our scan bounds). Scan-only reasons: `ghidra-address-table-not-switch` 8,
   `inside-ghidra-switch-extent` 2, `jr-before-first-ghidra-func` 2. Unexplained 0. `both` rows whose Ghidra count
-  differs carry `ghidra_hi=`: 48; spot checks (exe 0x8001004c, 0x80010c70; rock_04, rock_22 0x800e9864) show
+  differs carry `ghidra_hi=`: 48. Spot checks (exe 0x8001004c, 0x80010c70 and rock_04, rock_22 0x800e9864) show
   Ghidra's count running into the next table, our `sltiu` bound matching the listing.
-- lib: PsyQ 4.7.0 objects whose signature verifies at the func/plate address; same-span twins (LIBCD/LIBDS) and
+- lib: PsyQ 4.7.0 objects whose signature verifies at the func/plate address. Same-span twins (LIBCD/LIBDS) and
   multi-candidate plates are counted ambiguous, not emitted. Overlays: 4 plate-verified `VM_VIB.OBJ` rows only.
 - optcand: 0 everywhere (`addu fp,sp,zero` occurs once in all 57 images, not in a prologue): no -O0 shape found.
-- fstart: of the T7 starts Ghidra missed, 0x80027ba0 is a jal target only from overlays (`ovl_calls=`);
+- fstart: of the T7 starts Ghidra missed, 0x80027ba0 is a jal target only from overlays (`ovl_calls=`).
   0x80017e98 and 0x80027aa8 are not jal targets (no jal/j, data word or lui/addiu pair in exe or members): absent.
+
 Per program (denominators: dispatch sites found by the scan, Ghidra switchdata labels, Ghidra func starts):
-- SLUS_013.95: jtbl 41 both / 6 scan / 0 ghidra of 47 dispatch sites and 41 switchdata labels (hi mismatch 9); lib 235 objects, 828/1343 funcs; optcand 0/1343 funcs; fstart 90
-- rock_00: jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1); lib 0 objects, 0/15 funcs; optcand 0/15 funcs; fstart 0
-- rock_01: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/12 funcs; optcand 0/12 funcs; fstart 10
-- rock_02: jtbl 9 both / 0 scan / 73 ghidra of 9 dispatch sites and 82 switchdata labels (hi mismatch 3); lib 0 objects, 0/18 funcs; optcand 0/18 funcs; fstart 1
-- rock_03: jtbl 9 both / 1 scan / 0 ghidra of 10 dispatch sites and 9 switchdata labels (hi mismatch 2); lib 0 objects, 0/10 funcs; optcand 0/10 funcs; fstart 1
-- rock_04: jtbl 11 both / 0 scan / 0 ghidra of 11 dispatch sites and 11 switchdata labels (hi mismatch 3); lib 0 objects, 0/14 funcs; optcand 0/14 funcs; fstart 0
-- rock_05: jtbl 1 both / 0 scan / 0 ghidra of 1 dispatch sites and 1 switchdata labels (hi mismatch 0); lib 0 objects, 0/2 funcs; optcand 0/2 funcs; fstart 0
-- rock_06: jtbl 1 both / 0 scan / 0 ghidra of 1 dispatch sites and 1 switchdata labels (hi mismatch 0); lib 0 objects, 0/14 funcs; optcand 0/14 funcs; fstart 0
-- rock_07: jtbl 7 both / 0 scan / 0 ghidra of 7 dispatch sites and 7 switchdata labels (hi mismatch 2); lib 0 objects, 0/30 funcs; optcand 0/30 funcs; fstart 0
-- rock_08: jtbl 5 both / 0 scan / 0 ghidra of 5 dispatch sites and 5 switchdata labels (hi mismatch 1); lib 0 objects, 0/5 funcs; optcand 0/5 funcs; fstart 0
-- rock_09: jtbl 5 both / 1 scan / 0 ghidra of 6 dispatch sites and 5 switchdata labels (hi mismatch 1); lib 0 objects, 0/12 funcs; optcand 0/12 funcs; fstart 3
-- rock_10: jtbl 20 both / 0 scan / 73 ghidra of 20 dispatch sites and 93 switchdata labels (hi mismatch 3); lib 1 objects, 0/31 funcs; optcand 0/31 funcs; fstart 0
-- rock_11: jtbl 11 both / 0 scan / 0 ghidra of 11 dispatch sites and 11 switchdata labels (hi mismatch 3); lib 0 objects, 0/45 funcs; optcand 0/45 funcs; fstart 0
-- rock_12: jtbl 1 both / 0 scan / 0 ghidra of 1 dispatch sites and 1 switchdata labels (hi mismatch 0); lib 1 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_14: jtbl 3 both / 0 scan / 0 ghidra of 3 dispatch sites and 3 switchdata labels (hi mismatch 1); lib 0 objects, 0/7 funcs; optcand 0/7 funcs; fstart 0
-- rock_15: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/21 funcs; optcand 0/21 funcs; fstart 2
-- rock_16: jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1); lib 0 objects, 0/10 funcs; optcand 0/10 funcs; fstart 0
-- rock_17: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/1 funcs; optcand 0/1 funcs; fstart 0
-- rock_18: jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1); lib 0 objects, 0/17 funcs; optcand 0/17 funcs; fstart 0
-- rock_19: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/2 funcs; optcand 0/2 funcs; fstart 0
-- rock_20: jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1); lib 0 objects, 0/26 funcs; optcand 0/26 funcs; fstart 0
-- rock_21: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_22: jtbl 17 both / 0 scan / 0 ghidra of 17 dispatch sites and 17 switchdata labels (hi mismatch 3); lib 1 objects, 0/26 funcs; optcand 0/26 funcs; fstart 2
-- rock_23: jtbl 5 both / 0 scan / 0 ghidra of 5 dispatch sites and 5 switchdata labels (hi mismatch 1); lib 0 objects, 0/15 funcs; optcand 0/15 funcs; fstart 2
-- rock_24: jtbl 10 both / 1 scan / 0 ghidra of 11 dispatch sites and 10 switchdata labels (hi mismatch 2); lib 0 objects, 0/10 funcs; optcand 0/10 funcs; fstart 5
-- rock_25: jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1); lib 0 objects, 0/9 funcs; optcand 0/9 funcs; fstart 0
-- rock_26: jtbl 9 both / 0 scan / 0 ghidra of 9 dispatch sites and 9 switchdata labels (hi mismatch 3); lib 0 objects, 0/2 funcs; optcand 0/2 funcs; fstart 0
-- rock_27: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_28: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/14 funcs; optcand 0/14 funcs; fstart 3
-- rock_29: jtbl 1 both / 0 scan / 0 ghidra of 1 dispatch sites and 1 switchdata labels (hi mismatch 0); lib 0 objects, 0/2 funcs; optcand 0/2 funcs; fstart 0
-- rock_30: jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1); lib 0 objects, 0/6 funcs; optcand 0/6 funcs; fstart 3
-- rock_31: jtbl 15 both / 0 scan / 73 ghidra of 15 dispatch sites and 88 switchdata labels (hi mismatch 2); lib 1 objects, 0/18 funcs; optcand 0/18 funcs; fstart 0
-- rock_32: jtbl 1 both / 0 scan / 0 ghidra of 1 dispatch sites and 1 switchdata labels (hi mismatch 0); lib 0 objects, 0/8 funcs; optcand 0/8 funcs; fstart 0
-- rock_33: jtbl 6 both / 1 scan / 0 ghidra of 7 dispatch sites and 6 switchdata labels (hi mismatch 1); lib 0 objects, 0/1 funcs; optcand 0/1 funcs; fstart 0
-- rock_34: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/11 funcs; optcand 0/11 funcs; fstart 0
-- rock_35: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/2 funcs; optcand 0/2 funcs; fstart 0
-- rock_36: jtbl 4 both / 0 scan / 0 ghidra of 4 dispatch sites and 4 switchdata labels (hi mismatch 1); lib 0 objects, 0/14 funcs; optcand 0/14 funcs; fstart 0
-- rock_37: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/2 funcs; optcand 0/2 funcs; fstart 0
-- rock_38: jtbl 2 both / 1 scan / 0 ghidra of 3 dispatch sites and 2 switchdata labels (hi mismatch 0); lib 0 objects, 0/3 funcs; optcand 0/3 funcs; fstart 0
-- rock_39: jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 0); lib 0 objects, 0/11 funcs; optcand 0/11 funcs; fstart 0
-- rock_40: jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1); lib 0 objects, 0/18 funcs; optcand 0/18 funcs; fstart 0
-- rock_43: jtbl 1 both / 1 scan / 0 ghidra of 2 dispatch sites and 1 switchdata labels (hi mismatch 0); lib 0 objects, 0/1 funcs; optcand 0/1 funcs; fstart 0
-- rock_44: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/6 funcs; optcand 0/6 funcs; fstart 0
-- rock_45: jtbl 1 both / 0 scan / 0 ghidra of 1 dispatch sites and 1 switchdata labels (hi mismatch 0); lib 0 objects, 0/1 funcs; optcand 0/1 funcs; fstart 0
-- rock_46: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_47: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_48: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_49: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_50: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_51: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_52: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_53: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_54: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_55: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_56: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_57: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
-- rock_58: jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0); lib 0 objects, 0/0 funcs; optcand 0/0 funcs; fstart 0
+- SLUS_013.95:
+  - jtbl 41 both / 6 scan / 0 ghidra of 47 dispatch sites and 41 switchdata labels (hi mismatch 9)
+  - lib 235 objects, 828/1343 funcs
+  - optcand 0/1343 funcs
+  - fstart 90
+- rock_00:
+  - jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1)
+  - lib 0 objects, 0/15 funcs
+  - optcand 0/15 funcs
+  - fstart 0
+- rock_01:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/12 funcs
+  - optcand 0/12 funcs
+  - fstart 10
+- rock_02:
+  - jtbl 9 both / 0 scan / 73 ghidra of 9 dispatch sites and 82 switchdata labels (hi mismatch 3)
+  - lib 0 objects, 0/18 funcs
+  - optcand 0/18 funcs
+  - fstart 1
+- rock_03:
+  - jtbl 9 both / 1 scan / 0 ghidra of 10 dispatch sites and 9 switchdata labels (hi mismatch 2)
+  - lib 0 objects, 0/10 funcs
+  - optcand 0/10 funcs
+  - fstart 1
+- rock_04:
+  - jtbl 11 both / 0 scan / 0 ghidra of 11 dispatch sites and 11 switchdata labels (hi mismatch 3)
+  - lib 0 objects, 0/14 funcs
+  - optcand 0/14 funcs
+  - fstart 0
+- rock_05:
+  - jtbl 1 both / 0 scan / 0 ghidra of 1 dispatch sites and 1 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/2 funcs
+  - optcand 0/2 funcs
+  - fstart 0
+- rock_06:
+  - jtbl 1 both / 0 scan / 0 ghidra of 1 dispatch sites and 1 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/14 funcs
+  - optcand 0/14 funcs
+  - fstart 0
+- rock_07:
+  - jtbl 7 both / 0 scan / 0 ghidra of 7 dispatch sites and 7 switchdata labels (hi mismatch 2)
+  - lib 0 objects, 0/30 funcs
+  - optcand 0/30 funcs
+  - fstart 0
+- rock_08:
+  - jtbl 5 both / 0 scan / 0 ghidra of 5 dispatch sites and 5 switchdata labels (hi mismatch 1)
+  - lib 0 objects, 0/5 funcs
+  - optcand 0/5 funcs
+  - fstart 0
+- rock_09:
+  - jtbl 5 both / 1 scan / 0 ghidra of 6 dispatch sites and 5 switchdata labels (hi mismatch 1)
+  - lib 0 objects, 0/12 funcs
+  - optcand 0/12 funcs
+  - fstart 3
+- rock_10:
+  - jtbl 20 both / 0 scan / 73 ghidra of 20 dispatch sites and 93 switchdata labels (hi mismatch 3)
+  - lib 1 objects, 0/31 funcs
+  - optcand 0/31 funcs
+  - fstart 0
+- rock_11:
+  - jtbl 11 both / 0 scan / 0 ghidra of 11 dispatch sites and 11 switchdata labels (hi mismatch 3)
+  - lib 0 objects, 0/45 funcs
+  - optcand 0/45 funcs
+  - fstart 0
+- rock_12:
+  - jtbl 1 both / 0 scan / 0 ghidra of 1 dispatch sites and 1 switchdata labels (hi mismatch 0)
+  - lib 1 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_14:
+  - jtbl 3 both / 0 scan / 0 ghidra of 3 dispatch sites and 3 switchdata labels (hi mismatch 1)
+  - lib 0 objects, 0/7 funcs
+  - optcand 0/7 funcs
+  - fstart 0
+- rock_15:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/21 funcs
+  - optcand 0/21 funcs
+  - fstart 2
+- rock_16:
+  - jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1)
+  - lib 0 objects, 0/10 funcs
+  - optcand 0/10 funcs
+  - fstart 0
+- rock_17:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/1 funcs
+  - optcand 0/1 funcs
+  - fstart 0
+- rock_18:
+  - jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1)
+  - lib 0 objects, 0/17 funcs
+  - optcand 0/17 funcs
+  - fstart 0
+- rock_19:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/2 funcs
+  - optcand 0/2 funcs
+  - fstart 0
+- rock_20:
+  - jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1)
+  - lib 0 objects, 0/26 funcs
+  - optcand 0/26 funcs
+  - fstart 0
+- rock_21:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_22:
+  - jtbl 17 both / 0 scan / 0 ghidra of 17 dispatch sites and 17 switchdata labels (hi mismatch 3)
+  - lib 1 objects, 0/26 funcs
+  - optcand 0/26 funcs
+  - fstart 2
+- rock_23:
+  - jtbl 5 both / 0 scan / 0 ghidra of 5 dispatch sites and 5 switchdata labels (hi mismatch 1)
+  - lib 0 objects, 0/15 funcs
+  - optcand 0/15 funcs
+  - fstart 2
+- rock_24:
+  - jtbl 10 both / 1 scan / 0 ghidra of 11 dispatch sites and 10 switchdata labels (hi mismatch 2)
+  - lib 0 objects, 0/10 funcs
+  - optcand 0/10 funcs
+  - fstart 5
+- rock_25:
+  - jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1)
+  - lib 0 objects, 0/9 funcs
+  - optcand 0/9 funcs
+  - fstart 0
+- rock_26:
+  - jtbl 9 both / 0 scan / 0 ghidra of 9 dispatch sites and 9 switchdata labels (hi mismatch 3)
+  - lib 0 objects, 0/2 funcs
+  - optcand 0/2 funcs
+  - fstart 0
+- rock_27:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_28:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/14 funcs
+  - optcand 0/14 funcs
+  - fstart 3
+- rock_29:
+  - jtbl 1 both / 0 scan / 0 ghidra of 1 dispatch sites and 1 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/2 funcs
+  - optcand 0/2 funcs
+  - fstart 0
+- rock_30:
+  - jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1)
+  - lib 0 objects, 0/6 funcs
+  - optcand 0/6 funcs
+  - fstart 3
+- rock_31:
+  - jtbl 15 both / 0 scan / 73 ghidra of 15 dispatch sites and 88 switchdata labels (hi mismatch 2)
+  - lib 1 objects, 0/18 funcs
+  - optcand 0/18 funcs
+  - fstart 0
+- rock_32:
+  - jtbl 1 both / 0 scan / 0 ghidra of 1 dispatch sites and 1 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/8 funcs
+  - optcand 0/8 funcs
+  - fstart 0
+- rock_33:
+  - jtbl 6 both / 1 scan / 0 ghidra of 7 dispatch sites and 6 switchdata labels (hi mismatch 1)
+  - lib 0 objects, 0/1 funcs
+  - optcand 0/1 funcs
+  - fstart 0
+- rock_34:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/11 funcs
+  - optcand 0/11 funcs
+  - fstart 0
+- rock_35:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/2 funcs
+  - optcand 0/2 funcs
+  - fstart 0
+- rock_36:
+  - jtbl 4 both / 0 scan / 0 ghidra of 4 dispatch sites and 4 switchdata labels (hi mismatch 1)
+  - lib 0 objects, 0/14 funcs
+  - optcand 0/14 funcs
+  - fstart 0
+- rock_37:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/2 funcs
+  - optcand 0/2 funcs
+  - fstart 0
+- rock_38:
+  - jtbl 2 both / 1 scan / 0 ghidra of 3 dispatch sites and 2 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/3 funcs
+  - optcand 0/3 funcs
+  - fstart 0
+- rock_39:
+  - jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/11 funcs
+  - optcand 0/11 funcs
+  - fstart 0
+- rock_40:
+  - jtbl 2 both / 0 scan / 0 ghidra of 2 dispatch sites and 2 switchdata labels (hi mismatch 1)
+  - lib 0 objects, 0/18 funcs
+  - optcand 0/18 funcs
+  - fstart 0
+- rock_43:
+  - jtbl 1 both / 1 scan / 0 ghidra of 2 dispatch sites and 1 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/1 funcs
+  - optcand 0/1 funcs
+  - fstart 0
+- rock_44:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/6 funcs
+  - optcand 0/6 funcs
+  - fstart 0
+- rock_45:
+  - jtbl 1 both / 0 scan / 0 ghidra of 1 dispatch sites and 1 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/1 funcs
+  - optcand 0/1 funcs
+  - fstart 0
+- rock_46:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_47:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_48:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_49:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_50:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_51:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_52:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_53:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_54:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_55:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_56:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_57:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+- rock_58:
+  - jtbl 0 both / 0 scan / 0 ghidra of 0 dispatch sites and 0 switchdata labels (hi mismatch 0)
+  - lib 0 objects, 0/0 funcs
+  - optcand 0/0 funcs
+  - fstart 0
+
 Totals: programs=57 sites=224 switchdata=431 both=212 scan=12 ghidra=219 hi_mismatch=48 lib=239 lib_funcs=828/1815 optcand_funcs=0/1815 fstart=122 unexplained=0
 
-## Overlay builds (T5.c1, 2026-10-01; `make split build`, configs from `tools/mmx6/segment.py rock_NN --init`)
-- 56 `code` members of config/loadmap.txt, each config/rock_NN.yaml → build/rock/NN.bin, gate config/check.rock_NN.sha; all 56 byte-identical (clean rebuild); not built: member 13 (data), 41/42 (empty)
-- vram per base: members 0-1 0x801EA000; 2-12, 14-32 0x800E9860; 33-40, 43-58 0x800FA000 (raw image, file off = vram - base)
-- tail: asm TU to size & ~3; sizes not ≡ 0 mod 4 (16 17 21 24 28 45 46 51) end in a 1-3 byte splat `bin` subsegment (`.incbin`, .data)
-- gp: exe gp 0x8008EAA4 (`gp_value`); the build passes with it, not otherwise proven for overlays
-- one asm TU per overlay, so data words reach gas as code: overlay objects use `-march=r4000 -mno-fix-loongson3-llsc` (MIPS II/III decodes, no `sync` before `ll`), purge splat's GTE `ll` macro, and the link PROVIDEs unlabelled `D_`/`func_<addr>` refs at their named address (Makefile)
+## Overlay builds (T5.c1, 2026-10-01. `make split build`, configs from `tools/mmx6/segment.py rock_NN --init`)
+- 56 `code` members of config/loadmap.txt, each config/rock_NN.yaml → build/rock/NN.bin, gate config/check.rock_NN.sha. All 56 are byte-identical (clean rebuild). Not built: member 13 (data), 41/42 (empty).
+- vram per base: members 0-1 0x801EA000, members 2-12 and 14-32 0x800E9860, members 33-40 and 43-58 0x800FA000 (raw image, file off = vram - base).
+- tail: asm TU to size & ~3. Sizes not ≡ 0 mod 4 (16 17 21 24 28 45 46 51) end in a 1-3 byte splat `bin` subsegment (`.incbin`, .data).
+- gp: exe gp 0x8008EAA4 (`gp_value`). The build passes with it, but it is not otherwise proven for overlays.
+- one asm TU per overlay, so data words reach gas as code:
+  - overlay objects use `-march=r4000 -mno-fix-loongson3-llsc` (MIPS II/III decodes, no `sync` before `ll`),
+  - purge splat's GTE `ll` macro,
+  - and the link PROVIDEs unlabelled `D_`/`func_<addr>` refs at their named address
+
+  (Makefile)
 
 ## Address ledger
 Version SLUS-01395 v1.1 throughout. Status: proven runtime (observed live in our captures) | consistent-with-bytes
 (decoded from the retail bytes, not observed) | lead.
-- 0x80010000 exe load: exe header (formats.md); proven runtime (exe row above, T4)
-- 0x80054AD8 exe entry: exe header (formats.md), Ghidra import entry; consistent-with-bytes
-- 0x80016858 BinSeek (archive selector): Kuumba L4 name, prior-art L3 recomp; proven runtime (Exec bp fires at every load, a0 = member, a1 = base)
-- 0x80014E60 read engine (CdlSetloc/CdlReadN): formats.md; consistent-with-bytes
-- 0x800165A4 ready callback: formats.md; proven runtime (bp at 0x80016628 inside it sees remaining 0x800E01A8 = 0 when the after-dump equals the member)
-- 0x80014D50 per-sector copy: formats.md, prior-art L3 recomp (function start); consistent-with-bytes
-- 0x8001494C waiter: formats.md; consistent-with-bytes
-- 0x800E0B58 TOC RAM table: formats.md; proven runtime (size word read at each load equals the member size, 5 members)
-- call sites (prior-art L3 recomp; loadmap.py decode): 0x80013CDC proven runtime; 0x80013E40 proven runtime; 0x80013E7C proven runtime; 0x80013CF0, 0x80013D54, 0x80052E94 consistent-with-bytes (not hit)
-- tables (loadmap.py decode; prior-art L3 recomp): 0x8006D9EC (site 0x80013D54, members 33..40) consistent-with-bytes; 0x8006DC50 (site 0x80013E40) and 0x8006DB78 (site 0x80013E7C) consistent-with-bytes, runtime indices 46 / 2, 12, 18 lie in them
-- bases (prior-art L3 recomp): 0x801EA000, 0x800E9860, 0x800FA000 proven runtime (lines above)
-- L4 (Kuumba123 `MegaManX6_PS1_Modding` b3a1bf4, 5 US files; addresses only, names never committed, G102), 88 addresses, 68 inside the exe text [0x80010000, 0x8008F000), checked against `config/ghidra/SLUS_013.95.jsonl` func rows + exe words (T7, 2026-10-01): 61 Ghidra function starts (consistent-with-bytes); 3 byte-level starts Ghidra did not split (prologue right after `jr ra`+slot: 0x80017e98, 0x80027aa8, 0x80027ba0; consistent-with-bytes, missed-function candidates); 2 right after `jr ra`+slot, no prologue, in a span Ghidra left without functions (0x800533f4, 0x80053440; lead, leaf-function candidates); 1 no prologue, not after `jr ra` (0x80017248; lead, unconfirmed); 1 zero word (0x8008ec10; data, not code). The other 20 lie outside the exe image (RAM/scratchpad; lead). None checked at runtime. Scratch check: `.run/t7/l4check.py`.
+- 0x80010000 exe load: exe header (formats.md). Status: proven runtime (exe row above, T4).
+- 0x80054AD8 exe entry: exe header (formats.md), Ghidra import entry. Status: consistent-with-bytes.
+- 0x80016858 BinSeek (archive selector): Kuumba L4 name, prior-art L3 recomp. Status: proven runtime (Exec bp fires at every load, a0 = member, a1 = base).
+- 0x80014E60 read engine (CdlSetloc/CdlReadN): formats.md. Status: consistent-with-bytes.
+- 0x800165A4 ready callback: formats.md. Status: proven runtime (bp at 0x80016628 inside it sees remaining 0x800E01A8 = 0 when the after-dump equals the member).
+- 0x80014D50 per-sector copy: formats.md, prior-art L3 recomp (function start). Status: consistent-with-bytes.
+- 0x8001494C waiter: formats.md. Status: consistent-with-bytes.
+- 0x800E0B58 TOC RAM table: formats.md. Status: proven runtime (size word read at each load equals the member size, 5 members).
+- call sites (prior-art L3 recomp, loadmap.py decode): 0x80013CDC proven runtime. 0x80013E40 proven runtime. 0x80013E7C proven runtime. 0x80013CF0, 0x80013D54, 0x80052E94 consistent-with-bytes (not hit).
+- tables (loadmap.py decode, prior-art L3 recomp): 0x8006D9EC (site 0x80013D54, members 33..40) consistent-with-bytes. 0x8006DC50 (site 0x80013E40) and 0x8006DB78 (site 0x80013E7C) consistent-with-bytes, runtime indices 46 / 2, 12, 18 lie in them.
+- bases (prior-art L3 recomp): 0x801EA000, 0x800E9860, 0x800FA000 proven runtime (lines above).
+- L4 (Kuumba123 `MegaManX6_PS1_Modding` b3a1bf4, 5 US files): addresses only, names never committed, G102. 88 addresses.
+  - 68 inside the exe text [0x80010000, 0x8008F000), checked against `config/ghidra/SLUS_013.95.jsonl` func rows + exe words (T7, 2026-10-01): 61 Ghidra function starts (consistent-with-bytes). 3 byte-level starts Ghidra did not split (prologue right after `jr ra`+slot): 0x80017e98, 0x80027aa8, 0x80027ba0 (consistent-with-bytes, missed-function candidates). 2 right after `jr ra`+slot, no prologue, in a span Ghidra left without functions: 0x800533f4, 0x80053440 (lead, leaf-function candidates). 1 no prologue, not after `jr ra`: 0x80017248 (lead, unconfirmed). 1 zero word: 0x8008ec10 (data, not code).
+  - The other 20 lie outside the exe image (RAM/scratchpad). Status: lead.
+  - None checked at runtime.
+  - Scratch check: `.run/t7/l4check.py`.
 
 ## gp
-- gp = 0x8008EAA4 (splat `gp_value`, config/SLUS_013.95.yaml): set at 0x80054B58 `lui gp,0x8009` (3c1c8009) + 0x80054B5C `addiu gp,gp,-0x155c` (279ceaa4); exe header gp0 = 0; consistent-with-bytes (T2, phase 1.3)
-- startup 0x80054AD8-0x80054AF4 clears bss [0x8008EAA8, 0x800E9860) (end = overlay base of rock members 2-32); bss start < file end 0x8008F000, so 0x8008EAA8..0x8008F000 is file data in the build (splat bss segment starts at 0x8008F000); consistent-with-bytes
+- gp = 0x8008EAA4 (splat `gp_value`, config/SLUS_013.95.yaml): set at 0x80054B58 `lui gp,0x8009` (3c1c8009) + 0x80054B5C `addiu gp,gp,-0x155c` (279ceaa4). The exe header gp0 = 0. Status: consistent-with-bytes (T2, phase 1.3).
+- startup 0x80054AD8-0x80054AF4 clears bss [0x8008EAA8, 0x800E9860) (end = overlay base of rock members 2-32). The bss start < file end 0x8008F000, so 0x8008EAA8..0x8008F000 is file data in the build (splat bss segment starts at 0x8008F000). Status: consistent-with-bytes.

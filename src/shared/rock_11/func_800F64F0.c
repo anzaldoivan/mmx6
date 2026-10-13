@@ -4,7 +4,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 void func_800FA4C8(struct X4_MainObj* self);
-void func_800FA4F8(void*, s16, s32);
+s32 func_800FA4F8(void* arg0, s16 arg1, s32 arg2);
 extern struct X4_PlayerObj D_800970A0;
 
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))

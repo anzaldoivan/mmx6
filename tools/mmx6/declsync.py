@@ -7,7 +7,9 @@
          each prototype `<ret> <func>(<params>);` and each call-site cast `((<ret> (*)(<params>))<func>)` that
          differs from the definition is rewritten to the definition's signature (cast removed) when width-compatible
          (same return width, same param count, each param width equal; pointers/s32/u32/int = 4), else refused.
-         An unprototyped cast `((<ret> (*)())<func>)` (C0124) is left as written (return width still compared).
+         An unprototyped prototype `<ret> <func>();` or cast `((<ret> (*)())<func>)` (C0124) is left as written
+         (return width compared; a `void` return accepted); a `void`-returning cast of a non-void definition is
+         left as written (params compared). M2C_UNK counts as width 4.
          One line per change `DECLSYNC synced|uncast|refused <path>:<line> <func> [<why>]`; last line
          `DECLSYNC <funcs> synced <s> uncast <c> refused <r> files <k>`; rc 0 iff r = 0. Nothing is written when any
          declaration is refused, or under --dry-run.
@@ -17,7 +19,8 @@
   declsync.py --self-test
       -> in memory: width-compatible prototype synced, width-incompatible (`s16` param) refused, cast removed;
          force: the `s16` prototype and an extern object synced; an unprototyped cast of other arity left as
-         written, not refused (plain and force).
+         written, not refused (plain and force); an M2C_UNK definition vs `()` prototypes and void casts left as
+         written, an s32 prototype synced, s16/s8 width conflicts refused.
          Ends `DECLSYNC CONTROL OK` (rc 0), else rc 1.
 """
 import argparse
@@ -28,7 +31,7 @@ import sys
 
 WIDTH = {"void": 0, "char": 1, "s8": 1, "u8": 1, "signed char": 1, "unsigned char": 1, "short": 2, "s16": 2,
          "u16": 2, "unsigned short": 2, "int": 4, "s32": 4, "u32": 4, "long": 4, "unsigned": 4, "unsigned int": 4,
-         "unsigned long": 4, "signed": 4, "signed int": 4}
+         "unsigned long": 4, "signed": 4, "signed int": 4, "M2C_UNK": 4}  # M2C_UNK: s32 (scaffold prelude)
 TYPE = r"[A-Za-z_][\w \t\*]*?"
 DEF_RE = re.compile(rf"^(?:static\s+)?({TYPE})\s*\b([A-Za-z_]\w*)\s*\(([^;{{}}()]*)\)\s*\{{", re.M)
 INCL_RE = re.compile(r"^#include \"([^\"]+)\"", re.M)
@@ -79,6 +82,12 @@ def compatible(a, b):
     return ""
 
 
+def ret_ok(a, b):
+    """'' when an unprototyped `()` declaration or cast returning b may stand for a definition returning a: return
+    width only, and a `void` return (the caller discards the value) always; else the reason."""
+    return "" if norm(b) == "void" else compatible((a, []), (b, []))
+
+
 def definitions(text):
     """[(name, ret, params text)] of the C definitions in text."""
     return [(m.group(2), m.group(1).strip(), m.group(3).strip()) for m in DEF_RE.finditer(text)]
@@ -119,6 +128,12 @@ def sync_text(path, text, defs, force=False):
             got = sig(m.group(2), m.group(3))
             if got == want:
                 return m.group(0)
+            if not force and not m.group(3).strip():  # unprototyped `()`: return width only, left as written
+                why = ret_ok(want[0], got[0])
+                if why:
+                    refused += 1
+                    lines.append(f"DECLSYNC refused {path}:{at(m)} {name} {why}")
+                return m.group(0)
             why = "" if force else compatible(want, got)
             if why:
                 refused += 1
@@ -131,7 +146,13 @@ def sync_text(path, text, defs, force=False):
             nonlocal refused
             got = sig(m.group(1), m.group(2))
             if not m.group(2).strip():  # unprototyped `(*)()` (C0124): params not compared, never uncast
-                why = "" if force else compatible((want[0], []), (got[0], []))
+                why = "" if force else ret_ok(want[0], got[0])
+                if why:
+                    refused += 1
+                    lines.append(f"DECLSYNC refused {path}:{at(m)} {name} cast {why}")
+                return m.group(0)
+            if not force and got[0] == "void" and want[0] != "void":  # value discarded: params compared, cast kept
+                why = compatible((want[0], want[1]), (want[0], got[1]))
                 if why:
                     refused += 1
                     lines.append(f"DECLSYNC refused {path}:{at(m)} {name} cast {why}")
@@ -212,6 +233,17 @@ def self_test():
     for force in (False, True):
         t, lines, refused = sync_text("src/P/c.c", u, definitions(texts[body]), force=force)
         ok(t == u and refused == 0 and not lines, f"unprototyped cast of other arity left as written (force={force})")
+    dv = definitions("M2C_UNK func_V(void* arg0) {\n}\n")
+    u = ("M2C_UNK func_V();\ns32 func_V();\nvoid g(void) {\n    ((void (*)())func_V)();\n"
+         "    ((void (*)(void*))func_V)(0);\n}\n")
+    t, lines, refused = sync_text("src/P/d.c", u, dv)
+    ok(t == u and refused == 0 and not lines, "M2C_UNK def: `()` decls and void casts left as written, not refused")
+    t, lines, refused = sync_text("src/P/d.c", "s32 func_V(u32);\n", dv)
+    ok(t == "M2C_UNK func_V(void* arg0);\n" and refused == 0, "M2C_UNK width 4: s32 prototype synced")
+    for bad, why in (("s16 func_V();\n", "return s16 vs M2C_UNK"), ("((void (*)(s16))func_V)(0);\n", "param 0 s16"),
+                     ("((s8 (*)())func_V)();\n", "return s8 vs M2C_UNK")):
+        t, lines, refused = sync_text("src/P/d.c", bad, dv)
+        ok(t == bad and refused == 1 and why in lines[0], f"real width conflict refused: {why}")
     if fails:
         print(f"DECLSYNC SELF-TEST FAIL {len(fails)}")
         return 1

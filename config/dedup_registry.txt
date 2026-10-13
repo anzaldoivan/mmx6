@@ -5626,3 +5626,356 @@ aaf40b32374fa4c788fd589705573f0a9d034a69 rock_18:0x800ED87C src/shared/rock_18/f
 b8c4a0be3c5027ed4467cf2d660dd2d6f083eb36 rock_03:0x800EC800 src/shared/rock_03/func_800EC800.c rock_25:0x800EC720 refused R5: build/rock/25.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_25.log)
 ccd7abe334fa4b8966ef6ca51395c0700299b8ad rock_02:0x800F7710 src/shared/rock_02/func_800F7710.c rock_23:0x800F6418 refused R5: build/rock/23.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_23.log)
 ccd7abe334fa4b8966ef6ca51395c0700299b8ad rock_02:0x800F7710 src/shared/rock_02/func_800F7710.c rock_44:0x80100038 refused R5: build/rock/44.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_44.log)
+e2b929944df5bcf0595ad06c314d43ed212ad212 rock_07:0x800EC7F4 src/shared/rock_07/func_800EC7F4.c rock_07:0x800EC7F4 gated exemplar
+9b4065ec234c55c2bc47ba430ab60918f0fbb9f1 rock_07:0x800F036C src/shared/rock_07/func_800F036C.c rock_07:0x800F036C gated exemplar
+89b3bf0f9b27a9e33e1a128676db7d1a22f84e7b rock_07:0x800F472C src/shared/rock_07/func_800F472C.c rock_07:0x800F472C gated exemplar
+7bfaf088f2d5cd241f4f1ecb2b4b3e26d5695c3d rock_07:0x800F5CD8 src/shared/rock_07/func_800F5CD8.c rock_07:0x800F5CD8 gated exemplar
+ce1108bc6dac4430e1494368469599f8cd848ef5 rock_07:0x800F793C src/shared/rock_07/func_800F793C.c rock_07:0x800F793C gated exemplar
+4b462a5cf25c788a16185a820e9cdca28bbc19ff rock_15:0x800EBF3C src/shared/rock_15/func_800EBF3C.c rock_15:0x800EBF3C gated exemplar
+0f36d1b08623ab67115b55378aad74f127696b8b rock_15:0x800ED34C src/shared/rock_15/func_800ED34C.c rock_15:0x800ED34C gated exemplar
+d1ac70b33c4afb12b3da1d4f8598e7a652c29ce6 rock_15:0x800ED808 src/shared/rock_15/func_800ED808.c rock_15:0x800ED808 gated exemplar
+76c1fc8ef5eda73026a6be6116e27b02e527b4e0 rock_15:0x800F1A5C src/shared/rock_15/func_800F1A5C.c rock_15:0x800F1A5C gated exemplar
+1bf9d8d396bd90ce50d6bbfe3f4daa97e2e11dfd rock_15:0x800F2014 src/shared/rock_15/func_800F2014.c rock_15:0x800F2014 gated exemplar
+6c9c7085d2da23a913e6844e870eeb45e301548f rock_15:0x800F4740 src/shared/rock_15/func_800F4740.c rock_15:0x800F4740 gated exemplar
+6879fc880935071b6fb7bae179699c34856ae87e rock_03:0x800EAA78 src/shared/rock_03/func_800EAA78.c rock_03:0x800EAA78 gated exemplar
+caccf0c86fc8fcb6bc006313cce4c9c6f190585b rock_03:0x800EBC50 src/shared/rock_03/func_800EBC50.c rock_03:0x800EBC50 gated exemplar
+0e9a6c0389626eba03dcae9eb7cbc0b4ec856b57 rock_03:0x800EE080 src/shared/rock_03/func_800EE080.c rock_03:0x800EE080 gated exemplar
+33026a524a42400a8b4a1a08387eaadc5d6f3ee7 rock_02:0x800EA09C src/shared/rock_02/func_800EA09C.c rock_02:0x800EA09C gated exemplar
+a35116afc4a301d540357d1916d43c2fc569e2ee rock_02:0x800EE188 src/shared/rock_02/func_800EE188.c rock_02:0x800EE188 gated exemplar
+e6b9acb491b98a778c36886c51529b6fe286c954 rock_02:0x800F5AFC src/shared/rock_02/func_800F5AFC.c rock_02:0x800F5AFC gated exemplar
+6585f4e014fd84c4d1e02e43d6d2f63c6f3aa7c1 rock_02:0x800F82C0 src/shared/rock_02/func_800F82C0.c rock_02:0x800F82C0 gated exemplar
+32841623d74a692fe5325f07ddfe2c9120e0fea9 rock_05:0x800ECB88 src/shared/rock_05/func_800ECB88.c rock_05:0x800ECB88 gated exemplar
+7a3260feed5dab5f25aa637318853444ae4e496a rock_05:0x800F2030 src/shared/rock_05/func_800F2030.c rock_05:0x800F2030 gated exemplar
+bc3d4bc7b12683e37a2685c13201aaeb1422d6c8 rock_05:0x800F2970 src/shared/rock_05/func_800F2970.c rock_05:0x800F2970 gated exemplar
+cb47d1ded758f5a9b2944af59d0c64ac805e5019 rock_10:0x800F0778 src/shared/rock_10/func_800F0778.c rock_10:0x800F0778 gated exemplar
+55d88a2ab80f3ca568a44a4ea0340f16147eae2f rock_10:0x800F86F8 src/shared/rock_10/func_800F86F8.c rock_10:0x800F86F8 gated exemplar
+3a385b05321816333feeebaa7c5ce201f0a274dc rock_10:0x800F9370 src/shared/rock_10/func_800F9370.c rock_10:0x800F9370 gated exemplar
+27d40a91cf3e8cf2b4bc498eb26d3f42c7a64c13 rock_18:0x800EA62C src/shared/rock_18/func_800EA62C.c rock_18:0x800EA62C gated exemplar
+5fb910eb8d4d89763b39a49f5f72605b5dd75e79 rock_18:0x800EDA38 src/shared/rock_18/func_800EDA38.c rock_18:0x800EDA38 gated exemplar
+117a497850e77416062603b30b23a9ec10810a57 rock_18:0x800F0528 src/shared/rock_18/func_800F0528.c rock_18:0x800F0528 gated exemplar
+52d3c0b09e8e643f36984dd9614b2b998b40ba46 rock_00:0x801EEFC0 src/shared/rock_00/func_801EEFC0.c rock_00:0x801EEFC0 gated exemplar
+dbc379d9c6bbaad94051ba9780f12d53a9ab949c rock_00:0x801F2F7C src/shared/rock_00/func_801F2F7C.c rock_00:0x801F2F7C gated exemplar
+eabd377ec2d2ec7bf61527cb69c6c46bd7cfbe8d rock_08:0x800ECCA0 src/shared/rock_08/func_800ECCA0.c rock_08:0x800ECCA0 gated exemplar
+aa10f66d5aba88ef042698867b4f0654cb055dd0 rock_08:0x800F21A8 src/shared/rock_08/func_800F21A8.c rock_08:0x800F21A8 gated exemplar
+2d57018088e96b47277452528cc973e8ebd770e0 rock_11:0x800F86D8 src/shared/rock_11/func_800F86D8.c rock_11:0x800F86D8 gated exemplar
+eccaec5d4674009808c7c01f9d583bc6dca1b1c8 rock_11:0x800F99E0 src/shared/rock_11/func_800F99E0.c rock_11:0x800F99E0 gated exemplar
+0014d86f3881f6846237e1ddec79f3266a27315b rock_16:0x800EBD6C src/shared/rock_16/func_800EBD6C.c rock_16:0x800EBD6C gated exemplar
+ad90a5e045c80a3ae3e32a06773de145563e5465 rock_16:0x800EF064 src/shared/rock_16/func_800EF064.c rock_16:0x800EF064 gated exemplar
+764063eb38b0886e264dcbb0cd0dcf4f36f1edc3 rock_21:0x800EC1A4 src/shared/rock_21/func_800EC1A4.c rock_21:0x800EC1A4 gated exemplar
+40e1c12c42db124e746ee700eabff05838076a0b rock_21:0x800EC724 src/shared/rock_21/func_800EC724.c rock_21:0x800EC724 gated exemplar
+8b4956429ad9f6485f4ebcc3cd8843536439b777 rock_24:0x800EE300 src/shared/rock_24/func_800EE300.c rock_24:0x800EE300 gated exemplar
+bd44cc6d645b799ef369795da698e0ab12464f61 rock_24:0x800EF820 src/shared/rock_24/func_800EF820.c rock_24:0x800EF820 gated exemplar
+e3a266ec5d3b354af301c15d7ee9ec134f0c120d rock_22:0x800EAA2C src/shared/rock_22/func_800EAA2C.c rock_22:0x800EAA2C gated exemplar
+7c17544ebedae8819dc92fde8be17120bf8309ca rock_22:0x800EB3B8 src/shared/rock_22/func_800EB3B8.c rock_22:0x800EB3B8 gated exemplar
+5c703f49d61acabf0ff8f274eec472468d9a104e rock_20:0x800EAE98 src/shared/rock_20/func_800EAE98.c rock_20:0x800EAE98 gated exemplar
+c83c2587e2e7b77068f4fc2fcbb4c1f9419fc66e rock_38:0x800FE160 src/shared/rock_38/func_800FE160.c rock_38:0x800FE160 gated exemplar
+7f99c9c2adbcc1928360a1c86249cc26f5dde27c rock_43:0x800FB1F0 src/shared/rock_43/func_800FB1F0.c rock_43:0x800FB1F0 gated exemplar
+038a983fea6cd1bf1f50b0259d455d9b35d706ea SLUS_013.95:0x8001C384 src/shared/SLUS_013.95/func_8001C384.c SLUS_013.95:0x8001C384 gated exemplar
+0dbe0b72e5c915b5c6c4f07da3b53b7845c44864 SLUS_013.95:0x8001CC1C src/shared/SLUS_013.95/func_8001CC1C.c SLUS_013.95:0x8001CC1C gated exemplar
+9313141946e184b54cd423da96b8e635f63bb64b SLUS_013.95:0x8001D0E4 src/shared/SLUS_013.95/func_8001D0E4.c SLUS_013.95:0x8001D0E4 gated exemplar
+0bd8f0b23960ecb85500ed037532eddcd2b3c5f9 SLUS_013.95:0x8001E088 src/shared/SLUS_013.95/func_8001E088.c SLUS_013.95:0x8001E088 gated exemplar
+1c929c4cb32d94a0fdd369d7834a910f2fcd179e SLUS_013.95:0x80021500 src/shared/SLUS_013.95/func_80021500.c SLUS_013.95:0x80021500 gated exemplar
+9cb27f8a7fb205bb934974e78136e0941c86d4be SLUS_013.95:0x80028A14 src/shared/SLUS_013.95/func_80028A14.c SLUS_013.95:0x80028A14 gated exemplar
+4b2da52274363e69073d9fdbc0603abbd9e80531 SLUS_013.95:0x8002DFA0 src/shared/SLUS_013.95/func_8002DFA0.c SLUS_013.95:0x8002DFA0 gated exemplar
+dea76f647f1a20077c6f9ad238bb5c293bc67d75 SLUS_013.95:0x8002FE30 src/shared/SLUS_013.95/func_8002FE30.c SLUS_013.95:0x8002FE30 gated exemplar
+f820e995d412fd574a6c84976237d72db2b96359 SLUS_013.95:0x80036364 src/shared/SLUS_013.95/func_80036364.c SLUS_013.95:0x80036364 gated exemplar
+8f86b5b11daa756d517ff7fb1a81b4cfcf30939d SLUS_013.95:0x8003649C src/shared/SLUS_013.95/func_8003649C.c SLUS_013.95:0x8003649C gated exemplar
+5698b541d53902a9faefb105e29504a2cd9b9630 SLUS_013.95:0x8003C6A4 src/shared/SLUS_013.95/func_8003C6A4.c SLUS_013.95:0x8003C6A4 gated exemplar
+c7a86e1334d7e5294a135f22000e001887a89068 SLUS_013.95:0x80041290 src/shared/SLUS_013.95/func_80041290.c SLUS_013.95:0x80041290 gated exemplar
+957f465a4e360f7c491633f76a9b1e7b8625b7a9 SLUS_013.95:0x800456D4 src/shared/SLUS_013.95/func_800456D4.c SLUS_013.95:0x800456D4 gated exemplar
+ad74067695bae56972d1be60022b8de65aae3326 SLUS_013.95:0x80047E34 src/shared/SLUS_013.95/func_80047E34.c SLUS_013.95:0x80047E34 gated exemplar
+0292be4e3134bcff6fd1eb6de210ebaa1ae291f9 SLUS_013.95:0x8004B788 src/shared/SLUS_013.95/func_8004B788.c SLUS_013.95:0x8004B788 gated exemplar
+ce7bdf7311dd171e3fda81b62ed65371ff5c105b SLUS_013.95:0x8005011C src/shared/SLUS_013.95/func_8005011C.c SLUS_013.95:0x8005011C gated exemplar
+bff7597e81700217c38c3e4bb2d502f895967db3 SLUS_013.95:0x80051FE8 src/shared/SLUS_013.95/func_80051FE8.c SLUS_013.95:0x80051FE8 gated exemplar
+ae88f13aea730d02a97c23d061c083373d8f7615 SLUS_013.95:0x8005211C src/shared/SLUS_013.95/func_8005211C.c SLUS_013.95:0x8005211C gated exemplar
+0e9a6c0389626eba03dcae9eb7cbc0b4ec856b57 rock_03:0x800EE080 src/shared/rock_03/func_800EE080.c rock_25:0x800EDFA0 refused R5: build/rock/25.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_25.log)
+117a497850e77416062603b30b23a9ec10810a57 rock_18:0x800F0528 src/shared/rock_18/func_800F0528.c rock_20:0x800F32C8 gated define func_800F0528=func_800F32C8
+2d57018088e96b47277452528cc973e8ebd770e0 rock_11:0x800F86D8 src/shared/rock_11/func_800F86D8.c rock_40:0x800FCC04 gated define func_800F86D8=func_800FCC04
+3a385b05321816333feeebaa7c5ce201f0a274dc rock_10:0x800F9370 src/shared/rock_10/func_800F9370.c rock_39:0x800FEF18 gated define func_800F9370=func_800FEF18
+4b462a5cf25c788a16185a820e9cdca28bbc19ff rock_15:0x800EBF3C src/shared/rock_15/func_800EBF3C.c rock_22:0x800F4D70 gated define func_800EBF3C=func_800F4D70
+4b462a5cf25c788a16185a820e9cdca28bbc19ff rock_15:0x800EBF3C src/shared/rock_15/func_800EBF3C.c rock_23:0x800EB148 gated define func_800EBF3C=func_800EB148
+55d88a2ab80f3ca568a44a4ea0340f16147eae2f rock_10:0x800F86F8 src/shared/rock_10/func_800F86F8.c rock_39:0x800FE2A0 refused R5: build/rock/39.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_39.log)
+6585f4e014fd84c4d1e02e43d6d2f63c6f3aa7c1 rock_02:0x800F82C0 src/shared/rock_02/func_800F82C0.c rock_23:0x800F6FC8 refused R5: build/rock/23.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_23.log)
+6585f4e014fd84c4d1e02e43d6d2f63c6f3aa7c1 rock_02:0x800F82C0 src/shared/rock_02/func_800F82C0.c rock_44:0x80100BE8 refused R5: build/rock/44.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_44.log)
+6879fc880935071b6fb7bae179699c34856ae87e rock_03:0x800EAA78 src/shared/rock_03/func_800EAA78.c rock_25:0x800EA998 refused R5: build/rock/25.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_25.log)
+7a3260feed5dab5f25aa637318853444ae4e496a rock_05:0x800F2030 src/shared/rock_05/func_800F2030.c rock_35:0x800FD77C refused R5: build/rock/35.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_35.log)
+7bfaf088f2d5cd241f4f1ecb2b4b3e26d5695c3d rock_07:0x800F5CD8 src/shared/rock_07/func_800F5CD8.c rock_07:0x800F5FB8 gated define func_800F5CD8=func_800F5FB8 D_800E9A70=D_800E9A70
+7bfaf088f2d5cd241f4f1ecb2b4b3e26d5695c3d rock_07:0x800F5CD8 src/shared/rock_07/func_800F5CD8.c rock_36:0x800FDF88 gated define func_800F5CD8=func_800FDF88 D_800E9A70=D_800FA008
+7bfaf088f2d5cd241f4f1ecb2b4b3e26d5695c3d rock_07:0x800F5CD8 src/shared/rock_07/func_800F5CD8.c rock_36:0x800FE268 gated define func_800F5CD8=func_800FE268 D_800E9A70=D_800FA008
+89b3bf0f9b27a9e33e1a128676db7d1a22f84e7b rock_07:0x800F472C src/shared/rock_07/func_800F472C.c rock_36:0x800FC9DC gated define func_800F472C=func_800FC9DC D_800CCED0=D_800CCED0
+8b4956429ad9f6485f4ebcc3cd8843536439b777 rock_24:0x800EE300 src/shared/rock_24/func_800EE300.c rock_30:0x800ECE00 gated define func_800EE300=func_800ECE00 D_800F6DF0=D_800EFDAC
+aa10f66d5aba88ef042698867b4f0654cb055dd0 rock_08:0x800F21A8 src/shared/rock_08/func_800F21A8.c rock_37:0x800FC210 refused R5: build/rock/37.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_37.log)
+bc3d4bc7b12683e37a2685c13201aaeb1422d6c8 rock_05:0x800F2970 src/shared/rock_05/func_800F2970.c rock_35:0x800FE0BC refused R5: build/rock/35.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_35.log)
+c83c2587e2e7b77068f4fc2fcbb4c1f9419fc66e rock_38:0x800FE160 src/shared/rock_38/func_800FE160.c rock_09:0x800F4524 refused R5: build/rock/09.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_09.log)
+caccf0c86fc8fcb6bc006313cce4c9c6f190585b rock_03:0x800EBC50 src/shared/rock_03/func_800EBC50.c rock_25:0x800EBB70 refused R5: build/rock/25.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_25.log)
+cb47d1ded758f5a9b2944af59d0c64ac805e5019 rock_10:0x800F0778 src/shared/rock_10/func_800F0778.c rock_31:0x800EF53C gated define func_800F0778=func_800EF53C
+ce1108bc6dac4430e1494368469599f8cd848ef5 rock_07:0x800F793C src/shared/rock_07/func_800F793C.c rock_36:0x800FFBEC gated define func_800F793C=func_800FFBEC
+e6b9acb491b98a778c36886c51529b6fe286c954 rock_02:0x800F5AFC src/shared/rock_02/func_800F5AFC.c rock_23:0x800F4804 gated define func_800F5AFC=func_800F4804
+e6b9acb491b98a778c36886c51529b6fe286c954 rock_02:0x800F5AFC src/shared/rock_02/func_800F5AFC.c rock_44:0x800FE424 gated define func_800F5AFC=func_800FE424
+eabd377ec2d2ec7bf61527cb69c6c46bd7cfbe8d rock_08:0x800ECCA0 src/shared/rock_08/func_800ECCA0.c rock_23:0x800F0188 refused R2: build/src/rock_23/E9860.c.o does not compile (log .run/bank/propagate-rock_23.log)
+eccaec5d4674009808c7c01f9d583bc6dca1b1c8 rock_11:0x800F99E0 src/shared/rock_11/func_800F99E0.c rock_40:0x800FDF0C refused R5: build/rock/40.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_40.log)
+13474c65eb76b70c122722f4cea4b03e35d180de rock_04:0x800EFF6C src/shared/rock_04/func_800EFF6C.c rock_04:0x800EFF6C gated exemplar
+b9592b0165b4c73b50285c27b135c660864bb7c7 rock_04:0x800F3B28 src/shared/rock_04/func_800F3B28.c rock_04:0x800F3B28 gated exemplar
+586a8a72ea8007b3f9d258212dbbff667e9665c7 rock_04:0x800F55FC src/shared/rock_04/func_800F55FC.c rock_04:0x800F55FC gated exemplar
+4f9a98ef25d07065cf36dccafc1ef9de85d4e948 rock_04:0x800F5888 src/shared/rock_04/func_800F5888.c rock_04:0x800F5888 gated exemplar
+a9dfef58cb3cc0680f7c77967304fa156d677832 rock_02:0x800EE468 src/shared/rock_02/func_800EE468.c rock_02:0x800EE468 gated exemplar
+65af0dd6a0f77498db1d9c2d9c48117589e34105 rock_02:0x800EF3F8 src/shared/rock_02/func_800EF3F8.c rock_02:0x800EF3F8 gated exemplar
+2483a5acef6254dc629c02d05758df50b144daa0 rock_02:0x800F104C src/shared/rock_02/func_800F104C.c rock_02:0x800F104C gated exemplar
+4a04d8397a65bcbeca0628adabce3f312e85ec2f rock_02:0x800F6810 src/shared/rock_02/func_800F6810.c rock_02:0x800F6810 gated exemplar
+4756667fef8b7052cd642774415e5942c45e6ecf rock_07:0x800F42C8 src/shared/rock_07/func_800F42C8.c rock_07:0x800F42C8 gated exemplar
+538d500493e41c452ac8003e69e5f9160e1cfb77 rock_07:0x800F4E4C src/shared/rock_07/func_800F4E4C.c rock_07:0x800F4E4C gated exemplar
+4dd21939b68ad73ca71ad245f0c64027c38c385b rock_07:0x800F61D4 src/shared/rock_07/func_800F61D4.c rock_07:0x800F61D4 gated exemplar
+ac09be74da97b4c75824fd8eecbf649f77cc8419 rock_07:0x800F7224 src/shared/rock_07/func_800F7224.c rock_07:0x800F7224 gated exemplar
+8804dac300db4c6ed9a58acd48947f548b638cad rock_15:0x800EDCF4 src/shared/rock_15/func_800EDCF4.c rock_15:0x800EDCF4 gated exemplar
+86969a8b037d8830587f425b426e3d5c2a8e90ad rock_15:0x800F0268 src/shared/rock_15/func_800F0268.c rock_15:0x800F0268 gated exemplar
+50317a891a9baf4abf287642e960c081673d525a rock_15:0x800F1B98 src/shared/rock_15/func_800F1B98.c rock_15:0x800F1B98 gated exemplar
+721218732b55f4c27c51a05defa6d1ebff93fc63 rock_15:0x800F2274 src/shared/rock_15/func_800F2274.c rock_15:0x800F2274 gated exemplar
+7dc8fc2b5996d677571bf9a5e084ce4552c7abc0 rock_03:0x800EBCEC src/shared/rock_03/func_800EBCEC.c rock_03:0x800EBCEC gated exemplar
+bd34d7f041a6edfd69bb58ecb57155503a8e69c3 rock_03:0x800F48EC src/shared/rock_03/func_800F48EC.c rock_03:0x800F48EC gated exemplar
+b995288b905e2ba9344be016e11341731f7abc5c rock_03:0x800F5E0C src/shared/rock_03/func_800F5E0C.c rock_03:0x800F5E0C gated exemplar
+722b37682cedc485e8343d3e5e7e2ed195a747b4 rock_08:0x800F2244 src/shared/rock_08/func_800F2244.c rock_08:0x800F2244 gated exemplar
+72f3c03772689b033b039d58b4a281c1ddbbdac6 rock_08:0x800F2CDC src/shared/rock_08/func_800F2CDC.c rock_08:0x800F2CDC gated exemplar
+cf40d467c29b398fa29b4e51c526c2bed92daff4 rock_08:0x800F3678 src/shared/rock_08/func_800F3678.c rock_08:0x800F3678 gated exemplar
+da5b21017d67820e48d1a6c5db29a87ecc3e14a0 rock_11:0x800F1048 src/shared/rock_11/func_800F1048.c rock_11:0x800F1048 gated exemplar
+3d12024745e4ec4794019872a06ac83869773914 rock_11:0x800F440C src/shared/rock_11/func_800F440C.c rock_11:0x800F440C gated exemplar
+c7b9834d0ac1b3499ed51cc524fa19d42f52e11e rock_11:0x800F900C src/shared/rock_11/func_800F900C.c rock_11:0x800F900C gated exemplar
+1c614c9496575dbfded8df3631ab3ef628e04f97 rock_18:0x800ED478 src/shared/rock_18/func_800ED478.c rock_18:0x800ED478 gated exemplar
+2847c5cadea6fa09b85709368560afe04f847359 rock_18:0x800F0184 src/shared/rock_18/func_800F0184.c rock_18:0x800F0184 gated exemplar
+5313551741f06d99ce66cd45940f56c7056f19ad rock_18:0x800F02F4 src/shared/rock_18/func_800F02F4.c rock_18:0x800F02F4 gated exemplar
+631adea9afeea62199da903a4a90cdae3e7a549c rock_24:0x800EFBB4 src/shared/rock_24/func_800EFBB4.c rock_24:0x800EFBB4 gated exemplar
+33ded53d1dba0ffc8e6f87ada531f81b7ebc8989 rock_24:0x800F4D54 src/shared/rock_24/func_800F4D54.c rock_24:0x800F4D54 gated exemplar
+51fe8b954afec5375184c00c6a53d3ffea041b69 rock_24:0x800F53F0 src/shared/rock_24/func_800F53F0.c rock_24:0x800F53F0 gated exemplar
+e70a43134ba611ebb96f3e66eaa146b97512f182 rock_22:0x800EB27C src/shared/rock_22/func_800EB27C.c rock_22:0x800EB27C gated exemplar
+727253abb18e60caeb7e37e72624baa7e5d5ccbf rock_22:0x800F259C src/shared/rock_22/func_800F259C.c rock_22:0x800F259C gated exemplar
+1f8eaa9419048d0e6cf0ad2b3dad3548bb9f32d3 rock_22:0x800F7DC0 src/shared/rock_22/func_800F7DC0.c rock_22:0x800F7DC0 gated exemplar
+f55756c86301468b27323ef90c6f33de92de108b rock_43:0x800FA52C src/shared/rock_43/func_800FA52C.c rock_43:0x800FA52C gated exemplar
+4110d98624a0bb572330ac65bd1ba8a92de08e2b rock_43:0x800FC76C src/shared/rock_43/func_800FC76C.c rock_43:0x800FC76C gated exemplar
+67b2b45b4e8aa74683a001f69103fa0e17d23a23 rock_43:0x800FD730 src/shared/rock_43/func_800FD730.c rock_43:0x800FD730 gated exemplar
+dc2fd87ae9edd92e56f88d9dc69d8a243a4d3dc6 rock_05:0x800EC77C src/shared/rock_05/func_800EC77C.c rock_05:0x800EC77C gated exemplar
+879694dee0f427fb83694ba41aa4fb9113927b53 rock_05:0x800F2DEC src/shared/rock_05/func_800F2DEC.c rock_05:0x800F2DEC gated exemplar
+c1e89f304c574cddd3011d157424f645ecd90f7c rock_09:0x800EDA70 src/shared/rock_09/func_800EDA70.c rock_09:0x800EDA70 gated exemplar
+aa3f0e8372dbc814bf6e3d0f7e8d1da29d8fa08f rock_09:0x800F468C src/shared/rock_09/func_800F468C.c rock_09:0x800F468C gated exemplar
+8100b14c81c38ff85e4d52f955892eb5965171c5 rock_16:0x800EC508 src/shared/rock_16/func_800EC508.c rock_16:0x800EC508 gated exemplar
+f42eef85ddd124ef21744281a7d822832f310595 rock_16:0x800EFB94 src/shared/rock_16/func_800EFB94.c rock_16:0x800EFB94 gated exemplar
+a982078b609fc6acd7dc477ec534b09458030cb5 rock_20:0x800EC378 src/shared/rock_20/func_800EC378.c rock_20:0x800EC378 gated exemplar
+5c50c8e12b5da218e0b3c77b8c27f45c70964019 rock_10:0x800F94C4 src/shared/rock_10/func_800F94C4.c rock_10:0x800F94C4 gated exemplar
+6585f4e014fd84c4d1e02e43d6d2f63c6f3aa7c1 rock_23:0x800F6FC8 src/shared/rock_23/func_800F6FC8.c rock_23:0x800F6FC8 gated exemplar
+fbf840a2feb4a63589e302244d9e28b47129e91f SLUS_013.95:0x80017B04 src/shared/SLUS_013.95/func_80017B04.c SLUS_013.95:0x80017B04 gated exemplar
+951100639796dab59a0005cb43d86317552cc161 SLUS_013.95:0x8002012C src/shared/SLUS_013.95/func_8002012C.c SLUS_013.95:0x8002012C gated exemplar
+aef2517acc787a95519613c7b9e68200147ccc0f SLUS_013.95:0x8002820C src/shared/SLUS_013.95/func_8002820C.c SLUS_013.95:0x8002820C gated exemplar
+066c780e6bc2fae84aacb36fd1967e67f3e07d3c SLUS_013.95:0x8002CFB0 src/shared/SLUS_013.95/func_8002CFB0.c SLUS_013.95:0x8002CFB0 gated exemplar
+b85e2e75b12f434a3cd440d265c676ef807619d1 SLUS_013.95:0x80035144 src/shared/SLUS_013.95/func_80035144.c SLUS_013.95:0x80035144 gated exemplar
+f5e07aaf75f0c666f53b492ababc510802ccbe4e SLUS_013.95:0x800353C0 src/shared/SLUS_013.95/func_800353C0.c SLUS_013.95:0x800353C0 gated exemplar
+c8181b2841ee7e2f458df83eb0a4180da60f8f48 SLUS_013.95:0x80038BA8 src/shared/SLUS_013.95/func_80038BA8.c SLUS_013.95:0x80038BA8 gated exemplar
+0ac623faa4aee8dbfb1e854324a09b8c246a6939 SLUS_013.95:0x80040B84 src/shared/SLUS_013.95/func_80040B84.c SLUS_013.95:0x80040B84 gated exemplar
+f8020f16fee3e815ac521257dae36aa149328d1e SLUS_013.95:0x8004260C src/shared/SLUS_013.95/func_8004260C.c SLUS_013.95:0x8004260C gated exemplar
+5fcb57dd817b93879f61f82f90652ccb16ae5c8d SLUS_013.95:0x80046148 src/shared/SLUS_013.95/func_80046148.c SLUS_013.95:0x80046148 gated exemplar
+c1336c1d423b1e684984b83b706de472e665c4ba SLUS_013.95:0x80049F98 src/shared/SLUS_013.95/func_80049F98.c SLUS_013.95:0x80049F98 gated exemplar
+21c3d2db6de4e724efbcef9208904063e193419f SLUS_013.95:0x8004C584 src/shared/SLUS_013.95/func_8004C584.c SLUS_013.95:0x8004C584 gated exemplar
+7c906a203f29bcde2fae57c238fc32c7bc89f842 SLUS_013.95:0x80050540 src/shared/SLUS_013.95/func_80050540.c SLUS_013.95:0x80050540 gated exemplar
+73d110d39e7a0efe55cae66795490e71c9acf5dc SLUS_013.95:0x800515B4 src/shared/SLUS_013.95/func_800515B4.c SLUS_013.95:0x800515B4 gated exemplar
+13474c65eb76b70c122722f4cea4b03e35d180de rock_04:0x800EFF6C src/shared/rock_04/func_800EFF6C.c rock_09:0x800EF218 refused R5: build/rock/09.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_09.log)
+13474c65eb76b70c122722f4cea4b03e35d180de rock_04:0x800EFF6C src/shared/rock_04/func_800EFF6C.c rock_26:0x800EE4E8 refused R5: build/rock/26.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_26.log)
+13474c65eb76b70c122722f4cea4b03e35d180de rock_04:0x800EFF6C src/shared/rock_04/func_800EFF6C.c rock_30:0x800EEAB4 refused R5: build/rock/30.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_30.log)
+1c614c9496575dbfded8df3631ab3ef628e04f97 rock_18:0x800ED478 src/shared/rock_18/func_800ED478.c rock_20:0x800F0324 refused R2: build/src/rock_20/E9860.c.o does not compile (log .run/bank/propagate-rock_20.log)
+2847c5cadea6fa09b85709368560afe04f847359 rock_18:0x800F0184 src/shared/rock_18/func_800F0184.c rock_20:0x800F2F24 refused R5: build/rock/20.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_20.log)
+33ded53d1dba0ffc8e6f87ada531f81b7ebc8989 rock_24:0x800F4D54 src/shared/rock_24/func_800F4D54.c rock_24:0x800F4E7C gated define func_800F4D54=func_800F4E7C D_800F7640=D_800F7654
+33ded53d1dba0ffc8e6f87ada531f81b7ebc8989 rock_24:0x800F4D54 src/shared/rock_24/func_800F4D54.c rock_24:0x800F4EE0 gated define func_800F4D54=func_800F4EE0 D_800F7640=D_800F765C
+4110d98624a0bb572330ac65bd1ba8a92de08e2b rock_43:0x800FC76C src/shared/rock_43/func_800FC76C.c rock_43:0x800FCE54 gated define func_800FC76C=func_800FCE54
+4756667fef8b7052cd642774415e5942c45e6ecf rock_07:0x800F42C8 src/shared/rock_07/func_800F42C8.c rock_36:0x800FC578 gated define func_800F42C8=func_800FC578 D_800970A0=D_800970A0
+4a04d8397a65bcbeca0628adabce3f312e85ec2f rock_02:0x800F6810 src/shared/rock_02/func_800F6810.c rock_23:0x800F5518 refused R5: build/rock/23.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_23.log)
+4a04d8397a65bcbeca0628adabce3f312e85ec2f rock_02:0x800F6810 src/shared/rock_02/func_800F6810.c rock_44:0x800FF138 refused R5: build/rock/44.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_44.log)
+4dd21939b68ad73ca71ad245f0c64027c38c385b rock_07:0x800F61D4 src/shared/rock_07/func_800F61D4.c rock_36:0x800FE484 refused R5: build/rock/36.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_36.log)
+4f9a98ef25d07065cf36dccafc1ef9de85d4e948 rock_04:0x800F5888 src/shared/rock_04/func_800F5888.c rock_34:0x800FE3E0 gated define func_800F5888=func_800FE3E0 D_800F76E8=D_800FEDE0
+51fe8b954afec5375184c00c6a53d3ffea041b69 rock_24:0x800F53F0 src/shared/rock_24/func_800F53F0.c rock_24:0x800F5454 gated define func_800F53F0=func_800F5454 D_800F77EC=D_800F77EC
+51fe8b954afec5375184c00c6a53d3ffea041b69 rock_24:0x800F53F0 src/shared/rock_24/func_800F53F0.c rock_24:0x800F54B8 gated define func_800F53F0=func_800F54B8 D_800F77EC=D_800F77EC
+5313551741f06d99ce66cd45940f56c7056f19ad rock_18:0x800F02F4 src/shared/rock_18/func_800F02F4.c rock_20:0x800F3094 gated define func_800F02F4=func_800F3094
+538d500493e41c452ac8003e69e5f9160e1cfb77 rock_07:0x800F4E4C src/shared/rock_07/func_800F4E4C.c rock_36:0x800FD0FC refused R5: build/rock/36.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_36.log)
+586a8a72ea8007b3f9d258212dbbff667e9665c7 rock_04:0x800F55FC src/shared/rock_04/func_800F55FC.c rock_34:0x800FE154 refused R5: build/rock/34.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_34.log)
+5c50c8e12b5da218e0b3c77b8c27f45c70964019 rock_10:0x800F94C4 src/shared/rock_10/func_800F94C4.c rock_39:0x800FF06C gated define func_800F94C4=func_800FF06C D_800CCED0=D_800CCED0
+722b37682cedc485e8343d3e5e7e2ed195a747b4 rock_08:0x800F2244 src/shared/rock_08/func_800F2244.c rock_37:0x800FC2AC refused R2: build/src/rock_37/FA000.c.o does not compile (log .run/bank/propagate-rock_37.log)
+72f3c03772689b033b039d58b4a281c1ddbbdac6 rock_08:0x800F2CDC src/shared/rock_08/func_800F2CDC.c rock_37:0x800FCD44 refused R5: build/rock/37.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_37.log)
+7dc8fc2b5996d677571bf9a5e084ce4552c7abc0 rock_03:0x800EBCEC src/shared/rock_03/func_800EBCEC.c rock_25:0x800EBC0C gated define func_800EBCEC=func_800EBC0C
+879694dee0f427fb83694ba41aa4fb9113927b53 rock_05:0x800F2DEC src/shared/rock_05/func_800F2DEC.c rock_35:0x800FE538 gated define func_800F2DEC=func_800FE538
+aa3f0e8372dbc814bf6e3d0f7e8d1da29d8fa08f rock_09:0x800F468C src/shared/rock_09/func_800F468C.c rock_38:0x800FE2C8 gated define func_800F468C=func_800FE2C8 D_800F6924=D_800FEC34
+ac09be74da97b4c75824fd8eecbf649f77cc8419 rock_07:0x800F7224 src/shared/rock_07/func_800F7224.c rock_36:0x800FF4D4 refused R5: build/rock/36.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_36.log)
+b9592b0165b4c73b50285c27b135c660864bb7c7 rock_04:0x800F3B28 src/shared/rock_04/func_800F3B28.c rock_34:0x800FC680 gated define func_800F3B28=func_800FC680
+b995288b905e2ba9344be016e11341731f7abc5c rock_03:0x800F5E0C src/shared/rock_03/func_800F5E0C.c rock_33:0x801006CC gated define func_800F5E0C=func_801006CC D_800F7DE4=D_80100C18
+bd34d7f041a6edfd69bb58ecb57155503a8e69c3 rock_03:0x800F48EC src/shared/rock_03/func_800F48EC.c rock_33:0x800FF1AC gated define func_800F48EC=func_800FF1AC D_800F7BA0=D_801009D4
+c1e89f304c574cddd3011d157424f645ecd90f7c rock_09:0x800EDA70 src/shared/rock_09/func_800EDA70.c rock_30:0x800ED30C gated define func_800EDA70=func_800ED30C
+c7b9834d0ac1b3499ed51cc524fa19d42f52e11e rock_11:0x800F900C src/shared/rock_11/func_800F900C.c rock_40:0x800FD538 gated define func_800F900C=func_800FD538
+cf40d467c29b398fa29b4e51c526c2bed92daff4 rock_08:0x800F3678 src/shared/rock_08/func_800F3678.c rock_37:0x800FD6E0 gated define func_800F3678=func_800FD6E0
+c86987308df87973d5d587646f2f301a810079d7 rock_02:0x800EE6D0 src/shared/rock_02/func_800EE6D0.c rock_02:0x800EE6D0 gated exemplar
+985b63ada0aa5b21aac76e5d1492e69e7318fb2c rock_02:0x800F6EE0 src/shared/rock_02/func_800F6EE0.c rock_02:0x800F6EE0 gated exemplar
+2e613b96ec0db8e15952a7f40789b6fe84bab94e rock_02:0x800F77B8 src/shared/rock_02/func_800F77B8.c rock_02:0x800F77B8 gated exemplar
+88f7e710c5e506816db1625e6c58885829da18c6 rock_02:0x800F9A54 src/shared/rock_02/func_800F9A54.c rock_02:0x800F9A54 gated exemplar
+dcc156acd374d061db097ad3c6bef70ec7bf9276 rock_03:0x800EA66C src/shared/rock_03/func_800EA66C.c rock_03:0x800EA66C gated exemplar
+020615b19797e239b12fbba3502248bb4c7024ad rock_03:0x800EA978 src/shared/rock_03/func_800EA978.c rock_03:0x800EA978 gated exemplar
+4ad035e7a30f5894ffd1c0969c8e923bcf3c8657 rock_03:0x800EB7E4 src/shared/rock_03/func_800EB7E4.c rock_03:0x800EB7E4 gated exemplar
+1629175fdecf3ad1722e52a601478c1d083f09fd rock_03:0x800EC564 src/shared/rock_03/func_800EC564.c rock_03:0x800EC564 gated exemplar
+f58d657590d9a55874b6a281d24fcbdb7b2abd22 rock_03:0x800EC66C src/shared/rock_03/func_800EC66C.c rock_03:0x800EC66C gated exemplar
+df704e806a3df75f095c3099584bd8a6e211350c rock_03:0x800F4F58 src/shared/rock_03/func_800F4F58.c rock_03:0x800F4F58 gated exemplar
+3bc4d175f432ae6962d252388c085d091c5ceb86 rock_03:0x800F4FB8 src/shared/rock_03/func_800F4FB8.c rock_03:0x800F4FB8 gated exemplar
+d034091a66c3bbccc5d8016b3c25edc894541ccc rock_00:0x801EC754 src/shared/rock_00/func_801EC754.c rock_00:0x801EC754 gated exemplar
+e80be01e041a167e61e7cdf136fcba40f040b651 rock_00:0x801F259C src/shared/rock_00/func_801F259C.c rock_00:0x801F259C gated exemplar
+6c59414bf43aea6dccf2c26fb030f17ba85438c3 rock_00:0x801F27D4 src/shared/rock_00/func_801F27D4.c rock_00:0x801F27D4 gated exemplar
+ef73a50fcb64e184871bf7181623105c01ab7430 rock_10:0x800ECDF4 src/shared/rock_10/func_800ECDF4.c rock_10:0x800ECDF4 gated exemplar
+7e7278b0454105f6c6c471dbc551350169267d23 rock_10:0x800F7F70 src/shared/rock_10/func_800F7F70.c rock_10:0x800F7F70 gated exemplar
+ba5fe4c46d849ed32209d8ba7e5853dd9cb6a0e6 rock_10:0x800FA128 src/shared/rock_10/func_800FA128.c rock_10:0x800FA128 gated exemplar
+2d6f6e7db7a1141bd2841f35eb4cf253ab7f5efb rock_10:0x800FA2B0 src/shared/rock_10/func_800FA2B0.c rock_10:0x800FA2B0 gated exemplar
+b72265b62f7b21e176211854b9d3c60c9690bef1 rock_07:0x800EAA2C src/shared/rock_07/func_800EAA2C.c rock_07:0x800EAA2C gated exemplar
+722750d4226e804c12ae167f6f52ed05e8da51ae rock_07:0x800F5A1C src/shared/rock_07/func_800F5A1C.c rock_07:0x800F5A1C gated exemplar
+c156e188045247d39631dfd25ab58c0c6a916573 rock_07:0x800F5EEC src/shared/rock_07/func_800F5EEC.c rock_07:0x800F5EEC gated exemplar
+4b4ade695df20616f89b4e0e8871bb443ca87aeb rock_08:0x800ED950 src/shared/rock_08/func_800ED950.c rock_08:0x800ED950 gated exemplar
+84c3fa29206d7a5bbfd91b617738c8ec71b1b5a4 rock_08:0x800F2378 src/shared/rock_08/func_800F2378.c rock_08:0x800F2378 gated exemplar
+c4fc48666e5f2a3fd90202032ff0515c410aaebd rock_08:0x800F3354 src/shared/rock_08/func_800F3354.c rock_08:0x800F3354 gated exemplar
+0a76c7e1e67a782e3e85f3b94d877f6df7dfc6e7 rock_05:0x800EBAD0 src/shared/rock_05/func_800EBAD0.c rock_05:0x800EBAD0 gated exemplar
+1b8048ec7d6aba2e814061e758b89b2786908967 rock_05:0x800F2324 src/shared/rock_05/func_800F2324.c rock_05:0x800F2324 gated exemplar
+fac052ba61e4604b305deaba6ba5b754b32e98a3 rock_09:0x800EA708 src/shared/rock_09/func_800EA708.c rock_09:0x800EA708 gated exemplar
+9ff9d9351d2c5f5ac1112c87028a72156ff7d27c rock_09:0x800EE8D4 src/shared/rock_09/func_800EE8D4.c rock_09:0x800EE8D4 gated exemplar
+0f65e9d895aa4ef0c5a30cfd1602f2b2f9743740 rock_09:0x800F3220 src/shared/rock_09/func_800F3220.c rock_09:0x800F3220 gated exemplar
+c91718172182af256327b54f0550b85cbd4948ac rock_11:0x800EF0EC src/shared/rock_11/func_800EF0EC.c rock_11:0x800EF0EC gated exemplar
+eeeffea6e6daaeb1e97cc35a77ecbaa1e14cb28b rock_11:0x800FACF8 src/shared/rock_11/func_800FACF8.c rock_11:0x800FACF8 gated exemplar
+d0eec0850334bf67146c687c77a98a0c69ca8e84 rock_15:0x800F2458 src/shared/rock_15/func_800F2458.c rock_15:0x800F2458 gated exemplar
+a2f7f1bbecc07f24924bf3f45872d3ec582e8dd9 rock_15:0x800F48E4 src/shared/rock_15/func_800F48E4.c rock_15:0x800F48E4 gated exemplar
+9853e7476723153efdd127c9be314f6b67bf431a rock_04:0x800EEE14 src/shared/rock_04/func_800EEE14.c rock_04:0x800EEE14 gated exemplar
+1e0f2140eea7e0ad2376251370ffab06b3141e04 rock_22:0x800FA1EC src/shared/rock_22/func_800FA1EC.c rock_22:0x800FA1EC gated exemplar
+cbd773926e841eb508fad551b36ef4496b950ed5 rock_22:0x800FA4F8 src/shared/rock_22/func_800FA4F8.c rock_22:0x800FA4F8 gated exemplar
+90b44144c1d4fa6fbd122e910d759332ca2b058a rock_18:0x800ED58C src/shared/rock_18/func_800ED58C.c rock_18:0x800ED58C gated exemplar
+6108f35b5c1bd3f3ab8231ec17b58e1e6ef3bccb rock_20:0x800EAD70 src/shared/rock_20/func_800EAD70.c rock_20:0x800EAD70 gated exemplar
+de8eae4c2c15186cee71649176e0a25e9070d60f rock_24:0x800F0654 src/shared/rock_24/func_800F0654.c rock_24:0x800F0654 gated exemplar
+4b7d07aac0225455e6d0472dab672683b0c8264f rock_43:0x800FCD30 src/shared/rock_43/func_800FCD30.c rock_43:0x800FCD30 gated exemplar
+1c0480ae3196b60cdf9cd7bdbb97c56de9e37ffd rock_45:0x800FA864 src/shared/rock_45/func_800FA864.c rock_45:0x800FA864 gated exemplar
+32f3cfb193047f6b98cde8808ca3bab545fbb8d5 SLUS_013.95:0x800122A4 src/shared/SLUS_013.95/func_800122A4.c SLUS_013.95:0x800122A4 gated exemplar
+e5f41f2f218dd2e550f0d0dd526905993959c5ba SLUS_013.95:0x80013BF0 src/shared/SLUS_013.95/func_80013BF0.c SLUS_013.95:0x80013BF0 gated exemplar
+e384d9a4631db20680893f3ef4f4e800bb4bc202 SLUS_013.95:0x80015630 src/shared/SLUS_013.95/func_80015630.c SLUS_013.95:0x80015630 gated exemplar
+8b3cabf90d61d2b99f846883a82bf7ca622c29f4 SLUS_013.95:0x8001C4C0 src/shared/SLUS_013.95/func_8001C4C0.c SLUS_013.95:0x8001C4C0 gated exemplar
+ba702e158042f003496093d96a7aad7bf9c0916b SLUS_013.95:0x8001EA28 src/shared/SLUS_013.95/func_8001EA28.c SLUS_013.95:0x8001EA28 gated exemplar
+8cfa4395c31ecc88e6ab1b8ecbddab6062eefc1d SLUS_013.95:0x8001F65C src/shared/SLUS_013.95/func_8001F65C.c SLUS_013.95:0x8001F65C gated exemplar
+7f72f16e31cf83d5ca9d66ff6efeb9081abc2286 SLUS_013.95:0x800205A0 src/shared/SLUS_013.95/func_800205A0.c SLUS_013.95:0x800205A0 gated exemplar
+06a8cbf086f6e890c05a102d77792643ea1d4652 SLUS_013.95:0x80027E84 src/shared/SLUS_013.95/func_80027E84.c SLUS_013.95:0x80027E84 gated exemplar
+2e11042bc2515de321e70f8928e8ed91969b06ac SLUS_013.95:0x8002C590 src/shared/SLUS_013.95/func_8002C590.c SLUS_013.95:0x8002C590 gated exemplar
+169eb26abc00e97cd2113a18cb8604136457e781 SLUS_013.95:0x8002F71C src/shared/SLUS_013.95/func_8002F71C.c SLUS_013.95:0x8002F71C gated exemplar
+ef33059f0e73f556a94dddcbdcedd0926cb39ec5 SLUS_013.95:0x80036D4C src/shared/SLUS_013.95/func_80036D4C.c SLUS_013.95:0x80036D4C gated exemplar
+f446e3a2f6a4c7e247307cf7c288b0e5f2e1c3e5 SLUS_013.95:0x8003C3C8 src/shared/SLUS_013.95/func_8003C3C8.c SLUS_013.95:0x8003C3C8 gated exemplar
+b49c2c545e6c6d721ed91c1447385d0e28a3d956 SLUS_013.95:0x8003E9E8 src/shared/SLUS_013.95/func_8003E9E8.c SLUS_013.95:0x8003E9E8 gated exemplar
+dee2ac81f67a949238fcd97854fd212d6ba172e8 SLUS_013.95:0x8003EC78 src/shared/SLUS_013.95/func_8003EC78.c SLUS_013.95:0x8003EC78 gated exemplar
+6a8d93c919704c1bf53a4f34d5ede30e07791681 SLUS_013.95:0x8003EEE4 src/shared/SLUS_013.95/func_8003EEE4.c SLUS_013.95:0x8003EEE4 gated exemplar
+7987da3a060a1c9a867869d61c33f4317296de6c SLUS_013.95:0x800478F0 src/shared/SLUS_013.95/func_800478F0.c SLUS_013.95:0x800478F0 gated exemplar
+16bee5fdc92ea17a43283bd3a8d4ac74262dfe93 SLUS_013.95:0x8004DCB8 src/shared/SLUS_013.95/func_8004DCB8.c SLUS_013.95:0x8004DCB8 gated exemplar
+8babe838eb17c148387089d1e19b568d8f85a615 SLUS_013.95:0x80051490 src/shared/SLUS_013.95/func_80051490.c SLUS_013.95:0x80051490 gated exemplar
+10c63c37be9000d041f10ac8421909f642b73641 SLUS_013.95:0x80051924 src/shared/SLUS_013.95/func_80051924.c SLUS_013.95:0x80051924 gated exemplar
+009da6b73c84a7e55665169194cf35a49064bbd2 SLUS_013.95:0x800524B8 src/shared/SLUS_013.95/func_800524B8.c SLUS_013.95:0x800524B8 gated exemplar
+721c948e5d344c550f2ea15a82f9544eee51c2c3 SLUS_013.95:0x80052E44 src/shared/SLUS_013.95/func_80052E44.c SLUS_013.95:0x80052E44 gated exemplar
+27c68c1ac6f97dfc3e7a34ad57ca664ed092478e SLUS_013.95:0x80053E44 src/shared/SLUS_013.95/func_80053E44.c SLUS_013.95:0x80053E44 gated exemplar
+020615b19797e239b12fbba3502248bb4c7024ad rock_03:0x800EA978 src/shared/rock_03/func_800EA978.c rock_25:0x800EA898 refused R5: build/rock/25.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_25.log)
+0f65e9d895aa4ef0c5a30cfd1602f2b2f9743740 rock_09:0x800F3220 src/shared/rock_09/func_800F3220.c rock_38:0x800FCE5C gated define func_800F3220=func_800FCE5C
+1629175fdecf3ad1722e52a601478c1d083f09fd rock_03:0x800EC564 src/shared/rock_03/func_800EC564.c rock_25:0x800EC484 gated define func_800EC564=func_800EC484
+1b8048ec7d6aba2e814061e758b89b2786908967 rock_05:0x800F2324 src/shared/rock_05/func_800F2324.c rock_35:0x800FDA70 gated define func_800F2324=func_800FDA70
+1e0f2140eea7e0ad2376251370ffab06b3141e04 rock_22:0x800FA1EC src/shared/rock_22/func_800FA1EC.c rock_22:0x800FA438 gated define func_800FA1EC=func_800FA438 D_800FD534=D_800FD540
+1e0f2140eea7e0ad2376251370ffab06b3141e04 rock_22:0x800FA1EC src/shared/rock_22/func_800FA1EC.c rock_22:0x800FA64C gated define func_800FA1EC=func_800FA64C D_800FD534=D_800FD54C
+2d6f6e7db7a1141bd2841f35eb4cf253ab7f5efb rock_10:0x800FA2B0 src/shared/rock_10/func_800FA2B0.c rock_39:0x800FFE58 refused R2: build/src/rock_39/FA000.c.o does not compile (log .run/bank/propagate-rock_39.log)
+2e613b96ec0db8e15952a7f40789b6fe84bab94e rock_02:0x800F77B8 src/shared/rock_02/func_800F77B8.c rock_23:0x800F64C0 gated define func_800F77B8=func_800F64C0
+2e613b96ec0db8e15952a7f40789b6fe84bab94e rock_02:0x800F77B8 src/shared/rock_02/func_800F77B8.c rock_44:0x801000E0 gated define func_800F77B8=func_801000E0
+3bc4d175f432ae6962d252388c085d091c5ceb86 rock_03:0x800F4FB8 src/shared/rock_03/func_800F4FB8.c rock_33:0x800FF878 gated define func_800F4FB8=func_800FF878
+4ad035e7a30f5894ffd1c0969c8e923bcf3c8657 rock_03:0x800EB7E4 src/shared/rock_03/func_800EB7E4.c rock_25:0x800EB704 gated define func_800EB7E4=func_800EB704
+4b4ade695df20616f89b4e0e8871bb443ca87aeb rock_08:0x800ED950 src/shared/rock_08/func_800ED950.c rock_29:0x800EA2E0 refused R5: build/rock/29.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_29.log)
+722750d4226e804c12ae167f6f52ed05e8da51ae rock_07:0x800F5A1C src/shared/rock_07/func_800F5A1C.c rock_36:0x800FDCCC gated define func_800F5A1C=func_800FDCCC D_800971F8=D_800971F8
+7e7278b0454105f6c6c471dbc551350169267d23 rock_10:0x800F7F70 src/shared/rock_10/func_800F7F70.c rock_39:0x800FDB18 refused R5: build/rock/39.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_39.log)
+84c3fa29206d7a5bbfd91b617738c8ec71b1b5a4 rock_08:0x800F2378 src/shared/rock_08/func_800F2378.c rock_37:0x800FC3E0 refused R2: build/src/rock_37/FA000.c.o does not compile (log .run/bank/propagate-rock_37.log)
+90b44144c1d4fa6fbd122e910d759332ca2b058a rock_18:0x800ED58C src/shared/rock_18/func_800ED58C.c rock_20:0x800F0438 refused R2: build/src/rock_20/E9860.c.o does not compile (log .run/bank/propagate-rock_20.log)
+9853e7476723153efdd127c9be314f6b67bf431a rock_04:0x800EEE14 src/shared/rock_04/func_800EEE14.c rock_26:0x800ED390 refused R5: build/rock/26.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_26.log)
+985b63ada0aa5b21aac76e5d1492e69e7318fb2c rock_02:0x800F6EE0 src/shared/rock_02/func_800F6EE0.c rock_23:0x800F5BE8 refused R5: build/rock/23.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_23.log)
+985b63ada0aa5b21aac76e5d1492e69e7318fb2c rock_02:0x800F6EE0 src/shared/rock_02/func_800F6EE0.c rock_44:0x800FF808 refused R5: build/rock/44.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_44.log)
+9ff9d9351d2c5f5ac1112c87028a72156ff7d27c rock_09:0x800EE8D4 src/shared/rock_09/func_800EE8D4.c rock_24:0x800ED3F4 gated define func_800EE8D4=func_800ED3F4
+9ff9d9351d2c5f5ac1112c87028a72156ff7d27c rock_09:0x800EE8D4 src/shared/rock_09/func_800EE8D4.c rock_30:0x800EE170 gated define func_800EE8D4=func_800EE170
+ba5fe4c46d849ed32209d8ba7e5853dd9cb6a0e6 rock_10:0x800FA128 src/shared/rock_10/func_800FA128.c rock_39:0x800FFCD0 refused R2: build/src/rock_39/FA000.c.o does not compile (log .run/bank/propagate-rock_39.log)
+c156e188045247d39631dfd25ab58c0c6a916573 rock_07:0x800F5EEC src/shared/rock_07/func_800F5EEC.c rock_36:0x800FE19C gated define func_800F5EEC=func_800FE19C
+c4fc48666e5f2a3fd90202032ff0515c410aaebd rock_08:0x800F3354 src/shared/rock_08/func_800F3354.c rock_37:0x800FD3BC gated define func_800F3354=func_800FD3BC
+dcc156acd374d061db097ad3c6bef70ec7bf9276 rock_03:0x800EA66C src/shared/rock_03/func_800EA66C.c rock_25:0x800EA58C refused R5: build/rock/25.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_25.log)
+df704e806a3df75f095c3099584bd8a6e211350c rock_03:0x800F4F58 src/shared/rock_03/func_800F4F58.c rock_33:0x800FF818 refused R5: build/rock/33.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_33.log)
+eeeffea6e6daaeb1e97cc35a77ecbaa1e14cb28b rock_11:0x800FACF8 src/shared/rock_11/func_800FACF8.c rock_40:0x800FF224 gated define func_800FACF8=func_800FF224 D_800FD4E8=D_800FFDF8
+ef73a50fcb64e184871bf7181623105c01ab7430 rock_10:0x800ECDF4 src/shared/rock_10/func_800ECDF4.c rock_22:0x800F1EE0 refused R5: build/rock/22.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_22.log)
+ef73a50fcb64e184871bf7181623105c01ab7430 rock_10:0x800ECDF4 src/shared/rock_10/func_800ECDF4.c rock_31:0x800EC8F0 refused R5: build/rock/31.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_31.log)
+f58d657590d9a55874b6a281d24fcbdb7b2abd22 rock_03:0x800EC66C src/shared/rock_03/func_800EC66C.c rock_25:0x800EC58C gated define func_800EC66C=func_800EC58C
+fac052ba61e4604b305deaba6ba5b754b32e98a3 rock_09:0x800EA708 src/shared/rock_09/func_800EA708.c rock_15:0x800EAF88 gated define func_800EA708=func_800EAF88
+fac052ba61e4604b305deaba6ba5b754b32e98a3 rock_09:0x800EA708 src/shared/rock_09/func_800EA708.c rock_24:0x800EC358 gated define func_800EA708=func_800EC358
+fac052ba61e4604b305deaba6ba5b754b32e98a3 rock_09:0x800EA708 src/shared/rock_09/func_800EA708.c rock_30:0x800EA250 gated define func_800EA708=func_800EA250
+574a7aeeabe90e354a321ce03a0a89c2d0d10bd1 rock_11:0x800EDF24 src/shared/rock_11/func_800EDF24.c rock_11:0x800EDF24 gated exemplar
+4e546cc415161be7fcb6d0c3f22c3b976dfb2ae5 rock_11:0x800F1FBC src/shared/rock_11/func_800F1FBC.c rock_11:0x800F1FBC gated exemplar
+08389d252accb034f784660731732bbd53543c55 rock_11:0x800F2CE8 src/shared/rock_11/func_800F2CE8.c rock_11:0x800F2CE8 gated exemplar
+71d90cce56464a700b65674bff07bb0489ddcd7f rock_11:0x800FA4F8 src/shared/rock_11/func_800FA4F8.c rock_11:0x800FA4F8 gated exemplar
+76cd28618aaae708afb86f1d318a9c97f6b8c127 rock_11:0x800FAC50 src/shared/rock_11/func_800FAC50.c rock_11:0x800FAC50 gated exemplar
+a3c95de5d7fd428396422a8b2bf64501291e4f6a rock_02:0x800E9DCC src/shared/rock_02/func_800E9DCC.c rock_02:0x800E9DCC gated exemplar
+5ebb178701e7efcadc1d77c21b46c4f1c45e1755 rock_02:0x800EA260 src/shared/rock_02/func_800EA260.c rock_02:0x800EA260 gated exemplar
+84f1667ed31f06669bbfd8659d4d6fc1e014d78b rock_02:0x800EE7F4 src/shared/rock_02/func_800EE7F4.c rock_02:0x800EE7F4 gated exemplar
+28e8b6d538349f387837834c13f166fe5f058d39 rock_02:0x800F09FC src/shared/rock_02/func_800F09FC.c rock_02:0x800F09FC gated exemplar
+16203fa24144cfea19570ffbfd039866bd316266 rock_02:0x800F6548 src/shared/rock_02/func_800F6548.c rock_02:0x800F6548 gated exemplar
+d4abf41ce85cfc89c70dd3d9c4e2474efc93611d rock_02:0x800F8C24 src/shared/rock_02/func_800F8C24.c rock_02:0x800F8C24 gated exemplar
+e62f58c62475f07f8ec5e740a63596cb6e412f55 rock_15:0x800EC334 src/shared/rock_15/func_800EC334.c rock_15:0x800EC334 gated exemplar
+6d6a8466117e4c7738cf40458ed8fe97661379b2 rock_15:0x800ED124 src/shared/rock_15/func_800ED124.c rock_15:0x800ED124 gated exemplar
+668d6c27499041c1b25c09427b0d2fc44ea9abce rock_15:0x800ED234 src/shared/rock_15/func_800ED234.c rock_15:0x800ED234 gated exemplar
+3b4ef6156b8f332d27554390053ad6b43dd76c91 rock_15:0x800ED948 src/shared/rock_15/func_800ED948.c rock_15:0x800ED948 gated exemplar
+b836c9780405ccc2a9b58da5f01b050befc324db rock_15:0x800F0390 src/shared/rock_15/func_800F0390.c rock_15:0x800F0390 gated exemplar
+20b3a94e52aaf54cbb1f27f752a8f8dd0c40343c rock_07:0x800EA0B4 src/shared/rock_07/func_800EA0B4.c rock_07:0x800EA0B4 gated exemplar
+f0d980918bfd4b4a9f7968adab9991ea389cdd2c rock_07:0x800EA1CC src/shared/rock_07/func_800EA1CC.c rock_07:0x800EA1CC gated exemplar
+d146559423dce91d30c11c84b62f14611b3066a3 rock_07:0x800EA2E0 src/shared/rock_07/func_800EA2E0.c rock_07:0x800EA2E0 gated exemplar
+63ec02a99d9c8e36f76b32a764e4aa8684cfa7f0 rock_07:0x800EAFFC src/shared/rock_07/func_800EAFFC.c rock_07:0x800EAFFC gated exemplar
+2d23771371cc3487839a7f95d1076ee0d7514ee9 rock_07:0x800F6220 src/shared/rock_07/func_800F6220.c rock_07:0x800F6220 gated exemplar
+4f20278d8cfe2bc02f87b7f22fc751457063c523 rock_00:0x801EFB5C src/shared/rock_00/func_801EFB5C.c rock_00:0x801EFB5C gated exemplar
+fc75bd5009ba37f983cee279bbde9aa00781c34e rock_00:0x801F0D58 src/shared/rock_00/func_801F0D58.c rock_00:0x801F0D58 gated exemplar
+526b0660c6cbb43d492f44130a4a4a04df29238e rock_03:0x800EA4DC src/shared/rock_03/func_800EA4DC.c rock_03:0x800EA4DC gated exemplar
+58c439f2c78db95ec9c777cdfe3686c0473d11a9 rock_03:0x800EAE0C src/shared/rock_03/func_800EAE0C.c rock_03:0x800EAE0C gated exemplar
+06d340c20f2eaef1cf032d952883ec190b9e0b0a rock_03:0x800EDFF8 src/shared/rock_03/func_800EDFF8.c rock_03:0x800EDFF8 gated exemplar
+372d872c72038110cc1e38c2c174fa0c45f98ed6 rock_04:0x800F326C src/shared/rock_04/func_800F326C.c rock_04:0x800F326C gated exemplar
+c8d935f03369ef444deba31408310005f69ccc23 rock_04:0x800F3600 src/shared/rock_04/func_800F3600.c rock_04:0x800F3600 gated exemplar
+7040bcbeee654d192e266f57d8845a702a43f247 rock_08:0x800F1F64 src/shared/rock_08/func_800F1F64.c rock_08:0x800F1F64 gated exemplar
+0e2b174ae6d9c3ac9f8086f96c451ef00573553b rock_08:0x800F31A8 src/shared/rock_08/func_800F31A8.c rock_08:0x800F31A8 gated exemplar
+1970fe4a90146aab55fd1fa07a568db99edb0c08 rock_10:0x800E9F18 src/shared/rock_10/func_800E9F18.c rock_10:0x800E9F18 gated exemplar
+2813ef5e08286c12f1049952a29f63ee26d03f9a rock_10:0x800FA710 src/shared/rock_10/func_800FA710.c rock_10:0x800FA710 gated exemplar
+c1ff675b352992a40e4c24171566bf1ca734b5c2 rock_09:0x800F398C src/shared/rock_09/func_800F398C.c rock_09:0x800F398C gated exemplar
+4f3284edd7dd32eb6cc824271ab6f6d486329c78 rock_24:0x800F02AC src/shared/rock_24/func_800F02AC.c rock_24:0x800F02AC gated exemplar
+5313169777c2eb7e0901854ebc0b946f626502da rock_24:0x800F03BC src/shared/rock_24/func_800F03BC.c rock_24:0x800F03BC gated exemplar
+2e67c8247f8a0cef5571fb256e3dc1a2b38e4d66 rock_12:0x800E9A98 src/shared/rock_12/func_800E9A98.c rock_12:0x800E9A98 gated exemplar
+17b8336cfed4208e5e25cae8ddf5ddb306c939d1 rock_16:0x800EBC5C src/shared/rock_16/func_800EBC5C.c rock_16:0x800EBC5C gated exemplar
+cf4fb33842028e18d6c2904c107564b9673343a0 rock_18:0x800EA8C0 src/shared/rock_18/func_800EA8C0.c rock_18:0x800EA8C0 gated exemplar
+fc7d16871a6e0a1eed0c531913480b040f6f4b78 SLUS_013.95:0x80014E60 src/shared/SLUS_013.95/func_80014E60.c SLUS_013.95:0x80014E60 gated exemplar
+53e22b83214831f0e421912c0bbed4e92ac384e9 SLUS_013.95:0x8001C718 src/shared/SLUS_013.95/func_8001C718.c SLUS_013.95:0x8001C718 gated exemplar
+ad55de80ff4cba9bcd01f4ba378fae36c4391b51 SLUS_013.95:0x8001CE68 src/shared/SLUS_013.95/func_8001CE68.c SLUS_013.95:0x8001CE68 gated exemplar
+25c7518eab61ab1a4b10814b153ec56939e04c40 SLUS_013.95:0x800206C0 src/shared/SLUS_013.95/func_800206C0.c SLUS_013.95:0x800206C0 gated exemplar
+aaf4d83648c6ae4a8a2f295629893a99ecf0df2a SLUS_013.95:0x800207D4 src/shared/SLUS_013.95/func_800207D4.c SLUS_013.95:0x800207D4 gated exemplar
+da1498516c7cd676db30b7ca92831a56923a2b6a SLUS_013.95:0x80027D6C src/shared/SLUS_013.95/func_80027D6C.c SLUS_013.95:0x80027D6C gated exemplar
+6248d465d80aa0403d39ce2a8fa903868dd3f074 SLUS_013.95:0x800280F4 src/shared/SLUS_013.95/func_800280F4.c SLUS_013.95:0x800280F4 gated exemplar
+fb55796d6216042309ab7763161c55cd95bac67c SLUS_013.95:0x80028DAC src/shared/SLUS_013.95/func_80028DAC.c SLUS_013.95:0x80028DAC gated exemplar
+ec5452f700fa1cf8075f96507445a825533124c7 SLUS_013.95:0x8002F5FC src/shared/SLUS_013.95/func_8002F5FC.c SLUS_013.95:0x8002F5FC gated exemplar
+28bb3d7ce3744b45c0fd9a8b470ce844bce8d1a6 SLUS_013.95:0x80036B10 src/shared/SLUS_013.95/func_80036B10.c SLUS_013.95:0x80036B10 gated exemplar
+a9916bfc6a5517635ab611214952c023cce9d921 SLUS_013.95:0x8003A870 src/shared/SLUS_013.95/func_8003A870.c SLUS_013.95:0x8003A870 gated exemplar
+797fb806be5b2c76b57b0eea143ff9d81d369dfa SLUS_013.95:0x8003D3F8 src/shared/SLUS_013.95/func_8003D3F8.c SLUS_013.95:0x8003D3F8 gated exemplar
+568bd889ed9c657859da76763776066a538efd22 SLUS_013.95:0x8003DF58 src/shared/SLUS_013.95/func_8003DF58.c SLUS_013.95:0x8003DF58 gated exemplar
+ba7f81d3a5d8390cc76378decd5b63538a62ba7d SLUS_013.95:0x80043350 src/shared/SLUS_013.95/func_80043350.c SLUS_013.95:0x80043350 gated exemplar
+2c5502bfa9fbb25b5d74ec92eb8f8ae1fc993a8b SLUS_013.95:0x80045810 src/shared/SLUS_013.95/func_80045810.c SLUS_013.95:0x80045810 gated exemplar
+8de62c3d087386f5116c89b5f373798d74855e36 SLUS_013.95:0x8004755C src/shared/SLUS_013.95/func_8004755C.c SLUS_013.95:0x8004755C gated exemplar
+8254d14f5db2aed0978a224f8f0a9289d7a00325 SLUS_013.95:0x80048268 src/shared/SLUS_013.95/func_80048268.c SLUS_013.95:0x80048268 gated exemplar
+9d24dcd1b0c6de053141008ef4cb2972b2e51cb9 SLUS_013.95:0x80048380 src/shared/SLUS_013.95/func_80048380.c SLUS_013.95:0x80048380 gated exemplar
+db8861bddf224c3ff6f0a89a052ceaf0aa9ca392 SLUS_013.95:0x8004FC40 src/shared/SLUS_013.95/func_8004FC40.c SLUS_013.95:0x8004FC40 gated exemplar
+68e55d00c85266b5666e10e5c25c1279276466b0 SLUS_013.95:0x80051D28 src/shared/SLUS_013.95/func_80051D28.c SLUS_013.95:0x80051D28 gated exemplar
+06d340c20f2eaef1cf032d952883ec190b9e0b0a rock_03:0x800EDFF8 src/shared/rock_03/func_800EDFF8.c rock_25:0x800EDF18 gated define func_800EDFF8=func_800EDF18
+0e2b174ae6d9c3ac9f8086f96c451ef00573553b rock_08:0x800F31A8 src/shared/rock_08/func_800F31A8.c rock_37:0x800FD210 gated define func_800F31A8=func_800FD210
+16203fa24144cfea19570ffbfd039866bd316266 rock_02:0x800F6548 src/shared/rock_02/func_800F6548.c rock_23:0x800F5250 refused R2: build/src/rock_23/E9860.c.o does not compile (log .run/bank/propagate-rock_23.log)
+16203fa24144cfea19570ffbfd039866bd316266 rock_02:0x800F6548 src/shared/rock_02/func_800F6548.c rock_44:0x800FEE70 refused R2: build/src/rock_44/FA000.c.o does not compile (log .run/bank/propagate-rock_44.log)
+2813ef5e08286c12f1049952a29f63ee26d03f9a rock_10:0x800FA710 src/shared/rock_10/func_800FA710.c rock_39:0x801002B8 gated define func_800FA710=func_801002B8 D_800FCFE0=D_80100D54
+2d23771371cc3487839a7f95d1076ee0d7514ee9 rock_07:0x800F6220 src/shared/rock_07/func_800F6220.c rock_36:0x800FE4D0 gated define func_800F6220=func_800FE4D0
+372d872c72038110cc1e38c2c174fa0c45f98ed6 rock_04:0x800F326C src/shared/rock_04/func_800F326C.c rock_34:0x800FBDC4 refused R5: build/rock/34.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_34.log)
+526b0660c6cbb43d492f44130a4a4a04df29238e rock_03:0x800EA4DC src/shared/rock_03/func_800EA4DC.c rock_25:0x800EA3FC gated define func_800EA4DC=func_800EA3FC D_800970A0=D_800970A0
+58c439f2c78db95ec9c777cdfe3686c0473d11a9 rock_03:0x800EAE0C src/shared/rock_03/func_800EAE0C.c rock_25:0x800EAD2C gated define func_800EAE0C=func_800EAD2C
+7040bcbeee654d192e266f57d8845a702a43f247 rock_08:0x800F1F64 src/shared/rock_08/func_800F1F64.c rock_37:0x800FBFCC refused R5: build/rock/37.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_37.log)
+71d90cce56464a700b65674bff07bb0489ddcd7f rock_11:0x800FA4F8 src/shared/rock_11/func_800FA4F8.c rock_40:0x800FEA24 gated define func_800FA4F8=func_800FEA24
+76cd28618aaae708afb86f1d318a9c97f6b8c127 rock_11:0x800FAC50 src/shared/rock_11/func_800FAC50.c rock_40:0x800FF17C refused R5: build/rock/40.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_40.log)
+c1ff675b352992a40e4c24171566bf1ca734b5c2 rock_09:0x800F398C src/shared/rock_09/func_800F398C.c rock_38:0x800FD5C8 refused R5: build/rock/38.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_38.log)
+c8d935f03369ef444deba31408310005f69ccc23 rock_04:0x800F3600 src/shared/rock_04/func_800F3600.c rock_04:0x800F3E2C gated define func_800F3600=func_800F3E2C
+c8d935f03369ef444deba31408310005f69ccc23 rock_04:0x800F3600 src/shared/rock_04/func_800F3600.c rock_34:0x800FC158 refused R5: build/rock/34.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_34.log)
+c8d935f03369ef444deba31408310005f69ccc23 rock_04:0x800F3600 src/shared/rock_04/func_800F3600.c rock_34:0x800FC984 refused R5: build/rock/34.bin whole-binary hash red from a clean rebuild (log .run/bank/propagate-rock_34.log)
+d4abf41ce85cfc89c70dd3d9c4e2474efc93611d rock_02:0x800F8C24 src/shared/rock_02/func_800F8C24.c rock_23:0x800F792C gated define func_800F8C24=func_800F792C
+d4abf41ce85cfc89c70dd3d9c4e2474efc93611d rock_02:0x800F8C24 src/shared/rock_02/func_800F8C24.c rock_44:0x8010154C gated define func_800F8C24=func_8010154C
+e62f58c62475f07f8ec5e740a63596cb6e412f55 rock_15:0x800EC334 src/shared/rock_15/func_800EC334.c rock_22:0x800F5168 gated define func_800EC334=func_800F5168
+e62f58c62475f07f8ec5e740a63596cb6e412f55 rock_15:0x800EC334 src/shared/rock_15/func_800EC334.c rock_23:0x800EB540 gated define func_800EC334=func_800EB540

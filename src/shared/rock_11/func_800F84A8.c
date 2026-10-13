@@ -1,8 +1,8 @@
 #include "common.h"
 
-void func_800FA4F8(void*, s16, s32);
+s32 func_800FA4F8(void* arg0, s16 arg1, s32 arg2);
 extern u16 D_80097222;
-#define CALL ((s32(*)(void*, s16, s32))func_800FA4F8)
+#define CALL func_800FA4F8
 
 void func_800F84A8(void* arg0, s32 arg1) {
     register s32 b asm("$2") = *((u8*)arg0 + 2);

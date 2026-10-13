@@ -205,3 +205,7 @@ C0202 | Dead store to the original keeps a loop base copy gcse would propagate |
 C0203 | Assign the working pointer from the parameter on each path, not one entry copy | lever,parameter,callee-saved,copy,regalloc | 2026-10-12 | 1.8.1/T25 | mmx6 W25 rock_09 F49C8
 C0204 | Plain while loop where m2c's if + do-while builds a global's high base twice | lever,loop,while,do-while,hi-lo,global,length | 2026-10-13 | 1.8.1/T26 | mmx6 W26 SLUS 15C5C
 C0205 | Loop end bound spelled as the pool base plus its size, not an end symbol | lever,loop,bound,global,hi-lo,reloc,twin | 2026-10-13 | 1.8.1/T26 | mmx6 W26 SLUS 2C32C
+C0206 | Read globals and fields into s32 block locals before the call or store that fixes load order | lever,load-order,local,s32,call,sched,regalloc | 2026-10-13 | 1.8.1/T27 | mmx6 W27 SLUS 41290
+C0207 | Assign a call-free local after the call's early-return test, not at function entry | lever,callee-saved,regalloc,constant,pointer,call,sched | 2026-10-13 | 1.8.1/T27 | mmx6 W27 rock_07 F036C
+C0208 | Constant-address view macro at each access, not an extern symbol or cached pointer local | lever,view-macro,global,cse,hi-lo,reload,constant-address,registry-drift | 2026-10-13 | 1.8.1/T27 | mmx6 W27 SLUS 21500
+C0209 | Byte or field read for a test: block local numerically pinned to the first return register | lever,register-pin,regalloc,load,byte,field,compare | 2026-10-13 | 1.8.1/T28 | mmx6 W28 rock_22 F259C

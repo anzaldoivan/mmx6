@@ -2,3 +2,4 @@
 # jtbl <table_lo> <tu> | rodata <lo> <hi> <tu> | block <hi> | opt <tu> <vram> <newtu> [cflags...]
 block 0x801EA0C4
 rodata 0x801EA004 0x801EA064 1EA000
+rodata 0x801EA064 0x801EA0C4 1EA000

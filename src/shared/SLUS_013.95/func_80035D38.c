@@ -12,7 +12,7 @@ void func_8003AD18(void* arg0);                 /* extern */
 M2C_UNK func_8003AE8C(void*);                   /* extern */
 M2C_UNK func_8003BA04(void*, M2C_UNK);          /* extern */
 M2C_UNK func_8003BB94(void*, M2C_UNK, s8);      /* extern */
-M2C_UNK func_8003C6A4(void*);                   /* extern */
+void func_8003C6A4(void* arg0);                   /* extern */
 M2C_UNK func_8003CCBC();                        /* extern */
 void func_8003CD00(void* arg0);                 /* extern */
 s32 func_8003F644(void*);                       /* extern */

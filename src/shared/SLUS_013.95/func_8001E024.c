@@ -4,8 +4,8 @@
 #define M2C_UNK s32
 
 M2C_UNK func_8002048C();
-M2C_UNK func_800206C0();
-M2C_UNK func_800207D4();
+void func_800206C0(void);
+void func_800207D4(void);
 void func_80025FB0();
 void func_8002ACA8();
 extern void (*D_80071118[])(struct X4_EngineObj*);

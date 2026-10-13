@@ -7,7 +7,7 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002B79C();
 void* func_8002BBF4();
-void func_80031DA8();
+void func_80031DA8(struct X4_MainObj*);
 s32 func_80050C88(void*);
 void func_80051104(struct X4_ItemObj* arg0);
 extern struct X4_BackgroundObj D_800971F8[3];
@@ -23,7 +23,7 @@ void func_80050250(struct X4_ItemObj* arg0, s32 arg1, u8* arg2) {
     u8* p;
     s8 t;
 
-    func_80031DA8();
+    ((void (*)())func_80031DA8)();
     func_80051104(arg0);
     t = arg0->unk2;
     if (t == 7 && D_800CCEF6 == 0) {

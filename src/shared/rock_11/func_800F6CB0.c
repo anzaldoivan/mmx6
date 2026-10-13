@@ -5,7 +5,7 @@
 
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
 void func_800FA31C(void* arg0);
-void func_800FA584(void* arg0, s16 arg1, s32 arg2, s32 arg3);
+s32 func_800FA584(s16* arg0, s16 arg1, s16 arg2, s16 arg3);
 extern s16 D_8009721E;
 extern u8 D_800FD45C[];
 

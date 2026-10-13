@@ -8,11 +8,11 @@ INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", D_800FA014);
 
 #include "../shared/rock_45/func_800FA23C.c"
 
-INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FA454);
+#include "../shared/rock_45/func_800FA454.c"
 
-INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FA5A0);
+#include "../shared/rock_45/func_800FA5A0.c"
 
-INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FA6EC);
+#include "../shared/rock_45/func_800FA6EC.c"
 
 INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FA864);
 

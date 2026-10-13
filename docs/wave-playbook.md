@@ -1,24 +1,30 @@
 # The wave playbook — the operating procedure for the matching campaign
 
-> ONE document is the procedure: read it before every run, keep it current in the same change as any tool it names;
-> a superseded procedure gets a banner. Each guard below is paired with the MEASUREMENT that earned it — fill the
-> measurement column from your own waves; the source project's are in the kit's methodology (the calibration fences).
+> ONE document is the procedure. Read it before every run. Keep it current in the same change as any tool that it
+> names. A superseded procedure gets a banner.
+>
+> The table pairs each guard below with the MEASUREMENT that earned it. Fill the measurement column from your own
+> waves. The source project's measurements are in the kit's methodology (the calibration fences).
 > Created by decomp-architect on 2026-10-01.
+
+This game keeps its measurements in the campaign manual, `docs/ops/campaign.md`, and in `campaign/ledger.tsv`. The
+last column names the section that holds each one (2026-10-12). Both files are in the development repository. A
+release does not publish them.
 
 | # | Step | The guard | The measurement that earned it |
 |---|---|---|---|
-| 0 | Preconditions | tree clean; the last clean fleet run green | (fill) |
-| 1 | Draw | exclude what cannot bank; audit the exclude list first (it records what the TOOLING could not do); rank by open templatable instructions; know face mass vs delivered mass | (fill) |
-| 2 | Cards | the banked twin found over the WHOLE world goes on the card; a card names only levers the base contains | (fill) |
-| 3 | Packs | one per target + the shared laws file, at the paths the drafting prompt reads | (fill) |
-| 4 | Validate | never hand-type a target; assert every target is still open at draw time; near-misses to the permuter first | (fill) |
-| 5 | Draft | one agent per target, model by measured size, streaming not batched; the wave's difficulty is a draw-time knob | (fill) |
-| 6 | Gate | everything in parallel (worktrees; the executable by a clean rebuild); gate the DIRECTORY, never the verdict list; assert banked + failed + no-verdict == drafts | (fill) |
-| 6b | Reconcile | one deterministic pass over each gate group's slate BEFORE the rebuild | (fill) |
-| 7 | After ANY bank | the twin rescan, then commit | (fill) |
-| 8 | Harvest — a hard gate | every idiom into the cookbook + index; every mechanical idiom into a sweep that banks the free functions; the widening review | (fill) |
-| 9 | Verify the fleet | a clean rebuild of everything; read the exit code | (fill) |
-| 10 | Hand off | the task summary carries the exact state and the next step; at a context handoff, `TASK_PROGRESS.md` does — stale is worse than absent | (fill) |
+| 0 | Preconditions | The tree must be clean. The last clean fleet run must be green. | Recorded in `docs/ops/campaign.md`, "Wave procedure". |
+| 1 | Draw | Exclude what cannot bank. Audit the exclude list first (it records what the TOOLING could not do). Rank by open templatable instructions. Know face mass vs delivered mass. | Recorded in `docs/ops/campaign.md`, "Routing" and "Yield". |
+| 2 | Cards | The banked twin found over the WHOLE world goes on the card. A card names only levers that the base contains. | Recorded in `docs/ops/campaign.md`, "Packs". |
+| 3 | Packs | Make one pack per target + the shared laws file, at the paths that the drafting prompt reads. | Recorded in `docs/ops/campaign.md`, "Packs". |
+| 4 | Validate | Never hand-type a target. Assert that every target is still open at draw time. Send near-misses to the permuter first. | Recorded in `docs/ops/campaign.md`, "Validator". |
+| 5 | Draft | Use one agent per target, the model by measured size, streaming not batched. The wave's difficulty is a draw-time knob. | Recorded in `docs/ops/campaign.md`, "Routing" and "Yield". |
+| 6 | Gate | Gate everything in parallel (worktrees, and the executable by a clean rebuild). Gate the DIRECTORY, never the verdict list. Assert banked + failed + no-verdict == drafts. | Recorded in `docs/ops/campaign.md`, "Gate". |
+| 6b | Reconcile | Make one deterministic pass over each gate group's slate BEFORE the rebuild. | Recorded in `docs/ops/campaign.md`, "Recovery" and "Yield" (the column Recovered). |
+| 7 | After ANY bank | Run the twin rescan, then commit. | Recorded in `docs/ops/campaign.md`, "Gate" and "Yield" (the column with the propagated instructions). |
+| 8 | Harvest — a hard gate | Put every idiom into the cookbook + index. Put every mechanical idiom into a sweep that banks the free functions. Do the widening review. | Recorded in `docs/ops/campaign.md`, "Harvest". |
+| 9 | Verify the fleet | Do a clean rebuild of everything. Read the exit code. | The gate is `make fleet`. Its last line is `FLEET 57 of 57` (`HOW_WE_WORK.md`). |
+| 10 | Hand off | The task summary carries the exact state and the next step. At a context handoff, `TASK_PROGRESS.md` does. Stale is worse than absent. | Not recorded (2026-10-12). |
 
-Then **recover** before re-drawing: triage the gate's failures into body and plumbing; bank the plumbing rejects through
-the reconcile ladder without a redraft; the gate number is not the close rate until recovery has run.
+Then **recover** before re-drawing. Triage the gate's failures into body and plumbing. Bank the plumbing rejects through
+the reconcile ladder without a redraft. The gate number is not the close rate until recovery has run.

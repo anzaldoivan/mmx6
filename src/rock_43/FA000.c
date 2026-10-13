@@ -36,9 +36,9 @@ INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FB964);
 
 #include "../shared/rock_43/func_800FBB70.c"
 
-INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FBD38);
+#include "../shared/rock_43/func_800FBD38.c"
 
-INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FBEB8);
+#include "../shared/rock_43/func_800FBEB8.c"
 
 INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", func_800FC02C);
 

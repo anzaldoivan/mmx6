@@ -1,0 +1,25 @@
+# config/style-ratchet.txt: the count of writing findings of each public prose file (rules/STE1.md).
+# A count may only fall. After a fix, run `python3 tools/psxd_publish.py style --update`.
+# The `skip` lines name files that the kit or a generator writes.
+skip docs/decomp-kernels.md
+skip docs/decomp-architect.md
+skip docs/decomp-architect-install.md
+skip docs/knowledge-corpus.md
+skip docs/tools-manifest.md
+skip docs/inherited-record.md
+1 cookbook/C0078.md
+1 cookbook/C0079.md
+2 cookbook/C0081.md
+2 cookbook/C0082.md
+1 cookbook/C0083.md
+2 cookbook/C0084.md
+1 cookbook/C0085.md
+1 cookbook/C0086.md
+1 cookbook/C0087.md
+2 cookbook/C0088.md
+16 docs/codegen-map/G-alloc.md
+3 docs/codegen-map/G-combine.md
+10 docs/codegen-map/G-expr.md
+10 docs/codegen-map/G-jump.md
+4 docs/codegen-map/G-loop.md
+10 docs/codegen-map/G-sched.md

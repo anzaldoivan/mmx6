@@ -14,13 +14,15 @@
          scope  object the mmx4 source sits under mains/ items/ effects/ layers/ misc/ weapons/ visuals/ quads/
                        (an alias only, held back from renames until a role basis exists); else engine
          votes  -
-         basis  x4 exact <key12> sozud/mmx4@<pin> <mmx4 path>:<function>
+         basis  x4 exact <key12> sozud/mmx4@<pin> <mmx4 path>:<function>   (pin: config/refs.toml `[[ref]] name =
+                "mmx4"`, 7 hex; the names pin, not the port lane's x4port.PIN)
          The host cannot recompute the rows --widen added (tier `slot`, or a basis ending ` same-name <n>` /
          ` slot <n>`): --build recomputes the exact rows and carries those forward verbatim from the existing
          names.tsv, printing `X4NAMES carried <n> widened rows` before the last line.
          last line: X4NAMES <rows> rows; gate <g> bytes <b> slot <s>; engine <e> object <o>; func <f> data <d>
   x4names.py --widen
-      -> container only (the build, build/corpus/functions.jsonl, the mmx4 clone .run/mmx4 at the pin and its objects
+      -> container only (the build, build/corpus/functions.jsonl, the mmx4 clone .run/mmx4 at the refs.toml pin and
+         its objects
          .run/x4share/gcc2.95.2-psx-aspsx2.86/obj/, i.e. after `x4share.py --triple ... --partners`); the only writer
          of the widened rows. names.tsv = the --build rows plus two sources:
          2a full partner list: the key -> partners map of x4share.write_partners with every partner kept; a
@@ -77,342 +79,88 @@
          build/src/SLUS_013.95/120A0.c.o and the corpus; on the host `X4NAMES CASE slot_objects skipped no-objects`):
          a renamed copy of our own object as the X4 side through the real relocation pairing. Ends
          `X4NAMES CONTROL OK`, rc 1 on any miss
+
+Admission, tiers, widening, --who and the doc writer live in x4core.py (shared with mmx5, byte-identical; its own
+`--selftest` covers them on synthetic objects); the X6 side (attributed files, the build's objects and symbols, paths,
+the doc's X6 text) is x4adapter.py. This file keeps the CLI, the self-test and the X4 data measurement (--x4-exe,
+--data-probe).
 """
 import hashlib
 import os
 import re
 import shutil
 import struct
-import subprocess
 import sys
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import census  # noqa: E402  (asm_index, obj_of)
-import sig  # noqa: E402  (sig_of)
-import x4port  # noqa: E402  (ADAPTED, PIN, TRIPLE, FUNCS, Elf, Addrs, Skip, jl)
-import x4share  # noqa: E402  (functions, CLONE, SCR)
+import x4adapter  # noqa: E402  (paths, attributed, banked, Build)
+import x4core  # noqa: E402  (admission, tiers, widening, who, doc)
+import x4port  # noqa: E402  (PIN and TRIPLE of the port lane, FUNCS, Elf, jl)
+import x4share  # noqa: E402  (CLONE)
 
-ROOT = Path(__file__).resolve().parents[2]
-PARTNERS = ROOT / "campaign/x4/partners.tsv"
-SHARED = ROOT / "src/shared"
-NAMES = ROOT / "campaign/x4/names.tsv"
-DOC = ROOT / "docs/x4-names.md"
+ROOT = x4adapter.ROOT
+TAG = x4adapter.TAG
+PARTNERS = x4adapter.PARTNERS
+SHARED = x4adapter.SHARED
+NAMES = x4adapter.NAMES
+DOC = x4adapter.DOC
 SELFTEST = ROOT / ".run/x4names-selftest"
-SCRATCH = ROOT / ".run/x4names"  # --widen intermediates: container only, never pulled or tracked
-EXE = "SLUS_013.95"
+SCRATCH = x4adapter.SCRATCH  # --widen intermediates: container only, never pulled or tracked
+EXE = x4adapter.EXE
 X4EXE = ROOT / ".run/x4/SLUS_005.61"  # --x4-exe output: container only, never pulled or tracked
 SELF_OBJ, SELF_TU = "build/src/SLUS_013.95/120A0.c.o", "120A0"
 
-DRAFT = re.compile(r"^func_8[0-9A-Fa-f]{7}$")
-OBJECT_DIRS = frozenset("mains items effects layers misc weapons visuals quads".split())
-MIN_WORDS = 8
-MIN_VOTERS = 2
-WIDENED = re.compile(r" (?:same-name|slot) \d+$")  # the basis suffix of an exact row only --widen can compute
-X4DRAFT = re.compile(r"^[A-Za-z]{0,6}_?8[0-9A-Fa-f]{7}$")  # an address-spelled mmx4 symbol: votes, never names
-RAM = (0x80010000, 0x80200000)
+MIN_WORDS = x4core.MIN_WORDS
+MIN_VOTERS = x4core.MIN_VOTERS
+X4DRAFT = x4core.X4DRAFT  # an address-spelled mmx4 symbol: votes, never names
+RAM = x4core.RAM
 MIN_DATA = 16  # bytes: the shortest X4 datum searched by content
 X4SYM = re.compile(r"^(\w+)\s*=\s*0x([0-9A-Fa-f]+);\s*//.*\bsize:(0x[0-9A-Fa-f]+|\d+)")
 DATA_WHY = ("draft-name", "outside", "short", "fill", "address")
-# a function definition at column 0: `<type words> name(<params>) {`
-DEFINED = re.compile(r"^\w[^;{}()\n]*?\b(\w+)\s*\([^;{}]*\)\s*\{", re.M)
+
+# ---- the names table: x4core over x4adapter (this file's names kept for the CLI and the self-test) ------------------
+
+attributed = x4adapter.attributed
+refusal = x4core.refusal
+widened = x4core.widened
+pick = x4core.pick
+tally = x4core.tally
+Build = x4adapter.Build
 
 
-def attributed(shared):
-    """(key prefixes, defined function names) of the src/shared files that carry the mmx4 attribution header."""
-    keys, names = set(), set()
-    for f in sorted(Path(shared).rglob("*.c")):
-        text = f.read_text()
-        head = text.split("*/", 1)[0]  # the leading comment, reflow-proof (as x4port.credits)
-        m = x4port.ADAPTED.match(" ".join(head.split()))
-        if not m:
-            continue
-        if m.group(3):
-            keys.add(m.group(3).lower())
-        names.update(DEFINED.findall(text))
-    return keys, names
-
-
-def refusal(x4name, partners, words):
-    """'' when the row is admitted, else the reason."""
-    if DRAFT.match(x4name):
-        return "draft-name"
-    if partners != 1:
-        return f"partners {partners}"
-    if words < MIN_WORDS:
-        return f"words {words}"
-    return ""
-
-
-def partner_cols(partners):
-    out = []
-    for n, line in enumerate(Path(partners).read_text().splitlines(), 1):
-        if not line:
-            continue
-        col = line.split("\t")
-        if len(col) != 9:
-            sys.exit(f"x4names: {partners}:{n}: {len(col)} columns, 9 expected")
-        out.append(col)
-    return out
-
-
-def scope_of(x4src):
-    return "object" if OBJECT_DIRS & set(x4src.split("/")[:-1]) else "engine"
-
-
-def exact_row(col, x4src, x4name, suffix, votes, att):
-    """The names.tsv row of partners.tsv row col under the mmx4 partner x4src:x4name."""
-    prog, vram, x6name, _, key, _, _, _, state = col
-    keys, names = att
-    key = key.lower()
-    banked = state == "c" or x6name in names or any(key.startswith(k) for k in keys)
-    basis = f"x4 exact {key[:12]} sozud/mmx4@{x4port.PIN} {x4src}:{x4name}{suffix}"
-    return (prog, vram, "func", x6name, x4name, "gate" if banked else "bytes", scope_of(x4src), votes, basis)
-
-
-def order(r):
-    return (r[0], int(r[1], 16), r[2])
-
-
-def rows_of(partners, shared):
-    att = attributed(shared)
-    out = []
-    for col in partner_cols(partners):
-        if refusal(col[6], int(col[7]), int(col[3])):
-            continue
-        out.append(exact_row(col, col[5], col[6], "", "-", att))
-    out.sort(key=order)
-    return out
+def pin7():
+    """The names pin: config/refs.toml `[[ref]] name = "mmx4"`, 7 hex."""
+    return x4core.short(x4core.pin(ROOT))
 
 
 def count_line(rows):
-    def n(i, v):
-        return sum(1 for r in rows if r[i] == v)
-    return (f"X4NAMES {len(rows)} rows; gate {n(5, 'gate')} bytes {n(5, 'bytes')} slot {n(5, 'slot')}; "
-            f"engine {n(6, 'engine')} object {n(6, 'object')}; func {n(2, 'func')} data {n(2, 'data')}")
+    return x4core.count_line(rows, TAG)
 
 
-def write_names(names, rows):
-    with open(names, "w", newline="\n") as f:
-        f.write("".join("\t".join(r) + "\n" for r in rows))
-
-
-def widened(r):
-    return r[5] == "slot" or bool(WIDENED.search(r[8]))
+def load(names):
+    return x4core.load(names, TAG)
 
 
 def build(partners, shared, names):
-    rows = rows_of(partners, shared)
-    have = {(r[0], r[1]) for r in rows}
-    # the rows only --widen can compute are carried forward verbatim
-    carried = [r for r in (load(names) if os.path.isfile(names) else []) if widened(r) and (r[0], r[1]) not in have]
-    rows = sorted(rows + carried, key=order)
-    write_names(names, rows)
-    print(f"X4NAMES carried {len(carried)} widened rows")
-    print(count_line(rows))
-    return rows
-
-
-# ---- --widen: 2a full partner list, 2b relocation-slot votes ----------------------------------------------------------
-
-def pick(ps):
-    """(src, name, basis suffix) of a sorted partner list whose members all carry one name, else None (2a)."""
-    if not ps or len({n for _, n in ps}) != 1:
-        return None
-    return ps[0][0], ps[0][1], "" if len(ps) == 1 else f" same-name {len(ps)}"
-
-
-def pair(r4, r6, addr_of):
-    """[(X6 address of the X4 symbol's base, jump slot, X4 symbol)] of the word-aligned relocation pairs of one
-    anchor (r4, r6: x4port.Elf.refs of the X4 and the X6 function; the loop of x4port.port)."""
-    out = []
-    for i in sorted(r4):
-        t4, n4, e4 = r4[i]
-        if i not in r6 or n4.startswith("."):  # unaligned; a section-relative X4 reference has no name
-            continue
-        t6, n6, e6 = r6[i]
-        a6 = addr_of(n6)
-        if a6 is None or (t4 == 4) != (t6 == 4):
-            continue
-        a = (a6 + e6 - e4) & 0xFFFFFFFF
-        if RAM[0] <= a < RAM[1]:
-            out.append((a, t4 == 4, n4))
-    return out
-
-
-def tally(votes):
-    """votes: (prog, address, jump slot, X4 symbol, voter). -> ({(prog, address): (symbol, voters, jump)}, conflicts):
-    an address is admitted when one symbol is voted for it, by >= MIN_VOTERS voters, the symbol is not
-    address-spelled and it is voted for no other address of the program."""
-    at, jumps, where = {}, set(), {}
-    for prog, a, jump, sym, voter in votes:
-        at.setdefault((prog, a), {}).setdefault(sym, set()).add(voter)
-        if jump:
-            jumps.add((prog, a))
-        if not X4DRAFT.match(sym):
-            where.setdefault((prog, sym), set()).add(a)
-    conflicts, bad = [], set()
-    for (prog, a), e in at.items():
-        if len(e) > 1:
-            conflicts.append(("two-names", prog, a, " ".join(f"{s}:{len(e[s])}" for s in sorted(e))))
-            bad.add((prog, a))
-    for (prog, sym), addrs in where.items():
-        if len(addrs) > 1:
-            for a in addrs:
-                conflicts.append(("two-addresses", prog, a, f"{sym} " + " ".join(f"0x{x:08X}" for x in sorted(addrs))))
-                bad.add((prog, a))
-    out = {}
-    for pa, e in at.items():
-        if pa in bad:
-            continue
-        (sym, voters), = e.items()
-        if len(voters) >= MIN_VOTERS and not X4DRAFT.match(sym):
-            out[pa] = (sym, len(voters), pa in jumps)
-    return out, conflicts
+    return x4core.build(partners, names, x4adapter.banked(shared), pin7(), TAG)
 
 
 def merge(exact, pending, admitted, by_key, x6sym, defs, funcs, att):
-    """exact: {(prog, vram): row} of the --build and 2a rows; pending: {(prog, vram): partners.tsv row} of the X6
-    functions with partners and no alias; admitted: tally's. -> (rows, conflicts)."""
-    rows, conflicts, alias_at = dict(exact), [], {}
-    for (prog, vram), r in exact.items():
-        alias_at.setdefault((prog, r[4]), set()).add(int(vram, 16))
-    for (prog, a), (sym, n, jump) in sorted(admitted.items()):
-        pv = (prog, f"0x{a:08X}")
-        if pv in exact:
-            if exact[pv][4] != sym:
-                conflicts.append(("exact-vs-slot", prog, a, f"{exact[pv][4]} {sym}:{n}"))
-            continue
-        other = alias_at.get((prog, sym), set()) - {a}
-        if other:
-            conflicts.append(("two-addresses", prog, a, f"{sym} exact " + " ".join(f"0x{x:08X}" for x in sorted(other))))
-            continue
-        col = pending.get(pv)
-        if col is not None and int(col[3]) >= MIN_WORDS:
-            ps = sorted(by_key.get(col[4], ()))
-            named = [p for p in ps if p[1] == sym]
-            if named and len({p[1] for p in ps}) > 1:  # the slots pick the partner inside a multi-partner class
-                rows[pv] = exact_row(col, named[0][0], sym, f" slot {n}", f"{n}/0", att)
-                continue
-        kind = "func" if jump or pv in funcs else "data"
-        srcs = sorted(defs.get(sym, ()))
-        rows[pv] = (prog, pv[1], kind, x6sym(prog, a, kind == "func"), sym, "slot",
-                    scope_of(srcs[0]) if len(srcs) == 1 else "-", f"{n}/0",
-                    f"x4 slot {n}/0 sozud/mmx4@{x4port.PIN} {sym}")
-    return sorted(rows.values(), key=order), conflicts
-
-
-def partner_map(objroot):
-    """(exact key -> {(mmx4 src, func)}, symbol -> {mmx4 src defining it}) over every X4 object (the map of
-    x4share.write_partners, every partner kept)."""
-    by_key, defs = {}, {}
-    for o in sorted(Path(objroot).rglob("*.o")):
-        src = str(o.relative_to(objroot))[:-2]
-        for name, w, m in x4share.functions(str(o)):
-            by_key.setdefault(sig.sig_of("X4", name, w, m)["exact"], set()).add((src, name))
-        e = x4port.Elf(str(o))
-        for name, _, _, info, sh in e.syms:
-            if name and name[0] not in ".$" and info & 0xF in (0, 1, 2) and (0 < sh < len(e.secs) or sh == 0xFFF2):
-                defs.setdefault(name, set()).add(src)
-    return by_key, defs
-
-
-def exe_range():
-    """[lo, hi) of the executable's allocated sections (build/SLUS_013.95.elf)."""
-    secs = [s for s in x4port.Elf(f"build/{EXE}.elf").secs if s[2] & 2 and s[5] and s[3] >= RAM[0]]
-    return min(s[3] for s in secs), max(s[3] + s[5] for s in secs)
-
-
-class Build:
-    """The X6 side of the pairing: objects, linked symbols, the executable's range."""
-
-    def __init__(self):
-        self.elfs, self.addrs = {}, {}
-        self.idx = census.asm_index() if os.path.isdir("asm") else {}
-        self.lo, self.hi = exe_range()
-
-    def elf(self, path):
-        if path not in self.elfs:
-            self.elfs[path] = x4port.Elf(path)
-        return self.elfs[path]
-
-    def addr(self, prog):
-        if prog not in self.addrs:
-            self.addrs[prog] = x4port.Addrs(prog)
-        return self.addrs[prog]
-
-    def x6sym(self, prog, a, text):
-        name, fresh = self.addr(prog).name(a, text)
-        return "-" if fresh else name
-
-    def votes(self, row, x4obj, xf, voter, tamper=None):
-        """The votes of one anchor (corpus row row, X4 function xf of x4obj), or raise x4port.Skip."""
-        o6 = census.obj_of(row, self.idx)
-        if not o6 or not os.path.isfile(o6) or not os.path.isfile(x4obj):
-            raise x4port.Skip(f"no object {o6} | {x4obj}")
-        r4 = self.elf(x4obj).refs(xf, row["words"])
-        r6 = self.elf(o6).refs(row["name"], row["words"])
-        if tamper:
-            r4 = tamper(r4)
-        prog = row["prog"]
-        return [(EXE if self.lo <= a < self.hi else prog, a, jump, sym, voter)
-                for a, jump, sym in pair(r4, r6, self.addr(prog).addr)]
+    return x4core.merge(exact, pending, admitted, by_key, x6sym, defs, funcs, x4adapter.banked_by(att), pin7())
 
 
 def widen():
-    os.chdir(ROOT)
-    objroot = f"{x4share.SCR}/{x4port.TRIPLE}/obj"
-    for p in (objroot, x4port.FUNCS, str(PARTNERS), f"build/{EXE}.elf"):
-        if not os.path.exists(p):
-            sys.exit(f"x4names: {p} missing (--widen runs in the container, after x4share.py --partners)")
-    head = subprocess.run(["git", "-C", x4share.CLONE, "rev-parse", "--short", "HEAD"], capture_output=True,
-                          text=True).stdout.strip()
-    if head != x4port.PIN:
-        sys.exit(f"x4names: {x4share.CLONE} at {head or 'absent'}, pinned {x4port.PIN}")
-    by_key, defs = partner_map(objroot)
-    att = attributed(SHARED)
-    corpus = {(r["prog"], r["vram"]): r for r in x4port.jl(x4port.FUNCS)}
-    exact, pending, anchors = {}, {}, []
-    for col in partner_cols(PARTNERS):
-        ps = sorted(by_key.get(col[4], ()))
-        if len(ps) != int(col[7]) or ps[0] != (col[5], col[6]):
-            sys.exit(f"x4names: {PARTNERS.name} {col[0]} {col[1]} disagrees with the X4 objects (rerun x4share.py)")
-        p = pick(ps)
-        if p and not refusal(p[1], 1, int(col[3])):
-            exact[(col[0], col[1])] = exact_row(col, p[0], p[1], p[2], "-", att)
-            anchors.append((col, p[0], p[1]))
-        else:
-            pending[(col[0], col[1])] = col
-    b = Build()
-    votes, unpaired = [], 0
-    for col, src, xf in anchors:
-        row = corpus.get((col[0], col[1]))
-        try:
-            if row is None or row["words"] != int(col[3]):
-                raise x4port.Skip("no corpus row")
-            votes += b.votes(row, f"{objroot}/{src}.o", xf, f"{src}:{xf}")
-        except x4port.Skip:
-            unpaired += 1
-    admitted, c1 = tally(votes)
-    rows, c2 = merge(exact, pending, admitted, by_key, b.x6sym, defs, set(corpus), att)
-    conflicts = sorted(c1 + c2)
-    os.makedirs(SCRATCH, exist_ok=True)
-    with open(SCRATCH / "partners.full.tsv", "w") as f:
-        for col in partner_cols(PARTNERS):
-            for src, name in sorted(by_key[col[4]]):
-                f.write(f"{col[0]}\t{col[1]}\t{col[4]}\t{src}\t{name}\n")
-    with open(SCRATCH / "votes.tsv", "w") as f:
-        for prog, a, jump, sym, voter in sorted(votes):
-            f.write(f"{prog}\t0x{a:08X}\t{'jump' if jump else 'addr'}\t{sym}\t{voter}\n")
-    with open(SCRATCH / "conflicts.log", "w") as f:
-        for kind, prog, a, what in conflicts:
-            f.write(f"{kind}\t{prog}\t0x{a:08X}\t{what}\n")
-    write_names(NAMES, rows)
-    print(f"X4NAMES anchors {len(anchors)} unpaired {unpaired}; votes {len(votes)} on "
-          f"{len({(v[0], v[1]) for v in votes})} addresses, admitted {len(admitted)}")
-    print(f"X4NAMES conflicts {len(conflicts)}")
-    print(count_line(rows))
-    return 0
+    return x4core.widen(x4adapter)
+
+
+def who(text):
+    return x4core.who(NAMES, text, TAG)
+
+
+def doc():
+    return x4core.doc(x4adapter)
 
 
 # ---- 2c: the X4 executable off the medium, data tables by content (measured, lane not built) -------------------------
@@ -513,104 +261,6 @@ def data_probe():
     print(f"X4NAMES data-funnel sized {len(syms)}; dropped " + " ".join(f"{w} {fn[w]}" for w in DATA_WHY) +
           f"; multi-hit {fn['multi-hit']} no-hit {fn['no-hit']}; unique at {len(unique)}")
     print(f"X4NAMES data-probe {fn['hits']} unique of {fn['candidates']}")
-    return 0
-
-
-def load(names):
-    if not os.path.isfile(names):
-        sys.exit(f"x4names: {names} missing (run --build)")
-    return [tuple(x.split("\t")) for x in Path(names).read_text().splitlines() if x]
-
-
-def who(text):
-    t = text.lower()
-    hits = [r for r in load(NAMES) if t in r[4].lower() or t == r[3].lower() or t == f"{r[0]}:{r[1]}".lower()]
-    if not hits:
-        print(f"X4NAMES no alias for {text}")
-        return 1
-    for r in hits:
-        print("\t".join(r))
-    return 0
-
-
-PHASE_1_10 = """## For phase 1.10
-
-Handoff for the planner of phase 1.10 (Readability). Nothing here is applied yet: every row above is an alias.
-
-Proposed row amendment:
-- Scope gains "X4-proven renames applied by script from `campaign/x4/names.tsv`".
-- Milestone gains "every rename-admitted row of names.tsv is applied or listed with a reason; no tool derives an
-  address from a symbol's spelling".
-
-Rename admission:
-- `kind func` with tier `gate` and scope `engine`.
-- `kind data` with tier `slot` and at least 3 agreeing anchors (the `content` tier was measured and not built:
-  `X4NAMES data-probe 6 unique of 76`, docs/prior-art.md L5a).
-- Everything else stays an alias.
-
-Order of work:
-1. Remove name-to-address code: `tools/mmx6/probe.py:105-131`, `tools/mmx6/bound2.py:526`, the `func_` filter at
-   `tools/mmx6/cards.py:350`, the address-named self-test constants (`bank.py:61`, `gate.py:73`, `corpus.py:381`,
-   `x4port.py:74`, `x4share.py:68`, `carve.py:641`, `mk/tools-health.mk:162-164`); each self-test gains a planted
-   non-address name.
-2. A rename tool: writes `alias = 0xADDR;` with its `// basis:` line into `config/symbols.<prog>.txt`, rewrites
-   definitions, calls, prototypes, `INCLUDE_ASM` names, the `define` fields of `config/dedup_registry.txt`,
-   `src/shared` file names and `THIRD_PARTY.md` (through `x4port.py --credits`); never touches generated assembly
-   (G6); writes `campaign/x4/renames.tsv` old-to-new so journal history stays searchable. Executable symbols
-   referenced from overlays are renamed in every overlay's files (C0125).
-3. Gate: clean fleet N of N; a rename is byte-neutral, so any difference is a missed reference.
-4. Rename-coverage scanner.
-5. Ghidra mirror by script: `label` records with `func:true` through `ImportAnnotations.java`, round-trip green.
-"""
-
-
-def doc():
-    rows = load(NAMES)
-    groups = {}
-    leads = [r for r in rows if r[5] == "slot"]
-    for r in rows:
-        if r[5] != "slot":
-            groups.setdefault(r[8].split(" ")[4].rsplit(":", 1)[0], []).append(r)
-    out = [
-        "# X4 names for shared X6 code\n",
-        "\n",
-        "Generated by `tools/mmx6/x4names.py --doc` from `campaign/x4/names.tsv`; never hand-edited.\n",
-        "\n",
-        f"Each row is an X6 address with a real name from sozud/mmx4 (AGPL-3.0, pin `{x4port.PIN}`). A `gate` or `bytes`\n"
-        "row is an X6 function of 8 words or more whose compiled body equals an mmx4 function under X6's compiler: its\n"
-        "only partner, or partners that all carry one name (`same-name <n>` in the basis), or the one partner the\n"
-        "relocation slots of other aliased functions point at (`slot <n>`). The name is an alias: a search key for the\n"
-        "X6 address, not a symbol. Prior-art row: `docs/prior-art.md` L5a.\n",
-        "\n",
-        "- tier `gate`: the X6 function is banked in C (proven-at-gate).\n",
-        "- tier `bytes`: the signature is exact and the body is still assembly (consistent-with-bytes).\n",
-        "- tier `slot`: a lead, not a proof. Two or more aliased functions reference this address in the relocation\n"
-        "  slot where their mmx4 twin references that symbol, and none says otherwise. Votes are agree/disagree.\n",
-        "- scope `object`: the mmx4 source is one object's file; identical bytes do not prove the same role, so the\n"
-        "  name stays an alias until a role basis exists. Scope `engine`: everything else.\n",
-        "\n",
-        f"`{count_line(rows)}`\n",
-        "\n",
-        "Lookup: `python3 tools/mmx6/x4names.py --who <alias text | func_8XXXXXXX | PROG:0xVRAM>`.\n",
-        "\n",
-        "## Aliases by mmx4 source file\n",
-    ]
-    for src in sorted(groups):
-        out.append(f"\n### {src}\n\n")
-        out.append("| alias | X6 address | X6 name | tier | scope |\n|---|---|---|---|---|\n")
-        for r in groups[src]:
-            out.append(f"| `{r[4]}` | `{r[0]}:{r[1]}` | `{r[3]}` | {r[5]} | {r[6]} |\n")
-    out.append("\n## Leads: tier `slot`\n\nLeads only: named by relocation-slot votes, never a rename by themselves.\n")
-    for kind, title in (("func", "Functions (lead)"), ("data", "Globals (lead)")):
-        out.append(f"\n### {title}\n\n")
-        out.append("| alias (lead) | X6 address | X6 name | votes | scope |\n|---|---|---|---|---|\n")
-        for r in leads:
-            if r[2] == kind:
-                out.append(f"| `{r[4]}` | `{r[0]}:{r[1]}` | `{r[3]}` | {r[7]} | {r[6]} |\n")
-    out.append("\n" + PHASE_1_10)
-    with open(DOC, "w", newline="\n") as f:
-        f.write("".join(out))
-    print(f"X4NAMES doc {len(rows)} rows in {len(groups)} mmx4 files, {len(leads)} leads -> {DOC.relative_to(ROOT)}")
     return 0
 
 
@@ -715,7 +365,7 @@ def slot_objects():
     for r in rows:
         try:
             votes += b.votes(r, fake, re.sub(r"^func_8", "fanc_g", r["name"]), r["name"], tamper=plain)
-        except x4port.Skip:
+        except x4core.Skip:
             pass
     admitted, conf = tally(votes)
     right = all(back(sym) in b.addr(EXE).by_addr.get(a, ()) for (_, a), (sym, _, _) in admitted.items())
@@ -756,6 +406,7 @@ def self_test():
         ok = (r is None and why != "") if want is None else (r is not None and (r[5], r[6]) == want and r[4] == x4)
         if not ok:
             fails.append(name)
+    fails += case("lane_triple", x4adapter.TRIPLE == x4port.TRIPLE, f"x4adapter.TRIPLE {x4adapter.TRIPLE}")
     fails += widen_cases()
     for name in fails:
         print(f"X4NAMES CONTROL FAIL {name}")

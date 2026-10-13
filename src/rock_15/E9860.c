@@ -34,7 +34,9 @@ INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800E9D8C);
 
 INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800E9DDC);
 
-INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800E9E38);
+#define func_800EC574 func_800E9E38
+#include "../shared/rock_09/func_800EC574.c"
+#undef func_800EC574
 
 #define func_8003744C func_800E9E88
 #define D_80073C1C D_800F5E64
@@ -194,7 +196,7 @@ INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800EB7E8);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800EBED0);
+#include "../shared/rock_15/func_800EBED0.c"
 
 INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800EBF3C);
 
@@ -286,7 +288,7 @@ INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800EC858);
 
 INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800ECD28);
 
-INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800ECDCC);
+#include "../shared/rock_15/func_800ECDCC.c"
 
 #include "../shared/rock_15/func_800ECF54.c"
 
@@ -298,7 +300,7 @@ INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800ED34C);
 
 #include "../shared/rock_15/func_800ED484.c"
 
-INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800ED698);
+#include "../shared/rock_15/func_800ED698.c"
 
 INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800ED808);
 
@@ -522,17 +524,17 @@ INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800EFC48);
 
 #include "../shared/rock_15/func_800EFED0.c"
 
-INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800F0120);
+#include "../shared/rock_15/func_800F0120.c"
 
 INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800F0268);
 
 INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800F0390);
 
-INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800F04A0);
+#include "../shared/rock_15/func_800F04A0.c"
 
-INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800F05F4);
+#include "../shared/rock_15/func_800F05F4.c"
 
-INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800F0744);
+#include "../shared/rock_15/func_800F0744.c"
 
 #include "../shared/rock_15/func_800F08C4.c"
 

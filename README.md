@@ -4,31 +4,31 @@
 ## Description
 
 **mmx6** is a matching decompilation of ***Mega Man X6*** (PlayStation, Capcom, 2001), USA release v1.1. It
-reconstructs C source that, compiled with the original era's toolchain and linked in the original order, rebuilds
-every code binary on the disc byte for byte: the boot executable `SLUS_013.95` and the code overlays inside
-`ROCK_X6.BIN`. Every build checks each binary's hash.
+reconstructs C source. Compiled with the original era's toolchain and linked in the original order, that source
+rebuilds every code binary on the disc byte for byte. These binaries are the boot executable `SLUS_013.95` and the
+code overlays inside `ROCK_X6.BIN`. Every build checks each binary's hash.
 
 Readable, evidenced source is the first step towards understanding the game's engine and the code it shares with
-*Mega Man X4*, and towards tools, documentation and ports built on it. Anyone with their own dump can rebuild
-the binaries from this README alone.
+*Mega Man X4*. It is also the first step towards tools, documentation and ports built on it. Anyone with their own
+dump can rebuild the binaries from this README alone.
 
 <!-- psxdecomp: ai-policy -->
 > [!IMPORTANT]
-> **AI policy:** LLMs produce negligible decompilation results without good guidance. Investigate and familiarize yourself with the console's architecture and the game you are decompiling, and always use your own judgment. Humans drive the decisions; AI reads and writes the code.
+> **AI policy:** LLMs produce negligible decompilation results without good guidance. Investigate and familiarize yourself with the console's architecture and the game you are decompiling, and always use your own judgment. Humans drive the decisions. AI reads and writes the code.
 
 <!-- psxdecomp:disc:begin -->
 | Disc | Serial | Executable | SHA-1 of the data track |
 |---|---|---|---|
 | USA v1.1 | SLUS-01395 | `SLUS_013.95` | `d4f7e08371027a87a3bf13311db5a4c56733f4ea` (Redump) |
 
-The target `SLUS_013.95` has SHA-1 `667ce8f792cfaa69abe6e999a87513f798bbcac4` (`config/check.SLUS_013.95.sha`); every build checks its rebuild against it.
+The target `SLUS_013.95` has SHA-1 `667ce8f792cfaa69abe6e999a87513f798bbcac4` (`config/check.SLUS_013.95.sha`). Every build checks its rebuild against it.
 <!-- psxdecomp:disc:end -->
 
 > [!IMPORTANT]
 > This repository contains **no game data**: no executable, no disc data, no disassembly listing, no memory image,
-> no vendor SDK. You build from your own legally obtained dump. The `.gitignore` is the firewall and
-> [`tools/audit_public.py`](tools/audit_public.py) (sources in [`config/firewall.txt`](config/firewall.txt)) is the
-> gate, run in CI on every push; see [`src/NOTICE.md`](src/NOTICE.md).
+> no vendor SDK. You build from your own legally obtained dump. The `.gitignore` is the firewall. The gate is
+> [`tools/audit_public.py`](tools/audit_public.py) (sources in [`config/firewall.txt`](config/firewall.txt)), and CI
+> runs it on every push. See [`src/NOTICE.md`](src/NOTICE.md).
 
 ## Progress
 
@@ -104,6 +104,8 @@ The target `SLUS_013.95` has SHA-1 `667ce8f792cfaa69abe6e999a87513f798bbcac4` (`
 
 </details>
 
+The published number is the matched code of the `game` category, in bytes. The `sdk` row counts the SDK libraries apart.
+
 Progress bars powered by [decomp.dev][psxd-progress].
 
 [psxd-code]: https://decomp.dev/anzaldoivan/mmx6.svg?mode=shield&label=Code&measure=code&category=game
@@ -111,22 +113,26 @@ Progress bars powered by [decomp.dev][psxd-progress].
 [psxd-progress]: https://decomp.dev/anzaldoivan/mmx6
 <!-- psxdecomp:progress:end -->
 
-Like many late PlayStation games, *Mega Man X6* keeps much of its code in *overlays*: binaries the executable loads
-at a fixed address when it needs them, so that only part of the game's code occupies memory at once. X6 packs them
-as numbered entries of one archive, `ROCK_X6.BIN`: of its 59 entries, 56 are code, one is data and two are empty
-([`config/loadmap.txt`](config/loadmap.txt)). Once progress is published, each code entry gets its own category
-(`rock.rock_NN`) on decomp.dev, named "Rock NN" until the stage or system it serves is identified from evidence.
+Like many late PlayStation games, *Mega Man X6* keeps much of its code in *overlays*. Overlays are binaries that the
+executable loads at a fixed address when it needs them. Because of this, only part of the game's code occupies
+memory at once.
+
+X6 packs the overlays as numbered entries of one archive, `ROCK_X6.BIN`. Of its 59 entries, 56 are code, one is
+data and two are empty ([`config/loadmap.txt`](config/loadmap.txt)). Once progress is published, each code entry
+gets its own category (`rock.rock_NN`) on decomp.dev. The category has the name "Rock NN" until evidence identifies
+the stage or system that the entry serves.
 
 What does the percentage mean? A function counts as matched only when the whole binary still hashes identically
-with it compiled from C. 100% is not the end: names and types come only from evidence, never guesses (an
-address-named placeholder is honest), and the record behind them (the phase syntheses, the decision log, the
+with it compiled from C. 100% is not the end. Names and types come only from evidence, never from guesses (an
+address-named placeholder is honest). The record behind them (the phase syntheses, the decision log, the
 [cookbook](cookbook/INDEX.md) of byte-proven idioms) is what makes the work auditable.
 
 ## Building the decompilation
 
-Requirements: Git, Bash, Docker (the build runs in a `linux/amd64` container; on Apple silicon it runs under
-emulation), and your own dump of *Mega Man X6 (USA) (v1.1)* as Redump `.cue` + `.bin`, with the Redump file names.
-The dump never enters the repository: `mx.sh disc` copies it into a Docker volume mounted read-only.
+You need Git, Bash and Docker. The build runs in a `linux/amd64` container. On Apple silicon, it runs under
+emulation. You also need your own dump of *Mega Man X6 (USA) (v1.1)* as Redump `.cue` + `.bin`, with the Redump
+file names. The dump never enters the repository. The command `mx.sh disc` copies it into a Docker volume mounted
+read-only.
 
 ```sh
 git clone https://github.com/anzaldoivan/mmx6.git && cd mmx6
@@ -164,30 +170,30 @@ The build runs in a Linux container: `tools/docker/Dockerfile` defines it and `t
 
 ### Contributing
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before your first pull request: bring your own copy of the game, never commit
-anything derived from it, and follow the AI-use conduct section.
+Before your first pull request, read [CONTRIBUTING.md](CONTRIBUTING.md). Bring your own copy of the game. Never
+commit anything derived from it. Follow the AI-use conduct section.
 
 ### Reference
 
-New to this compiler or stuck on a function? The [cookbook](cookbook/INDEX.md) and the
+Are you new to this compiler or stuck on a function? The [cookbook](cookbook/INDEX.md) and the
 [codegen map](docs/codegen-map/README.md) document the code patterns proven so far.
 
 ## Acknowledgements
 
-No decompilation of Mega Man X6 existed when this project started (searched 2026-10-01). It stands on the work of
-others, and every fact taken from them is tracked with its status in [`docs/prior-art.md`](docs/prior-art.md): a fact
-from another project stays a lead until this project's own bytes prove it.
+No decompilation of Mega Man X6 existed when this project started (searched 2026-10-01). This project stands on the
+work of others. Every fact taken from them is tracked with its status in [`docs/prior-art.md`](docs/prior-art.md).
+A fact from another project stays a lead until this project's own bytes prove it.
 
 - **[sozud](https://github.com/sozud)** — [**mmx4**](https://github.com/sozud/mmx4), the matching decompilation of
-  *Mega Man X4* (US + JP, AGPL-3.0). Its toolchain, layout and engine knowledge are the starting point for X6; this
+  *Mega Man X4* (US + JP, AGPL-3.0). Its toolchain, layout and engine knowledge are the starting point for X6. This
   project shares its license so that code proven shared between the two games can be adapted with attribution
   (listed in [`THIRD_PARTY.md`](THIRD_PARTY.md)).
 - **[Kuumba123](https://github.com/Kuumba123)** — [MegaManX6_PS1_Modding](https://github.com/Kuumba123/MegaManX6_PS1_Modding)
   and [MegaManX6_Practice](https://github.com/Kuumba123/MegaManX6_Practice): X6 symbol research (US + JP) and
   struct layouts, plus the wider Mega Man PS1 modding tools. Their repositories carry no license, so nothing is
-  copied from them; their findings are used as leads, re-proven here, and credited.
+  copied from them. Their findings are used as leads, re-proven here, and credited.
 - **[mstan](https://github.com/mstan)** — [MegaManX6Recomp](https://github.com/mstan/MegaManX6Recomp) (PolyForm
-  Noncommercial), whose documentation of the overlay loader is a lead for the load map; its generated code is not used.
+  Noncommercial). Its documentation of the overlay loader is a lead for the load map. Its generated code is not used.
 - **acediez** — [*Mega Man X6 Tweaks*](https://www.romhacking.net/hacks/4035/) and its documentation of the game's tables.
 - **Shinnuu** — the [Archipelago Mega Man X6 world](https://github.com/Shinnuu/Archipelago) and its RAM research.
 - **[The Cutting Room Floor](https://tcrf.net/Mega_Man_X6)** — the prototype and version history.
@@ -198,7 +204,7 @@ matching decompilation (Brave Fencer Musashi).
 ## License
 
 The project's own work — the tooling, the build system, the documentation — is licensed under AGPL-3.0
-([`LICENSE`](LICENSE)); no rights are claimed over Capcom's game or the decompiled source, and adapted mmx4 files keep
+([`LICENSE`](LICENSE)). No rights are claimed over Capcom's game or the decompiled source. Adapted mmx4 files keep
 their attribution and license, listed in [`THIRD_PARTY.md`](THIRD_PARTY.md). **No license is asserted over the
 reimplemented sources under `src/`** ([`src/NOTICE.md`](src/NOTICE.md)). Third-party components keep their own
 licenses. *Mega Man X6* is the property of its rights holder.

@@ -7,9 +7,9 @@
 M2C_UNK func_80017A04();
 M2C_UNK func_8002CA54();
 s32 func_8002CAB4(struct X4_BaseObj*);
-M2C_UNK func_8002CB50();
+s32 func_8002CB50(struct X4_BaseObj*);
 M2C_UNK func_8002D230(void*);
-M2C_UNK func_8002F288(M2C_UNK*);
+void func_8002F288(struct X4_PlayerObj*);
 u8 func_80030234(struct X4_PlayerObj*, s16, s16);
 void func_8004E26C(void*);
 extern s32 D_80097420;
@@ -25,7 +25,7 @@ void func_8004DA7C(void* arg0) {
         F(s8, 0x67) = 0;
         F(s32, 0x24) = 0;
         F(s32, 0x2C) = 0;
-        ((void (*)(void*))func_8002F288)(arg0);
+        func_8002F288(arg0);
         F(void*, 0x68) = 0;
         if (F(u16, 0x80) >= 0x3D) {
             F(u16, 0x80) = 0x3C;
@@ -78,7 +78,7 @@ void func_8004DA7C(void* arg0) {
         if ((F(u16, 0x80) < 0x3C) && (D_80097420 & 1)) {
             return;
         }
-        ((M2C_UNK(*)())func_8002CB50)(arg0);
+        ((s32 (*)())func_8002CB50)(arg0);
     }
     temp_a1 = F(u8*, 0x68);
     if ((((s32(*)(void*, s16, s32))func_80030234)(

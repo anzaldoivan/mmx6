@@ -54,7 +54,7 @@ s32 func_8001A6CC(s32 arg0) {
     D_800E2E78 = v;
     v += c;
     D_800E2E7C = v;
-    ((void (*)(s32, s32, s32))func_8001ACC4)(0x140, 0xF0, c);
+    ((void (*)())func_8001ACC4)(0x140, 0xF0, c);
     func_8001B90C(0x80);
     func_8001B984(D_800CC869);
     t = (u8*)D_80070CA4;

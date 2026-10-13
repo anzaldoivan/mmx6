@@ -2,15 +2,15 @@
 
 #define M2C_UNK s32
 
-M2C_UNK func_80017B04(M2C_UNK*, M2C_UNK, M2C_UNK); /* extern */
+void func_80017B04(u8*, s16, s16); /* extern */
 void func_8002000C(void);                           /* extern */
-M2C_UNK func_8002012C();                           /* extern */
+void func_8002012C(void);                           /* extern */
 void func_80020258(void);                           /* extern */
 void func_80020378(void);                           /* extern */
 M2C_UNK func_8002048C();                           /* extern */
-M2C_UNK func_800205A0();                           /* extern */
-M2C_UNK func_800206C0();                           /* extern */
-M2C_UNK func_800207D4();                           /* extern */
+void func_800205A0();                              /* extern */
+void func_800206C0(void);                           /* extern */
+void func_800207D4(void);                           /* extern */
 void func_800208EC(void);                           /* extern */
 void func_80020A08(void);                           /* extern */
 void func_80020D18(void);                           /* extern */

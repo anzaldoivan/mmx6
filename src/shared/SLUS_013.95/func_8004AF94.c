@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80017B04(M2C_UNK*, M2C_UNK, M2C_UNK);
-#define func_80017B04 ((void (*)(void*, s32, s32))func_80017B04)
+void func_80017B04(u8*, s16, s16);
+#define func_80017B04 func_80017B04
 M2C_UNK func_8002C9B0();
 extern s8 D_800970A2;
 

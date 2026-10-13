@@ -11,7 +11,7 @@ M2C_UNK func_8002B838();
 void* func_8002C530();
 void func_800EC114(void);
 void func_800ED3F4(s32, s32, s32, s32);
-void func_800ED478(u8, s32, s32, s16, u8);
+void func_800ED478(u8 arg0, s8 arg1, s16 arg2, s16 arg3, u8 arg4);
 void func_800ED6D4(void*);
 extern u8 D_8006D620;
 extern struct X4_EngineObj D_80097420;

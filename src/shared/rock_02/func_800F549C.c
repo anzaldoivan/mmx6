@@ -11,7 +11,7 @@ extern u8 D_800CCF5C;
 #define D_800CCF5C (*(s8*)&D_800CCF5C)
 
 void func_800F549C(void* arg0) {
-    ((void (*)(void))func_800F82C0)();
+    ((void (*)())func_800F82C0)();
     if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
         func_80016C48(0, 0xE, 0);
         M2C_FIELD(arg0, s16*, 0x7C) = 2;

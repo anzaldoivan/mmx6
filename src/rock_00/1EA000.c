@@ -102,7 +102,7 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EC678);
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EC6D0);
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EC754);
+#include "../shared/rock_00/func_801EC754.c"
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EC878);
 
@@ -234,7 +234,7 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EECA4);
 
 #include "../shared/rock_00/func_801EEE40.c"
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EEFC0);
+#include "../shared/rock_00/func_801EEFC0.c"
 
 #include "../shared/rock_00/func_801EF0FC.c"
 
@@ -256,7 +256,7 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EFAB4);
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EFB04);
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EFB5C);
+#include "../shared/rock_00/func_801EFB5C.c"
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EFC70);
 
@@ -312,7 +312,7 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F0C30);
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F0CBC);
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F0D58);
+#include "../shared/rock_00/func_801F0D58.c"
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F0E6C);
 
@@ -384,13 +384,13 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F21AC);
 
 #include "../shared/rock_00/func_801F23C8.c"
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F259C);
+#include "../shared/rock_00/func_801F259C.c"
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F26B4);
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F2758);
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F27D4);
+#include "../shared/rock_00/func_801F27D4.c"
 
 INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F28F4);
 
@@ -416,7 +416,7 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F2BCC);
 
 #include "../shared/rock_00/func_801F2E0C.c"
 
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F2F7C);
+#include "../shared/rock_00/func_801F2F7C.c"
 
 #include "../shared/rock_00/func_801F30B0.c"
 

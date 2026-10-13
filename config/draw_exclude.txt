@@ -67,3 +67,4 @@ rock_23 0x800F5F80 L4 twin of rock_02:0x800F7278 plateau:length (stops at the sa
 rock_44 0x800FFBA0 L4 twin of rock_02:0x800F7278 plateau:length (stops at the same rung); hold until it closes (T24)
 rock_32 0x800ED524 L4 twin of rock_11:0x800FB1B4 plumbing:R2 (stops at the same rung); hold until it closes (T25)
 SLUS_013.95 0x8002CD6C L4 twin of SLUS_013.95:0x8002CB50 plumbing:R3 (stops at the same rung); hold until it closes (T26)
+rock_35 0x800FD77C L4 twin of rock_05:0x800F2030 plateau:length (regated in W27, C0074); hold until it closes (T27)

@@ -6,8 +6,8 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 #define func_80016C48 ((void (*)(s32, s32, void*))func_80016C48)
 M2C_UNK func_800179A4(void*, M2C_UNK);
 #define func_800179A4 ((void (*)(void*, s32))func_800179A4)
-M2C_UNK func_80017B04(M2C_UNK*, M2C_UNK, M2C_UNK);
-#define func_80017B04 ((void (*)(void*, s32, s32))func_80017B04)
+void func_80017B04(u8*, s16, s16);
+#define func_80017B04 func_80017B04
 s8* func_8002BEC4(s8* p, s32 dir);
 void func_8003CF24(s32, s32, s32);
 M2C_UNK func_8003D510(M2C_UNK, M2C_UNK, s8, M2C_UNK);

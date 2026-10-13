@@ -88,7 +88,9 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EACB8);
 #include "../shared/rock_15/func_800EBED0.c"
 #undef func_800EBED0
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EB148);
+#define func_800EBF3C func_800EB148
+#include "../shared/rock_15/func_800EBF3C.c"
+#undef func_800EBF3C
 
 #define func_8003744C func_800EB1B0
 #define D_80073C1C D_800F8D50
@@ -122,7 +124,9 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EB460);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EB540);
+#define func_800EC334 func_800EB540
+#include "../shared/rock_15/func_800EC334.c"
+#undef func_800EC334
 
 #define func_800EC378 func_800EB584
 #include "../shared/rock_15/func_800EC378.c"
@@ -534,7 +538,9 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F4658);
 #undef func_800F5A60
 #undef D_800971F8
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F4804);
+#define func_800F5AFC func_800F4804
+#include "../shared/rock_02/func_800F5AFC.c"
+#undef func_800F5AFC
 
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F4838);
 
@@ -740,7 +746,9 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6418);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F64C0);
+#define func_800F77B8 func_800F64C0
+#include "../shared/rock_02/func_800F77B8.c"
+#undef func_800F77B8
 
 #define func_800F7818 func_800F6520
 #include "../shared/rock_02/func_800F7818.c"
@@ -804,7 +812,7 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6E68);
 
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6F34);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6FC8);
+#include "../shared/rock_23/func_800F6FC8.c"
 
 #include "../shared/rock_23/func_800F7038.c"
 
@@ -866,7 +874,9 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F7788);
 
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F78A8);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F792C);
+#define func_800F8C24 func_800F792C
+#include "../shared/rock_02/func_800F8C24.c"
+#undef func_800F8C24
 
 #include "../shared/rock_23/func_800F7988.c"
 

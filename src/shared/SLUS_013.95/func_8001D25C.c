@@ -5,7 +5,7 @@
 
 M2C_UNK func_80013300(M2C_UNK, M2C_UNK*); /* extern */
 extern M2C_UNK D_800CD3F8;
-extern M2C_UNK func_8001D0E4;
+void func_8001D0E4(void);
 
 void func_8001D25C(void) {
     M2C_FIELD(&D_800CD3F8, s8*, 0) = 1;

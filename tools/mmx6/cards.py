@@ -14,7 +14,7 @@
       (decompile.py m2c), ctx.h, card.md, seed.c (when a seed exists); never writes draft.c or verdict.json.
       Target line `<prog>:0x<VRAM>` with optional caps ` probe=<p> attempts=<a>` (draw.py --routing): card.md line
       `caps probe <p> runs per attempt, attempts <a>` (`caps -` without), pack.json probe/attempts (null without).
-      Lines `CARD <pv> seed <pv|-> twins <k> levers <ids|->` | `CARD REFUSED <pv> <phantom|no-asm|<unresolved id>>`
+      Lines `CARD <pv> seed <pv|-> twins <k> levers <ids|-> x5 <unit:0xVRAM|->` | `CARD REFUSED <pv> <phantom|no-asm|<id>>`
       (no pack dir), last `CARDS W<n> <k> packs`; rc 0 iff no refusal and k >= 1, rc 3 on k = 0, else rc 1.
       G44: every L\\d{2,} / C\\d{4} token on card.md resolves (codegen_map.read_rows ids, cookbook/INDEX.md rows).
   cards.py --self-test  -> planted cases in .run/cards-selftest/, last `CARDS CONTROL OK` (rc 0), else rc 1.
@@ -48,6 +48,7 @@ import plateau  # noqa: E402
 FUNCS = "build/corpus/functions.jsonl"
 CLASSES = "build/census/classes.jsonl"
 TWINS = "build/sig/twins.jsonl"
+X5_LEADS = "campaign/x4/x5-leads.tsv"  # mmx5 tools/sig/imgtab.py x6 --leads, copied (prior-art L5c)
 REGISTRY = "config/dedup_registry.txt"
 C_UNITS = "config/c_units.txt"
 COOKBOOK = "cookbook/INDEX.md"
@@ -253,6 +254,14 @@ class Ctx:
                 self.protos.setdefault(name, Counter())[" ".join(f"{ret} {name}({ps})".split())] += 1
             for m in EXTERN_RE.finditer(clean):
                 self.externs.setdefault(m.group(2), Counter())[" ".join(m.group(1).split()) + ";"] += 1
+        self.x5 = {}
+        if os.path.exists(X5_LEADS):
+            with open(X5_LEADS) as f:
+                for line in f:
+                    t = line.rstrip("\n").split("\t")
+                    if len(t) == 9:
+                        self.x5[(t[0], int(t[1], 16))] = dict(unit=t[4], vram=t[5], name=t[6], path=t[7],
+                                                             map=[x.split("=", 1) for x in t[8].split(";") if x])
         rows, seen = codegen_map.read_rows(CODEGEN_MAP, ".", lambda *a: None)
         self.levers = {r["id"] for g in rows.values() for r in g}
         self.cookbook = set()
@@ -335,6 +344,20 @@ def target_asm(prog, row):
     return None
 
 
+def x5_twin(lead):
+    """The card's `## X5 twin` lines: mmx5's C with this target's bytes and the names to change, else `-`."""
+    if not lead:
+        return ["-"]
+    return [f"mmx5 {lead['unit']} {lead['name']} ({lead['vram']}) has this target's bytes under the relocation mask "
+            f"({X5_LEADS}). Its C: `refs/mmx5/{lead['path']}` (`fetch_refs.py --with mmx5`; AGPL-3.0, THIRD_PARTY.md).",
+            "- Seed the draft from that function's C, then rename by this map (X5 name -> X6 name):"] + \
+        [f"  - `{a}` -> `{b}`" for a, b in lead["map"]] + [
+            "- Keep X6's own types and declarations (include/, ctx.h), not X5's.",
+            "- X5's cc1 has no `-funsigned-char` (its `-D__CHAR_UNSIGNED__` is cpp only): a plain `char` there is signed;"
+            " spell it `s8` here.",
+            "- A name the map lacks keeps its X6 spelling from target.s. The lead is not a match: the gate proves it."]
+
+
 def card(ctx, pv, row, asm, twins, jpath, caps=(None, None)):
     """(card.md text, ctx.h text, seed tuple or None, open twins, lever ids)."""
     prog, _ = pv
@@ -361,6 +384,7 @@ def card(ctx, pv, row, asm, twins, jpath, caps=(None, None)):
                  (f" reason {seed[2]}" if seed[2] else "") + " (copied to seed.c)")
     else:
         L.append("-")
+    L += ["", "## X5 twin"] + x5_twin(ctx.x5.get(pv))
     L += ["", "## Open twins"] + [f"- {pvs(*o)} {t} {d} {ctx.funcs[o]['name']}" for o, t, d in opens] + \
          ([] if opens else ["-"])
     L += ["", "## Destination", f"{dest} c_unit {'yes' if (prog, row['tu']) in ctx.units else 'no'}"
@@ -447,7 +471,9 @@ def write_cards(wave, targets_path, root, jpath, allow_banked=False, say=print):
             with open(os.path.join(pack, name), "w") as f:
                 f.write(text)
         k += 1
-        say(f"CARD {pvs(*pv)} seed {pvs(*seed[0]) if seed else '-'} twins {len(opens)} levers {','.join(levers) or '-'}")
+        x5 = ctx.x5.get(pv)
+        say(f"CARD {pvs(*pv)} seed {pvs(*seed[0]) if seed else '-'} twins {len(opens)} levers {','.join(levers) or '-'}"
+            f" x5 {x5['unit'] + ':' + x5['vram'] if x5 else '-'}")
     say(f"CARDS {wave} {k} packs")
     return 3 if k == 0 else (1 if refused else 0)
 
@@ -516,6 +542,20 @@ def self_test():
             else:
                 check(said[0] == f"CARD REFUSED {pvs(*tgt)} {want}" and not os.path.exists(pack) and rc != 0,
                       f"({'c' if want[0] == 'C' else 'd'}) {pvs(*tgt)} {want} refused, no pack: {said[0]}")
+    # (f) an X5 twin: the card of a campaign/x4/x5-leads.tsv target carries `## X5 twin`; no lead row puts a G44 id on a card.
+    check(len(ctx.x5) > 0, f"(f) {X5_LEADS} absent or empty")
+    bad = [pvs(*k) for k, v in ctx.x5.items() if ID_RE.search("\n".join(x5_twin(v)))]
+    check(not bad, f"(f) X5 twin lines with an L/C id token: {bad[:3]}")
+    lead = next((p for p in sorted(ctx.x5) if p in ctx.funcs and target_asm(p[0], ctx.funcs[p]) is not None), None)
+    check(lead is not None, "(f) no X5 lead target with asm on disk")
+    if lead:
+        rc, said = run("W5", lead, os.path.join(SELFTEST, "empty.jsonl"))
+        pack = os.path.join(SELFTEST, "W5", f"{lead[0]}_{ctx.funcs[lead]['name']}")
+        md = open(os.path.join(pack, "card.md")).read() if os.path.isdir(pack) else ""
+        x5 = ctx.x5[lead]
+        check(rc == 0 and said[0].endswith(f" x5 {x5['unit']}:{x5['vram']}") and
+              f"\n## X5 twin\nmmx5 {x5['unit']} {x5['name']} " in md and f"`refs/mmx5/{x5['path']}`" in md and
+              md.index("## X5 twin") < md.index("## Open twins"), f"(f) {pvs(*lead)} card carries its X5 twin: {said}")
     shutil.rmtree(SELFTEST, ignore_errors=True)
     print("CARDS CONTROL OK" if ok else "CARDS CONTROL FAIL")
     return 0 if ok else 1

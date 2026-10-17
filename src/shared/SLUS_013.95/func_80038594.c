@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8001750C(M2C_UNK, M2C_UNK);
+void func_8001750C(u8, u8);
 M2C_UNK func_8002D5D0(void*);
 s32 func_8002FE30(void*);
 M2C_UNK func_8003CD9C();

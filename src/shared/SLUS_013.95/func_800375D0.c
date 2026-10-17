@@ -4,7 +4,7 @@
 
 #define M2C_UNK s32
 M2C_UNK func_80017A04();
-M2C_UNK func_8003ADB4(void*);
+void func_8003ADB4(void* arg0);
 void func_800375D0(struct X4_PlayerObj* self) {
     ((void (*)())func_80017A04)(ANIMATED_OBJECT(self));
     if (self->animation_step.fields.relative_step < 0) {

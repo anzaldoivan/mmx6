@@ -10,7 +10,7 @@ void func_8001E78C(void);
 s32 func_8001EC0C(void);
 void func_80025F34();
 void func_800280F4(void);
-M2C_UNK func_8002927C();
+void func_8002927C(void);
 void func_8002935C(void);
 M2C_UNK func_800293CC();
 void func_80029B8C(void);

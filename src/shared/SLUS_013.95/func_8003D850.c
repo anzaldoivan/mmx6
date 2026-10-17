@@ -2,7 +2,7 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
-s32 func_80016C48(s32, X4_arg_u8, void*);
+s32 func_80016C48(s32, s32, void*);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 
 void func_8003D850(struct X4_PlayerObj* self) {

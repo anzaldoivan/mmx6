@@ -143,7 +143,8 @@ th-propagate-full: th-propagate
 # The other tools' self-tests (not rungs of their own): boundaries.py, loadmap.py, probe.py, bank.py (the reconcile
 # ladder's planted controls: clean rebuilds of the exe, tree restored after), x4share.py (its real run needs network),
 # x4port.py (planted control: our own banked C as the fake mmx4 source), x4names.py (planted table, votes and data
-# probe; the real pairing on our own object), x4core.py (the core shared with mmx5: synthetic ELF objects).
+# probe; the real pairing on our own object), x4core.py (the core shared with mmx5: synthetic ELF objects),
+# tools/psxd_img.py (psxdecomp's map core: synthetic words) and imgadapter.py (its contract files: a planted archive).
 th-selftests:
 	$(PYTHON) tools/mmx6/boundaries.py --self-test
 	$(PYTHON) tools/mmx6/loadmap.py --self-test
@@ -153,6 +154,8 @@ th-selftests:
 	$(PYTHON) tools/mmx6/x4port.py --self-test
 	$(PYTHON) tools/mmx6/x4names.py --self-test
 	$(PYTHON) tools/mmx6/x4core.py --selftest
+	$(PYTHON) tools/psxd_img.py --self-test
+	$(PYTHON) tools/mmx6/imgadapter.py --self-test
 
 # The permuter wrapper (tools/mmx6/permute.py; decomp-permuter pinned in the image): planted controls only in
 # .run/permute/ (xor operand swap reaches masked 0 with the stock-scorer contrast, register pin hidden and restored,

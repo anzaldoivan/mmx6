@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 
 void func_80022960(void); /* extern */
-M2C_UNK func_80026D44(); /* extern */
+void func_80026D44(void); /* extern */
 
 void func_80025FB0(void) {
     func_80026D44();

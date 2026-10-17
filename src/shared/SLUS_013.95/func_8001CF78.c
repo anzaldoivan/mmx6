@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 void func_800139F4(s32);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 void func_800186A8(void);
 void func_8001CD5C(struct X4_EngineObj*);
 void func_8001CE68(struct X4_EngineObj*);

@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 void func_80016178(void);
-void func_8001642C(u8, s32*, u8*);
+void func_8001642C(s32 arg0, s32* arg1, u8* arg2);
 void func_80055D74(s8);
 s8 func_80055F94(void*, s8, s32);
 void func_8005A3CC(s8, u32, s32, s32);

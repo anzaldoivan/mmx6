@@ -11,7 +11,7 @@ M2C_UNK func_8002D2B0();
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-M2C_UNK func_800FBAAC(void*, M2C_UNK);
+void func_800FBAAC(void*, M2C_UNK);
 void func_800FF9AC(struct X4_AnimatedObj*);
 extern struct X4_BackgroundObj D_800971F8[3];
 

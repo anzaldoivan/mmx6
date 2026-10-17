@@ -2,7 +2,7 @@
 
 extern s8 D_8008EF48[];
 s32 func_8002E664(void* arg0, void* arg1);
-void func_800323D4(void* arg0, void* arg1);
+s32 func_800323D4(struct X4_MainObj* self, struct X4_PlayerObj* tgt);
 void func_80032D24(void* arg0, void* arg1);
 
 void func_80031F4C(void* arg0) {

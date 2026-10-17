@@ -6,7 +6,7 @@
 
 M2C_UNK func_80017A04();                 /* extern */
 s32 func_80039EB0(struct X4_PlayerObj*); /* extern */
-M2C_UNK func_8003B114(s32);              /* extern */
+void func_8003B114(s32 arg0);              /* extern */
 M2C_UNK func_8003B298(void*);            /* extern */
 M2C_UNK func_8003BA04(void*, M2C_UNK);   /* extern */
 M2C_UNK func_8003F700(void*);            /* extern */

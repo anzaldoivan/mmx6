@@ -1,5 +1,6 @@
 # config/carve.SLUS_013.95.txt -- carves of SLUS_013.95, written only by tools/mmx6/carve.py (config/segmentation.md).
 # jtbl <table_lo> <tu> | rodata <lo> <hi> <tu> | block <hi> | opt <tu> <vram> <newtu> [cflags...]
-jtbl 0x80011378 32208
 opt 120A0 0x80032208 32208 -O2 -G0 -msoft-float -funsigned-char -quiet
 rodata 0x8001004C 0x80010068 120A0
+rodata 0x80011378 0x80011398 32208
+rodata 0x80011398 0x800113AC 32208

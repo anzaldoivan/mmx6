@@ -4,7 +4,7 @@
 
 M2C_UNK func_800139A0(M2C_UNK);
 M2C_UNK func_8002B838();
-void func_800ED50C(s32, s32, s32, s32);
+void func_800ED50C(u8 arg0, s8 arg1, s16 arg2, s16 arg3);
 void func_800ED58C(u8, s8, s16, s16, u8);
 void func_800ED61C(s32, s32, s32, s32);
 extern s32 D_80070CC4[];

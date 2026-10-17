@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_80012D9C(s32);
+void func_80012D9C(s32);
 void func_800186A8();
 void func_8002C0DC(s32, s32);
 struct X4_QuadObj* func_8002C7F0(void);

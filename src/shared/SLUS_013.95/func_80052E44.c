@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 s32 func_80014B78(void);
-M2C_UNK func_80016858();
+void func_80016858(s32, s32);
 M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
 void* func_8002BCCC(void*, s32);
 M2C_UNK func_8002C9B0();

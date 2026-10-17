@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 
 #define F8(p, o) (*(u8*)((u8*)(p) + (o)))

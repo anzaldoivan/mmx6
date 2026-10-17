@@ -6,6 +6,10 @@ it occupies. Only sources whose license allows it may appear here (G102). Today 
 Mega Man X6 by a signature or byte comparison, each banked through the byte gate. Facts used without copying
 (addresses, names as leads, formats) are credited in `README.md` and tracked in `docs/prior-art.md`, not here.
 
+From 2026-10-14, [anzaldoivan/mmx5](https://github.com/anzaldoivan/mmx5) (AGPL-3.0) may appear too. It is the
+developer's own Mega Man X5 decompilation. It may appear only for a function of `campaign/x4/x5-leads.tsv` drafted
+from its card's `## X5 twin`. Each such file is banked through the byte gate and gets a row naming its mmx5 path.
+
 Once their phase pins them, the toolchains that the build downloads at run time (and never commits) are listed. Each
 is listed with the pinned version and the checksum that the build verifies.
 

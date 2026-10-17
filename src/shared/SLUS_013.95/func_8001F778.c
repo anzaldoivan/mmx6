@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-s32 func_80016C48(s32, X4_arg_u8, void*);
+s32 func_80016C48(s32, s32, void*);
 void func_800139F4(s32);
 extern s32 D_80097420;
 extern u16 D_800C456C[];

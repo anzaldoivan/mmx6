@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 void func_80013008(void);
-M2C_UNK func_8001750C(M2C_UNK, M2C_UNK);
+void func_8001750C(u8, u8);
 void func_800186A8();
 M2C_UNK func_80025FB0();
 

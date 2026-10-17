@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_8003F3DC(void*);
 void func_8003F4C4(struct X4_PlayerObj* self, s32 animation);
 

@@ -17,7 +17,7 @@ void func_8001DC6C(void* arg0) {
     M2C_FIELD(arg0, s8*, 0xD) = 1;
     ((M2C_UNK(*)())func_80025F84)();
     ((M2C_UNK(*)())func_800186A8)();
-    ((M2C_UNK(*)())func_8001750C)(0xFF, 0);
+    func_8001750C(0xFF, 0);
     func_8002B838();
     ((M2C_UNK(*)())func_8002C2B8)();
     func_80014F70(0xA2, 0, 0);

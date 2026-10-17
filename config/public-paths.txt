@@ -36,4 +36,5 @@ tools/docker/
 tools/gen_objdiff.py
 tools/mmx6/
 tools/psxd_floor.py
+tools/psxd_img.py
 tools/psxd_publish.py

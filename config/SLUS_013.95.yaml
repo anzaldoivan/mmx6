@@ -42,7 +42,7 @@ segments:
       - [0x84C, .rodata, 120A0]
       - [0x868, rodata, 10068]
       - [0x1B78, .rodata, 32208]
-      - [0x1B94, rodata, 11394]
+      - [0x1BAC, rodata, 113AC]
       - [0x28A0, c, 120A0]
       - [0x22A08, c, 32208]
       - [0x452D0, asm, 2MBYTE_2MBYTE]

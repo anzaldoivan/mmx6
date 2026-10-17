@@ -7,7 +7,7 @@ M2C_UNK func_80017A04();
 M2C_UNK func_80030ECC(void*);
 s32 func_80031474(void*);
 void func_800FE2FC(void* arg0);
-M2C_UNK func_800FE4A8(void*, M2C_UNK, M2C_UNK);
+void func_800FE4A8(void*, M2C_UNK, M2C_UNK);
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_8007569C;
 extern s8 D_8009711A;

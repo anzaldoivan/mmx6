@@ -4,7 +4,7 @@
 
 extern struct X4_PlayerObj D_800970A0;
 extern struct X4_EngineObj D_800CCED0;
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 void func_8004FE58(s32, s8);
 
 #define ENG ((u8*)&D_800CCED0)

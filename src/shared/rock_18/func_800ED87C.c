@@ -5,7 +5,7 @@
 M2C_UNK func_8002B838();
 void* func_8002C530();
 struct X4_QuadObj* func_8002C7F0(void);
-void func_800ED50C(s32, s32, s32, s32);
+void func_800ED50C(u8 arg0, s8 arg1, s16 arg2, s16 arg3);
 
 #define AB_B(p, o) (*(u8*)((u8*)(p) + (o)))
 #define AB_H(p, o) (*(s16*)((u8*)(p) + (o)))

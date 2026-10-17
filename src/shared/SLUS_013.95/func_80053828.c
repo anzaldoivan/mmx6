@@ -2,7 +2,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 extern void (*D_8007ACE8[])(struct X4_EffectObj*);
-s32 func_80016C48(s32, X4_arg_u8, void*);
+s32 func_80016C48(s32, s32, void*);
 
 void func_80053828(struct X4_EffectObj* self) {
     D_8007ACE8[self->unk5](self);

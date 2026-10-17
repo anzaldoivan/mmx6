@@ -11,7 +11,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 M2C_UNK func_8002D2B0(void*);
 s32 func_8002D2D4();
-M2C_UNK func_800F2B4C();
+void func_800F2B4C();
 extern s32 D_800F4144;
 extern s16 D_800F4480;
 

@@ -7,7 +7,7 @@ M2C_UNK func_8002D2B0(void*);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-M2C_UNK func_800F4254(void*, M2C_UNK);
+void func_800F4254(void* arg0, u8 arg1);
 M2C_UNK func_800F4534(void*, M2C_UNK);
 
 #define F(type, off) M2C_FIELD(arg0, type*, off)

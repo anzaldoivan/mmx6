@@ -4,7 +4,7 @@
 M2C_UNK func_800133A0();
 void func_800139F4(s32);
 void func_80016B3C();
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 void func_8001D218();
 void func_8001D25C(void);
 void func_8001F5A0(void*, s32);

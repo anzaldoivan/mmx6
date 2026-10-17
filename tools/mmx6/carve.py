@@ -80,6 +80,14 @@ def jtbl_rows(prog):
     return out
 
 
+def jtbl_carved(prog, lo):
+    """True when prog's boundaries jtbl row at lo lies inside a recorded `jtbl` or `rodata` range (a `rodata` row may
+    cover a once-`jtbl`-carved table, T35.c53)."""
+    hi = jtbl_rows(prog)[lo][0]
+    _, jt, ro, _ = segment.read_carves(prog)
+    return any(clo <= lo and hi <= chi for clo, chi, _ in segment.carved_rodata(prog, jt, ro))
+
+
 def corpus(prog):
     """{vram: (name, tu, end)} of prog's corpus functions."""
     if not os.path.exists(CORPUS):
@@ -608,7 +616,7 @@ def self_test():
     eol = b.index("\n", b.index("# program rock_04 ")) + 1
     with open(bp, "w") as f:
         f.write(b[:eol] + UNKNOWN + "\n" + b[eol:])
-    if not any(r[0] == "jtbl" and int(r[1], 16) == 0x80011378 for r in read_record(SCRATCH, EXE)):
+    if not jtbl_carved(EXE, 0x80011378):
         carve_jtbl(SCRATCH, EXE, 0x80011378)  # the positive control (when the real record lacks it)
     ok &= expect("not-a-row", carve_jtbl, SCRATCH, EXE, 0x80011379)
     ok &= expect("not-a-row", carve_jtbl, SCRATCH, "rock_04", 0x800E9B04)  # hi `unknown`: a label, not a table
@@ -620,7 +628,8 @@ def self_test():
     ok &= expect("no-dispatcher", carve_jtbl, SCRATCH, EXE, 0x80011E40)
     ok &= expect("straddles", carve_jtbl, SCRATCH, EXE, 0x80012090)
     ok &= expect("overlaps-carve", carve_jtbl, SCRATCH, EXE, 0x80011380)
-    ok &= expect("non-contiguous", carve_jtbl, SCRATCH, EXE, 0x80011398)
+    # TU 32208 gap: jtbl-carved [..11394) vs 11398; the merged rodata record [..113AC) vs 113B0 (T35.c53)
+    ok &= expect("non-contiguous", carve_jtbl, SCRATCH, EXE, 0x800113B0 if jtbl_carved(EXE, 0x80011398) else 0x80011398)
     ok &= expect("no-rodata-block", carve_rodata, SCRATCH, "rock_01", 0x801EA004, None)
     if any(r[0] == "rodata" and r[1] == "0x800E9894" for r in read_record(SCRATCH, "rock_04")):
         uncarve_rodata(SCRATCH, "rock_04", 0x800EA2A8)  # the real record has it (T4.c2 gate): block row and D_ drop stay
@@ -644,6 +653,9 @@ def self_test():
          and "- [0x84C, .rodata, 120A0]\n" in open(cfg(SCRATCH, EXE + ".yaml")).read() and check(SCRATCH, quiet=True) == 0)
     print("control rodata-carve  %s" % ("placed" if t else "WRONG"))
     ok &= t
+    t = jtbl_carved(EXE, 0x8001004C)  # planted (T35.c53): boundaries jtbl row inside the exe `rodata` row just placed
+    print("control jtbl-in-rodata %s" % ("carved" if t else "WRONG"))
+    ok &= t and expect("overlaps-carve", carve_jtbl, SCRATCH, EXE, 0x8001004C)
     ok &= expect("overlaps-carve", carve_rodata, SCRATCH, "rock_04", 0x800EA2A8, None)
     ok &= expect("overlaps-carve", carve_rodata, SCRATCH, EXE, 0x8001574C, None)
     global CORPUS  # planted: 0x800EBAA0 (its table lies between EA2A8's and EF738's) in another TU

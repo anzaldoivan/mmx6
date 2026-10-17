@@ -7,7 +7,7 @@ void func_8002000C(void);                          /* extern */
 void func_8002012C(void);                           /* extern */
 void func_80020258(void);                          /* extern */
 void func_80020378(void);                          /* extern */
-M2C_UNK func_8002048C();                           /* extern */
+void func_8002048C(void);                           /* extern */
 void func_800205A0();                              /* extern */
 void func_800206C0(void);                           /* extern */
 void func_800207D4(void);                           /* extern */
@@ -15,7 +15,7 @@ void func_800208EC(void);                          /* extern */
 void func_80020A08(void);                          /* extern */
 M2C_UNK func_80020D74();                           /* extern */
 void func_80020DC8(void);                          /* extern */
-M2C_UNK func_8002927C();                           /* extern */
+void func_8002927C(void);                           /* extern */
 void func_8002935C(void);                          /* extern */
 M2C_UNK func_800293CC();                           /* extern */
 void func_80029D18(void);                          /* extern */

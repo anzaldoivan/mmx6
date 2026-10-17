@@ -5,7 +5,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_800F2B4C();
+void func_800F2B4C();
 extern s32 D_800F4148;
 
 #define F(type, off) M2C_FIELD(self, type*, off)

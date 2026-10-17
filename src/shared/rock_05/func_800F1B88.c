@@ -6,7 +6,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 void* func_8002C458();
-M2C_UNK func_800F2B4C();
+void func_800F2B4C();
 
 void func_800F1B88(void* arg0) {
     s8 temp_s1;

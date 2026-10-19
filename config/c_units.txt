@@ -3,6 +3,7 @@
 SLUS_013.95 LIBSPU_S_M_UTIL
 SLUS_013.95 120A0
 rock_00 1EA000
+rock_01 1EA000
 rock_02 E9860
 rock_03 E9860
 rock_04 E9860
@@ -44,4 +45,17 @@ rock_40 FA000
 rock_43 FA000
 rock_44 FA000
 rock_45 FA000
+rock_46 FA000
+rock_47 FA000
+rock_48 FA000
+rock_49 FA000
+rock_50 FA000
+rock_51 FA000
+rock_52 FA000
+rock_53 FA000
+rock_54 FA000
+rock_55 FA000
+rock_56 FA000
+rock_57 FA000
+rock_58 FA000
 SLUS_013.95 32208

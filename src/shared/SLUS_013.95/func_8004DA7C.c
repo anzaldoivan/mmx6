@@ -8,7 +8,7 @@ M2C_UNK func_80017A04();
 M2C_UNK func_8002CA54();
 s32 func_8002CAB4(struct X4_BaseObj*);
 s32 func_8002CB50(struct X4_BaseObj*);
-M2C_UNK func_8002D230(void*);
+M2C_UNK func_8002D230(struct X4_MainObj* self);
 void func_8002F288(struct X4_PlayerObj*);
 u8 func_80030234(struct X4_PlayerObj*, s16, s16);
 void func_8004E26C(void*);

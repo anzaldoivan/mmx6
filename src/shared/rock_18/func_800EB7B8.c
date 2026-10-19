@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 void* func_8002C530();
-s32 func_800ED69C(s32);
+s32 func_800ED69C(u8 arg0);
 extern u8 D_80097427;
 extern struct X4_EngineObj D_800CCED0;
 extern s16 D_800F0B30[];

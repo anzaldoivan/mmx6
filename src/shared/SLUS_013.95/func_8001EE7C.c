@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800139A0(M2C_UNK);
+M2C_UNK func_800139A0(s8);
 void func_8001D218(void);
 void func_8001FE74(void);
 void* func_8002C530();
@@ -22,7 +22,7 @@ void func_8001EE7C(void* arg) {
     M2C_FIELD(arg0, u8*, 0x1F) = 0;
     M2C_FIELD(arg0, u8*, 0x24) = 0;
     M2C_FIELD(arg0, s16*, 4) = 0x78;
-    ((void (*)(s32))func_800139A0)(8);
+    ((void (*)(s8))func_800139A0)(8);
     if (M2C_FIELD(arg0, s8*, 0xC) == 0) {
         p = &D_800711AC;
         i = 0;

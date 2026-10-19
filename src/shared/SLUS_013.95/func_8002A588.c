@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800139A0(M2C_UNK);
+M2C_UNK func_800139A0(s8);
 void func_8001FE74(void);
 s8* func_8002C590(void);
 
@@ -78,7 +78,7 @@ void func_8002A588(void) {
         D_80097420.unk7 = 0;
         D_8006D5F7 = e[0xC9];
     }
-    ((void (*)(s32))func_800139A0)(0x20);
+    ((void (*)(s8))func_800139A0)(0x20);
     D_800E4188++;
 }
 #undef D_80097420

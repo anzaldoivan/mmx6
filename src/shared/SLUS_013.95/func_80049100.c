@@ -6,7 +6,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 M2C_UNK func_8002C9B0();
 s32 func_8002CB50(struct X4_BaseObj*);
-M2C_UNK func_80049748();
+void func_80049748(struct X4_BaseObj* arg0, struct X4_BaseObj* arg1);
 extern u32* D_8007789C[];
 extern struct X4_PlayerObj D_800970A0;
 

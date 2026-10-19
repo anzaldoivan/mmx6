@@ -4,7 +4,7 @@
 extern u8 D_80070C84[][6];
 extern u8 D_8008EAFC;
 extern X4_P_TAG* D_8008EB08[2][4][8];
-u32 func_800260C4(u8, u8, u8);
+u32 func_800260C4(s32 arg0, s32 arg1, s32 arg2);
 u8 func_8002624C(u8, u8, s32, s32);
 
 #define SCR_BUF (*(s32*)0x1F800000)

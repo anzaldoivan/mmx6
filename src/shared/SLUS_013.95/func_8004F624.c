@@ -2,14 +2,15 @@
 #define M2C_UNK s32
 
 M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D230(void*);
+s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
+void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
+M2C_UNK func_8002D230(struct X4_MainObj* self);
 M2C_UNK func_8002D2B0(void*);
 M2C_UNK func_8002EE10(void*);
 M2C_UNK func_80030ECC(void*);
 s32 func_80031474(void*);
-M2C_UNK func_80049D90(void*);
+M2C_UNK func_80049D90_r(void*); /* link-only second name (PROVIDEd): the call needs the int return */
+#define func_80049D90 func_80049D90_r
 M2C_UNK func_8004A2B4(M2C_UNK, M2C_UNK, void*, M2C_UNK, M2C_UNK);
 extern s32 D_80078CB8;
 extern s32 D_80078CBC;
@@ -77,3 +78,4 @@ tail:
         arg0[4]++;
     }
 }
+#undef func_80049D90

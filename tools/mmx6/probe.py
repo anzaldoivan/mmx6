@@ -136,6 +136,7 @@ def find_extent(prog, func):
                         continue
                     starts.update(int(a, 16) for a in re.findall(r"^\w[^;(]*\bfunc_([0-9A-Fa-f]{8})\(", src, re.M))
                     starts.update(int(a, 16) for a in re.findall(r"^INCLUDE_ASM\([^,]*, *\w+_([0-9A-Fa-f]{8})\)", src, re.M))
+                    starts.update(int(a, 16) for a in re.findall(r'^#include "[^"]*/func_([0-9A-Fa-f]{8})\.c"', src, re.M))
                     lo = int(m.group(1), 16)
                     hi = min((a for a in starts if a > lo), default=None)
                     if hi is not None:

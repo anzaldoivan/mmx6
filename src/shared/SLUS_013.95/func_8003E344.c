@@ -3,7 +3,7 @@
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 M2C_UNK func_8003CDF0();
 #define func_8003CDF0 ((void (*)(void*))func_8003CDF0)
-M2C_UNK func_8003D510(M2C_UNK, M2C_UNK, s8, M2C_UNK);
+M2C_UNK func_8003D510(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3);
 M2C_UNK func_8003DF58(void*);
 M2C_UNK func_8003F0BC(void*);
 M2C_UNK func_8003F480();

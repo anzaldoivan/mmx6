@@ -334,7 +334,11 @@ def control_g():
                            [(func, "remap_px"), (callees[0], "remap_callee")]))
     # plant (C0054): the C definition -> INCLUDE_ASM of a generated .s of its retail words
     saved = {}
-    words = bank.plant_words(prog, func, gv, int(r["end"], 16))
+    end = int(r["end"], 16)
+    words = bank.plant_words(prog, func, gv, end)
+    ext = probe.find_extent(prog, func)
+    if 4 * len(words) != end - gv or ext[0] != gv or gv + 4 * ext[1] > end:  # T40.8.1: blob inside its extent
+        raise bank.Stop(0, f"{func}: plant {4 * len(words):X}B vs corpus [{gv:X},{end:X}) / extent {ext}")
     _, seg_start, seg_vram = probe.yaml_layout(prog)
     off = seg_start + gv - seg_vram
     bank.put(saved, G_UNIT, "\n".join(lines[:i] + [f'INCLUDE_ASM("asm/{prog}/nonmatchings/{tu}", {func});']

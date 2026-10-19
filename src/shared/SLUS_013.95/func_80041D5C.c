@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
 s32 func_8002D2D4();
 void func_80042A9C(struct X4_MainObj* self, s32);
 void func_80042C18(struct X4_MainObj* self);

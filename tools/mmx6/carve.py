@@ -560,7 +560,8 @@ PLANTS = ["jtbl 0x80011E00 0x80011E10 - scan planted",
           "jtbl 0x80011380 0x80011390 0x800328b0 both planted-overlap",
           "jtbl 0x80011E80 unknown - ghidra label-inside-scan-table"]  # hi `unknown` in a prog with jtbl carves (T45)
 UNKNOWN = "jtbl 0x800E9B04 unknown - ghidra label-inside-scan-table"  # hi `unknown`, in rock_04 (record, no jtbl carve)
-OVL = ["rock_04", "rock_01"]  # rock_04: D_800E9860 rodata block [0x800E9860, 0x800E9B30); rock_01: first TU asm, no block
+OVL = ["rock_04", "rock_01"]  # rock_04: D_800E9860 rodata block [0x800E9860, 0x800E9B30); rock_01: c unit, scratch
+# copy loses its D_801EA000 line, no block (was: first TU asm; a c unit since T40.13.1)
 
 
 def scratch():
@@ -630,6 +631,11 @@ def self_test():
     ok &= expect("overlaps-carve", carve_jtbl, SCRATCH, EXE, 0x80011380)
     # TU 32208 gap: jtbl-carved [..11394) vs 11398; the merged rodata record [..113AC) vs 113B0 (T35.c53)
     ok &= expect("non-contiguous", carve_jtbl, SCRATCH, EXE, 0x800113B0 if jtbl_carved(EXE, 0x80011398) else 0x80011398)
+    c01 = os.path.join(SCRATCH, "src", "rock_01", "1EA000.c")  # plant: a first c unit without its D_<base> line
+    with open(c01) as f:
+        keep = [ln for ln in f if (INC_RE.match(ln) or [None, None])[1] != d_line("rock_01", 0x801EA000)]
+    with open(c01, "w") as f:
+        f.writelines(keep)
     ok &= expect("no-rodata-block", carve_rodata, SCRATCH, "rock_01", 0x801EA004, None)
     if any(r[0] == "rodata" and r[1] == "0x800E9894" for r in read_record(SCRATCH, "rock_04")):
         uncarve_rodata(SCRATCH, "rock_04", 0x800EA2A8)  # the real record has it (T4.c2 gate): block row and D_ drop stay

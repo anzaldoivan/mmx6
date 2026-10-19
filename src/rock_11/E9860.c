@@ -32,7 +32,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800EA500);
 
 #include "../shared/rock_11/func_800EA650.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800EA71C);
+#include "../shared/rock_11/func_800EA71C.c"
 
 #include "../shared/rock_11/func_800EA750.c"
 
@@ -50,7 +50,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800EA71C);
 
 #include "../shared/rock_11/func_800EA924.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800EA944);
+#include "../shared/rock_11/func_800EA944.c"
 
 #include "../shared/rock_11/func_800EA980.c"
 
@@ -270,7 +270,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F0F30);
 #undef func_80041AB8
 #undef D_80075FD8
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F215C);
+#include "../shared/rock_11/func_800F215C.c"
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F21C0);
 
@@ -288,13 +288,13 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F21C0);
 
 #include "../shared/rock_11/func_800F2358.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F2390);
+#include "../shared/rock_11/func_800F2390.c"
 
 #include "../shared/rock_11/func_800F23D8.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F249C);
+#include "../shared/rock_11/func_800F249C.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F24E4);
+#include "../shared/rock_11/func_800F24E4.c"
 
 #include "../shared/rock_11/func_800F2518.c"
 
@@ -312,7 +312,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F24E4);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F26BC);
+#include "../shared/rock_11/func_800F26BC.c"
 
 #include "../shared/rock_11/func_800F2724.c"
 
@@ -322,7 +322,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F26BC);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F279C);
+#include "../shared/rock_11/func_800F279C.c"
 
 #define func_800F2724 func_800F2840
 #include "../shared/rock_11/func_800F2724.c"
@@ -336,13 +336,13 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F279C);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F28C0);
+#include "../shared/rock_11/func_800F28C0.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F2934);
+#include "../shared/rock_11/func_800F2934.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F29CC);
+#include "../shared/rock_11/func_800F29CC.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F2A70);
+#include "../shared/rock_11/func_800F2A70.c"
 
 #define func_800F2724 func_800F2B08
 #include "../shared/rock_11/func_800F2724.c"
@@ -354,9 +354,9 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F2A70);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F2B80);
+#include "../shared/rock_11/func_800F2B80.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F2C20);
+#include "../shared/rock_11/func_800F2C20.c"
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F2CA8);
 
@@ -372,9 +372,9 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F2CA8);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F2DEC);
+#include "../shared/rock_11/func_800F2DEC.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F2E84);
+#include "../shared/rock_11/func_800F2E84.c"
 
 #include "../shared/rock_11/func_800F2F10.c"
 
@@ -386,13 +386,13 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3010);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3088);
+#include "../shared/rock_11/func_800F3088.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3104);
+#include "../shared/rock_11/func_800F3104.c"
 
 #include "../shared/rock_11/func_800F3190.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3254);
+#include "../shared/rock_11/func_800F3254.c"
 
 #define func_8003744C func_800F32D8
 #define D_80073C1C D_800FCAD0
@@ -400,13 +400,13 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3254);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3314);
+#include "../shared/rock_11/func_800F3314.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F33A4);
+#include "../shared/rock_11/func_800F33A4.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3450);
+#include "../shared/rock_11/func_800F3450.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F34A4);
+#include "../shared/rock_11/func_800F34A4.c"
 
 #define func_8003744C func_800F3508
 #define D_80073C1C D_800FCAEC
@@ -422,7 +422,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F34A4);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3610);
+#include "../shared/rock_11/func_800F3610.c"
 
 #define func_8003744C func_800F367C
 #define D_80073C1C D_800FCB24
@@ -430,7 +430,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3610);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F36B8);
+#include "../shared/rock_11/func_800F36B8.c"
 
 #include "../shared/rock_11/func_800F36F8.c"
 
@@ -446,17 +446,17 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F36B8);
 
 #include "../shared/rock_11/func_800F3844.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F384C);
+#include "../shared/rock_11/func_800F384C.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F38C4);
+#include "../shared/rock_11/func_800F38C4.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3908);
+#include "../shared/rock_11/func_800F3908.c"
 
 #include "../shared/rock_11/func_800F39A0.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F39A8);
+#include "../shared/rock_11/func_800F39A8.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3A34);
+#include "../shared/rock_11/func_800F3A34.c"
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3A60);
 
@@ -472,7 +472,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3AC4);
 
 #include "../shared/rock_11/func_800F3B54.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3B70);
+#include "../shared/rock_11/func_800F3B70.c"
 
 #include "../shared/rock_11/func_800F3C10.c"
 
@@ -482,7 +482,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3B70);
 
 #include "../shared/rock_11/func_800F3D24.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3E10);
+#include "../shared/rock_11/func_800F3E10.c"
 
 #include "../shared/rock_11/func_800F3EC4.c"
 
@@ -490,7 +490,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F3E10);
 
 #include "../shared/rock_11/func_800F40F4.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F41D0);
+#include "../shared/rock_11/func_800F41D0.c"
 
 #include "../shared/rock_11/func_800F4254.c"
 
@@ -498,13 +498,13 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F41D0);
 
 #include "../shared/rock_11/func_800F440C.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F4534);
+#include "../shared/rock_11/func_800F4534.c"
 
 #include "../shared/rock_11/func_800F4588.c"
 
 #include "../shared/rock_11/func_800F4664.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F46B4);
+#include "../shared/rock_11/func_800F46B4.c"
 
 #include "../shared/rock_11/func_800F475C.c"
 
@@ -520,9 +520,9 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F46B4);
 
 #include "../shared/rock_11/func_800F489C.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F48A4);
+#include "../shared/rock_11/func_800F48A4.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F493C);
+#include "../shared/rock_11/func_800F493C.c"
 
 #include "../shared/rock_11/func_800F4970.c"
 
@@ -536,13 +536,13 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F493C);
 
 #include "../shared/rock_11/func_800F4BB8.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F4CBC);
+#include "../shared/rock_11/func_800F4CBC.c"
 
 #include "../shared/rock_11/func_800F4D28.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F4D68);
+#include "../shared/rock_11/func_800F4D68.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F4DA8);
+#include "../shared/rock_11/func_800F4DA8.c"
 
 #include "../shared/rock_11/func_800F4E10.c"
 
@@ -616,7 +616,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F5BAC);
 
 #include "../shared/rock_11/func_800F5C14.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F5C34);
+#include "../shared/rock_11/func_800F5C34.c"
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F5E20);
 
@@ -720,13 +720,13 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F81F8);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F89E8);
+#include "../shared/rock_11/func_800F89E8.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F8A28);
+#include "../shared/rock_11/func_800F8A28.c"
 
 #include "../shared/rock_11/func_800F8A7C.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F8AF0);
+#include "../shared/rock_11/func_800F8AF0.c"
 
 #include "../shared/rock_11/func_800F8B44.c"
 
@@ -734,7 +734,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F8AF0);
 
 #include "../shared/rock_11/func_800F8C84.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F8CA4);
+#include "../shared/rock_11/func_800F8CA4.c"
 
 #define func_8003744C func_800F8CD8
 #define D_80073C1C D_800FD39C
@@ -752,7 +752,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F8CA4);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F8DCC);
+#include "../shared/rock_11/func_800F8DCC.c"
 
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F8E14);
 
@@ -764,7 +764,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F8E14);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F8FB4);
+#include "../shared/rock_11/func_800F8FB4.c"
 
 #include "../shared/rock_11/func_800F900C.c"
 
@@ -784,7 +784,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F9148);
 
 #include "../shared/rock_11/func_800F9340.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F948C);
+#include "../shared/rock_11/func_800F948C.c"
 
 #define func_8003744C func_800F94A0
 #define D_80073C1C D_800FD3FC
@@ -792,7 +792,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F948C);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F94DC);
+#include "../shared/rock_11/func_800F94DC.c"
 
 #include "../shared/rock_11/func_800F9524.c"
 
@@ -816,7 +816,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F94DC);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F98A0);
+#include "../shared/rock_11/func_800F98A0.c"
 
 #include "../shared/rock_11/func_800F98E0.c"
 
@@ -892,7 +892,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FA150);
 
 #include "../shared/rock_11/func_800FA584.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FA630);
+#include "../shared/rock_11/func_800FA630.c"
 
 #include "../shared/rock_11/func_800FA664.c"
 
@@ -932,7 +932,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FA72C);
 
 #include "../shared/rock_11/func_800FAB38.c"
 
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800FABA0);
+#include "../shared/rock_11/func_800FABA0.c"
 
 #include "../shared/rock_11/func_800FABF8.c"
 

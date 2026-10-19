@@ -10,8 +10,8 @@ void func_80017B04(u8*, s16, s16);
 #define func_80017B04 func_80017B04
 s8* func_8002BEC4(s8* p, s32 dir);
 void func_8003CF24(s32, s32, s32);
-M2C_UNK func_8003D510(M2C_UNK, M2C_UNK, s8, M2C_UNK);
-#define func_8003D510 ((void (*)(s32, s32, s8, s32))func_8003D510)
+M2C_UNK func_8003D510(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3);
+#define func_8003D510 func_8003D510
 extern u8 D_80076194[][2];
 extern s32 D_80077A40[];
 extern struct X4_PlayerObj D_800970A0;

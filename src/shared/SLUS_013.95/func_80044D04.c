@@ -10,7 +10,7 @@ extern struct X4_BackgroundObj D_800971F8[3];
 extern s32 D_80097420;
 M2C_UNK func_80017A04();
 s8* func_8002BEC4(s8* p, s32 dir);
-M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
+void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 M2C_UNK func_8002D2B0(void*);
 
 void func_80044D04(struct X4_BaseObj* self) {

@@ -3,7 +3,8 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SCRATCH_1C_W (*(s32*)0x1F80001C)
 
-M2C_UNK func_800139A0(M2C_UNK);
+M2C_UNK func_800139A0(s8);
+void func_800139A0_2p(s32, void*); /* link-only second name */
 void* func_8002C530();
 extern u8 D_80071088;
 
@@ -63,7 +64,7 @@ void func_8001CC1C(void* arg0) {
             M2C_FIELD(obj, s32*, 0x3C) = t;
         }
         M2C_FIELD(arg0, s16*, 4) = 0x258;
-        ((void (*)(s32, void*))func_800139A0)(8, obj);
+        func_800139A0_2p(8, obj);
         M2C_FIELD(arg0, u8*, 1) += 1;
         D_80071088 = one;
     }

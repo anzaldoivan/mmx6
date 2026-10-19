@@ -2,7 +2,8 @@
 #include "common.h"
 #include "mmx6/x4.h"
 void func_8004B50C(struct X4_VisualObj*);
-s32 func_800179A4(void*, s32);
+#define M2C_UNK s32
+M2C_UNK func_800179A4(void* arg0, M2C_UNK arg1);
 
 void func_8004B4BC(struct X4_VisualObj* arg0) {
     arg0->state = 1;

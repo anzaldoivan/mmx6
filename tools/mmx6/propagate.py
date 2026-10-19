@@ -6,7 +6,8 @@
          build/census/classes.jsonl. Per member (prog, vram order): defines `<exemplar name> -> <member corpus name>`
          and `D_<exemplar table> -> D_<member table>` (table address = the lui/lw (or addiu) pair of the member's
          retail words, probe.retail_words; the exemplar needs none; only when the body names D_<exemplar table>,
-         else the name define alone), then bank.ladder R1-R4 (R1 probes a scratch
+         else the name define alone; an identity table define is dropped when the unit's own `#define` lines directly
+         above the member's INCLUDE_ASM alias that name), then bank.ladder R1-R4 (R1 probes a scratch
          wrapper, R2 writes the define/include/undef block; a unit already holding it is re-gated, not re-edited).
          R5 (bank.rung5: clean rebuild + hash, body sha1, typecheck, sig) once per program, then an unmasked compare of
          each member's linked extent vs retail; on a program R5 failure every member is retried alone, failing
@@ -30,7 +31,8 @@
       -> scratch registry/classes copies (.run/propagate/selftest/): every class member rowed -> OK; a row whose built
          key differs from its row key (drift), one member row dropped (missing member), a row for a function outside
          the class (not in class) -> each refused; --expect-registry on planted rows/verdicts: a refused row refused ->
-         agrees, a gated row refused -> DRIFT, a c-empty exemplar refused -> agrees. Ends `PROPAGATE CONTROL OK` (rc 0), else rc 1.
+         agrees, a gated row refused -> DRIFT, a c-empty exemplar refused -> agrees; a planted unit alias above a member's
+         INCLUDE_ASM -> the identity define dropped. Ends `PROPAGATE CONTROL OK` (rc 0), else rc 1.
 Firewall G12: names, addresses, counts and hashes of our own files only.
 """
 import argparse
@@ -121,6 +123,24 @@ def extent_same(prog, row):
         f.seek(off)
         got = f.read(n)
     return len(want) == n and got == want
+
+
+def unit_aliases(prog, tu, func, name, root="src"):
+    """True when the `#define` lines directly above func's INCLUDE_ASM line in <root>/<prog>/<tu>.c define name (T40.c1)."""
+    try:
+        with open(f"{root}/{prog}/{tu}.c") as f:
+            lines = f.read().split("\n")
+    except OSError:
+        return False
+    at = f'INCLUDE_ASM("asm/{prog}/nonmatchings/{tu}", {func});'
+    for i, line in enumerate(lines):
+        if line == at:
+            j = i - 1
+            while j >= 0 and lines[j].startswith("#define "):
+                if lines[j].split()[1] == name:
+                    return True
+                j -= 1
+    return False
 
 
 def tree_sha(paths):
@@ -232,6 +252,8 @@ def run_prog(prog, ms, ctx, out):
                 out(f"{pv(m)} refused R1: no lui/lw table pair in retail words")
                 continue
             defines = [(ex_name, r["name"]), (f"D_{ex_tab:08X}", f"D_{t:08X}")]
+            if t == ex_tab and unit_aliases(prog, r["tu"], r["name"], f"D_{t:08X}"):
+                defines = defines[:1]  # an identity define would override the unit's own alias of the name (T40.c1)
         g, why = gate(prog, m[1], src, defines, log)
         if g is None:
             results.append((pv(m), "refused", why[len("refused "):]))
@@ -448,6 +470,14 @@ def self_test():
             print(f"control {name} {'ok' if good else 'FAIL'}: rc {rc}, {len(drift)} drift"
                   + (f", {drift[0]}" if drift else ""))
             fails += not good
+    ud = os.path.join(d, "src", "p")  # plant: the unit's own alias above the INCLUDE_ASM suppresses the identity define
+    os.makedirs(ud, exist_ok=True)
+    with open(os.path.join(ud, "u.c"), "w") as f:
+        f.write('#define D_1 D_1_x4\nINCLUDE_ASM("asm/p/nonmatchings/u", f);\n\nINCLUDE_ASM("asm/p/nonmatchings/u", g);\n')
+    got = [unit_aliases("p", "u", fn, nm, os.path.join(d, "src")) for fn, nm in (("f", "D_1"), ("f", "D_2"), ("g", "D_1"))]
+    good = got == [True, False, False]
+    print(f"control unit alias {'ok' if good else 'FAIL'}: {got}")
+    fails += not good
     if fails:
         print(f"PROPAGATE SELF-TEST FAIL {fails}")
         return 1

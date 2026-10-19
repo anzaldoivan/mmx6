@@ -5,7 +5,7 @@
 
 s32 func_8002D2D4();                                  /* extern */
 M2C_UNK func_8003CFE0(void*, M2C_UNK);                /* extern */
-M2C_UNK func_8003D510(M2C_UNK, M2C_UNK, s8, M2C_UNK); /* extern */
+M2C_UNK func_8003D510(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3); /* extern */
 
 void func_8003FA8C(void* arg0) {
     s8 temp_v1;

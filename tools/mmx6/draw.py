@@ -31,6 +31,14 @@
          every pv with any campaign/journal.jsonl record (field `pv`; no journal: none), before the verdicts; W<n>.txt lines become `<prog>:0x<VRAM> probe=<p> attempts=<a>` (that row's caps); one
          `DRAW routing <lo>-<hi> <k>` per paid row in file order (k drawn in it) before the DRAW-DETAIL line. A
          malformed or overlapping row -> `DRAW MALFORMED <path>:<line>` rc 2. No --routing: unchanged.
+         --detail (only with --rank, else rc 2): before the DRAW-DETAIL line, one `DRAW PV <prog>:0x<VRAM> <state>
+         <reason>` per ranked pv in rank order; state drawn|eligible|L1..L4 (first refusing layer, as counted) or
+         band|route|journal (dropped by --band, words in no paid routing row, journaled; before the verdicts); reason
+         the draw.jsonl-style layer reason, `-` for drawn|eligible, `words=<w>` for band|route, `journaled`.
+         The candidate+verdict core (rank order, --band, --routing filters, static, components, verdicts; no harvest
+         stamp, audit or file write) is leverage_picks(); it also gives picks {key: pick}, every candidate of a
+         component holding a survivor -> its first survivor in rank order (key != pick). ledger.py calls it
+         (route = config/routing.txt) for its member-of blocker.
   draw.py --self-test
       -> planted inputs in .run/draw-selftest/ (words injected): lib-unproven, uncarved jtbl, registry member,
          banked exact twin, two-member cluster, wall row, L4 row, each at its layer, and the exact DRAW line; a planted
@@ -39,7 +47,10 @@
          leverage order (dup/family/twin members, closeness and (prog, vram) ties) and --band as exact W0.txt content;
          W2 without W1.ok -> `DRAW HARVEST-MISSING W1` rc 2; W1 with W0.ok drawn; --routing with the real
          config/routing.txt (a 950-word function not drawn, a 20-word one `probe=18 attempts=2`, five routing lines,
-         a journaled pv not drawn) and an overlapping row -> DRAW MALFORMED rc 2. Every control
+         a journaled pv not drawn) and an overlapping row -> DRAW MALFORMED rc 2; --detail (the L4 plant
+         `DRAW PV <pv> L4 exclude planted hold`, a drawn plant `drawn -`, `band` under --band); pick_plant (shared with
+         ledger.py: exact twins A, B; difficulty draw.jsonl B `cluster of A`, leverage draws B and refuses A
+         `cluster of B`). Every control
          `DRAW CONTROL ok|FAIL <what>`; ends `DRAW CONTROL OK` (rc 0), else rc 1.
 
 Layers, cheapest first:
@@ -431,35 +442,63 @@ def leverage(inp, keys, funcs, twins):
     return sorted(keys, key=lambda k: (-pay[k], (0, close[k]) if k in close else (1, 0), k[0], int(k[1], 16)))
 
 
-def rank_run(inp, rank, wave, n=None, band=None, words=None, say=print, route=None):
+def leverage_picks(inp, funcs, twins, words, route, l4=None, keys=None, band=None):
+    """The --rank core (no harvest stamp, no audit, no file write): keys (None: U in leverage order) through --band, the
+    --routing paid/journal filters (route: the routing path or None), static, components over U | keys, verdicts.
+    l4 None: the exclude file's L4 rows. Returns dict(ranked, dropped {key: (state, reason)}, keys (candidates), vs,
+    size, comp, paid, row, picks {key: pick}): every candidate of a component holding a survivor -> that component's
+    first survivor in rank order, key != pick."""
+    routes = routing(route) if route else []
+    if l4 is None:
+        l4 = {(p, v): why for _, p, v, layer, why in excludes(inp["exclude"]) if layer == "L4"}
+    uni = universe(funcs)
+    if keys is None:
+        keys = leverage(inp, uni, funcs, twins)
+    ranked, dropped = keys, {}  # dropped: {key: (state, reason)} of the pre-verdict filters
+    if band:
+        dropped.update((k, ("band", f"words={funcs[k]['words']}")) for k in keys
+                       if not band[0] <= funcs[k]["words"] <= band[1])
+        keys = [k for k in keys if band[0] <= funcs[k]["words"] <= band[1]]
+    paid = [r for r in routes if r[2] == "paid"]
+    row = lambda k: next((r for r in paid if r[0] <= funcs[k]["words"] <= r[1]), None)  # noqa: E731
+    if route:
+        tried = journaled(inp["journal"])
+        isj = lambda k: (k[0], int(k[1], 16) if isinstance(k[1], str) else k[1]) in tried  # noqa: E731
+        dropped.update((k, ("route", f"words={funcs[k]['words']}") if not row(k) else ("journal", "journaled"))
+                       for k in keys if not row(k) or isj(k))
+        keys = [k for k in keys if row(k) and not isj(k)]
+    st = static(inp, keys, funcs, twins, words)
+    comp, size = components(sorted(set(uni) | set(keys)), twins)
+    vs = verdicts(keys, st, comp, l4)
+    first = {}
+    for k, layer, _ in vs:
+        if not layer:
+            first.setdefault(comp[k], k)
+    picks = {k: first[comp[k]] for k in keys if comp[k] in first and first[comp[k]] != k}
+    return dict(ranked=ranked, dropped=dropped, keys=keys, vs=vs, size=size, comp=comp, paid=paid, row=row,
+                picks=picks)
+
+
+def rank_run(inp, rank, wave, n=None, band=None, words=None, say=print, route=None, detail=False):
     """Writes <wdir>/W<n>.txt; returns its lines. Refuse rc 2 on a missing harvest stamp, a stale exclude or a
-    malformed routing file (route: its path)."""
+    malformed routing file (route: its path). detail: one `DRAW PV <pv> <state> <reason>` per ranked pv."""
     w = int(wave[1:])
     out = os.path.join(inp["wdir"], f"{wave}.txt")
     if os.path.exists(out):
         os.remove(out)
     if w >= 1 and not os.path.isfile(os.path.join(inp["harvest"], f"W{w - 1}.ok")):
         raise Refuse(2, [f"DRAW HARVEST-MISSING W{w - 1}"])
-    routes = routing(route) if route else []
+    if route:
+        routing(route)  # a malformed routing file refuses before any input is read
     if rank == "leverage":
         need(inp, ("classes",))
     diff, funcs, twins = load(inp, diff=rank == "difficulty")
     l4 = audited(inp, funcs, twins, words, say, out)
-    uni = universe(funcs)
-    if rank == "difficulty":
-        keys = [(d["prog"], d["vram"]) for d in diff]
-    else:
-        keys = leverage(inp, uni, funcs, twins)
-    if band:
-        keys = [k for k in keys if band[0] <= funcs[k]["words"] <= band[1]]
-    paid = [r for r in routes if r[2] == "paid"]
-    row = lambda k: next((r for r in paid if r[0] <= funcs[k]["words"] <= r[1]), None)  # noqa: E731
-    if route:
-        tried = journaled(inp["journal"])
-        keys = [k for k in keys if row(k) and (k[0], int(k[1], 16) if isinstance(k[1], str) else k[1]) not in tried]
-    st = static(inp, keys, funcs, twins, words)
-    comp, size = components(sorted(set(uni) | set(keys)), twins)
-    vs, cnt, k_drawn = counted(verdicts(keys, st, comp, l4), n)
+    lp = leverage_picks(inp, funcs, twins, words, route, l4,
+                        [(d["prog"], d["vram"]) for d in diff] if rank == "difficulty" else None, band)
+    ranked, dropped, keys, comp, size, paid, row = (lp[x] for x in ("ranked", "dropped", "keys", "comp", "size",
+                                                                    "paid", "row"))
+    vs, cnt, k_drawn = counted(lp["vs"], n)
     drawn = [k for k, v, _, _ in vs if v == "draw"]
     pvs = [f"{k[0]}:{hexs(k[1])}" + (" probe=%d attempts=%d" % row(k)[3:] if route else "") for k in drawn]
     os.makedirs(os.path.dirname(out), exist_ok=True)
@@ -467,6 +506,10 @@ def rank_run(inp, rank, wave, n=None, band=None, words=None, say=print, route=No
         f.write("".join(x + "\n" for x in pvs))
     for r in paid:
         say(f"DRAW routing {r[0]}-{r[1]} {sum(row(k) == r for k in drawn)}")
+    if detail:
+        got = {k: ({"draw": "drawn"}.get(v, v) if not layer else layer, why or "-") for k, v, layer, why in vs}
+        for k in ranked:
+            say(f"DRAW PV {k[0]}:{hexs(k[1])} %s %s" % (dropped.get(k) or got[k]))
     held = {comp[k] for k in keys}
     summary(say, {c: s for c, s in size.items() if c in held}, vs, cnt, k_drawn)
     return pvs
@@ -475,6 +518,18 @@ def rank_run(inp, rank, wave, n=None, band=None, words=None, say=print, route=No
 # ---- self-test: planted inputs under .run/draw-selftest/, words injected ---------------------------------------------
 
 P = "SELFTEST"
+
+
+def pick_plant(prog, va, vb, rank=1, tu="T"):
+    """The shared leverage-pick plant (draw and ledger self-tests): exact twins A (va, 8 words) and B (vb, 24 words),
+    game lane, asm. Difficulty order puts A first (draw.jsonl: B `cluster of A`); leverage payoff (B 24 x 2 > A 8 x 2)
+    picks B (A `cluster of B`). Returns (corpus rows, [exact twin row], difficulty rows A then B from rank)."""
+    ab = (("A", va, 8), ("B", vb, 24))
+    funcs = [dict(prog=prog, vram=v, end=hexs(int(v, 16) + 4 * w), words=w, name=f"pick_{n}", tu=tu, state="asm",
+                  lane="game") for n, v, w in ab]
+    diff = [dict(prog=prog, vram=v, name=f"pick_{n}", state="asm", lane="game", words=w, branches=0, calls=0, jtbl=0,
+                 rank=rank + i) for i, (n, v, w) in enumerate(ab)]
+    return funcs, [dict(a=[prog, va], b=[prog, vb], tier="exact", dist=0)], diff
 
 
 def plant(root, stale=False):
@@ -574,6 +629,21 @@ def self_test():
     wave("leverage W0 = payoff order, closeness and (prog, vram) ties", [4, 2, 8],
          line="DRAW refused 7 of 11 (L1 2 L2 3 L3 1 L4 1); drawn 3")
     wave("leverage --band 16-20", [4, 2, 11], band=(16, 20), n=9, line="DRAW refused 0 of 3 (L1 0 L2 0 L3 0 L4 0); drawn 3")
+    said = []
+    try:
+        rank_run(inp, "leverage", "W0", 3, (16, 20), words, said.append, detail=True)
+        dl = [x for x in said if x.startswith("DRAW PV ")]
+        ok(f"DRAW PV {pv(10)} band words=64" in dl and f"DRAW PV {pv(4)} drawn -" in dl and len(dl) == 11
+           and said.index(dl[-1]) < len(said) - 2, f"--detail band: L4 plant band, drawn plant drawn: {dl}")
+        said = []
+        rank_run(inp, "leverage", "W0", 3, None, words, said.append, detail=True)
+        dl = [x for x in said if x.startswith("DRAW PV ")]
+        ok(f"DRAW PV {pv(10)} L4 exclude planted hold" in dl and f"DRAW PV {pv(4)} drawn -" in dl
+           and sum(x.split()[3] == "drawn" for x in dl) == 3 and said[-2].startswith("DRAW-DETAIL ")
+           and said[-1] == "DRAW refused 7 of 11 (L1 2 L2 3 L3 1 L4 1); drawn 3",
+           f"--detail: L4 plant -> DRAW PV <pv> L4, drawn plant -> drawn, counts unchanged: {dl}")
+    except Refuse as e:
+        ok(False, f"--detail: refused rc {e.rc} {e.lines[0]}")
     wave("difficulty --wave W0 = difficulty order", [2, 4, 7], rank="difficulty")
     try:
         rank_run(inp, "leverage", "W2", 3, None, words, lambda s: None)
@@ -618,6 +688,28 @@ def self_test():
         ok(e.rc == 2 and e.lines == [f"DRAW MALFORMED {bad}:3"]
            and not os.path.exists(os.path.join(rinp["wdir"], "W0.txt")),
            "overlapping routing row -> DRAW MALFORMED <path>:3, rc 2, no W0.txt")
+    root = os.path.join(SELFTEST, "pick")  # pick_plant: difficulty rep A, leverage pick B
+    pinp, pwords, _ = plant(root)
+    va, vb = pv(40)[len(P) + 1:], pv(41)[len(P) + 1:]
+    pf, pt, pd = pick_plant(P, va, vb, rank=20)
+    for k, extra in (("funcs", pf), ("twins", pt)):
+        with open(pinp[k], "a") as f:
+            f.write("".join(json.dumps(r) + "\n" for r in extra))
+    with open(pinp["diff"]) as f:
+        diff = json.load(f)
+    with open(pinp["diff"], "w") as f:
+        json.dump(diff + pd, f)
+    pwords.update({(P, va): [census.JR_RA, 0], (P, vb): [census.JR_RA, 0]})
+    try:
+        got = {r["vram"]: (r["layer"], r["reason"]) for r in run(pinp, os.path.join(root, "draw.jsonl"), None, pwords,
+                                                                 lambda s: None)}
+        said = []
+        drew = rank_run(pinp, "leverage", "W0", None, None, pwords, said.append, detail=True)
+        ok(got[vb] == ("L2", f"cluster of {pv(40)}") and got[va] == (None, "") and pv(41) in drew
+           and pv(40) not in drew and f"DRAW PV {pv(40)} L2 cluster of {pv(41)}" in said,
+           f"pick plant: difficulty B cluster of A; leverage draws B, refuses A cluster of B: {drew}")
+    except Refuse as e:
+        ok(False, f"pick plant: refused rc {e.rc} {e.lines[0]}")
     root = os.path.join(SELFTEST, "stale")
     inp, words, _ = plant(root, stale=True)
     out = os.path.join(root, "draw.jsonl")
@@ -660,10 +752,11 @@ def main():
     ap.add_argument("--band", metavar="LO-HI")
     ap.add_argument("--wave", metavar="W<n>")
     ap.add_argument("--routing", metavar="FILE")
+    ap.add_argument("--detail", action="store_true")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
-    if bool(a.rank) != bool(a.wave) or ((a.band or a.routing) and not a.rank):
-        ap.error("--rank needs --wave; --wave, --band and --routing need --rank")
+    if bool(a.rank) != bool(a.wave) or ((a.band or a.routing or a.detail) and not a.rank):
+        ap.error("--rank needs --wave; --wave, --band, --routing and --detail need --rank")
     if a.wave and not re.fullmatch(r"W\d+", a.wave):
         ap.error("--wave takes W<n>, n >= 0")
     band = None
@@ -682,7 +775,7 @@ def main():
             print("\n".join(lines))
             return 2 if s else 0
         if a.rank:
-            rank_run(INPUTS, a.rank, a.wave, a.n, band, route=a.routing)
+            rank_run(INPUTS, a.rank, a.wave, a.n, band, route=a.routing, detail=a.detail)
             return 0
         run(INPUTS, OUT, a.n)
     except Refuse as e:

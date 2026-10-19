@@ -9,7 +9,7 @@ void func_8001D218();
 void func_8001D25C(void);
 void func_8001F5A0(void*, s32);
 void func_8001FB90(u8* t, s16 arg1);
-M2C_UNK func_8002AA74();
+void func_8002AA74(void);
 void func_8002C1DC();
 M2C_UNK func_800660B8(M2C_UNK);
 extern M2C_UNK D_800711F4;

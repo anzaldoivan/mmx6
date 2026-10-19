@@ -6,7 +6,7 @@
 M2C_UNK func_80017A04();             /* extern */
 s32 func_8002CB50(struct X4_BaseObj*); /* extern */
 #define func_8002CB50 func_8002CB50
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK); /* extern */
+s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2); /* extern */
 M2C_UNK func_8002D2B0(void*);               /* extern */
 
 void func_800464C4(void* arg0) {

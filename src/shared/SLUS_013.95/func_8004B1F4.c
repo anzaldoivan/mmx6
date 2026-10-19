@@ -5,10 +5,10 @@
 extern u32* D_8007789C[];
 extern struct X4_PlayerObj D_800970A0;
 s32 func_80016C48(s32 a0, s32 a1, void* arg2);
-s32 func_800179A4(void*, s32);
+M2C_UNK func_800179A4(void* arg0, M2C_UNK arg1);
 M2C_UNK func_80017A04();
 M2C_UNK func_8002C9B0();
-M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
+void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 
 void func_8004B1F4(struct X4_VisualObj* arg0) {
     struct X4_PlayerObj* player = &D_800970A0;

@@ -4,7 +4,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
+void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 void func_800496C0(struct X4_VisualObj* arg0, struct X4_PlayerObj* arg1);
 
 void func_80049564(struct X4_VisualObj* arg0, struct X4_PlayerObj* arg1) {

@@ -3,8 +3,8 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
+s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
+void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);

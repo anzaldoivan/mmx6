@@ -15,7 +15,8 @@
   ledger.py --self-test
       -> planted inputs in .run/ledger-selftest/ (fictional program PLANT, no game data): --build gives the exact
          expected rows (every class and blocker rule at its precedence; routed:ledger from the real
-         config/routing.txt); the clean ledger passes --check; a dropped row (missing), a C function's row, an
+         config/routing.txt; draw.pick_plant: draw.jsonl says B `cluster of A`, leverage picks B -> B undrawn,
+         A member-of:B; words injected); the clean ledger passes --check; a dropped row (missing), a C function's row, an
          unknown blocker and a best draft holding INCLUDE_ASM are each refused;
          a planted `- gap` provenance row names an otherwise unproven lib row, and without it --check refuses.
          Ends `LEDGER CONTROL OK` (rc 0), else rc 1. No tracked file is touched.
@@ -38,8 +39,11 @@ Rules (docs/ops/campaign.md ## Ledger), first that holds:
              order above, line order): verdict fail with a plateau label -> `plateau:<label>`, fail `hash` (bank R5,
              probe matched) -> `plumbing:R5`, plumbing R<k> -> `plumbing:R<k>`, plumbing refused|conflict ->
              `plumbing:refused`, verbatim (gate refused the draft via verbatim.py) -> `plumbing:verbatim`; the
-             tracked draft's plateau.classify label -> `plateau:<label>`; draw L2 (registry member -> its exemplar,
-             `banked twin <pv>`, `cluster of <pv>`) -> `member-of:<pv>`; corpus words in a config/routing.txt
+             tracked draft's plateau.classify label -> `plateau:<label>`; draw.jsonl L2 (registry member -> its
+             exemplar, `banked twin <pv>`) -> `member-of:<pv>`; a draw.leverage_picks pick (the --rank leverage
+             --routing config/routing.txt draw over campaign/journal.jsonl: a candidate in a component whose first
+             survivor in leverage order is another pv) -> `member-of:<pick>`; the pick itself falls through;
+             corpus words in a config/routing.txt
              `ledger` row -> `routed:ledger`; else `undrawn`. Stdout `LEDGER blockers <name> <n> …`: blocker names,
              member-of:* and plateau:* folded to the prefix, `undrawn <n>` always (0 included). A malformed or
              overlapping routing row -> `LEDGER MALFORMED <path>:<line>` rc 1.
@@ -68,8 +72,10 @@ INPUTS = dict(funcs="build/corpus/functions.jsonl", classes="build/census/classe
               scaffold="build/scaffold/scaffold.jsonl", scaffold_tracked="campaign/scaffold/scaffold.jsonl",
               journal_scaffold="campaign/scaffold/journal.jsonl", journal="campaign/journal.jsonl",
               partners="campaign/x4/partners.tsv", pin="docs/ops/compiler-pin.md", routing="config/routing.txt",
-              root=".", exe="SLUS_013.95")
-REQUIRED = ("funcs", "classes", "twins", "draw", "bounds", "walls", "partners", "pin", "routing")
+              exclude="config/draw_exclude.txt", carve="config/carve.{prog}.txt", makefile="Makefile",
+              triples="config/triples.txt", root=".", exe="SLUS_013.95")
+REQUIRED = ("funcs", "classes", "twins", "draw", "bounds", "walls", "partners", "pin", "routing", "exclude",
+            "makefile", "triples", "registry")
 SELFTEST = ".run/ledger-selftest"
 ASM = ("asm", "include_asm")
 LABELS = ("none", "length", "isel", "sched", "regalloc", "branch")  # plateau.classify's labels
@@ -238,7 +244,7 @@ def journal_blocker(r):
     return None
 
 
-def build(inp, path, say=print):
+def build(inp, path, say=print, words=None):
     miss = [inp[k] for k in REQUIRED if not os.path.isfile(inp[k])]
     if miss:
         raise Refuse("\n".join(f"LEDGER REFUSE missing {p}" for p in miss))
@@ -259,6 +265,9 @@ def build(inp, path, say=print):
     drafts = tracked_drafts(inp)
     try:
         led = [r for r in draw.routing(inp["routing"], "LEDGER") if r[2] == "ledger"]
+        dfuncs = {(r["prog"], r["vram"]): r for r in jl(inp["funcs"])}  # the draw's own keys
+        picks = {key(*k): key(*p) for k, p in
+                 draw.leverage_picks(inp, dfuncs, jl(inp["twins"]), words, inp["routing"])["picks"].items()}
     except draw.Refuse as e:
         raise Refuse("\n".join(e.lines))
     rows = []
@@ -290,8 +299,10 @@ def build(inp, path, say=print):
             blk = f"plateau:{dlabel}"
         elif d.get("layer") == "L2" and why.startswith("registry ") and exemplar.get(k, k) != k:
             blk = f"member-of:{pv(exemplar[k])}"
-        elif d.get("layer") == "L2" and why.startswith(("banked twin ", "cluster of ")):
+        elif d.get("layer") == "L2" and why.startswith("banked twin "):
             blk = f"member-of:{pv(pvkey(why.split()[-1]))}"
+        elif k in picks:
+            blk = f"member-of:{pv(picks[k])}"
         elif any(lo <= r["words"] <= hi for lo, hi, *_ in led):
             blk = "routed:ledger"
         else:
@@ -400,24 +411,29 @@ def plant(root):
     inp = {k: os.path.join(root, os.path.basename(v)) for k, v in INPUTS.items() if k != "exe"}
     inp.update(journal_scaffold=os.path.join(root, "journal_scaffold.jsonl"),
                scaffold=os.path.join(root, "absent", "scaffold.jsonl"), root=root, exe="PLANT",
-               routing=INPUTS["routing"])  # the real routing file (its 901-99999 ledger row)
+               routing=INPUTS["routing"],  # the real routing file (its 901-99999 ledger row)
+               makefile=INPUTS["makefile"], triples=INPUTS["triples"])
     P, wpass = "PLANT", walls.PASSES[0]
     v = lambda i: "0x%08X" % (0x80000000 + 0x20 * i)  # noqa: E731
+    pf, pt, _ = draw.pick_plant(P, v(12), v(13), tu="TA")  # A f12, B f13: draw.jsonl rep A, leverage pick B
     fn = [("f_a", "asm", "game", "TA"), ("f_b", "asm", "game", "TA"), ("f_c", "include_asm", "game", "TA"),
           ("f_d", "c", "game", "TA"), ("f_e", "asm", "game", "TA"), ("f_f", "asm", "game", "TA"),
           ("f_g", "asm", "lib", "LG"), ("f_h", "asm", "game", "TA"), ("f_i", "asm", "game", "TA"),
           ("f_j", "asm", "lib", "LJ"), ("f_k", "asm", "game", "TA"), ("f_l", "asm", "game", "TA")]
     files = {
         "funcs": [json.dumps(dict(prog=P, vram=v(i), end=v(i + 1), words=950 if n == "f_l" else 8, name=n,
-                                  tu=tu, state=s, lane=ln, src="glabel")) for i, (n, s, ln, tu) in enumerate(fn)],
+                                  tu=tu, state=s, lane=ln, src="glabel")) for i, (n, s, ln, tu) in enumerate(fn)]
+                 + [json.dumps(dict(r, src="glabel")) for r in pf],
         "classes": [json.dumps(dict(kind="dup", key=K1, size=8, members=[[P, v(0)], [P, v(1)]], reach=1)),
                     json.dumps(dict(kind="dup", key="3" * 40, size=8, members=[[P, v(7)]], reach=1)),
                     json.dumps(dict(kind="family", key=K2, size=8, members=[[P, v(2)], [P, v(3)]], reach=1))],
         "twins": [json.dumps(dict(a=[P, v(4)], b=[P, v(5)], tier="exact", dist=0)),
-                  json.dumps(dict(a=[P, v(5)], b=[P, v(8)], tier="near", dist=2))],
+                  json.dumps(dict(a=[P, v(5)], b=[P, v(8)], tier="near", dist=2))] + [json.dumps(t) for t in pt],
         "draw": [json.dumps(dict(prog=P, vram=v(0), verdict="refused", layer="L1", reason="jtbl not carved 0x80001000")),
                  json.dumps(dict(prog=P, vram=v(1), verdict="refused", layer="L2", reason=f"banked twin {P}:{v(3)}")),
-                 json.dumps(dict(prog=P, vram=v(8), verdict="refused", layer="L2", reason="registry pending"))],
+                 json.dumps(dict(prog=P, vram=v(8), verdict="refused", layer="L2", reason="registry pending")),
+                 json.dumps(dict(prog=P, vram=v(13), verdict="refused", layer="L2", reason=f"cluster of {P}:{v(12)}"))],
+        "exclude": ["# planted, no rows"],
         "bounds": ["# program PLANT", f"lib {v(6)} {v(7)} LIBX.LIB/LG.OBJ"],
         "walls": [f"{P} {v(2)} {wpass} plant.dump:1 planted evidence"],
         "registry": [f"{K1} {P}:{v(5)} src/shared/plant.c {P}:{v(8)} pending planted"],
@@ -438,18 +454,22 @@ def plant(root):
             (5, f"twin:{P}:{v(4)}", "8/8", "plumbing:R2"), (6, "vendor:LIBX.LIB/LG", "nocompile", "vendor"),
             (7, "x4", "nocompile", "undrawn"), (8, "unique", "nocompile", f"member-of:{P}:{v(5)}"),
             (9, "vendor:LIBY.LIB/LIBY_OJ", "nocompile", "vendor"), (10, "unique", "nocompile", "plumbing:verbatim"),
-            (11, "unique", "nocompile", "routed:ledger")]
-    text = "".join(f"{P}\t{v(i)}\t{fn[i][0]}\t{c}\t{cl}\tm2c\t{b}\n" for i, c, cl, b in want)
-    return inp, text
+            (11, "unique", "nocompile", "routed:ledger"),
+            (12, f"twin:{P}:{v(13)}", "nocompile", f"member-of:{P}:{v(13)}"),
+            (13, f"twin:{P}:{v(12)}", "nocompile", "undrawn")]
+    names = [n for n, *_ in fn] + [r["name"] for r in pf]
+    text = "".join(f"{P}\t{v(i)}\t{names[i]}\t{c}\t{cl}\tm2c\t{b}\n" for i, c, cl, b in want)
+    words = {key(P, v(i)): [draw.census.JR_RA, 0] for i in range(len(names))}
+    return inp, text, words
 
 
 def self_test():
     os.chdir(ROOT)
-    inp, want = plant(SELFTEST)
+    inp, want, words = plant(SELFTEST)
     led = os.path.join(SELFTEST, "ledger.tsv")
     fails, out = [], []
     say = out.append
-    build(inp, led, say)
+    build(inp, led, say, words)
     with open(led) as f:
         got = f.read()
     print(f"LEDGER CONTROL {'ok' if got == want else 'FAIL'} build rows")
@@ -461,9 +481,9 @@ def self_test():
         fails.append("clean")
     pin = os.path.join(SELFTEST, "pin-nogap.md")
     with open(pin, "w") as f:
-        f.write("## Lib provenance\n")
+        f.write("## Lib provenance\n## Proven lib units\n")
     out.clear()
-    build(dict(inp, pin=pin), led, say)
+    build(dict(inp, pin=pin), led, say, words)
     out.clear()
     rc = check(inp, led, say)
     ok = rc == 1 and "LEDGER BAD PLANT:0x80000120 class vendor:unproven/LJ unproven" in out \

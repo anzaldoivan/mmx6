@@ -7,9 +7,9 @@ s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 #define func_800179A4 ((void (*)(void*, s32))func_800179A4)
 void func_8003CF24(s32, s32, s32);
-void* func_8003D480(M2C_UNK, s8, s8, void*);
-M2C_UNK func_8003D510(M2C_UNK, M2C_UNK, s8, M2C_UNK);
-#define func_8003D510 ((void (*)(s32, s32, s8, s32))func_8003D510)
+void* func_8003D480(s8 arg0, s8 arg1, s8 arg2, s32 arg3);
+M2C_UNK func_8003D510(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3);
+#define func_8003D510 func_8003D510
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);

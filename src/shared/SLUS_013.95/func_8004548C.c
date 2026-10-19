@@ -67,8 +67,7 @@ void func_8004548C(struct X4_WeaponObj* arg0) {
                     child->state = one;
                     child->unk5 = 4;
                     child->y_pos.i.hi = y;
-                    ((void (*)(void*, s32, s32, u16))func_800179A4)(child, 6, 1,
-                                                                    y);
+                    ((void (*)())func_800179A4)(child, 6, 1, y);
                     if (arg0->unk2 == 1) {
                         v = 0x30000;
                         goto set;

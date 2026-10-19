@@ -1,9 +1,9 @@
 /* Adapted from sozud/mmx4 @29b62af src/main/visuals/visual_22_missile_smoke.c:missile_smoke_main, AGPL-3.0; proven shared with X6 by exact signature c82f771f5c19 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
-s32 func_800179A4(void*, s32);
-
 #define M2C_UNK s32
+M2C_UNK func_800179A4(void* arg0, M2C_UNK arg1);
+
 M2C_UNK func_80017A04();
 M2C_UNK func_8002C9B0(void*, void*);
 s32 func_8002CB50(struct X4_BaseObj*);

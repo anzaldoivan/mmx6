@@ -12,15 +12,17 @@
          coverage (G28): N(p) = rows of build/corpus/functions.jsonl (corpus.py --all) with state asm|include_asm;
                         each n != N printed `optscan: <p> scanned <n> of <N>`
          last line:     `SCANNED <n> of <N> functions in <m> of <P> programs` (m = programs with n = N, P = programs
-                        asked); rc 1 if the corpus file is absent, a program is missing from it, any n != N, a program
-                        has no asm/<p>/ after `make -s build/split/<p>.stamp`, or 0 functions
+                        asked); rc 1 if the corpus file is absent, a program is missing from it, any n != N (incl.
+                        n = 0 with N > 0), or a program has no asm/<p>/ after `make -s build/split/<p>.stamp`;
+                        n = 0 with N = 0 prints `optscan: <p> fully C (0 asm functions)` and counts in m (rc unchanged)
   optscan.py --self-test
       -> two synthetic functions (encoder helpers, no literal words) written as splat .s under
          .run/optscan/selftest/ and scanned by the same parser; planted -O0 must be O0 gprel=1 div=1/0, planted
          -O2 must be O2 div=0/1; the same two plus one trailing word as one data-only dlabel .s must carve into
          2 functions (O0, O2, first named by its dlabel) and 1 dropped word; `SELF-TEST OK` or `SELF-TEST FAIL`;
          planted narrowing: the same coverage over .run/optscan/selftest/narrow/ (symlinks to every real asm/<p> but
-         one, no make) must be refused naming that program; last line `OPTSCAN CONTROL OK` (rc 0) or
+         one, no make) must be refused naming that program; planted coverage under .../cover/: FULLC (empty, N 0)
+         accepted and counted, EMPTYN (empty, N 3), NOROOT (no dir), NOCORPUS (not in corpus) refused; last line `OPTSCAN CONTROL OK` (rc 0) or
          `OPTSCAN CONTROL FAIL` (rc 1)
 
 Functions: `glabel <f>` .. `endlabel <f>` or the next glabel, under asm/<p>/ (incl. nonmatchings/); words from the
@@ -248,8 +250,6 @@ def coverage(base, progs, expected, out, make=True):
         n = scan(p, root, out) if os.path.isdir(root) else 0
         if not os.path.isdir(root):
             lines.append(f"optscan: no {root}/")
-        if n == 0:
-            lines.append(f"optscan: {p} has 0 functions")
             rc = 1
         if p not in expected:
             lines.append(f"optscan: {p} missing from {CORPUS} (run corpus.py --all)")
@@ -257,7 +257,9 @@ def coverage(base, progs, expected, out, make=True):
         elif n != expected[p]:
             lines.append(f"optscan: {p} scanned {n} of {expected[p]}")
             rc = 1
-        else:
+        elif os.path.isdir(root):                     # a missing root is refused above, never counted in m
+            if n == 0:
+                lines.append(f"optscan: {p} fully C (0 asm functions)")
             m += 1
         total += n
         want += expected.get(p, 0)
@@ -342,7 +344,20 @@ def self_test():
         print(f"narrowing: hid {hidden}; {nlines[-1]}")
         control = hidden is not None and nrc == 1 and f"optscan: {hidden} scanned 0 of {expected[hidden]}" in nlines \
             and sum(1 for l in nlines if " scanned " in l) == 1
-    ok = ok and control
+    # planted coverage rules: fully-C accepted and counted; 0 of N>0, no root, absent from corpus each refused
+    croot = os.path.join(SELFTEST_DIR, "cover")
+    shutil.rmtree(croot, ignore_errors=True)
+    for p in ("FULLC", "EMPTYN", "NOCORPUS"):
+        os.makedirs(os.path.join(croot, p))
+    cexp = {"FULLC": 0, "EMPTYN": 3, "NOROOT": 0}
+    crun = {p: coverage(croot, [p], cexp, lambda s: None, make=False) for p in ("FULLC", "EMPTYN", "NOROOT", "NOCORPUS")}
+    for p, (crc, clines) in crun.items():
+        print(f"cover {p}: rc {crc}; {clines[-1]}")
+    cover = (crun["FULLC"][0] == 0 and "optscan: FULLC fully C (0 asm functions)" in crun["FULLC"][1]
+             and crun["FULLC"][1][-1] == "SCANNED 0 of 0 functions in 1 of 1 programs"
+             and crun["EMPTYN"][0] == 1 and "optscan: EMPTYN scanned 0 of 3" in crun["EMPTYN"][1]
+             and crun["NOROOT"][0] == 1 and crun["NOCORPUS"][0] == 1)
+    ok = ok and control and cover
     print("OPTSCAN CONTROL OK" if ok else "OPTSCAN CONTROL FAIL")
     return 0 if ok else 1
 

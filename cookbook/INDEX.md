@@ -209,3 +209,8 @@ C0206 | Read globals and fields into s32 block locals before the call or store t
 C0207 | Assign a call-free local after the call's early-return test, not at function entry | lever,callee-saved,regalloc,constant,pointer,call,sched | 2026-10-13 | 1.8.1/T27 | mmx6 W27 rock_07 F036C
 C0208 | Constant-address view macro at each access, not an extern symbol or cached pointer local | lever,view-macro,global,cse,hi-lo,reload,constant-address,registry-drift | 2026-10-13 | 1.8.1/T27 | mmx6 W27 SLUS 21500
 C0209 | Byte or field read for a test: block local numerically pinned to the first return register | lever,register-pin,regalloc,load,byte,field,compare | 2026-10-13 | 1.8.1/T28 | mmx6 W28 rock_22 F259C
+C0210 | sym+K row base: scaled index into an s32 local after the base copy, +K add last | lever,sym-plus-k,sched,hi-lo,offset-local,statement-order | 2026-10-18 | 1.8.1/T40.5 | mmx6 W45 SLUS 80016704
+C0211 | Three-temp register rotation that will not close: a 4th coalescing block local | lever,regalloc,local-alloc,block-local,rotation,byte | 2026-10-18 | 1.8.1/T40.5 | mmx6 W45 SLUS 8001B984
+C0212 | Pinned pointer base added index-first: write b -= -i | lever,cse,pointer,operand-order,negated-subtract,regalloc | 2026-10-18 | 1.8.1/T40.6 | mmx6 W46 SLUS 8001A4FC
+C0213 | Descending row clear, counter init too early: forward counter plus separate descending index | lever,loop,loop-reversal,sched,hoist,biv,giv | 2026-10-18 | 1.8.1/T40.6 | mmx6 W46 SLUS 8002B2F8
+C0214 | Table+index sum: fresh pointer local p = i + t, empty do-while(0) after base copy, mask last | lever,pointer,table,regalloc,do-while,statement-order,sched | 2026-10-18 | 1.8.1/T40.10 | mmx6 W50 SLUS 800533F4

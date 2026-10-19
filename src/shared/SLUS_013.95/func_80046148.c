@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 
 M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
 M2C_UNK func_8002D2B0(void*);
 M2C_UNK func_8002EE10(void*);
-M2C_UNK func_80049D90(void*);
+void func_80049D90(void*);
 
 void func_80046148(u8* arg0) {
     if (func_8002CBFC(arg0, 0x20, 0x20) == 0) {

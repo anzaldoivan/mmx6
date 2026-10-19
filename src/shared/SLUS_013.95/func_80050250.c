@@ -5,7 +5,7 @@
 void func_80012D9C(s32);
 s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002B79C();
+void func_8002B79C();
 void* func_8002BBF4();
 void func_80031DA8(struct X4_MainObj*);
 s32 func_80050C88(void*);

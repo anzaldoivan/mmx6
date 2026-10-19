@@ -78,9 +78,13 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FB9E4);
 #undef func_800F30A4
 #undef D_800F767C
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FBC74);
+#define func_800F311C func_800FBC74
+#include "../shared/rock_04/func_800F311C.c"
+#undef func_800F311C
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FBCAC);
+#define func_800F3154 func_800FBCAC
+#include "../shared/rock_04/func_800F3154.c"
+#undef func_800F3154
 
 #define func_800F31A4 func_800FBCFC
 #define D_800F7684 D_800FED7C
@@ -134,9 +138,13 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FC158);
 
 INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FC1DC);
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FC220);
+#define func_800F36C8 func_800FC220
+#include "../shared/rock_04/func_800F36C8.c"
+#undef func_800F36C8
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FC284);
+#define func_800F372C func_800FC284
+#include "../shared/rock_04/func_800F372C.c"
+#undef func_800F372C
 
 #define func_800F378C func_800FC2E4
 #include "../shared/rock_04/func_800F378C.c"
@@ -158,7 +166,11 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FC358);
 #include "../shared/rock_04/func_800F38B4.c"
 #undef func_800F38B4
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FC530);
+#define func_800F39D8 func_800FC530
+#define D_800970A0 D_800970A0
+#include "../shared/rock_04/func_800F39D8.c"
+#undef func_800F39D8
+#undef D_800970A0
 
 #define func_800F3A2C func_800FC584
 #define D_800970A0 D_800970A0
@@ -176,7 +188,9 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FC530);
 #include "../shared/rock_04/func_800F3BE0.c"
 #undef func_800F3BE0
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FC79C);
+#define func_800F3C44 func_800FC79C
+#include "../shared/rock_04/func_800F3C44.c"
+#undef func_800F3C44
 
 INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FC7D8);
 
@@ -186,7 +200,11 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FC7D8);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FC850);
+#define func_800F5488 func_800FDFE0
+#define func_800F3CF8 func_800FC850
+#include "../shared/rock_04/func_800F3CF8.c"
+#undef func_800F3CF8
+#undef func_800F5488
 
 INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FC89C);
 
@@ -214,7 +232,11 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FCBB0);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FCC28);
+#define func_800F40D0 func_800FCC28
+#define D_800F75F0 D_800FECE8
+#include "../shared/rock_04/func_800F40D0.c"
+#undef func_800F40D0
+#undef D_800F75F0
 
 INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FCC64);
 
@@ -250,9 +272,17 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FCD54);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FCF58);
+#define func_800F4400 func_800FCF58
+#define D_800F7620 D_800FED18
+#include "../shared/rock_04/func_800F4400.c"
+#undef func_800F4400
+#undef D_800F7620
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FCF84);
+#define func_800F5488 func_800FDFE0
+#define func_800F442C func_800FCF84
+#include "../shared/rock_04/func_800F442C.c"
+#undef func_800F442C
+#undef func_800F5488
 
 INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FCFD4);
 
@@ -342,7 +372,9 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FD3F0);
 #include "../shared/rock_04/func_800F4E34.c"
 #undef func_800F4E34
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FDA08);
+#define func_800F4EB0 func_800FDA08
+#include "../shared/rock_04/func_800F4EB0.c"
+#undef func_800F4EB0
 
 #include "../shared/rock_34/func_800FDA64.c"
 
@@ -410,7 +442,9 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FE154);
 #undef func_8003744C
 #undef D_80073C1C
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FE224);
+#define func_800F56CC func_800FE224
+#include "../shared/rock_04/func_800F56CC.c"
+#undef func_800F56CC
 
 INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FE264);
 

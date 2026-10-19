@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_8002C9B0();
-M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
+void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 extern struct X4_PlayerObj D_800970A0;
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 

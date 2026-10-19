@@ -1,7 +1,5 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", D_800FA000);
-
 INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FA0D0);
 
 INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FA45C);
@@ -44,7 +42,7 @@ INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FC2FC);
 
 INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FC414);
 
-INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FE398);
+#include "../shared/rock_33/func_800FE398.c"
 
 INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FE4A4);
 
@@ -108,7 +106,11 @@ INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FF004);
 
 INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FF118);
 
-INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FF168);
+#define D_800F7E0E D_80100C42
+#define func_800F48A8 func_800FF168
+#include "../shared/rock_03/func_800F48A8.c"
+#undef func_800F48A8
+#undef D_800F7E0E
 
 #define func_800F48EC func_800FF1AC
 #define D_800F7BA0 D_801009D4
@@ -128,7 +130,11 @@ INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FF2A4);
 
 INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FF3B8);
 
-INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FF408);
+#define D_800F7E0E D_80100C42
+#define func_800F4B48 func_800FF408
+#include "../shared/rock_03/func_800F4B48.c"
+#undef func_800F4B48
+#undef D_800F7E0E
 
 #define func_800F4674 func_800FF458
 #define D_800F7C30 D_80100AA0
@@ -232,9 +238,19 @@ INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FFAA0);
 #include "../shared/rock_03/func_800F5564.c"
 #undef func_800F5564
 
-INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FFF24);
+#define func_800F5664 func_800FFF24
+#define D_800F7D54 D_80100B88
+#include "../shared/rock_03/func_800F5664.c"
+#undef func_800F5664
+#undef D_800F7D54
 
-INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FFF74);
+#define D_800F7E10 D_80100C44
+#define func_800F56B4 func_800FFF74
+#define D_800F7E20 D_80100C54
+#include "../shared/rock_03/func_800F56B4.c"
+#undef func_800F56B4
+#undef D_800F7E20
+#undef D_800F7E10
 
 INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FFFB8);
 

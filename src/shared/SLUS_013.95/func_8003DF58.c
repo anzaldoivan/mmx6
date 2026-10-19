@@ -1,6 +1,6 @@
 #include "common.h"
 #define M2C_UNK s32
-M2C_UNK func_8003F7BC(void*, M2C_UNK, M2C_UNK);
+void func_8003F7BC(void* arg0, M2C_UNK arg1, M2C_UNK arg2);
 
 #define B(o) (*(s8*)((u8*)self + (o)))
 #define UB(o) (*(u8*)((u8*)self + (o)))

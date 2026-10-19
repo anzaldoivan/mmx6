@@ -4,7 +4,7 @@
 
 #define M2C_UNK s32
 M2C_UNK func_8002C9B0(void*, void*);
-M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
+void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 void func_80049950(struct X4_VisualObj* arg0) {
     if (arg0->animation_step.fields.relative_step == 0 ||
         arg0->unk5C.value != 0) {

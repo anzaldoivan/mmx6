@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
+void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 M2C_UNK func_8002D2B0(void*);
 void func_8002D3B4(void*, s32);
 extern u32* D_8007789C[];

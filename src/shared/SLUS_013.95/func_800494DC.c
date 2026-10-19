@@ -3,8 +3,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 extern u32* D_8007789C[];
-M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-s32 func_800179A4(void*, s32);
+void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
+M2C_UNK func_800179A4(void* arg0, M2C_UNK arg1);
 
 void func_800494DC(struct X4_VisualObj* arg0, struct X4_PlayerObj* arg1) {
     arg0->on_screen = 1;

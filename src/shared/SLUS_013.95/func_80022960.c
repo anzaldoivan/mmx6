@@ -34,7 +34,7 @@ void func_80023ED8(u8* arg0);
 void func_800241D4(void*);
 void func_800244C0(void);
 void func_80026128(void);
-void func_8002619C(void*);
+void func_8002619C(u8* arg0);
 s32 func_8002FE30(void*);
 
 void func_80022960(void) {

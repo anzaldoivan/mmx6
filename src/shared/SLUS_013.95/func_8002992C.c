@@ -2,7 +2,7 @@
 
 #define M2C_UNK s32
 
-M2C_UNK func_80029A2C(s32); /* extern */
+void func_80029A2C();    /* extern */
 M2C_UNK func_80029A4C();    /* extern */
 
 void func_8002992C(s32 arg0) {

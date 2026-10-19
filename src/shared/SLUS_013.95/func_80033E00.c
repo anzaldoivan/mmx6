@@ -3,9 +3,9 @@
 #include "mmx6/x4.h"
 
 void func_800122A4();
-M2C_UNK func_800139A0(M2C_UNK);
+M2C_UNK func_800139A0(s8);
 M2C_UNK func_800139F4(M2C_UNK);
-M2C_UNK func_800210E8();
+void func_800210E8();
 M2C_UNK func_80025FB0();
 M2C_UNK func_80026028();
 void func_8002ACA8();                              /* extern; was M2C_UNK (W15 regate of 2ACA8) */

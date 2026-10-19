@@ -5,7 +5,7 @@
 
 M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
 M2C_UNK func_8002B410(M2C_UNK*, M2C_UNK*, M2C_UNK, s32, s32);
-M2C_UNK func_800F3E10(void*, M2C_UNK);
+void func_800F3E10(void* arg0, s32 arg1);
 extern M2C_UNK D_800FD530;
 extern M2C_UNK D_800FD730;
 extern M2C_UNK D_800FD930;

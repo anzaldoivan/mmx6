@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK func_8002D2B0();
 M2C_UNK func_8002EE10(void*);
 M2C_UNK func_80049D90(void*);
 

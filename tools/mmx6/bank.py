@@ -339,8 +339,8 @@ def member_block(prog, func):
 
 def plant_words(prog, func, vram, end):
     """Retail words of [vram, end): probe.retail_words (trimmed, C0021) plus the untrimmed tail words."""
-    words = probe.retail_words(prog, func)
     n = (end - vram) // 4
+    words = probe.retail_words(prog, func)[:n]  # T40.8.1: never past the corpus extent
     if len(words) < n:
         target, seg_start, seg_vram = probe.yaml_layout(prog)
         with open(target, "rb") as f:

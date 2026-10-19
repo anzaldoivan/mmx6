@@ -1,0 +1,27 @@
+#include "common.h"
+#define M2C_UNK s32
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
+#define SPAD20 (*(s32*)0x1F800020)
+
+M2C_UNK func_800179A4(void*, M2C_UNK);
+s32 func_8002A47C(s32);
+extern s16 D_800970AA;
+
+void func_800F0794(void* arg0) {
+    s32 base;
+    s32 idx;
+    s32 g;
+
+    g = D_800970AA;
+    if (M2C_FIELD(arg0, s16*, 0xA) < g) {
+        M2C_FIELD(arg0, u8*, 0x15) = 0x40;
+    } else {
+        M2C_FIELD(arg0, u8*, 0x15) = 0;
+    }
+    idx = func_8002A47C(M2C_FIELD(arg0, s8*, 1));
+    base = SPAD20;
+    M2C_FIELD(arg0, s32*, 0x3C) = base + *(s32*)(idx * 4 + base);
+    ((void (*)(void*, s32))func_800179A4)(arg0, 5);
+    M2C_FIELD(arg0, s16*, 0x7C) = 0;
+    M2C_FIELD(arg0, u8*, 0x6) = M2C_FIELD(arg0, u8*, 0x6) + 1;
+}

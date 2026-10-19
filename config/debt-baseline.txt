@@ -23,15 +23,15 @@ mode extern count
 mode filename count
 raise protected 1 2026-10-14 psxdecomp 0.6.0: the guard hook fails closed (upgrade from the first build of the floor)
 raise protected 1 2026-10-16 own gate dropped: fleet runs in dev CI, land_check and the milestone gate, not on push
-851 pin
+968 pin
 736 pin-unmarked
-528 goto
+564 goto
 484 goto-unmarked
-27371 offset
-1636 address
-53 cast
-5578 field
-3777 placeholder
-31824 placeholder-use
-12587 extern
-3529 filename
+31201 offset
+1814 address
+69 cast
+6332 field
+4856 placeholder
+38740 placeholder-use
+15592 extern
+4614 filename

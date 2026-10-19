@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800139A0(M2C_UNK);
+M2C_UNK func_800139A0(s8);
 M2C_UNK func_80022928();
 M2C_UNK func_80025FB0();
 

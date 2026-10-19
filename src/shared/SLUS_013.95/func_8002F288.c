@@ -12,7 +12,7 @@ void func_8002F5FC(struct X4_PlayerObj* arg0);
 void func_8002F71C(struct X4_PlayerObj* arg0);
 void func_8002F840(struct X4_PlayerObj* arg0);
 s32 func_8002FBEC(struct X4_PlayerObj* arg0);
-void func_800304D8(void);
+void func_800304D8();
 void func_8003056C(s32 arg0);
 void func_800305B0(s32 arg0);
 void func_800306F4(struct X4_PlayerObj* arg0);

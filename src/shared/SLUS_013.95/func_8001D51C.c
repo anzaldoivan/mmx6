@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800139A0(M2C_UNK);
+M2C_UNK func_800139A0(s8);
 void func_80017E24(void);
 void func_8001E730(void);
 void func_8001E78C(void);
@@ -48,5 +48,5 @@ void func_8001D51C(u8* arg0) {
     func_8001E78C();
     arg0[2] = 0;
     arg0[1]++;
-    ((void (*)(s32))func_800139A0)(8);
+    ((void (*)(s8))func_800139A0)(8);
 }

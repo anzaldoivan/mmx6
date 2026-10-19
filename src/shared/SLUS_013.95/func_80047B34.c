@@ -35,8 +35,7 @@ void func_80047B34(void* arg0) {
     t = func_8002D2D4();
     t = D_80077B00[t & 7];
     M2C_FIELD(arg0, s32*, 0x24) = t;
-    ((void (*)(void*, s32, s32))func_800179A4)(arg0, M2C_FIELD(arg0, u8*, 0x58),
-                                               t);
+    ((void (*)())func_800179A4)(arg0, M2C_FIELD(arg0, u8*, 0x58), t);
     M2C_FIELD(arg0, u8*, 0x4) += 1;
     func_8002CB50(arg0);
 }

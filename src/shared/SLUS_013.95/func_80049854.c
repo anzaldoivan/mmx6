@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 void* func_8002C32C();
-M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
+void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 extern struct X4_PlayerObj D_800970A0;
 
 void func_80049854(struct X4_ShotObj* arg0) {

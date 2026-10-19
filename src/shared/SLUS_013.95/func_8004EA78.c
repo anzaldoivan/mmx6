@@ -3,8 +3,8 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
+s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
+void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 s32 func_8004EECC(void*);
 s32 func_8004FE8C();
 void func_8004FF00(u8, s32);

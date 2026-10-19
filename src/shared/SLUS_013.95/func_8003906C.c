@@ -3,7 +3,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_8003B298(void*);
-s32 func_8003F200(void*);
+s32 func_8003F200(struct X4_PlayerObj* self);
 s32 func_8003F28C(void*);
 s32 func_8003F32C(void*);
 s32 func_801EC298(void*);

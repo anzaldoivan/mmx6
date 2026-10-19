@@ -9,9 +9,9 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 void* func_8002C4C4();
 M2C_UNK func_8002CA14();
-M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
+void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 void func_8002F288(struct X4_PlayerObj*);
-void func_80051828(void*, s32, s32);
+void func_80051828(struct X4_PlayerObj* arg0, s8 arg1, s8 arg2);
 extern s32 D_80075B9C;
 extern s32 D_80078DF8;
 extern s32 D_80078E00;
@@ -117,5 +117,5 @@ void func_80051158(struct X4_MainObj* self) {
     }
     self->unk5 = 0;
     self->state++;
-    ((void (*)(void*, s32, s32))func_8002CCB0)(self, 0x88, 0x88);
+    func_8002CCB0(self, 0x88, 0x88);
 }

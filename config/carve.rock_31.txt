@@ -1,0 +1,9 @@
+# config/carve.rock_31.txt -- carves of rock_31, written only by tools/mmx6/carve.py (config/segmentation.md).
+# jtbl <table_lo> <tu> | rodata <lo> <hi> <tu> | block <hi> | opt <tu> <vram> <newtu> [cflags...]
+block 0x800E9C34
+rodata 0x800E9994 0x800E9A14 E9860
+rodata 0x800E9A14 0x800E9A94 E9860
+rodata 0x800E9A94 0x800E9B14 E9860
+rodata 0x800E9B14 0x800E9B34 E9860
+rodata 0x800E9B34 0x800E9BAC E9860
+rodata 0x800E9BAC 0x800E9C20 E9860

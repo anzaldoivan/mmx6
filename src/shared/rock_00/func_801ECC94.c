@@ -1,0 +1,11 @@
+#include "common.h"
+#define M2C_UNK s32
+
+M2C_UNK func_8003BA04(void*, M2C_UNK);
+
+void func_801ECC94(u8* arg0) {
+    if (((s8*)arg0)[7] != 0) {
+        ((void (*)(void*, s32))func_8003BA04)(arg0, 0x60);
+        arg0[6] = arg0[6] + 1;
+    }
+}

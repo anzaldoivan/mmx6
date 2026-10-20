@@ -6,7 +6,7 @@ INCLUDE_ASM("asm/rock_46/nonmatchings/FA000", func_800FA004);
 
 #include "../shared/rock_46/func_800FA0E8.c"
 
-INCLUDE_ASM("asm/rock_46/nonmatchings/FA000", func_800FA190);
+#include "../shared/rock_46/func_800FA190.c"
 
 #include "../shared/rock_46/func_800FA200.c"
 

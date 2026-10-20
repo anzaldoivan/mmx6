@@ -915,7 +915,11 @@ void func_8002B410(u16* dst, u16* src, s32 n, s32 num, s32 den) {
 
 #include "../shared/SLUS_013.95/func_8002C3F8.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002C458);
+#define func_8002C32C func_8002C458
+#define D_800950A0 D_80093C98
+#include "../shared/SLUS_013.95/func_8002C458.c"
+#undef func_8002C32C
+#undef D_800950A0
 
 #include "../shared/SLUS_013.95/func_8002C4C4.c"
 

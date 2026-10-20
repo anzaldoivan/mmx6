@@ -1,7 +1,5 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", D_800E9860);
-
 #include "../shared/rock_25/func_800E98F4.c"
 
 INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800E9AA0);
@@ -10,9 +8,13 @@ INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800E9BB8);
 
 INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800E9CEC);
 
-INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800E9E14);
+#define func_800E9EF4 func_800E9E14
+#include "../shared/rock_03/func_800E9EF4.c"
+#undef func_800E9EF4
 
-INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800E9FD0);
+#define func_800EA0B0 func_800E9FD0
+#include "../shared/rock_03/func_800EA0B0.c"
+#undef func_800EA0B0
 
 #define func_80041AB8 func_800EA184
 #define D_80075FD8 D_800EF754

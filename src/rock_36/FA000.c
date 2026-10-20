@@ -1,7 +1,5 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", D_800FA000);
-
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FA230);
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FA3EC);
@@ -50,13 +48,15 @@ INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FB858);
 #undef func_800F37DC
 #undef D_800F97B0
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FBC38);
+#define func_800F3988 func_800FBC38
+#include "../shared/rock_07/func_800F3988.c"
+#undef func_800F3988
 
 #define func_800F3B9C func_800FBE4C
 #include "../shared/rock_07/func_800F3B9C.c"
 #undef func_800F3B9C
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FBF30);
+#include "../shared/rock_36/func_800FBF30.c"
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FC244);
 

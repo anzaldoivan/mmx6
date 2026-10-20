@@ -16,7 +16,8 @@
       -> planted inputs in .run/ledger-selftest/ (fictional program PLANT, no game data): --build gives the exact
          expected rows (every class and blocker rule at its precedence; routed:ledger from the real
          config/routing.txt; draw.pick_plant: draw.jsonl says B `cluster of A`, leverage picks B -> B undrawn,
-         A member-of:B; words injected); the clean ledger passes --check; a dropped row (missing), a C function's row, an
+         A member-of:B; words injected; a refused-R2 registry member -> plumbing:R2, a pending one stays
+         member-of); the clean ledger passes --check; a dropped row (missing), a C function's row, an
          unknown blocker and a best draft holding INCLUDE_ASM are each refused;
          a planted `- gap` provenance row names an otherwise unproven lib row, and without it --check refuses.
          Ends `LEDGER CONTROL OK` (rc 0), else rc 1. No tracked file is touched.
@@ -42,7 +43,10 @@ Rules (docs/ops/campaign.md ## Ledger), first that holds:
              tracked draft's plateau.classify label -> `plateau:<label>`; draw.jsonl L2 (registry member -> its
              exemplar, `banked twin <pv>`) -> `member-of:<pv>`; a draw.leverage_picks pick (the --rank leverage
              --routing config/routing.txt draw over campaign/journal.jsonl: a candidate in a component whose first
-             survivor in leverage order is another pv) -> `member-of:<pick>`; the pick itself falls through;
+             survivor in leverage order is another pv) -> `member-of:<pick>`; the pick itself falls through; a
+             would-be member-of row whose own config/dedup_registry.txt row (key = its class key, else the first
+             refused) is `refused` -> `plumbing:R<k>` / `plumbing:preflight` by the reason's (or `family <rung>:`'s)
+             first token, else `plumbing:refused`;
              corpus words in a config/routing.txt
              `ledger` row -> `routed:ledger`; else `undrawn`. Stdout `LEDGER blockers <name> <n> …`: blocker names,
              member-of:* and plateau:* folded to the prefix, `undrawn <n>` always (0 included). A malformed or
@@ -83,7 +87,7 @@ PV = r"[A-Za-z0-9_.]+:0x[0-9A-F]{8}"
 CLASS_RE = re.compile(rf"(dup|family):[0-9a-f]{{40}}|twin:{PV}|x4|vendor:[A-Za-z0-9_.]+/[A-Za-z0-9_.]+|unique")
 CLOSE_RE = re.compile(r"(\d+)/(\d+)|nocompile")
 BLOCK_RE = re.compile(rf"vendor|jtbl-uncarved|opt-mismatch|wall:(\S+)|plateau:({'|'.join(LABELS)})"
-                      rf"|plumbing:(R[1-5]|refused|verbatim)|member-of:{PV}|routed:ledger|undrawn")
+                      rf"|plumbing:(R[1-5]|refused|verbatim|preflight)|member-of:{PV}|routed:ledger|undrawn")
 SCORE_RE = re.compile(r"(\d+)/(\d+)")
 DRAFT_RE = re.compile(r"drafts/([A-Za-z0-9_.]+)/([A-Za-z_]\w*)\.c")
 GAP_RE = re.compile(r"- gap (0x[0-9A-Fa-f]{8}) ([A-Za-z0-9_]+)\.LIB/([A-Za-z0-9_]+)\.OBJ(?:\s|$)")
@@ -244,6 +248,14 @@ def journal_blocker(r):
     return None
 
 
+def refused_blocker(reason):
+    """plumbing:R<k> | plumbing:preflight | plumbing:refused from a refused registry row's reason (`family <rung>: …` too)."""
+    t = reason.split()
+    t = t[1:] if t[:1] == ["family"] else t
+    rung = t[0].rstrip(":") if t else ""
+    return f"plumbing:{rung}" if re.fullmatch(r"R[1-5]|preflight", rung) else "plumbing:refused"
+
+
 def build(inp, path, say=print, words=None):
     miss = [inp[k] for k in REQUIRED if not os.path.isfile(inp[k])]
     if miss:
@@ -258,9 +270,10 @@ def build(inp, path, say=print, words=None):
             scaf[pvkey(r["pv"])] = (max(0, r["n"] - r["score"]), r["n"])
     jscore, jlast = journal_of(inp)
     dr = {key(r["prog"], r["vram"]): r for r in jl(inp["draw"])}
-    exemplar = {}
+    exemplar, regs = {}, {}
     for _, t in propagate.registry_rows(inp["registry"]):
         exemplar.setdefault(pvkey(t[3]), pvkey(t[1]))
+        regs.setdefault(pvkey(t[3]), []).append(t)
     wall, _, _ = walls.parse(inp["walls"], inp["funcs"])
     drafts = tracked_drafts(inp)
     try:
@@ -307,6 +320,12 @@ def build(inp, path, say=print, words=None):
             blk = "routed:ledger"
         else:
             blk = "undrawn"
+        if blk.startswith("member-of:") and k in regs:  # a refused member's own registry row names its rung
+            ts = regs[k]
+            t = next((x for x in ts if x[0] == cls[k].partition(":")[2]), None) or \
+                next((x for x in ts if x[4] == "refused"), None)
+            if t and t[4] == "refused":
+                blk = refused_blocker(t[5])
         rows.append("\t".join([prog, k[1], func, cls[k], close, src or "m2c", blk]))
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     with open(path, "w") as f:
@@ -436,7 +455,8 @@ def plant(root):
         "exclude": ["# planted, no rows"],
         "bounds": ["# program PLANT", f"lib {v(6)} {v(7)} LIBX.LIB/LG.OBJ"],
         "walls": [f"{P} {v(2)} {wpass} plant.dump:1 planted evidence"],
-        "registry": [f"{K1} {P}:{v(5)} src/shared/plant.c {P}:{v(8)} pending planted"],
+        "registry": [f"{K1} {P}:{v(5)} src/shared/plant.c {P}:{v(8)} pending planted",
+                     f"{K1} {P}:{v(5)} src/shared/plant.c {P}:{v(1)} refused R2: planted does not compile"],
         "scaffold_tracked": [json.dumps(dict(pv=f"{P}:{v(0)}", func="f_a", words=8, score=2, n=8, state="compile")),
                              json.dumps(dict(pv=f"{P}:{v(4)}", func="f_e", words=8, score=None, n=8,
                                              state="nocompile"))],
@@ -449,7 +469,7 @@ def plant(root):
     for k, lines in files.items():
         with open(inp[k], "w") as f:
             f.write("".join(x + "\n" for x in lines))
-    want = [(0, f"dup:{K1}", "6/8", "jtbl-uncarved"), (1, f"dup:{K1}", "nocompile", f"member-of:{P}:{v(3)}"),
+    want = [(0, f"dup:{K1}", "6/8", "jtbl-uncarved"), (1, f"dup:{K1}", "nocompile", "plumbing:R2"),
             (2, f"family:{K2}", "nocompile", f"wall:{wpass}"), (4, f"twin:{P}:{v(5)}", "nocompile", "undrawn"),
             (5, f"twin:{P}:{v(4)}", "8/8", "plumbing:R2"), (6, "vendor:LIBX.LIB/LG", "nocompile", "vendor"),
             (7, "x4", "nocompile", "undrawn"), (8, "unique", "nocompile", f"member-of:{P}:{v(5)}"),

@@ -50,7 +50,7 @@ INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FABC0);
 #undef func_800F4674
 #undef D_800F7C30
 
-INCLUDE_ASM("asm/rock_45/nonmatchings/FA000", func_800FB6B4);
+#include "../shared/rock_45/func_800FB6B4.c"
 
 #include "../shared/rock_45/func_800FB6F0.c"
 

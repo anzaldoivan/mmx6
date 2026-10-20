@@ -16,7 +16,8 @@ Pairs (A vs B; each side calls an existing instrument, never re-implements it, G
   P1 matched?    corpus.parse_c C definitions (all programs) vs corpus.fleet_c_names() (object FUNC symbols); (prog, name).
   P2 compiles?   per corpus `c` function: probe.compile_obj of its config/probes.txt `banked` src (else, for a gated
                  config/dedup_registry.txt member, a .run/harness/p2/ wrapper: bank.block of the shared body under the
-                 row's defines, a `gated family define` row's likewise; a `gated exemplar` row's body as is (T5.c2); compiles in parallel, T5.c3) under the Makefile
+                 row's defines, a `gated family define` row's likewise; a `gated exemplar` row's body as is (T5.c2); compiles in parallel, T5.c3;
+                 a trailing `via tudecl|rodata` reason suffix is not a define, T40.21.1) under the Makefile
                  TRIPLE + probe.elf_function vs the words of build/<p>.elf at the corpus extent, under probe's
                  relocation mask (both trimmed by probe.trim).
   P3 fleet?      sha1 of every BINS output now vs after `touch` of src/SLUS_013.95/120A0.c and one asm unit and
@@ -135,6 +136,8 @@ def p2_gather():
             if len(t) >= 6 and not t[0].startswith("#") and t[4] == "gated" and t[5] in ("define", "exemplar", "family"):
                 if t[5] == "family":  # family_remap.py row: `gated family define A=B ...`
                     t = t[:5] + t[6:]
+                if "via" in t[6:]:  # propagate.py's ` via tudecl|rodata` reason suffix (T40.21): not a define
+                    t = t[:t.index("via", 6)]
                 p, _, v = t[3].rpartition(":")
                 reg[(p, int(v, 16))] = (t[2], [tuple(d.split("=", 1)) for d in t[6:]] if t[5] == "define" else [])
     out, todo = [], []

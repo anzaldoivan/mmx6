@@ -1,0 +1,31 @@
+#include "common.h"
+#define M2C_UNK s32
+#include "mmx6/x4.h"
+
+void func_800179A4(void*, M2C_UNK);
+M2C_UNK func_80017A04();
+M2C_UNK func_8002D2B0(void*);
+s32 func_8002D2D4();
+
+void func_800FC2AC(void* arg0) {
+    struct X4_PlayerObj* self = arg0;
+    s32 r;
+
+    r = func_8002D2D4() & 0xF;
+    ((void (*)(void*))func_80017A04)(arg0);
+    if (r < 5) {
+        ((void (*)(void*, s32))func_800179A4)(arg0, 0);
+        self->unk5 = 5;
+        self->unk6 = 0;
+        return;
+    }
+    if (r < 0xA) {
+        self->unk5 = 6;
+        self->unk6 = 0;
+        self->input.buttons.held = 0x5A;
+        return;
+    }
+    ((void (*)(void*))func_8002D2B0)(arg0);
+    self->unk5 = 2;
+    self->unk6 = 1;
+}

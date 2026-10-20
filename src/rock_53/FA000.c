@@ -10,7 +10,7 @@ INCLUDE_ASM("asm/rock_53/nonmatchings/FA000", func_800FA0D8);
 
 #include "../shared/rock_53/func_800FA214.c"
 
-INCLUDE_ASM("asm/rock_53/nonmatchings/FA000", func_800FA274);
+#include "../shared/rock_53/func_800FA274.c"
 
 #define func_800FA4D0 func_800FA2D4
 #include "../shared/rock_48/func_800FA4D0.c"

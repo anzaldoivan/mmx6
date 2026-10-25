@@ -7,8 +7,10 @@
 #   pull <path>... copy named relative paths from /work back into the clone (firewall paths refused; no *.s under
 #                  waves/: game asm never reaches the clone, G12)
 #   disc <dir>     load <dir>'s top-level *.cue/*.bin into the disc volume at /disc
-#   run <cmd...>   run a command in /work with /disc mounted read-only
-# Env overrides (per worktree, cookbook C0004): MX6_IMAGE, MX6_VOLUME, MX6_DISC_VOLUME.
+#   sdk <dir>      load <dir>'s whole tree (the PsyQ SDK, refs/Psy-Q_47) into the sdk volume at /sdk (vendor bytes
+#                  stay in the volume, never in git or the image)
+#   run <cmd...>   run a command in /work with /disc and /sdk mounted read-only
+# Env overrides (per worktree, cookbook C0004): MX6_IMAGE, MX6_VOLUME, MX6_DISC_VOLUME, MX6_SDK_VOLUME.
 # Never --privileged, never --pid=host, never a bind mount of a host path.
 set -euo pipefail
 
@@ -16,6 +18,7 @@ cd "$(git rev-parse --show-toplevel)"
 IMAGE="${MX6_IMAGE:-mmx6-build}"
 VOL="${MX6_VOLUME:-mmx6-work}"
 DISC="${MX6_DISC_VOLUME:-mmx6-disc}"
+SDKV="${MX6_SDK_VOLUME:-mmx6-sdk}"
 PLAT=(--platform linux/amd64)
 
 die() { echo "mx.sh: $*" >&2; exit 2; }
@@ -71,9 +74,14 @@ case "$cmd" in
     COPYFILE_DISABLE=1 tar --no-xattrs --no-mac-metadata -cf - -C "$1" "${files[@]}" \
       | docker run -i --rm "${PLAT[@]}" -v "$DISC:/disc" "$IMAGE" \
           sh -c 'find /disc -mindepth 1 -maxdepth 1 -exec rm -rf {} + && tar -xf - -C /disc && ls -l /disc' ;;
+  sdk)
+    [[ $# -eq 1 && -d "$1" ]] || die "usage: mx.sh sdk <dir>"
+    COPYFILE_DISABLE=1 tar --no-xattrs --no-mac-metadata --exclude=.DS_Store -cf - -C "$1" . \
+      | docker run -i --rm "${PLAT[@]}" -v "$SDKV:/sdk" "$IMAGE" \
+          sh -c 'find /sdk -mindepth 1 -maxdepth 1 -exec rm -rf {} + && tar -xf - -C /sdk && ls /sdk' ;;
   run)
     [[ $# -gt 0 ]] || die "usage: mx.sh run <cmd...>"
-    exec docker run --rm "${PLAT[@]}" -v "$VOL:/work" -v "$DISC:/disc:ro" -w /work "$IMAGE" "$@" ;;
+    exec docker run --rm "${PLAT[@]}" -v "$VOL:/work" -v "$DISC:/disc:ro" -v "$SDKV:/sdk:ro" -w /work "$IMAGE" "$@" ;;
   *)
-    die "usage: mx.sh build|sync|push|pull|disc|run ..." ;;
+    die "usage: mx.sh build|sync|push|pull|disc|sdk|run ..." ;;
 esac

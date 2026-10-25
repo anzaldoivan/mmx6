@@ -63,6 +63,15 @@ RUN sha256sum gcc/cc1
 FROM scratch AS cc1-export
 COPY --from=cc1-rebuild /work/gcc-2.95.2/gcc/cc1 /cc1
 
+# PsyQ LIB splitter psy-k 0.4.0 (ttkb-oss, crates.io), built from the sha256-pinned crate in a pinned rust stage
+# (rust:1.99.1-slim); only /usr/local/bin/psyk reaches the final image (phase 1.9 T4, cookbook C0240).
+FROM rust:1.99.1-slim@sha256:1a939748a7cbab172de91a014e3804a97af1394a8c844faa67fce9401c4e40fb AS psyk
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN curl -fsSL -o /tmp/psy-k.crate https://crates.io/api/v1/crates/psy-k/0.4.0/download \
+    && echo "531ff24380e23e7675e9610e33998e38fe575d14311ebaac5829822585017cfc  /tmp/psy-k.crate" | sha256sum -c - \
+    && mkdir /tmp/psy-k && tar -xzf /tmp/psy-k.crate -C /tmp/psy-k --strip-components=1 \
+    && cargo install --path /tmp/psy-k --locked --root /opt/psyk
+
 FROM ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3
 ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -124,3 +133,11 @@ RUN git clone https://github.com/matt-kempster/m2c.git /opt/m2c \
 RUN git clone https://github.com/simonlindholm/decomp-permuter.git /opt/decomp-permuter \
     && git -C /opt/decomp-permuter checkout 059609d4aec73eb0650726772954e1ad575825f8 \
     && /opt/splat-venv/bin/pip install --no-cache-dir "toml==0.10.2"
+# PsyQ SDK leg (phase 1.9 T4, `make SDK=/sdk build`): psyk (stage above) splits a .LIB into OBJs; psyq-obj-parser
+# (Xeeynamo/psyz release `requirements`, static x86-64) converts an OBJ to ELF. Both sha256-pinned; no SDK byte here.
+COPY --from=psyk /opt/psyk/bin/psyk /usr/local/bin/psyk
+RUN curl -fsSL -o /tmp/pop.xz https://github.com/Xeeynamo/psyz/releases/download/requirements/psyq-obj-parser.xz \
+    && echo "f2fb8aeb5fbb9047fbafb58191365d785f3461f2e363324dcee0b78a7841a8a6  /tmp/pop.xz" | sha256sum -c - \
+    && xz -dc /tmp/pop.xz > /usr/local/bin/psyq-obj-parser && rm /tmp/pop.xz \
+    && echo "f02ccb5f9849d7e96c82dbe86dadb867de4cd46623f07b2b8abc21975a561a81  /usr/local/bin/psyq-obj-parser" | sha256sum -c - \
+    && chmod 0755 /usr/local/bin/psyq-obj-parser

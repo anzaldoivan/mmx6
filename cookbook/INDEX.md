@@ -214,3 +214,32 @@ C0211 | Three-temp register rotation that will not close: a 4th coalescing block
 C0212 | Pinned pointer base added index-first: write b -= -i | lever,cse,pointer,operand-order,negated-subtract,regalloc | 2026-10-18 | 1.8.1/T40.6 | mmx6 W46 SLUS 8001A4FC
 C0213 | Descending row clear, counter init too early: forward counter plus separate descending index | lever,loop,loop-reversal,sched,hoist,biv,giv | 2026-10-18 | 1.8.1/T40.6 | mmx6 W46 SLUS 8002B2F8
 C0214 | Table+index sum: fresh pointer local p = i + t, empty do-while(0) after base copy, mask last | lever,pointer,table,regalloc,do-while,statement-order,sched | 2026-10-18 | 1.8.1/T40.10 | mmx6 W50 SLUS 800533F4
+C0215 | Rodata carve or banking moves a census dup key: re-key the registry row | registry,rodata,carve,dedup,census,propagate | 2026-10-24 | 1.8.1/T10 | 1.8.1 wave gotchas T10,T13,T15,T5,T40.9-T44
+C0216 | Gate R2 conflict: read the conflicting-types line, fix the TU prototype | gate,declaration,r2,declsync,prototype,triage | 2026-10-24 | 1.8.1/T14 | 1.8.1 wave gotchas T14,T3,T34,T37,T40.9,T40.20
+C0217 | Near-member chains: re-head per bank, draft the head with its members | draw,near-member,wave,chain,routing,campaign | 2026-10-24 | 1.8.1/T40.15.1.1 | 1.8.1 wave gotchas T40.15-T40.25
+C0218 | Gate clang-format reflows debt markers and bare macro bodies | clang-format,debt-marker,fake,gate,macro,format | 2026-10-24 | 1.8.1/T27 | 1.8.1 wave gotchas T27,T30,T31,T40.21
+C0219 | Draw ledger and wave draw must share one pick function | ledger,draw,routing,member-of,undrawn,campaign | 2026-10-24 | 1.8.1/T2 | 1.8.1 wave gotchas T2,T40.12,T40.21
+C0220 | Gate rodata recovery writes several carve files: pull all before sync | gate,rodata,carve,recovery,sync,registry | 2026-10-24 | 1.8.1/T35 | 1.8.1 wave gotchas T35,T40.17
+C0221 | Recovery and reconcile passes: re-declare what earlier steps dropped | recovery,declaration,reconcile,gate,cast,prelude | 2026-10-24 | 1.8.1/T3 | 1.8.1 wave gotchas T3,T40.12
+C0222 | Probe and plateau scores are not the gate verdict | probe,plateau,gate,scoring,length,order | 2026-10-24 | 1.8.1/T25 | 1.8.1 wave gotchas T25,T26,T38
+C0223 | Rung scheduling: the largest group is the wall-time floor | campaign,scheduling,wall-time,self-test,rungs,sampling | 2026-10-24 | 1.8.1/T41.1.1 | 1.8.1 wave gotchas T41.1,T41.1.1
+C0224 | Harvest drops inert-wave records before the live-set compare | harvest,inert,lever-credit,regate | 2026-10-24 | 1.8.1/T31 | 1.8.1 wave gotchas T31
+C0225 | Overlay-local symbol refused on a member: alias it around the include | alias,symbol,extern,propagate,overlay | 2026-10-24 | 1.8.1/T33 | 1.8.1 wave gotchas T33,T40.3,T40.4
+C0226 | Carved jump table overruns its bank by an alignment pad | rodata,jtbl,alignment,bank,overrun,carve | 2026-10-24 | 1.8.1/T4 | 1.8.1 wave gotchas T4,T44
+C0227 | Rodata-first overlay: cut rodata into gaps so splat pairs the table | splat,rodata,overlay,symbols,pairing | 2026-10-24 | 1.8.1/T4 | 1.8.1 wave gotchas T4
+C0228 | Pack scoring 0/n with no return is a data table carved as a function | boundaries,data-table,probe,noretry,census | 2026-10-24 | 1.8.1/T40.16 | 1.8.1 wave gotchas T40.16
+C0229 | Per-program scanners: zero asm functions is complete, not an error | scanner,campaign,all-tools,completion | 2026-10-24 | 1.8.1/T40.18.1 | 1.8.1 wave gotchas T40.18
+C0230 | Undrawn zero needs leftover asm rows made include_asm or ledgered | ledger,undrawn,include-asm,corpus-state,campaign | 2026-10-24 | 1.8.1/T40.12 | 1.8.1 wave gotchas T40.12
+C0231 | Make recipe loop over a generated list hits ARG_MAX: stream it | make,recipe,argument-list,linux,shell | 2026-10-24 | 1.8.1/T41 | 1.8.1 wave gotchas T41
+C0232 | Makefile has no header deps: touch the TU when a shared include changes | make,dependencies,include,rebuild | 2026-10-24 | 1.8.1/T20 | 1.8.1 wave gotchas T20
+C0233 | One-sided volatile is not a scheduling barrier | volatile,barrier,sched,do-while | 2026-10-24 | 1.8.1/T22 | 1.8.1 wave gotchas T22
+C0234 | Block-scope extern before file-scope extern: gcc 2.95 order rule | extern,declaration,gcc-2.95,order,conflicting-types | 2026-10-24 | 1.8.1/T40.6 | 1.8.1 wave gotchas T40.6
+C0235 | Chained assignment reuses a loaded byte as a call argument | lever,assignment,load-reuse,call-arg,byte | 2026-10-24 | 1.8.1/T40.7 | 1.8.1 wave gotchas T40.7
+C0236 | Draft view macros: #undef at body end or later TUs fail to parse | macro,view-macro,cpp,hygiene | 2026-10-24 | 1.8.1/T14 | 1.8.1 wave gotchas T14
+C0237 | Three-valued result through one shared label block, no if-conversion | lever,shared-label,return-value,barrier | 2026-10-24 | 1.8.1/T32 | 1.8.1 wave gotchas T32
+C0238 | Self-test failing control prints its evidence on the case line | self-test,control,diagnostics,evidence | 2026-10-24 | 1.8.1/T48 | 1.8.1 wave gotchas T48
+C0239 | Shared registry row format extended: grep every positional reader | registry,row-format,readers,schema | 2026-10-24 | 1.8.1/T40.21.1 | 1.8.1 wave gotchas T40.21
+C0240 | PsyQ LIB split with psy-k (built in rust:slim), OBJ to ELF via psyq-obj-parser on amd64, masked compare | psyq,sdk,lib,obj,psy-k,psyq-obj-parser,docker,vendor | 2026-10-24 | 1.9/T2 | mmx6 T2
+C0241 | Substituting PsyQ objects for splat asm TUs: ld rewrite, XBSS per-symbol, jlabel PROVIDE, stub identity by reloc | psyq,sdk,splat,ld,vendor,link,xbss,jlabel | 2026-10-24 | 1.9/T4 | mmx6 T4.c1
+C0242 | Generated public doc must pass the commit style gate before the long run | commit-gate,style,generated-doc,contract | 2026-10-24 | 1.9/T7 | T7.c1 doc commit refused after 1 h run
+C0243 | A public-projection proof checks build and hash only. Health rungs read unpublished inputs | split-mode,public,projection,fresh-clone,health,contract | 2026-10-24 | 1.9/T8 | mmx6 contract

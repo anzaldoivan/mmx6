@@ -27,6 +27,18 @@
          disagreement `PROPAGATE DRIFT <key> <prog:vram> <registry status> -> <dry-run verdict>` (rc 1). Members with a
          gated row are skipped (counted gated) as in every run; the exemplar is re-gated (a c/c-empty exemplar's
          preflight refusal agrees with its `gated exemplar` row).
+  propagate.py --dry-run --expect-registry --keys-from FILE|-
+      -> grouped dry run of many keys (one per line; T41.1): plan() makes units (key, program) of each key's run members
+         (as the per-key mode: gated-row members skipped); a unit with a member holding a refused registry row of its
+         key is scheduled isolated (a hint, never a verdict). Worker trees .run/propagate/tree/w<i> made once for the
+         run (count capped: 2x the copy's blocks each, in half the free disk), one program at a time per tree: isolated units first, each exactly
+         the per-key run_prog from the pristine program, then restored (edits undone + rebuild); then the group: R1-R4
+         per member of every other unit, one program_r5 over all their gated members; green -> those verdicts stand.
+         A group R1-R4 refusal (preflight excepted) or a red group R5 -> restore, re-run those units (all of them on a
+         red R5) isolated. Per program `PROPAGATE GROUP <prog> units <u> isolated <i> fallback yes|no wall <s>s`; per
+         key the per-key lines (member lines, `PROPAGATE DRY-RUN <key> gated m of n members`, DRIFT lines); last
+         `PROPAGATE DRY-RUN GROUPED <k> of <K> keys; drift <d>`, rc 0 iff every key passes, no DRIFT, src/ + registry
+         sha1 unchanged.
   propagate.py --check
       -> per registry row the member's dup key recomputed from the built object (census.read_words + dup_key); refusal
          lines `REGISTRY refused drift|not in class|missing member ...` (rc 1) or `REGISTRY OK <r> rows` (rc 0).
@@ -37,7 +49,9 @@
          key differs from its row key (drift), one member row dropped (missing member), a row for a function outside
          the class (not in class) -> each refused; --expect-registry on planted rows/verdicts: a refused row refused ->
          agrees, a gated row refused -> DRIFT, a c-empty exemplar refused -> agrees; a planted unit alias above a member's
-         INCLUDE_ASM -> the identity define dropped. Ends `PROPAGATE CONTROL OK` (rc 0), else rc 1.
+         INCLUDE_ASM -> the identity define dropped; grouped (plan on planted rows, planted verdicts): a gated exemplar
+         row refused inside a 2+-key group -> DRIFT, rc 1; a refused member row -> its unit isolated, agrees, rc 0;
+         exemplar row removed -> planned with the rows' named exemplar; rows disagreeing on it -> setup error. Ends `PROPAGATE CONTROL OK` (rc 0), else rc 1.
 Firewall G12: names, addresses, counts and hashes of our own files only.
 """
 import argparse
@@ -64,6 +78,14 @@ TREE = SCRATCH + "/tree"  # the dry run's worker trees TREE/w<i>
 WORKERS = os.cpu_count() or 1
 COPY = ("Makefile", "mk", "include", "config", "src", "tools", "asm", "build")  # the dry run's scratch tree
 LINK = ("extracted",)  # read-only inputs
+# build/ subtrees left out of each tree (T41.1.c3): no gating path (probe, bank.ladder, bank.rung5 incl. typecheck.py
+# --all + sig.py --rescan, extent_same, mk/ rules) reads or writes them. build/dumps (115 MB post-fleet): written only by
+# dumps.py / repro.py (OUT = "build/dumps"; `make dumps`, th-dumps, th-repro); probe.py uses only dumps.recipe (a
+# `make -n` of the C rule, no I/O under OUT); bank/census/typecheck/sig/carve, Makefile and mk/ name no build/dumps.
+# build/sig stays copied: sig.py --rescan reads and rewrites build/sig/{sigs,twins}.jsonl.
+SKIP = ("build/dumps",)
+TREE_GROW = 64 << 20  # a tree's growth over a run: T41.1.c1 measured 68 -> 121 MB per tree (+53 MB), rounded up
+TREE_RESERVE = 300 << 20  # free disk kept back when sizing the tree count
 LOAD_OPS = (0x23, 0x09)  # lw, addiu: the %lo half of the table address
 _KEYS = {}  # (prog, vram) -> built dup key (or None), shared by --check calls
 _FAMS = {}  # (prog, vram) -> built family key (or None), filled with _KEYS
@@ -312,15 +334,25 @@ def program_r5(prog, src, gated, log):
         raise bank.Stop(5, f"linked extent differs from retail ({' '.join(bad)})")
 
 
-def propagate(key, dry):
-    """(gated count, member count, [(member pv, state, reason)])."""
-    reg = registry_rows()
+def key_plan(key, dry, reg=None, classes=None, rows=None):
+    """(ctx, class members, skipped members, {prog: run members}) of key; sys.exit on a missing exemplar row/class.
+    Dry run of a key without an exemplar row: its rows' one named exemplar + shared path, members the class or else
+    the rowed members (rows disagreeing on cols 2-3 still exit).
+    reg: registry_rows() (default: the registry); classes: load_classes(); rows: corpus_rows()."""
+    reg = registry_rows() if reg is None else reg
     ex_rows = [t for _, t in reg if t[0] == key and t[1] == t[3]]
-    cls = load_classes().get(key)
+    cls = (load_classes() if classes is None else classes).get(key)
+    key_rows = [t for _, t in reg if t[0] == key]
+    if dry and not ex_rows and key_rows and len({(t[1], t[2]) for t in key_rows}) == 1:
+        # orphan key (exemplar row dropped, T41.1.c2): dry runs take the rows' one named exemplar pv + shared path;
+        # members = the dup class, else the key's rowed members. Rows disagreeing on cols 2-3 still exit below.
+        ex_rows = key_rows[:1]
+        if cls is None:
+            cls = sorted({parse_pv(t[3]) for t in key_rows})
     if not ex_rows or cls is None:
         sys.exit(f"propagate: {'no exemplar row in ' + bank.REGISTRY if not ex_rows else 'no dup class'} for {key}")
     ex, src = parse_pv(ex_rows[0][1]), ex_rows[0][2]
-    rows = corpus_rows()
+    rows = corpus_rows() if rows is None else rows
     ex_name = rows[ex]["name"]
     ex_tab = table_addr(probe.retail_words(ex[0], ex_name))
     with open(src) as f:
@@ -336,6 +368,13 @@ def propagate(key, dry):
         if m not in skip:
             by_prog.setdefault(m[0], []).append(m)
     ctx = (ex, ex_name, ex_tab, src, rows, not dry)  # recovery steps (tudecl, rodata) in a real run only
+    return ctx, cls, skip, by_prog
+
+
+def propagate(key, dry):
+    """(gated count, member count, [(member pv, state, reason)])."""
+    ctx, cls, skip, by_prog = key_plan(key, dry)
+    ex, src = ctx[0], ctx[3]
     results, paths = [], {}
     if not dry:
         for prog in sorted(by_prog):
@@ -361,9 +400,58 @@ def propagate(key, dry):
     return sum(s == "gated" for _, s, _ in results) + len(skip), len(cls), results
 
 
-def run_prog(prog, ms, ctx, out, paths=None):
+def run_prog(prog, ms, ctx, out, paths=None, keep=None):
     """[(member pv, state, reason)] of one program: R1-R4 per member, then R5 (isolating members on a red R5);
-    paths gets {member pv: its own body copy} of members gated via tudecl."""
+    paths gets {member pv: its own body copy} of members gated via tudecl; keep gets the gated member records
+    (their edits stay in the tree: the grouped dry run restores them)."""
+    src, rec, log = ctx[3], ctx[5], f"propagate-{prog}"
+    results, gated = gate_members(prog, ms, ctx, out)
+    if gated:
+        try:
+            program_r5(prog, src, gated, log)
+        except bank.Stop as e:  # isolate per member: undo all, retry each alone
+            out(f"propagate: {prog} R5 {e.cause}; isolating {len(gated)} members")
+            for g in reversed(gated):
+                bank.restore(g["saved"])
+            (resplit if any(g["carved"] for g in gated) else bank.rebuild)(prog, log)
+            kept = []
+            for g0 in gated:
+                g, why = gate_member(prog, g0["vram"], src, g0["defines"], log, rec)
+                if g is not None:
+                    try:
+                        program_r5(prog, src, kept + [g], log)
+                        kept.append(g)
+                        continue
+                    except bank.Stop as e2:  # its copy/carve undone too
+                        bank.restore(g["saved"])
+                        (resplit if g["carved"] else bank.rebuild)(prog, log)
+                        why = (f"{g['first']}; {g['via']} stop R5: {short('refused ' + e2.cause)}" if g["via"]
+                               else f"refused R5: {e2.cause}")
+                results.append((pv((prog, g0["vram"])), "refused", why[len("refused "):]))
+                out(f"{pv((prog, g0['vram']))} {why}")
+            gated = kept
+    if keep is not None:
+        keep.extend(gated)
+    return results + gated_lines(prog, gated, src, out, paths)
+
+
+def gated_lines(prog, gated, src, out, paths=None):
+    """[(member pv, "gated", reason)] of gated member records, each printed via out."""
+    results = []
+    for g in gated:
+        d = g["defines"]
+        reason = "exemplar" if not d else "define " + " ".join(f"{o}={n}" for o, n in d)
+        if g["via"]:
+            reason += f" via {g['via']}"
+            if g["src"] != src and paths is not None:
+                paths[pv((prog, g["vram"]))] = g["src"]
+        results.append((pv((prog, g["vram"])), "gated", reason))
+        out(f"{pv((prog, g['vram']))} gated {reason}")
+    return results
+
+
+def gate_members(prog, ms, ctx, out):
+    """(refusals [(member pv, "refused", reason)], gated member records): R1-R4 per member of one program, in order."""
     ex, ex_name, ex_tab, src, rows, rec = ctx
     log, results, gated = f"propagate-{prog}", [], []
     for m in ms:
@@ -391,40 +479,7 @@ def run_prog(prog, ms, ctx, out, paths=None):
             out(f"{pv(m)} {why}")
         else:
             gated.append(g)
-    if gated:
-        try:
-            program_r5(prog, src, gated, log)
-        except bank.Stop as e:  # isolate per member: undo all, retry each alone
-            out(f"propagate: {prog} R5 {e.cause}; isolating {len(gated)} members")
-            for g in reversed(gated):
-                bank.restore(g["saved"])
-            (resplit if any(g["carved"] for g in gated) else bank.rebuild)(prog, log)
-            kept = []
-            for g0 in gated:
-                g, why = gate_member(prog, g0["vram"], src, g0["defines"], log, rec)
-                if g is not None:
-                    try:
-                        program_r5(prog, src, kept + [g], log)
-                        kept.append(g)
-                        continue
-                    except bank.Stop as e2:  # its copy/carve undone too
-                        bank.restore(g["saved"])
-                        (resplit if g["carved"] else bank.rebuild)(prog, log)
-                        why = (f"{g['first']}; {g['via']} stop R5: {short('refused ' + e2.cause)}" if g["via"]
-                               else f"refused R5: {e2.cause}")
-                results.append((pv((prog, g0["vram"])), "refused", why[len("refused "):]))
-                out(f"{pv((prog, g0['vram']))} {why}")
-            gated = kept
-    for g in gated:
-        d = g["defines"]
-        reason = "exemplar" if not d else "define " + " ".join(f"{o}={n}" for o, n in d)
-        if g["via"]:
-            reason += f" via {g['via']}"
-            if g["src"] != src and paths is not None:
-                paths[pv((prog, g["vram"]))] = g["src"]
-        results.append((pv((prog, g["vram"])), "gated", reason))
-        out(f"{pv((prog, g['vram']))} gated {reason}")
-    return results
+    return results, gated
 
 
 def _worker_init(q):
@@ -434,6 +489,156 @@ def _worker_init(q):
 def _worker_prog(prog, ms, ctx):
     lines = []
     return run_prog(prog, ms, ctx, lines.append), lines
+
+
+# ---- grouped dry run -----------------------------------------------------------------------------------------------
+
+def plan(keys, reg_path=bank.REGISTRY):
+    """({key: (ctx, class members, skipped members)}, {key: setup error line}, {prog: [(key, run members, isolated)]}).
+    A unit (key, prog) is isolated when one of its run members holds a refused registry row of key (a scheduling
+    hint, never a verdict); units in key order."""
+    reg, classes, rows = registry_rows(reg_path), load_classes(), corpus_rows()
+    refused = {(t[0], t[3]) for _, t in reg if t[4] == "refused"}
+    info, errors, units = {}, {}, {}
+    for key in keys:
+        try:
+            ctx, cls, skip, by_prog = key_plan(key, True, reg, classes, rows)
+        except SystemExit as e:
+            errors[key] = str(e)
+            continue
+        info[key] = (ctx, cls, skip)
+        for prog in sorted(by_prog):
+            ms = by_prog[prog]
+            units.setdefault(prog, []).append((key, ms, any((key, pv(m)) in refused for m in ms)))
+    return info, errors, units
+
+
+def restore_prog(prog, gated, log):
+    """Undo the gated records' edits (newest first) and rebuild prog."""
+    for g in reversed(gated):
+        bank.restore(g["saved"])
+    (resplit if any(g["carved"] for g in gated) else bank.rebuild)(prog, log)
+
+
+def run_group(prog, units):
+    """({key: (results, lines)}, GROUP line, notes) of one program in this tree: isolated units first (run_prog from
+    the pristine program, then restored); then the group (R1-R4 per member, one program_r5 over all its gated); a
+    group R1-R4 refusal (preflight excepted) or a red group R5 -> restore, re-run those units (all on a red R5) isolated.
+    The tree is left with the program's edits restored."""
+    t0, log, out, notes = time.time(), f"propagate-{prog}", {}, []
+
+    def isolated(key, ms, ctx):
+        lines, keep = [], []
+        res = run_prog(prog, ms, ctx, lines.append, keep=keep)
+        restore_prog(prog, keep, log)
+        out[key] = (res, lines)
+
+    for key, ms, ctx, iso in units:
+        if iso:
+            isolated(key, ms, ctx)
+    group = [(key, ms, ctx) for key, ms, ctx, iso in units if not iso]
+    done, all_gated = [], []
+    for key, ms, ctx in group:
+        lines = []
+        res, gated = gate_members(prog, ms, ctx, lines.append)
+        done.append((key, ms, ctx, res, gated, lines))
+        all_gated += gated
+    affected = {key for key, _, _, res, _, _ in done if any(not r.startswith("preflight:") for _, _, r in res)}
+    if all_gated:
+        try:
+            program_r5(prog, None, all_gated, log)
+        except bank.Stop as e:
+            notes.append(f"propagate: {prog} group R5 {e.cause}; isolating {len(group)} units")
+            affected = {key for key, _, _ in group}
+    fallback = bool(affected)
+    if all_gated:
+        restore_prog(prog, all_gated, log)
+    for key, ms, ctx, res, gated, lines in done:
+        if key in affected:
+            isolated(key, ms, ctx)
+        else:
+            out[key] = (res + gated_lines(prog, gated, ctx[3], lines.append), lines)
+    n_iso = sum(iso for *_, iso in units)
+    return out, (f"PROPAGATE GROUP {prog} units {len(units)} isolated {n_iso} fallback {'yes' if fallback else 'no'}"
+                 f" wall {time.time() - t0:.0f}s"), notes
+
+
+def _worker_group(a):
+    return a[0], run_group(*a)
+
+
+def tree_bytes(paths, skip=SKIP):
+    """On-disk bytes (allocated blocks) of the regular files under paths, the skip subtrees left out."""
+    n = 0
+    for top in paths:
+        for d, ds, fs in os.walk(top):
+            ds[:] = [x for x in ds if os.path.join(d, x) not in skip]
+            n += sum(os.lstat(os.path.join(d, f)).st_blocks * 512 for f in fs
+                     if not os.path.islink(os.path.join(d, f)))
+    return n
+
+
+def key_verdict(key, m, n, results, reg=bank.REGISTRY, states=None):
+    """(lines, passes, drift count) of one key: `PROPAGATE DRY-RUN <key> gated m of n members` + its DRIFT lines;
+    passes as per-key --expect-registry (no DRIFT, no unrowed refusal)."""
+    drift, unrowed = expect_drift(key, results, reg, states)
+    return [f"PROPAGATE DRY-RUN {key} gated {m} of {n} members"] + drift, not drift and not unrowed, len(drift)
+
+
+def grouped_summary(k, n_keys, d, unchanged):
+    """(last line, rc): rc 0 iff every key passes, no DRIFT and src/ + registry unchanged."""
+    return f"PROPAGATE DRY-RUN GROUPED {k} of {n_keys} keys; drift {d}", 0 if k == n_keys and d == 0 and unchanged else 1
+
+
+def grouped(keys):
+    """Grouped dry run --expect-registry of keys: one worker tree per process for the whole run, one program at a
+    time per tree; per key the per-key mode's lines; rc as grouped_summary."""
+    t0 = time.time()
+    watch = ["src", bank.REGISTRY]
+    before = tree_sha(watch)
+    shutil.rmtree(TREE, ignore_errors=True)
+    info, errors, units = plan(keys)
+    os.makedirs(SCRATCH, exist_ok=True)
+    size, free = tree_bytes(COPY) + TREE_GROW, shutil.disk_usage(SCRATCH).free  # was 2 * tree_bytes(COPY)
+    n = max(1, min(WORKERS, len(units), (free - TREE_RESERVE) // size))  # was (free // 2) // size
+    print(f"propagate: grouped {len(keys)} keys, {len(units)} programs, {n} trees "
+          f"({size >> 20} MB each, {free >> 20} MB free)", flush=True)
+    trees = [f"{TREE}/w{i}" for i in range(n)]
+    for t in trees:
+        make_tree(t)
+    res = {}
+    if units:
+        mp = multiprocessing.get_context("fork")
+        q = mp.Queue()
+        for t in trees:
+            q.put(t)
+        order = sorted(units, key=lambda p: (-sum(len(u[1]) for u in units[p]), p))  # largest first
+        args = {p: [(key, ms, info[key][0], iso) for key, ms, iso in units[p]] for p in order}
+        with mp.Pool(n, initializer=_worker_init, initargs=(q,)) as pool:
+            for prog, (out, line, notes) in pool.imap_unordered(_worker_group,[(p, args[p]) for p in order]):
+                print("\n".join(notes + [line]), flush=True)
+                res[prog] = out
+    k = d = 0
+    for key in keys:
+        if key in errors:
+            print(errors[key])
+            continue
+        ctx, cls, skip = info[key]
+        results, lines = [], []
+        for prog in sorted(res):
+            if key in res[prog]:
+                results += res[prog][key][0]
+                lines += res[prog][key][1]
+        m = sum(s == "gated" for _, s, _ in results) + len(skip)
+        vl, ok, nd = key_verdict(key, m, len(cls), results)
+        print("\n".join(lines + vl), flush=True)
+        k, d = k + ok, d + nd
+    after = tree_sha(watch)
+    print(f"propagate: grouped dry run wall {time.time() - t0:.0f}s; src/ + registry sha1 {after[:12]} "
+          f"{'unchanged' if after == before else 'CHANGED from ' + before[:12]}")
+    line, rc = grouped_summary(k, len(keys), d, after == before)
+    print(line)
+    return rc
 
 
 def write_registry(key, ex, src, results, paths=None):
@@ -458,7 +663,8 @@ def make_tree(tree):
     os.makedirs(tree)
     for p in COPY:  # copy2/copytree keep mtimes, so make sees the copied build/ as up to date
         if os.path.isdir(p):
-            shutil.copytree(p, os.path.join(tree, p), symlinks=True)
+            shutil.copytree(p, os.path.join(tree, p), symlinks=True,
+                            ignore=lambda d, names: [x for x in names if os.path.join(d, x) in SKIP])
         else:
             shutil.copy2(p, os.path.join(tree, p))
     for p in LINK:
@@ -541,6 +747,63 @@ def check(reg=bank.REGISTRY, cls_path=CLASSES, quiet=False):
     return (1 if bad else 0), bad
 
 
+def grouped_controls(d, cls):
+    """Build-free plants of the grouped mode (plan + key_verdict + grouped_summary on planted rows and verdicts):
+    a gated exemplar row refused inside a 2+-key group -> DRIFT, rc 1; a refused member row -> its unit isolated,
+    the refusal agrees, rc 0. Returns the failure count."""
+    exr = {t[0]: t for _, t in registry_rows() if t[1] == t[3] and t[0] in cls}
+    ex_in = {}
+    for k in sorted(exr):
+        ex_in.setdefault(parse_pv(exr[k][1])[0], []).append(k)
+    pick = next(((a, b, m) for a in sorted(exr) for m in cls[a] if pv(m) != exr[a][1]
+                 for b in ex_in.get(m[0], ()) if b != a), None)
+    if pick is None:
+        print("control grouped FAIL: no two keys with an exemplar row sharing a program")
+        return 1
+    a, b, ma = pick
+    prog, exb = ma[0], exr[b][1]
+    reg = os.path.join(d, "registry.txt")
+    fails = 0
+    for name, extra, want_iso, bad in (("grouped drift", [], False, (b, exb)),
+                                       ("grouped refused isolated", [f"{a} {exr[a][1]} {exr[a][2]} {pv(ma)} refused R2: "
+                                                                     "control"], True, (a, pv(ma)))):
+        with open(reg, "w") as f:
+            f.write(bank.REGISTRY_HEAD + "\n".join([" ".join(exr[a]).rstrip(), " ".join(exr[b]).rstrip()] + extra) + "\n")
+        info, errors, units = plan([a, b], reg)
+        iso = {k: i for k, _, i in units.get(prog, ())}
+        k = nd = 0
+        drift = []
+        for key in (a, b):
+            res = [(pv(m), "refused" if (key, pv(m)) == bad else "gated", "control")
+                   for us in units.values() for kk, ms, _ in us if kk == key for m in ms]
+            vl, ok, n1 = key_verdict(key, 0, 0, res, reg, {})
+            drift += vl[1:]
+            k, nd = k + ok, nd + n1
+        _, rc = grouped_summary(k, 2, nd, True)
+        want_drift = [f"PROPAGATE DRIFT {b} {exb} gated -> refused"] if not want_iso else []
+        good = (not errors and iso.get(a) is want_iso and iso.get(b) is False and drift == want_drift
+                and rc == (0 if want_iso else 1))
+        print(f"control {name} {'ok' if good else 'FAIL'}: {prog} units {len(units.get(prog, ()))} isolated "
+              f"{sum(iso.values())}, rc {rc}, {len(drift)} drift" + (f", {drift[0]}" if drift else ""))
+        fails += not good
+    # orphan key (T41.1.c2): exemplar row removed -> plans with the rows' named exemplar; rows disagreeing -> setup error
+    mrow = f"{a} {exr[a][1]} {exr[a][2]} {pv(ma)} gated control"
+    for name, lines in (("orphan exemplar", [mrow]),
+                        ("orphan disagree", [mrow, f"{a} {pv(ma)} {exr[a][2]} {exr[a][1]} gated control"])):
+        with open(reg, "w") as f:
+            f.write(bank.REGISTRY_HEAD + "\n".join(lines) + "\n")
+        info, errors, _ = plan([a], reg)
+        if name == "orphan exemplar":
+            good = not errors and a in info and info[a][0][0] == parse_pv(exr[a][1]) and info[a][0][3] == exr[a][2]
+            got = f"exemplar {pv(info[a][0][0])}" if a in info else errors.get(a, "")
+        else:
+            good = a not in info and "no exemplar row" in errors.get(a, "")
+            got = errors.get(a, "planned")
+        print(f"control {name} {'ok' if good else 'FAIL'}: {got}")
+        fails += not good
+    return fails
+
+
 def self_test():
     d = os.path.join(SCRATCH, "selftest")
     os.makedirs(d, exist_ok=True)
@@ -607,6 +870,7 @@ def self_test():
             print(f"control {name} {'ok' if good else 'FAIL'}: rc {rc}, {len(drift)} drift"
                   + (f", {drift[0]}" if drift else ""))
             fails += not good
+    fails += grouped_controls(d, cls)
     ud = os.path.join(d, "src", "p")  # plant: the unit's own alias above the INCLUDE_ASM suppresses the identity define
     os.makedirs(ud, exist_ok=True)
     with open(os.path.join(ud, "u.c"), "w") as f:
@@ -631,6 +895,8 @@ def main():
     ap.add_argument("--expect-registry", action="store_true")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--self-test", action="store_true")
+    ap.add_argument("--keys-from", metavar="FILE|-", help="grouped dry run of these keys (with --dry-run "
+                    "--expect-registry, no <dup key>)")
     a = ap.parse_args()
     if a.self_test:
         return self_test()
@@ -638,6 +904,12 @@ def main():
         return check()[0]
     if a.expect_registry and not a.dry_run:
         ap.error("--expect-registry needs --dry-run")
+    if a.keys_from:
+        if a.key or not a.expect_registry:
+            ap.error("--keys-from needs --dry-run --expect-registry and no <dup key>")
+        with (sys.stdin if a.keys_from == "-" else open(a.keys_from)) as f:
+            keys = list(dict.fromkeys(k for k in (line.strip() for line in f) if k))
+        return grouped(keys)
     if not a.key:
         ap.error("need <dup key> [--dry-run], --check or --self-test")
     t0 = time.time()

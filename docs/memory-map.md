@@ -31,7 +31,8 @@ Rule (`tools/mmx6/loadmap.py`):
 - code = >= 1 `addiu sp,sp,-N` and a word-aligned `jr ra` and a static or runtime base
 - data = the rest
 
-Counts (59 members): code 56, data 1 (member 13), empty 2 (members 41, 42).
+Counts (59 members): code 56, data 1 (member 13), empty 2 (members 41, 42). The counts, the controls and N are a
+snapshot (2026-10-01, T6, `make loadmap`). The live lines are `# classes`, `N =` and `CONTROLS` in `config/loadmap.txt`.
 
 CONTROLS 23/23 pass: exe bodies at 3 smoke dumps. Per proven member: equal at its base, fails at base+4, vs another
 member's after-dump, word-shuffled.

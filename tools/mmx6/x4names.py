@@ -356,8 +356,20 @@ def slot_objects():
     def back(sym):
         return re.sub(r"^fanc_g", "func_8", re.sub(r"^G_g", "D_8", sym))
 
-    def plain(r4):  # our INCLUDE_ASM objects alias every asm function as <name>.NON_MATCHING; mmx4's have none
-        return {i: (t, n.replace(".NON_MATCHING", ""), e) for i, (t, n, e) in r4.items()}
+    folded = set()
+
+    def plain(r4):  # our INCLUDE_ASM objects alias every asm function as <name>.NON_MATCHING; mmx4's have none.
+        # Our banked C may also declare a link-only second name <name>_<tag> at the same address (func_800139A0_2p in
+        # func_8001CC1C.c, D_80090C90_flat in func_8002ABA8.c; T48): folded to <name> here only, never in the tool;
+        # a fold onto a wrong address fails `right` below.
+        out = {}
+        for i, (t, n, e) in r4.items():
+            n = n.replace(".NON_MATCHING", "")
+            f = re.sub(r"^((?:fanc_g|G_g)[0-9A-F]{7})_\w+$", r"\1", n)
+            if f != n:
+                folded.add(n)
+            out[i] = (t, f, e)
+        return out
 
     b = Build()
     rows = [r for r in x4port.jl(x4port.FUNCS) if r["prog"] == EXE and census.obj_of(r, b.idx) == SELF_OBJ]
@@ -373,7 +385,9 @@ def slot_objects():
     data = next((pa for pa in sorted(admitted) if not admitted[pa][2]), None)
     fails = case("slot_objects", bool(admitted) and right and func is not None and data is not None and not conf,
                  f"{len(rows)} anchors, {len(votes)} votes, admitted {len(admitted)} "
-                 f"(every name maps back {right}), conflicts {len(conf)}")
+                 f"(every name maps back {right}), folded {len(folded)} link-only names, conflicts {len(conf)}")
+    for kind, prog, a, what in conf:
+        print(f"X4NAMES CONFLICT slot_objects {kind} {prog} 0x{a:08X} {what}")
     if func is None or data is None:
         return fails or ["slot_objects"]
     # control: one voter of each of the two addresses renamed on the X4 side -> both gone
@@ -382,7 +396,7 @@ def slot_objects():
             for p, a, j, sym, voter in votes]
     adm2, conf2 = tally(bent)
     gone = func not in adm2 and data not in adm2
-    return fails + case("slot_objects_disagree", gone and len(conf2) >= 2,
+    return fails + case("slot_objects_disagree", gone and len(conf2) == 2,  # was >= 2
                         f"{admitted[func][0]} and {admitted[data][0]} removed {gone}, conflicts {len(conf2)}")
 
 

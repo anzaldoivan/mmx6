@@ -15,6 +15,7 @@ THIRD_PARTY.md
 config/
 cookbook/
 docs/codegen-map/
+docs/contract-run.md
 docs/decomp-architect-install.md
 docs/decomp-architect.md
 docs/decomp-kernels.md

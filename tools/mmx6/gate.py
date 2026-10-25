@@ -70,7 +70,9 @@ import verbatim  # noqa: E402
 LOCKS = ".run/gate/locks"
 EXTRA = (".clang-format", "docs/codegen-map")  # copied into the snapshot after cards.snapshot (plus all of build/)
 SELFTEST = ".run/gate-selftest"
-TUDECL_F = ("rock_35", 0x800FDD90, "D_800FE9A8")  # self-test case F: a banked body, `extern s16 <sym>` read signed
+TUDECL_F = ("rock_35", 0x800FE298, "D_800970AA")  # self-test case F: a banked body, `extern s16 <sym>` read signed
+# was ("rock_35", 0x800FDD90, "D_800FE9A8") (T48): T36.c1 aliased propagated rock_05 members' D_800F4480 onto D_800FE9A8
+# in rock_35's unit, so the planted TU `extern u16` collided with them and the plant rebuild went red
 RODATA_I = ("rock_04", 0x800E9B30)  # self-test case I: a body banked via rodata, its carve and bank undone
 # was 0x800EA2A8 (T4.c2): later waves carved E9864..E98F4 around its row E9894; undoing a mid-run row splits the unit's
 # .rodata (carve refuses non-contiguous; splat then drops jtbl_800E987C of asm func_800E9DFC), so I and M are the
@@ -858,9 +860,13 @@ def self_test():
         fb = f"src/shared/{fp}/{fr['name']}.c" if fr else ""
         finc = f'#include "../shared/{fp}/{fr["name"]}.c"' if fr else ""
         fu = f"src/{fp}/{fr['tu']}.c" if fr else ""
+        fincs = [os.path.normpath(os.path.join(os.path.dirname(fu), x))
+                 for x in re.findall(r'^#include "(\.\./[^"]+)"', open(fu).read() if fr else "", re.M)]
         if not fr or fr["state"] != "c" or not os.path.isfile(fb) or f"extern s16 {fsym};" not in open(fb).read() \
-                or open(fu).read().split("\n").count(finc) != 1:
-            raise RuntimeError(f"case F needs {fp}:0x{fv:08X} banked as {fb} with `extern s16 {fsym};`, one include")
+                or open(fu).read().split("\n").count(finc) != 1 or fsym in open(fu).read() \
+                or any(fsym in open(x).read() for x in fincs if x != os.path.normpath(fb) and os.path.isfile(x)):
+            raise RuntimeError(f"case F needs {fp}:0x{fv:08X} banked as {fb} with `extern s16 {fsym};`, one include, "
+                               f"no other mention of {fsym} in {fu} or its other includes")
         gwrap = {G[1]["name"]: (["#define arg0 1"], ["#undef arg0"])}  # case G: a TU macro eats the body's parameter
         # case I (rodata): a body banked via rodata; its carve undone (carve.uncarve_rodata) and its bank undone
         # case M (rodata, T44): RODATA_M, a second table merged after I's in one unit (+4 pad), undone the same way;

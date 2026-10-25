@@ -23,7 +23,7 @@ release does not publish them.
 | 6b | Reconcile | Make one deterministic pass over each gate group's slate BEFORE the rebuild. | Recorded in `docs/ops/campaign.md`, "Recovery" and "Yield" (the column Recovered). |
 | 7 | After ANY bank | Run the twin rescan, then commit. | Recorded in `docs/ops/campaign.md`, "Gate" and "Yield" (the column with the propagated instructions). |
 | 8 | Harvest — a hard gate | Put every idiom into the cookbook + index. Put every mechanical idiom into a sweep that banks the free functions. Do the widening review. | Recorded in `docs/ops/campaign.md`, "Harvest". |
-| 9 | Verify the fleet | Do a clean rebuild of everything. Read the exit code. | The gate is `make fleet`. Its last line is `FLEET 57 of 57` (`HOW_WE_WORK.md`). |
+| 9 | Verify the fleet | Do a clean rebuild of everything. Read the exit code. | The gate is `make fleet`. Its last line is `FLEET 57 of 57` (snapshot 2026-10-24, `make fleet`). |
 | 10 | Hand off | The task summary carries the exact state and the next step. At a context handoff, `TASK_PROGRESS.md` does. Stale is worse than absent. | Not recorded (2026-10-12). |
 
 Then **recover** before re-drawing. Triage the gate's failures into body and plumbing. Bank the plumbing rejects through

@@ -89,7 +89,7 @@ base spelling picks addressing mode: symbol 3-insn vs ptr 2-insn sym-shift-x4 | 
 type selects addressing mode sym-shift-x4 | §3-C. TYPE-DRIVEN (idx:570) | expand | G-expr | re-proven C0084
 giv worth-while test: re-associate addend into index sym-shift-x4 | §354 (idx:446) | loop strength_reduce | G-loop | lead
 
-Unmapped: 9 of 15 BFM index buckets fit none of our tells. They are structs/memcpy 93, decl/K&R 122, jump tables 72, opt-level 26, family propagation 123, integration 89, build/splat/harness 219, process/doctrine 144 and unbucketed 338. They hold 1226 of 1788 bucket entries. Entries repeat across buckets. The fitting buckets are delay-slots 66, sched 100, regalloc 140, cse 50, loops 50 and types 98.
+Unmapped (measured 2026-10-02, T6, from R1.7-005): 9 of 15 BFM index buckets fit none of our tells. They are structs/memcpy 93, decl/K&R 122, jump tables 72, opt-level 26, family propagation 123, integration 89, build/splat/harness 219, process/doctrine 144 and unbucketed 338. They hold 1226 of 1788 bucket entries. Entries repeat across buckets. The fitting buckets are delay-slots 66, sched 100, regalloc 140, cse 50, loops 50 and types 98.
 
 ## DC2 and mmx4
 

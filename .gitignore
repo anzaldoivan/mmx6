@@ -24,6 +24,10 @@ __pycache__/
 /assets/
 /build/
 /expected/
+# splat's asm macro headers (`make split` rewrites them byte-equal; proof 1.9 T3)
+/include/gte_macros.inc
+/include/include_asm.h
+/include/labels.inc
 # wave packs (target asm, m2c scaffolds, drafts; docs/ops/campaign.md ## Packs)
 /waves/
 /undefined_syms_auto.txt

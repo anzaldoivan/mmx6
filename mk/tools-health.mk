@@ -75,8 +75,12 @@ th-declsync:
 # every config/dedup_registry.txt row's built dup key vs its row (`REGISTRY OK <r> rows`). The --dry-run per registry
 # key, --expect-registry: each member's verdict vs its registry row (refused rows legitimately refuse; disagreement ->
 # `PROPAGATE DRIFT ...`, rc 1; 1.9 T14.c1), takes ~260 s on 8 workers, so it runs in tools-health-full only (T5.c3).
-# Keys run serially: every dry run rebuilds the shared scratch .run/propagate/tree.
-PROPAGATE_KEYS = $(shell awk '!/^\#/ && NF >= 5 && $$6 != "family" {print $$1}' config/dedup_registry.txt | sort -u)
+# Keys run grouped (1.8.1 T41.1): one process reads every key on stdin (--keys-from -), worker trees made once,
+# per program one R5 clean rebuild over its group units (keys with a refused row run isolated, as per-key mode);
+# per-key mode took ~21 s/key (3695 keys, ~22 h); verdicts identical on 47 keys (T41.1.c2).
+# Keys are streamed (1.8.1 T41): an inline list of 3695 keys (151 KB) is one sh -c argument over Linux's 128 KB
+# MAX_ARG_STRLEN, so exec failed (E2BIG, make Error 127).
+PROPAGATE_KEYS_CMD = awk '!/^\#/ && NF >= 5 && $$6 != "family" {print $$1}' config/dedup_registry.txt | sort -u
 
 th-propagate: th-corpus th-census
 	$(PYTHON) tools/mmx6/propagate.py --self-test && $(PYTHON) tools/mmx6/propagate.py --check
@@ -138,7 +142,7 @@ th-cookbook:
 	$(PYTHON) tools/mmx6/cookbook_check.py --self-test && $(PYTHON) tools/mmx6/cookbook_check.py --check
 
 th-propagate-full: th-propagate
-	@set -e; for k in $(PROPAGATE_KEYS); do $(PYTHON) tools/mmx6/propagate.py $$k --dry-run --expect-registry; done
+	@set -e; $(PROPAGATE_KEYS_CMD) | $(PYTHON) tools/mmx6/propagate.py --dry-run --expect-registry --keys-from -
 
 # The other tools' self-tests (not rungs of their own): boundaries.py, loadmap.py, probe.py, bank.py (the reconcile
 # ladder's planted controls: clean rebuilds of the exe, tree restored after), x4share.py (its real run needs network),

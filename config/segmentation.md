@@ -27,7 +27,7 @@ The consumer is `tools/mmx6/boundcheck.py`. Every forced edge below is a subsegm
   rows are 0x20 B plates (exe :54-55, overlays :656 :677 :742 :912). The weak rows are never a split point in any
   program. They are dropped before the overlap tie-break, so exe VM_VIB `[0x80054AB8, 0x80054AD8)` does not clip
   `2MBYTE.OBJ` at 0x80054AD0.
-- optcand: none. There are 0 rows, and the opt level is no boundary signal (1.2 T8).
+- optcand: none. There are 0 rows (snapshot 2026-10-01, `make boundaries`). The opt level is no boundary signal (1.2 T8).
 - gap: A gap is the text with no lib row between two consecutive forced edges, or between a text-extent end and
   the nearest edge. A gap is exactly one TU, named `<vaddr hex>`, until evidence forces more (alignment padding
   between functions, a rodata-order break, a newly verified lib signature). The exe has 1 game gap + 15 small
@@ -61,7 +61,7 @@ The consumer is `tools/mmx6/boundcheck.py`. Every forced edge below is a subsegm
   start is refused too. The exe today has these carves: jtbl 0x80011378 → 32208, opt 120A0 at 0x80032208
   (TU 32208, game lane).
 
-## Checks run on the result (scratch .run/t3/segcount.py, T3)
+## Checks run on the result (snapshot 2026-10-01, scratch .run/t3/segcount.py, T3)
 - The overlaps in the boundaries.txt header = 4 = 3 contained (SSCLOSE ⊃ SSSNC, SSSTART ⊃ S_IH, SSSTOP ⊃ PLAY) + 1
   weak (VM_VIB vs 2MBYTE).
 - The exe has 47 jtbl tables: 41 in game TUs, 6 in lib TUs, 0 with no func. The dispatch-TU order along rodata
@@ -70,7 +70,8 @@ The consumer is `tools/mmx6/boundcheck.py`. Every forced edge below is a subsegm
 - The last exe lib span `LIBPAD.LIB/PDRESRES.OBJ` ends at 0x8006D5D4, 4 B past the T2 yaml text end 0x8006D5D0.
 
 ## TU counts per program
-The TUs column is lib + gap. The weak column counts the rows not split. The jtbl column counts the table rows,
+This table is a snapshot (2026-10-01, T3, the scratch `.run/t3/segcount.py`). The live TUs are the subsegments of
+`config/<bin>.yaml`. The TUs column is lib + gap. The weak column counts the rows not split. The jtbl column counts the table rows,
 including inside-table labels.
 
 | program | TUs | lib | gap | weak | jtbl |
@@ -134,10 +135,10 @@ including inside-table labels.
 | rock_58 | 1 | 0 | 1 | 0 | 0 |
 | total (57 programs) | 302 | 230 | 72 | 6 | 443 |
 
-## Open questions (not settled by T3)
+## Open questions (not settled by T3, 2026-10-01)
 1. Exe text end: the yaml text subsegment must reach 0x8006D5D4 (PDRESRES signature end) for the lib edge to exist.
    Is 0x8006D5D0..D5D4 code tail or a signature that overruns into data?
-2. CLOSED (phase 1.8 T8): the 15 small exe inter-lib gaps (0x10-0x120 B) are all PsyQ 4.7 vendor objects. They
+2. CLOSED (phase 1.8 T8, 2026-10-02): the 15 small exe inter-lib gaps (0x10-0x120 B) are all PsyQ 4.7 vendor objects. They
    hold 25 functions, 0 padding, 0 game TUs. `psyq/470` signatures tile every gap span exactly, and each matches
    ≥ 2 byte-identical objects (why boundaries.py left them unnamed). For the per-function object names, the naming
    rule and the version table, see docs/ops/compiler-pin.md `## Lib provenance`. Seven gaps hold 2-3 objects (579D4,
@@ -152,7 +153,7 @@ including inside-table labels.
 6. Overlay text extent: overlays count their whole image as one TU. Code vs rodata/data inside each image is not
    yet recorded (partly answered for rock_17/43/45 below).
 
-## Declared overlay function starts (phase 1.5 T1)
+## Declared overlay function starts (phase 1.5 T1, 2026-10-01)
 - rock_17/43/45 split as `dlabel` + `.word` (0 glabel). Their header words decode as far forward branches/jumps
   (spimdisasm `_findFunctions` farthestBranch never returns to 0). As a result, no `jr $ra` ends a function, and
   the one giant function, holding invalid words, is printed as data.
@@ -164,7 +165,7 @@ including inside-table labels.
 - These starts are ours, not spimdisasm's. A boundary oracle that compares against splat must treat them as
   declared.
 
-## Declared overlay boundaries (phase 1.5 T5)
+## Declared overlay boundaries (phase 1.5 T5, 2026-10-01)
 - Cause: B2 (tools/mmx6/bound2.py) found phantoms/truncations in 53 overlays. They are header words inside the
   first splat function, code printed as data (header-side and tail-side data spans), data words cut into functions.
 - Kind A (header) has 52 `D_<text_lo>` header symbols (word 0, plus header / jump-table words) and 50 head functions.

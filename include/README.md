@@ -12,7 +12,7 @@ build never defines. `macro.inc` holds the label macros for splat's asm.
 `// evidence:` line. `common.h` includes it. `tools/mmx6/typecheck.py` (rung `th-types`) refuses any other home.
 
 Hand-edited: every header here. They are formatted only in the container. `make format` covers `src/`. See `Makefile`.
-Generated: nothing.
+Generated (ignored, never edited): `gte_macros.inc`, `include_asm.h`, `labels.inc`, written by `make split` (splat).
 
 Firewall (G12): tracked = published. Never copy vendor SDK headers here. The SDK is user-supplied and ignored
 (`tools/psyq/`, purge class 6). Declare what the code needs in our own words. `tools/audit_public.py` hashes every

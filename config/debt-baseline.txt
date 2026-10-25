@@ -23,6 +23,7 @@ mode extern count
 mode filename count
 raise protected 1 2026-10-14 psxdecomp 0.6.0: the guard hook fails closed (upgrade from the first build of the floor)
 raise protected 1 2026-10-16 own gate dropped: fleet runs in dev CI, land_check and the milestone gate, not on push
+raise protected 1 2026-10-24 1.9/T6 no-rom audits: README lint + 6 no-game self-tests
 992 pin
 736 pin-unmarked
 579 goto

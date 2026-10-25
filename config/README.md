@@ -28,7 +28,7 @@ its BEGIN/END markers. `make boundaries` generates `boundaries.txt`. `make loadm
 these files drive lands in the ignored `asm/`, `build/`, `expected/`, `extracted/`.
 
 `make fleet` builds every `config/*.yaml` from clean and gates each on its `check.<bin>.sha`. Its last line is
-`FLEET 57 of 57`. The count of that line must equal `loadmap.txt` `N =`. `make expected` copies `build/` to `expected/build/`.
+`FLEET 57 of 57` (snapshot 2026-10-24, `make fleet`). The count of that line must equal `loadmap.txt` `N =`. `make expected` copies `build/` to `expected/build/`.
 
 Firewall (G12): tracked = published. Track names, addresses, hashes and configuration only. Track no game-derived
 bytes and no pasted disassembly. `tools/audit_public.py` hashes every tracked file against the sources in

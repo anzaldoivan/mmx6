@@ -34,11 +34,23 @@ jobs:
           submodules: false
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
-          python-version: "3.12"
+          python-version: "3.14"    # was "3.12"; 3.14 = the project's pinned PY (HOW_WE_WORK.md), 1.9/T6
       - name: audit_public — no game-derived bytes, no purge path, nothing > 50 MiB, no pasted disassembly
         run: python tools/audit_public.py
-      # No text-only self-check runs in this job (2026-10-12). The health rungs (mk/tools-health.mk) run in the
-      # container with `make tools-health`.
+      # Text-only self-checks (1.9/T6): the README lint and the th-selftests lines (mk/tools-health.mk) that pass in a
+      # fresh clone with no game data, no build/ and no toolchain. Excluded (they need build/ or the container
+      # toolchain): probe.py, bank.py, x4port.py (build/ objects), x4share.py (build/sig/sigs.jsonl). x4names.py skips
+      # its slot_objects case here (no objects); the container's th-selftests runs it whole.
+      - name: README lint (psxdecomp blocks)
+        run: python tools/psxd_publish.py lint README.md
+      - name: self-tests that need no game bytes and no toolchain
+        run: |
+          python tools/mmx6/boundaries.py --self-test
+          python tools/mmx6/loadmap.py --self-test
+          python tools/mmx6/x4names.py --self-test
+          python tools/mmx6/x4core.py --selftest
+          python tools/psxd_img.py --self-test
+          python tools/mmx6/imgadapter.py --self-test
 
   # compile-only (not enabled, see the header) — every eligible translation unit with the pinned toolchain (no game bytes needed).
   #   steps: checkout with submodules → install the assembler/binutils → verify the vintage compiler's checksum and

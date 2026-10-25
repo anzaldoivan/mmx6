@@ -1,66 +1,45 @@
 #!/usr/bin/env bash
-# tools/bootstrap.sh — fresh-clone setup (installed by decomp-architect, install.py S3, as a SKELETON; each TODO is a phase task).
-# Idempotent; never sudo. What a build needs, in order:
-#   1. system packages      — only CHECKED here: the missing ones are printed as one install line.
-#   2. the Python venv      — created from the pinned requirements file.
-#   3. the submodules       — the assembler shim, the differ, the decompiler, the permuter (Phase 3/4 pin them).
-#   4. the vintage compiler — fetched or extracted from a tracked, checksum-verified archive (Phase 4).
-#   5. the preflight        — `make check-env`; its exit status is this script's (Phase 3).
-# Then: stage your own dump under disks/ and run the extract + fleet-check commands from docs/ops/decomp-environment.md.
+# tools/bootstrap.sh — fresh-clone setup: bash tools/bootstrap.sh <dump-dir>
+# Idempotent; never sudo, never installs. The toolchain (Python tools, assembler, vintage compiler, splat) lives in the
+# container image (tools/docker/Dockerfile; pins: docs/ops/mmx6-hosts.md, docs/ops/compiler-pin.md), so the host needs
+# only git, bash and docker. Steps:
+#   1. host tools  — git, bash, docker + a running daemon; if any is missing, print ONE install line and exit 1.
+#   2. image       — tools/docker/mx.sh build
+#   3. disc        — tools/docker/mx.sh disc <dump-dir> (its top-level *.cue/*.bin into the disc volume)
+#   4. work tree   — tools/docker/mx.sh sync
+#   5. preflight   — tools/docker/mx.sh run make toolchain-check; its exit status is this script's.
+# MX6_IMAGE, MX6_VOLUME, MX6_DISC_VOLUME pass through to mx.sh (per-worktree names, cookbook C0004).
 set -euo pipefail
-REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$REPO"
 say() { printf 'bootstrap: %s\n' "$*"; }
 
-# 1) system packages — presence only; print the install line, never run it.
-# Phase 1.3 put the toolchain in the container (tools/docker/Dockerfile; pins: docs/ops/mmx6-hosts.md), so this list is
-# the host's part only. A bare host would also need (binutils for the target, a C preprocessor, clang-format, make,
-# the archive tools the extractor needs, python3-venv). TODO(platform): the package names differ per target and per distro.
-PKGS="git make python3-venv clang-format"
-if command -v dpkg >/dev/null 2>&1; then
-    missing=()
-    for p in $PKGS; do dpkg -s "$p" >/dev/null 2>&1 || missing+=("$p"); done
-    if ((${#missing[@]})); then
-        say "MISSING packages (${#missing[@]}) — run this, then re-run bootstrap:"
-        printf '  sudo apt-get install -y %s\n' "${missing[*]}"
+if [[ $# -ne 1 || ! -d "$1" ]]; then
+    echo "usage: bash tools/bootstrap.sh <dump-dir>   (a directory holding the disc's *.cue/*.bin)" >&2
+    exit 2
+fi
+DUMP="$(cd "$1" && pwd)"
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$REPO"
+
+# 1) host tools — presence only; print the install line, never run it.
+missing=()
+for t in git bash docker; do command -v "$t" >/dev/null 2>&1 || missing+=("$t"); done
+if ((${#missing[@]} == 0)) && ! docker info >/dev/null 2>&1; then missing+=("docker-daemon"); fi
+if ((${#missing[@]})); then
+    say "MISSING: ${missing[*]} — install, start Docker, then re-run bootstrap:"
+    if [[ "$(uname -s)" == Darwin ]]; then
+        echo "  brew install git bash && brew install --cask docker"
     else
-        say "packages: all present"
+        echo "  sudo apt-get install -y git bash docker.io && sudo systemctl start docker"
     fi
-else
-    say "no dpkg on this system — install the equivalents of: $PKGS"
+    exit 1
 fi
+say "host tools: git, bash, docker (daemon up)"
 
-# 2) the venv (pinned requirements; the file is created in Phase 1 with the extractor's dependencies)
-if [ ! -x .venv/bin/python ]; then
-    say "creating .venv"
-    python3 -m venv .venv
-fi
-if [ -f requirements-python.txt ]; then
-    say "installing pinned Python requirements (no-op when satisfied)"
-    .venv/bin/pip install -q -r requirements-python.txt
-else
-    say "no requirements-python.txt: the Python tools run in the container (tools/docker/mx.sh)"
-fi
-
-# 3) submodules (no-op when populated; none until Phase 3 adds the shim, the differ, the decompiler and the permuter)
-if [ -f .gitmodules ]; then
-    say "submodules: git submodule update --init"
-    git submodule update --init
-else
-    say "no submodules: the container image holds the pinned tools (docs/ops/mmx6-hosts.md)"
-fi
-
-# 4) the vintage compiler — pinned in phase 1.4 (docs/ops/compiler-pin.md), in the container image. On a bare host: verify the tracked archive's checksum (`sha256sum --check`), extract each
-#    candidate into its OWN directory, and print the pinned triple from docs/ops/decomp-environment.md. Never download without a
-#    checksum to verify against; never vendor a compiler whose license forbids it (keep a fetch step + checksum instead).
-say "vintage compiler: in the container image (the pin: docs/ops/compiler-pin.md); nothing to fetch here"
-
-# 5) the preflight (its exit status is ours). This repository has no `make check-env`: `make toolchain-check` asserts the
-#    pins in the container. A `make check-env` would assert the toolchain executes, the
-#    assembler version is the pinned one and the dump's hash matches.
-if grep -q '^check-env:' Makefile 2>/dev/null; then
-    say "make check-env"
-    make --no-print-directory check-env
-else
-    say "no make check-env here: run make toolchain-check in the container (tools/docker/mx.sh); bootstrap ends here"
-fi
+MX=(bash tools/docker/mx.sh)
+say "2/5 image";     "${MX[@]}" build
+say "3/5 disc";      "${MX[@]}" disc "$DUMP"
+say "4/5 sync";      "${MX[@]}" sync
+say "5/5 preflight: make toolchain-check"
+rc=0; "${MX[@]}" run make toolchain-check || rc=$?
+say "preflight rc=$rc"
+exit "$rc"

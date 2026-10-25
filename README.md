@@ -32,6 +32,8 @@ The target `SLUS_013.95` has SHA-1 `667ce8f792cfaa69abe6e999a87513f798bbcac4` (`
 
 ## Progress
 
+[![no-rom](https://github.com/anzaldoivan/mmx6/actions/workflows/no-rom.yml/badge.svg)](https://github.com/anzaldoivan/mmx6/actions/workflows/no-rom.yml)
+
 <!-- psxdecomp:progress:begin -->
 [![Code][psxd-code]][psxd-progress] [![Functions][psxd-functions]][psxd-progress]
 
@@ -118,7 +120,8 @@ executable loads at a fixed address when it needs them. Because of this, only pa
 memory at once.
 
 X6 packs the overlays as numbered entries of one archive, `ROCK_X6.BIN`. Of its 59 entries, 56 are code, one is
-data and two are empty ([`config/loadmap.txt`](config/loadmap.txt)). Once progress is published, each code entry
+data and two are empty (snapshot 2026-10-24: the `class` column of [`config/loadmap.txt`](config/loadmap.txt), written
+by `make loadmap`). Once progress is published, each code entry
 gets its own category (`rock.rock_NN`) on decomp.dev. The category has the name "Rock NN" until evidence identifies
 the stage or system that the entry serves.
 
@@ -134,6 +137,8 @@ emulation. You also need your own dump of *Mega Man X6 (USA) (v1.1)* as Redump `
 file names. The dump never enters the repository. The command `mx.sh disc` copies it into a Docker volume mounted
 read-only.
 
+`bash tools/bootstrap.sh /path/to/dump` runs the first three steps below and the toolchain preflight in one go.
+
 ```sh
 git clone https://github.com/anzaldoivan/mmx6.git && cd mmx6
 bash tools/docker/mx.sh build                  # build the toolchain image (once)
@@ -143,10 +148,10 @@ bash tools/docker/mx.sh run make extract       # verify the dump against config/
 bash tools/docker/mx.sh run make -j8 build     # split, assemble/compile, link, hash-check every binary
 ```
 
-A successful build prints one `OK` line per binary, 57 in all: `build/SLUS_013.95: OK` and `build/rock/NN.bin: OK`
-for each code overlay.
-The full verification, `bash tools/docker/mx.sh run make fleet`, also runs the tool self-tests and ends with
-`FLEET 57 of 57`.
+A successful build prints one `OK` line per binary: `build/SLUS_013.95: OK` and `build/rock/NN.bin: OK` for each code
+overlay, 57 in all. A clone of this repository printed all 57 on 2026-10-24 (docs/contract-run.md, `## Fresh clone`).
+The tool self-test ladder (`make fleet`) needs development-side inputs that are not published. It runs in the private
+contract run.
 
 ## Repository layout
 
@@ -188,6 +193,9 @@ A fact from another project stays a lead until this project's own bytes prove it
   *Mega Man X4* (US + JP, AGPL-3.0). Its toolchain, layout and engine knowledge are the starting point for X6. This
   project shares its license so that code proven shared between the two games can be adapted with attribution
   (listed in [`THIRD_PARTY.md`](THIRD_PARTY.md)).
+  Its author allows this project to share mmx4's function names and naming conventions and to keep both
+  repositories' names in sync. Each name is still proven here before it becomes a symbol. Row L5a of
+  [`docs/prior-art.md`](docs/prior-art.md) records the grant and the evidence.
 - **[Kuumba123](https://github.com/Kuumba123)** — [MegaManX6_PS1_Modding](https://github.com/Kuumba123/MegaManX6_PS1_Modding)
   and [MegaManX6_Practice](https://github.com/Kuumba123/MegaManX6_Practice): X6 symbol research (US + JP) and
   struct layouts, plus the wider Mega Man PS1 modding tools. Their repositories carry no license, so nothing is

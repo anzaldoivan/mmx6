@@ -4,16 +4,17 @@
 
 M2C_UNK func_80017A04();
 extern u8 D_80093C98[];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_800ECA2C(struct X4_AnimatedObj* self) {
     s32 d;
     s8 v;
     u8* p;
     u32 n;
+    // !FAKE: depin: dropping it breaks the match (124/131)
     register u16 t asm("$2");
 
-    if (self->x_pos.val > D_800970A0.x_pos.val) {
+    if (self->x_pos.val > g_Player.x_pos.val) {
         self->unk15 = 0;
     } else {
         self->unk15 = 0x40;
@@ -23,11 +24,11 @@ void func_800ECA2C(struct X4_AnimatedObj* self) {
     *(u16*)((u8*)self + 0x7C) = t + 1;
     if ((s16)t >= 0x3D) {
         if (self->on_screen != 0) {
-            if (D_800970A0.unk2 != 0) {
-                d = D_800970A0.x_pos.i.hi - self->x_pos.i.hi;
+            if (g_Player.unk2 != 0) {
+                d = g_Player.x_pos.i.hi - self->x_pos.i.hi;
                 if ((d >= 0)
                         ? (d < 0x40)
-                        : ((self->x_pos.i.hi - D_800970A0.x_pos.i.hi) < 0x40)) {
+                        : ((self->x_pos.i.hi - g_Player.x_pos.i.hi) < 0x40)) {
                     v = 4;
                 } else {
                     v = 3;
@@ -43,10 +44,10 @@ void func_800ECA2C(struct X4_AnimatedObj* self) {
                     self->unk5 = 3;
                 }
             } else {
-                d = D_800970A0.x_pos.i.hi - self->x_pos.i.hi;
+                d = g_Player.x_pos.i.hi - self->x_pos.i.hi;
                 if ((d >= 0)
                         ? (d < 0x40)
-                        : ((self->x_pos.i.hi - D_800970A0.x_pos.i.hi) < 0x40)) {
+                        : ((self->x_pos.i.hi - g_Player.x_pos.i.hi) < 0x40)) {
                     v = 2;
                 } else {
                     v = 4;

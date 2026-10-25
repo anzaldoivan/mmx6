@@ -9,11 +9,11 @@ void func_800F04C0();
 void func_800F0754(void);
 void func_800F089C();
 
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern s16 D_80097202;
 extern struct X4_ObjectHeader D_80097420;
 #define D_80097420 (*(u32*)&D_80097420)
-#define P ((struct X4_PlayerObj*)&D_800970A0)
+#define P ((struct X4_PlayerObj*)&g_Player)
 extern struct X4_RideArmorObj D_800CD340;
 extern u16 D_800E3142;
 extern u16 D_800F35EC;
@@ -23,13 +23,14 @@ void func_800F0984(struct X4_PlayerObj* self) {
     struct X4_RideArmorObj* ra;
 
     if (self->state == 0) {
+        // !FAKE: depin: dropping it breaks the match (10/155)
         register s32 t asm("$4") = D_800E3142;
         D_800F35EC = t;
         func_800F04C0(t);
         func_800F089C();
         self->state++;
     }
-    pl = (struct X4_PlayerObj*)&D_800970A0;
+    pl = (struct X4_PlayerObj*)&g_Player;
     if (pl->nova_strike_active == 2) {
         return;
     }

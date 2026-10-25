@@ -14,6 +14,7 @@ void func_8001CC1C(void* arg0) {
     s32 one;
     s32 t;
     s32 k;
+    // !FAKE: depin: dropping it breaks the match (75/80)
     register s32 one1 asm("$3");
 
     if (--M2C_FIELD(arg0, s16*, 4) == 0) {

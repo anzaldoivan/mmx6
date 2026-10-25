@@ -4,7 +4,7 @@
 
 M2C_UNK func_800179D0(void*, M2C_UNK, s8);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 extern s8 D_800CCEFB;
 extern u16 D_800F16C8[][2];
@@ -27,7 +27,7 @@ void func_800EFF60(struct X4_AnimatedObj* self) {
         self->x_pos.i.hi = a;
         self->y_pos.i.hi = b;
     }
-    if (D_800971F8[self->bg_offset].x_pos.i.hi < 0x400) {
+    if (background_objects[self->bg_offset].x_pos.i.hi < 0x400) {
         self->x_pos.i.hi -= 0x600;
     }
     func_8002CCB0(self, 0x60, 0x10);

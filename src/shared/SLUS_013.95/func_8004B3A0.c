@@ -4,13 +4,13 @@
 
 M2C_UNK func_8002C9B0();
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 
 void func_8004B3A0(struct X4_VisualObj* arg0) {
     u8* sp;
 
-    if (D_800970A0.unk5 != 0x23) {
+    if (g_Player.unk5 != 0x23) {
         ((M2C_UNK(*)())func_8002C9B0)();
         return;
     }
@@ -24,10 +24,10 @@ void func_8004B3A0(struct X4_VisualObj* arg0) {
         arg0->state++;
     }
     arg0->animation_step.fields.frame_index =
-        D_800970A0.animation_step.fields.frame_index - 0x42;
-    arg0->unk15 = D_800970A0.unk15;
-    arg0->x_pos = D_800970A0.x_pos;
-    arg0->y_pos = D_800970A0.y_pos;
+        g_Player.animation_step.fields.frame_index - 0x42;
+    arg0->unk15 = g_Player.unk15;
+    arg0->x_pos = g_Player.x_pos;
+    arg0->y_pos = g_Player.y_pos;
     if (arg0->unk5C.value == 0) {
         arg0->unk5C.value = 8;
     } else {

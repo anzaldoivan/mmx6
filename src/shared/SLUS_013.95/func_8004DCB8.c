@@ -4,7 +4,7 @@
 
 s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_8004E78C(M2C_UNK);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj D_800CCED0;
 
 void func_8004DCB8(u8* arg0) {
@@ -17,12 +17,14 @@ void func_8004DCB8(u8* arg0) {
         q = p;
         if (t == 0) {
             u8* pl;
+            // !FAKE: depin: dropping it breaks the match (68/71)
             register u8* e asm("$3");
-            register s8* tbl asm("$8");
+            s8* tbl;
             s8 sign;
+            // !FAKE: depin: dropping it breaks the match (67/71)
             register s32 x asm("$4");
 
-            pl = (u8*)&D_800970A0;
+            pl = (u8*)&g_Player;
             e = (u8*)&D_800CCED0;
             tbl = (s8*)(e + 0x5B);
             arg0[0x84] = 2;

@@ -4,11 +4,11 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
-M2C_UNK func_8002D2B0(void*);
-void func_8002D3B4(void*, s32);
+M2C_UNK move_object(void*);
+void set_velocity_from_angle(void*, s32);
 extern u32* D_8007789C[];
 extern s8 D_80077B20[];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -24,7 +24,7 @@ void func_80047E34(u8* arg0) {
     s8* tbl;
     u8* sp;
     s32 off;
-    struct X4_PlayerObj* pl = &D_800970A0;
+    struct X4_PlayerObj* pl = &g_Player;
 
     F8(arg0, 3) = 1;
     U8(arg0, 0x14) = U8(pl, 0x14);
@@ -39,7 +39,7 @@ void func_80047E34(u8* arg0) {
     FP(arg0, 0x3C) = sp + off;
     F32(arg0, 8) = F32(pl, 8);
     F32(arg0, 0xC) = F32(pl, 0xC);
-    func_8002D3B4(arg0, U8(arg0, 2) & 0x7F);
+    set_velocity_from_angle(arg0, U8(arg0, 2) & 0x7F);
     vx = F32(arg0, 0x20);
     vy = F32(arg0, 0x24);
     anim = 7;
@@ -56,7 +56,7 @@ void func_80047E34(u8* arg0) {
         F32(arg0, 0x24) = vy + (vy / 2) * D_80077B20[U8(arg0, 2) & 3];
     }
     func_800179A4(arg0, anim);
-    func_8002D2B0(arg0);
+    move_object(arg0);
     U8(arg0, 4) = U8(arg0, 4) + 1;
     func_8002CCB0(arg0, 0x80000, 0x80000);
 }

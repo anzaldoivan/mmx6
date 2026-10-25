@@ -11,10 +11,12 @@ extern s8 D_800CCF5C;
 extern s16 D_800F6AF0;
 
 void func_800F2CDC(void* arg0) {
+    // !FAKE: depin: dropping it breaks the match (25/38)
     register s32 a asm("$4");
 
     func_80017A04();
     {
+        // !FAKE: depin: dropping it breaks the match (33/38)
         register s32 t asm("$2") = M2C_FIELD(arg0, u16*, 0x7E) - 1;
         M2C_FIELD(arg0, s16*, 0x7E) = t;
         if ((t << 16) == 0) {

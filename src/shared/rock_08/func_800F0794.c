@@ -16,7 +16,9 @@ void func_800F0794(void* self) {
     void* child;
     s32 v;
     s32 t;
+    // !FAKE: depin: dropping it breaks the match (107/136)
     register s32 one asm("$17");
+    // !FAKE: depin: dropping it breaks the match (128/136)
     register s32 e1 asm("$3");
     u8* e3;
 

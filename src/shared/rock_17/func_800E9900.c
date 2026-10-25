@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_800CCEF6;
 extern s16 D_800EA2C8[];
 
@@ -20,7 +20,7 @@ void func_800E9900(void* arg0) {
     i = D_800CCEF6 - 1;
     p = t + i;
     v = *p;
-    b = D_800971F8;
+    b = background_objects;
     one = 1;
     b->unk4C = one;
     M2C_FIELD(b, s32*, 0xC) = 0;

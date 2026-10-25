@@ -36,6 +36,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import probe  # noqa: E402  (sym_name, plant_lookup: the self-test's names looked up by vram)
 import segment  # noqa: E402
 
 CORPUS = os.path.join(ROOT, "build", "corpus", "functions.jsonl")
@@ -591,7 +592,7 @@ def expect(code, fn, *a):
 
 
 def self_test():
-    ok = True
+    ok = probe.plant_lookup("carve", EXE, 0x800429C4)
     scratch()
     ok &= check(SCRATCH, quiet=True) == 0
     print("control check-baseline %s" % ("passed" if ok else "FAILED"))
@@ -653,8 +654,9 @@ def self_test():
     with open(c4) as f:
         c4s = f.read()
     y4 = open(cfg(SCRATCH, "rock_04.yaml")).read()
-    t = ("D_800E9860" not in c4s and ["block", "0x800E9B30"] in read_record(SCRATCH, "rock_04")
-         and "\nD_800E9860 = 0x800E9860;\n" in open(cfg(SCRATCH, "symbols.rock_04.txt")).read()
+    d4 = d_line("rock_04", 0x800E9860)  # the overlay's data-chunk name, as carve itself spells it
+    t = (d4 not in c4s and ["block", "0x800E9B30"] in read_record(SCRATCH, "rock_04")
+         and "\n%s = 0x800E9860;\n" % d4 in open(cfg(SCRATCH, "symbols.rock_04.txt")).read()
          and "- [0x34, .rodata, E9860]\n" in y4 and "- [0x2D0, c, E9860]\n" in y4
          and "- [0x84C, .rodata, 120A0]\n" in open(cfg(SCRATCH, EXE + ".yaml")).read() and check(SCRATCH, quiet=True) == 0)
     print("control rodata-carve  %s" % ("placed" if t else "WRONG"))
@@ -672,7 +674,7 @@ def self_test():
     ok &= expect("foreign-rodata", carve_rodata, SCRATCH, "rock_04", 0x800EF738, None)  # was non-contiguous before T44.c1
     CORPUS = real
     with open(c4, "w") as f:
-        f.write(c4s.replace("\n\n", '\n\nINCLUDE_ASM("asm/rock_04/nonmatchings/E9860", D_800E9860);\n\n', 1))
+        f.write(c4s.replace("\n\n", '\n\nINCLUDE_ASM("asm/rock_04/nonmatchings/E9860", %s);\n\n' % d4, 1))
     t = check(SCRATCH, quiet=True) != 0
     print("control check-d-line  %s" % ("tripped" if t else "NOT refused"))
     ok &= t
@@ -710,7 +712,8 @@ def self_test():
         new = f.read()
     with open(os.path.join(src, tu + ".c")) as f:
         head = f.read()
-    t = (new.startswith('#include "common.h"\n\nvoid func_800429C4(void) {') and "func_800429C4" not in head
+    f429 = probe.sym_name(EXE, 0x800429C4)
+    t = (new.startswith('#include "common.h"\n\nvoid %s(void) {' % f429) and f429 not in head
          and "nonmatchings/%s\"" % tu not in new and "CFLAGS_429C4 := -O0 -G0" in open(cfg(SCRATCH, "carve.%s.mk" % EXE)).read()
          and "%s 429C4" % EXE in open(cfg(SCRATCH, "c_units.txt")).read())
     print("control opt-split     %s" % ("moved" if t else "WRONG"))

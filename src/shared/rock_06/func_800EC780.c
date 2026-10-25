@@ -3,13 +3,13 @@
 
 s32 func_8002D654(s8*, u8*);
 #define M2C_UNK s32
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))
 #define FU16(p, o) (*(u16*)((u8*)(p) + (o)))
 
 void func_800EC780(s8* arg0) {
-    u8* p = (u8*)&D_800970A0;
+    u8* p = (u8*)&g_Player;
     u16 v;
     u16 w;
 

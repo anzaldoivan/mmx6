@@ -26,10 +26,11 @@ void func_800F19EC(void* arg0) {
         }
         func_800179A4(arg0, 5);
         {
+            // !FAKE: depin: dropping it breaks the match (87/89)
             register s32 n1 asm("$4") = 0x500000;
-            register s32 d1 asm("$2") = 0xA2;
-            register s32 n2 asm("$5");
-            register s32 d2 asm("$3");
+            s32 d1 = 0xA2;
+            s32 n2;
+            s32 d2;
             M2C_FIELD(arg0, s32*, 0x2C) = n1 / d1;
             n2 = 0xA00000;
             d2 = 0x24;

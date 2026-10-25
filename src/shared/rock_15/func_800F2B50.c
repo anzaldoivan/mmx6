@@ -6,21 +6,21 @@
 
 void func_800F1DA8(void*, s32, s32); /* extern */
 extern s16 D_800970AA;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F2B50(void* arg0) {
     if (M2C_FIELD(arg0, u8*, 0x47) == 0xC) {
-        if ((D_800971F8[0].unk26 + 0x80) > D_800970AA) {
+        if ((background_objects[0].unk26 + 0x80) > D_800970AA) {
             M2C_FIELD(arg0, s16*, 0x7C) = 0;
         } else {
             M2C_FIELD(arg0, s16*, 0x7C) = 1;
         }
         if (M2C_FIELD(arg0, s16*, 0x7C) == 0) {
-            M2C_FIELD(arg0, s16*, 0xA) = D_800971F8[0].unk26 + 0x40;
+            M2C_FIELD(arg0, s16*, 0xA) = background_objects[0].unk26 + 0x40;
         } else {
-            M2C_FIELD(arg0, s16*, 0xA) = D_800971F8[0].unk26 + 0xA0;
+            M2C_FIELD(arg0, s16*, 0xA) = background_objects[0].unk26 + 0xA0;
         }
-        M2C_FIELD(arg0, s16*, 0xE) = D_800971F8[0].unk2A + 0xC0;
+        M2C_FIELD(arg0, s16*, 0xE) = background_objects[0].unk2A + 0xC0;
         func_800F1DA8(arg0, 9, 3);
         M2C_FIELD(arg0, s8*, 7) = 1;
         M2C_FIELD(arg0, u8*, 6) = M2C_FIELD(arg0, u8*, 6) + 1;

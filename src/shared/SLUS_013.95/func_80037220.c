@@ -4,8 +4,8 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 s32 func_80016C48(s32 a0, s32 a1, void* arg2); /* extern */
-M2C_UNK func_8003D26C(void*);                   /* extern */
-s32 func_801EC028();                            /* extern */
+M2C_UNK func_8003D26C(void*);                  /* extern */
+s32 func_801EC028();                           /* extern */
 
 void func_80037220(void* arg0) {
     u8 temp_v1;

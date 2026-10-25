@@ -14,8 +14,9 @@ void func_800EE8D4(void* arg0) {
     if (M2C_FIELD(M2C_FIELD(arg0, void**, 0x50), s8*, 6) >= 5) {
         func_800179A4(arg0, 6);
         {
+            // !FAKE: depin: dropping it breaks the match (21/24)
             register s32 a asm("$2") = M2C_FIELD(arg0, u8*, 0);
-            register s32 b asm("$3") = M2C_FIELD(arg0, u8*, 5);
+            s32 b = M2C_FIELD(arg0, u8*, 5);
             M2C_FIELD(arg0, u8*, 0) = a & 0xEF;
             M2C_FIELD(arg0, u8*, 5) = b + 1;
         }

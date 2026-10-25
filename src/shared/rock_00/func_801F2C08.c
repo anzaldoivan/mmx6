@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_80077AB0;
 extern s32 D_801F3AF0;
 extern s16 D_801F3AF4[];
@@ -15,7 +15,7 @@ void func_8003CF24(s32, s32, s32);
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 
 void func_801F2C08(u8* arg0) {
-    struct X4_PlayerObj* player = &D_800970A0;
+    struct X4_PlayerObj* player = &g_Player;
     u8* scr;
     s32 i;
 
@@ -78,5 +78,5 @@ void func_801F2C08(u8* arg0) {
         M2C_FIELD(player, s16*, 0xE) + ((s16*)((u8*)D_801F3AF4 + i))[1];
     M2C_FIELD(arg0, u8*, 0x15) = M2C_FIELD(player, u8*, 0x15);
 }
-#undef D_800970A0
+#undef g_Player
 #undef func_800179A4

@@ -2,14 +2,15 @@
 #define M2C_UNK s32
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 extern s16 D_800F6AF8;
 
 void func_800F2708(u8* arg0) {
+    // !FAKE: depin: dropping it breaks the match (42/44)
     register s32 t asm("$2");
 
     func_80017A04();
-    func_8002D2B0(arg0);
+    move_object(arg0);
     t = *(s32*)(arg0 + 0x20);
     if (t > 0) {
         if (D_800F6AF8 + 0x880 < *(s16*)(arg0 + 0xA)) {

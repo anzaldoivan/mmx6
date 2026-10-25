@@ -4,7 +4,7 @@
 s32 func_80055B14(s32);
 void func_8005A794(s32, s16, s16, u8*);
 s32 func_8005A9D4(s32, s32, s16, s16, s32, s32, s32, s32);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u8* D_800E155C;
 extern s8 D_800E25E0[];
 
@@ -32,7 +32,7 @@ s32 func_80016D34(u8 arg0, u8 arg1, struct X4_AnimatedObj* arg2) {
             bg = arg2->bg_offset;
             x = arg2->x_pos.i.hi;
             if (bg >= 0) {
-                x -= D_800971F8[bg].x_pos.i.hi;
+                x -= background_objects[bg].x_pos.i.hi;
             }
             fp = x / 10;
             if (fp < 5) {

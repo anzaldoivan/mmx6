@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 void func_80017A04(struct X4_AnimatedObj*);
-void func_8002D2B0(struct X4_MovingObj*);
+void move_object(struct X4_MovingObj*);
 void func_8002F06C(void*);
 void* func_8003D480(M2C_UNK, s8, s8, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
@@ -13,10 +13,11 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 
 void func_801F259C(struct X4_WeaponObj* arg0) {
     s32 mask;
+    // !FAKE: depin: dropping it breaks the match (67/70)
     register s32 t asm("$3");
 
     func_80017A04(ANIMATED_OBJECT(arg0));
-    func_8002D2B0(MOVING_OBJECT(arg0));
+    move_object(MOVING_OBJECT(arg0));
     mask = 8;
     if (arg0->y_vel.val > 0) {
         mask = 4;

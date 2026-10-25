@@ -7,13 +7,13 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_800F7968(void* arg0) {
     struct X4_PlayerObj* p;
 
     func_80016C48(2, 0x20, arg0);
-    p = &D_800970A0;
+    p = &g_Player;
     M2C_FIELD(p, u8*, 0xCA) = 0;
     func_8003D308(0x14, p->unk15);
     func_800179A4(arg0, 0x12);

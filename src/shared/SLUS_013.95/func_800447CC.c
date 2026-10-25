@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_8002D230();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s8 D_800970A2;
 
 #define U8F(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -22,7 +22,7 @@ void func_800447CC(void* arg0) {
         if (flags & 4) {
             S32F(arg0, 0x24) = 0xFFFD0000;
         } else if (flags & 8) {
-            if (D_800970A0.unk2 != 0) {
+            if (g_Player.unk2 != 0) {
                 S32F(arg0, 0x24) = 0x30000;
                 S32F(arg0, 0x2C) = 0x2000;
             } else {
@@ -40,9 +40,10 @@ void func_800447CC(void* arg0) {
         S32F(arg0, 0xC) = S32F(arg0, 0x1C);
         func_8002D230(arg0);
         {
+            // !FAKE: depin: dropping it breaks the match (52/82)
             register s32 t asm("$2") = U8F(arg0, 0x90);
             U8F(arg0, 0x90) = t + 1;
-            if (D_800970A0.unk2 != 0) {
+            if (g_Player.unk2 != 0) {
                 U8F(arg0, 0x90)++;
             }
         }

@@ -9,11 +9,11 @@ M2C_UNK func_80017B04(M2C_UNK*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
 s32 func_8002D2D4();
-void func_8002D3B4(void*, s32);
+void set_velocity_from_angle(void*, s32);
 void func_8003CF24(s32, s32, s32);
 extern s32 D_80077A08;
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F39D8;
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
@@ -24,7 +24,7 @@ void func_801F01A8(struct X4_WeaponObj* arg0) {
     struct X4_PlayerObj* player;
     s32 mul;
 
-    player = &D_800970A0;
+    player = &g_Player;
     if (arg0->unk2 == 0) {
         u8* temp_v0;
         u8* temp_a0;
@@ -67,13 +67,13 @@ void func_801F01A8(struct X4_WeaponObj* arg0) {
     }
     switch (func_8002D2D4() % 3) {
     case 0:
-        func_8002D3B4(arg0, 1);
+        set_velocity_from_angle(arg0, 1);
         break;
     case 1:
-        func_8002D3B4(arg0, 0);
+        set_velocity_from_angle(arg0, 0);
         break;
     case 2:
-        func_8002D3B4(arg0, 0x1F);
+        set_velocity_from_angle(arg0, 0x1F);
         break;
     }
     mul = (func_8002D2D4() % 3) + 3;
@@ -88,6 +88,6 @@ void func_801F01A8(struct X4_WeaponObj* arg0) {
     arg0->state++;
     func_8002CCB0(arg0, 0x40, 0x40);
 }
-#undef D_800970A0
+#undef g_Player
 #undef func_800179A4
 #undef func_8002CCB0

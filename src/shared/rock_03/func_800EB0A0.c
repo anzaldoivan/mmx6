@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 s32 func_8002D2D4();
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800F729C[];
 
 #define H(p, o) (*(s16*)((u8*)(p) + (o)))
@@ -16,20 +16,20 @@ void func_800EB0A0(void* arg0) {
     s32 e;
 
     a = H(arg0, 0xA) - 0xA0;
-    d = D_800971F8[0].x_pos.i.hi - a;
+    d = background_objects[0].x_pos.i.hi - a;
     if (d >= 0) {
         if (d < 0xA0) {
             goto x_near;
         }
-    } else if (a - D_800971F8[0].x_pos.i.hi < 0xA0) {
+    } else if (a - background_objects[0].x_pos.i.hi < 0xA0) {
     x_near:
         b = H(arg0, 0xE) - 0x78;
-        e = D_800971F8[0].y_pos.i.hi - b;
+        e = background_objects[0].y_pos.i.hi - b;
         if (e >= 0) {
             if (e < 0x78) {
                 goto y_near;
             }
-        } else if (b - D_800971F8[0].y_pos.i.hi < 0x78) {
+        } else if (b - background_objects[0].y_pos.i.hi < 0x78) {
         y_near:
             UH(arg0, 0x7C) = D_800F729C[func_8002D2D4() & 7];
             UB(arg0, 6) = UB(arg0, 6) + 1;

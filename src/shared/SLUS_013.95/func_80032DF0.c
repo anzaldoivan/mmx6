@@ -10,7 +10,7 @@ extern u8 D_80073970[];
 extern u8 D_8007397C[];
 extern u8 D_80073988[];
 extern u8 D_80073990[];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s8 D_80097424;
 extern struct X4_EngineObj D_800CCED0;
 extern u8 D_800E4430;
@@ -23,7 +23,7 @@ void func_80032DF0(u8* arg0) {
     s32 n;
     s32 k;
 
-    pl = &D_800970A0;
+    pl = &g_Player;
     if (D_80097424 != 0) {
         func_80025FB0();
         return;
@@ -98,7 +98,7 @@ void func_80032DF0(u8* arg0) {
             }
         }
     }
-    if (D_800970A0.unk2 == 0) {
+    if (g_Player.unk2 == 0) {
         for (i = 0; i < 8; i++) {
             if (pl->weapon == D_8007397C[i]) {
                 break;
@@ -161,7 +161,7 @@ void func_80032DF0(u8* arg0) {
         e -= -pl->unk2;
         arg0[0x2C] = e[0x8D];
     }
-    D_800E4430 = D_800970A0.weapon;
+    D_800E4430 = g_Player.weapon;
     *(s32*)(arg0 + 0x30) = 0;
     *(s32*)(arg0 + 0x34) = 0;
     *(s32*)(arg0 + 0x38) = 0;

@@ -4,10 +4,10 @@
 
 void func_8002F288(struct X4_PlayerObj*);
 extern void (*D_80076170[])(struct X4_PlayerObj*);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_80044EA0(struct X4_PlayerObj* self) {
-    struct X4_PlayerObj* p = &D_800970A0;
+    struct X4_PlayerObj* p = &g_Player;
     s32 flag;
 
     self->unk18.val = self->x_pos.val;

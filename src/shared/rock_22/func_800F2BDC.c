@@ -11,7 +11,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 M2C_UNK func_8002F288(M2C_UNK*);
 u8 func_80030234(struct X4_PlayerObj*, s16, s16);
 extern s16 D_800970AA;
@@ -19,6 +19,7 @@ extern s16 D_800970AE;
 
 void func_800F2BDC(struct X4_MainObj* self) {
     s32 ref;
+    // !FAKE: depin: dropping it breaks the match (41/165)
     register s32 p asm("$3");
     s16 x;
     s16 y;
@@ -26,7 +27,7 @@ void func_800F2BDC(struct X4_MainObj* self) {
     s32 d;
     u8 r;
 
-    func_8002D2B0((s32)self);
+    move_object((s32)self);
     func_8002F288((M2C_UNK*)self);
     near = 0;
     if (SP_CUR_MAIN_OBJ->ext.main_19.animation_index < 2) {
@@ -70,6 +71,7 @@ void func_800F2BDC(struct X4_MainObj* self) {
         if (SP_CUR_MAIN_OBJ->ext.main_19.animation_index < 2) {
             func_800179A4(self, 0xB);
             {
+                // !FAKE: depin: dropping it breaks the match (159/165)
                 register s32 six asm("$2") = 6;
                 self->unk6 = six;
             }
@@ -82,7 +84,8 @@ void func_800F2BDC(struct X4_MainObj* self) {
         } else {
             func_800179A4(self, 0xA);
             {
-                register s32 six asm("$3") = 6;
+                s32 six = 6;
+                // !FAKE: depin: dropping it breaks the match (156/165)
                 register s32 f asm("$2") = self->unk15;
                 self->unk6 = six;
                 self->unk15 = f ^ 0x40;

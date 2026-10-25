@@ -207,12 +207,26 @@ def best(counter):
     return min(counter.items(), key=lambda kv: (-kv[1], kv[0]))
 
 
+def known_functions(names, root="."):
+    """Corpus function names plus the `type:func` names of every config/symbols.<prog>.txt."""
+    progs = [os.path.basename(p)[len("symbols."):-len(".txt")] for p in glob.glob(os.path.join(root, "config/symbols.*.txt"))]
+    return set(names) | {n for p in progs for n, _, t in probe.symbols(p, root) if t == "func"}
+
+
+def card_globs(asm, known):
+    """The asm's %hi/%lo/%gp_rel targets that name no known function: the shared globals a card declares.
+    The `func_` test is spimdisasm's type tag, never an address: 12 text symbols labelled dlabel/alabel (e.g. rock_16
+    func_800F0DDC) are typed function by it alone, in no corpus row or symbols file (T5.c1, card output unchanged)."""
+    return sorted({s for s in REL_RE.findall(asm or "") if s not in known and not s.startswith("func_")})
+
+
 class Ctx:
     """Fleet-wide inputs read once: corpus, dup classes, registry, c_units, src/ declaration index, id sets."""
 
     def __init__(self):
         self.funcs = {(r["prog"], int(r["vram"], 16)): r for r in jl(FUNCS)}
         self.names = {r["name"] for r in self.funcs.values()}
+        self.known = known_functions(self.names)  # a function is known by name, never by its `func_` spelling
         self.cls_of, self.members = {}, {}
         for c in jl(CLASSES):
             if c["kind"] != "dup":
@@ -370,7 +384,7 @@ def card(ctx, pv, row, asm, twins, jpath, caps=(None, None)):
     decls = top_decls(dtext)
     incl = [x for x in dtext.split("\n") if x.startswith("#include")]
     callees = sorted(set(JAL_RE.findall(asm or "")))
-    globs = sorted({s for s in REL_RE.findall(asm or "") if s not in ctx.names and not s.startswith("func_")})
+    globs = card_globs(asm, ctx.known)
     recs = [r for r in journal.records(jpath) if r["pv"] == pvs(*pv)]
     label = recs[-1]["label"] if recs and recs[-1]["label"] != "-" else "none"
     trows = plateau.rows(label) if label in plateau.GROUPS else "-"
@@ -488,6 +502,16 @@ def self_test():
         if not cond:
             ok = False
             print(f"SELFTEST FAIL {msg}")
+
+    # planted: a function named without its address is known from a symbols file's `type:func`, not its spelling
+    os.makedirs(os.path.join(SELFTEST, "config"))
+    with open(os.path.join(SELFTEST, "config/symbols.P.txt"), "w") as f:
+        f.write("// basis: planted\nalpha_helper = 0x80001000; // type:func size:0x8\n"
+                "// basis: planted\nbeta_table = 0x80002000; // type:data\n")
+    known = known_functions({"gamma_func"}, SELFTEST)
+    got = card_globs("lui $a0, %hi(alpha_helper)\naddiu $a0, $a0, %lo(alpha_helper)\nlw $v0, %lo(beta_table)($at)\n"
+                     "lw $v1, %gp_rel(gamma_func)($gp)\n", known)
+    check(got == ["beta_table"], f"planted non-address names: globs {got}, want ['beta_table']")
 
     def run(wave, pv, jp, caps=""):
         tp = os.path.join(SELFTEST, f"{wave}.txt")

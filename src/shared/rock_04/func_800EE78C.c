@@ -16,6 +16,7 @@ extern M2C_UNK D_800F6CE0;
 #define W(p, o) (*(s32*)((u8*)(p) + (o)))
 
 void func_800EE78C(void* arg0) {
+    // !FAKE: depin: dropping it breaks the match (80/83)
     register s32 t asm("$2");
 
     if (H(arg0, 0x7C) != 0) {
@@ -33,6 +34,7 @@ void func_800EE78C(void* arg0) {
         func_80016C48(2, 0x11, arg0);
         func_800477E4(3, &D_800F6CE0, arg0);
         {
+            // !FAKE: depin: dropping it breaks the match (81/83)
             register s32 c asm("$2") = 2;
             UB(arg0, 4) = c;
         }

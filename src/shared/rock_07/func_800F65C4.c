@@ -10,6 +10,7 @@ void func_800F65C4(void* arg0) {
     s16 q;
 
     if (F(arg0, s16, 0x7E) == 0 || --F(arg0, s16, 0x7E) == 0) {
+        // !FAKE: depin: dropping it breaks the match (43/50)
         register s32 b asm("$3") = F(arg0, u8, 0x6);
         F(arg0, s16, 0x7C) = 0x1E;
         F(arg0, s32, 0x50) = 0;

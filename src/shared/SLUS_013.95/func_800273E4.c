@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_8009B79C;
 
 void func_800274A0(s32 arg0, s32 arg1, s32 arg2);
@@ -16,7 +16,7 @@ void func_800273E4(void) {
     s32 t;
 
     i = 0;
-    p = D_800971F8;
+    p = background_objects;
     do {
         if (p->pad51[1] < 0) {
             x = p->x_pos.i.hi;

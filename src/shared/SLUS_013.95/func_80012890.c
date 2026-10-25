@@ -42,8 +42,10 @@ void func_80012890(s32 arg0) {
         b = p + 0xDC;
         func_80068D94(b, 0, 0, D_8009B79C, 0xF0);
         {
+            // !FAKE: depin: dropping it breaks the match (102/105)
             register s32 x asm("$7");
-            register s32 y asm("$6");
+            s32 y;
+            // !FAKE: depin: dropping it breaks the match (97/105)
             register u8* src asm("$3");
             src = D_8006D5FC;
             eng = (u8*)&D_800CCED0;

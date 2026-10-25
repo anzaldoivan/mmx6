@@ -1,11 +1,11 @@
 #include "common.h"
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern void (*D_801F3AE0[])(void*);
 
 void func_801F2758(void* arg0) {
-    s8* p = (s8*)&D_800970A0;
+    s8* p = (s8*)&g_Player;
     s32 var_a1;
 
     var_a1 = p[0xD3] != 0;

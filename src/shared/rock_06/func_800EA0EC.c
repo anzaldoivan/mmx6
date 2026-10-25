@@ -5,14 +5,17 @@ extern s32 D_800C1220[];
 
 static inline u8 EA0EC_hit(struct X4_PlayerObj* o, struct X4_Unk_unk68* h,
                            s16 x, s16 y) {
+    // !FAKE: depin: dropping it breaks the match (76/81)
     register struct X4_Unk_unk68* q asm("$9") = h;
     s16 cx;
     s16 cy;
 
     if (o->unk15 == 0x40) {
+        // !FAKE: depin: dropping it breaks the match (24/81)
         register s8 d asm("$3") = h->unk0;
         cx = o->x_pos.i.hi - d;
     } else {
+        // !FAKE: depin: dropping it breaks the match (31/81)
         register s8 d asm("$3") = h->unk0;
         cx = o->x_pos.i.hi + d;
     }

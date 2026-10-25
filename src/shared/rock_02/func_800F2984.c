@@ -6,8 +6,8 @@
 #define SPAD4C (*(u8**)0x1F80004C)
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(s32);
-extern struct X4_BackgroundObj D_800971F8[3];
+M2C_UNK move_object(s32);
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F2984(void* arg0) {
     u8* sp;
@@ -30,14 +30,15 @@ void func_800F2984(void* arg0) {
     ((void (*)(void*))func_80017A04)(arg0);
     if (M2C_FIELD(arg0, s8*, 0x45) != 0) {
         M2C_FIELD(arg0, s32*, 0x68) = 0;
-        ((void (*)(void*))func_8002D2B0)(arg0);
-        if (D_800971F8[0].unk22 - 0x40 >= M2C_FIELD(arg0, s16*, 0xE)) {
-            M2C_FIELD(arg0, s16*, 0xE) = D_800971F8[0].unk22 - 0x40;
+        ((void (*)(void*))move_object)(arg0);
+        if (background_objects[0].unk22 - 0x40 >= M2C_FIELD(arg0, s16*, 0xE)) {
+            M2C_FIELD(arg0, s16*, 0xE) = background_objects[0].unk22 - 0x40;
             if (M2C_FIELD(arg0, u8*, 0x15) != 0) {
-                M2C_FIELD(arg0, s16*, 0xA) = D_800971F8[0].unk1C + 0x100;
+                M2C_FIELD(arg0, s16*, 0xA) =
+                    background_objects[0].unk1C + 0x100;
                 M2C_FIELD(arg0, u8*, 0x15) = 0;
             } else {
-                M2C_FIELD(arg0, s16*, 0xA) = D_800971F8[0].unk1E + 0x40;
+                M2C_FIELD(arg0, s16*, 0xA) = background_objects[0].unk1E + 0x40;
                 M2C_FIELD(arg0, u8*, 0x15) = 0x40;
             }
             M2C_FIELD(arg0, s16*, 0x7C) = 0x32;

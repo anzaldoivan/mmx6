@@ -10,7 +10,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8002A47C(s32);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj D_800CCED0;
 extern s32 D_800F4330;
 
@@ -18,7 +18,7 @@ void func_800EF3FC(struct X4_MainObj* self) {
     s32 a;
     s32 b;
 
-    func_8003D308(0x14, D_800970A0.unk15);
+    func_8003D308(0x14, g_Player.unk15);
     func_80029478(0, 0, 0);
     func_80016C48(2, 3, self);
     self->unk40 = 0x440;
@@ -39,10 +39,12 @@ void func_800EF3FC(struct X4_MainObj* self) {
     self->animation_table = &D_800F4330;
     func_800179A4(self, 0);
     {
+        // !FAKE: depin: dropping it breaks the match (85/88)
         register s32 c7f asm("$2") = 0x7F;
         self->unk7C = c7f;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (80/88)
         register s32 c19 asm("$3") = 0x19;
         self->unk7E = c19;
         self->invincibility_timer = c19;

@@ -373,10 +373,10 @@ INCLUDE_ASM("asm/rock_31/nonmatchings/E9860", func_800EF334);
 #include "../shared/rock_31/func_800EF570.c"
 
 #define func_800F07F4 func_800EF5B8
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_31/func_800EF5B8.c"
 #undef func_800F07F4
-#undef D_800970A0
+#undef g_Player
 
 #define func_800F08A8 func_800EF66C
 #include "../shared/rock_10/func_800F08A8.c"
@@ -419,10 +419,10 @@ INCLUDE_ASM("asm/rock_31/nonmatchings/E9860", func_800EF7C4);
 #include "../shared/rock_31/func_800EF954.c"
 
 #define func_800EA704 func_800EF974
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_06/func_800EA704.c"
 #undef func_800EA704
-#undef D_800970A0
+#undef g_Player
 
 #define func_800EA840 func_800EFAB0
 #include "../shared/rock_06/func_800EA840.c"
@@ -499,10 +499,10 @@ INCLUDE_ASM("asm/rock_31/nonmatchings/E9860", func_800F1DC4);
 INCLUDE_ASM("asm/rock_31/nonmatchings/E9860", func_800F1ECC);
 
 #define func_800EA224 func_800F2074
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_31/func_800F2074.c"
 #undef func_800EA224
-#undef D_800970A0
+#undef g_Player
 
 #define func_80048DC8 func_800F2224
 #define D_80077BC0 D_800F39CC

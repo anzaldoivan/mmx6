@@ -41,6 +41,7 @@ s32 func_8001A6CC(s32 arg0) {
     s32 a1;
     s32 done;
     s32 v;
+    // !FAKE: depin: dropping it breaks the match (10/185)
     register s32 c asm("$6");
     u8 idx;
 
@@ -78,8 +79,9 @@ s32 func_8001A6CC(s32 arg0) {
             func_8001B784();
             func_80012A34();
             {
+                // !FAKE: depin: dropping it breaks the match (183/185)
                 register u16 m asm("$3");
-                register u16 g asm("$2");
+                u16 g;
                 g = D_800C456C[2];
                 do {
                     m = *(u16*)(p + 10);

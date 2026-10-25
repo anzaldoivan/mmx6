@@ -8,7 +8,7 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
 extern s32 D_800F76A0;
 extern s32 D_800F76A4[];
@@ -22,8 +22,9 @@ void func_800F2CC4(void* arg0) {
     s32 dx;
     s32 v;
     s32 t;
+    // !FAKE: depin: dropping it breaks the match (110/114)
     register s32 py asm("$3");
-    register s32 px asm("$6");
+    s32 px;
     s32 den2;
     s8 type;
 
@@ -50,7 +51,7 @@ void func_800F2CC4(void* arg0) {
             den2 = 46;
             M2C_FIELD(arg0, s32*, 0x20) = dx / den2;
         } else if (type == 1) {
-            p = &D_800970A0;
+            p = &g_Player;
             px = p->x_pos.i.hi;
             py = p->y_pos.i.hi;
             ang = func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - py,
@@ -60,7 +61,7 @@ void func_800F2CC4(void* arg0) {
             M2C_FIELD(arg0, s32*, 0x28) = 0;
             M2C_FIELD(arg0, s32*, 0x2C) = 0;
         } else if (type == 2) {
-            p = &D_800970A0;
+            p = &g_Player;
             px = p->x_pos.i.hi;
             py = p->y_pos.i.hi;
             ang = func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - py,

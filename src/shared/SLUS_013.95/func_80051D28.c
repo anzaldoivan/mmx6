@@ -2,10 +2,10 @@
 #include "mmx6/x4.h"
 
 struct X4_VisualObj* func_8002C398(void);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_80051D28(struct X4_PlayerObj* arg0) {
-    struct X4_PlayerObj* player = &D_800970A0;
+    struct X4_PlayerObj* player = &g_Player;
     struct X4_VisualObj* obj1;
     struct X4_VisualObj* obj2;
     struct X4_VisualObj* obj3;

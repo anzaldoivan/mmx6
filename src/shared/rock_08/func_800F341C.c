@@ -7,16 +7,17 @@ extern s16 D_800F6AF2;
 
 void func_800F341C(u8* arg0) {
     s32 temp_a1;
-    register s32 y asm("$2");
+    s32 y;
 
     y = *(s16*)(arg0 + 0xA) + 0x10;
     temp_a1 = ((D_800970AA - y) << 0x10) / 40;
     *(s32*)(arg0 + 0x28) = 0;
     {
-        register s32 k1 asm("$4") = 0x1400;
+        s32 k1 = 0x1400;
         *(s32*)(arg0 + 0x2C) = k1;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (36/42)
         register s32 k2 asm("$2") = 0x28000;
         *(s32*)(arg0 + 0x24) = k2;
     }

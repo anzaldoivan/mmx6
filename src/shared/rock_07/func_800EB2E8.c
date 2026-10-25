@@ -6,16 +6,16 @@ M2C_UNK func_80030ECC();
 void func_80031DA8(void*);
 void func_8003208C(void*);
 s32 func_80032B34(struct X4_PlayerObj*);
-extern struct X4_PlayerObj D_800970A0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_PlayerObj g_Player;
+extern struct X4_BackgroundObj background_objects[3];
 extern void (*D_800F88CC[])(void*);
 
 #define S8(p, o) (*(s8*)((u8*)(p) + (o)))
 #define U8(p, o) (*(u8*)((u8*)(p) + (o)))
 #define U16(p, o) (*(u16*)((u8*)(p) + (o)))
 #define S32(p, o) (*(s32*)((u8*)(p) + (o)))
-#define BG ((u8*)&D_800971F8[0])
-#define PL ((u8*)&D_800970A0)
+#define BG ((u8*)&background_objects[0])
+#define PL ((u8*)&g_Player)
 
 void func_800EB2E8(u8* self) {
     u8* parent;
@@ -51,6 +51,7 @@ void func_800EB2E8(u8* self) {
         }
     }
     if (S8(parent, 0x5) != 2) {
+        // !FAKE: depin: dropping it breaks the match (114/120)
         register s32 k asm("$3");
         D_800F88CC[S8(self, 0x5)](self);
         func_80030ECC(self);

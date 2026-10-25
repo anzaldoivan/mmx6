@@ -24,6 +24,7 @@ void func_800EAE90(void* arg0) {
     D_800F8868[B(arg0, 6)](arg0);
     if (UB(arg0, 0x90) != 0 && func_80031474(arg0) < 0) {
     kill: {
+        // !FAKE: depin: dropping it breaks the match (26/91)
         register void* a asm("$4");
         a = arg0;
         B(arg0, 3) = 0;

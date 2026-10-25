@@ -13,6 +13,7 @@ extern s8 D_800950A0[];
 
 void func_8003208C(void* a0) {
     u8* arg0 = a0;
+    // !FAKE: depin: dropping it breaks the match (71/95)
     register s32 bit asm("$17");
     u8* p;
     u32 i;

@@ -665,7 +665,11 @@
 {"k":"data","addr":"0x800f62e4","type":"/undefined *","len":4}
 {"k":"data","addr":"0x800f62e8","type":"/undefined *","len":4}
 {"k":"data","addr":"0x800f62ec","type":"/undefined *","len":4}
+{"k":"comment","addr":"0x800e99ac","type":"plate","text":"x4: ride_chaser_jet_init [gate/object] sozud/mmx4@6a6b455 src/main/visuals/visual_13_ride_chaser_jet.c:ride_chaser_jet_init"}
+{"k":"comment","addr":"0x800e99ec","type":"plate","text":"x4: ride_chaser_jet_main [gate/object] sozud/mmx4@6a6b455 src/main/visuals/visual_13_ride_chaser_jet.c:ride_chaser_jet_main"}
 {"k":"comment","addr":"0x800e9ab0","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800e9b0c","type":"plate","text":"x4: ride_chaser_flash_init [gate/object] sozud/mmx4@6a6b455 src/main/visuals/visual_15_ride_chaser_flash.c:ride_chaser_flash_init"}
+{"k":"comment","addr":"0x800e9b48","type":"plate","text":"x4: ride_chaser_flash_main [gate/object] sozud/mmx4@6a6b455 src/main/visuals/visual_15_ride_chaser_flash.c:ride_chaser_flash_main"}
 {"k":"comment","addr":"0x800e9be8","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ea06c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ec6bc","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
@@ -673,6 +677,7 @@
 {"k":"comment","addr":"0x800ee240","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ef11c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800efd8c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800f1d54","type":"plate","text":"x4: slash_beast_death_blink [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_54_slash_beast.c:slash_beast_death_blink"}
 {"k":"comment","addr":"0x800f2f04","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f32d0","type":"pre","text":"Possible PsyQ macro: setLineF2()"}
 {"k":"comment","addr":"0x800f3334","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}

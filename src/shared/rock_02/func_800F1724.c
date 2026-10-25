@@ -9,7 +9,7 @@ s32 func_8002A47C(s32);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_8007523C;
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern s8 D_800CCEF6;
 extern u8 D_800CCF5F;
 extern s32 D_800FB2F0;
@@ -63,7 +63,7 @@ void func_800F1724(void* arg0) {
         }
         SPAD4C[0x8A] = 0;
     }
-    g = &D_800970A0;
+    g = &g_Player;
     M2C_FIELD(arg0, void**, 0x30) = &D_800FB7B4;
     M2C_FIELD(arg0, u8*, 0x14) = M2C_FIELD(g, u8*, 0x14);
     M2C_FIELD(arg0, u8*, 0x16) = 5;

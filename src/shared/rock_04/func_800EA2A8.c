@@ -6,7 +6,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 void* func_8002C458();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
 
 #define S_ID(s) M2C_FIELD(s, u8*, 0x0)
@@ -38,7 +38,7 @@ void func_800EA2A8(void* self) {
         S_TIMER(self) = 0;
         break;
     case 1:
-        if (ABS(D_800970A0.x_pos.i.hi - S_X(self)) <= 0x60) {
+        if (ABS(g_Player.x_pos.i.hi - S_X(self)) <= 0x60) {
             p = func_8002C458();
             if (p != NULL) {
                 M2C_FIELD(p, u8*, 0) = S_ID(self);
@@ -46,7 +46,7 @@ void func_800EA2A8(void* self) {
                 M2C_FIELD(p, u8*, 2) = 1;
                 M2C_FIELD(p, void**, 0x7C) = self;
             }
-            if (D_800970A0.x_pos.i.hi > S_X(self)) {
+            if (g_Player.x_pos.i.hi > S_X(self)) {
                 S_FACE(self) = 0x40;
             } else {
                 S_FACE(self) = 0;
@@ -59,7 +59,7 @@ void func_800EA2A8(void* self) {
             S_TIMER(self) = 0;
             S_STATE(self) = 3;
         } else if (S_TIMER(self) % 200 == 0) {
-            if (D_800970A0.x_pos.i.hi > S_X(self)) {
+            if (g_Player.x_pos.i.hi > S_X(self)) {
                 S_FACE(self) = 0x40;
             } else {
                 S_FACE(self) = 0;
@@ -73,7 +73,7 @@ void func_800EA2A8(void* self) {
         }
         break;
     case 2:
-        if (ABS(D_800970A0.x_pos.i.hi - S_X(self)) <= 0x60) {
+        if (ABS(g_Player.x_pos.i.hi - S_X(self)) <= 0x60) {
             p = func_8002C458();
             if (p != NULL) {
                 M2C_FIELD(p, u8*, 0) = S_ID(self);
@@ -81,7 +81,7 @@ void func_800EA2A8(void* self) {
                 M2C_FIELD(p, u8*, 2) = 1;
                 M2C_FIELD(p, void**, 0x7C) = self;
             }
-            if (D_800970A0.x_pos.i.hi > S_X(self)) {
+            if (g_Player.x_pos.i.hi > S_X(self)) {
                 S_FACE(self) = 0x40;
             } else {
                 S_FACE(self) = 0;

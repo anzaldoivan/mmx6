@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_80077AB0;
 extern s16 D_801F3B20[];
 M2C_UNK func_800179A4(void*, M2C_UNK);
@@ -14,7 +14,7 @@ void func_8003CF24(s32, s32, s32);
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 
 void func_801F2E0C(u8* arg0) {
-    struct X4_PlayerObj* player = &D_800970A0;
+    struct X4_PlayerObj* player = &g_Player;
     u8* scr;
     s32 i;
 
@@ -48,14 +48,17 @@ void func_801F2E0C(u8* arg0) {
             }
         }
         {
+            // !FAKE: depin: dropping it breaks the match (87/92)
             register s32 one asm("$3") = 1;
             M2C_FIELD(arg0, u8*, 3) = one;
         }
         {
+            // !FAKE: depin: dropping it breaks the match (88/92)
             register s32 t asm("$2") = M2C_FIELD(arg0, u8*, 4) + 1;
             M2C_FIELD(arg0, u8*, 4) = t;
         }
         {
+            // !FAKE: depin: dropping it breaks the match (87/92)
             register s32 j asm("$5");
             j = M2C_FIELD(arg0, s8*, 5) * 4;
             M2C_FIELD(arg0, s16*, 0xA) =
@@ -70,5 +73,5 @@ void func_801F2E0C(u8* arg0) {
         func_8002C9B0(arg0);
     }
 }
-#undef D_800970A0
+#undef g_Player
 #undef func_800179A4

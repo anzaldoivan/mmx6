@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_8002C9B0();
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 
 void func_801EF8B0(s8* arg0) {
     s8 t;
@@ -16,7 +16,7 @@ void func_801EF8B0(s8* arg0) {
     arg0[0x9D] = 0;
     if (t == 0x2) {
         if (*(s16*)(arg0 + 0x8A) == 0) {
-            p = (u8*)&D_800970A0;
+            p = (u8*)&g_Player;
             p[0x98]--;
             p[0x99]--;
             func_8002C9B0(arg0);

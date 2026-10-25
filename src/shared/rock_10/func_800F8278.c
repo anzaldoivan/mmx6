@@ -14,6 +14,7 @@ void func_800F8278(u8* arg0) {
     state = *(s8*)(arg0 + 0x45);
     if (state == 1) {
         {
+            // !FAKE: depin: dropping it breaks the match (8/57)
             register u8* a asm("$4");
             func_800F5F04(a, 1);
         }

@@ -157,10 +157,11 @@
 {"k":"func","addr":"0x20000260","name":"gte_ApplyRotMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/VECTOR *","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
 {"k":"func","addr":"0x800ea314","name":"FUN_800ea314","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
 {"k":"func","addr":"0x800ead2c","name":"FUN_800ead2c","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
-{"k":"func","addr":"0x800eadcc","name":"FUN_800eadcc","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
+{"k":"func","addr":"0x800eadcc","name":"FUN_800eadcc","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"x4: magma_dragoon_face_player [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_65_magma_dragoon.c:magma_dragoon_face_player"}
 {"k":"func","addr":"0x800ec5b8","name":"FUN_800ec5b8","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
 {"k":"func","addr":"0x800ec5e8","name":"FUN_800ec5e8","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
 {"k":"func","addr":"0x800edbcc","name":"FUN_800edbcc","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
+{"k":"func","addr":"0x800ee1d0","name":"general_dust_end","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: x4 exact 76d90a83ca68 sozud/mmx4@6a6b455 src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04"}
 {"k":"data","addr":"0x20000000","type":"/byte[4]","len":4}
 {"k":"data","addr":"0x20000004","type":"/byte[4]","len":4}
 {"k":"data","addr":"0x20000008","type":"/byte[4]","len":4}
@@ -542,13 +543,19 @@
 {"k":"comment","addr":"0x800ea35c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ea8e8","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ea908","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800eadcc","type":"plate","text":"x4: magma_dragoon_face_player [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_65_magma_dragoon.c:magma_dragoon_face_player"}
 {"k":"comment","addr":"0x800eadec","type":"pre","text":"Possible PsyQ macro: setLineF2()"}
 {"k":"comment","addr":"0x800eadfc","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800ebec8","type":"plate","text":"x4: bomb_bat_hover_start [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_32_bomb_bat.c:bomb_bat_hover_start"}
+{"k":"comment","addr":"0x800ec010","type":"plate","text":"x4: bomb_bat_drop_start [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_32_bomb_bat.c:bomb_bat_drop_start"}
+{"k":"comment","addr":"0x800ec060","type":"plate","text":"x4: bomb_bat_drop_release [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_32_bomb_bat.c:bomb_bat_drop_release"}
+{"k":"comment","addr":"0x800ec408","type":"plate","text":"x4: bomb_bat_dive_fall [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_32_bomb_bat.c:bomb_bat_dive_fall"}
 {"k":"comment","addr":"0x800ec5e0","type":"pre","text":"Possible PsyQ macro: setLineF2()"}
 {"k":"comment","addr":"0x800ec840","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ed358","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ed714","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800eddd0","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800ee1d0","type":"plate","text":"name: x4 exact 76d90a83ca68 sozud/mmx4@6a6b455 src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04"}
 {"k":"comment","addr":"0x800ee260","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800eea38","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800eea58","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
@@ -1002,6 +1009,7 @@
 {"k":"label","addr":"0x20000260","name":"gte_ApplyRotMatrix","primary":true,"src":"IMPORTED","func":true}
 {"k":"label","addr":"0x800e9864","name":"switchdataD_800e9864","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800e9894","name":"switchdataD_800e9894","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ee1d0","name":"general_dust_end","primary":true,"src":"USER_DEFINED","func":true}
 {"k":"label","addr":"0x800ee388","name":"switchD","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800ee390","name":"caseD_0","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800ee3a8","name":"caseD_1","primary":true,"src":"ANALYSIS","func":false}

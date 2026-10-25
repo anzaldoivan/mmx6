@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 extern struct X4_StageObjectRecord* D_8007349C[][2];
 extern s16 D_800733B8[];
@@ -17,14 +17,14 @@ void func_80029F38(s16 arg0, s16 arg1, s16 arg2, s16 arg3, u8 arg4) {
     struct X4_AnimatedObj* obj;
     s16 left, right, top, bottom;
     s16 x0, x1, y0, y1;
-    register s32 off asm("$4");
+    s32 off;
     u32 type;
 
     rec = D_8007349C[D_800CCED0.stage][D_800CCED0.substage];
-    left = D_800971F8[0].x_pos.i.hi - 0x30;
-    right = D_800971F8[0].x_pos.i.hi + 0x170;
-    top = D_800971F8[0].y_pos.i.hi - 0x30;
-    bottom = D_800971F8[0].y_pos.i.hi + 0x120;
+    left = background_objects[0].x_pos.i.hi - 0x30;
+    right = background_objects[0].x_pos.i.hi + 0x170;
+    top = background_objects[0].y_pos.i.hi - 0x30;
+    bottom = background_objects[0].y_pos.i.hi + 0x120;
     while (rec->object_type != 0xF) {
         if (!(rec->flags & 0x81)) {
             x0 = arg0;
@@ -37,6 +37,7 @@ void func_80029F38(s16 arg0, s16 arg1, s16 arg2, s16 arg3, u8 arg4) {
                 case 1:
                     x1 += off;
                     {
+                        // !FAKE: depin: dropping it breaks the match (233/257)
                         register s32 t asm("$3") = x0 + off;
                         x0 = t;
                     }
@@ -44,6 +45,7 @@ void func_80029F38(s16 arg0, s16 arg1, s16 arg2, s16 arg3, u8 arg4) {
                 case 2:
                     x0 -= off;
                     {
+                        // !FAKE: depin: dropping it breaks the match (236/257)
                         register s32 t asm("$3") = x1 - off;
                         x1 = t;
                     }
@@ -51,6 +53,7 @@ void func_80029F38(s16 arg0, s16 arg1, s16 arg2, s16 arg3, u8 arg4) {
                 case 3:
                     y1 += off;
                     {
+                        // !FAKE: depin: dropping it breaks the match (236/257)
                         register s32 t asm("$3") = y0 + off;
                         y0 = t;
                     }
@@ -58,7 +61,7 @@ void func_80029F38(s16 arg0, s16 arg1, s16 arg2, s16 arg3, u8 arg4) {
                 case 4:
                     y0 -= off;
                     {
-                        register s32 t asm("$3") = y1 - off;
+                        s32 t = y1 - off;
                         y1 = t;
                     }
                     break;
@@ -88,6 +91,7 @@ void func_80029F38(s16 arg0, s16 arg1, s16 arg2, s16 arg3, u8 arg4) {
                     }
                 }
             } else {
+                // !FAKE: depin: dropping it breaks the match (202/257)
                 register u32 t asm("$3") = rec->object_type;
 
                 if ((t & 0xF) < 3 &&

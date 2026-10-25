@@ -9,6 +9,7 @@ extern u8 D_800FA900[];
 void func_800EAF28(void* arg0) {
     void* c;
     s32 r;
+    // !FAKE: depin: dropping it breaks the match (106/114)
     register s32 one asm("$3");
 
     r = func_800ED06C(arg0);

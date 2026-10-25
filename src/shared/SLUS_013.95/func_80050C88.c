@@ -1,12 +1,12 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 #define PA4 (*(s8*)((u8*)p + 0xA4))
 
 s32 func_80050C88(void* arg0) {
-    struct X4_PlayerObj* p = &D_800970A0;
+    struct X4_PlayerObj* p = &g_Player;
     struct X4_PlayerObj* o = arg0;
     struct X4_Unk_unk68* a;
     struct X4_Unk_unk68* b;

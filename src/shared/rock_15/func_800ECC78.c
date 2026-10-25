@@ -28,6 +28,7 @@ void func_800ECC78(void* arg0) {
     }
     func_800179A4(arg0, FX(arg0, s8, 0x54));
     {
+        // !FAKE: depin: dropping it breaks the match (41/44)
         register s32 r asm("$2") = FX(arg0, u8, 0x4) + 1;
         FX(arg0, u8, 0x4) = r;
     }

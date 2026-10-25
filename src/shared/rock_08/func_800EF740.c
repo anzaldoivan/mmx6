@@ -15,6 +15,7 @@ void func_800EF740(u8* arg0) {
         if (t == 0) {
             v = 1;
         common: {
+            // !FAKE: depin: dropping it breaks the match (26/29)
             register s32 k asm("$3") = 0x2000;
             arg0[6] = v;
             *(s32*)(arg0 + 0x2C) = k;

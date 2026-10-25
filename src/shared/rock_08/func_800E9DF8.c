@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 void func_800328B0();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern u16 D_800F4C7C[];
 
 #define SB(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -31,8 +31,8 @@ void func_800E9DF8(void* self) {
         s32 t = (s16)v;
         H(self, 0x42) = -t;
     }
-    if (D_800970A0.x_pos.i.hi < x0 || x1 < D_800970A0.x_pos.i.hi ||
-        D_800970A0.y_pos.i.hi < y0 || y1 < D_800970A0.y_pos.i.hi) {
+    if (g_Player.x_pos.i.hi < x0 || x1 < g_Player.x_pos.i.hi ||
+        g_Player.y_pos.i.hi < y0 || y1 < g_Player.y_pos.i.hi) {
         if (--W(self, 0x38) < 0) {
             W(self, 0x38) = 0;
             H(self, 0x34) = 0;

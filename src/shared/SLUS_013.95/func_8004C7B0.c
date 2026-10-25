@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/quads/quad_08_flash_band.c:flash_band_widen, AGPL-3.0; proven shared with X6 by exact signature f8c67d3d4451 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/quads/quad_08_flash_band.c:flash_band_widen, AGPL-3.0; proven shared with X6 by exact signature f8c67d3d4451 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 

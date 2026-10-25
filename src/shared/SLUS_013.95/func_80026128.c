@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/144A4.c:func_800241E8, AGPL-3.0; proven shared with X6 by exact signature df4775baa321 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/144A4.c:func_800241E8, AGPL-3.0; proven shared with X6 by exact signature df4775baa321 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern X4_P_TAG* D_8008EB08[2][4][8];

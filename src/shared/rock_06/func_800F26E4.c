@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/mech.c:func_8003F648, AGPL-3.0; proven shared with X6 by exact signature 020323399ced (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/mech.c:func_8003F648, AGPL-3.0; proven shared with X6 by exact signature 020323399ced (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern void (*D_800F3A5C[])(struct X4_RideArmorObj*);

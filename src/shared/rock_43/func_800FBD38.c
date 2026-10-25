@@ -15,6 +15,7 @@ extern void* D_800FE298;
 #define PARENT ((struct X4_MainObj*)D_800FE298)
 
 void func_800FBD38(struct X4_MainObj* self) {
+    // !FAKE: depin: dropping it breaks the match (88/96)
     register s32 t3c asm("$6");
     u8 dir;
     s32 v;
@@ -32,7 +33,8 @@ void func_800FBD38(struct X4_MainObj* self) {
         dir = q->unk15;
     }
     {
-        register void* a asm("$2") = &D_800FE210;
+        void* a = &D_800FE210;
+        // !FAKE: depin: dropping it breaks the match (83/96)
         register void* b asm("$3") = &D_800FE214;
         self->attack_box = a;
         self->air_state = 0;

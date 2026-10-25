@@ -2,14 +2,14 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj D_800CCED0;
 extern u8 D_80078E08[];
 M2C_UNK func_800179A4(void*, M2C_UNK);
 void func_8003C4EC(struct X4_PlayerObj* self);
 
 void func_80051ED4(struct X4_PlayerObj* arg0) {
-    struct X4_PlayerObj* p = &D_800970A0;
+    struct X4_PlayerObj* p = &g_Player;
     s8 t;
     s32 x = arg0->x_pos.val;
 

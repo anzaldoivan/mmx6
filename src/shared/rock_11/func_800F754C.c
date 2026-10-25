@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 s32 func_800FA630(void*, s16, s16);
 
 #define F_S8(o) (*(s8*)((u8*)self + (o)))
@@ -35,5 +35,5 @@ void func_800F754C(void* self) {
         F_U8(0x6)++;
         return;
     }
-    func_8002D2B0(self);
+    move_object(self);
 }

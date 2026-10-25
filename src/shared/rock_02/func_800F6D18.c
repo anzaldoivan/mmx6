@@ -7,6 +7,7 @@ s32 func_800F82C0();
 
 void func_800F6D18(u8* arg0) {
     u8* p;
+    // !FAKE: depin: dropping it breaks the match (29/36)
     register u16 t asm("$2");
 
     p = SPAD;

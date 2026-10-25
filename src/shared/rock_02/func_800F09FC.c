@@ -11,8 +11,8 @@ extern u8 D_800FB220[];
 extern u8 D_800FB230[];
 
 void func_800F09FC(struct X4_MainObj* self) {
-    register s32 lim asm(
-        "$4"); // !FAKE: depin: dropping it breaks the match (64/70)
+    // !FAKE: depin: dropping it breaks the match (64/70)
+    register s32 lim asm("$4");
     s32 v;
 
     v = self->x_speed;

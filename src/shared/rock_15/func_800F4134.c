@@ -5,14 +5,14 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 void func_800F3824(struct X4_MainObj*);
 extern M2C_UNK D_800F6F44;
 extern M2C_UNK D_800F6F54;
 
 void func_800F4134(void* arg0) {
     func_80017A04();
-    ((void (*)(void*))func_8002D2B0)(arg0);
+    ((void (*)(void*))move_object)(arg0);
     if (M2C_FIELD(arg0, u8*, 0x70) & 8) {
         func_800F3824(arg0);
         M2C_FIELD(arg0, void**, 0x50) = &D_800F6F54;

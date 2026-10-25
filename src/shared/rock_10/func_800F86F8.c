@@ -15,13 +15,15 @@ void func_800F86F8(u8* arg0) {
         func_80016C48(2, 0x52, arg0);
         func_800179A4(arg0, 8);
         {
+            // !FAKE: depin: dropping it breaks the match (36/39)
             register void* p asm("$2") = &D_8007433C;
             *(void**)(arg0 + 0x58) = p;
         }
         do {
         } while (0);
         {
-            register void* a asm("$2") = &D_800FC734;
+            void* a = &D_800FC734;
+            // !FAKE: depin: dropping it breaks the match (33/39)
             register void* b asm("$3") = &D_800FC738;
             *(void**)(arg0 + 0x50) = a;
             arg0[0x8E] = temp_s1;

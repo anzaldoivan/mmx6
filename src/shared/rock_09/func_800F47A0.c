@@ -10,7 +10,7 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 
 void func_800F47A0(void* arg0) {
     void* obj;
-    register s32 t asm("$3");
+    s32 t;
 
     if (--*(s16*)((u8*)arg0 + 0x7C) == 0) {
         obj = func_8002C3F8();
@@ -31,7 +31,7 @@ void func_800F47A0(void* arg0) {
         }
         t = FS8(arg0, 0x61);
         {
-            register s32 v asm("$2");
+            s32 v;
             v = t < 6;
             if (v == 0) {
                 v = t;

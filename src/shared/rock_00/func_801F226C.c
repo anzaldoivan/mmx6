@@ -7,8 +7,8 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 #define func_800179A4 ((void (*)(void*, s32))func_800179A4)
 s32 func_801EE34C();
 extern s32 D_80077A64[];
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
 #define SCRATCH_1C (*(u8**)0x1F80001C)
@@ -28,7 +28,7 @@ void func_801F226C(struct X4_WeaponObj* arg0) {
     arg0->animation_table = (u32**)D_80077A64;
     arg0->unk40 = 0x520;
     arg0->unk42 = 0x7801;
-    player = &D_800970A0;
+    player = &g_Player;
     arg0->unk16 = 1;
     arg0->unk3C = temp_a0 + var_a0;
     arg0->unk15 = player->unk15;
@@ -60,5 +60,5 @@ void func_801F226C(struct X4_WeaponObj* arg0) {
         arg0->y_pos.i.hi += 8;
     }
 }
-#undef D_800970A0
+#undef g_Player
 #undef func_800179A4

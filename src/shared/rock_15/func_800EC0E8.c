@@ -15,6 +15,7 @@ void func_800EC0E8(void* arg0) {
     if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
         M2C_FIELD(arg0, u8*, 6) = 0;
         if (M2C_FIELD(arg0, s8*, 2) == 0) {
+            // !FAKE: depin: dropping it breaks the match (46/53)
             register s32 t asm("$2") = M2C_FIELD(arg0, s32*, 0x84) + 1;
             M2C_FIELD(arg0, s32*, 0x84) = t;
             var_v0 = t < D_800CCF08 + 3;

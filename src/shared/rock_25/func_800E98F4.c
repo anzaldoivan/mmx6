@@ -56,7 +56,8 @@ void func_800E98F4(struct X4_MainObj* self) {
     if (kind == 0) {
         func_800179A4(self, 0);
         {
-            register s32 two asm("$3") = 2;
+            s32 two = 2;
+            // !FAKE: depin: dropping it breaks the match (58/107)
             register s32 h asm("$2") = self->y_pos.u.hi;
             self->unk5 = two;
             self->y_pos.u.hi = h - 0x20;
@@ -64,7 +65,8 @@ void func_800E98F4(struct X4_MainObj* self) {
     } else if (kind == 1) {
         func_800179A4(self, 0xE);
         {
-            register s32 two asm("$3") = 2;
+            s32 two = 2;
+            // !FAKE: depin: dropping it breaks the match (70/107)
             register s32 h asm("$2") = self->y_pos.u.hi;
             self->unk5 = two;
             self->y_pos.u.hi = h + 0x20;

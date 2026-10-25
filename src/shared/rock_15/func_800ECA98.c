@@ -9,8 +9,8 @@ extern s32 D_800F6234[];
 void func_800ECA98(struct X4_MainObj* self) {
     u8 t;
     s32 c;
-    register s32 y asm("$5");
-    register s32* q asm("$4");
+    s32 y;
+    s32* q;
 
     t = U8F(self, 0x8F);
     if (t == 0) {

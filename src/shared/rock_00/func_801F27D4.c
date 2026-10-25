@@ -4,15 +4,15 @@
 
 void func_80017A04(struct X4_AnimatedObj*);
 s32 func_801EE34C();
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3AAC;
 extern s32 D_801F3AB4;
 
 void func_801F27D4(struct X4_WeaponObj* arg0) {
     struct X4_PlayerObj* player;
 
-    player = &D_800970A0;
+    player = &g_Player;
     if (arg0->unk6 != 0) {
         goto set;
     }
@@ -32,7 +32,7 @@ void func_801F27D4(struct X4_WeaponObj* arg0) {
     }
     if (arg0->unk6 != 0) {
     set:
-        arg0->y_pos.i.hi = D_800970A0.y_pos.i.hi + *(s16*)((u8*)arg0 + 0x8C);
+        arg0->y_pos.i.hi = g_Player.y_pos.i.hi + *(s16*)((u8*)arg0 + 0x8C);
     } else {
         func_801EE34C(arg0, player, arg0->id);
     }
@@ -46,4 +46,4 @@ void func_801F27D4(struct X4_WeaponObj* arg0) {
         arg0->unk5++;
     }
 }
-#undef D_800970A0
+#undef g_Player

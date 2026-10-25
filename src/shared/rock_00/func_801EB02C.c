@@ -7,11 +7,12 @@ void func_80017A04(struct X4_AnimatedObj*);
 void* func_8002C32C();
 M2C_UNK func_8003B114(s32);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
-M2C_UNK func_8003D3F8(M2C_UNK, s8, M2C_UNK, void*);
+M2C_UNK player_spawn_weapon(M2C_UNK, s8, M2C_UNK, void*);
 
 void func_801EB02C(u8* arg0) {
     u8* obj;
-    register s32 kind asm("$3");
+    s32 kind;
+    // !FAKE: depin: dropping it breaks the match (81/87)
     register s32 one asm("$2");
 
     if (M2C_FIELD(arg0, s16*, 0x14C) == 2) {
@@ -24,7 +25,7 @@ void func_801EB02C(u8* arg0) {
         func_80017A04((struct X4_AnimatedObj*)arg0);
     }
     if (((s8*)arg0)[0x45] & 0x80) {
-        func_8003D3F8(1, 0x38, 0, 0);
+        player_spawn_weapon(1, 0x38, 0, 0);
     }
     if (arg0[0x17] == 0xB7) {
         if (((s8*)arg0)[0x45] & 0x80) {

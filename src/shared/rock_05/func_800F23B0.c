@@ -6,14 +6,14 @@
 M2C_UNK func_80012D9C(M2C_UNK);                 /* extern */
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK func_80017A04();                        /* extern */
-M2C_UNK func_8002D2B0(void*);                   /* extern */
+M2C_UNK move_object(void*);                     /* extern */
 extern u16 D_800F447E;
 #define D_800F447E_S (*(s16*)&D_800F447E)
 
 void func_800F23B0(void* arg0) {
     s16 y;
 
-    ((void (*)(void*))func_8002D2B0)(arg0);
+    ((void (*)(void*))move_object)(arg0);
     ((void (*)(void*))func_80017A04)(arg0);
     y = M2C_FIELD(arg0, s16*, 0xA);
     if ((D_800F447E_S + 0x11F0) < y) {

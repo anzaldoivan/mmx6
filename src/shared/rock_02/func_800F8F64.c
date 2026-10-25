@@ -9,7 +9,7 @@ extern M2C_UNK D_800752DC;
 extern M2C_UNK D_8007537C;
 extern u8 D_80097187;
 
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 void func_800F8F64(void* arg0) {
     M2C_UNK* var_v0;
     u8 temp_v0;
@@ -26,7 +26,7 @@ void func_800F8F64(void* arg0) {
         var_v0 = &D_800752DC;
     }
     M2C_FIELD(arg0, M2C_UNK**, 0x58) = var_v0;
-    ((M2C_UNK(*)())func_8002D2B0)(arg0);
+    ((M2C_UNK(*)())move_object)(arg0);
     if (func_8002CBFC(arg0, 0x30, 0x30) == 1) {
         M2C_FIELD(arg0, s8*, 4) = 2;
     }

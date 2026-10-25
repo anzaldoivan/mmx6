@@ -12,7 +12,7 @@ M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 void func_800EF164();
 
 extern u8 D_800E9860[];
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 extern void* D_800F70E0;
 
@@ -37,13 +37,13 @@ void func_800ED124(void* arg0) {
             add = tbl[F8(&D_800CCED0, 0x8F)];
             F8(&D_800CCED0, 0x8C) = c + add;
         }
-        F16(arg0, 0xA) = D_800971F8[0].unk26 + 0xF0;
+        F16(arg0, 0xA) = background_objects[0].unk26 + 0xF0;
         {
-            u16 y = D_800971F8[0].unk2A;
+            u16 y = background_objects[0].unk2A;
             F8(arg0, 7) = 0;
             F16(arg0, 0xE) = y + 0x50;
         }
-        func_800EF164(arg0, 0, D_800971F8, add);
+        func_800EF164(arg0, 0, background_objects, add);
         func_800EF164(arg0, 1);
         F8(arg0, 6)++;
     }

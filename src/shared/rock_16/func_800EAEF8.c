@@ -9,6 +9,7 @@ extern u8 D_800F1CA9;
 extern u8 D_800F1CF0[];
 
 void func_800EAEF8(void* arg0) {
+    // !FAKE: depin: dropping it breaks the match (89/98)
     register s32 tbl asm("$2");
     s32 idx;
     s8* p;

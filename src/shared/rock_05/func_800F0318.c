@@ -4,8 +4,8 @@
 
 M2C_UNK func_80017A04();
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
-extern struct X4_BackgroundObj D_800971F8[3];
+M2C_UNK move_object(void*);
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 extern u16 D_800F447E;
 #define D_800F447E (*(s16*)&D_800F447E)
@@ -15,11 +15,11 @@ void func_800F0318(struct X4_MainObj* self) {
 
     self->on_screen = 1;
     if (!(D_80097420 & 1)) {
-        D_800971F8[0].y_pos.u.hi += 2;
+        background_objects[0].y_pos.u.hi += 2;
     } else {
-        D_800971F8[0].y_pos.u.hi -= 2;
+        background_objects[0].y_pos.u.hi -= 2;
     }
-    func_8002D2B0(self);
+    move_object(self);
     ((void (*)(void*))func_80017A04)(self);
     x = self->x_pos.i.hi;
     if (D_800F447E + 0x1220 < x) {
@@ -28,6 +28,7 @@ void func_800F0318(struct X4_MainObj* self) {
         self->unk7C = 0x32;
         func_80029478(0x78, 4, 2);
         {
+            // !FAKE: depin: dropping it breaks the match (36/60)
             register s32 t asm("$2") = (u8)self->unk6 - 1;
             self->unk6 = t;
         }
@@ -37,6 +38,7 @@ void func_800F0318(struct X4_MainObj* self) {
         self->unk7C = 0x32;
         func_80029478(0x78, 4, 2);
         {
+            // !FAKE: depin: dropping it breaks the match (36/60)
             register s32 t asm("$2") = (u8)self->unk6 - 1;
             self->unk6 = t;
         }

@@ -7,7 +7,7 @@
 M2C_UNK func_800179A4(void*, M2C_UNK);
 
 extern s8 D_800950A0[];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 #define ABS(v) ((v) < 0 ? -(v) : (v))
 #define OBJ(p) ((struct X4_BaseObj*)(p))
@@ -30,14 +30,14 @@ void func_800F13A4(struct X4_BaseObj* self) {
             continue;
         }
         if (self->unk15 != 0) {
-            struct X4_PlayerObj* pl = &D_800970A0;
+            struct X4_PlayerObj* pl = &g_Player;
             if (pl->unk15 == 0 && self->x_pos.val < pl->x_pos.val &&
                 ABS(OBJ(p)->y_pos.i.hi - self->y_pos.i.hi) < 0x18 &&
                 OBJ(p)->x_pos.i.hi < self->x_pos.i.hi + 0x80) {
                 M2C_FIELD(self, u8*, 0x80) |= 1;
             }
         } else {
-            struct X4_PlayerObj* pl = &D_800970A0;
+            struct X4_PlayerObj* pl = &g_Player;
             if (pl->unk15 != 0 && self->x_pos.val > pl->x_pos.val &&
                 ABS(OBJ(p)->y_pos.i.hi - self->y_pos.i.hi) < 0x18 &&
                 self->x_pos.i.hi - 0x80 < OBJ(p)->x_pos.i.hi) {

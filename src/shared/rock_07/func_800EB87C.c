@@ -8,10 +8,10 @@
 M2C_UNK func_80012D9C(M2C_UNK);
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800EB87C(void* arg0) {
-    struct X4_BackgroundObj* bg = D_800971F8;
+    struct X4_BackgroundObj* bg = background_objects;
 
     bg[1].y_pos.u.hi -= 8;
     if (bg[1].y_pos.i.hi < 0x339) {

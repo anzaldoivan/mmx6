@@ -15,6 +15,7 @@ extern void (*D_800F0BF8[])(s8*);
 
 void func_800EDBC8(struct X4_BaseObj* self) {
     u8* tmp;
+    // !FAKE: depin: dropping it breaks the match (116/123)
     register s32 t asm("$4");
 
     self->on_screen = 0;

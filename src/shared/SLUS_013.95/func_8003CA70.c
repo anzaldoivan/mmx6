@@ -21,7 +21,7 @@ s32 func_8003CA70(void* arg0, s16 arg1) {
     s32 b;
     u8 f;
     u16 x;
-    register s32 k asm("$4");
+    s32 k;
 
     if (func_80030234(self, self->x_pos.i.hi, arg1) == 0x24 &&
         M2C_FIELD(self, s8*, 0xDF) == 0) {

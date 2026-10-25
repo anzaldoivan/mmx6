@@ -14,7 +14,9 @@ void func_800FC724(u8* self) {
     if (*(s8*)(self + 0x45) == 1) {
         func_800179D0(self, 0x13, func_8002D2D4() & 3);
         {
+            // !FAKE: depin: dropping it breaks the match (40/45)
             register void* a asm("$2") = &D_800FF804;
+            // !FAKE: depin: dropping it breaks the match (41/45)
             register void* b asm("$3") = &D_800FF808;
             *(void**)(self + 0x50) = a;
             *(void**)(self + 0x54) = b;

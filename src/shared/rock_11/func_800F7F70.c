@@ -24,6 +24,7 @@ void func_800F7F70(void* arg0) {
     }
     func_8002CCB0(arg0, 0x60, 0x60);
     {
+        // !FAKE: depin: dropping it breaks the match (54/61)
         register s32 q asm("$2");
         q = M2C_FIELD(arg0, u16*, 0x7E) - 1;
         M2C_FIELD(arg0, s16*, 0x7E) = q;
@@ -37,6 +38,7 @@ void func_800F7F70(void* arg0) {
         }
         t = M2C_FIELD(arg0, s8*, 0x61);
         {
+            // !FAKE: depin: dropping it breaks the match (53/61)
             register s32 m asm("$2");
             if (t >= 6) {
                 m = t;

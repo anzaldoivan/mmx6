@@ -8,16 +8,17 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 #define func_800179A4 ((void (*)(void*, s32))func_800179A4)
 void func_8003CF24(s32, s32, s32);
 void* func_8003D480(s8 arg0, s8 arg1, s8 arg2, s32 arg3);
-M2C_UNK func_8003D510(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3);
-#define func_8003D510 func_8003D510
+M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
+                            M2C_UNK arg3);
+#define player_spawn_visual player_spawn_visual
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern s16 D_800761CC[][2];
 extern s32 D_800761DC[][2];
 extern s32 D_80077A5C[];
-extern struct X4_PlayerObj D_800970A0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_PlayerObj g_Player;
+extern struct X4_BackgroundObj background_objects[3];
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
 #define SCRATCH_1C (*(u8**)0x1F80001C)
@@ -32,7 +33,7 @@ void func_80045928(struct X4_WeaponObj* arg0) {
     u8* p;
     u8* q;
 
-    player = &D_800970A0;
+    player = &g_Player;
     if (arg0->unk2 == 0) {
         func_80016C48(1, 0x1E, arg0);
         if (func_8003D480(1, arg0->id, 1, arg0) != 0) {
@@ -47,9 +48,10 @@ void func_80045928(struct X4_WeaponObj* arg0) {
         if (func_8003D480(1, arg0->id, 4, arg0) != 0) {
             arg0->unk7++;
         }
-        func_8003D510(1, 0x1B, 0xB, 0);
+        player_spawn_visual(1, 0x1B, 0xB, 0);
         func_8003CF24(0x1E, 1, 1);
         {
+            // !FAKE: depin: dropping it breaks the match (67/187)
             register s32 t asm("$3") = (u8)arg0->state + 1;
             arg0->state = t;
         }
@@ -64,10 +66,10 @@ void func_80045928(struct X4_WeaponObj* arg0) {
     arg0->unk42 = 0x7801;
     arg0->bg_offset = -1;
     if (arg0->unk2 < 5) {
-        arg0->x_pos.i.hi =
-            player->x_pos.i.hi - D_800971F8[player->bg_offset].x_pos.i.hi;
-        arg0->y_pos.i.hi =
-            player->y_pos.i.hi - D_800971F8[player->bg_offset].y_pos.i.hi;
+        arg0->x_pos.i.hi = player->x_pos.i.hi -
+                           background_objects[player->bg_offset].x_pos.i.hi;
+        arg0->y_pos.i.hi = player->y_pos.i.hi -
+                           background_objects[player->bg_offset].y_pos.i.hi;
         F_S16(arg0, 0x92) = arg0->x_pos.i.hi;
         arg0->unk16 = 0x11;
         F_S16(arg0, 0x94) = arg0->y_pos.i.hi;
@@ -95,4 +97,4 @@ void func_80045928(struct X4_WeaponObj* arg0) {
 }
 #undef func_80016C48
 #undef func_800179A4
-#undef func_8003D510
+#undef player_spawn_visual

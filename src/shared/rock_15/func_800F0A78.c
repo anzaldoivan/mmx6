@@ -8,7 +8,7 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 s32 func_8002D2D4();
 s32 func_8002D30C();
 M2C_UNK func_8004A0C0(M2C_UNK, s16, s16, s32);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 extern u8 D_800F6F20[];
 
@@ -17,8 +17,8 @@ void func_800F0A78(void* arg0) {
     s16 y;
     s32 r;
 
-    x = D_800971F8[0].x_pos.i.hi;
-    y = D_800971F8[0].y_pos.i.hi;
+    x = background_objects[0].x_pos.i.hi;
+    y = background_objects[0].y_pos.i.hi;
     {
         s32 t = func_8002D30C();
         r = t - (t / 4) * 4;

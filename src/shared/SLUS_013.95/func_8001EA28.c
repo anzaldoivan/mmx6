@@ -4,8 +4,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_80097420;
 extern u16 D_800C4570;
 extern u8 D_800CF920[];
@@ -31,15 +31,15 @@ void func_8001EA28(void* arg0) {
             return;
         }
     }
-    if (D_800970A0.state == 3) {
+    if (g_Player.state == 3) {
         M2C_FIELD(arg0, u8*, 1) = M2C_FIELD(arg0, u8*, 1) + 1;
         func_800139F4(8);
     }
     func_8002D2D4();
     func_80020C40();
-    if (M2C_FIELD(&D_800970A0, u8*, 0xE4) != 0) {
+    if (M2C_FIELD(&g_Player, u8*, 0xE4) != 0) {
         func_8002B29C();
     }
     func_80025FB0();
 }
-#undef D_800970A0
+#undef g_Player

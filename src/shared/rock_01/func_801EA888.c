@@ -6,7 +6,7 @@
 struct X4_VisualObj* func_8002C398(void);
 extern s32 D_80090C90[];
 extern s8 D_80090D56;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s8 D_8009742C;
 extern s8 D_800CF850;
 extern s32 D_801EF974[];
@@ -33,7 +33,7 @@ void func_801EA888(u8* arg0) {
             p1[1] = 1;
             p2[1] = 1;
         }
-        player = &D_800970A0;
+        player = &g_Player;
         kind = 0;
         if (player->unk2 != 0) {
             a = 0x53;

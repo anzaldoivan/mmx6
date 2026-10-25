@@ -6,6 +6,7 @@ void func_80027AA8(s32 arg0, s16 arg1, s16 arg2, u16* arg3) {
     s32 var_v1;
     s32 var_s4;
     s32 var_s3;
+    // !FAKE: depin: dropping it breaks the match (56/62)
     register s32 var_s2 asm("$18");
     s32 var_s1;
     s32 var_s0;

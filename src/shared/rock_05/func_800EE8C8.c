@@ -12,7 +12,7 @@ s32 func_8002D2D4();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern s32 D_80074FBC;
 extern u8 D_800970B4;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 extern s32 D_800F414C;
 extern s32 D_800F4154;
@@ -54,7 +54,7 @@ void func_800EE8C8(struct X4_MainObj* self) {
         D_800F4482 = -0xA00;
         D_800F4484 = -0xF0;
         D_800F4486 = 0x800;
-        D_800971F8[1].y_pos.i.hi = 0x800;
+        background_objects[1].y_pos.i.hi = 0x800;
     } else {
         D_800F447E = 0;
         D_800F4480 = 0;
@@ -116,15 +116,15 @@ void func_800EE8C8(struct X4_MainObj* self) {
     M2C_FIELD(SCRATCH_4C, u16*, 0x84) = self->unk42;
     M2C_FIELD(SCRATCH_4C, void**, 0x8C) = self->sprite_frames;
     D_800F4490 = 0;
-    D_800971F8[1].unk4 = 9;
+    background_objects[1].unk4 = 9;
     func_800179A4(self, 4);
     self->state = 1;
     self->unk5 = 2;
     self->unk6 = 0;
     self->unk7 = 0;
     self->on_screen = 1;
-    D_800971F8[1].pad51[1] = -1;
-    D_800971F8[1].unk3 = 1;
+    background_objects[1].pad51[1] = -1;
+    background_objects[1].unk3 = 1;
 }
 #undef D_800F447E
 #undef D_800F4480

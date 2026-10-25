@@ -2,11 +2,11 @@
 #include "mmx6/x4.h"
 
 s32 func_80030DC0(u8* arg0, s8 arg1);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s8 D_800CCEEC;
 
 void func_8003D07C(s8 arg0) {
-    struct X4_PlayerObj* p = &D_800970A0;
+    struct X4_PlayerObj* p = &g_Player;
 
     *((s8*)p + 0xCA) = -1;
     if (p->hp & 0x7F) {

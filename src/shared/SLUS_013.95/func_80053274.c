@@ -4,7 +4,7 @@
 
 M2C_UNK func_80021760(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002B6B0();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s8 D_800970A5;
 extern struct X4_EngineObj D_800CCED0;
 
@@ -18,7 +18,7 @@ void func_80053274(void* arg0) {
         if (*(u16*)(p + 0x14) != 0) {
             ((void (*)())func_8002B6B0)();
             {
-                u8* pl = (u8*)&D_800970A0;
+                u8* pl = (u8*)&g_Player;
                 pl[0x71] |= 8;
             }
         }

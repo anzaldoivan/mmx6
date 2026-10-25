@@ -6,6 +6,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 void func_800F5488(struct X4_MainObj* self);
 
 void func_800F3684(struct X4_MainObj* arg0) {
+    // !FAKE: depin: dropping it breaks the match (12/17)
     register u8 v asm("$2");
 
     func_800F5488(arg0);

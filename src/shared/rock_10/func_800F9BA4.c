@@ -15,7 +15,9 @@ void func_800F9BA4(void* arg0) {
         case 0x10:
             func_800179A4(arg0, 0x18);
             {
+                // !FAKE: depin: dropping it breaks the match (22/59)
                 register s32* a asm("$2") = &D_800FC748;
+                // !FAKE: depin: dropping it breaks the match (29/59)
                 register s32* b asm("$3") = &D_800FC74C;
                 M2C_FIELD(arg0, s32**, 0x50) = a;
                 M2C_FIELD(arg0, s32**, 0x54) = b;
@@ -24,7 +26,9 @@ void func_800F9BA4(void* arg0) {
         case 0x12:
             func_800179A4(arg0, 0x18);
             {
+                // !FAKE: depin: dropping it breaks the match (39/59)
                 register s32* a asm("$2") = &D_800FC748;
+                // !FAKE: depin: dropping it breaks the match (38/59)
                 register s32* b asm("$3") = &D_800FC74C;
                 M2C_FIELD(arg0, s32**, 0x50) = a;
                 M2C_FIELD(arg0, s32**, 0x54) = b;
@@ -34,7 +38,9 @@ void func_800F9BA4(void* arg0) {
         case 0x13:
             func_800179A4(arg0, 0x19);
             {
+                // !FAKE: depin: dropping it breaks the match (55/59)
                 register s32* a asm("$2") = &D_800FC750;
+                // !FAKE: depin: dropping it breaks the match (30/59)
                 register s32* b asm("$3") = &D_800FC754;
                 M2C_FIELD(arg0, s32**, 0x50) = a;
                 M2C_FIELD(arg0, s32**, 0x54) = b;

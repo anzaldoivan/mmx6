@@ -30,7 +30,7 @@ void func_800EFBB4(void* arg0) {
         func_80040488(0);
         D_800CCEF4 = 1;
         {
-            register s32 n asm("$2") = M2C_FIELD(arg0, u8*, 6) + 1;
+            s32 n = M2C_FIELD(arg0, u8*, 6) + 1;
             M2C_FIELD(arg0, u8*, 6) = n;
         }
     }

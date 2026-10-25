@@ -54,8 +54,8 @@ void func_800246B4(void* arg0) {
         }
     }
     {
-        register u8* p asm("$3") = (u8*)&D_800CCED0;
-        register s32 j asm("$4") = D_800970A2;
+        u8* p = (u8*)&D_800CCED0;
+        s32 j = D_800970A2;
         x = (*(s8*)(p - -j + 0x5B) - 0x20) / 2 + 0x88;
     }
     if (x >= 0x99) {

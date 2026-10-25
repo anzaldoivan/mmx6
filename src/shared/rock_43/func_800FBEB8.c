@@ -6,7 +6,7 @@
 
 M2C_UNK func_80017A04(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 M2C_UNK func_80030ECC(void*);
 s32 func_80031474(void*);
 extern s32 D_800FE290;
@@ -35,7 +35,7 @@ void func_800FBEB8(struct X4_MainObj* self) {
         }
         ((void (*)(void*))func_80017A04)(self);
         if (++M2C_FIELD(self, u32*, 0x8C) >= 7) {
-            func_8002D2B0(self);
+            move_object(self);
         }
         break;
     case 1:
@@ -46,7 +46,7 @@ void func_800FBEB8(struct X4_MainObj* self) {
             func_8002CCB0(self, 0x20, 0x80);
         }
         func_80017A04(self);
-        func_8002D2B0(self);
+        move_object(self);
         break;
     }
 }

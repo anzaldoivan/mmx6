@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void func_80047B34(); /* extern */
+void func_80047B34();    /* extern */
 M2C_UNK func_80047C30(); /* extern */
 
 void func_80047AF4(void* arg0) {

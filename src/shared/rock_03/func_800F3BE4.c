@@ -10,7 +10,7 @@ s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern s32 D_80074BFC;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
 extern u8 D_800CCF38;
 extern s32 D_800F7D60;
@@ -52,8 +52,8 @@ void func_800F3BE4(void* arg0) {
         M2C_FIELD(arg0, s32*, 0x20) =
             (M2C_FIELD(arg0, s32*, 0x20) * 0x7D) / 100;
     } else {
-        angle = func_80065B74(D_800970A0.y_pos.i.hi - (s16)y,
-                              D_800970A0.x_pos.i.hi - (s16)x);
+        angle = func_80065B74(g_Player.y_pos.i.hi - (s16)y,
+                              g_Player.x_pos.i.hi - (s16)x);
         M2C_FIELD(arg0, s32*, 0x20) = func_80065A14(angle) * 0x30;
         M2C_FIELD(arg0, s32*, 0x24) = -func_80065944(angle) * 0x30;
         if (M2C_FIELD(arg0, s32*, 0x20) > 0) {

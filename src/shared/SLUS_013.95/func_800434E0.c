@@ -4,7 +4,7 @@
 s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_8003F0BC(void*);
 M2C_UNK func_8003F480();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern void (*D_80076118[])(void*);
 
 #define B(o) (*(s8*)((u8*)p + (o)))
@@ -13,7 +13,7 @@ extern void (*D_80076118[])(void*);
 #define SB(o) (*(s8*)((u8*)self + (o)))
 
 void func_800434E0(void* self) {
-    struct X4_PlayerObj* p = &D_800970A0;
+    struct X4_PlayerObj* p = &g_Player;
     s32 f;
 
     f = B(0xD3) != 0;

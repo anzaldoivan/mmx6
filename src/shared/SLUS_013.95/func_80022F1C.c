@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 extern X4_P_TAG* D_8008EB08[2][4][8];
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_DrawInfo* D_8009B7A0;
 
 #define SCR_BUF (*(s32*)0x1F800000)
@@ -14,6 +14,7 @@ extern struct X4_DrawInfo* D_8009B7A0;
 #define GETADDR(p) (((X4_P_TAG*)(p))->addr)
 
 void func_80022F1C(u8* arg0) {
+    // !FAKE: depin: dropping it breaks the match (232/238)
     register s32 code asm("$18");
     s16 dx;
     s16 dy;
@@ -45,9 +46,9 @@ void func_80022F1C(u8* arg0) {
             dy = *(s16*)(arg0 + 0xE);
         } else {
             dx = *(u16*)(arg0 + 0xA) -
-                 D_800971F8[*(s8*)(arg0 + 0x14)].x_pos.u.hi;
+                 background_objects[*(s8*)(arg0 + 0x14)].x_pos.u.hi;
             dy = *(u16*)(arg0 + 0xE) -
-                 D_800971F8[*(s8*)(arg0 + 0x14)].y_pos.u.hi;
+                 background_objects[*(s8*)(arg0 + 0x14)].y_pos.u.hi;
         }
         prim = SCR_PRIM;
         tp = SCR_TPAGE;

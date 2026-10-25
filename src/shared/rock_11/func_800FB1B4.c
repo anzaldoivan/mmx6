@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800FB1B4(u8* arg0) {
     s32 one = 1;
@@ -25,8 +25,8 @@ void func_800FB1B4(u8* arg0) {
     }
     {
         s32 t = *(s8*)(arg0 + 0x14);
-        D_800971F8[2].unk4C = one;
-        D_800971F8[2].y_pos.u.hi = t << 8;
+        background_objects[2].unk4C = one;
+        background_objects[2].y_pos.u.hi = t << 8;
     }
     *(s8*)(arg0 + 0x15) = 0;
 }

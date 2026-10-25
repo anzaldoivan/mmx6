@@ -78,12 +78,12 @@ void func_8004DA7C(void* arg0) {
         if ((F(u16, 0x80) < 0x3C) && (D_80097420 & 1)) {
             return;
         }
-        ((s32 (*)())func_8002CB50)(arg0);
+        ((s32(*)())func_8002CB50)(arg0);
     }
     temp_a1 = F(u8*, 0x68);
     // !FAKE: s8 cast of the u8 func_80030234 keeps retail's andi 0xff after the call (u8/s32 casts drop or refuse it)
-    if ((((s8(*)())func_80030234)(
-             arg0, F(s16, 0xA), F(s16, 0xE) + temp_a1[3] + (s8)temp_a1[1]) &
+    if ((((s8(*)())func_80030234)(arg0, F(s16, 0xA),
+                                  F(s16, 0xE) + temp_a1[3] + (s8)temp_a1[1]) &
          0xFF) == 0x3A) {
         F(s16, 0xA)--;
     }

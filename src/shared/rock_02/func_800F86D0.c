@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0();
+M2C_UNK move_object();
 
 void func_800F86D0(u8* arg0) {
     ((M2C_UNK(*)())func_80017A04)();
@@ -14,5 +14,5 @@ void func_800F86D0(u8* arg0) {
             return;
         }
     }
-    func_8002D2B0((s32)arg0);
+    move_object((s32)arg0);
 }

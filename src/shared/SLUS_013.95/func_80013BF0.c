@@ -45,6 +45,7 @@ M2C_UNK func_80013BF0(void) {
     D_800C4564 = D_8009B798;
     func_8001731C();
     {
+        // !FAKE: depin: dropping it breaks the match (69/72)
         register u8* e asm("$3") = ENG;
         if (*(s8*)(e + 0x38) == 0) {
             func_80016858(0, 0x801EA000);

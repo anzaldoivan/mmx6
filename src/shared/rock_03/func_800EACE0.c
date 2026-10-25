@@ -4,7 +4,7 @@
 M2C_UNK func_80017A04();
 s32 func_8002CBFC(s32, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 M2C_UNK func_8002EE10(void*);
 M2C_UNK func_80030ECC(void*);
 s32 func_80031474(void*);
@@ -13,10 +13,11 @@ M2C_UNK func_80049E50(void*);
 
 void func_800EACE0(u8* arg0) {
     func_80017A04();
-    func_8002D2B0((s32)arg0);
+    move_object((s32)arg0);
     if (func_80031474(arg0) < 0) {
         func_80049E50(arg0);
         {
+            // !FAKE: depin: dropping it breaks the match (56/59)
             register s32 t asm("$2") = arg0[4] + 1;
             arg0[4] = t;
         }
@@ -25,6 +26,7 @@ void func_800EACE0(u8* arg0) {
     }
     func_80030ECC(arg0);
     {
+        // !FAKE: depin: dropping it breaks the match (57/59)
         register s32 f asm("$2") = arg0[0x70];
         if (f != 0) {
             goto H;

@@ -5,7 +5,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 void* func_8002C458();
 void* func_8002C530();
-void func_8002D3B4(void*, s32);
+void set_velocity_from_angle(void*, s32);
 
 #define SPAD (*(u8**)0x1F80004C)
 
@@ -23,7 +23,7 @@ void func_800EC484(void* arg0) {
         child[2] = SPAD[0x85];
         M2C_FIELD(child, void**, 0x7C) = arg0;
         M2C_FIELD(child, s32*, 0x84) = 0;
-        func_8002D3B4(child, (s8)SPAD[0x85] & 0xFE);
+        set_velocity_from_angle(child, (s8)SPAD[0x85] & 0xFE);
         SPAD[0x80] = 8;
         M2C_FIELD(arg0, u8*, 6) += 1;
         SPAD[0x82] += 1;

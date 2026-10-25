@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 extern s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_80097206;
 extern s8 D_800CCEED;
 
@@ -18,10 +18,10 @@ void func_800E9A34(u8* arg0) {
         if (D_80097206 < y) {
             return;
         }
-        if (D_800970A0.x_pos.i.hi < p[6]) {
+        if (g_Player.x_pos.i.hi < p[6]) {
             return;
         }
-        if (D_800970A0.y_pos.i.hi < y + 0x24) {
+        if (g_Player.y_pos.i.hi < y + 0x24) {
             return;
         }
     }

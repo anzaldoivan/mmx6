@@ -9,10 +9,10 @@ INCLUDE_ASM("asm/rock_56/nonmatchings/FA000", func_800FA004);
 #include "../shared/rock_56/func_800FA1C0.c"
 
 #define func_800FA318 func_800FA228
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/rock_48/func_800FA318.c"
 #undef func_800FA318
-#undef D_800971F8
+#undef background_objects
 
 #include "../shared/rock_56/func_800FA280.c"
 

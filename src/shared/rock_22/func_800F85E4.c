@@ -8,7 +8,7 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 void* func_8002C458();
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 extern s16 D_800970AA;
 extern s16 D_800970AE;
 
@@ -17,8 +17,9 @@ void func_800F85E4(struct X4_MainObj* self) {
     u8 f;
 
     func_80017A04();
-    func_8002D2B0((s32)self);
+    move_object((s32)self);
     {
+        // !FAKE: depin: dropping it breaks the match (146/148)
         register s32 t asm("$2") = self->collision_flags;
         if (t == 0) {
             return;

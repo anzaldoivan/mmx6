@@ -7,7 +7,7 @@
 M2C_UNK func_80017A04();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0();
+M2C_UNK move_object();
 M2C_UNK func_8002EE10(void*);
 M2C_UNK func_8002F288(void*);
 s32 func_80030ECC(void*);
@@ -32,7 +32,7 @@ void func_800EA178(struct X4_MainObj* self) {
         return;
     }
     func_80017A04(self);
-    func_8002D2B0(self);
+    move_object(self);
     r = func_80031474(self);
     if (self->unk2 == 0) {
         flags = FLAGS;

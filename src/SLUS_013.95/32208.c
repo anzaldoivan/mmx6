@@ -144,17 +144,17 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80035A2C);
 
 #include "../shared/SLUS_013.95/func_800374D8.c"
 
-#include "../shared/SLUS_013.95/func_80037548.c"
+#include "../shared/SLUS_013.95/player_ladder_climb_on_top.c"
 
-#include "../shared/SLUS_013.95/func_800375D0.c"
+#include "../shared/SLUS_013.95/player_ladder_step_off_bottom.c"
 
 #include "../shared/SLUS_013.95/func_80037610.c"
 
 #include "../shared/SLUS_013.95/func_80037704.c"
 
-#include "../shared/SLUS_013.95/func_800377FC.c"
+#include "../shared/SLUS_013.95/player_ladder_let_go.c"
 
-#include "../shared/SLUS_013.95/func_80037838.c"
+#include "../shared/SLUS_013.95/player_hurt.c"
 
 #include "../shared/SLUS_013.95/func_80037880.c"
 
@@ -182,7 +182,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80037D68);
 
 #include "../shared/SLUS_013.95/func_80037F34.c"
 
-#include "../shared/SLUS_013.95/func_80037F70.c"
+#include "../shared/SLUS_013.95/player_script_vanish.c"
 
 #include "../shared/SLUS_013.95/func_80037FD4.c"
 
@@ -224,7 +224,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80037D68);
 
 #include "../shared/SLUS_013.95/func_80039984.c"
 
-#include "../shared/SLUS_013.95/func_80039BC4.c"
+#include "../shared/SLUS_013.95/player_check_dash_jump_walk.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80039C40);
 
@@ -305,7 +305,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003AAD0);
 
 #include "../shared/SLUS_013.95/func_8003B360.c"
 
-#include "../shared/SLUS_013.95/func_8003B3B8.c"
+#include "../shared/SLUS_013.95/player_enter_wall_cling.c"
 
 #include "../shared/SLUS_013.95/func_8003B440.c"
 
@@ -317,9 +317,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003AAD0);
 
 #include "../shared/SLUS_013.95/func_8003B6B4.c"
 
-#include "../shared/SLUS_013.95/func_8003B708.c"
+#include "../shared/SLUS_013.95/player_enter_ladder_climb_on_top.c"
 
-#include "../shared/SLUS_013.95/func_8003B774.c"
+#include "../shared/SLUS_013.95/player_enter_ladder_step_off_bottom.c"
 
 #include "../shared/SLUS_013.95/func_8003B7B4.c"
 
@@ -343,7 +343,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003BD24);
 
 #include "../shared/SLUS_013.95/func_8003C4EC.c"
 
-#include "../shared/SLUS_013.95/func_8003C6A4.c"
+#include "../shared/SLUS_013.95/player_spawn_dash_spark.c"
 
 #include "../shared/SLUS_013.95/func_8003C7D8.c"
 
@@ -378,7 +378,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003CDF0);
 
 #include "../shared/SLUS_013.95/func_8003CE30.c"
 
-#include "../shared/SLUS_013.95/func_8003CE38.c"
+#include "../shared/SLUS_013.95/player_update_flash.c"
 
 #include "../shared/SLUS_013.95/func_8003CF24.c"
 
@@ -406,11 +406,11 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003D26C);
 
 #include "../shared/SLUS_013.95/func_8003D394.c"
 
-#include "../shared/SLUS_013.95/func_8003D3F8.c"
+#include "../shared/SLUS_013.95/player_spawn_weapon.c"
 
 #include "../shared/SLUS_013.95/func_8003D480.c"
 
-#include "../shared/SLUS_013.95/func_8003D510.c"
+#include "../shared/SLUS_013.95/player_spawn_visual.c"
 
 #include "../shared/SLUS_013.95/func_8003D598.c"
 
@@ -478,7 +478,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003D26C);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003F480);
 
-#include "../shared/SLUS_013.95/func_8003F4C4.c"
+#include "../shared/SLUS_013.95/player_set_animation_shooting.c"
 
 #include "../shared/SLUS_013.95/func_8003F508.c"
 
@@ -501,7 +501,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003F864);
 void func_8003FA58(void) {
 }
 
-#include "../shared/SLUS_013.95/func_8003FA60.c"
+#include "../shared/SLUS_013.95/player_fire_weapon.c"
 
 #include "../shared/SLUS_013.95/func_8003FA8C.c"
 
@@ -535,7 +535,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003FFF4);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80040290);
 
-#include "../shared/SLUS_013.95/func_80040304.c"
+#include "../shared/SLUS_013.95/spike_crawler_hit_flash.c"
 
 #include "../shared/SLUS_013.95/func_80040388.c"
 

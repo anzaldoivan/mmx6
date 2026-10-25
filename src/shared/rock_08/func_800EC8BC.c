@@ -11,6 +11,7 @@ extern s8 D_800970A2;
 
 void func_800EC8BC(struct X4_PlayerObj* self) {
     s8* p;
+    // !FAKE: depin: dropping it breaks the match (58/62)
     register s32 m asm("$2");
 
     p = M2C_FIELD(self, s8**, 0x7C);

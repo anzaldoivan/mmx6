@@ -5,9 +5,9 @@
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 M2C_UNK func_8002C9B0();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 extern s32 D_8007798C;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 #define B(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -24,7 +24,7 @@ void func_801EE254(u8* arg0) {
 
     if (SB(arg0, 4) == 0) {
         {
-            struct X4_BackgroundObj* p = D_800971F8;
+            struct X4_BackgroundObj* p = background_objects;
             bg = p + SB(arg0, 0x14);
         }
         d = UH(arg0, 0xA) - bg->x_pos.u.hi;
@@ -47,8 +47,8 @@ void func_801EE254(u8* arg0) {
         return;
     }
     func_80017A04(arg0);
-    func_8002D2B0(arg0);
-    if (H(arg0, 0xE) >= D_800971F8[SB(arg0, 0x14)].y_pos.i.hi + 0x190) {
+    move_object(arg0);
+    if (H(arg0, 0xE) >= background_objects[SB(arg0, 0x14)].y_pos.i.hi + 0x190) {
         func_8002C9B0(arg0);
     }
 }

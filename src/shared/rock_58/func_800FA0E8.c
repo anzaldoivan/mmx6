@@ -11,7 +11,7 @@ M2C_UNK func_8002B838();
 void func_8002C2B8();
 struct X4_QuadObj* func_8002C7F0(void);
 extern s8 D_80090D56;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_8009742C;
 extern s8 D_800CF850;
 extern u8 D_800EA510[];
@@ -30,8 +30,8 @@ void func_800FA0E8(u8* arg0) {
     D_8009742C = 0;
     D_800CF850 = 0;
     ((void (*)(s32))func_8002B2F8)(0);
-    D_800971F8[0].unk3 = 0;
-    D_800971F8[1].unk3 = 0;
+    background_objects[0].unk3 = 0;
+    background_objects[1].unk3 = 0;
     q = func_8002C7F0();
     if (q != 0) {
         q->active = 1;

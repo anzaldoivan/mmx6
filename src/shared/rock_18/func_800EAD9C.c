@@ -20,14 +20,14 @@ extern void* D_800F1744;
 
 void func_800EAD9C(u8* arg0) {
     s32 t;
-    register s32 f asm("$2");
+    s32 f;
     s32 i;
     u8* obj;
 
     t = func_8001C5EC((u8)D_800E2F90.unk6);
     if (t != 0) {
-        register s32 one asm("$4") = 1;
-        register s32 two asm("$3") = 2;
+        s32 one = 1;
+        s32 two = 2;
         if (t == one) {
             AB_B(arg0, 1) = 5;
             D_800E2F90.x_pos.bytes[0] = one;

@@ -19,7 +19,7 @@ extern u8 D_80078E08[];
 extern s8 D_80078E10[];
 extern s32 D_800791A0;
 extern u32* D_80095098;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj D_800CCED0;
 extern u8 D_800CCF2F;
 
@@ -30,7 +30,7 @@ void func_80051158(struct X4_MainObj* self) {
     s8 t;
     void* c;
 
-    p = &D_800970A0;
+    p = &g_Player;
     f = 0;
     if (self->unk2 == 8) {
         if (p->unk2 == 0) {
@@ -75,7 +75,7 @@ void func_80051158(struct X4_MainObj* self) {
     self->collision_data = &D_80075B9C;
     self->on_screen = 1;
     self->active |= 8;
-    self->bg_offset = D_800970A0.bg_offset;
+    self->bg_offset = g_Player.bg_offset;
     self->terrain_box = (struct X4_Unk_unk68*)&D_80078DF8;
     self->hurt_box = &D_80078E00;
     self->animation_table = (const u8* const*)&D_800791A0;
@@ -86,14 +86,14 @@ void func_80051158(struct X4_MainObj* self) {
     self->unk16 = 4;
     self->unk15 = 0;
     self->unk75 = 1;
-    M2C_FIELD(&D_800970A0, u8*, 0xE2) = 0;
+    M2C_FIELD(&g_Player, u8*, 0xE2) = 0;
     ((void (*)(void*, s32))func_800179A4)(self, 0);
     {
+        // !FAKE: depin: dropping it breaks the match (202/206)
         register void* a asm("$4");
 
         a = self;
-        while (func_8002F288(a), a = self,
-               !(self->collision_flags & 8)) {
+        while (func_8002F288(a), a = self, !(self->collision_flags & 8)) {
             M2C_FIELD(self, u16*, 0xE) += 0x10;
         }
         c = func_8002C4C4(a);
@@ -107,7 +107,7 @@ void func_80051158(struct X4_MainObj* self) {
     }
     t = self->unk2;
     if (t == 8) {
-        if (D_800970A0.unk2 == 0) {
+        if (g_Player.unk2 == 0) {
             func_80051828(self, 0x23, 0x10);
         } else {
             func_80051828(self, 0x23, 0x11);

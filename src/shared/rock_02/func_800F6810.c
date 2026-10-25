@@ -11,6 +11,7 @@ void func_800F6810(void* arg0) {
     func_800F82C0();
     func_80017A04(arg0);
     {
+        // !FAKE: depin: dropping it breaks the match (19/26)
         register s32 temp_v0 asm("$2") = M2C_FIELD(arg0, u16*, 0x7C);
         M2C_FIELD(arg0, u16*, 0x7C) = temp_v0 + 1;
         if ((s16)temp_v0 < 0x5B) {

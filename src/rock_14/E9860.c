@@ -99,10 +99,10 @@ INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EB440);
 INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EBCFC);
 
 #define func_800F0CF4 func_800EC05C
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_07/func_800F0CF4.c"
 #undef func_800F0CF4
-#undef D_800970A0
+#undef g_Player
 
 #include "../shared/rock_14/func_800EC410.c"
 

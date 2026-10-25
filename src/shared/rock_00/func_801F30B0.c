@@ -8,7 +8,7 @@ void func_80017A04(struct X4_AnimatedObj*);
 M2C_UNK func_800179D0(void*, M2C_UNK, s8);
 s32 func_8002CBFC(struct X4_BaseObj*, s32, s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-void func_8002D2B0(struct X4_MovingObj*);
+void move_object(struct X4_MovingObj*);
 M2C_UNK func_8002EE10(void*);
 void func_800383F8(void*);
 void* func_8003D480(M2C_UNK, s8, s8, void*);
@@ -21,9 +21,10 @@ void func_801F30B0(void* arg0) {
         temp_v1 = M2C_FIELD(arg0, s8*, 0x98);
         if (temp_v1 == 0) {
             func_80017A04(arg0);
-            func_8002D2B0(arg0);
+            move_object(arg0);
             func_8002CCB0(arg0, 0x20, 0x14);
             {
+                // !FAKE: depin: dropping it breaks the match (82/84)
                 register s32 f asm("$2") = M2C_FIELD(arg0, u8*, 0x70);
                 if ((f != 0) ||
                     (func_8002EE10(arg0), (M2C_FIELD(arg0, u8*, 0x70) != 0))) {

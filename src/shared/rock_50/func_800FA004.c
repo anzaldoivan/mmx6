@@ -12,7 +12,7 @@ struct X4_QuadObj* func_8002C7F0(void);
 void func_800E9ED4(void);
 extern s8 D_80090D56;
 extern s8 D_800970A2;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_8009742C;
 extern struct X4_EngineObj D_800CCED0;
 extern s8 D_800CF850;
@@ -34,18 +34,18 @@ void func_800FA004(u8* arg0) {
     D_8009742C = 0;
     D_800CF850 = 0;
     func_8002B2F8(0);
-    D_800971F8[0].unk3 = 0;
-    D_800971F8[1].unk3 = 1;
+    background_objects[0].unk3 = 0;
+    background_objects[1].unk3 = 1;
     if ((s8)(s32)D_800CCED0.unk38 != 0) {
-        D_800971F8[1].y_pos.i.hi = 0x100;
-        D_800971F8[0].y_pos.i.hi = 0x100;
+        background_objects[1].y_pos.i.hi = 0x100;
+        background_objects[0].y_pos.i.hi = 0x100;
     }
-    D_800971F8[1].x_pos.i.hi = 0x120;
-    D_800971F8[1].unk4C = 1;
-    D_800971F8[1].unk3 = 1;
-    D_800971F8[0].x_pos.i.hi = 0;
-    D_800971F8[0].unk4C = 1;
-    D_800971F8[0].unk3 = 1;
+    background_objects[1].x_pos.i.hi = 0x120;
+    background_objects[1].unk4C = 1;
+    background_objects[1].unk3 = 1;
+    background_objects[0].x_pos.i.hi = 0;
+    background_objects[0].unk4C = 1;
+    background_objects[0].unk3 = 1;
     q = func_8002C7F0();
     if (q != 0) {
         q->active = 1;

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "mmx6/x4.h"
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_80028DAC(struct X4_BackgroundObj* arg0) {
     s16 pos;
@@ -9,11 +9,11 @@ void func_80028DAC(struct X4_BackgroundObj* arg0) {
     u16 cur;
     u16 ref;
 
-    tmp = D_800971F8[0].x_pos.i.hi >> 2;
+    tmp = background_objects[0].x_pos.i.hi >> 2;
     pos = tmp + (s16)arg0->unk40;
     diff = pos - arg0->unk14.i.hi;
     arg0->x_pos.i.hi = pos;
-    arg0->y_pos.i.hi = D_800971F8[0].y_pos.i.hi + (s16)arg0->unk42;
+    arg0->y_pos.i.hi = background_objects[0].y_pos.i.hi + (s16)arg0->unk42;
     if (diff >= 0) {
         if (diff >= 0x10) {
             if (diff >= 0x148) {

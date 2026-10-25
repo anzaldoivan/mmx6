@@ -105,8 +105,9 @@ void func_800EC53C(void* self) {
         F(s8, 5) = v;
         func_800179A4(self, 0);
         {
+            // !FAKE: depin: dropping it breaks the match (198/201)
             register s32 x asm("$2") = F(s8, 2);
-            register s32 two asm("$3") = 2;
+            s32 two = 2;
             SLOT(x) = two;
         }
         break;

@@ -12,8 +12,8 @@ M2C_UNK func_80030ECC(void*, s16);
 #define func_80030ECC (*(M2C_UNK(*)(void*)) & func_80030ECC)
 s32 func_80031474(void*);
 extern s32 D_8007573C[];
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_EngineObj D_800CCED0;
 extern void (*D_800F75FC[])(void*);
 extern s32 D_800F77D8;
@@ -58,11 +58,12 @@ void func_800EF590(void* self) {
                 F(s8, 0x6) = 0;
                 F(u16, 0x42) &= 0x7FFF;
                 {
+                    // !FAKE: depin: dropping it breaks the match (159/164)
                     register s32 one asm("$3") = 1;
                     D_800F77D8 = one;
-                    D_800970A0.spike_immune = one;
+                    g_Player.spike_immune = one;
                 }
-                D_800970A0.unk68 = 0;
+                g_Player.unk68 = 0;
                 func_8002CCB0(self, 0x30, 0x40);
                 return;
             }
@@ -98,6 +99,6 @@ void func_800EF590(void* self) {
 }
 
 #undef F
-#undef D_800970A0
+#undef g_Player
 #undef func_80030ECC
 #undef SPAD20_800EF590

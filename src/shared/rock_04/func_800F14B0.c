@@ -9,7 +9,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 extern s32 D_800741FC[];
 extern s32 D_8007519C;
 extern u8 D_800970B4;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_80097222;
 extern struct X4_EngineObj D_800CCED0;
 extern s32 D_800F70B0;
@@ -84,12 +84,12 @@ void func_800F14B0(struct X4_MainObj* self) {
             break;
         case 0x11:
             ((void (*)(void*, s32))func_800179A4)(self, 0x20);
-            if (D_800971F8[0].unk26 + 0xC0 >= self->x_pos.i.hi) {
+            if (background_objects[0].unk26 + 0xC0 >= self->x_pos.i.hi) {
                 self->unk15 = 0;
-                self->x_pos.i.hi = D_800971F8[0].unk26 + 0x20;
+                self->x_pos.i.hi = background_objects[0].unk26 + 0x20;
             } else {
                 self->unk15 = 0x40;
-                self->x_pos.i.hi = D_800971F8[0].unk26 + 0x160;
+                self->x_pos.i.hi = background_objects[0].unk26 + 0x160;
             }
             break;
         case 0x12:

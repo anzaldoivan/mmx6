@@ -11,6 +11,7 @@ void func_800F6180(void* arg0) {
         ((void (*)())func_800F6E78)();
         func_800179A4(arg0, 0x12);
         {
+            // !FAKE: depin: dropping it breaks the match (18/21)
             register s32 v asm("$2") = F(u8, arg0, 6) + 1;
             F(u8, arg0, 6) = v;
         }

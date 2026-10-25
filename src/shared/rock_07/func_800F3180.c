@@ -7,7 +7,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 s32 func_80065B74(s32, s32);
 void func_800F6C70(void*, s16, s16, s16);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_800F3180(void* arg0) {
     s16 x;
@@ -25,11 +25,12 @@ void func_800F3180(void* arg0) {
         }
         y += 0x34;
         do {
-            ang = func_80065B74(y - D_800970A0.y_pos.i.hi,
-                                D_800970A0.x_pos.i.hi - x);
+            ang =
+                func_80065B74(y - g_Player.y_pos.i.hi, g_Player.x_pos.i.hi - x);
             func_80016C48(2, 0x63, arg0);
         } while (0);
         {
+            // !FAKE: depin: dropping it breaks the match (66/68)
             register void* a asm("$4") = arg0;
             func_800F6C70(a, ang - 0x1C7, x, y);
         }

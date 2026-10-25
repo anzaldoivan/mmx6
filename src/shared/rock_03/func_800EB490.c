@@ -22,7 +22,9 @@ void func_800EB490(struct X4_MainObj* self) {
     }
     func_80017A04(self);
     {
+        // !FAKE: depin: dropping it breaks the match (53/59)
         register void** tbl asm("$2") = (void**)D_800F7264;
+        // !FAKE: depin: dropping it breaks the match (57/59)
         register void* fn asm("$5") = tbl[self->unk5];
         ((void (*)(struct X4_MainObj*))fn)(self);
     }

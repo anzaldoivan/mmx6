@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# The fresh-clone proof (1.9 T8, host): HEAD reduced to config/public-paths.txt in .run/1.9/fresh (the files
+# The fresh-clone proof (1.9 T8, host): HEAD reduced to config/public-paths.txt in .run/<phase>/fresh (the files
 # check-public rejects removed in one commit), check-public, then the README's `## Building the decompilation` block
 # run verbatim from it (its clone line replaced by the projection, /path/to/dump by $MX6_DUMP), on image/volumes
-# mmx6-fresh, mmx6-disc-fresh, removed on exit. Proves build + hash only: the health ladder (make fleet) needs
-# dev-side inputs and stays in the private contract run. Last line `FRESH BUILD <k> of 57` (distinct
+# mmx6-fresh, mmx6-disc-fresh, removed on exit with the clone. Proves build + hash only: the health ladder
+# (make fleet) needs dev-side inputs and stays in the private contract run. Last line `FRESH BUILD <k> of 57` (distinct
 # `build/...: OK` lines); rc 0 iff k = 57.
 # Usage: MX6_DUMP=<dump dir> bash tools/mmx6/fresh_clone.sh [DOC]
 #   DOC given: on success its `## Fresh clone` section (the last) is replaced. contract.sh runs it as step 1 without.
@@ -11,15 +11,19 @@ set -uo pipefail
 cd "$(dirname "$0")/../.." || exit 2
 PY="${PY:-/opt/homebrew/opt/python@3.14/bin/python3.14}"
 NBIN=57  # binaries of the fleet (config/*.yaml programs)
-FRESH=.run/1.9/fresh
-LOGD=$PWD/.run/1.9/contract
+# The open phase's temp folder (as tools/run.sh: `# Phase <id>` of PHASE_PLAN.md), else .run (no plan open).
+PHASE=$(sed -n '1s/^#[[:space:]]*Phase[[:space:]][[:space:]]*\([A-Za-z0-9._-][A-Za-z0-9._-]*\).*/\1/p' \
+  phase-ends/current/PHASE_PLAN.md 2>/dev/null | head -n 1)
+case "$PHASE" in "" | . | ..) SCR=.run ;; *) SCR=.run/$PHASE ;; esac
+FRESH=$SCR/fresh
+LOGD=$PWD/$SCR/contract
 dump=${MX6_DUMP:?"MX6_DUMP (the folder of the .cue and .bin) is required"}
 doc=${1:-}
 C=$(git rev-parse HEAD)
 mkdir -p "$LOGD"
 drop=$LOGD/fresh-drop.txt cmds=$LOGD/fresh-cmds.txt out=$LOGD/fresh-build.out
 export MX6_IMAGE=mmx6-fresh MX6_VOLUME=mmx6-fresh MX6_DISC_VOLUME=mmx6-disc-fresh
-trap 'docker volume rm -f mmx6-fresh mmx6-disc-fresh >/dev/null 2>&1; docker image rm mmx6-fresh >/dev/null 2>&1' EXIT
+trap 'rm -rf "$FRESH"; docker volume rm -f mmx6-fresh mmx6-disc-fresh >/dev/null 2>&1; docker image rm mmx6-fresh >/dev/null 2>&1' EXIT
 t0=$(date +%s)
 
 rm -rf "$FRESH" && git clone -q --no-local . "$FRESH" || exit 1

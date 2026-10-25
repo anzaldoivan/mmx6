@@ -6,7 +6,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 void* func_8002C458();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
 
 #define STATE(s) M2C_FIELD(s, s8*, 6)
@@ -35,7 +35,7 @@ void func_800ED14C(void* self) {
         STATE(self)++;
         break;
     case 1:
-        if (ABSDIFF(D_800970A0.x_pos.i.hi, XPOS(self)) < 0x61) {
+        if (ABSDIFF(g_Player.x_pos.i.hi, XPOS(self)) < 0x61) {
             child = func_8002C458();
             if (child != NULL) {
                 M2C_FIELD(child, u8*, 0) = M2C_FIELD(self, u8*, 0);
@@ -43,7 +43,7 @@ void func_800ED14C(void* self) {
                 M2C_FIELD(child, u8*, 2) = 1;
                 M2C_FIELD(child, void**, 0x7C) = self;
             }
-            if (D_800970A0.x_pos.i.hi > XPOS(self)) {
+            if (g_Player.x_pos.i.hi > XPOS(self)) {
                 DIR(self) = 0x40;
             } else {
                 DIR(self) = 0;
@@ -56,7 +56,7 @@ void func_800ED14C(void* self) {
             TIMER(self) = 0;
             STATE(self) = 3;
         } else if (TIMER(self) % 200 == 0) {
-            if (D_800970A0.x_pos.i.hi > XPOS(self)) {
+            if (g_Player.x_pos.i.hi > XPOS(self)) {
                 DIR(self) = 0x40;
             } else {
                 DIR(self) = 0;
@@ -70,7 +70,7 @@ void func_800ED14C(void* self) {
         }
         break;
     case 2:
-        if (ABSDIFF(D_800970A0.x_pos.i.hi, XPOS(self)) < 0x61) {
+        if (ABSDIFF(g_Player.x_pos.i.hi, XPOS(self)) < 0x61) {
             child = func_8002C458();
             if (child != NULL) {
                 M2C_FIELD(child, u8*, 0) = M2C_FIELD(self, u8*, 0);
@@ -78,7 +78,7 @@ void func_800ED14C(void* self) {
                 M2C_FIELD(child, u8*, 2) = 1;
                 M2C_FIELD(child, void**, 0x7C) = self;
             }
-            if (D_800970A0.x_pos.i.hi > XPOS(self)) {
+            if (g_Player.x_pos.i.hi > XPOS(self)) {
                 DIR(self) = 0x40;
             } else {
                 DIR(self) = 0;

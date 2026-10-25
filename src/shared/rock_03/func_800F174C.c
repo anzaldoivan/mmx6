@@ -7,7 +7,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern u8 D_800F7BA0[][6];
 extern s16 D_800F7E10;
 extern s16 D_800F7E40[][4];
@@ -24,13 +24,13 @@ void func_800F174C(void* arg0) {
         func_80016C48(2, 0x2A, arg0);
     }
     if (!(H(arg0, 0x7C) & 7)) {
-        if (D_800970A0.x_pos.i.hi > H(arg0, 0xA)) {
+        if (g_Player.x_pos.i.hi > H(arg0, 0xA)) {
             UB(arg0, 0x15) = 0x40;
         } else {
             UB(arg0, 0x15) = 0;
         }
-        ang = func_80065B74(D_800970A0.y_pos.i.hi - H(arg0, 0xE),
-                            D_800970A0.x_pos.i.hi - H(arg0, 0xA));
+        ang = func_80065B74(g_Player.y_pos.i.hi - H(arg0, 0xE),
+                            g_Player.x_pos.i.hi - H(arg0, 0xA));
         W(arg0, 0x20) = func_80065A14(ang) << 5;
         W(arg0, 0x24) = -func_80065944(ang) << 5;
     }

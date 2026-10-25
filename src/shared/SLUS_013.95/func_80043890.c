@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 s32 func_8003EB0C(void* arg0, s32 arg1);
 void func_8003F740(void*, s32);
 
@@ -18,14 +18,14 @@ void func_80043890(struct X4_MainObj* self) {
     s32 arg;
     s32 b;
     s32 t;
-    register s32 v asm("$2");
+    s32 v;
     u8 f;
 
     if (SH(0x94) != 0x1000) {
         SH(0x94) = (UH(0x94) + 0x22) & 0xFFF;
     }
     f = UB(0x93) & 0xFE;
-    player = &D_800970A0;
+    player = &g_Player;
     UB(0x93) = f;
     if (f & 2) {
         if ((s16)(++SH(0x88) % 20) == 0) {
@@ -65,6 +65,7 @@ void func_80043890(struct X4_MainObj* self) {
                         give:
                             func_8003F740(player, arg);
                             {
+                                // !FAKE: depin: dropping it breaks the match (186/192)
                                 register s32 m asm("$3") = UB(0x8D);
                                 m |= b << i;
                                 UB(0x8D) = m;
@@ -91,6 +92,7 @@ void func_80043890(struct X4_MainObj* self) {
                     func_8003EB0C(player, player->weapon)) {
                     func_8003F740(player, self->id);
                     {
+                        // !FAKE: depin: dropping it breaks the match (88/192)
                         register s32 s asm("$3") = 7;
                         UB(0x8D) = s;
                     }

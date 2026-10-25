@@ -2,19 +2,19 @@
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
-extern M2C_UNK D_800970A0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern M2C_UNK g_Player;
+extern struct X4_BackgroundObj background_objects[3];
 extern void (*D_80071E80[])(struct X4_BackgroundObj*);
 void func_80028EBC(struct X4_BackgroundObj* arg0);
 void func_80029A6C(struct X4_BackgroundObj* arg0);
 void func_80029AFC(struct X4_BackgroundObj* arg0);
 
 void func_8002927C(void) {
-    struct X4_BackgroundObj* bg = &D_800971F8[0];
+    struct X4_BackgroundObj* bg = &background_objects[0];
     struct X4_PlayerObj* p;
 
     if (bg->unk44 != 0) {
-        p = &D_800970A0;
+        p = &g_Player;
         if (*(s8*)((u8*)p + 0xCC) == 0 &&
             (p->unk2 == 0 || p->nova_strike_active == 0)) {
             D_80071E80[bg->unk4](bg);

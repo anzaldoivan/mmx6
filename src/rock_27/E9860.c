@@ -53,10 +53,10 @@ INCLUDE_ASM("asm/rock_27/nonmatchings/E9860", func_800E9F90);
 INCLUDE_ASM("asm/rock_27/nonmatchings/E9860", func_800EA038);
 
 #define func_800EA224 func_800EA1E0
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_05/func_800EA224.c"
 #undef func_800EA224
-#undef D_800970A0
+#undef g_Player
 
 #define func_80048DC8 func_800EA390
 #define D_80077BC0 D_800EB45C

@@ -156,8 +156,8 @@ func_800ED2E8 = 0x800ED2E8; // type:func size:0xB8
 func_800ED3A0 = 0x800ED3A0; // type:func size:0x54
 // basis: post-return 0x800ed3ec; no branch of 0x800ece50 crosses it (1.6 T1 merge check)
 func_800ED3F4 = 0x800ED3F4; // type:func size:0x60
-// basis: post-return 0x800ed44c; no branch of 0x800ece50 crosses it (1.6 T1 merge check)
-func_800ED454 = 0x800ED454; // type:func size:0x44
+// basis: post-return 0x800ed44c; no branch of 0x800ece50 crosses it (1.6 T1 merge check); name: x4 exact 76d90a83ca68 sozud/mmx4@6a6b455 src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04
+general_dust_end = 0x800ED454; // type:func size:0x44
 // basis: post-return 0x800ed490; no branch of 0x800ece50 crosses it (1.6 T1 merge check)
 func_800ED498 = 0x800ED498; // type:func size:0x4C
 // basis: post-return 0x800ed4dc; no branch of 0x800ece50 crosses it (1.6 T1 merge check)

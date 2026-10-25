@@ -8,17 +8,18 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 s32 func_800179A4(void*, s32);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 s32 func_8002D2D4();
 extern u8 D_800CCF5F;
 extern s16 D_800F6AF8;
 
 void func_800F0AB0(void* self) {
     u8 v;
+    // !FAKE: depin: dropping it breaks the match (68/73)
     register s32 t asm("$2");
 
     func_80017A04();
-    func_8002D2B0((s32)self);
+    move_object((s32)self);
     t = OW(self, 0x20);
     if (t > 0) {
         if (D_800F6AF8 + 0x680 < OH(self, 0xA)) {

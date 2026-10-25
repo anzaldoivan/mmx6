@@ -6,7 +6,9 @@ s32 func_8002D0D8(s32 x, s32 y) {
     s32 sx;
     s32 sy;
     s32 q;
+    // !FAKE: depin: dropping it breaks the match (2/86)
     register s32 v asm("$2");
+    // !FAKE: depin: dropping it breaks the match (56/86)
     register s32 t asm("$3");
     s16 a;
     u32* p;

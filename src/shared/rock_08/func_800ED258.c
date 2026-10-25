@@ -9,8 +9,8 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*); /* extern */
 void func_80029F38();                           /* extern */
 M2C_UNK func_8002B36C(M2C_UNK);                 /* extern */
 M2C_UNK func_8002B6B0();                        /* extern */
-extern struct X4_PlayerObj D_800970A0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_PlayerObj g_Player;
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 #define D_80097420_h (*(struct X4_ObjectHeader*)&D_80097420)
 extern u8 D_800C4560;
@@ -28,75 +28,75 @@ void func_800ED258(void* arg0) {
     M2C_FIELD(arg0, u16*, 0x80) = temp_a1;
     M2C_FIELD(arg0, u16*, 0x82) = temp_a0;
     if (!(D_80097420 & 1)) {
-        D_800970A0.x_pos.i.hi = temp_a1;
+        g_Player.x_pos.i.hi = temp_a1;
     } else {
-        D_800970A0.x_pos.i.hi = temp_a0;
+        g_Player.x_pos.i.hi = temp_a0;
     }
     if (D_80097420_h.state == 0) {
         temp_v1 = D_800F5910[D_800CCED0.character_state.bytes[9]][0];
         temp_y = D_800F5910[D_800CCED0.character_state.bytes[9]][1];
-        D_800970A0.x_pos.i.hi = temp_v1;
-        D_800970A0.y_pos.i.hi = temp_y;
+        g_Player.x_pos.i.hi = temp_v1;
+        g_Player.y_pos.i.hi = temp_y;
         M2C_FIELD(arg0, u16*, 0x80) = temp_v1 + 0x40;
         M2C_FIELD(arg0, u16*, 0x82) = temp_v1 - 0x40;
-        if (D_800970A0.unk2 != 0) {
-            D_800970A0.y_pos.i.hi--;
+        if (g_Player.unk2 != 0) {
+            g_Player.y_pos.i.hi--;
         }
-        D_800970A0.spike_immune = 0;
+        g_Player.spike_immune = 0;
         D_800CCED0.unk1C = 0;
-        D_800970A0.nova_strike_active = 0;
-        D_800970A0.unk18.val = D_800970A0.x_pos.val;
-        D_800970A0.unk1C.val = D_800970A0.y_pos.val;
+        g_Player.nova_strike_active = 0;
+        g_Player.unk18.val = g_Player.x_pos.val;
+        g_Player.unk1C.val = g_Player.y_pos.val;
         func_8002B36C(0);
         D_800C4560 = 1;
-        (&D_800970A0)[1].active = 0;
-        D_800971F8[0].unk44 = 1;
-        D_800971F8[1].unk44 = 1;
-        D_800971F8[2].unk44 = 1;
-        D_800971F8[0].unk4C = 1;
-        D_800971F8[1].unk4C = 1;
-        D_800971F8[2].unk4C = 1;
-        D_800971F8[0].x_pos.i.hi =
+        (&g_Player)[1].active = 0;
+        background_objects[0].unk44 = 1;
+        background_objects[1].unk44 = 1;
+        background_objects[2].unk44 = 1;
+        background_objects[0].unk4C = 1;
+        background_objects[1].unk4C = 1;
+        background_objects[2].unk4C = 1;
+        background_objects[0].x_pos.i.hi =
             D_800F5910[D_800CCED0.character_state.bytes[9]][2];
-        D_800971F8[0].y_pos.i.hi =
+        background_objects[0].y_pos.i.hi =
             D_800F5910[D_800CCED0.character_state.bytes[9]][3];
-        D_800971F8[1].x_pos.i.hi =
+        background_objects[1].x_pos.i.hi =
             D_800F5910[D_800CCED0.character_state.bytes[9]][4];
-        D_800971F8[1].y_pos.i.hi =
+        background_objects[1].y_pos.i.hi =
             D_800F5910[D_800CCED0.character_state.bytes[9]][5];
-        D_800971F8[2].x_pos.i.hi =
+        background_objects[2].x_pos.i.hi =
             D_800F5910[D_800CCED0.character_state.bytes[9]][6];
-        D_800971F8[2].y_pos.i.hi =
+        background_objects[2].y_pos.i.hi =
             D_800F5910[D_800CCED0.character_state.bytes[9]][7];
-        D_800971F8[0].unk1E =
+        background_objects[0].unk1E =
             D_800F5910[D_800CCED0.character_state.bytes[9]][8];
-        D_800971F8[0].unk1C =
+        background_objects[0].unk1C =
             D_800F5910[D_800CCED0.character_state.bytes[9]][9];
-        D_800971F8[0].unk22 =
+        background_objects[0].unk22 =
             D_800F5910[D_800CCED0.character_state.bytes[9]][10];
-        D_800971F8[0].unk20 =
+        background_objects[0].unk20 =
             D_800F5910[D_800CCED0.character_state.bytes[9]][11];
-        D_800971F8[0].unk26 =
+        background_objects[0].unk26 =
             D_800F5910[D_800CCED0.character_state.bytes[9]][8];
-        D_800971F8[0].unk24 =
+        background_objects[0].unk24 =
             D_800F5910[D_800CCED0.character_state.bytes[9]][9];
-        D_800971F8[0].unk2A =
+        background_objects[0].unk2A =
             D_800F5910[D_800CCED0.character_state.bytes[9]][10];
-        D_800971F8[0].unk28 =
+        background_objects[0].unk28 =
             D_800F5910[D_800CCED0.character_state.bytes[9]][11];
-        D_800970A0.air_state = 0;
+        g_Player.air_state = 0;
         func_8002B6B0();
-        (&D_800970A0)[1].active = 0;
-        D_800970A0.hurt_phase = 0;
-        D_800970A0.invincibility_timer = 0;
-        func_80029F38(D_800971F8[0].x_pos.i.hi - 0x30,
-                      D_800971F8[0].x_pos.i.hi + 0x170,
-                      D_800971F8[0].y_pos.i.hi - 0x30,
-                      D_800971F8[0].y_pos.i.hi + 0x120, 0);
+        (&g_Player)[1].active = 0;
+        g_Player.hurt_phase = 0;
+        g_Player.invincibility_timer = 0;
+        func_80029F38(background_objects[0].x_pos.i.hi - 0x30,
+                      background_objects[0].x_pos.i.hi + 0x170,
+                      background_objects[0].y_pos.i.hi - 0x30,
+                      background_objects[0].y_pos.i.hi + 0x120, 0);
         func_800139A0(8);
-        D_800971F8[0].unk44 = 0;
-        D_800971F8[1].unk44 = 0;
-        D_800971F8[2].unk44 = 0;
+        background_objects[0].unk44 = 0;
+        background_objects[1].unk44 = 0;
+        background_objects[2].unk44 = 0;
         func_80016C48(1, 1, arg0);
         M2C_FIELD(arg0, u8*, 6) = M2C_FIELD(arg0, u8*, 6) + 1;
     }

@@ -11,6 +11,7 @@ s32 func_80030CCC(void*, s16, s16);
 void func_800EC144(void* arg0) {
     u8* p;
     s16 x;
+    // !FAKE: depin: dropping it breaks the match (68/70)
     register s32 t asm("$2");
 
     func_80017A04();

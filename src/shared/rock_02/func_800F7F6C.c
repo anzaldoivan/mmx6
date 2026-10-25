@@ -21,6 +21,7 @@ void func_800F7F6C(void* self) {
         func_80016C48(2, 0x3D, self);
         func_800179A4(self, 0x16);
         {
+            // !FAKE: depin: dropping it breaks the match (51/54)
             register s32 v asm("$2") = F(u8, 0x6) + 1;
             F(u8, 0x6) = v;
         }
@@ -30,6 +31,7 @@ void func_800F7F6C(void* self) {
         func_80016C48(2, 0x3D, self);
         func_800179A4(self, 2);
         {
+            // !FAKE: depin: dropping it breaks the match (52/54)
             register s32 v asm("$2") = 5;
             F(u8, 0x6) = v;
         }

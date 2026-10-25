@@ -9,6 +9,7 @@ extern M2C_UNK D_800F907C;
 
 void func_800F4934(u8* arg0) {
     s32 t;
+    // !FAKE: depin: dropping it breaks the match (36/41)
     register s32 v asm("$2");
 
     func_8001750C(2, 0x14);

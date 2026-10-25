@@ -14,6 +14,7 @@ M2C_UNK func_800EA860(void* arg0) {
     u8 v;
     s8 n;
     u8 c;
+    // !FAKE: depin: dropping it breaks the match (104/115)
     register u8* t asm("$4");
     u8* p;
 

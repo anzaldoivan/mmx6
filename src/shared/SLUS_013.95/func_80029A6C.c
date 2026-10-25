@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/background.c:update_screen_shake_x, AGPL-3.0; proven shared with X6 by exact signature 53e7a3858f9c (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/background.c:update_screen_shake_x, AGPL-3.0; proven shared with X6 by exact signature 53e7a3858f9c (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 

@@ -8,18 +8,19 @@ void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 #define func_8002CCB0 func_8002CCB0
 s32 func_8002D2D4();
 void func_8003CF24(s32, s32, s32);
-M2C_UNK func_8003D510(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3);
-#define func_8003D510 func_8003D510
+M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
+                            M2C_UNK arg3);
+#define player_spawn_visual player_spawn_visual
 extern s32 D_8007616C[];
 extern s32 D_80077A0C[];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern u8 D_800970B5;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 #define F_S8(p, o) (*(s8*)((u8*)(p) + (o)))
-#define BG (D_800971F8[player->bg_offset])
+#define BG (background_objects[player->bg_offset])
 
 void func_80044914(struct X4_WeaponObj* arg0) {
     struct X4_PlayerObj* player;
@@ -34,7 +35,7 @@ void func_80044914(struct X4_WeaponObj* arg0) {
         arg0->state++;
         return;
     }
-    player = &D_800970A0;
+    player = &g_Player;
     a = player->x_pos.i.hi - BG.x_pos.i.hi;
     b = player->y_pos.i.hi - BG.y_pos.i.hi;
     if (func_8002D2D4() & 4) {
@@ -70,11 +71,11 @@ void func_80044914(struct X4_WeaponObj* arg0) {
     arg0->animation_table = (u32**)D_80077A0C;
     arg0->unk3C = p;
     func_800179A4(arg0, 4);
-    func_8003D510(1, 0x1B, 3, 0);
+    player_spawn_visual(1, 0x1B, 3, 0);
     func_8003CF24(0x12, 1, 1);
     arg0->state++;
     func_8002CCB0(arg0, 0x30, 0x40);
 }
 #undef func_800179A4
 #undef func_8002CCB0
-#undef func_8003D510
+#undef player_spawn_visual

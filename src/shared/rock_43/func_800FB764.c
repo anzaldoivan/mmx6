@@ -10,7 +10,7 @@ s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern M2C_UNK D_8007433C;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800FDE30;
 
 extern s32 D_800FE200;
@@ -24,6 +24,7 @@ void func_800FB764(struct X4_MainObj* self) {
     s32 a;
     u16 y;
     u8 dir;
+    // !FAKE: depin: dropping it breaks the match (113/128)
     register const u8* t asm("$6");
     struct X4_PlayerObj* pl;
 
@@ -36,6 +37,7 @@ void func_800FB764(struct X4_MainObj* self) {
     self->sprite_frames = t;
     dir = PARENT->unk15;
     {
+        // !FAKE: depin: dropping it breaks the match (115/128)
         register void* hb asm("$3") = &D_800FE204;
         self->attack_box = &D_800FE200;
         self->air_state = 0;
@@ -53,7 +55,7 @@ void func_800FB764(struct X4_MainObj* self) {
     x = self->x_pos.i.hi;
     y = PARENT->y_pos.i.hi;
     self->y_pos.i.hi = y;
-    pl = &D_800970A0;
+    pl = &g_Player;
     a = (pl->x_pos.i.hi >= x) << 6;
     if (self->unk15 == a) {
         x = pl->x_pos.i.hi - x;

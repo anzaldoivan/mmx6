@@ -11,6 +11,7 @@ M2C_UNK func_800F82C0();
 
 void func_800F348C(void* arg0) {
     void* child;
+    // !FAKE: depin: dropping it breaks the match (87/94)
     register s32 t asm("$2");
 
     func_800F82C0();

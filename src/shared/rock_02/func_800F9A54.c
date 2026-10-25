@@ -7,8 +7,8 @@
 s32 func_8002A47C(s32);
 void* func_8002BBF4();
 #define M2C_UNK s32
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s8 D_800CCEF6;
 
 void func_800F9A54(void* arg0) {
@@ -16,8 +16,8 @@ void func_800F9A54(void* arg0) {
     s32 a;
     s32 base;
 
-    if (D_800970A0.hp < 2) {
-        D_800970A0.hp = 2;
+    if (g_Player.hp < 2) {
+        g_Player.hp = 2;
     }
     obj = func_8002BBF4();
     M2C_FIELD(obj, u8*, 0x0) = 0x41;
@@ -37,4 +37,4 @@ void func_800F9A54(void* arg0) {
 }
 
 #undef SPAD20_800F9A54
-#undef D_800970A0
+#undef g_Player

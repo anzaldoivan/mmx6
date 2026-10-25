@@ -73,12 +73,12 @@ def depin(func, text, scorer, lever, say=print):
             lines = trial
         else:
             broke[i] = (tm, tn)
-    for i in pin_lines(lines):
-        if not marked(lines, i):
-            why = lever or "depin: dropping it breaks the match (%d/%d)" % broke.get(i, (0, n))
-            # a standalone line above, never trailing: clang-format wraps a long pin line and moves a trailing comment
-            indent = lines[i][: len(lines[i]) - len(lines[i].lstrip())]
-            lines[i] = f"{indent}// !FAKE: {why}\n" + lines[i]
+    # collect before marking: a marker prepended to lines[i] would read as the mark of the pin on the next line
+    for i in [k for k in pin_lines(lines) if not marked(lines, k)]:
+        why = lever or "depin: dropping it breaks the match (%d/%d)" % broke.get(i, (0, n))
+        # a standalone line above, never trailing: clang-format wraps a long pin line and moves a trailing comment
+        indent = lines[i][: len(lines[i]) - len(lines[i].lstrip())]
+        lines[i] = f"{indent}// !FAKE: {why}\n" + lines[i]
     out = text_of(lines)
     if not text.endswith("\n"):
         out = out[:-1]
@@ -207,6 +207,14 @@ def self_test():
         if not (rc == 0 and out and keep in out and "planted gone" not in out and out.count("!FAKE:") == 1
                 and q[-1] == f"DEPIN {func} pins 2 to 1" and unmarked(out) == 0):
             fail = "marked"
+    # case adjacent: two kept pins on adjacent lines each get their own marker
+    if not fail:
+        two = 'void f(void) {\n    register int a asm("$4");\n    register int b asm("$5");\n}\n'
+        q = []
+        rc, out = depin(func, two, lambda b: ("match", 1, 1) if b.count('asm("') == 2 else ("fail", 0, 1), None,
+                        say=q.append)
+        if not (rc == 0 and out and out.count("!FAKE:") == 2 and unmarked(out) == 0):
+            fail = "adjacent"
     shutil.rmtree(SELFTEST, ignore_errors=True)
     print(f"DEPIN CONTROL FAIL {fail}" if fail else "DEPIN CONTROL OK")
     return 1 if fail else 0

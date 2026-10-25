@@ -11,10 +11,10 @@ INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FA744);
 #include "../shared/rock_39/func_800FA924.c"
 
 #define func_800F4F9C func_800FAB44
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/rock_10/func_800F4F9C.c"
 #undef func_800F4F9C
-#undef D_800971F8
+#undef background_objects
 
 INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FAC48);
 
@@ -89,10 +89,10 @@ INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FD348);
 #undef FAMILY_FIELD
 
 #define func_800F7968 func_800FD510
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_10/func_800F7968.c"
 #undef func_800F7968
-#undef D_800970A0
+#undef g_Player
 
 #define func_800F2FB0 func_800FD59C
 #include "../shared/rock_04/func_800F2FB0.c"

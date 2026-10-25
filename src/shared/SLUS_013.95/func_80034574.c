@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_80097420;
 extern struct X4_EngineObj D_800CCED0;
 
@@ -13,7 +13,7 @@ void func_80034574(struct X4_PlayerObj* arg0) {
     s8 v;
 
     if (!(D_80097420 & 1)) {
-        struct X4_PlayerObj* pl = &D_800970A0;
+        struct X4_PlayerObj* pl = &g_Player;
         s8* e = (s8*)&D_800CCED0;
         max = ((s8*)&D_800CCED0 + pl->unk2)[0x5B];
         hp = pl->hp & 0x7F;

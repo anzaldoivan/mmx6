@@ -11,7 +11,7 @@ struct X4_VisualObj* func_8002C398(void);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern s32 D_800750FC;
 extern u8 D_800970B4;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 extern u8 D_800FA000[];
 extern s32 D_800FDE30;
@@ -31,6 +31,7 @@ extern void* D_800FE298;
 void func_800FA054(struct X4_MainObj* self) {
     u8 tbl[4];
     u8 bg;
+    // !FAKE: depin: dropping it breaks the match (157/168)
     register s32 k asm("$22");
     struct X4_MainObj* child;
     struct X4_MainObj* prev;
@@ -41,12 +42,12 @@ void func_800FA054(struct X4_MainObj* self) {
     self->unk40 = 0x140;
     self->unk42 = 0x7948;
     self->sprite_frames = (u8*)SPAD20 + SPAD20[func_8002A47C(self->id)];
-    D_800FE284 = D_800971F8[0].unk26 + 0x10;
-    D_800FE286 = D_800971F8[0].unk26 + 0x130;
-    D_800FE288 = D_800971F8[0].unk2A + 0xC0;
-    D_800FE28A = D_800971F8[0].unk26 + 0xE0;
-    D_800FE28C = D_800971F8[0].unk2A + 0xA0;
-    D_800FE28E = D_800971F8[0].unk2A - 0x20;
+    D_800FE284 = background_objects[0].unk26 + 0x10;
+    D_800FE286 = background_objects[0].unk26 + 0x130;
+    D_800FE288 = background_objects[0].unk2A + 0xC0;
+    D_800FE28A = background_objects[0].unk26 + 0xE0;
+    D_800FE28C = background_objects[0].unk2A + 0xA0;
+    D_800FE28E = background_objects[0].unk2A - 0x20;
     self->animation_table = (void*)&D_800FE070;
     bg = D_800970B4;
     self->unk16 = 5;

@@ -3,14 +3,14 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 extern s16 D_800F6AF8;
 
 void func_800F1F64(void* arg0) {
     struct X4_MainObj* self = arg0;
 
     ((void (*)())func_80017A04)();
-    ((void (*)(void*))func_8002D2B0)(self);
+    ((void (*)(void*))move_object)(self);
     if (self->x_speed > 0) {
         if (D_800F6AF8 + 0x880 < self->x_pos.i.hi) {
             self->unk15 = 0;

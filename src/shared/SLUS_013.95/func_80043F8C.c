@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 M2C_UNK func_8002C9B0();
 
 void func_80043F8C(s8* arg0) {
@@ -15,7 +15,7 @@ void func_80043F8C(s8* arg0) {
         if (arg0[0x8C] != 0) {
             return;
         }
-        player = &D_800970A0;
+        player = &g_Player;
         player->shot_count--;
         player->special_shot_count--;
         if (player->unk2 != 0 && player->stock_charge == 1) {

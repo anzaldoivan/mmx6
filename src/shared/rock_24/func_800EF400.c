@@ -34,20 +34,25 @@ void func_800EF400(void* arg0) {
     F(void*, 0x30) = &D_800F74A0;
     bg = D_800970B4;
     {
+        // !FAKE: depin: dropping it breaks the match (64/100)
         register s32 c5 asm("$2") = 5;
         F(u8, 0x16) = c5;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (62/100)
         register void* a50 asm("$2") = &D_800F6F2C;
+        // !FAKE: depin: dropping it breaks the match (89/100)
         register void* a54 asm("$3") = D_800F6F30;
         F(void*, 0x50) = a50;
         {
+            // !FAKE: depin: dropping it breaks the match (85/100)
             register void* a58 asm("$2") = D_8007573C;
             F(void*, 0x58) = a58;
         }
         F(void*, 0x54) = a54;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (87/100)
         register s32 cA asm("$2") = 0xD80;
         F(s16, 0xA) = cA;
     }
@@ -59,6 +64,7 @@ void func_800EF400(void* arg0) {
     F(u8, 0x62) = 0;
     F(u8, 0x61) = 0;
     {
+        // !FAKE: depin: dropping it breaks the match (81/100)
         register s32 cE asm("$3") = 0x390;
         F(s16, 0xE) = cE;
     }

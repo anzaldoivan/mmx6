@@ -15,7 +15,9 @@ s32 func_800EFAEC(u8* arg0) {
     s16 dy;
     s32 t;
     u8 idx;
+    // !FAKE: depin: dropping it breaks the match (113/118)
     register s32 sub asm("$4");
+    // !FAKE: depin: dropping it breaks the match (114/118)
     register s32 k asm("$2");
 
     for (p = D_800950A0; p < D_800950A0 + 0x1400; p += 0xA0) {

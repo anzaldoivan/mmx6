@@ -6,7 +6,7 @@
 
 M2C_UNK func_80017A04();                 /* extern */
 s32 func_80039EB0(struct X4_PlayerObj*); /* extern */
-void func_8003B114(s32 arg0);              /* extern */
+void func_8003B114(s32 arg0);            /* extern */
 M2C_UNK func_8003B298(void*);            /* extern */
 M2C_UNK func_8003BA04(void*, M2C_UNK);   /* extern */
 M2C_UNK func_8003F700(void*);            /* extern */
@@ -23,7 +23,9 @@ void func_800365D4(void* arg0) {
         func_8003B298(arg0);
         func_8003BA04(arg0, 0x55);
         {
+            // !FAKE: depin: dropping it breaks the match (91/94)
             register s32 a asm("$2") = 0x1F;
+            // !FAKE: depin: dropping it breaks the match (91/94)
             register s32 b asm("$3") = 4;
             M2C_FIELD(arg0, u8*, 5) = a;
             M2C_FIELD(arg0, u8*, 6) = b;

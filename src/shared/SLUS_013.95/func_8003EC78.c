@@ -39,6 +39,7 @@ void func_8003EC78(struct X4_PlayerObj* p) {
     if (func_8003ED98(p) != 0) {
         func_8003F480(p);
         {
+            // !FAKE: depin: dropping it breaks the match (70/72)
             register s32 a asm("$2") = *(s8*)(b + 0xA2);
             if (a != 0) {
                 func_8003CF54(p, 0x32);

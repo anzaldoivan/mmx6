@@ -32,6 +32,7 @@ void func_800EE6D0(void* arg0) {
         if (state == 1) {
             s32 idx = func_8002A47C(M2C_FIELD(arg0, s8*, 1));
             s32 base = SPAD20;
+            // !FAKE: depin: dropping it breaks the match (46/73)
             register s32 off asm("$6") = *(s32*)(idx * 4 + base + 4);
             M2C_FIELD(arg0, s32*, 0x3C) = base + off;
             ((void (*)(void*, s32, s32))func_800179A4)(arg0, 9, off);

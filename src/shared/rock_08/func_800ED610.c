@@ -6,14 +6,14 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 extern M2C_UNK D_800743DC;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800F5888;
 extern s32 D_800F588C;
 extern s32 D_800F5890;
 extern s32 D_800F58D8;
 
 void func_800ED610(struct X4_BaseObj* self) {
-    struct X4_PlayerObj* pl = &D_800970A0;
+    struct X4_PlayerObj* pl = &g_Player;
     s32 x;
     s32 y;
     u8 b;
@@ -39,6 +39,7 @@ void func_800ED610(struct X4_BaseObj* self) {
     M2C_FIELD(self, s32*, 0x28) = 0;
     M2C_FIELD(self, s32*, 0x24) = 0;
     {
+        // !FAKE: depin: dropping it breaks the match (50/61)
         register s32 c asm("$3") = 6;
         M2C_FIELD(self, void**, 0x30) = &D_800F58D8;
         self->unk16 = c;

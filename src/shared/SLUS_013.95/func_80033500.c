@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 s32 func_80016C48(s32 a0, s32 a1, void* arg2); /* extern */
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern u16 D_800C4570;
 extern struct X4_EngineObj D_800CCED0;
 extern u8 D_800CCF35;
@@ -33,8 +33,9 @@ void func_80033500(u8* arg0) {
         case 10:
             e = (u8*)&D_800CCED0;
             {
-                register s32 x asm("$3") = D_800970A0.unk2;
-                if ((D_800970A0.hp & 0x7F) < ((s8*)(e - -x))[0x5B]) {
+                // !FAKE: depin: dropping it breaks the match (177/187)
+                register s32 x asm("$3") = g_Player.unk2;
+                if ((g_Player.hp & 0x7F) < ((s8*)(e - -x))[0x5B]) {
                     arg0[5] = 3;
                     m = e[0x63] & 0x7F;
                     if (m == 0x20) {
@@ -46,8 +47,9 @@ void func_80033500(u8* arg0) {
         case 11:
             e = (u8*)&D_800CCED0;
             {
-                register s32 x asm("$3") = D_800970A0.unk2;
-                if ((D_800970A0.hp & 0x7F) < ((s8*)(e - -x))[0x5B]) {
+                // !FAKE: depin: dropping it breaks the match (177/187)
+                register s32 x asm("$3") = g_Player.unk2;
+                if ((g_Player.hp & 0x7F) < ((s8*)(e - -x))[0x5B]) {
                     arg0[5] = 3;
                     if ((e[0x64] & 0x7F) == 0x20) {
                         *(s32*)(arg0 + 0x30) = 1;
@@ -59,7 +61,7 @@ void func_80033500(u8* arg0) {
             i = 0;
             found = 0;
             for (; i < 9; i++) {
-                q = (u8*)&D_800970A0;
+                q = (u8*)&g_Player;
                 if (*(s16*)((q - -(i * 2)) + 0xA8) < *(s16*)(q + 0x14A)) {
                     found = 1;
                     break;

@@ -2,13 +2,13 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern void (*D_801F3ACC[])(struct X4_WeaponObj*);
 
 void func_801F26B4(struct X4_WeaponObj* arg0) {
     s32 var_a1;
-    struct X4_PlayerObj* player = &D_800970A0;
+    struct X4_PlayerObj* player = &g_Player;
 
     var_a1 = M2C_FIELD(player, s8*, 0xD3) != 0;
     if (M2C_FIELD(player, s8*, 0xD4) != 0) {
@@ -27,4 +27,4 @@ void func_801F26B4(struct X4_WeaponObj* arg0) {
     arg0->unk1C = arg0->y_pos;
     D_801F3ACC[arg0->state](arg0);
 }
-#undef D_800970A0
+#undef g_Player

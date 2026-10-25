@@ -4,10 +4,10 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_800EA9B4(void* arg0) {
-    s32 d = D_800970A0.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE);
+    s32 d = g_Player.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE);
 
     if (d >= 0) {
         if (d < 2) {
@@ -15,9 +15,9 @@ void func_800EA9B4(void* arg0) {
         } else {
             goto far;
         }
-    } else if (M2C_FIELD(arg0, s16*, 0xE) - D_800970A0.y_pos.i.hi >= 2) {
+    } else if (M2C_FIELD(arg0, s16*, 0xE) - g_Player.y_pos.i.hi >= 2) {
     far:
-        if (D_800970A0.y_pos.i.hi >= M2C_FIELD(arg0, s16*, 0xE)) {
+        if (g_Player.y_pos.i.hi >= M2C_FIELD(arg0, s16*, 0xE)) {
             M2C_FIELD(arg0, s32*, 0x24) = -0x18000;
         } else {
             M2C_FIELD(arg0, s32*, 0x24) = 0x18000;

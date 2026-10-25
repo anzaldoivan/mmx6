@@ -67,10 +67,10 @@ INCLUDE_ASM("asm/rock_40/nonmatchings/FA000", func_800FC110);
 #undef FAMILY_FIELD
 
 #define func_800F7EE4 func_800FC410
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_11/func_800F7EE4.c"
 #undef func_800F7EE4
-#undef D_800970A0
+#undef g_Player
 
 INCLUDE_ASM("asm/rock_40/nonmatchings/FA000", func_800FC49C);
 

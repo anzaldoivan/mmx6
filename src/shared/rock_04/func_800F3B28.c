@@ -1,14 +1,15 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 
 void func_800F3B28(u8* a) {
     u8 f;
-    register s32 v asm("$2");
+    s32 v;
+    // !FAKE: depin: dropping it breaks the match (12/37)
     register u8 t asm("$3");
 
-    func_8002D2B0(a);
+    move_object(a);
     f = a[0x70];
     if (f & 8) {
         v = 7;

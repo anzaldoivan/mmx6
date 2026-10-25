@@ -87,6 +87,7 @@ void func_801EAA38(u8* arg0) {
     func_8003D18C(arg0);
     func_8003D394(arg0);
     {
+        // !FAKE: depin: dropping it breaks the match (152/154)
         register s32 t asm("$3") = ((s8*)arg0)[0x67];
         if (t > 0 && M2C_FIELD(arg0, s32*, 0x24) <= 0) {
             ((s8*)arg0)[0x67] = -1;

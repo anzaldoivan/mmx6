@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 
 #define F8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -26,8 +26,8 @@ void func_800472D0(struct X4_MainObj* arg0) {
         F16(arg0, 0x14) = 0;
         F8(arg0, 5) = 0;
     } else {
-        D_800971F8[1].unk4 = 9;
-        D_800971F8[1].unk4C = 1;
+        background_objects[1].unk4 = 9;
+        background_objects[1].unk4C = 1;
         if (F8(&D_800CCED0, 0x68) >= 2U) {
             F32(arg0, 0x18) = 0xFFFEC000;
         } else {

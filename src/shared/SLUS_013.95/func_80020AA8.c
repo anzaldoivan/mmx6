@@ -4,10 +4,10 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 
 void func_80020AA8(struct X4_AnimatedObj* arg0) {
-    struct X4_PlayerObj* pl = &D_800970A0;
+    struct X4_PlayerObj* pl = &g_Player;
     s32 var_v1;
     s8 temp_a1;
 
@@ -33,6 +33,7 @@ void func_80020AA8(struct X4_AnimatedObj* arg0) {
         }
         func_800179A4(arg0, 0x2A);
         {
+            // !FAKE: depin: dropping it breaks the match (100/102)
             register s32 two asm("$2") = 2;
             arg0->unk6 = two;
         }
@@ -49,6 +50,7 @@ void func_80020AA8(struct X4_AnimatedObj* arg0) {
             arg0->on_screen = 1;
             func_800179A4(arg0, temp_a1 + 8);
             {
+                // !FAKE: depin: dropping it breaks the match (99/102)
                 register s32 t asm("$2") = (u8)arg0->state + 1;
                 arg0->state = t;
             }

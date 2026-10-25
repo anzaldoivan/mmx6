@@ -5,7 +5,7 @@
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 extern struct X4_EngineObj D_800CCED0;
 extern u16 D_800F128C[][2];
@@ -29,7 +29,7 @@ void func_800EE5AC(struct X4_AnimatedObj* self) {
             self->on_screen = 0;
         }
     } else if (D_800CCED0.unk1 == 5 ||
-               D_800971F8[self->bg_offset].x_pos.i.hi >= 0x400) {
+               background_objects[self->bg_offset].x_pos.i.hi >= 0x400) {
         self->unk6--;
     }
 }

@@ -41,7 +41,9 @@ void func_800F1AC0(struct X4_MainObj* arg0) {
     }
     arg0->y_pos.i.hi = D_800F7800->y_pos.i.hi - 0xE;
     {
+        // !FAKE: depin: dropping it breaks the match (102/111)
         register s32 e asm("$2") = 8;
+        // !FAKE: depin: dropping it breaks the match (97/111)
         register s32 f asm("$3") = 4;
 
         arg0->hp = e;

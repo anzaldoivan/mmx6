@@ -2,14 +2,14 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 M2C_UNK func_80017A04();
 M2C_UNK func_8002C9B0();
 M2C_UNK func_801ED3DC();
 void func_801ED6F0(u8* self, u8* parent);
 
 void func_801ED2A8(void* arg0) {
-    struct X4_PlayerObj* p = &D_800970A0;
+    struct X4_PlayerObj* p = &g_Player;
     s32 var_a1;
     u8 id;
 

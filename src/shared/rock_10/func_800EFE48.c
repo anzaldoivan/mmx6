@@ -73,6 +73,7 @@ void func_800EFE48(void* self) {
     }
     func_800179A4(self, 0);
     {
+        // !FAKE: depin: dropping it breaks the match (134/137)
         register s32 t asm("$2") = F(u8, 2) & 0xF;
         if (!t) {
             F(u8, 0x15) = 0;

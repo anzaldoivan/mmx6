@@ -10,7 +10,7 @@ void* func_8002C458();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern s32 D_800755FC;
 extern u8 D_800970B4;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 extern u8 D_800FA004[];
 extern s32 D_800FE830;
@@ -39,15 +39,15 @@ void func_800FA2F0(struct X4_MainObj* self) {
     u8 bg;
 
     __builtin_memcpy(tbl, D_800FA004, 4);
-    D_800FEEB0 = D_800971F8[0].unk26 + 0x10;
-    D_800FEEB2 = D_800971F8[0].unk26 + 0x190;
-    D_800FEEB4 = D_800971F8[0].unk26 + 0xD0;
-    D_800FEEB6 = D_800971F8[0].unk2A + 0xF0;
-    D_800FEEB8 = D_800971F8[0].unk26 + 0xF0;
-    D_800FEEBA = D_800971F8[0].unk2A - 0x30;
-    D_800FEEBC = D_800971F8[0].unk2A + 0x10;
-    D_800FEEBE = D_800971F8[0].unk26 + 0x150;
-    D_800FEEC0 = D_800971F8[0].unk26 + 0x50;
+    D_800FEEB0 = background_objects[0].unk26 + 0x10;
+    D_800FEEB2 = background_objects[0].unk26 + 0x190;
+    D_800FEEB4 = background_objects[0].unk26 + 0xD0;
+    D_800FEEB6 = background_objects[0].unk2A + 0xF0;
+    D_800FEEB8 = background_objects[0].unk26 + 0xF0;
+    D_800FEEBA = background_objects[0].unk2A - 0x30;
+    D_800FEEBC = background_objects[0].unk2A + 0x10;
+    D_800FEEBE = background_objects[0].unk26 + 0x150;
+    D_800FEEC0 = background_objects[0].unk26 + 0x50;
     if (D_800CCED0.stage == 0xC) {
         self->sprite_frames = (u8*)SPAD9C + SPAD9C[0];
         self->unk42 = 0x7948;
@@ -80,6 +80,7 @@ void func_800FA2F0(struct X4_MainObj* self) {
     M2C_FIELD(&D_800CCED0, u8*, 0x8C) = 0x38;
     func_80025FD8();
     {
+        // !FAKE: depin: dropping it breaks the match (149/151)
         register s32 e asm("$2") = M2C_FIELD(&D_800CCED0, u8*, 0x8C);
         M2C_FIELD(&D_800CCED0, u8*, 0x8C) =
             e + tbl[M2C_FIELD(&D_800CCED0, u8*, 0x8F)];

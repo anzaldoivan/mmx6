@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*); /* extern */
-void func_800F1DA8(void*, s32, s32); /* extern */
+void func_800F1DA8(void*, s32, s32);            /* extern */
 
 void func_800F30C8(void* arg0) {
     if (M2C_FIELD(arg0, s8*, 0x45) == 1) {

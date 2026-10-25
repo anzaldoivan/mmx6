@@ -6,8 +6,8 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 
-extern struct X4_PlayerObj D_800970A0;
-#define PLAYER (*(struct X4_PlayerObj*)&D_800970A0)
+extern struct X4_PlayerObj g_Player;
+#define PLAYER (*(struct X4_PlayerObj*)&g_Player)
 
 void func_800F10C8(struct X4_BaseObj* self) {
     if (M2C_FIELD(self, s8*, 0x67) != 0) {

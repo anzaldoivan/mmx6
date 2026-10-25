@@ -28,8 +28,8 @@ s32 func_8002D868(void* arg0, void* arg1, s16* arg2, s16* arg3) {
     w0 = H0[2];
     w1 = H1[2];
     {
-        register s32 a asm("$2") = *(volatile u8*)&H0[2];
-        register s32 b asm("$3") = *(volatile u8*)&H1[2];
+        s32 a = *(volatile u8*)&H0[2];
+        s32 b = *(volatile u8*)&H1[2];
         sum = a;
         sum += b;
     }

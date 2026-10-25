@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_8002CB50();
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 extern u16 D_800F12A8[][2];
 extern s8 D_800F1CD0[][5];
@@ -21,7 +21,7 @@ void func_800EF064(void* arg0) {
         *(u16*)((u8*)arg0 + 0xE) =
             D_800F12A8[D_800F1CD0[D_800CCED0.character_state.bytes[3]][i]][1] +
             1;
-        if (D_800971F8[*(s8*)((u8*)arg0 + 0x14)].x_pos.i.hi > 0x400) {
+        if (background_objects[*(s8*)((u8*)arg0 + 0x14)].x_pos.i.hi > 0x400) {
             *(u16*)((u8*)arg0 + 0xA) = v + 0x600;
         }
     }

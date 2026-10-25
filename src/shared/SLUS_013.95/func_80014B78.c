@@ -57,7 +57,9 @@ s32 func_80014B78(void) {
         do {
         } while (func_80016570() & 0x40);
         {
+            // !FAKE: depin: dropping it breaks the match (69/118)
             register s32 b asm("$5") = *(s32*)(off + D_800E0B58);
+            // !FAKE: depin: dropping it breaks the match (72/118)
             register s32 a asm("$4") = *(s32*)(D_800E0B58 + off + 4);
             D_800E01C0 = 0;
             D_800E01AC = (u8*)s2;

@@ -4,7 +4,7 @@
 
 void* func_8002C32C();
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_80049854(struct X4_ShotObj* arg0) {
     struct X4_ShotObj* p;
@@ -27,7 +27,7 @@ void func_80049854(struct X4_ShotObj* arg0) {
                 p->unk42 = arg0->unk42;
                 p->unk16 = arg0->unk16;
                 {
-                    u8* pl = (u8*)&D_800970A0;
+                    u8* pl = (u8*)&g_Player;
                     pl[0x98]++;
                 }
             }

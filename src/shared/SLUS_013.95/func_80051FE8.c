@@ -11,7 +11,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 
 void func_80051FE8(void* arg0, void* arg1) {
     s8 v;
-    register s32 one asm("$4") = 1;
+    s32 one = 1;
 
     FU8(arg0, 3) = one;
     F32(arg0, 0x3C) = F32(arg1, 0x3C);

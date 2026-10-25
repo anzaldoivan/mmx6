@@ -9,7 +9,7 @@ s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern u8 D_800760C4[];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_80041290(struct X4_MainObj* self) {
     s32 ang;
@@ -35,8 +35,8 @@ void func_80041290(struct X4_MainObj* self) {
         self->y_pos.i.hi += 0xB;
     }
     {
-        s32 px = D_800970A0.x_pos.i.hi;
-        s32 py = D_800970A0.y_pos.i.hi;
+        s32 px = g_Player.x_pos.i.hi;
+        s32 py = g_Player.y_pos.i.hi;
         ang = func_80065B74(self->y_pos.i.hi - py, px - self->x_pos.i.hi);
     }
     self->x_accel = 0;

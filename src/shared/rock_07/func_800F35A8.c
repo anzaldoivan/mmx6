@@ -47,6 +47,7 @@ void func_800F35A8(void* arg0) {
         M2C_FIELD(arg0, s8*, 0x60) = 4;
         M2C_FIELD(arg0, s8*, 0x16) = 4;
         {
+            // !FAKE: depin: dropping it breaks the match (139/141)
             register s32 dir asm("$2");
             dir = M2C_FIELD(arg0, u8*, 0x15);
             if (dir == 0) {

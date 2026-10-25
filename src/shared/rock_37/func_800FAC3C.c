@@ -22,7 +22,7 @@ extern M2C_UNK D_8007433C;
 extern M2C_UNK D_80074D3C;
 extern M2C_UNK D_80074DDC;
 extern M2C_UNK D_80075B9C;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
 extern struct X4_EngineObj D_800CCED0;
 #define D_800CCED0 ((s8*)&D_800CCED0)
@@ -58,8 +58,8 @@ void func_800FAC3C(struct X4_MainObj* self) {
                 self->x_speed = -0x30000;
             }
         } else {
-            temp = func_80065B74(D_800970A0.y_pos.i.hi - self->y_pos.i.hi,
-                                 D_800970A0.x_pos.i.hi - self->x_pos.i.hi);
+            temp = func_80065B74(g_Player.y_pos.i.hi - self->y_pos.i.hi,
+                                 g_Player.x_pos.i.hi - self->x_pos.i.hi);
             {
                 s32 m;
                 s32 t;
@@ -164,7 +164,7 @@ void func_800FAC3C(struct X4_MainObj* self) {
         self->animation_table = (void*)&D_800FDBC4;
         self->collision_data = &D_8007433C;
         self->unk2 = 2;
-        self->x_pos.i.hi = D_800970A0.x_pos.i.hi;
+        self->x_pos.i.hi = g_Player.x_pos.i.hi;
         self->y_pos.i.hi = D_800FDC8A + 0x440;
         self->hp = D_800FDC18[2][1];
         self->y_speed = -0x30000;

@@ -9,7 +9,7 @@ s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 s32 func_80065B74(s32, s32);
 extern s32 D_8007429C;
-extern s32 D_800970A0;
+extern s32 g_Player;
 extern s32 D_800EF998;
 extern s32 D_800EF99C;
 extern s32 D_800EF9A0;
@@ -22,7 +22,9 @@ void func_800EA3C8(void* arg0) {
     M2C_FIELD(arg0, u8*, 0x67) = 1;
     func_800179A4(arg0, 2);
     {
+        // !FAKE: depin: dropping it breaks the match (71/76)
         register s32* a asm("$2") = &D_800EF998;
+        // !FAKE: depin: dropping it breaks the match (67/76)
         register s32* b asm("$3") = &D_800EF99C;
         M2C_FIELD(arg0, s32**, 0x68) = a;
         M2C_FIELD(arg0, s32**, 0x50) = b;
@@ -40,7 +42,7 @@ void func_800EA3C8(void* arg0) {
         M2C_FIELD(arg0, s16*, 0xE) -= 0x14;
     }
     {
-        struct X4_PlayerObj* p = &D_800970A0;
+        struct X4_PlayerObj* p = &g_Player;
         s32 px = p->x_pos.i.hi;
         s32 py = p->y_pos.i.hi;
         func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - py,

@@ -9,9 +9,9 @@
 M2C_UNK func_80021760(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8002A47C(s32);
 void* func_8002C458();
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 M2C_UNK func_800F82C0();
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 
 void func_800F2EBC(void* arg0) {
@@ -19,11 +19,13 @@ void func_800F2EBC(void* arg0) {
     s16 x;
     s16 y;
 
-    func_8002D2B0((s32)arg0);
+    move_object((s32)arg0);
     x = M2C_FIELD(arg0, s16*, 0xA);
-    if ((D_800971F8[0].unk1E + 0x110 >= x && D_800971F8[0].unk1E + 0xF0 < x &&
-         (y = M2C_FIELD(arg0, s16*, 0xE), D_800971F8[0].unk22 + 0x70 >= y) &&
-         D_800971F8[0].unk22 + 0x50 < y) ||
+    if ((background_objects[0].unk1E + 0x110 >= x &&
+         background_objects[0].unk1E + 0xF0 < x &&
+         (y = M2C_FIELD(arg0, s16*, 0xE),
+          background_objects[0].unk22 + 0x70 >= y) &&
+         background_objects[0].unk22 + 0x50 < y) ||
         SPAD4C[0x88] != 0) {
         M2C_FIELD(arg0, s32*, 0x20) = 0;
         M2C_FIELD(arg0, s32*, 0x24) = 0;
@@ -34,7 +36,7 @@ void func_800F2EBC(void* arg0) {
                 M2C_FIELD(p, u8*, 1) = 0x15;
                 M2C_FIELD(p, u8*, 2) = 3;
                 M2C_FIELD(p, s32*, 8) = M2C_FIELD(arg0, s32*, 8);
-                M2C_FIELD(p, s16*, 0xE) = D_800971F8[0].unk22 + 0xC0;
+                M2C_FIELD(p, s16*, 0xE) = background_objects[0].unk22 + 0xC0;
                 M2C_FIELD(p, s16*, 0x42) = M2C_FIELD(arg0, u16*, 0x42) & 0x7FFF;
                 M2C_FIELD(p, s32*, 0x30) = M2C_FIELD(arg0, s32*, 0x30);
                 M2C_FIELD(p, s32*, 0x3C) =
@@ -47,11 +49,13 @@ void func_800F2EBC(void* arg0) {
         }
         func_800F82C0(arg0);
         {
+            // !FAKE: depin: dropping it breaks the match (92/96)
             register void* e asm("$2") = &D_800CCED0;
             M2C_FIELD(e, u8*, 0x24) = 0;
             M2C_FIELD(e, s32*, 0x20) = 0;
         }
         {
+            // !FAKE: depin: dropping it breaks the match (93/96)
             register s32 t asm("$3") = M2C_FIELD(arg0, u8*, 6) + 1;
             M2C_FIELD(arg0, u8*, 6) = t;
         }

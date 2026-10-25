@@ -6,7 +6,7 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern void (*D_800F3FC4[])(void*);
 
 void func_800EC77C(void* self) {
@@ -16,7 +16,7 @@ void func_800EC77C(void* self) {
 
     D_800F3FC4[M2C_FIELD(self, s8*, 6)](self);
     if ((u32)(M2C_FIELD(self, u8*, 2) - 8) < 2) {
-        bg = D_800971F8;
+        bg = background_objects;
         bg[2].y_pos.val += 0xFFFF0000;
         a = M2C_FIELD(self, void**, 0x84);
         b = M2C_FIELD(self, void**, 0x88);

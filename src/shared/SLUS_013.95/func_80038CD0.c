@@ -14,6 +14,7 @@ M2C_UNK func_8003BB94(void*, M2C_UNK, s8); /* extern */
 
 void func_80038CD0(void* arg0) {
     s32 var_s2;
+    // !FAKE: depin: dropping it breaks the match (110/165)
     register s32 var_s0 asm("$16");
     s32 temp_s3;
     s32 temp_v0;

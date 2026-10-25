@@ -9,7 +9,7 @@ s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern s32 D_8007429C;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800F7154;
 extern s32 D_800F7158;
 extern s32 D_800F715C;
@@ -24,7 +24,9 @@ void func_800E9DCC(struct X4_MainObj* self) {
     self->air_state = 1;
     func_800179A4(self, 0xA);
     {
+        // !FAKE: depin: dropping it breaks the match (69/74)
         register void* r asm("$2") = &D_800F7154;
+        // !FAKE: depin: dropping it breaks the match (65/74)
         register void* q asm("$3") = &D_800F7158;
         self->terrain_box = r;
         self->attack_box = q;
@@ -35,8 +37,8 @@ void func_800E9DCC(struct X4_MainObj* self) {
     self->unk6 = 0;
     self->unk7 = 0;
     {
-        s32 px = D_800970A0.x_pos.i.hi;
-        s32 py = D_800970A0.y_pos.i.hi;
+        s32 px = g_Player.x_pos.i.hi;
+        s32 py = g_Player.y_pos.i.hi;
         a = func_80065B74(self->y_pos.i.hi - py, px - self->x_pos.i.hi);
     }
     self->x_accel = 0;

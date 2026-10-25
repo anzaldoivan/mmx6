@@ -6,7 +6,7 @@
 #define H(p, o) M2C_FIELD(p, s16*, o)
 #define W(p, o) M2C_FIELD(p, s32*, o)
 
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
@@ -21,7 +21,7 @@ void func_800F3B9C(void* arg0) {
     ang = func_80065B74(H(arg0, 0xE) - ty, tx - H(arg0, 0xA));
     W(arg0, 0x20) = func_80065A14(ang) << 7;
     W(arg0, 0x24) = func_80065944(ang) << 7;
-    func_8002D2B0(arg0);
+    move_object(arg0);
     if (((H(arg0, 0x90) - H(arg0, 0xA)) >= 0
              ? (H(arg0, 0x90) - H(arg0, 0xA))
              : (H(arg0, 0xA) - H(arg0, 0x90))) < 9 &&

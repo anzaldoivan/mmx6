@@ -22,8 +22,8 @@ void func_800EBB30(u8* arg0) {
 
     ret = func_8001C5EC(D_800E2F90.unk6);
     if (ret != 0) {
-        register s32 one asm("$4") = 1;
-        register s32 two asm("$3") = 2;
+        s32 one = 1;
+        s32 two = 2;
 
         if (ret == one) {
             arg0[1] = 0x15;

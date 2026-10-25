@@ -55,7 +55,7 @@ void func_800EA0E8(u8* arg0) {
     if (ENG_B(7) < 7) {
         i = 4;
         {
-            register s32 c16 asm("$6") = 0x10;
+            s32 c16 = 0x10;
 
             if (D_80073610[ENG_B(7)] == c16) {
                 sel = 4;
@@ -63,6 +63,7 @@ void func_800EA0E8(u8* arg0) {
             next:
                 i++;
                 if (i < 0x10) {
+                    // !FAKE: depin: dropping it breaks the match (189/194)
                     register s32 one asm("$5") = 1;
 
                     if ((one << i) == D_80073610[ENG_B(7)]) {

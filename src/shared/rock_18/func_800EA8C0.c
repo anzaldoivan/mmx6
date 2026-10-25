@@ -8,7 +8,7 @@ void func_8001BA1C(u8* arg0);
 M2C_UNK func_8002B838();
 extern s32 D_8001E6E4;
 extern s32 D_80070CC4[];
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_80097424;
 extern struct X4_EngineObj D_800CCED0;
 
@@ -47,10 +47,10 @@ void func_800EA8C0(u8* arg0) {
             return;
         case 2:
         default:
-            D_800971F8[0].x_pos.i.hi = 0;
-            D_800971F8[0].y_pos.i.hi = 0;
-            D_800971F8[0].unk4C = 1;
-            D_800971F8[0].unk3 = 1;
+            background_objects[0].x_pos.i.hi = 0;
+            background_objects[0].y_pos.i.hi = 0;
+            background_objects[0].unk4C = 1;
+            background_objects[0].unk3 = 1;
             arg0[0] = 6;
             arg0[1] = 0;
             arg0[2] = 0;

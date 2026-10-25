@@ -5,8 +5,8 @@
 
 void* func_8002BFD0(void*, s32);
 s32 func_8002D2D4();
-extern struct X4_PlayerObj D_800970A0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_PlayerObj g_Player;
+extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_800CCF38;
 
 void func_800EC7DC(struct X4_PlayerObj* arg0) {
@@ -29,6 +29,7 @@ void func_800EC7DC(struct X4_PlayerObj* arg0) {
             y = idx * 0x30 + 0x1398;
             p = (u8*)arg0 + 0x86;
             {
+                // !FAKE: depin: dropping it breaks the match (265/269)
                 register s32 k asm("$2") = 3;
                 if (p[idx] == k) {
                     idx++;
@@ -63,9 +64,10 @@ void func_800EC7DC(struct X4_PlayerObj* arg0) {
             tbl[idx]++;
             arg0->unk7++;
         }
-        if (D_800970A0.x_pos.i.hi > 0x14A0 && D_800971F8[0].unk24 == 0x1370) {
-            D_800971F8[0].unk24 = 0x14D0;
-            D_800971F8[0].unk26 = 0x14D0;
+        if (g_Player.x_pos.i.hi > 0x14A0 &&
+            background_objects[0].unk24 == 0x1370) {
+            background_objects[0].unk24 = 0x14D0;
+            background_objects[0].unk26 = 0x14D0;
             arg0->state = 2;
         }
     } else {
@@ -73,6 +75,7 @@ void func_800EC7DC(struct X4_PlayerObj* arg0) {
             y = idx * 0x30 + 0x14F8;
             p = (u8*)arg0 + 0x86;
             {
+                // !FAKE: depin: dropping it breaks the match (265/269)
                 register s32 k asm("$2") = 4;
                 if (p[idx] == k) {
                     idx++;
@@ -107,9 +110,10 @@ void func_800EC7DC(struct X4_PlayerObj* arg0) {
             tbl[idx]++;
             arg0->unk7++;
         }
-        if (D_800970A0.x_pos.i.hi > 0x1600 && D_800971F8[0].unk24 == 0x14D0) {
-            D_800971F8[0].unk24 = 0x1650;
-            D_800971F8[0].unk26 = 0x1650;
+        if (g_Player.x_pos.i.hi > 0x1600 &&
+            background_objects[0].unk24 == 0x14D0) {
+            background_objects[0].unk24 = 0x1650;
+            background_objects[0].unk26 = 0x1650;
             arg0->state = 2;
         }
     }

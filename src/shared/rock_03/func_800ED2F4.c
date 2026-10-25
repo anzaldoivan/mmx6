@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
@@ -31,7 +31,7 @@ void func_800ED2F4(void* arg0) {
     m = -func_80065944(ang) * 0x10;
     F32(arg0, 0x24) = m * 2 + m;
     func_80017A04(arg0);
-    func_8002D2B0((s32)arg0);
+    move_object((s32)arg0);
     if (ABS(x - F16(arg0, 0xA)) < 0x10 && ABS(y - F16(arg0, 0xE)) < 0x10) {
         FU8(t, 0x7) = 1;
         FU8(arg0, 0x4) = 2;

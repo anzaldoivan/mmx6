@@ -14,6 +14,7 @@ extern u8 D_800CCF5C;
 
 void func_800F0294(void* arg0) {
     s32 lim;
+    // !FAKE: depin: dropping it breaks the match (54/59)
     register s32 hp asm("$3");
 
     if (func_80040498() != 0) {

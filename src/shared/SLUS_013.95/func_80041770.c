@@ -7,7 +7,7 @@ s32 func_8002D2D4();
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 extern s16 D_800115B0[16][2];
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 
 void func_80041770(void* arg0) {
@@ -35,6 +35,7 @@ void func_80041770(void* arg0) {
     u16 bgx;
     u16 bgy;
     s32 y;
+    // !FAKE: depin: dropping it breaks the match (200/210)
     register s32 e asm("$4");
 
     __builtin_memcpy(tbl, D_800115B0, sizeof(tbl));
@@ -59,8 +60,8 @@ void func_80041770(void* arg0) {
     r = (t * (s16)(((s16)(n >> 2) >> 1) + w)) >> 12;
     t = func_80065944(ang2);
     z = py.i.hi;
-    bgx = D_800971F8[0].x_pos.i.hi;
-    bgy = D_800971F8[0].y_pos.i.hi;
+    bgx = background_objects[0].x_pos.i.hi;
+    bgy = background_objects[0].y_pos.i.hi;
     bx -= bgx;
     by -= bgy;
     e = bx + (r >> 2);

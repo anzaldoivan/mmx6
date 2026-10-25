@@ -17,12 +17,12 @@ void func_800F1DA8(void* arg0, s32 arg1, s32 arg2) {
 
     e = func_8002C458();
     {
-        register s32 c asm("$2");
+        s32 c;
         c = 0x41;
         if (e != 0) {
             M2C_FIELD(e, u8*, 0) = c;
             {
-                register s32 d asm("$3");
+                s32 d;
                 d = 0x21;
                 M2C_FIELD(e, u8*, 1) = d;
             }

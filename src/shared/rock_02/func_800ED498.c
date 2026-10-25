@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/mains/main_48_sentry_drone.c:sentry_drone_burst_repeat, AGPL-3.0; proven shared with X6 by exact signature b51be65f31c0 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/mains/main_48_sentry_drone.c:sentry_drone_burst_repeat, AGPL-3.0; proven shared with X6 by exact signature b51be65f31c0 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 

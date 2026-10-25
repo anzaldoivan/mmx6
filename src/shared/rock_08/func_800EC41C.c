@@ -8,7 +8,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern M2C_UNK D_800F586C;
 extern M2C_UNK D_800F5870;
 extern M2C_UNK D_800F5874;
@@ -17,7 +17,7 @@ extern M2C_UNK D_800F5878;
 void func_800EC41C(void* arg0) {
     M2C_FIELD(arg0, u8*, 0x3) = 1;
     if (M2C_FIELD(arg0, s8*, 0x2) == 0) {
-        struct X4_PlayerObj* pl = &D_800970A0;
+        struct X4_PlayerObj* pl = &g_Player;
         s32 angle;
         s32 x;
         s32 t;

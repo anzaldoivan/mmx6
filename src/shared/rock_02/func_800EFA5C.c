@@ -10,16 +10,17 @@ s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern s32 D_8007429C;
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern s32 D_800FB294;
 extern s32 D_800FB298;
 extern s32 D_800FB29C;
 extern void* D_800FBC78;
 
 void func_800EFA5C(void* arg0) {
-    register void* p asm("$5");
+    void* p;
     s32 ang;
     s32 t;
+    // !FAKE: depin: dropping it breaks the match (13/104)
     register u8 dir asm("$6");
 
     p = M2C_FIELD(arg0, void**, 0x7C);
@@ -41,6 +42,7 @@ void func_800EFA5C(void* arg0) {
         void* q = D_800FBC78;
         s32 idx;
         s32 base;
+        // !FAKE: depin: dropping it breaks the match (47/104)
         register s32 off asm("$6");
         M2C_FIELD(arg0, void**, 0x58) = a58;
         idx = func_8002A47C(M2C_FIELD(q, s8*, 1));
@@ -59,7 +61,7 @@ void func_800EFA5C(void* arg0) {
     M2C_FIELD(arg0, s16*, 0xE) =
         M2C_FIELD(M2C_FIELD(arg0, void**, 0x7C), s16*, 0xE);
     {
-        u8* g = (u8*)&D_800970A0;
+        u8* g = (u8*)&g_Player;
         ang = (s16)func_80065B74(
             M2C_FIELD(g, s16*, 0xE) - M2C_FIELD(arg0, s16*, 0xE),
             M2C_FIELD(g, s16*, 0xA) - M2C_FIELD(arg0, s16*, 0xA));

@@ -13,12 +13,12 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0();
+M2C_UNK move_object();
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern s32 D_800741FC[];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern M2C_UNK D_800F8840;
 extern M2C_UNK D_800F8844;
 extern M2C_UNK D_800F884C;
@@ -67,7 +67,7 @@ void func_800EAB50(void* arg0) {
         W(arg0, 0x20) = 0;
         W(arg0, 0x24) = 0xFFFE0000;
         W(arg0, 0x2C) = 0x1800;
-        func_8002D2B0(arg0);
+        move_object(arg0);
         B(arg0, 0x6) = 0;
         goto recheck;
     } else if (sel == 0x10) {
@@ -76,7 +76,7 @@ void func_800EAB50(void* arg0) {
         B(arg0, 0x60) = 4;
         P(arg0, 0x68) = &D_800F884C;
         P(arg0, 0x50) = &D_800F8850;
-        g = &D_800970A0;
+        g = &g_Player;
         dx = H(g, 0xA);
         dy = H(g, 0xE);
         ang = func_80065B74(H(arg0, 0xE) - dy, dx - H(arg0, 0xA));
@@ -89,13 +89,15 @@ void func_800EAB50(void* arg0) {
         } else {
             B(arg0, 0x15) = 0;
         }
-        func_8002D2B0(arg0);
+        move_object(arg0);
         v = 1;
     } else if (sel == 0x20) {
         func_80016C48(2, 0x4B, arg0);
         func_800179A4(arg0, 9);
         {
+            // !FAKE: depin: dropping it breaks the match (206/208)
             register s32 c4 asm("$2") = 4;
+            // !FAKE: depin: dropping it breaks the match (205/208)
             register s32 c2 asm("$3") = 2;
             B(arg0, 0x60) = c4;
             B(arg0, 0x5C) = c2;
@@ -113,13 +115,15 @@ void func_800EAB50(void* arg0) {
             B(arg0, 0x15) = 0x40;
             H(arg0, 0xA) = H(arg0, 0xA) + 0x2C;
         }
-        func_8002D2B0(arg0);
+        move_object(arg0);
         v = 2;
     } else if (sel == 0x30) {
         func_80016C48(2, 0x4C, arg0);
         func_800179A4(arg0, 0xB);
         {
+            // !FAKE: depin: dropping it breaks the match (198/208)
             register s32 c6 asm("$2") = 6;
+            // !FAKE: depin: dropping it breaks the match (194/208)
             register s32 cm asm("$3") = -0xC;
             B(arg0, 0x60) = c6;
             B(arg0, 0x8F) = 0x18;

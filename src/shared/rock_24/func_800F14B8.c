@@ -18,8 +18,8 @@ s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern s32 D_8007573C[];
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s16 D_800970AA;
 extern u8 D_800CCF5F;
 extern u8 D_800E99AC[];
@@ -84,16 +84,16 @@ void func_800F14B8(void* arg0) {
         if (++M2C_FIELD(arg0, s32*, 0x8C) == 12) {
             M2C_FIELD(arg0, void**, 0x50) = D_800F76A4;
             M2C_FIELD(arg0, void**, 0x54) = D_800F76A8;
-            if (D_800970A0.x_pos.i.hi > M2C_FIELD(arg0, s16*, 0xA)) {
+            if (g_Player.x_pos.i.hi > M2C_FIELD(arg0, s16*, 0xA)) {
                 M2C_FIELD(arg0, u8*, 0x15) = 0x40;
             } else {
                 M2C_FIELD(arg0, u8*, 0x15) = 0;
             }
             {
-                s32 px = D_800970A0.x_pos.i.hi;
+                s32 px = g_Player.x_pos.i.hi;
                 s32 py;
                 M2C_FIELD(arg0, s32*, 0x90) = px;
-                py = D_800970A0.y_pos.i.hi;
+                py = g_Player.y_pos.i.hi;
                 M2C_FIELD(arg0, s32*, 0x94) = py;
                 angle = func_80065B74(py - M2C_FIELD(arg0, s16*, 0xE),
                                       px - M2C_FIELD(arg0, s16*, 0xA));
@@ -222,4 +222,4 @@ void func_800F14B8(void* arg0) {
     ((void (*)(void*))func_80017A04)(arg0);
 }
 #undef func_80030ECC
-#undef D_800970A0
+#undef g_Player

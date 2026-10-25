@@ -20,6 +20,7 @@ void func_800F0120(void* arg0) {
     if (M2C_FIELD(arg0, s32*, 0x90) == 0) {
         func_80029478(0xA, 4, 2);
         {
+            // !FAKE: depin: dropping it breaks the match (80/82)
             register s32 k asm("$2") = 0xA;
             M2C_FIELD(arg0, s32*, 0x90) = k;
         }

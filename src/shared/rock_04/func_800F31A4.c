@@ -30,6 +30,7 @@ void func_800F31A4(struct X4_BaseObj* self) {
     func_80030ECC(self);
     func_8002CCB0(self, 0x20, 0x20);
     {
+        // !FAKE: depin: dropping it breaks the match (47/50)
         register struct X4_BaseObj* parent asm("$2") =
             M2C_FIELD(self, struct X4_BaseObj**, 0x80);
         M2C_FIELD(self, u8*, 0x84) = M2C_FIELD(parent, u8*, 0x5);

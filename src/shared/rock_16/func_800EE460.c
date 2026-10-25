@@ -18,6 +18,7 @@ extern u16 D_800F128C[][2];
 void func_800EE460(void* arg0) {
     u8* p;
     s8 v;
+    // !FAKE: depin: dropping it breaks the match (80/83)
     register u8 t asm("$3");
     u8* q;
 

@@ -4,7 +4,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_8002D230(void*);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_800F4B14(struct X4_MainObj* self) {
     s32 d450;
@@ -22,7 +22,7 @@ void func_800F4B14(struct X4_MainObj* self) {
     self->y_speed = 0x5553C;
     self->gravity = grav;
     self->x_accel = 0;
-    if (self->x_pos.i.hi >= D_800970A0.x_pos.i.hi) {
+    if (self->x_pos.i.hi >= g_Player.x_pos.i.hi) {
         self->unk15 = 0x40;
         self->x_speed = 0x200000 / d30;
     } else {

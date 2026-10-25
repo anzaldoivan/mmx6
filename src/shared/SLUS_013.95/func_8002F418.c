@@ -25,6 +25,7 @@ void func_8002F418(struct X4_PlayerObj* arg0) {
         D_800E4198 = box->unk1;
         D_800E4192 = box->unk2;
         {
+            // !FAKE: depin: dropping it breaks the match (116/121)
             register s32 h asm("$7") = box->unk3;
             D_800E4194 = h;
         }

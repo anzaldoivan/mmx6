@@ -8,18 +8,18 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 struct X4_VisualObj* func_8002C398(void);
 M2C_UNK func_8004E78C(M2C_UNK);
-extern s32 D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern s32 g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_EngineObj D_800CCED0;
 
 void func_800ED9EC(void* self) {
     struct X4_VisualObj* obj;
 
-    if (D_800970A0.unk5 == 0x14) {
+    if (g_Player.unk5 == 0x14) {
         ((void (*)(s32))func_8004E78C)(1);
         M2C_FIELD(self, s8*, 0) |= 8;
-        if ((D_800970A0.hp & 0x7F) >=
-            ((struct X4_EngineObj*)((s8*)&D_800CCED0 - -D_800970A0.unk2))
+        if ((g_Player.hp & 0x7F) >=
+            ((struct X4_EngineObj*)((s8*)&D_800CCED0 - -g_Player.unk2))
                 ->unk5C[-1]) {
             ((void (*)(void*, s32))func_800179A4)(self, 2);
             M2C_FIELD(self, s8*, 6) += 1;
@@ -49,4 +49,4 @@ void func_800ED9EC(void* self) {
         }
     }
 }
-#undef D_800970A0
+#undef g_Player

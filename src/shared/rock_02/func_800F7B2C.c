@@ -15,10 +15,12 @@ void func_800F7B2C(u8* arg0) {
     func_800179A4(arg0, 7);
     *(u16*)(arg0 + 0x7C) = 0;
     {
+        // !FAKE: depin: dropping it breaks the match (25/28)
         register s32 t asm("$2") = arg0[6] + 1;
         arg0[6] = t;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (25/28)
         register u8* q asm("$3") = SPAD4C;
         q[0x88] = 0;
     }

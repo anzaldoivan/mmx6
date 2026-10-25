@@ -6,13 +6,13 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK); /* extern */
 extern M2C_UNK D_8007479C;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern M2C_UNK D_800F7448;
 extern M2C_UNK D_800F744C;
 extern M2C_UNK D_800F7650;
 
 void func_800ED760(void* arg0) {
-    void* temp = &D_800970A0;
+    void* temp = &g_Player;
     u8 b;
     s32 x;
 

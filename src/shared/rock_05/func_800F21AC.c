@@ -3,7 +3,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 extern s16 D_800F4480;
 
 #define UB(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -20,6 +20,6 @@ void func_800F21AC(void* arg0) {
         }
         return;
     }
-    func_8002D2B0(arg0);
+    move_object(arg0);
     func_80017A04(arg0);
 }

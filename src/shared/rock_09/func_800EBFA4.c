@@ -10,6 +10,7 @@ extern M2C_UNK D_800F5F0C;
 extern M2C_UNK D_800F5F8C;
 
 void func_800EBFA4(void* arg0) {
+    // !FAKE: depin: dropping it breaks the match (78/89)
     register void* p743 asm("$2");
     M2C_FIELD(arg0, u8*, 0x0) = 0x41;
     M2C_FIELD(arg0, u8*, 0x5C) = 3;

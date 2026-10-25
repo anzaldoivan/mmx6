@@ -7,7 +7,7 @@ M2C_UNK func_80030ECC(void*);
 s32 func_80031474(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 void func_8004E654(struct X4_BaseObj* arg0, s8 arg1);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
 extern struct X4_EngineObj D_800CCED0;
 extern s8 D_800CCEED;
@@ -48,9 +48,8 @@ void func_800EE5C4(void* arg0) {
             SB(arg0, 4) = 2;
         }
     } else if (t == 5) {
-        if (D_800970A0.x_pos.i.hi + 0xF0 < H(arg0, 0xA) ||
-            (D_800970A0.y_pos.i.hi >= 0x211 &&
-             D_800970A0.x_pos.i.hi >= 0x13A1)) {
+        if (g_Player.x_pos.i.hi + 0xF0 < H(arg0, 0xA) ||
+            (g_Player.y_pos.i.hi >= 0x211 && g_Player.x_pos.i.hi >= 0x13A1)) {
         set2:
             SB(arg0, 4) = 2;
         }

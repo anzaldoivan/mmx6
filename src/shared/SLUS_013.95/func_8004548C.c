@@ -11,7 +11,7 @@ s32 func_8003EB0C(void* arg0, s32 arg1);
 void func_8003F740(void*, s32);
 extern s32 D_8007619C;
 extern s32 D_800761A0;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 #define F_S8(p, o) (*(s8*)((u8*)(p) + (o)))
 #define F_U8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -29,12 +29,12 @@ void func_8004548C(struct X4_WeaponObj* arg0) {
 
     ((void (*)())func_80017A04)();
     if (--F_S8(arg0, 0x8E) == 0) {
-        player = &D_800970A0;
+        player = &g_Player;
         kind = 4;
         if (player->unk2 == 0) {
             kind = F_S8(player, 0x93);
         }
-        hp = F_S16((u8*)&D_800970A0 + (kind << 1), 0xA8);
+        hp = F_S16((u8*)&g_Player + (kind << 1), 0xA8);
         if (hp >= func_8003EB0C(player, kind)) {
             if (player->unk2 != 0) {
                 F_S8(player, 0x93) = 4;
@@ -48,6 +48,7 @@ void func_8004548C(struct X4_WeaponObj* arg0) {
             if (child != 0) {
                 func_80016C48(1, 0x1F, arg0);
                 {
+                    // !FAKE: depin: dropping it breaks the match (24/146)
                     register s32 one asm("$6") = 1;
                     child->active = one;
                     child->id = 0x35;

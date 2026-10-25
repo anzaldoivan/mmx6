@@ -6,18 +6,18 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern u16 D_800FCE64;
 
 void func_800FC570(void* arg0) {
     if (M2C_FIELD(M2C_FIELD(arg0, void**, 0x80), s8*, 0x7) != 0) {
-        if (D_800970A0.x_pos.i.hi < M2C_FIELD(arg0, s16*, 0xA)) {
-            D_800970A0.unk15 = 0x40;
+        if (g_Player.x_pos.i.hi < M2C_FIELD(arg0, s16*, 0xA)) {
+            g_Player.unk15 = 0x40;
         } else {
-            D_800970A0.unk15 = 0;
+            g_Player.unk15 = 0;
         }
         M2C_FIELD(arg0, u16*, 0x42) &= 0x7FFF;
-        if (D_800970A0.x_pos.i.hi > M2C_FIELD(arg0, s16*, 0xA)) {
+        if (g_Player.x_pos.i.hi > M2C_FIELD(arg0, s16*, 0xA)) {
             M2C_FIELD(arg0, u8*, 0x15) = 0x40;
         } else {
             M2C_FIELD(arg0, u8*, 0x15) = 0;

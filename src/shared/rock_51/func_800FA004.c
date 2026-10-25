@@ -5,7 +5,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 void func_800E9F7C(void);
 extern s8 D_8008EAB0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_80097424;
 extern s8 D_800CCF08;
 
@@ -16,18 +16,18 @@ void func_800FA004(u8* arg0) {
         temp_v1 = *(s16*)(arg0 + 4);
         if (temp_v1 >= 0x78) {
             D_8008EAB0 = 1;
-            D_800971F8[2].x_pos.i.hi = 0;
-            D_800971F8[2].y_pos.i.hi = 0x100;
-            D_800971F8[2].unk4C = 1;
+            background_objects[2].x_pos.i.hi = 0;
+            background_objects[2].y_pos.i.hi = 0x100;
+            background_objects[2].unk4C = 1;
             if (D_800CCF08 == 0) {
                 *(s16*)(arg0 + 8) = 0xB5;
                 *(s16*)(arg0 + 0xA) = 0x20;
                 arg0[1] += 2;
             } else {
-                D_800971F8[1].unk3 = 1;
-                D_800971F8[1].x_pos.i.hi = 0x120;
-                D_800971F8[1].y_pos.i.hi = 0x100;
-                D_800971F8[1].unk4C = 1;
+                background_objects[1].unk3 = 1;
+                background_objects[1].x_pos.i.hi = 0x120;
+                background_objects[1].y_pos.i.hi = 0x100;
+                background_objects[1].unk4C = 1;
                 *(s16*)(arg0 + 8) = 0xFC;
                 *(s16*)(arg0 + 0xA) = 7;
                 arg0[1] += 1;

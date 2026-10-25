@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern s32 D_800C1220[];
 extern struct X4_EngineObj D_800CCED0;
 M2C_UNK func_8002CD6C(void*);
@@ -14,7 +14,7 @@ void func_800205A0(void) {
     u8* obj;
     u8 flags;
 
-    s8* pl0 = (s8*)&D_800970A0;
+    s8* pl0 = (s8*)&g_Player;
     if (pl0[0xCC] == 0) {
         SP_OBJ_CUR = (u8*)D_800C1220;
         if ((u8*)D_800C1220 < (u8*)D_800C1220 + 0x3340) {
@@ -22,7 +22,7 @@ void func_800205A0(void) {
                 obj = SP_OBJ_CUR;
                 flags = obj[0];
                 if (((s8*)obj)[0] != 0) {
-                    s8* pl = (s8*)&D_800970A0;
+                    s8* pl = (s8*)&g_Player;
                     if (pl[0xCC] != 0 ||
                         (D_800CCED0.unk16 != 0 && !(flags & 8))) {
                         if (((s8*)obj)[3] != 0) {

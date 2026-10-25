@@ -8,8 +8,8 @@ M2C_UNK func_8003C4EC(void*);
 M2C_UNK func_8003CDF0(void*);
 M2C_UNK func_8003CE30(void*);
 M2C_UNK func_8003F3DC(void*);
-extern M2C_UNK D_800970A0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern M2C_UNK g_Player;
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -19,15 +19,15 @@ extern struct X4_EngineObj D_800CCED0;
 #define F32(p, o) (*(s32*)((u8*)(p) + (o)))
 
 void func_800EE808(u8* arg0) {
-    struct X4_PlayerObj* p = &D_800970A0;
+    struct X4_PlayerObj* p = &g_Player;
     u8* q;
     u16 a;
     s32 two;
 
     if (F8(p, 0x5C) != 0) {
-        D_800971F8[0].unk44 = 0;
-        D_800971F8[1].unk44 = 0;
-        D_800971F8[2].unk44 = 0;
+        background_objects[0].unk44 = 0;
+        background_objects[1].unk44 = 0;
+        background_objects[2].unk44 = 0;
         two = 2;
         q = (u8*)&D_800CCED0;
         q[0x10] = two;

@@ -7,7 +7,7 @@ s32 func_8002D2D4();
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 extern s16 D_800115B0[16][2];
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 
 void func_800413D0(void* arg0) {
@@ -29,6 +29,7 @@ void func_800413D0(void* arg0) {
     s16 q;
     s32 t;
     s32 w;
+    // !FAKE: depin: dropping it breaks the match (201/232)
     register s32 x asm("$5");
     s32 y;
     s32 k;
@@ -52,16 +53,16 @@ void func_800413D0(void* arg0) {
     do {
         px.val += dx;
         py.val += dy;
-        if (px.i.hi < D_800971F8[0].x_pos.i.hi - 0x10) {
+        if (px.i.hi < background_objects[0].x_pos.i.hi - 0x10) {
             break;
         }
-        if (D_800971F8[0].x_pos.i.hi + 0x150 < px.i.hi) {
+        if (background_objects[0].x_pos.i.hi + 0x150 < px.i.hi) {
             break;
         }
-        if (py.i.hi < D_800971F8[0].y_pos.i.hi - 0x30) {
+        if (py.i.hi < background_objects[0].y_pos.i.hi - 0x30) {
             break;
         }
-        if (D_800971F8[0].y_pos.i.hi + 0x100 < py.i.hi) {
+        if (background_objects[0].y_pos.i.hi + 0x100 < py.i.hi) {
             break;
         }
         n++;
@@ -73,8 +74,8 @@ void func_800413D0(void* arg0) {
     t = func_80065944(ang2);
     x = px.i.hi;
     z = py.i.hi;
-    bgx = D_800971F8[0].x_pos.i.hi;
-    bgy = D_800971F8[0].y_pos.i.hi;
+    bgx = background_objects[0].x_pos.i.hi;
+    bgy = background_objects[0].y_pos.i.hi;
     bx -= bgx;
     by -= bgy;
     M2C_FIELD(arg0, s16*, 0x16) = bx + (r >> 2);

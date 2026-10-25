@@ -6,7 +6,7 @@
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002D380(void*, void*);
 void func_800EC848(void*);
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 
 void func_800ED5DC(void* arg0) {
     void* g;
@@ -17,12 +17,14 @@ void func_800ED5DC(void* arg0) {
     M2C_FIELD(arg0, s32*, 0x2C) = 0;
     M2C_FIELD(arg0, u8*, 6)++;
     func_800179A4(arg0, 1);
-    g = &D_800970A0;
+    g = &g_Player;
     {
+        // !FAKE: depin: dropping it breaks the match (36/40)
         register u8** b asm("$2") = &SPAD4C;
-        register s32 k asm("$3") = 0x14;
+        s32 k = 0x14;
+        // !FAKE: depin: dropping it breaks the match (38/40)
         register u8* p asm("$5") = *b;
-        register u8* q asm("$4");
+        u8* q;
         p[0x80] = k;
         q = *b;
         q[0x82] = 0;

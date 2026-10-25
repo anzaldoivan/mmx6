@@ -4,7 +4,7 @@
 
 void* func_8002BBF4();
 s32 func_8002D2D4();
-extern s32 D_800970A0;
+extern s32 g_Player;
 extern s16 D_800970AA;
 
 #define SB(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -12,7 +12,7 @@ extern s16 D_800970AA;
 #define H(p, o) (*(s16*)((u8*)(p) + (o)))
 #define UH(p, o) (*(u16*)((u8*)(p) + (o)))
 #define W(p, o) (*(s32*)((u8*)(p) + (o)))
-#define PL ((struct X4_BaseObj*)&D_800970A0)
+#define PL ((struct X4_BaseObj*)&g_Player)
 
 void func_800EECCC(void* arg0) {
     s32 flag;

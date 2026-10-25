@@ -3,7 +3,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 void func_800F2B4C();
 
 #define UB(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -14,7 +14,7 @@ void func_800F272C(void* arg0) {
     // !FAKE: the selected velocity lives in the first return register
     register s32 v asm("$2");
 
-    ((void (*)())func_8002D2B0)();
+    ((void (*)())move_object)();
     func_80017A04(arg0);
     func_800F2B4C(arg0);
     {

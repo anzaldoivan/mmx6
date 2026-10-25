@@ -9,7 +9,7 @@ s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern s32 D_8007429C;
 extern M2C_UNK D_8007433C;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_80097202;
 extern u8 D_800CCF38;
 extern s32 D_800FCF28;
@@ -133,7 +133,7 @@ void func_800F60AC(void* arg0) {
         M2C_FIELD(arg0, void**, 0x68) = &D_800FCF3C;
         M2C_FIELD(arg0, u8*, 0x60) = 8;
         M2C_FIELD(arg0, u8*, 0x16) = 4;
-        g = &D_800970A0;
+        g = &g_Player;
         dx = M2C_FIELD(g, s16*, 0xA);
         dy = M2C_FIELD(g, s16*, 0xE);
         ang = func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - dy,

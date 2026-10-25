@@ -22,6 +22,7 @@ void func_800F8464(void* arg0) {
     } else if (st == 1) {
         func_800179A4(arg0, 0x16);
         {
+            // !FAKE: depin: dropping it breaks the match (39/42)
             register s32 t asm("$2") = M2C_FIELD(arg0, u8*, 6) + 1;
             M2C_FIELD(arg0, u8*, 6) = t;
         }

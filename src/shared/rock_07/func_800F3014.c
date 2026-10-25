@@ -3,15 +3,15 @@
 
 void func_800F6948(struct X4_AnimatedObj* self, s32 arg1, s32 arg2);
 extern s16 D_800970AA;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F3014(struct X4_AnimatedObj* self) {
     s16 x;
     u16 t = D_800970AA;
 
     self->x_pos.i.hi = t;
-    self->y_pos.i.hi = D_800971F8[0].unk2A + 0x80;
-    if ((s16)t > D_800971F8[0].unk26 + 0xB0) {
+    self->y_pos.i.hi = background_objects[0].unk2A + 0x80;
+    if ((s16)t > background_objects[0].unk26 + 0xB0) {
         self->unk15 = 0x40;
         self->x_pos.i.hi = t - 0x70;
     } else {
@@ -19,13 +19,13 @@ void func_800F3014(struct X4_AnimatedObj* self) {
         self->x_pos.i.hi = t + 0x70;
     }
     x = self->x_pos.i.hi;
-    if (x < D_800971F8[0].unk26 + 0x28) {
-        self->x_pos.i.hi = D_800971F8[0].unk26 + 0x28;
-    } else if (D_800971F8[0].unk26 + 0x138 < x) {
-        self->x_pos.i.hi = D_800971F8[0].unk26 + 0x138;
+    if (x < background_objects[0].unk26 + 0x28) {
+        self->x_pos.i.hi = background_objects[0].unk26 + 0x28;
+    } else if (background_objects[0].unk26 + 0x138 < x) {
+        self->x_pos.i.hi = background_objects[0].unk26 + 0x138;
     }
-    if (self->y_pos.i.hi < D_800971F8[0].unk2A + 0x20) {
-        self->y_pos.i.hi = D_800971F8[0].unk2A + 0x20;
+    if (self->y_pos.i.hi < background_objects[0].unk2A + 0x20) {
+        self->y_pos.i.hi = background_objects[0].unk2A + 0x20;
     }
     func_800F6948(self, 0x20, 0xA00);
     func_800F6948(self, 0x20, 0);

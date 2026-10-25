@@ -7,7 +7,7 @@ M2C_UNK func_8002D230(void*);    /* extern */
 M2C_UNK func_8002F288(M2C_UNK*); /* extern */
 M2C_UNK func_80031DA8();         /* extern */
 s32 func_800ECAB8(struct X4_PlayerObj*, s16, s16);
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 
 #define F_2(p) M2C_FIELD(p, s8*, 0x2)
 #define F_6(p) M2C_FIELD(p, u8*, 0x6)
@@ -33,7 +33,7 @@ extern M2C_UNK D_800970A0;
 #define FY(p) (F_E(p) + F_81(p) + F_83(p))
 #define CHECK(p)                                                               \
     {                                                                          \
-        void* pl = &D_800970A0;                                                \
+        void* pl = &g_Player;                                                  \
         if (F_E5(pl) == 0 && ABS(F_A(pl) - F_A(p)) < 0x30) {                   \
             func_80031DA8(p);                                                  \
         }                                                                      \

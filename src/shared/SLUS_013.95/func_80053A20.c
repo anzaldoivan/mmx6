@@ -13,6 +13,7 @@ void func_80053A20(struct X4_BaseObj* self) {
     u32 i;
 
     if (*(u16*)&self->bg_offset != 0) {
+        // !FAKE: depin: dropping it breaks the match (74/83)
         register s32 b asm("$3");
         (*(u16*)&self->bg_offset)--;
         b = self->unk16 - 1;
@@ -45,6 +46,7 @@ void func_80053A20(struct X4_BaseObj* self) {
         }
         func_80013AA4(0x19);
         {
+            // !FAKE: depin: dropping it breaks the match (80/83)
             register s32 s asm("$2") = (u8)self->state + 1;
             self->state = s;
         }

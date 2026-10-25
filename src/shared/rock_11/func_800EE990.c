@@ -7,7 +7,7 @@ s32 func_8002D2D4();
 void func_800F1FBC();
 void func_800F3EC4(void* arg0, u8 arg1, s16 arg2, s16 arg3);
 void func_800F4664(s16 arg0, s16 arg1);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 
 void func_800EE990(u8* self) {
@@ -23,16 +23,16 @@ void func_800EE990(u8* self) {
         if (func_8002D2D4() & 1) {
             y = (s16)-y;
         }
-        func_800F4664(x + (D_800971F8[0].x_pos.u.hi + 0x96),
-                      y + (D_800971F8[0].y_pos.u.hi + 0x78));
+        func_800F4664(x + (background_objects[0].x_pos.u.hi + 0x96),
+                      y + (background_objects[0].y_pos.u.hi + 0x78));
     }
     if (D_80097420 & 7) {
         x = (s16)(func_8002D2D4() % 150);
         if (func_8002D2D4() & 1) {
             x = (s16)-x;
         }
-        func_800F3EC4(self, 0x60, x + (D_800971F8[0].x_pos.u.hi + 0x96),
-                      D_800971F8[0].y_pos.u.hi - 0xA);
+        func_800F3EC4(self, 0x60, x + (background_objects[0].x_pos.u.hi + 0x96),
+                      background_objects[0].y_pos.u.hi - 0xA);
     }
     if (!(D_80097420 & 0x1F)) {
         func_80012D9C(3);

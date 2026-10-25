@@ -2,13 +2,13 @@
 #include "mmx6/x4.h"
 
 s32 func_8002D654(s8*, u8*);
-extern s32 D_800970A0;
+extern s32 g_Player;
 
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))
 #define FU16(p, o) (*(u16*)((u8*)(p) + (o)))
 
 void func_800F00FC(s8* arg0) {
-    u8* p = (u8*)&D_800970A0;
+    u8* p = (u8*)&g_Player;
     u16 v;
     u16 w;
 

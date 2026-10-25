@@ -8,13 +8,13 @@ M2C_UNK func_800139F4(M2C_UNK);
 void func_800210E8();
 M2C_UNK func_80025FB0();
 M2C_UNK func_80026028();
-void func_8002ACA8();                              /* extern; was M2C_UNK (W15 regate of 2ACA8) */
-s8*func_8002C590(void);
+void func_8002ACA8(); /* extern; was M2C_UNK (W15 regate of 2ACA8) */
+s8* func_8002C590(void);
 struct X4_QuadObj* func_8002C7F0(void);
 M2C_UNK func_8002C9B0();
 
 extern u16 D_800739DC[][6];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s8 D_80097424;
 extern u8 D_800C4560;
 extern u16 D_800C456C[];
@@ -54,7 +54,7 @@ void func_80033E00(struct X4_PlayerObj* self) {
                 q->active = 1;
                 D_800E4440[i]->id = 0xB;
                 *(u8*)&D_800E4440[i]->unk36 = 0xFF;
-                if (D_800970A0.unk2 != 0) {
+                if (g_Player.unk2 != 0) {
                     D_800E4440[i]->unk34 = 0x1F;
                 } else {
                     D_800E4440[i]->unk34 = 0x7C00;

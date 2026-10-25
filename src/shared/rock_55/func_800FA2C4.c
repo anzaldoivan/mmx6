@@ -2,12 +2,12 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_800CCF08;
 
 void func_800FA2C4(s8* arg0) {
     s8* p = arg0;
-    s8* bg = (s8*)D_800971F8;
+    s8* bg = (s8*)background_objects;
     s32 t;
 
     t = *(u16*)(bg + 0x5E) + 0x10;

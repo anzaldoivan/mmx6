@@ -6,7 +6,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 void* func_8002C458();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800EF6F0;
 
 #define E9DB0_U8(s, o) M2C_FIELD(s, u8*, o)
@@ -25,7 +25,7 @@ void func_800E9DB0(void* self) {
             M2C_FIELD(self, void**, 0x68) = &D_800EF6F0;
         }
     }
-    if (D_800970A0.x_pos.i.hi > E9DB0_S16(self, 0xA)) {
+    if (g_Player.x_pos.i.hi > E9DB0_S16(self, 0xA)) {
         E9DB0_U8(self, 0x15) = 0x40;
     } else {
         E9DB0_U8(self, 0x15) = 0;
@@ -33,7 +33,7 @@ void func_800E9DB0(void* self) {
     E9DB0_S16(self, 0x7C)++;
     switch (E9DB0_S8(self, 6)) {
     case 1:
-        if (E9DB0_ABS(D_800970A0.x_pos.i.hi - E9DB0_S16(self, 0xA)) <= 0x80) {
+        if (E9DB0_ABS(g_Player.x_pos.i.hi - E9DB0_S16(self, 0xA)) <= 0x80) {
             goto spawn;
         }
         if ((s16)(E9DB0_S16(self, 0x7C) % 200) == 0) {
@@ -42,11 +42,11 @@ void func_800E9DB0(void* self) {
         }
         break;
     case 2:
-        if (D_800970A0.x_pos.i.hi - E9DB0_S16(self, 0xA) >= 0) {
-            if (D_800970A0.x_pos.i.hi - E9DB0_S16(self, 0xA) <= 0x80) {
+        if (g_Player.x_pos.i.hi - E9DB0_S16(self, 0xA) >= 0) {
+            if (g_Player.x_pos.i.hi - E9DB0_S16(self, 0xA) <= 0x80) {
                 goto spawn;
             }
-        } else if (E9DB0_S16(self, 0xA) - D_800970A0.x_pos.i.hi <= 0x80) {
+        } else if (E9DB0_S16(self, 0xA) - g_Player.x_pos.i.hi <= 0x80) {
         spawn:
             p = func_8002C458();
             if (p != NULL) {

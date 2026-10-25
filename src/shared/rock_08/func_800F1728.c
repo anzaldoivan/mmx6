@@ -4,7 +4,7 @@
 #define FLD(p, type, off) (*(type*)((u8*)(p) + (off)))
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 M2C_UNK func_80030ECC(void*);
 s32 func_80031474(void*);
 extern s16 D_800F6AF8;
@@ -21,7 +21,7 @@ void func_800F1728(void* arg0) {
 
     parent = FLD(arg0, void*, 0x7C);
     func_80017A04();
-    func_8002D2B0(arg0);
+    move_object(arg0);
     FLD(arg0, s32, 0x8C) = func_80031474(arg0);
     if (FLD(arg0, s32, 0x8C) < 0) {
         FLD(arg0, u8, 0x5) = 2;

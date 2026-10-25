@@ -10,7 +10,8 @@ extern u16 D_800C456C[];
 void func_800EAD70(u8* arg0) {
     u8 v;
     u8 cur;
-    register u8* obj asm("$16") = arg0;
+    u8* obj = arg0;
+    // !FAKE: depin: dropping it breaks the match (66/74)
     register s32 two asm("$17") = 2;
 
     if (D_800C456C[2] & 0x1000) {

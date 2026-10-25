@@ -3,8 +3,8 @@
 #include "mmx6/x4.h"
 
 void* func_8002C32C();
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 #define F_U8(p, o) (*(u8*)((u8*)(p) + (o)))
 #define F_S8(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -14,7 +14,7 @@ void func_801EFFAC(struct X4_WeaponObj* arg0) {
     struct X4_WeaponObj* obj;
     s8 st;
 
-    player = &D_800970A0;
+    player = &g_Player;
     if (player->unk5 != F_U8(arg0, 0x8C) || player->unk5 == 0x11) {
         arg0->state = 3;
         return;
@@ -61,4 +61,4 @@ void func_801EFFAC(struct X4_WeaponObj* arg0) {
         }
     }
 }
-#undef D_800970A0
+#undef g_Player

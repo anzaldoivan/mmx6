@@ -8,10 +8,10 @@
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_800EF960(void* arg0) {
-    struct X4_PlayerObj* pl = &D_800970A0;
+    struct X4_PlayerObj* pl = &g_Player;
     s32 limit;
     s32 angle;
 

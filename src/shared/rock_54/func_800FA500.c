@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_800CCF08;
 
 void func_800FA500(struct X4_BackgroundObj* arg0) {
@@ -10,9 +10,9 @@ void func_800FA500(struct X4_BackgroundObj* arg0) {
     register s32 a asm("$2");
     s16 b;
 
-    D_800971F8[0].x_pos.u.hi += 0x10;
-    if (D_800971F8[0].x_pos.i.hi >= 0x120) {
-        D_800971F8[0].x_pos.u.hi = 0x120;
+    background_objects[0].x_pos.u.hi += 0x10;
+    if (background_objects[0].x_pos.i.hi >= 0x120) {
+        background_objects[0].x_pos.u.hi = 0x120;
         if (D_800CCF08 == 0) {
             a = 0x182;
             b = 9;

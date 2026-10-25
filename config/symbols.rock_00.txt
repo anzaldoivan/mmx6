@@ -4,5 +4,21 @@
 D_801EA000 = 0x801EA000;
 // basis: first code word after header (+0xc4)
 func_801EA0C4 = 0x801EA0C4; // type:func size:0x1F4
+// basis: name: x4 exact 543816517dc7 sozud/mmx4@6a6b455 src/main/player_special.c:player_ladder_shoot; corroborator callee src/main/player_special:player_ladder_shoot SLUS_013.95:0x80017A04
+player_ladder_shoot = 0x801EB730; // type:func
+// basis: name: x4 exact 2140a7d039ea sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_hold; corroborator callee src/main/player_special:player_hover_hold rock_00:0x801EC0C0
+player_hover_hold = 0x801EC0C0; // type:func
+// basis: name: x4 exact ecb393d0593c sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_forward; corroborator callee src/main/player_special:player_hover_forward SLUS_013.95:0x8003F4C4
+player_hover_forward = 0x801EC124; // type:func
+// basis: name: x4 exact c351fcf586bf sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_forward_stop; corroborator callee src/main/player_special:player_hover_forward_stop SLUS_013.95:0x8003F4C4
+player_hover_forward_stop = 0x801EC1B4; // type:func
+// basis: name: x4 exact 89cef0de1a8c sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_back; corroborator callee src/main/player_special:player_hover_back SLUS_013.95:0x8003F4C4
+player_hover_back = 0x801EC240; // type:func
+// basis: name: x4 exact b28126054f46 sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_back_stop; corroborator callee src/main/player_special:player_hover_back_stop SLUS_013.95:0x8003F4C4
+player_hover_back_stop = 0x801EC2D0; // type:func
+// basis: name: x4 exact 5022eaa90621 sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_set_direction; corroborator caller src/main/player_special:player_hover_back_stop
+player_hover_set_direction = 0x801EC478; // type:func
+// basis: name: x4 exact a538f84cd138 sozud/mmx4@6a6b455 src/main/player_special.c:player_nova_strike_windup; corroborator callee src/main/player_special:player_nova_strike_windup rock_00:0x801EC4C0
+player_nova_strike_windup = 0x801EC4C0; // type:func
 // basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T5.c3; was D_801F3698)
 func_801F3698 = 0x801F3698;

@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 #define PL_150 (*(s8*)(pl + 0x150))
 #define PL_FC (*(s32*)(pl + 0xFC))
 
@@ -10,7 +10,7 @@ s32 func_8002CFB0(void* arg) {
     struct X4_PlayerObj* arg0 = arg;
     s32 vx;
     s32 vy;
-    u8* pl = (u8*)&D_800970A0;
+    u8* pl = (u8*)&g_Player;
 
     if ((PL_150 != 0) && (arg0->unk15 != 0)) {
         vx = arg0->x_vel.val;
@@ -33,7 +33,7 @@ s32 func_8002CFB0(void* arg) {
         }
         arg0->y_vel.val = arg0->y_vel.val - arg0->unk2C;
         {
-            u8* pl = (u8*)&D_800970A0;
+            u8* pl = (u8*)&g_Player;
             if (arg0->y_vel.val < PL_FC) {
                 arg0->y_vel.val = PL_FC;
             }

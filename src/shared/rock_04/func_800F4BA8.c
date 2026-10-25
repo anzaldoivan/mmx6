@@ -10,6 +10,7 @@ void func_800F4BA8(void* arg0) {
     if (D_8008EAFC == 0) {
         func_80040488(0);
         {
+            // !FAKE: depin: dropping it breaks the match (14/17)
             register s32 v asm("$2") = ((u8*)arg0)[6] + 1;
             ((u8*)arg0)[6] = v;
         }

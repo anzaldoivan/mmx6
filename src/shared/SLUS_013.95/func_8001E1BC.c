@@ -77,6 +77,7 @@ void func_8001E1BC(u8* arg0) {
     }
     func_800139A0(8);
     {
+        // !FAKE: depin: dropping it breaks the match (85/92)
         register s32 a asm("$2") = 10;
         s32 b = 1;
         arg0[0] = a;

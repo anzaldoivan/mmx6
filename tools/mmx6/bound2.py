@@ -509,6 +509,14 @@ def run(sel):
     return 1 if cls["over-merge"] else r["rc"]
 
 
+def banked_vrams(lines, rows):
+    """vrams of the exe's banked config/probes.txt rows, each name resolved by the inventory rows (v, e, name);
+    an unresolved name is None (never read from its spelling)."""
+    by_name = {n: v for v, _, n in rows}
+    return [by_name.get(f[0]) for f in map(str.split, lines)
+            if len(f) >= 5 and not f[0].startswith("#") and f[1] == EXE and f[-1] == "banked"]
+
+
 def self_test():
     dens, inv, spans, jt, b2, texts = compute()
     fails = []
@@ -519,11 +527,14 @@ def self_test():
         return {(k, a) for k, a, *_ in disagree(EXE, b2[EXE], rows)}
 
     base = keys(ex)
-    want = []
-    for line in PROBES.read_text().splitlines():
-        f = line.split()
-        if len(f) >= 5 and not f[0].startswith("#") and f[1] == EXE and f[-1] == "banked":
-            want.append(int(f[0].split("_")[-1], 16))
+    want = banked_vrams(PROBES.read_text().splitlines(), ex)
+    if None in want:
+        fails.append("a banked probes.txt name is not in the inventory")
+        want = [v for v in want if v is not None]
+    # planted: a probes row naming a function by a non-address name resolves through the inventory alone
+    plant = [(v, e, "alpha_helper" if v == CONTROL_FUNC else n) for v, e, n in ex]
+    if banked_vrams([f"alpha_helper {EXE} src/x.c idiom banked"], plant) != [CONTROL_FUNC]:
+        fails.append("planted non-address probes name alpha_helper did not resolve to the control")
     if len(want) != 4:  # was 3 (T4.c1 banked func_8003744C)
         fails.append(f"probes.txt banked rows = {len(want)}, want 4")
     want.append(CONTROL_FUNC)

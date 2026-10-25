@@ -7,13 +7,13 @@
 
 M2C_UNK func_8002CD6C(void*);
 extern u8 D_80093C98[];
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern struct X4_EngineObj D_800CCED0;
 
 void func_80020258(void) {
     s8* p;
     u8 flags;
-    s8* pl = (s8*)&D_800970A0;
+    s8* pl = (s8*)&g_Player;
 
     if (pl[0xCC] == 0) {
         for (SPAD = (s8*)D_80093C98; SPAD < (s8*)D_80093C98 + 0x1400;
@@ -21,7 +21,7 @@ void func_80020258(void) {
             p = SPAD;
             flags = p[0];
             if (p[0] != 0) {
-                s8* pl2 = (s8*)&D_800970A0;
+                s8* pl2 = (s8*)&g_Player;
                 if (pl2[0xCC] != 0 || (D_800CCED0.unk13 != 0 && !(flags & 8))) {
                     if (p[3] != 0) {
                         ((void (*)(void*, u8))func_8002CD6C)(p, flags);

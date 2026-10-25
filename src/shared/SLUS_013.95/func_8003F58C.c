@@ -5,11 +5,11 @@
 void func_8001750C(u8, u8);
 void func_8003C4EC(struct X4_PlayerObj* self);
 void func_8003CE30(void* arg0);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern u8 D_800CCF99;
 
 M2C_UNK func_8003F58C(void) {
-    struct X4_PlayerObj* pl = &D_800970A0;
+    struct X4_PlayerObj* pl = &g_Player;
 
     if (!(D_800CCF99 & 1) || (pl->weapon != 0)) {
         if (!(pl->input.buttons.held & 0x10)) {

@@ -12,7 +12,9 @@ extern M2C_UNK D_800FADF8;
 extern M2C_UNK D_800FAE00;
 
 void func_800EC11C(void* arg0) {
+    // !FAKE: depin: dropping it breaks the match (96/103)
     register s32 t asm("$5") = D_800970B4;
+    // !FAKE: depin: dropping it breaks the match (95/103)
     register void* q asm("$3") = &D_800FADF8;
 
     M2C_FIELD(arg0, void**, 0x30) = &D_800FADC4;

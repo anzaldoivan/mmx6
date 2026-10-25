@@ -10,8 +10,8 @@ M2C_UNK func_8003C4EC();
 M2C_UNK func_8003CDF0();
 M2C_UNK func_8003CE30(void*);
 M2C_UNK func_8003F3DC(void*);
-extern M2C_UNK D_800970A0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern M2C_UNK g_Player;
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 
 void func_800EE9C0(void* arg0) {
@@ -24,10 +24,10 @@ void func_800EE9C0(void* arg0) {
         return;
     }
     func_80016C48(1, 1, arg0);
-    p = &D_800970A0;
-    D_800971F8[0].unk44 = 0;
-    D_800971F8[1].unk44 = 0;
-    D_800971F8[2].unk44 = 0;
+    p = &g_Player;
+    background_objects[0].unk44 = 0;
+    background_objects[1].unk44 = 0;
+    background_objects[2].unk44 = 0;
     v = 2;
     D_800CCED0.unk10 = v;
     D_800CCED0.unk11 = v;

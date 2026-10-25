@@ -14,6 +14,7 @@ void func_800F78DC(void* arg0) {
         ((void (*)(s32, s32, void*))func_80016C48)(2, 0x1E, arg0);
         M2C_FIELD(arg0, s16*, 0x7C) = 0;
         {
+            // !FAKE: depin: dropping it breaks the match (13/37)
             register s32 t asm("$3") = M2C_FIELD(arg0, u8*, 6) + 1;
             M2C_FIELD(arg0, u8*, 6) = t;
         }

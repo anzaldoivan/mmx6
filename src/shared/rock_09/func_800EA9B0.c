@@ -5,7 +5,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 M2C_UNK func_8002EE10(void*);
 M2C_UNK func_80030ECC(void*);
 s32 func_80031474(void*);
@@ -23,7 +23,7 @@ extern u8 D_800CCF38;
 
 void func_800EA9B0(void* arg0) {
     func_80017A04(arg0);
-    func_8002D2B0((s32)arg0);
+    move_object((s32)arg0);
     switch (B(arg0, 7)) {
     case 0:
         if (D_800970AE >= H(arg0, 0xE)) {

@@ -29,6 +29,7 @@ void func_80016178(void) {
     u8 param[8];
     u8 idx;
     s32 loc;
+    // !FAKE: depin: dropping it breaks the match (27/139)
     register s32 a asm("$4");
     s32 b;
     s32* p;

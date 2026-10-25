@@ -18,6 +18,7 @@ void func_800F7C74(void* arg0) {
     if (v == 0) {
         s32 d;
         if (M2C_FIELD(arg0, s8*, 0x8F) != 0) {
+            // !FAKE: depin: dropping it breaks the match (80/83)
             register s32 c asm("$4");
             d = D_800FD5A0;
             c = M2C_FIELD(arg0, u8*, 6);

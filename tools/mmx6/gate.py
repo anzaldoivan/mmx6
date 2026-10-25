@@ -70,7 +70,8 @@ import verbatim  # noqa: E402
 LOCKS = ".run/gate/locks"
 EXTRA = (".clang-format", "docs/codegen-map")  # copied into the snapshot after cards.snapshot (plus all of build/)
 SELFTEST = ".run/gate-selftest"
-TUDECL_F = ("rock_35", 0x800FE298, "D_800970AA")  # self-test case F: a banked body, `extern s16 <sym>` read signed
+TUDECL_F = ("rock_35", 0x800FE298, 0x800970AA)  # self-test case F: a banked body, `extern s16 <sym>` read signed
+# (<sym> by vram, its name looked up: probe.sym_name)
 # was ("rock_35", 0x800FDD90, "D_800FE9A8") (T48): T36.c1 aliased propagated rock_05 members' D_800F4480 onto D_800FE9A8
 # in rock_35's unit, so the planted TU `extern u16` collided with them and the plant rebuild went red
 RODATA_I = ("rock_04", 0x800E9B30)  # self-test case I: a body banked via rodata, its carve and bank undone
@@ -799,7 +800,9 @@ def plant_unit(saved, unit_c, prog, members, wrap=None):
 
 
 def self_test():
-    exe, ev, ename, etable, esrc = bank.EXEMPLAR
+    exe, ev, ename, etable, esrc = bank.exemplar()
+    if not probe.plant_lookup("gate", TUDECL_F[0], TUDECL_F[2], "D"):
+        return 1
     corpus_out = [f"build/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
     real_j = "campaign/journal.jsonl"
     pre_src = {p: open(p, "rb").read() for p in glob.glob("src/**/*", recursive=True) if os.path.isfile(p)}
@@ -830,7 +833,8 @@ def self_test():
             if blk and os.path.basename(blk[0])[:-2] in cu.get(m[0], ()):
                 mem.setdefault(m[0], []).append((m[1], r, blk))
         ov = next((p for p in sorted(mem) if p.startswith("rock_")), None)
-        fp, fv, fsym = TUDECL_F
+        fp, fv, fsv = TUDECL_F
+        fsym = probe.sym_name(fp, fsv, "D")
         if len(mem.get(exe, [])) < 5 or ov is None or not mem.get(fp):
             raise RuntimeError(f"need 5 exe, 1 overlay, 1 {fp} c-unit members of the exemplar class with a define block")
         A, B, C, D, H = mem[exe][:5]

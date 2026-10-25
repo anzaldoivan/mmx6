@@ -8,7 +8,7 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 s32 func_800179A4(void*, s32);
 M2C_UNK func_80017A04();
 M2C_UNK func_80021760(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 s32 func_8002D2D4();
 extern struct X4_EngineObj D_800CCED0;
 extern s16 D_800F6AF0;
@@ -26,7 +26,7 @@ void func_800F09B4(void* arg0) {
         D_800F6AF0 = D_800F6AF0 - 1;
     }
     func_80017A04(arg0);
-    ((void (*)(void*))func_8002D2B0)(arg0);
+    ((void (*)(void*))move_object)(arg0);
     if (M2C_FIELD(arg0, s16*, 0xA) < D_800F6AF8 + 0x760) {
         t = M2C_FIELD(arg0, u8*, 0x47);
         if (t == 4) {

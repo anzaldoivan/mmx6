@@ -3,7 +3,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 
 #define F_U8(p, o) (*(u8*)((u8*)(p) + (o)))
 #define F_S32(p, o) (*(s32*)((u8*)(p) + (o)))
@@ -12,7 +12,7 @@ void func_800F8834(void* arg0) {
     u8 flags;
 
     func_80017A04();
-    func_8002D2B0((s32)arg0);
+    move_object((s32)arg0);
     if (F_S32(arg0, 0x20) > 0) {
         flags = F_U8(arg0, 0x70);
         if (flags & 1) {

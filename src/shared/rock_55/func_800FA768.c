@@ -2,12 +2,12 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_800CCF08;
 
 void func_800FA768(u8* arg0) {
     if (*(s16*)(arg0 + 4) >= 0x78) {
-        u8* q = (u8*)D_800971F8;
+        u8* q = (u8*)background_objects;
 
         q[0x57] = 1;
         *(s16*)(q + 0x5E) = 0x120;

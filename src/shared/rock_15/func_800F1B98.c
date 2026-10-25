@@ -6,7 +6,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 extern s16 D_8009721E;
 extern s16 D_80097222;
 extern M2C_UNK D_800F6F44;
@@ -16,13 +16,15 @@ void func_800F1B98(void* arg0) {
     s32 temp_v1;
 
     func_80017A04();
-    func_8002D2B0((s32)arg0);
+    move_object((s32)arg0);
     temp_v1 = M2C_FIELD(arg0, u16*, 0x8C);
     {
+        // !FAKE: depin: dropping it breaks the match (67/74)
         register s32 t0 asm("$2") = M2C_FIELD(arg0, s16*, 0x8C);
         if (t0 == 0) {
             temp_v1 = D_80097222 + 0x70;
             {
+                // !FAKE: depin: dropping it breaks the match (66/74)
                 register s32 e asm("$4") = M2C_FIELD(arg0, s16*, 0xE);
                 if (e >= temp_v1) {
                     M2C_FIELD(arg0, s8*, 7) = -1;

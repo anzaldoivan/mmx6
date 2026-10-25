@@ -11,6 +11,7 @@ extern struct X4_EngineObj D_800CCED0;
 s32 func_8003ED98(struct X4_PlayerObj* p) {
     s32 h;
     s32 g;
+    // !FAKE: depin: dropping it breaks the match (75/83)
     register s32 r asm("$2");
     u16 t;
 

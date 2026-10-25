@@ -3,11 +3,12 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8003A628(void*);                                     /* extern */
-M2C_UNK func_8003BB94(void*, M2C_UNK, s8);                    /* extern */
-M2C_UNK func_8003CD9C();                                      /* extern */
-M2C_UNK func_8003D10C(void*);                                 /* extern */
-void func_8003F4C4(struct X4_PlayerObj* self, s32 animation); /* extern */
+s32 func_8003A628(void*);                  /* extern */
+M2C_UNK func_8003BB94(void*, M2C_UNK, s8); /* extern */
+M2C_UNK func_8003CD9C();                   /* extern */
+M2C_UNK func_8003D10C(void*);              /* extern */
+void player_set_animation_shooting(struct X4_PlayerObj* self,
+                                   s32 animation); /* extern */
 
 void func_8003B114(s32 arg0) {
     s32 var_a2;
@@ -38,7 +39,7 @@ void func_8003B114(s32 arg0) {
             }
         }
     } else {
-        func_8003F4C4((struct X4_PlayerObj*)arg0, 0xB);
+        player_set_animation_shooting((struct X4_PlayerObj*)arg0, 0xB);
         M2C_FIELD(arg0, s32*, 0x20) = 0;
         M2C_FIELD(arg0, s32*, 0x28) = 0;
         M2C_FIELD(arg0, s32*, 0x24) = 0;

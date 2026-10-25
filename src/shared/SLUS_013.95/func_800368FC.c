@@ -10,8 +10,8 @@ s32 func_8003A2CC(void*);              /* extern */
 s32 func_8003A488(void*);              /* extern */
 s32 func_8003A870();                   /* extern */
 M2C_UNK func_8003B054(void*);          /* extern */
-void func_8003D18C(void* arg0);          /* extern */
-void func_8003D394(void* arg0);          /* extern */
+void func_8003D18C(void* arg0);        /* extern */
+void func_8003D394(void* arg0);        /* extern */
 s32 func_8003E174(void*);              /* extern */
 M2C_UNK func_8003F508(void*, M2C_UNK); /* extern */
 s32 func_801EA454(void*);              /* extern */

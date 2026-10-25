@@ -9,7 +9,7 @@ M2C_UNK func_80017A04();
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_80097420;
 
 void func_800EB1A0(void* arg0) {
@@ -17,11 +17,12 @@ void func_800EB1A0(void* arg0) {
 
     func_80017A04();
     {
+        // !FAKE: depin: dropping it breaks the match (58/62)
         register s32 c asm("$2") = M2C_FIELD(arg0, s16*, 0x80);
         if (c != 0) {
             M2C_FIELD(arg0, s16*, 0x80)--;
         } else {
-            struct X4_PlayerObj* p = &D_800970A0;
+            struct X4_PlayerObj* p = &g_Player;
             M2C_FIELD(arg0, s16*, 0x82) = M2C_FIELD(p, s16*, 0xA);
             M2C_FIELD(arg0, s16*, 0x84) = M2C_FIELD(p, s16*, 0xE);
             M2C_FIELD(arg0, s16*, 0x82) = M2C_FIELD(p, s16*, 0xA);

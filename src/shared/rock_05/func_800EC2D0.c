@@ -11,7 +11,7 @@ s32 func_80031474(void*);
 M2C_UNK func_80049E50(void*);
 
 extern s16 D_800970AA;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 extern u16 D_800F3F0C[];
 extern void (*D_800F4014[])(void*);
@@ -53,23 +53,23 @@ void func_800EC2D0(void* self) {
                 if ((u32)D_80097420 % 10 == 0) {
                     M2C_FIELD(self, u8*, 0x92) =
                         (M2C_FIELD(self, u8*, 0x92) + 1) & 3;
-                    D_800971F8[2].unk40 =
+                    background_objects[2].unk40 =
                         D_800F3F0C[M2C_FIELD(self, u8*, 0x92)] - 0xB20;
                 }
-                D_800971F8[2].unk4C = 1;
+                background_objects[2].unk4C = 1;
             }
         } else {
             if (M2C_FIELD(self, s16*, 0xA) == 0xCE0) {
                 if ((u32)D_80097420 % 10 == 0) {
                     M2C_FIELD(self, u8*, 0x92) =
                         (M2C_FIELD(self, u8*, 0x92) + 1) & 3;
-                    D_800971F8[2].unk40 =
+                    background_objects[2].unk40 =
                         D_800F3F0C[M2C_FIELD(self, u8*, 0x92)] - 0xCA0;
                 }
-                D_800971F8[2].unk4C = 1;
+                background_objects[2].unk4C = 1;
             }
             if (D_800970AA > 0xEF0) {
-                D_800971F8[0].unk2E += 0x40;
+                background_objects[0].unk2E += 0x40;
                 M2C_FIELD(self, s8*, 4) = 2;
                 return;
             }

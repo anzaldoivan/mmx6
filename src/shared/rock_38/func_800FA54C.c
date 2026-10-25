@@ -73,6 +73,7 @@ void func_800FA54C(struct X4_MainObj* self) {
         self->unk6 = 0;
         self->unk42 &= 0x7FFF;
         {
+            // !FAKE: depin: dropping it breaks the match (216/223)
             register s32 one asm("$3");
             D_800FEEC4 = one = 1;
             D_8009711A = one;

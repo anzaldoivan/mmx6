@@ -7,6 +7,7 @@
 M2C_UNK func_800139A0(M2C_UNK); /* extern */
 
 void func_800E9B68(u8* arg0) {
+    // !FAKE: depin: dropping it breaks the match (10/13)
     register s32 temp asm("$2");
 
     func_800139A0(8);

@@ -9,8 +9,8 @@ struct X4_VisualObj* func_8002C398(void);
 extern s32 D_80090C90[];
 extern s8 D_80090D56;
 extern s16 D_80090D5C;
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s8 D_8009742C;
 extern s16 D_80097430;
 extern u8 D_800C4560;
@@ -40,7 +40,7 @@ void func_801EB31C(u8* arg0) {
             s8* p2 = &D_800CF850;
             p0[1] = 1;
             p1[1] = 1;
-            player = &D_800970A0;
+            player = &g_Player;
             p2[1] = 1;
         }
         arg0[0xE1] = 0;
@@ -126,4 +126,4 @@ void func_801EB31C(u8* arg0) {
         }
     }
 }
-#undef D_800970A0
+#undef g_Player

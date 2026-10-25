@@ -7,7 +7,7 @@
 M2C_UNK func_800179A4(void*, M2C_UNK);
 
 extern M2C_UNK D_800743DC;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern M2C_UNK D_800F6060;
 extern M2C_UNK D_800F6064;
 extern M2C_UNK D_800F6068;
@@ -21,7 +21,7 @@ extern M2C_UNK D_800F6154;
 #define PTR(o) M2C_FIELD(self, void**, o)
 
 void func_800EB56C(void* self) {
-    struct X4_PlayerObj* p = &D_800970A0;
+    struct X4_PlayerObj* p = &g_Player;
     s32 x;
     s32 t;
 
@@ -31,6 +31,7 @@ void func_800EB56C(void* self) {
     U8(0x60) = 4;
     t = M2C_FIELD(p, u8*, 0x14);
     {
+        // !FAKE: depin: dropping it breaks the match (82/93)
         register void* a asm("$2") = &D_800743DC;
         PTR(0x58) = a;
     }
@@ -61,6 +62,7 @@ void func_800EB56C(void* self) {
     }
     func_800179A4(self, 0);
     {
+        // !FAKE: depin: dropping it breaks the match (79/93)
         register s32 v asm("$2") = 2;
         U8(0x5) = v;
         v = U8(0x4);

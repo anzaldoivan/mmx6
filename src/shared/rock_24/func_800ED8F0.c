@@ -15,8 +15,8 @@ extern u8 D_800F7794;
 #define F(type, off) M2C_FIELD(self, type*, off)
 
 void func_800ED8F0(void* self) {
-    register s32 b asm("$4");
-    register s32 z asm("$5");
+    s32 b;
+    s32 z;
 
     z = 0;
     D_800F7794 = F(u8, 0x2) & 0xF;
@@ -24,15 +24,17 @@ void func_800ED8F0(void* self) {
     F(void*, 0x30) = &D_800F6C88;
     b = D_800970B4;
     {
+        // !FAKE: depin: dropping it breaks the match (58/70)
         register s32 t asm("$2") = 6;
         F(u8, 0x16) = t;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (65/70)
         register void* a asm("$2") = &D_800F6B9C;
         F(void*, 0x68) = a;
     }
     {
-        register void* a asm("$2") = &D_800743DC;
+        void* a = &D_800743DC;
         F(void*, 0x58) = a;
     }
     F(u8, 0x67) = 0;

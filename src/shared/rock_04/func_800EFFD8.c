@@ -12,7 +12,7 @@ void* func_8002BBF4();
 s32 func_8002D2D4();
 extern s8 D_8008EF48[];
 extern u32* D_80095098;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AE;
 extern struct X4_EngineObj D_800CCED0;
 extern s16 D_800F6E08[];
@@ -89,18 +89,18 @@ void func_800EFFD8(struct X4_BaseObj* self) {
             if (flags[i] != 0) {
                 continue;
             }
-            x = D_800970A0.x_pos.i.hi;
+            x = g_Player.x_pos.i.hi;
             if (D_800F6E08[i * 4] < x && x < D_800F6E08[i * 4] + 0x60) {
-                if (i == 12 && D_800970A0.y_pos.i.hi < 0x1C0) {
+                if (i == 12 && g_Player.y_pos.i.hi < 0x1C0) {
                     break;
                 }
-                if (i == 13 && D_800970A0.y_pos.i.hi < 0x2B0) {
+                if (i == 13 && g_Player.y_pos.i.hi < 0x2B0) {
                     break;
                 }
-                if (i == 14 && D_800970A0.y_pos.i.hi < 0x350) {
+                if (i == 14 && g_Player.y_pos.i.hi < 0x350) {
                     break;
                 }
-                if (i == 15 && D_800970A0.y_pos.i.hi < 0x3D0) {
+                if (i == 15 && g_Player.y_pos.i.hi < 0x3D0) {
                     break;
                 }
                 obj = func_8002BBF4();

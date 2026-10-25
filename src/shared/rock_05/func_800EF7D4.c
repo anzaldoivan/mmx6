@@ -6,7 +6,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 extern s16 D_800970AE;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_800F4480;
 extern s16 D_800F4484;
 
@@ -14,7 +14,7 @@ void func_800EF7D4(struct X4_MainObj* self) {
     s32 d;
 
     if (D_800970AE > D_800F4480 + 0x440) {
-        D_800971F8[1].y_pos.i.hi = D_800F4484 + 0x900;
+        background_objects[1].y_pos.i.hi = D_800F4484 + 0x900;
         d = self->y_pos.i.hi;
         if (d <= D_800F4480 + 0x3D8) {
             d -= 0x3D8;
@@ -41,7 +41,7 @@ void func_800EF7D4(struct X4_MainObj* self) {
         }
         SCRATCH_4C[0x8B] = 1;
     } else {
-        D_800971F8[1].y_pos.i.hi = D_800F4484 + 0xBA0;
+        background_objects[1].y_pos.i.hi = D_800F4484 + 0xBA0;
         d = self->y_pos.i.hi;
         if (d <= D_800F4480 + 0x438) {
             d -= 0x438;
@@ -68,6 +68,6 @@ void func_800EF7D4(struct X4_MainObj* self) {
         }
         SCRATCH_4C[0x8B] = 2;
     }
-    D_800971F8[1].unk4C = 1;
+    background_objects[1].unk4C = 1;
     self->unk6++;
 }

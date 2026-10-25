@@ -5,7 +5,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 
@@ -18,7 +18,7 @@ void func_800F2284(void* self) {
         F(u8, 6) = 0;
         return;
     }
-    func_8002D2B0(self);
+    move_object(self);
     ((void (*)(void*))func_80017A04)(self);
 }
 

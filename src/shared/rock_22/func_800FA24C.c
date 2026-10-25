@@ -4,13 +4,13 @@
 
 M2C_UNK func_80017A04();
 void* func_8002C458();
-M2C_UNK func_8002D2B0();
+M2C_UNK move_object();
 
 void func_800FA24C(void* arg0) {
     void* p;
 
     func_80017A04();
-    func_8002D2B0(arg0);
+    move_object(arg0);
     {
         // !FAKE: retail reads the test byte into the first return register
         register s32 t asm("$2") = M2C_FIELD(arg0, u8*, 0x70);

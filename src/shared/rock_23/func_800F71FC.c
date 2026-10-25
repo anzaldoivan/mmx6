@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 
 void func_800F71FC(struct X4_MainObj* self) {
     u8 t;
@@ -14,7 +14,7 @@ void func_800F71FC(struct X4_MainObj* self) {
         ((u8*)self)[0x8E] = t - 1;
         return;
     }
-    func_8002D2B0((s32)self);
+    move_object((s32)self);
     v = self->unk15;
     if (v == 0) {
         v = self->collision_flags & 2;

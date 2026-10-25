@@ -12,8 +12,8 @@ extern u16 D_800E4450[];
 
 void func_80048380(void* arg0) {
     s32 a;
-    register s32 b asm(
-        "$3"); // !FAKE: depin: dropping it breaks the match (64/70)
+    // !FAKE: depin: dropping it breaks the match (64/70)
+    register s32 b asm("$3");
 
     if (F16(arg0, 0x56) != 0) {
         F16(arg0, 0x56)--;

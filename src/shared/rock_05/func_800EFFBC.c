@@ -11,7 +11,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8002A47C(s32);
 extern M2C_UNK D_8007433C;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 extern s32 D_800F4150;
 extern s32 D_800F4158;
@@ -25,15 +25,15 @@ void func_800EFFBC(struct X4_MainObj* self) {
 
     t = SCRATCH_4C[0x8B];
     if (t == 1) {
-        D_800971F8[1].y_pos.u.hi -= 2;
-        if ((s16)D_800971F8[1].y_pos.u.hi <= D_800F4484 + 0x900) {
+        background_objects[1].y_pos.u.hi -= 2;
+        if ((s16)background_objects[1].y_pos.u.hi <= D_800F4484 + 0x900) {
             self->unk7C = 0;
             SCRATCH_4C[0x8B] = 0;
             func_80016C48(2, 3, self);
         }
     } else if (t == 2) {
-        D_800971F8[1].y_pos.u.hi += 2;
-        if ((s16)D_800971F8[1].y_pos.u.hi >= D_800F4484 + 0xBA0) {
+        background_objects[1].y_pos.u.hi += 2;
+        if ((s16)background_objects[1].y_pos.u.hi >= D_800F4484 + 0xBA0) {
             self->unk7C = 0;
             SCRATCH_4C[0x8B] = 0;
             func_80016C48(2, 3, self);

@@ -9,14 +9,14 @@ s32 func_800179A4(void*, s32);
 s32 func_8002A47C(s32);
 extern s32 D_80075B9C;
 extern u32* D_80095098;
-extern s32 D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern s32 g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_800F6084;
 extern s32 D_800F608C;
 extern s32 D_800F6090;
 
 void func_800ECD20(s8* self) {
-    struct X4_PlayerObj* pl = &D_800970A0;
+    struct X4_PlayerObj* pl = &g_Player;
     s32 a;
     s32 b;
     s32 k;
@@ -64,4 +64,4 @@ void func_800ECD20(s8* self) {
         }
     } while (0);
 }
-#undef D_800970A0
+#undef g_Player

@@ -6,7 +6,7 @@
 
 M2C_UNK func_800179D0(void*, M2C_UNK, s8);
 void func_800F40F4(u8* arg0, u8 arg1, s16 arg2, s16 arg3);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_800FCB9C;
 
 #define F(type, off) M2C_FIELD(arg0, type*, off)
@@ -18,11 +18,11 @@ void func_800F0330(void* arg0) {
     s16 j;
 
     F(u8, 0x3) = 1;
-    x = ((s16)(F(u16, 0x8C) - D_800971F8[0].x_pos.u.hi) - 0xA0) * F(s16, 0x88) /
-            39 +
+    x = ((s16)(F(u16, 0x8C) - background_objects[0].x_pos.u.hi) - 0xA0) *
+            F(s16, 0x88) / 39 +
         0xA0;
-    y = ((s16)(F(u16, 0x8E) - D_800971F8[0].y_pos.u.hi) - 0x38) * F(s16, 0x88) /
-            39 +
+    y = ((s16)(F(u16, 0x8E) - background_objects[0].y_pos.u.hi) - 0x38) *
+            F(s16, 0x88) / 39 +
         0x38;
     F(s16, 0xA) = x;
     F(s16, 0xE) = y;

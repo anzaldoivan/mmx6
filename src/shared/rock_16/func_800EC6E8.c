@@ -9,6 +9,7 @@ extern u8 D_800F1CC4[];
 extern s8 D_800F1CCA[];
 
 void func_800EC6E8(struct X4_EngineObj* arg0) {
+    // !FAKE: depin: dropping it breaks the match (89/92)
     register s32 v asm("$3");
 
     if (D_800C456C[2] & 0x5000) {

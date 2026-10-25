@@ -7,7 +7,7 @@
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_80065B74(s32, s32);
 void func_800EC830(void*, s32, s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern u8 D_800CCF38;
 
 void func_800EC068(struct X4_BaseObj* self) {
@@ -16,8 +16,8 @@ void func_800EC068(struct X4_BaseObj* self) {
 
     if (state == 1) {
         if (*(s16*)((u8*)self + 0x7C) == 0) {
-            s16 px = D_800970A0.x_pos.i.hi;
-            s16 py = D_800970A0.y_pos.i.hi;
+            s16 px = g_Player.x_pos.i.hi;
+            s16 py = g_Player.y_pos.i.hi;
             *(s32*)(SPAD + 0x80) =
                 func_80065B74(self->y_pos.i.hi - py, px - self->x_pos.i.hi);
             func_800EC830(self, 0, *(s32*)(SPAD + 0x80));

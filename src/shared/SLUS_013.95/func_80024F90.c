@@ -5,7 +5,7 @@ void func_800253AC(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4, u32 arg5,
                    u32 arg6);
 extern s16 D_80071E40[][2];
 #define M2C_UNK s32
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern s8 D_800970A2;
 extern s32 D_80097420;
 extern struct X4_EngineObj D_800CCED0;
@@ -16,12 +16,14 @@ extern s8 D_800CCF5C;
 void func_80024F90(void* arg0, s32 arg1) {
     s16 x0;
     s16 y;
+    // !FAKE: depin: dropping it breaks the match (156/174)
     register s32 lvl asm("$18");
     s32 max;
     s32 f;
     s32 g;
 
     {
+        // !FAKE: depin: dropping it breaks the match (172/174)
         register s32 b asm("$2") = *(u8*)((u8*)arg0 + 0x5C);
         lvl = b & 0x7F;
     }
@@ -30,7 +32,7 @@ void func_80024F90(void* arg0, s32 arg1) {
         s32 j = D_800970A2;
         max = *(s8*)(e - -j + 0x5B);
     } else {
-        register s32 t asm("$2") = D_800CCF5C;
+        s32 t = D_800CCF5C;
         if (t < 0x20) {
             max = 0x30;
         } else {
@@ -45,7 +47,7 @@ void func_80024F90(void* arg0, s32 arg1) {
     y = D_80071E40[arg1][1];
     g = f;
     if (arg1 == 0) {
-        struct X4_PlayerObj* p = &D_800970A0;
+        struct X4_PlayerObj* p = &g_Player;
         if (FB(p, 0xE8) != 0) {
             FB(p, 0xE8)--;
             g = 3;

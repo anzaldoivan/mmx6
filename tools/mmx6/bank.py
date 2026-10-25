@@ -58,9 +58,15 @@ REGISTRY = "config/dedup_registry.txt"
 REGISTRY_HEAD = ("# config/dedup_registry.txt -- shared bodies and their members (tools/mmx6/bank.py); line-preserving.\n"
                  "# <dup key> <exemplar prog:vram> <shared path> <member prog:vram> <state gated|pending|refused> "
                  "<reason>\n")
-EXEMPLAR = ("SLUS_013.95", 0x8003744C, "func_8003744C", "D_80073C1C", "src/shared/entity/state_dispatch.c")
+EXEMPLAR = ("SLUS_013.95", 0x8003744C, 0x80073C1C, "src/shared/entity/state_dispatch.c")  # prog, body, table vram
 SELFTEST_DIR = "src/shared/_selftest"
 PLANT_UNIT = "src/SLUS_013.95/LIBSPU_S_M_UTIL.c"
+
+
+def exemplar():
+    """(prog, vram, function name, table name, shared path) of EXEMPLAR, its names looked up now (probe.sym_name)."""
+    prog, ev, tv, esrc = EXEMPLAR
+    return prog, ev, probe.sym_name(prog, ev), probe.sym_name(prog, tv, "D"), esrc
 
 
 class Stop(Exception):
@@ -324,7 +330,7 @@ def bank(pv, src, registry=True, defines=()):
 
 def member_block(prog, func):
     """(unit .c, line index, the member's table) of func's define block for the exemplar body, or None."""
-    _, _, ename, etable, esrc = EXEMPLAR
+    _, _, ename, etable, esrc = exemplar()
     for unit_c in sorted(glob.glob(f"src/{prog}/*.c")):
         with open(unit_c) as f:
             lines = f.read().split("\n")
@@ -354,7 +360,9 @@ def tree_sums(root):
 
 
 def self_test():
-    prog, ev, ename, etable, esrc = EXEMPLAR
+    prog, ev, ename, etable, esrc = exemplar()
+    if not probe.plant_lookup("bank", prog, ev):
+        return 1
     corpus_out = [f"build/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
     pre_src, pre_reg, pre_bin = tree_sums("src"), sha1(REGISTRY), sha1(bin_out(prog))
     pre_corpus = {p: open(p, "rb").read() for p in corpus_out}

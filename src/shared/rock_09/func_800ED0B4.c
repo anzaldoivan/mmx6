@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 
 #define F32(p, o) (*(s32*)((u8*)(p) + (o)))
 #define F16(p, o) (*(s16*)((u8*)(p) + (o)))
@@ -26,7 +26,7 @@ void func_800ED0B4(void* arg0) {
         F8(arg0, 0x84) = 0x28;
     }
     if (F8(arg0, 0x84) == 0) {
-        func_8002D2B0((s32)arg0);
+        move_object((s32)arg0);
         return;
     }
     if (--F8(arg0, 0x84) == 0) {

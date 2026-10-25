@@ -10,11 +10,12 @@ void func_80017B04(u8*, s16, s16);
 #define func_80017B04 func_80017B04
 s8* func_8002BEC4(s8* p, s32 dir);
 void func_8003CF24(s32, s32, s32);
-M2C_UNK func_8003D510(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3);
-#define func_8003D510 func_8003D510
+M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
+                            M2C_UNK arg3);
+#define player_spawn_visual player_spawn_visual
 extern u8 D_80076194[][2];
 extern s32 D_80077A40[];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
 #define SCRATCH_1C (*(u8**)0x1F80001C)
@@ -27,11 +28,12 @@ void func_800451B8(struct X4_WeaponObj* arg0) {
     s8 kind;
     s8* child;
 
-    player = &D_800970A0;
+    player = &g_Player;
     if (arg0->unk2 == 0) {
         func_80016C48(1, 0x1D, arg0);
         kind = 3;
         {
+            // !FAKE: depin: dropping it breaks the match (179/181)
             register s32 t asm("$3") = player->unk2;
             if (t == 0) {
                 kind = 1;
@@ -81,7 +83,7 @@ void func_800451B8(struct X4_WeaponObj* arg0) {
         arg0->unk3C = b + *(s32*)(b + 0x40);
         arg0->unk40 = 0x520;
         arg0->unk42 = 0x7801;
-        func_8003D510(1, 0x1B, 4, 0);
+        player_spawn_visual(1, 0x1B, 4, 0);
         func_8003CF24(0x1B, 1, 1);
     }
     arg0->animation_table = (u32**)D_80077A40;
@@ -108,4 +110,4 @@ void func_800451B8(struct X4_WeaponObj* arg0) {
 #undef func_80016C48
 #undef func_800179A4
 #undef func_80017B04
-#undef func_8003D510
+#undef player_spawn_visual

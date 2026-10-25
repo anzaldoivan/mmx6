@@ -11,6 +11,7 @@ void func_800F2DEC(struct X4_MainObj* self) {
     s1 = *(u8**)&self->unk7C;
     ((M2C_UNK(*)())func_80017A04)();
     {
+        // !FAKE: depin: dropping it breaks the match (33/38)
         register s32 t asm("$2") = (u8)self->unk7 - 1;
         self->unk7 = t;
     }
@@ -21,6 +22,7 @@ void func_800F2DEC(struct X4_MainObj* self) {
     }
     func_8002CCB0(self, 0x30, 0x30);
     {
+        // !FAKE: depin: dropping it breaks the match (36/38)
         register s32 c asm("$2") = self->unk7;
         if (c == 0) {
             self->state = 2;

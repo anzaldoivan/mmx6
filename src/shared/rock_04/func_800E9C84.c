@@ -39,6 +39,7 @@ void func_800E9C84(struct X4_BaseObj* self) {
             func_800477E4(5, &D_800F69F8, self);
             func_8004E654(self, 0x11);
         set2: {
+            // !FAKE: depin: dropping it breaks the match (91/94)
             register s32 st asm("$3") = 2;
             self->state = st;
         }
@@ -58,7 +59,9 @@ void func_800E9C84(struct X4_BaseObj* self) {
     func_8002D230(self);
     func_80017A04(self);
     {
+        // !FAKE: depin: dropping it breaks the match (88/94)
         register s32* tbl asm("$2") = &D_800F6A94;
+        // !FAKE: depin: dropping it breaks the match (92/94)
         register void* fn asm("$5") = ((void**)tbl)[self->unk5];
         ((void (*)(struct X4_BaseObj*))fn)(self);
     }

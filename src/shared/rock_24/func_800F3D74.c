@@ -12,8 +12,8 @@ M2C_UNK func_8002D230(void*);
 M2C_UNK func_80030ECC(void*, s16);
 s32 func_80031474(void*);
 M2C_UNK func_80049E50(void*);
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s16 D_800970AA;
 extern s32 D_800F76C0[];
 extern s32 D_800F76C4[];
@@ -25,6 +25,7 @@ extern void* D_800F7800;
 void func_800F3D74(void* arg0) {
     s32 a;
     s32 b;
+    // !FAKE: depin: dropping it breaks the match (189/194)
     register s32 t asm("$3");
     u8* base;
     u8 st;
@@ -58,7 +59,9 @@ void func_800F3D74(void* arg0) {
             M2C_FIELD(arg0, u8**, 0x3C) = base + ((s32*)base)[b + 1];
             func_800179A4(arg0, 0x20);
             {
+                // !FAKE: depin: dropping it breaks the match (190/194)
                 register void* t0 asm("$2") = D_800F76C0;
+                // !FAKE: depin: dropping it breaks the match (188/194)
                 register void* t1 asm("$3") = D_800F76C4;
                 M2C_FIELD(arg0, void**, 0x50) = t0;
                 M2C_FIELD(arg0, void**, 0x54) = t1;
@@ -75,9 +78,9 @@ void func_800F3D74(void* arg0) {
         }
         break;
     case 1:
-        if (M2C_FIELD(arg0, s16*, 0xE) < D_800970A0.y_pos.i.hi) {
+        if (M2C_FIELD(arg0, s16*, 0xE) < g_Player.y_pos.i.hi) {
             M2C_FIELD(arg0, s16*, 0xE)++;
-        } else if (D_800970A0.y_pos.i.hi < M2C_FIELD(arg0, s16*, 0xE)) {
+        } else if (g_Player.y_pos.i.hi < M2C_FIELD(arg0, s16*, 0xE)) {
             M2C_FIELD(arg0, s16*, 0xE)--;
         }
         st = M2C_FIELD(arg0, u8*, 6);
@@ -85,9 +88,9 @@ void func_800F3D74(void* arg0) {
         case 0:
             if (M2C_FIELD(arg0, s32*, 0x20) < 0) {
                 t = M2C_FIELD(arg0, s16*, 0xA);
-                t = t < D_800970A0.x_pos.i.hi;
+                t = t < g_Player.x_pos.i.hi;
             } else {
-                t = M2C_FIELD(arg0, s16*, 0xA) > D_800970A0.x_pos.i.hi;
+                t = M2C_FIELD(arg0, s16*, 0xA) > g_Player.x_pos.i.hi;
             }
             if (t != 0) {
                 M2C_FIELD(arg0, s32*, 0x8C) = 0;
@@ -114,4 +117,4 @@ void func_800F3D74(void* arg0) {
     func_80017A04(arg0);
     func_8002D230(arg0);
 }
-#undef D_800970A0
+#undef g_Player

@@ -9,7 +9,7 @@
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800F977C;
 extern s32 D_800F9780;
 extern s32 D_800F9784;
@@ -22,8 +22,8 @@ void func_800F7130(void* arg0) {
     OP(arg0, 0x54) = &D_800F977C;
     OP(arg0, 0x50) = &D_800F9780;
     OP(arg0, 0x68) = &D_800F9784;
-    dx = D_800970A0.x_pos.i.hi;
-    dy = D_800970A0.y_pos.i.hi;
+    dx = g_Player.x_pos.i.hi;
+    dy = g_Player.y_pos.i.hi;
     angle = func_80065B74(OH(arg0, 0xE) - dy, dx - OH(arg0, 0xA));
     OW(arg0, 0x20) = func_80065A14(angle) << 6;
     OW(arg0, 0x24) = func_80065944(angle) << 6;

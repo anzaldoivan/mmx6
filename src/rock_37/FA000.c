@@ -55,10 +55,10 @@ INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FBA24);
 #undef FAMILY_FIELD
 
 #define func_800F1CD8 func_800FBD40
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_37/func_800FBD40.c"
 #undef func_800F1CD8
-#undef D_800970A0
+#undef g_Player
 
 #define func_800F1D54 func_800FBDBC
 #include "../shared/rock_08/func_800F1D54.c"
@@ -176,10 +176,10 @@ INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FCC8C);
 
 #define D_800F6AF8 D_800FDC88
 #define func_800F2C74 func_800FCCDC
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/rock_08/func_800F2C74.c"
 #undef func_800F2C74
-#undef D_800971F8
+#undef background_objects
 #undef D_800F6AF8
 
 INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FCD44);

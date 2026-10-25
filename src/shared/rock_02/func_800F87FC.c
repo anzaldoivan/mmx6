@@ -37,6 +37,7 @@ void func_800F87FC(void* arg0) {
         H(arg0, 0xE) = e2;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (62/64)
         register s32 two asm("$4");
         s32 c = SB(t, 0x6);
         two = 2;

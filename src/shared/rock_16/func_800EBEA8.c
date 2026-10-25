@@ -4,7 +4,7 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 void func_80027BA0(s32, s32, s32, void*);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_80097244;
 extern u16 D_800C456C[];
 extern struct X4_EngineObj D_800CCED0;
@@ -61,21 +61,21 @@ void func_800EBEA8(struct X4_EngineObj* arg0) {
             func_80016C48(5, 0, 0);
             if (ENG_29 != 0) {
                 PAIR(0, 0x270, 0x870, 0x20, D_800F0E2C, 8);
-                D_800971F8[0].unk4C = 1;
+                background_objects[0].unk4C = 1;
                 PAIR(0, 0x270, 0x870, 0x50, D_800F0E44, 0);
-                D_800971F8[0].unk4C = 1;
+                background_objects[0].unk4C = 1;
             } else {
                 PAIR(0, 0x270, 0x870, 0x20, D_800F0E2C, 0);
-                D_800971F8[0].unk4C = 1;
+                background_objects[0].unk4C = 1;
                 PAIR(0, 0x270, 0x870, 0x50, D_800F0E44, 8);
-                D_800971F8[0].unk4C = 1;
+                background_objects[0].unk4C = 1;
             }
             if (D_800F0EDC[((s8*)arg0 + ENG_29)[0x8D]] != 0) {
                 PAIR(1, 0x2C0, 0x8C0, 0x20, D_800F0E64, 0);
-                D_800971F8[1].unk4C = 1;
+                background_objects[1].unk4C = 1;
             } else {
                 PAIR(1, 0x2C0, 0x8C0, 0x20, D_800F0E64, 8);
-                D_800971F8[1].unk4C = 1;
+                background_objects[1].unk4C = 1;
             }
         }
         if (D_800C456C[2] & 0x840) {

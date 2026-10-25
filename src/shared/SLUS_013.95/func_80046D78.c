@@ -16,5 +16,5 @@ void func_80046D78(void* arg0) {
         }
         M2C_FIELD(arg0, s16*, 0x42) = var_v0;
     }
-    ((s32 (*)())func_8002CB50)(arg0, arg0);
+    ((s32(*)())func_8002CB50)(arg0, arg0);
 }

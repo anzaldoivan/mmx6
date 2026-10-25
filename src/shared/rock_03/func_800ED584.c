@@ -9,7 +9,7 @@ M2C_UNK func_80030ECC(void*);
 s32 func_80031474(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_800F7694;
 extern void (*D_800F7738[])(void*);
 
@@ -39,7 +39,8 @@ void func_800ED584(void* arg0) {
         if (F8(arg0, 2) != 2) {
             return;
         }
-        if (F16(arg0, 0xE) - D_800971F8[F8(arg0, 0x14)].y_pos.i.hi >= 0x12D) {
+        if (F16(arg0, 0xE) - background_objects[F8(arg0, 0x14)].y_pos.i.hi >=
+            0x12D) {
             func_8002C9B0(arg0);
         }
     }

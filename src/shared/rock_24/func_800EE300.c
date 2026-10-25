@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern void (*D_800F6DF0[])(u8*);
 
 void func_800EE300(u8* arg0) {
@@ -15,7 +15,7 @@ void func_800EE300(u8* arg0) {
                 *(u16*)(arg0 + 0x14) = 0;
             }
             {
-                u8* bg = (u8*)D_800971F8;
+                u8* bg = (u8*)background_objects;
                 u16 x = *(u16*)(arg0 + 0x14);
                 bg[0xA0] = 1;
                 *(u16*)(bg + 0x62) = (x >> 2) << 8;

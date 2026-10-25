@@ -17,8 +17,8 @@ void func_8003C7D8(void* arg0) {
     s32 a;
     s32 b;
     u8 f;
-    register s32 k asm("$4");
-    register u8 bg asm("$5");
+    s32 k;
+    u8 bg;
 
     if (func_8002FF70() == 0x24) {
         obj = func_8002C398();

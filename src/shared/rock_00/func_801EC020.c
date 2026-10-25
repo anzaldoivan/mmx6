@@ -9,7 +9,8 @@ M2C_UNK func_8003B298(void*);          /* extern */
 M2C_UNK func_8003F508(void*, M2C_UNK); /* extern */
 s32 func_801EC35C();                   /* extern */
 s32 func_801EC3AC(void*);              /* extern */
-void func_801EC478(struct X4_PlayerObj* self, s32 direction);     /* extern */
+void player_hover_set_direction(struct X4_PlayerObj* self,
+                                s32 direction); /* extern */
 
 void func_801EC020(void* arg0) {
     s32 temp_v0;
@@ -22,7 +23,7 @@ void func_801EC020(void* arg0) {
         temp_v0 = func_801EC3AC(arg0);
         if (temp_v0 != 0) {
             M2C_FIELD(arg0, s8*, 0xD9) = 0x28;
-            func_801EC478(arg0, temp_v0);
+            player_hover_set_direction(arg0, temp_v0);
             return;
         }
         func_8003F508(arg0, 0x15);

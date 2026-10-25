@@ -35,6 +35,7 @@ void func_8001CF78(struct X4_EngineObj* arg0) {
             func_800139F4(8);
             func_800186A8();
             {
+                // !FAKE: depin: dropping it breaks the match (88/91)
                 register s32 t asm("$3") = (u8)arg0->unk1 + 1;
                 arg0->unk1 = t;
             }
@@ -45,7 +46,7 @@ void func_8001CF78(struct X4_EngineObj* arg0) {
                 func_800139F4(8);
                 arg0->unk4 = 0;
                 {
-                    register s32 t asm("$2") = (u8)arg0->unk1 + 2;
+                    s32 t = (u8)arg0->unk1 + 2;
                     arg0->unk1 = t;
                 }
             }

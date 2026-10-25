@@ -5,7 +5,7 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 
 void func_800ED7D8(void* arg0) {
@@ -14,7 +14,7 @@ void func_800ED7D8(void* arg0) {
     if (!(D_80097420 & 3)) {
         func_80029478(3, 2, 1);
     }
-    bg = D_800971F8;
+    bg = background_objects;
     bg[2].y_pos.val += 0x8000;
     if (bg[2].y_pos.i.hi >= 0x6B0) {
         func_80016C48(5, 3, arg0);

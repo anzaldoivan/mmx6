@@ -63,6 +63,7 @@ void func_800EB734(u8* self) {
     struct X4_MiscObj* m4;
     struct X4_MiscObj* m5;
     struct X4_MiscObj* m6;
+    // !FAKE: depin: dropping it breaks the match (325/361)
     register s32 i asm("$5");
     u16 t;
 

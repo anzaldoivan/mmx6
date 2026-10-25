@@ -2,11 +2,11 @@
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern void (*D_80071388[])(struct X4_UnkObj*, struct X4_PlayerObj*);
 
 void func_80020E1C(struct X4_UnkObj* arg0) {
-    struct X4_PlayerObj* p = &D_800970A0;
+    struct X4_PlayerObj* p = &g_Player;
 
     arg0->animation_step.fields.frame_index =
         p->animation_step.fields.frame_index;

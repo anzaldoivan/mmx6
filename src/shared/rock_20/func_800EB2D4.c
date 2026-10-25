@@ -27,7 +27,7 @@ extern u8 D_800E9860[];
 
 void func_800EB2D4(u8* arg0) {
     s32 ret;
-    register s32 done asm("$2");
+    s32 done;
     u32 sel;
     u32 i;
     u8* obj;
@@ -38,8 +38,8 @@ void func_800EB2D4(u8* arg0) {
     }
     ret = func_8001C5EC(D_800E2F90.unk6);
     if (ret != 0) {
-        register s32 one asm("$4") = 1;
-        register s32 two asm("$3") = 2;
+        s32 one = 1;
+        s32 two = 2;
 
         if (ret == one) {
             arg0[1] = 0x15;
@@ -77,6 +77,7 @@ void func_800EB2D4(u8* arg0) {
         arg0[3] = 0x12;
         return;
     case 0: {
+        // !FAKE: depin: dropping it breaks the match (111/242)
         register u8* addr asm("$6") = D_800E9860 + 4;
 
         if (func_8001C4C0(D_800E2F90.unk6, D_800E2FA0, addr) == 0) {
@@ -107,7 +108,7 @@ void func_800EB2D4(u8* arg0) {
                     ((void (*)(void*))func_8001C8C4)(
                         ((u8*)D_800E2F90.y_pos.val));
                 } else {
-                    register s32 ff asm("$5") = 0xFF;
+                    s32 ff = 0xFF;
 
                     ((u8*)D_800E2F90.y_pos.val)[0] = ff;
                     ((u8*)D_800E2F90.y_pos.val)[0x3BC] = ff;
@@ -117,6 +118,7 @@ void func_800EB2D4(u8* arg0) {
                     ((u8*)D_800E2F90.y_pos.val)[0x12AC] = ff;
                     ((u8*)D_800E2F90.y_pos.val)[0x1668] = ff;
                     {
+                        // !FAKE: depin: dropping it breaks the match (232/242)
                         register u8* p asm("$4") = (u8*)D_800E2F90.y_pos.val;
 
                         p[0x1A24] = ff;

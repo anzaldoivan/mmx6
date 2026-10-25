@@ -3,7 +3,8 @@
 #include "mmx6/x4.h"
 
 void func_8003C4EC(struct X4_PlayerObj* self);
-M2C_UNK func_8003D510(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3);
+M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
+                            M2C_UNK arg3);
 M2C_UNK func_8003DF58(void* self);
 M2C_UNK func_8003F480();
 
@@ -17,11 +18,11 @@ M2C_UNK func_8003F3DC(void* arg0) {
         func_8003C4EC((struct X4_PlayerObj*)p);
         mode = p[0x93];
         if (mode == 1) {
-            func_8003D510(1, 0x1B, 0, 0);
+            player_spawn_visual(1, 0x1B, 0, 0);
         } else if (mode == 6) {
-            func_8003D510(1, 0x1B, 0xA, 0);
+            player_spawn_visual(1, 0x1B, 0xA, 0);
         } else if (mode == 8) {
-            func_8003D510(1, 0x1B, 0xC, 0);
+            player_spawn_visual(1, 0x1B, 0xC, 0);
         }
     }
 }

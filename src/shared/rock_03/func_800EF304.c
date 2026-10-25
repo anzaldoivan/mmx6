@@ -11,7 +11,7 @@ M2C_UNK func_8002C9B0();
 s32 func_8002D2D4();
 extern u32* D_80095098;
 extern u8 D_800970B4;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_800CD30A;
 extern s32 D_800F78E8;
 
@@ -55,8 +55,8 @@ void func_800EF304(void* arg0) {
     } else {
         r = func_8002D2D4();
         M2C_FIELD(arg0, s16*, 0xA) =
-            D_800971F8[0].x_pos.i.hi + r * 2 + (func_8002D2D4() & 0x1F);
-        M2C_FIELD(arg0, s16*, 0xE) = D_800971F8[0].y_pos.i.hi - 0x10;
+            background_objects[0].x_pos.i.hi + r * 2 + (func_8002D2D4() & 0x1F);
+        M2C_FIELD(arg0, s16*, 0xE) = background_objects[0].y_pos.i.hi - 0x10;
         M2C_FIELD(arg0, s32*, 0x20) = -0x70000;
         M2C_FIELD(arg0, s32*, 0x24) = -0x70000;
         M2C_FIELD(arg0, u8*, 5) = 1;

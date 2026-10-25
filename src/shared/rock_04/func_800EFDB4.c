@@ -16,6 +16,7 @@ void func_800EFDB4(void* arg0) {
 
     D_800F6DD8[SB(arg0, 5)](arg0);
     if (func_80031474(arg0) < 0) {
+        // !FAKE: depin: dropping it breaks the match (45/49)
         register s32 c asm("$3") = 2;
         x = UH(arg0, 0xA);
         SB(arg0, 4) = c;

@@ -11,18 +11,18 @@ M2C_UNK func_80049E50(void*);
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_800757DC;
 extern s32 D_8007587C;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern void (*D_800FCF68[])(void*);
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 #define O(type, off) M2C_FIELD(other, type*, off)
-#define PL(type, off) M2C_FIELD(&D_800970A0, type*, off)
+#define PL(type, off) M2C_FIELD(&g_Player, type*, off)
 
 void func_800F5F50(void* self) {
     void* other;
     s32 r;
 
-    struct X4_PlayerObj* pl = &D_800970A0;
+    struct X4_PlayerObj* pl = &g_Player;
 
     if (M2C_FIELD(pl, s8*, 0xE0) == 0) {
         D_800FCF68[F(s8, 5)](self);
@@ -33,7 +33,7 @@ void func_800F5F50(void* self) {
     r = func_80031474(self);
     if (F(s8, 2) == 0) {
         if (F(u8, 0x8D) == 7) {
-            struct X4_PlayerObj* pl = &D_800970A0;
+            struct X4_PlayerObj* pl = &g_Player;
             M2C_FIELD(pl, u8*, 0x7A) = 1;
             F(u8, 4) = 2;
             goto end;
@@ -94,6 +94,7 @@ void func_800F5F50(void* self) {
             F(void*, 0x58) = &D_8007433C;
         }
         {
+            // !FAKE: depin: dropping it breaks the match (187/193)
             register void* a asm("$4") = &D_8007433C;
             F(void*, 0x58) = a;
         }

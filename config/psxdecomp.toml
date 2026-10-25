@@ -1,7 +1,7 @@
 # config/psxdecomp.toml — adopted by /psxdecomp:upgrade (the repository predates psxdecomp).
 
 [psxdecomp]
-version = "0.6.0"
+version = "0.7.0"
 profile = "psx"
 bootstrapped = "adopted 2026-10-04"
 
@@ -62,12 +62,12 @@ recipe = "macos-arm64"
 # [delivered]: the sha256 of each owned file as psxdecomp last wrote it. A copy edited here since then is
 # never overwritten unasked (`upgrade apply --take <action>`).
 [delivered]
-"tools/psxd_publish.py" = "ffc994a9f00ca10dae1d7c17b9057efbbe915d805d2a7f03975cedde428119bf"
+"tools/psxd_publish.py" = "f9d9b2b7977565c43f41013934b5f646744cdc3a82910cb06be7838c1fab3325"
 ".github/workflows/psxdecomp-readme.yml" = "e9d3f804fafd86930432b25af7c83f54f21fb81929750f5e84cec680585dfb35"
-"tools/psxd_floor.py" = "875b4815c8b3e21be9e261d554a36296f2d3a622962d1be7702364fef6f5379c"
-"docs/ops/psxdecomp-floor.md" = "bfd5940c243a61edf4995f2bb1ebbf3fcfbf6d666f2ebe158945885fc3d9ba6b"
-"docs/ops/psxdecomp-split.md" = "5b50214fdd44e691a0a5e7d4fa94eaec9d4b0fde67e414f057e9a860a5802fc9"
+"tools/psxd_floor.py" = "917628634786462d34b17f4c3f4f6b4d1240dc344a143b011dda7439c947ea12"
+"docs/ops/psxdecomp-floor.md" = "5ca22bf93fd07e2f83bb4df20e84b40737fcb1ba1414bd84a254412245771d1d"
+"docs/ops/psxdecomp-split.md" = "bec00a2f14d86a2b6f946a3a8bbb55ba36ab0dcf26e30c8c8181066406fc15f2"
 "rules/STE1.md" = "3737fb8d58ec7aeca2f7278d5c8839f23797b558aac9e49fa9e455617d1666cc"
 "rules/FIN1.md" = "e753b307315e832737f35b35020492b63425ff67db83ee30d325609afa0dca4f"
 "rules/NAME1.md" = "bba87e0d3bb5599686ba6e8d61f1a9fa28b11c4780e088c8d44f245e2e33df9b"
-"tools/psxd_img.py" = "bdf2bc1b413b99d74af2be75ecb7c18acda84dad7f7cb02eeb206cde8435ff46"
+"tools/psxd_img.py" = "fb7cda5a7b31c9cd2bd6d9ca57b9120979dfb15fe0fe3149e3baf60b385a22b6"

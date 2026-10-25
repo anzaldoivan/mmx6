@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/144A4.c:func_80023CE0, AGPL-3.0; proven shared with X6 by exact signature 6affe00825b4 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/144A4.c:func_80023CE0, AGPL-3.0; proven shared with X6 by exact signature 6affe00825b4 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_EngineObj D_800CCED0;

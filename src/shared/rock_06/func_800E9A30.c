@@ -11,8 +11,8 @@ M2C_UNK func_8003208C();
 s32 func_80032B34(struct X4_PlayerObj*);
 void func_80032BE8(struct X4_PlayerObj*);
 
-extern M2C_UNK D_800970A0;
-#define PLAYER (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define PLAYER (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_EngineObj D_800CCED0;
 extern void (*D_800F3608[])(struct X4_PlayerObj*);
 

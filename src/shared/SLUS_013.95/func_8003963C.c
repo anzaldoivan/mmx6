@@ -25,7 +25,7 @@ void func_8003963C(void* arg0) {
     func_80016C48(3, (func_8002D2D4() & 1) ^ 1, arg0);
     func_80016C48(3, 0x11, arg0);
     if (M2C_FIELD(arg0, s8*, 5) != 0x11) {
-        register s32 one asm("$2") = 1;
+        s32 one = 1;
         M2C_FIELD(arg0, s8*, 0xA4) = one;
         M2C_FIELD(arg0, s8*, 0xCF) = one;
         M2C_FIELD(arg0, s8*, 0x84) = 0;

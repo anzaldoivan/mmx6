@@ -28,8 +28,8 @@ void func_800EA11C(u8* self) {
             return;
         }
         {
-            register u16* tbl asm("$3") = &D_800F36CC;
-            register s32 v asm("$5");
+            u16* tbl = &D_800F36CC;
+            s32 v;
             s32 i = (u16)D_800F48EE;
             i++;
             D_800F48EE = i;

@@ -5,7 +5,7 @@
 #define FX(p, type, off) (*(type*)((u8*)(p) + (off)))
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 M2C_UNK func_8002F288(M2C_UNK*);
 u8 func_80030234(struct X4_PlayerObj*, s16, s16);
 s32 func_800EB96C(struct X4_PlayerObj*, s16, s16);
@@ -14,7 +14,7 @@ void func_800EC628(void* arg0) {
     s32 a;
     s32 b;
 
-    ((void (*)(void*))func_8002D2B0)(arg0);
+    ((void (*)(void*))move_object)(arg0);
     if (FX(arg0, s16, 0xE) >= 0x510) {
         ((void (*)(void*))func_8002F288)(arg0);
         {

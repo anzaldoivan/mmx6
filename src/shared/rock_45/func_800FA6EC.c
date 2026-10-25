@@ -51,8 +51,8 @@ void func_800FA6EC(void* arg0) {
         func_800179A4(arg0, 1);
         {
             u8* tb = ((u8*)&D_800FCA84 + 0x28C);
-            register u8* q asm("$3") = M2C_FIELD(arg0, u8*, 0x8B)++ +
-                                       M2C_FIELD(arg0, u8*, 0x8A) * 6 + tb;
+            u8* q = M2C_FIELD(arg0, u8*, 0x8B)++ +
+                    M2C_FIELD(arg0, u8*, 0x8A) * 6 + tb;
             u8 v = *q;
             M2C_FIELD(arg0, u8*, 0x6) = 0;
             M2C_FIELD(arg0, u8*, 0x5) = v;

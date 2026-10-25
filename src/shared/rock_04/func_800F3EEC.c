@@ -7,7 +7,7 @@
 M2C_UNK func_80012D9C(M2C_UNK);
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 void func_800F5088(struct X4_AnimatedObj* arg0, u8 arg1);
 
 void func_800F3EEC(void* arg0) {
@@ -28,5 +28,5 @@ void func_800F3EEC(void* arg0) {
         F(arg0, u8*, 6) += 1;
         return;
     }
-    func_8002D2B0(arg0);
+    move_object(arg0);
 }

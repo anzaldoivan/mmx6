@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 s32 func_800EA480(s8* arg0);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_800CCF08;
 
 void func_800FA7DC(struct X4_BackgroundObj* arg0) {
@@ -12,10 +12,10 @@ void func_800FA7DC(struct X4_BackgroundObj* arg0) {
     s32 temp_v0;
 
     if (func_800EA480((s8*)arg0) != 0) {
-        temp_v0 = D_800971F8[1].x_pos.u.hi - 0x10;
-        D_800971F8[1].x_pos.u.hi = temp_v0;
+        temp_v0 = background_objects[1].x_pos.u.hi - 0x10;
+        background_objects[1].x_pos.u.hi = temp_v0;
         if ((temp_v0 << 0x10) <= 0) {
-            D_800971F8[1].x_pos.u.hi = 0;
+            background_objects[1].x_pos.u.hi = 0;
             if (D_800CCF08 == 0) {
                 var_v0 = 0x1BF;
                 var_v1 = 5;

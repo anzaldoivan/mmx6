@@ -24,7 +24,9 @@ void func_800F42D8(void* arg0) {
     }
     i = 0;
     if (UB(arg0, 0x70) & 8) {
+        // !FAKE: depin: dropping it breaks the match (66/71)
         register u16* q asm("$4") = D_800F7DF0;
+        // !FAKE: depin: dropping it breaks the match (64/71)
         register s32 n asm("$3") = *(s16*)q;
         D_800F7E0C = 0;
         if (n > 0) {

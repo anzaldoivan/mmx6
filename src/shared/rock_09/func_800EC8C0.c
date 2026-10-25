@@ -4,9 +4,9 @@
 
 #define M2C_UNK s32
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 void func_800EC8C0(struct X4_MainObj* self) {
     ((void (*)())func_80017A04)(ANIMATED_OBJECT(self));
-    ((void (*)())func_8002D2B0)(MOVING_OBJECT(self));
+    ((void (*)())move_object)(MOVING_OBJECT(self));
     self->y_speed += 0x100;
 }

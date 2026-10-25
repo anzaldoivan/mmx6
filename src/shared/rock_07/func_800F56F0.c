@@ -4,7 +4,7 @@
 M2C_UNK func_80012D9C(M2C_UNK);
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 
 #define F32(p, o) (*(s32*)((u8*)(p) + (o)))
 #define F8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -23,5 +23,5 @@ void func_800F56F0(void* arg0) {
         }
         return;
     }
-    func_8002D2B0(arg0);
+    move_object(arg0);
 }

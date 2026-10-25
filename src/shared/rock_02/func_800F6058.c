@@ -8,6 +8,7 @@ extern u8 D_800FB810[];
 #define SPAD (*(u8**)0x1F80004C)
 
 void func_800F6058(u8* arg0) {
+    // !FAKE: depin: dropping it breaks the match (32/38)
     register s32 t asm("$2");
     s32 c;
     s32 v;
@@ -16,7 +17,7 @@ void func_800F6058(u8* arg0) {
     func_800F82C0(arg0);
     t = *(u16*)(arg0 + 0x7C);
     {
-        register s32 n asm("$3") = t + 1;
+        s32 n = t + 1;
         *(u16*)(arg0 + 0x7C) = n;
     }
     if ((s16)t >= 0x28) {

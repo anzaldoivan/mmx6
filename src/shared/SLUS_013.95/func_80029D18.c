@@ -1,11 +1,11 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 void func_80029F38(s16, s16, s16, s16, u8);
 
 void func_80029D18(void) {
-    struct X4_BackgroundObj* bg = D_800971F8;
+    struct X4_BackgroundObj* bg = background_objects;
 
     if (bg->unk14.i.hi != bg->x_pos.i.hi) {
         if (bg->unk14.i.hi < bg->x_pos.i.hi) {

@@ -13,6 +13,7 @@ void func_800F77B8(void* arg0) {
         return;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (21/24)
         register s32 temp_b asm("$2");
         func_800179A4(arg0, 7);
         temp_b = M2C_FIELD(arg0, u8*, 6);

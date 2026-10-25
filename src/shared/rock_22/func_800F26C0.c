@@ -42,6 +42,7 @@ void func_800F26C0(struct X4_BaseObj* self) {
         SPAD[0x82] = 4;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (105/123)
         register s32 v asm("$6");
 
         v = D_800FC62C[(s8)self->unk2 >> 1];

@@ -4,8 +4,8 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_8002C9B0();
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_801F21AC(void* arg0, u8 arg1) {
     s32 flag;
@@ -30,7 +30,7 @@ void func_801F21AC(void* arg0, u8 arg1) {
         }
     }
     if (flag != 0) {
-        struct X4_PlayerObj* p = &D_800970A0;
+        struct X4_PlayerObj* p = &g_Player;
         if (M2C_FIELD(p, s8*, 0xA6) == 3) {
             M2C_FIELD(p, s8*, 0xA6) = 0;
         }
@@ -39,4 +39,4 @@ void func_801F21AC(void* arg0, u8 arg1) {
     }
     func_8002C9B0(arg0);
 }
-#undef D_800970A0
+#undef g_Player

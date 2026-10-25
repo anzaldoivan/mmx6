@@ -4,7 +4,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800EBCDC(void* arg0) {
     s32 var_v0;
@@ -19,9 +19,9 @@ void func_800EBCDC(void* arg0) {
         var_v0 = 0;
     }
     if (var_v0 != 0) {
-        D_800971F8[0].x_pos.i.hi = 0xA00;
-        D_800971F8[0].unk4C = 1;
-        D_800971F8[0].unk3 = 0;
+        background_objects[0].x_pos.i.hi = 0xA00;
+        background_objects[0].unk4C = 1;
+        background_objects[0].unk3 = 0;
         M2C_FIELD(arg0, u8*, 1) = M2C_FIELD(arg0, u8*, 1) + 1;
     }
 }

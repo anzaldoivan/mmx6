@@ -14,7 +14,7 @@ M2C_UNK func_8003208C();
 s32 func_80032B34(struct X4_PlayerObj*);
 void func_80032BE8(struct X4_PlayerObj*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern M2C_UNK D_800F6B8C;
 extern void (*D_800F6BD8[])(s8*);
 extern M2C_UNK D_800F76EC;
@@ -44,7 +44,7 @@ void func_800EBF18(s8* arg0) {
     func_80032BE8((struct X4_PlayerObj*)arg0);
     func_8003208C(arg0);
     {
-        struct X4_PlayerObj* p = &D_800970A0;
+        struct X4_PlayerObj* p = &g_Player;
         if (((u8*)p)[0xE5] == 0) {
             d = p->x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA);
             if (d >= 0) {
@@ -64,14 +64,14 @@ void func_800EBF18(s8* arg0) {
             return;
         }
         if (arg0[0x72] & 4) {
-            __builtin_memcpy(&D_800F76EC, (s32*)&D_800970A0, 0x154);
+            __builtin_memcpy(&D_800F76EC, (s32*)&g_Player, 0x154);
             ((void (*)(M2C_UNK*))func_8002F288)(&D_800F76EC);
             if (((u8*)&D_800F76EC)[0x70] & 8) {
                 s2[7] = 4;
             }
         }
     } else if ((arg0[0x72] & 4) && arg0[6] == 6) {
-        __builtin_memcpy(&D_800F76EC, (s32*)&D_800970A0, 0x154);
+        __builtin_memcpy(&D_800F76EC, (s32*)&g_Player, 0x154);
         ((void (*)(M2C_UNK*))func_8002F288)(&D_800F76EC);
         if (((u8*)&D_800F76EC)[0x70] & 8) {
             func_800477E4(3, &D_800F6B8C, arg0);

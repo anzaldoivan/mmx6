@@ -6,7 +6,7 @@ void func_8001D218();
 M2C_UNK func_8002B838();
 void func_800E9FB4();
 void func_800E9FDC(void);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_80097424;
 
 void func_800FA63C(s8* arg0) {
@@ -17,9 +17,9 @@ void func_800FA63C(s8* arg0) {
         func_800E9FB4();
         func_800E9FDC();
         func_8001D218();
-        D_800971F8[0].unk3 = 0;
-        D_800971F8[1].unk3 = 0;
-        D_800971F8[2].unk3 = 0;
+        background_objects[0].unk3 = 0;
+        background_objects[1].unk3 = 0;
+        background_objects[2].unk3 = 0;
         func_8002B838();
         i = 0xF;
         p = arg0 + 0x35;

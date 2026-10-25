@@ -7,7 +7,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 extern s16 D_800970AA;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F4F9C(void* arg0) {
     s8 state = M2C_FIELD(arg0, s8*, 0x45);
@@ -18,7 +18,7 @@ void func_800F4F9C(void* arg0) {
         func_80016C48(2, 0x59, arg0);
         func_800179A4(arg0, 0xC);
         px = &D_800970AA;
-        bg = D_800971F8;
+        bg = background_objects;
         if (*px >= M2C_FIELD(bg, s16*, 0xA) + 0xA0) {
             M2C_FIELD(arg0, u8*, 0x15) = 0x40;
             M2C_FIELD(arg0, s16*, 0xA) = M2C_FIELD(bg, u16*, 0xA) + 0x30;

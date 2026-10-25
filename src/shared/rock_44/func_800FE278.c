@@ -2,13 +2,13 @@
 #define M2C_UNK s32
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 
 #define F(T, p, o) (*(T*)((u8*)(p) + (o)))
 
 void func_800FE278(void* arg0) {
     ((M2C_UNK(*)())func_80017A04)();
-    func_8002D2B0((s32)arg0);
+    move_object((s32)arg0);
     if (F(s8, arg0, 0x45) == 1) {
         if (F(u8, arg0, 0x15) != 0) {
             F(s32, arg0, 0x20) = 0x40000;

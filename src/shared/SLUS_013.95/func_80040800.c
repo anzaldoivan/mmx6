@@ -14,7 +14,7 @@ void func_80042D3C(void*);
 void func_80049E50(struct X4_MainObj* self);
 extern s32 D_80075EE0;
 extern void (*D_80076018[])(void*);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj D_800CCED0;
 extern struct X4_RideArmorObj D_800CD340;
 
@@ -57,8 +57,8 @@ void func_80040800(struct X4_MainObj* self) {
             func_80030ECC(self);
         }
     } else {
-        tgt = &D_800970A0;
-        if (S8(&D_800970A0, 0xD5) != 0) {
+        tgt = &g_Player;
+        if (S8(&g_Player, 0xD5) != 0) {
             tgt = &D_800CD340;
             if (D_800CD340.unk5 == 0) {
                 tgt = (u8*)&D_800CD340 + 0xB0;
@@ -72,7 +72,7 @@ void func_80040800(struct X4_MainObj* self) {
         if (func_8002DCF4(self, tgt) != 0) {
             {
                 u8* e = (u8*)&D_800CCED0;
-                s32 i = D_800970A0.unk2 << 1;
+                s32 i = g_Player.unk2 << 1;
                 u16* b = (u16*)(e + 0xD2);
                 cnt = (u16*)((u8*)b + i);
             }

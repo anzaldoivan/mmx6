@@ -6,7 +6,7 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
 M2C_UNK func_8002B410(M2C_UNK*, M2C_UNK*, M2C_UNK, s32, s32);
 void func_800ED18C(s32 arg0, s32 arg1, u8* arg2);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_800CCEF6;
 extern s32 D_800F6BA4;
 extern s16 D_800F6BC4[16];
@@ -15,7 +15,7 @@ void func_800ED69C(u8* arg0) {
     u8* bg;
 
     if (D_800CCEF6 != 0) {
-        bg = (u8*)D_800971F8;
+        bg = (u8*)background_objects;
         *(u16*)(arg0 + 0x14) = 0;
         *(u16*)(arg0 + 0x16) = 0;
         *(u16*)(arg0 + 0x18) = 0;

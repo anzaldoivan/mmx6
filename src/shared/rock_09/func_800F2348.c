@@ -10,7 +10,7 @@ M2C_UNK func_8002D230(void*);
 s32 func_80030ECC(void*);
 s32 func_80031474(void*);
 M2C_UNK func_80049E50(void*);
-extern s32 D_800970A0;
+extern s32 g_Player;
 extern s16 D_800970AA;
 extern s8 D_800CCF5C;
 extern s32 D_800F6BF8;
@@ -63,7 +63,7 @@ void func_800F2348(void* arg0) {
         }
         break;
     case 2:
-        pl = &D_800970A0;
+        pl = &g_Player;
         x = M2C_FIELD(arg0, s32*, 0xC);
         if (x < pl[3]) {
             M2C_FIELD(arg0, s32*, 0xC) = x + 0x8000;

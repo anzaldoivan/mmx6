@@ -9,7 +9,7 @@ struct X4_VisualObj* func_8002C398(void);
 s32 func_8002D30C();
 extern s8 D_80090D56;
 extern s16 D_80090D5C;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_8009742C;
 extern s16 D_80097430;
 extern u8 D_800C4560;
@@ -56,5 +56,5 @@ void func_800EBBF4(void* arg0) {
             obj->bg_offset = t;
         }
     }
-    D_800971F8[1].unk3 ^= 1;
+    background_objects[1].unk3 ^= 1;
 }

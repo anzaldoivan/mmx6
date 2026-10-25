@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 s32 func_8002CAB4(struct X4_BaseObj* arg0) {
     s32 x;
@@ -14,8 +14,8 @@ s32 func_8002CAB4(struct X4_BaseObj* arg0) {
         x = arg0->x_pos.i.hi;
         dy = arg0->y_pos.i.hi;
     } else {
-        x = (s16)(arg0->x_pos.i.hi - D_800971F8[idx].x_pos.i.hi);
-        dy = arg0->y_pos.i.hi - D_800971F8[idx].y_pos.i.hi;
+        x = (s16)(arg0->x_pos.i.hi - background_objects[idx].x_pos.i.hi);
+        dy = arg0->y_pos.i.hi - background_objects[idx].y_pos.i.hi;
     }
     x += 0x40;
     if ((u16)x < 0x1C0) {

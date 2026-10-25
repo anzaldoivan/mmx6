@@ -95,7 +95,9 @@ void func_800F1444(void* arg0) {
         return;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (181/183)
         register s32 x asm("$2") = M2C_FIELD(arg0, s32*, 0x24);
+        // !FAKE: depin: dropping it breaks the match (180/183)
         register s32 e asm("$2");
         if (x < 0) {
             e = -1;

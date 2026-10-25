@@ -38,6 +38,7 @@ void func_800EFA58(void* arg0) {
                 SPAD20_800EFA58[func_8002A47C(M2C_FIELD(arg0, s8*, 1))];
             func_800179A4(arg0, 2);
             {
+                // !FAKE: depin: dropping it breaks the match (84/87)
                 register s32 n asm("$2") = M2C_FIELD(arg0, u8*, 6) + 1;
                 M2C_FIELD(arg0, u8*, 6) = n;
             }

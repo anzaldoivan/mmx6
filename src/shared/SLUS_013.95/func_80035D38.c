@@ -4,22 +4,22 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 s32 func_80016C48(s32 a0, s32 a1, void* arg2); /* extern */
-M2C_UNK func_80017A04();                        /* extern */
-s32 func_80039C40(void*);                       /* extern */
-s32 func_80039CFC(void*);                       /* extern */
-s32 func_8003A628(void*);                       /* extern */
-void func_8003AD18(void* arg0);                 /* extern */
-M2C_UNK func_8003AE8C(void*);                   /* extern */
-M2C_UNK func_8003BA04(void*, M2C_UNK);          /* extern */
-M2C_UNK func_8003BB94(void*, M2C_UNK, s8);      /* extern */
-void func_8003C6A4(void* arg0);                   /* extern */
-M2C_UNK func_8003CCBC();                        /* extern */
-void func_8003CD00(void* arg0);                 /* extern */
-s32 func_8003F644(void*);                       /* extern */
-s32 func_801EA560(void*);                       /* extern */
-s32 func_801EBEDC(void*);                       /* extern */
-s32 func_801EC1F8(void*);                       /* extern */
-s32 func_801EC86C(void*);                       /* extern */
+M2C_UNK func_80017A04();                       /* extern */
+s32 func_80039C40(void*);                      /* extern */
+s32 func_80039CFC(void*);                      /* extern */
+s32 func_8003A628(void*);                      /* extern */
+void func_8003AD18(void* arg0);                /* extern */
+M2C_UNK func_8003AE8C(void*);                  /* extern */
+M2C_UNK func_8003BA04(void*, M2C_UNK);         /* extern */
+M2C_UNK func_8003BB94(void*, M2C_UNK, s8);     /* extern */
+void player_spawn_dash_spark(void* arg0);      /* extern */
+M2C_UNK func_8003CCBC();                       /* extern */
+void func_8003CD00(void* arg0);                /* extern */
+s32 func_8003F644(void*);                      /* extern */
+s32 func_801EA560(void*);                      /* extern */
+s32 func_801EBEDC(void*);                      /* extern */
+s32 func_801EC1F8(void*);                      /* extern */
+s32 func_801EC86C(void*);                      /* extern */
 
 void func_80035D38(void* arg0) {
     s8 temp_s0;
@@ -41,7 +41,7 @@ void func_80035D38(void* arg0) {
                 } else {
                     func_8003BB94(arg0, 0x10, 5);
                 }
-                func_8003C6A4(arg0);
+                player_spawn_dash_spark(arg0);
                 func_80016C48(1, 5, arg0);
                 M2C_FIELD(arg0, u8*, 0x8C) = 1;
                 M2C_FIELD(arg0, u8*, 6) += 1;

@@ -6,12 +6,12 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0();
+M2C_UNK move_object();
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_801013A8(void* arg0) {
     s32 ang;
@@ -19,14 +19,15 @@ void func_801013A8(void* arg0) {
     ((M2C_UNK(*)())func_80017A04)();
     {
         s32 u = M2C_FIELD(arg0, u8*, 7);
-        register s32 t asm("$2") = M2C_FIELD(arg0, s8*, 7); // !FAKE: inherited from src/shared/rock_02/func_800F8A80.c
+        // !FAKE: inherited from src/shared/rock_02/func_800F8A80.c
+        register s32 t asm("$2") = M2C_FIELD(arg0, s8*, 7);
         if (t != 0) {
             s32 c = u - 1;
             M2C_FIELD(arg0, s8*, 7) = c;
             if ((s8)c == 0) {
                 ang = func_80065B74(
-                    D_800970A0.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
-                    D_800970A0.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
+                    g_Player.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
+                    g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
                 {
                     s32 t;
                     s32 w;
@@ -42,8 +43,8 @@ void func_801013A8(void* arg0) {
                 func_80016C48(2, 0x7D, arg0);
             }
         } else {
-            func_8002D2B0((s32)arg0);
+            move_object((s32)arg0);
         }
     }
 }
-#undef D_800970A0
+#undef g_Player

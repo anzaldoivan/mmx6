@@ -10,7 +10,7 @@ void* func_8002BBF4();
 void func_80031DA8(struct X4_MainObj*);
 s32 func_80050C88(void*);
 void func_80051104(struct X4_ItemObj* arg0);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 extern struct X4_EngineObj D_800CCED0;
 extern s8 D_800CCEF6;
@@ -62,9 +62,9 @@ void func_80050250(struct X4_ItemObj* arg0, s32 arg1, u8* arg2) {
     D_800CCED0.unk1C = 1;
     arg2[0xD4] = 1;
     if (arg0->unk2 == 0x19) {
-        if ((s16)D_800971F8[1].unk42 >= -0x4F) {
+        if ((s16)background_objects[1].unk42 >= -0x4F) {
             if (!(D_80097420 & 1)) {
-                D_800971F8[1].unk42--;
+                background_objects[1].unk42--;
             }
             if (I88 == 0) {
                 func_8002943C(0xA, 2, 2);
@@ -75,10 +75,10 @@ void func_80050250(struct X4_ItemObj* arg0, s32 arg1, u8* arg2) {
             return;
         }
         func_80016C48(5, 3, p);
-        D_800971F8[1].unk3 = 0;
+        background_objects[1].unk3 = 0;
     } else if (arg0->unk2 == 0x27) {
         if (I84++ < 0x70) {
-            D_800971F8[1].unk42--;
+            background_objects[1].unk42--;
             if (I88 == 0) {
                 func_8002943C(0xA, 2, 2);
                 I88 = 0xA;
@@ -87,7 +87,7 @@ void func_80050250(struct X4_ItemObj* arg0, s32 arg1, u8* arg2) {
             }
             return;
         }
-        D_800971F8[1].unk3 = 0;
+        background_objects[1].unk3 = 0;
         func_80016C48(5, 3, p);
     }
     if (arg0->unk7C.timer == 0) {
@@ -99,6 +99,6 @@ void func_80050250(struct X4_ItemObj* arg0, s32 arg1, u8* arg2) {
         p[1] = 0x19;
         p[2] = 4;
     }
-    D_800971F8[0].unk34 &= 0xF;
+    background_objects[0].unk34 &= 0xF;
     arg0->unk5 = 1;
 }

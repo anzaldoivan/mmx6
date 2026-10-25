@@ -20,7 +20,9 @@ void func_800F19BC(void* arg0) {
     s32 a, b, c, d;
     s16 dx;
     s16 dy;
+    // !FAKE: depin: dropping it breaks the match (69/76)
     register s32 v asm("$3");
+    // !FAKE: depin: dropping it breaks the match (72/76)
     register s32 k asm("$2");
 
     parent = FLD(arg0, void*, 0x7C);

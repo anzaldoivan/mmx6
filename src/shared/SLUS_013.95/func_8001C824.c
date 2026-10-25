@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/memcard.c:func_8001CEDC, AGPL-3.0; proven shared with X6 by exact signature a1a1bb6682a3 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/memcard.c:func_8001CEDC, AGPL-3.0; proven shared with X6 by exact signature a1a1bb6682a3 (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 M2C_UNK func_80069E44(s32);

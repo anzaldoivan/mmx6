@@ -8,7 +8,7 @@
 #define H(p, o) M2C_FIELD(p, s16*, o)
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F5A1C(void* arg0) {
     s32 var_v1;
@@ -17,16 +17,18 @@ void func_800F5A1C(void* arg0) {
     if (SB(arg0, 0x45) == 1) {
         func_800179A4(arg0, 4);
         {
+            // !FAKE: depin: dropping it breaks the match (33/35)
             register s32 f asm("$2") = B(arg0, 0x15);
             if (f == 0) {
-                bg = D_800971F8;
+                bg = background_objects;
                 var_v1 = (u16)bg->unk26 + 0x30;
             } else {
-                bg = D_800971F8;
+                bg = background_objects;
                 var_v1 = (u16)bg->unk26 + 0x130;
             }
             H(arg0, 0x84) = var_v1;
             {
+                // !FAKE: depin: dropping it breaks the match (32/35)
                 register s32 t asm("$4") = (u16)bg->unk2A + 0x50;
                 H(arg0, 0x86) = t;
             }

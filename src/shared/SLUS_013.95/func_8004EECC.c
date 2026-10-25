@@ -8,7 +8,7 @@ s32 func_8002DCF4(void*, void*);
 void func_8004ED4C(u8* arg0, u8 arg1, u8 a2);
 void func_8004FF00(u8, s32);
 extern u8 D_80078BE8[];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj D_800CCED0;
 extern struct X4_RideArmorObj D_800CD340;
 
@@ -19,8 +19,8 @@ s32 func_8004EECC(void* arg0) {
     void* tgt;
     s32 r;
 
-    tgt = &D_800970A0;
-    if (S8(&D_800970A0, 0xD5) != 0) {
+    tgt = &g_Player;
+    if (S8(&g_Player, 0xD5) != 0) {
         tgt = &D_800CD340;
         if (D_800CD340.unk5 == 0) {
             tgt = (u8*)&D_800CD340 + 0xB0;

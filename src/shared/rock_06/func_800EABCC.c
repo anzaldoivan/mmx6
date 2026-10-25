@@ -37,6 +37,7 @@ void func_800EABCC(void* arg0) {
             M2C_FIELD(arg0, s8*, 5) = 1;
             M2C_FIELD(arg0, s8*, 6) = 0;
             {
+                // !FAKE: depin: dropping it breaks the match (68/79)
                 register s32 l asm("$3") = M2C_FIELD(arg0, u8*, 0x80);
                 M2C_FIELD(arg0, u8*, 0x82) = 0x78;
                 M2C_FIELD(arg0, u8*, 0x80) = l & 0xFE;

@@ -17,7 +17,7 @@ void func_800F7D9C(void* arg0) {
     if (SPAD4C[0x88] != 0 && M2C_FIELD(arg0, s8*, 0x45) == 1) {
         SPAD4C[0x88] = 0;
         {
-            register u8* q asm("$3") = SPAD4C;
+            u8* q = SPAD4C;
             t = q[0x85] + 1;
             q[0x85] = t;
         }

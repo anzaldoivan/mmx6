@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/55C4.c:func_80019100, AGPL-3.0; proven shared with X6 by exact signature f2a2862257fa (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/55C4.c:func_80019100, AGPL-3.0; proven shared with X6 by exact signature f2a2862257fa (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"

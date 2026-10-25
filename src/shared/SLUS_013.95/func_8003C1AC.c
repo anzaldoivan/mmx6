@@ -7,10 +7,11 @@
 void func_8003AD18(void* arg0);
 M2C_UNK func_8003CCBC();
 void func_8003CF24(s32, s32, s32);
-M2C_UNK func_8003D510(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3);
+M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
+                            M2C_UNK arg3);
 void func_8003D598(void*);
 extern u16 D_80073CFC[];
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 
 void func_8003C1AC(void* arg0) {
@@ -31,7 +32,7 @@ void func_8003C1AC(void* arg0) {
             *(s32*)(f - -(M2C_FIELD(arg0, s8*, 2) << 2) + 0x74);
         if (t == 2) {
             M2C_FIELD(arg0, u8*, 0xC9) = 0;
-            func_8003D510(1, 0x1B, 5, 0);
+            player_spawn_visual(1, 0x1B, 5, 0);
             func_8003CF24(2, 0x19, 1);
             func_8003CF24(2, 0x18, 1);
         } else {
@@ -64,11 +65,12 @@ void func_8003C1AC(void* arg0) {
     func_8003CCBC(arg0);
     func_8003AD18(arg0);
     {
+        // !FAKE: depin: dropping it breaks the match (126/135)
         register s32 k asm("$2") = 4;
         M2C_FIELD(arg0, u8*, 0x92) = k;
     }
     M2C_FIELD(arg0, u8*, 0x71) |= 8;
-    D_800971F8[0].unk44 = 1;
-    D_800971F8[1].unk44 = 1;
-    D_800971F8[2].unk44 = 1;
+    background_objects[0].unk44 = 1;
+    background_objects[1].unk44 = 1;
+    background_objects[2].unk44 = 1;
 }

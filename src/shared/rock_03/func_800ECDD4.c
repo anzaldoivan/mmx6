@@ -11,7 +11,7 @@ s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern s32 D_800741FC[];
 extern M2C_UNK D_8007433C;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern u8 D_800CCF38;
 extern M2C_UNK D_800F76EC;
 extern M2C_UNK D_800F76F0;
@@ -22,6 +22,7 @@ extern M2C_UNK D_800F76FC;
 void func_800ECDD4(void* arg0) {
     s32 angle;
     s32 vel;
+    // !FAKE: depin: dropping it breaks the match (70/147)
     register s32 t asm("$2");
     struct X4_PlayerObj* pl;
     s32 sel;
@@ -65,7 +66,7 @@ void func_800ECDD4(void* arg0) {
         s32 m;
         func_800179A4(arg0, 7);
         func_80016C48(2, 0x3E, arg0);
-        pl = &D_800970A0;
+        pl = &g_Player;
         px = M2C_FIELD(pl, s16*, 0xA);
         angle =
             func_80065B74(M2C_FIELD(pl, s16*, 0xE) - M2C_FIELD(arg0, s16*, 0xE),
@@ -78,6 +79,7 @@ void func_800ECDD4(void* arg0) {
         t = (t << 6) + nx1;
         M2C_FIELD(arg0, s32*, 0x24) = t;
         {
+            // !FAKE: depin: dropping it breaks the match (128/147)
             register s32 d asm("$2");
             d = M2C_FIELD(arg0, u8*, 0x15);
             x1 = M2C_FIELD(arg0, s16*, 0xA);
@@ -95,7 +97,7 @@ void func_800ECDD4(void* arg0) {
         M2C_FIELD(arg0, void**, 0x68) = 0;
         M2C_FIELD(arg0, void**, 0x58) = &D_8007433C;
         {
-            register s32 st asm("$3") = 1;
+            s32 st = 1;
             M2C_FIELD(arg0, u8*, 0x5) = st;
         }
     } else if (sel == 2) {

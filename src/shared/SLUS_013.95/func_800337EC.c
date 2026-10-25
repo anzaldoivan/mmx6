@@ -14,6 +14,7 @@ void func_800337EC(u8* arg0) {
     u16 pad;
     u8* p;
     u8* self;
+    // !FAKE: depin: dropping it breaks the match (43/147)
     register s32 u asm("$4");
 
     self = arg0;
@@ -54,6 +55,7 @@ void func_800337EC(u8* arg0) {
             } else {
                 i = 9;
                 if (self[0x1F] == 0) {
+                    // !FAKE: depin: dropping it breaks the match (75/147)
                     register u8* q asm("$6") = p;
                     while (--i >= 0) {
                         if (q[i] != 0) {
@@ -68,7 +70,9 @@ void func_800337EC(u8* arg0) {
         case 0x2000:
             old = ((s8*)self)[0x14];
             {
+                // !FAKE: depin: dropping it breaks the match (110/147)
                 register u8* q asm("$6") = p;
+                // !FAKE: depin: dropping it breaks the match (93/147)
                 register s32 st asm("$5");
                 st = old;
                 i = st - 0 + old - st;
@@ -90,7 +94,9 @@ void func_800337EC(u8* arg0) {
         case 0x8000:
             old = ((s8*)self)[0x14];
             {
+                // !FAKE: depin: dropping it breaks the match (110/147)
                 register u8* q asm("$6") = p;
+                // !FAKE: depin: dropping it breaks the match (117/147)
                 register s32 st asm("$5");
                 i = old;
                 st = old;

@@ -5,7 +5,7 @@
 M2C_UNK func_80012D9C(M2C_UNK);
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179D0(void*, M2C_UNK, s8);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 void func_800F6880(void* arg0, u8 arg1, s16 arg2, s16 arg3);
 extern s16 D_800970AA;
 extern s32 D_80097420;
@@ -40,7 +40,7 @@ void func_800F2A04(void* arg0) {
         func_80016C48(2, 0x5F, arg0);
     }
     {
-        ((void (*)(void*))func_8002D2B0)(arg0);
+        ((void (*)(void*))move_object)(arg0);
         if (M2C_FIELD(arg0, u8*, 0x15) == 0) {
             if (D_800970AA < M2C_FIELD(arg0, s16*, 0xA)) {
                 v = M2C_FIELD(arg0, u8*, 0x70) & 2;

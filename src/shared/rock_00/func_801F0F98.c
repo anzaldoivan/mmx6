@@ -11,8 +11,8 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 void func_8003CF24(s32, s32, s32);
 s32 func_801EE34C();
 extern s32 D_80077A20;
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
 #define SCRATCH_1C (*(u8**)0x1F80001C)
@@ -27,7 +27,7 @@ void func_801F0F98(struct X4_WeaponObj* arg0) {
     // !FAKE: depin: dropping it breaks the match (61/67)
     register s32 k asm("$7");
 
-    player = &D_800970A0;
+    player = &g_Player;
     F_U8(arg0, 0x14) = F_U8(player, 0x14);
     b15 = player->unk15;
     arg0->unk16 = 1;
@@ -52,6 +52,6 @@ void func_801F0F98(struct X4_WeaponObj* arg0) {
     func_80016C48(1, 0x21, arg0);
     func_8002CCB0(arg0, 0x28, 0x28);
 }
-#undef D_800970A0
+#undef g_Player
 #undef func_800179A4
 #undef func_8002CCB0

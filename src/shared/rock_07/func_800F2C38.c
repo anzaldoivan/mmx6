@@ -8,7 +8,7 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
@@ -39,7 +39,7 @@ void func_800F2C38(void* arg0) {
     } else {
         B(arg0, 0x15) = 0;
     }
-    func_8002D2B0(arg0);
+    move_object(arg0);
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
     if (ABS(H(arg0, 0x84) - H(arg0, 0xA)) < 7 &&
         ABS(H(arg0, 0x86) - H(arg0, 0xE)) < 7) {

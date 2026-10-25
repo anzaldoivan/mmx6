@@ -66,7 +66,7 @@ void func_80021760(u16 arg0, u8 arg1, u8 arg2) {
     }
     abc->unk10 = 0;
     {
-        register s32 ff asm("$4") = 0xFF;
+        s32 ff = 0xFF;
         D_800E33C4 = ff;
     }
     D_800E33B0 = 0;

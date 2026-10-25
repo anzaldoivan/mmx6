@@ -10,16 +10,16 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 s32 func_8002D2D4();
 s32 func_801EE34C();
 extern s32 D_80077A28[];
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
-extern struct X4_BackgroundObj D_800971F8[3];
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_801F3A4C[];
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 #define F_90(p) (((X4_f32*)((u8*)(p) + 0x90))->i)
 #define F_S8(p, o) (*(s8*)((u8*)(p) + (o)))
-#define BG (D_800971F8[player->bg_offset])
+#define BG (background_objects[player->bg_offset])
 
 void func_801F15B0(struct X4_WeaponObj* arg0) {
     struct X4_PlayerObj* player;
@@ -37,7 +37,7 @@ void func_801F15B0(struct X4_WeaponObj* arg0) {
     arg0->on_screen = c;
     arg0->unk64 = c;
     arg0->unk16 = 2;
-    player = &D_800970A0;
+    player = &g_Player;
     if (arg0->unk2 == 0) {
         func_80016C48(1, 0x1B, arg0);
         arg0->unk15 = player->unk15;
@@ -93,6 +93,6 @@ void func_801F15B0(struct X4_WeaponObj* arg0) {
     func_8002CCB0(arg0, 0x20, 0x20);
     arg0->state++;
 }
-#undef D_800970A0
+#undef g_Player
 #undef func_800179A4
 #undef func_8002CCB0

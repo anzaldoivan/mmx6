@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 M2C_UNK func_800429D4();
 void func_80042D3C(void*);
 s32 func_80042E68(void*);
@@ -42,7 +42,7 @@ void func_80040CB0(struct X4_MainObj* self) {
     } else {
         self->unk15 = 0;
     }
-    func_8002D2B0(self);
+    move_object(self);
     d = tgt->x_pos.i.hi - self->x_pos.i.hi;
     if (d >= 0 ? d < 2 : self->x_pos.i.hi - tgt->x_pos.i.hi < 2) {
         y2 = self->y_pos.i.hi + 0x1C;

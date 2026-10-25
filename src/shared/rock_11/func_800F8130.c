@@ -9,6 +9,7 @@ s32 func_80065944(s32);
 s32 func_80065A14(s32);
 
 void func_800F8130(void* self) {
+    // !FAKE: depin: dropping it breaks the match (43/50)
     register s32 ang asm("$16");
     s32 spd;
 
@@ -20,6 +21,7 @@ void func_800F8130(void* self) {
         ang = func_8002D2D4() * 4;
     }
     do {
+        // !FAKE: depin: dropping it breaks the match (48/50)
         register s32 m asm("$2") = func_8002D2D4() & 0x1F;
         spd = m + 0x20;
     } while (0);

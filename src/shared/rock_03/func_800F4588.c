@@ -14,6 +14,7 @@ extern s8 D_800CCF5C;
 void func_800F4588(void* arg0) {
     s32 t;
     s32 n;
+    // !FAKE: depin: dropping it breaks the match (54/59)
     register s32 f asm("$3");
 
     if (func_80040498() != 0) {

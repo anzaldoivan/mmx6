@@ -10,11 +10,11 @@ M2C_UNK func_8002C9B0();
 #define func_8002C9B0 ((void (*)())func_8002C9B0)
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
-void func_8002D2B0(struct X4_MovingObj*);
+void move_object(struct X4_MovingObj*);
 void func_8003CF24(s32, s32, s32);
 extern s32 D_80077ADC;
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_80097420;
 extern s32 D_801F3B1C;
 extern u16 D_801F3B48[];
@@ -30,7 +30,7 @@ void func_801F33F0(struct X4_WeaponObj* arg0) {
     s32 temp_a2;
     s32 t;
 
-    player = &D_800970A0;
+    player = &g_Player;
     t = player->unk5 == 0x4D;
     if (!t) {
         func_8002C9B0();
@@ -68,7 +68,7 @@ void func_801F33F0(struct X4_WeaponObj* arg0) {
         arg0->state++;
     } else {
         func_80017A04((struct X4_AnimatedObj*)arg0);
-        func_8002D2B0((struct X4_MovingObj*)arg0);
+        move_object((struct X4_MovingObj*)arg0);
     }
     if (!(D_80097420 & 3)) {
         arg0->unk64++;
@@ -79,7 +79,7 @@ void func_801F33F0(struct X4_WeaponObj* arg0) {
         F_U8(player, 0xE1)++;
     }
 }
-#undef D_800970A0
+#undef g_Player
 #undef func_800179A4
 #undef func_8002C9B0
 #undef func_8002CCB0

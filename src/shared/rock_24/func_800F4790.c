@@ -13,7 +13,7 @@ extern void* D_800F7800;
 void func_800F4790(struct X4_MainObj* arg0) {
     u16 y;
     s32 xv;
-    register u8 s asm("$3");
+    u8 s;
 
     arg0->animation_table = D_800F7800->animation_table;
     arg0->bg_offset = D_800F7800->bg_offset;
@@ -43,6 +43,7 @@ void func_800F4790(struct X4_MainObj* arg0) {
     }
     func_800179A4(arg0, D_800F7780[arg0->unk2 - 0x1E]);
     do {
+        // !FAKE: depin: dropping it breaks the match (144/152)
         register u8 c asm("$2") = D_800F7800->unk15;
         arg0->unk15 = c;
         xv = D_800F7800->x_pos.u.hi;

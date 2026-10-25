@@ -11,14 +11,15 @@ M2C_UNK func_8002D230();
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_800F00AC(struct X4_MainObj* self) {
     s32 a;
 
     func_80017A04();
     {
-        register s32 t asm("$2") = OH(self, 0x80); // !FAKE: inherited from src/shared/rock_08/func_800ECBC4.c
+        // !FAKE: inherited from src/shared/rock_08/func_800ECBC4.c
+        register s32 t asm("$2") = OH(self, 0x80);
         if (t == 0) {
             goto ready; // !FAKE: inherited from src/shared/rock_08/func_800ECBC4.c
         }
@@ -29,14 +30,14 @@ void func_800F00AC(struct X4_MainObj* self) {
         return;
     }
 ready:
-    OH(self, 0x82) = D_800970A0.x_pos.i.hi;
-    OH(self, 0x84) = D_800970A0.y_pos.i.hi;
+    OH(self, 0x82) = g_Player.x_pos.i.hi;
+    OH(self, 0x84) = g_Player.y_pos.i.hi;
     func_800179A4(self, 0x11);
     {
-        u16 x = D_800970A0.x_pos.i.hi;
+        u16 x = g_Player.x_pos.i.hi;
         u16 y;
         OH(self, 0x82) = x;
-        y = D_800970A0.y_pos.i.hi;
+        y = g_Player.y_pos.i.hi;
         OH(self, 0x84) = y;
         a = func_80065B74((s16)y - self->y_pos.i.hi, (s16)x - self->x_pos.i.hi);
     }

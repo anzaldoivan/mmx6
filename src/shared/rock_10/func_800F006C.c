@@ -76,6 +76,7 @@ void func_800F006C(void* self) {
         func_80049E50(self);
         func_800477E4(4, &D_800FC45C, self);
         {
+            // !FAKE: depin: dropping it breaks the match (121/123)
             register s32 a asm("$2") = 0x20;
             s32 b = 6;
             F(s16, 0x7E) = b;

@@ -15,7 +15,7 @@ void func_800FA468(u8* arg0) {
     {
         s32 a = *(u16*)(arg0 + 0xA);
         s32 g = D_80097202;
-        register s32 d asm("$2");
+        s32 d;
         temp_a0 = *(u16*)(arg0 + 0xE);
         *(s32*)(arg0 + 0x84) = 0;
         d = (a - g) - 0x140;

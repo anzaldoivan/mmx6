@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/visuals/visual_07_water_wake.c:water_wake_player_moving, AGPL-3.0; proven shared with X6 by exact signature 98768ef976bc (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/visuals/visual_07_water_wake.c:water_wake_player_moving, AGPL-3.0; proven shared with X6 by exact signature 98768ef976bc (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern u8 D_800F53E0[9][16];

@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 s32 func_80016C48(s32 a0, s32 a1, void* arg2); /* extern */
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_80097420;
 extern struct X4_EngineObj D_800CCED0;
 
@@ -27,23 +27,23 @@ void func_80033A38(u8* arg0) {
                 s8 mx;
                 k = v - 1;
                 *p = k | 0x80;
-                k = (D_800970A0.hp & 0x7F) + 1;
-                mx = ((s8*)(e - -D_800970A0.unk2))[0x5B];
+                k = (g_Player.hp & 0x7F) + 1;
+                mx = ((s8*)(e - -g_Player.unk2))[0x5B];
                 if (mx < k) {
                     k = mx;
                 }
-                D_800970A0.hp = k;
+                g_Player.hp = k;
                 if (!(g & 3)) {
                     func_80016C48(0, 0x17, 0);
                 }
             } else {
-                s8 mx = ((s8*)(e - -D_800970A0.unk2))[0x5B];
-                if (D_800970A0.hp != mx) {
-                    k = (D_800970A0.hp & 0x7F) + 1;
+                s8 mx = ((s8*)(e - -g_Player.unk2))[0x5B];
+                if (g_Player.hp != mx) {
+                    k = (g_Player.hp & 0x7F) + 1;
                     if (mx < k) {
                         k = mx;
                     }
-                    D_800970A0.hp = k;
+                    g_Player.hp = k;
                     if (!(g & 3)) {
                         func_80016C48(0, 0x17, 0);
                     }
@@ -70,13 +70,13 @@ void func_80033A38(u8* arg0) {
                 s8 h;
                 k = w - 1;
                 *q = k | 0x80;
-                k = (D_800970A0.hp & 0x7F) + 1;
-                h = D_800970A0.hp & ~0x7F;
-                hi = ((s8*)(f - -D_800970A0.unk2))[0x5B];
+                k = (g_Player.hp & 0x7F) + 1;
+                h = g_Player.hp & ~0x7F;
+                hi = ((s8*)(f - -g_Player.unk2))[0x5B];
                 if (hi < k) {
                     k = hi;
                 }
-                D_800970A0.hp = k | h;
+                g_Player.hp = k | h;
                 if (!(g & 3)) {
                     func_80016C48(0, 0x17, 0);
                 }

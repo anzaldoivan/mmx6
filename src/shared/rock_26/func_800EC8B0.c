@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_80075CDC;
 extern s32 D_800EFB54;
 extern s32 D_800EFAE0[];
@@ -20,7 +20,7 @@ void func_800EC8B0(void* arg0) {
     FLD(arg0, u8, 0x60) = 8;
     FLD(arg0, u8, 0x61) = 0;
     FLD(arg0, s32*, 0x58) = &D_80075CDC;
-    FLD(arg0, u8, 0x14) = D_800970A0.bg_offset;
+    FLD(arg0, u8, 0x14) = g_Player.bg_offset;
     FLD(arg0, s32, 0x18) = FLD(arg0, s32, 0x8);
     FLD(arg0, s32, 0x1C) = FLD(arg0, s32, 0xC);
     FLD(arg0, s32, 0x20) = 0;
@@ -91,7 +91,7 @@ void func_800EC8B0(void* arg0) {
         break;
     case 7:
         FLD(arg0, u8, 0x3) = 1;
-        if (FLD(arg0, s16, 0xA) > D_800970A0.x_pos.i.hi) {
+        if (FLD(arg0, s16, 0xA) > g_Player.x_pos.i.hi) {
             FLD(arg0, s32, 0x20) = 0xFFFEE000;
             FLD(arg0, u8, 0x15) = 0;
         } else {

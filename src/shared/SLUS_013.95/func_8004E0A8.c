@@ -4,7 +4,7 @@
 
 s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_8004E78C(M2C_UNK);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj D_800CCED0;
 
 void func_8004E0A8(u8* arg0, u8 arg1, s32 arg2) {
@@ -19,7 +19,7 @@ void func_8004E0A8(u8* arg0, u8 arg1, s32 arg2) {
     u8* e;
 
     {
-        u8* pl0 = (u8*)&D_800970A0;
+        u8* pl0 = (u8*)&g_Player;
         u8* e0;
         n = arg2;
         e0 = (u8*)&D_800CCED0;
@@ -38,7 +38,7 @@ void func_8004E0A8(u8* arg0, u8 arg1, s32 arg2) {
     } else {
         arg0[4] = 3;
     }
-    pl = (u8*)&D_800970A0;
+    pl = (u8*)&g_Player;
     e = (u8*)&D_800CCED0;
     {
         s32 y = (s8)pl[2];

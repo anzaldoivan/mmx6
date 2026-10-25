@@ -7,15 +7,15 @@ s32 func_8002D2D4();
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_80040A04(struct X4_PlayerObj* arg0) {
     s32 ang;
 
     M2C_FIELD(arg0, s16*, 0x7C) = (func_8002D2D4() % 13) + 4;
     {
-        s32 px = D_800970A0.x_pos.i.hi;
-        s32 py = D_800970A0.y_pos.i.hi;
+        s32 px = g_Player.x_pos.i.hi;
+        s32 py = g_Player.y_pos.i.hi;
         ang = func_80065B74(arg0->y_pos.i.hi - py, px - arg0->x_pos.i.hi);
     }
     arg0->unk28 = 0;

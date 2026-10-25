@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_80077A8C;
 extern s32 D_801F37D0;
 extern s32 D_801F37D4;
@@ -12,8 +12,8 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s8* func_8002BEC4(s8* p, s32 dir);
 s32 func_8002D2D4();
-void func_8002D3B4(void*, s32);
-M2C_UNK func_8003D510(M2C_UNK, M2C_UNK, s8, M2C_UNK);
+void set_velocity_from_angle(void*, s32);
+M2C_UNK player_spawn_visual(M2C_UNK, M2C_UNK, s8, M2C_UNK);
 s32 func_801EE34C();
 #define func_800179A4 ((void (*)(void*, s32))func_800179A4)
 #define SCRATCH_14 (*(u8**)0x1F800014)
@@ -40,7 +40,7 @@ void func_801ED524(struct X4_WeaponObj* arg0) {
     arg0->unk40 = 0x520;
     arg0->unk42 = 0x7849;
     arg0->unk3C = temp_a0 + var_a0;
-    player = &D_800970A0;
+    player = &g_Player;
     if (M2C_FIELD(player, s32*, 0xEC) & 0x40180) {
         arg0->unk42 = 0x7844;
     }
@@ -61,7 +61,7 @@ void func_801ED524(struct X4_WeaponObj* arg0) {
         func_80016C48(1, 8, arg0);
         arg0->x_pos.u.hi = player->x_pos.u.hi;
         arg0->y_pos.u.hi = player->y_pos.u.hi + 0x18;
-        func_8002D3B4(arg0, 0x18);
+        set_velocity_from_angle(arg0, 0x18);
         arg0->x_vel.val *= D_801F4E28;
         arg0->y_vel.val *= D_801F4E28;
         one = 1;
@@ -86,7 +86,7 @@ void func_801ED524(struct X4_WeaponObj* arg0) {
                 spawn->unk28.val = 0;
                 spawn->unk2C = 0;
                 spawn->unk2 = one;
-                func_8002D3B4(spawn, var_s3);
+                set_velocity_from_angle(spawn, var_s3);
                 spawn->x_vel.val *= D_801F4E28;
                 spawn->y_vel.val *= D_801F4E28;
                 func_800179A4(spawn, 0);
@@ -99,18 +99,18 @@ void func_801ED524(struct X4_WeaponObj* arg0) {
     func_801EE34C(arg0, player, arg0->id);
     temp_v1 = func_8002D2D4() & 0xF;
     if (temp_v1 < 5) {
-        func_8002D3B4(arg0, 1);
+        set_velocity_from_angle(arg0, 1);
     } else if (temp_v1 < 0xB) {
-        func_8002D3B4(arg0, 0);
+        set_velocity_from_angle(arg0, 0);
     } else {
-        func_8002D3B4(arg0, 0x1F);
+        set_velocity_from_angle(arg0, 0x1F);
     }
     arg0->x_vel.val *= D_801F4E28;
     arg0->y_vel.val *= D_801F4E28;
     if (arg0->unk15 == 0) {
         arg0->x_vel.val = -arg0->x_vel.val;
     }
-    func_8003D510(0x21, 2, 0x2D, 0);
+    player_spawn_visual(0x21, 2, 0x2D, 0);
 }
-#undef D_800970A0
+#undef g_Player
 #undef func_800179A4

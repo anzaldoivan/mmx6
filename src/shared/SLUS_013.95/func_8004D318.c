@@ -4,7 +4,7 @@
 
 #define F32(p, off) (*(s32*)((u8*)(p) + (off)))
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_8009B79C;
 struct X4_QuadObj* func_8002C7F0(void);
 M2C_UNK func_8002C9B0();
@@ -18,8 +18,8 @@ void func_8004D318(struct X4_QuadObj* self) {
     s16 dy;
 
     if (self->unk2 == 0) {
-        dx = self->x_pos.i.hi - D_800971F8[self->bg_offset].x_pos.i.hi;
-        dy = self->y_pos.i.hi - D_800971F8[self->bg_offset].y_pos.i.hi;
+        dx = self->x_pos.i.hi - background_objects[self->bg_offset].x_pos.i.hi;
+        dy = self->y_pos.i.hi - background_objects[self->bg_offset].y_pos.i.hi;
         if (dx < 0 || D_8009B79C < dx || dy < 0 || dy >= 0xF1) {
             ((M2C_UNK(*)())func_8002C9B0)(self);
             return;

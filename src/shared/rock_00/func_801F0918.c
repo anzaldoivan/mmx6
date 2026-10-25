@@ -5,12 +5,12 @@
 void func_80017A04(struct X4_AnimatedObj*);
 s32 func_8002CBFC(struct X4_BaseObj*, s32, s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-void func_8002D2B0(struct X4_MovingObj*);
+void move_object(struct X4_MovingObj*);
 
 void func_801F0918(void* arg0) {
     if (func_8002CBFC(arg0, 0x40, 0x40) == 0) {
         func_80017A04(arg0);
-        func_8002D2B0(arg0);
+        move_object(arg0);
         ((void (*)(void*, s32, s32))func_8002CCB0)(arg0, 0x40, 0x40);
         return;
     }

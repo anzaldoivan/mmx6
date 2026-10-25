@@ -9,6 +9,7 @@ M2C_UNK func_80017A04();
 void func_800F6328(u8* arg0) {
     u8* sp = SPAD;
     u8 t = sp[0x8B];
+    // !FAKE: depin: dropping it breaks the match (49/54)
     register s32 t2 asm("$2");
 
     if (t != 0) {

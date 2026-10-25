@@ -17,6 +17,7 @@ void func_800EA978(u8* arg0) {
     *(s32*)(arg0 + 0x2C) = 0x48D1;
     func_8002D230(arg0);
     {
+        // !FAKE: depin: dropping it breaks the match (32/35)
         register s32 t asm("$2") = arg0[6] + 1;
         arg0[6] = t;
     }

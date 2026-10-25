@@ -38,6 +38,7 @@ void func_800F3854(struct X4_MainObj* arg0) {
             func_8002CCB0(arg0, 0x20, 0x20);
             func_80017A04(arg0);
             {
+                // !FAKE: depin: dropping it breaks the match (107/110)
                 register s32 t asm("$2") = (u8)arg0->unk5 + 1;
 
                 arg0->unk5 = t;

@@ -9,7 +9,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);          /* extern */
 M2C_UNK func_80017A04();                        /* extern */
 s32 func_8002A47C(s32);                         /* extern */
 void* func_8002C32C();                          /* extern */
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern s8 D_800970FC;
 
 static inline void F1670_spawn(void* self, s32 kind) {
@@ -38,7 +38,7 @@ static inline void F1670_spawn(void* self, s32 kind) {
     {                                                                          \
         ((void (*)(void*, s32))func_800179A4)(self, anim);                     \
         if (M2C_FIELD(self, u8*, 0x8D) == 0) {                                 \
-            void* pl = &D_800970A0;                                            \
+            void* pl = &g_Player;                                              \
             M2C_FIELD(pl, u8*, 0xD8) = voice;                                  \
             M2C_FIELD(pl, u8*, 0x6) = 0;                                       \
         }                                                                      \

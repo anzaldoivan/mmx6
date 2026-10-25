@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern void (*D_80076180[])(struct X4_PlayerObj*);
 
 void func_80044F78(struct X4_PlayerObj* arg0) {
@@ -10,7 +10,7 @@ void func_80044F78(struct X4_PlayerObj* arg0) {
 
     arg0->unk18 = arg0->x_pos;
     arg0->unk1C = arg0->y_pos;
-    p = &D_800970A0;
+    p = &g_Player;
     var_a1 = ((s8*)p)[0xD3] != 0;
     if (p->ride_animation != 0) {
         var_a1 = 1;

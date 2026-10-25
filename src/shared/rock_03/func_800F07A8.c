@@ -49,7 +49,9 @@ void func_800F07A8(void* arg0) {
     } else if (D_800F7E30 == 1) {
         func_800179A4(arg0, 0);
         {
+            // !FAKE: depin: dropping it breaks the match (132/136)
             register s32 a asm("$2") = (s32)&D_800F7954;
+            // !FAKE: depin: dropping it breaks the match (76/136)
             register s32 b asm("$3") = (s32)&D_80074BFC;
             M2C_FIELD(arg0, s32*, 0x50) = a;
             M2C_FIELD(arg0, s32*, 0x58) = b;
@@ -62,7 +64,9 @@ void func_800F07A8(void* arg0) {
     if (++M2C_FIELD(arg0, s16*, 0x7C) == 0x258) {
         func_800179A4(arg0, 0);
         {
+            // !FAKE: depin: dropping it breaks the match (132/136)
             register s32 a asm("$2") = (s32)&D_800F7954;
+            // !FAKE: depin: dropping it breaks the match (130/136)
             register s32 b asm("$3") = (s32)&D_80074BFC;
             M2C_FIELD(arg0, s32*, 0x50) = a;
             M2C_FIELD(arg0, s32*, 0x58) = b;

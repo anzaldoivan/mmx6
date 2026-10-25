@@ -59,6 +59,7 @@ void func_800EF5B8(void* arg0) {
         func_800F4534(arg0, 0x12);
         func_800F4534(arg0, 0x13);
         {
+            // !FAKE: depin: dropping it breaks the match (140/145)
             register s32 n asm("$2") = F(u8, 0x6);
             F(s16, 0x7C) = 0x32;
             F(u8, 0x6) = n + 1;

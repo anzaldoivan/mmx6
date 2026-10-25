@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/mains/main_51_fortress_cannon.c:fortress_cannon_check_fall, AGPL-3.0; proven shared with X6 by exact signature 838e32cf3933 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/mains/main_51_fortress_cannon.c:fortress_cannon_check_fall, AGPL-3.0; proven shared with X6 by exact signature 838e32cf3933 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 

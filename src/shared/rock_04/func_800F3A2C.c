@@ -9,7 +9,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_800F3A2C(void* arg0) {
     u16 px;
@@ -20,7 +20,8 @@ void func_800F3A2C(void* arg0) {
         func_80016C48(2, 0x13, arg0);
         func_800179A4(arg0, 0xA);
         {
-            register struct X4_PlayerObj* pl asm("$2") = &D_800970A0;
+            // !FAKE: depin: dropping it breaks the match (57/63)
+            register struct X4_PlayerObj* pl asm("$2") = &g_Player;
             px = pl->x_pos.u.hi;
             M2C_FIELD(arg0, u16*, 0x84) = px;
             py = pl->y_pos.u.hi;

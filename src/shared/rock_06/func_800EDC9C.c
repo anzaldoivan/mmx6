@@ -9,7 +9,7 @@ M2C_UNK func_80031DA8();
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049EBC(void*, M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_800ECAB8(struct X4_PlayerObj*, s16, s16);
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern M2C_UNK D_800F3A0C;
 extern M2C_UNK D_800F3A10;
 extern M2C_UNK D_800F3A1C;
@@ -46,7 +46,7 @@ extern M2C_UNK D_800F3A1C;
 #define FY(p) (F_E(p) + F_81(p) + F_83(p))
 #define CHECK(p)                                                               \
     {                                                                          \
-        void* pl_ = &D_800970A0;                                               \
+        void* pl_ = &g_Player;                                                 \
         if (PL_E5(pl_) == 0 && ABS(F_A(pl_) - F_A(p)) < 0x30) {                \
             func_80031DA8(p);                                                  \
         }                                                                      \
@@ -60,7 +60,7 @@ void func_800EDC9C(void* arg0) {
     s8 k;
     s16 t;
 
-    pl = &D_800970A0;
+    pl = &g_Player;
     ((void (*)(void*))func_8002F288)(arg0);
     b = func_800ECAB8(arg0, (t = RX(arg0), t - 1), FY(arg0));
     c = func_800ECAB8(arg0, LX(arg0), FY(arg0));

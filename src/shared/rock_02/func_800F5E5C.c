@@ -9,6 +9,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 
 void func_800F5E5C(void* arg0) {
+    // !FAKE: depin: dropping it breaks the match (25/35)
     register u16 t asm("$2");
 
     if (M2C_FIELD(arg0, s16*, 0x7C) == 0xA) {

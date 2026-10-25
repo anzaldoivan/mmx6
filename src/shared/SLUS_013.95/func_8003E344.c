@@ -3,7 +3,8 @@
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 M2C_UNK func_8003CDF0();
 #define func_8003CDF0 ((void (*)(void*))func_8003CDF0)
-M2C_UNK func_8003D510(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3);
+M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
+                            M2C_UNK arg3);
 M2C_UNK func_8003DF58(void*);
 M2C_UNK func_8003F0BC(void*);
 M2C_UNK func_8003F480();
@@ -71,7 +72,7 @@ s32 func_8003E344(void* self) {
             func_8003BA04(self, 0xB1);
         }
         UB(0x5) = 0x24;
-        func_8003D510(1, 0x1B, 8, 0);
+        player_spawn_visual(1, 0x1B, 8, 0);
         UB(0x86) = 5;
         UB(0xE1) = 0;
         W(0x68) = 0;
@@ -90,7 +91,7 @@ s32 func_8003E344(void* self) {
         UB(0xE1) = 0;
         W(0x68) = 0;
         UB(0xE0) = 2;
-        func_8003D510(1, 0x1B, 7, 0);
+        player_spawn_visual(1, 0x1B, 7, 0);
         ret = 1;
     } else if (k == 3) {
         if (UB(0x89) & 8) {
@@ -109,6 +110,7 @@ s32 func_8003E344(void* self) {
     } else {
         func_8003BA04(self, 0x6A);
         {
+            // !FAKE: depin: dropping it breaks the match (143/180)
             register s32 c asm("$2");
             c = 0x22;
             UB(0x5) = c;

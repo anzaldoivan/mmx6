@@ -8,6 +8,7 @@ M2C_UNK func_8002D230(void*);
 void func_800EDAD4(struct X4_MainObj* self) {
     ((M2C_UNK(*)())func_80017A04)();
     {
+        // !FAKE: depin: dropping it breaks the match (25/29)
         register s32 c asm("$2") = self->unk7C;
         if (c != 0) {
             self->unk7C--;

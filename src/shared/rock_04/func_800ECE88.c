@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK func_8002D2B0(void*);                     /* extern */
+M2C_UNK move_object(void*);                       /* extern */
 
 void func_800ECE88(void* arg0) {
     void* temp_s0;
@@ -13,7 +13,7 @@ void func_800ECE88(void* arg0) {
     if (M2C_FIELD(temp_s0, s16*, 0xE) != M2C_FIELD(arg0, s16*, 0xE)) {
         M2C_FIELD(temp_s0, s16*, 0xE) = (s16)(u16)M2C_FIELD(arg0, s16*, 0xE);
     }
-    func_8002D2B0(arg0);
+    move_object(arg0);
     if (M2C_FIELD(temp_s0, s8*, 7) == 1) {
         M2C_FIELD(arg0, s8*, 6) = 2;
         M2C_FIELD(arg0, s16*, 0xC) = 0;

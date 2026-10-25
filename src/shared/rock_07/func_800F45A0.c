@@ -22,6 +22,7 @@ void func_800F45A0(void* arg0) {
         D_800CCED0.boss_ptr = arg0;
         func_80025FD8();
         {
+            // !FAKE: depin: dropping it breaks the match (45/53)
             register s32 k asm("$3") = M2C_FIELD(&D_800CCED0, u8*, 0x8F);
             M2C_FIELD(&D_800CCED0, s8*, 0x8C) = buf[k] + 0x30;
         }

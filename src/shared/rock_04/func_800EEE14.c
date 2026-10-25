@@ -12,6 +12,7 @@ extern s32 D_800F6C58[];
 void func_800EEE14(void* arg0) {
     func_80017A04();
     {
+        // !FAKE: depin: dropping it breaks the match (31/35)
         register s32 t asm("$2") = H(arg0, 0x7C);
         if (t != 0) {
             W(arg0, 0x54) = 0;

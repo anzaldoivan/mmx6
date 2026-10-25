@@ -1,13 +1,13 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_800EA3F4(struct X4_MainObj* self) {
     // !FAKE: the result lives in the first return register across every arm
     register s32 dir asm("$2");
 
-    if (D_800970A0.unk2 == 0) {
+    if (g_Player.unk2 == 0) {
         s32 px;
         s32 x;
         s32 py;
@@ -21,12 +21,12 @@ void func_800EA3F4(struct X4_MainObj* self) {
         s32 d_side;
         s32 d_down;
 
-        px = D_800970A0.x_pos.i.hi;
+        px = g_Player.x_pos.i.hi;
         x = self->x_pos.i.hi;
         dx = px - 0x10;
         dx -= x;
         dx = dx * dx;
-        py = D_800970A0.y_pos.i.hi;
+        py = g_Player.y_pos.i.hi;
         y = self->y_pos.i.hi;
         ya = py + 0x20;
         ya -= y;
@@ -63,12 +63,12 @@ void func_800EA3F4(struct X4_MainObj* self) {
         // !FAKE: explicit join keeps the arm out of the shared result block
         goto end;
     }
-    if (self->x_pos.i.hi >= D_800970A0.x_pos.i.hi) {
+    if (self->x_pos.i.hi >= g_Player.x_pos.i.hi) {
         dir = 2;
         // !FAKE: explicit join keeps the arm out of the shared result block
         goto end;
     }
-    if (self->y_pos.i.hi < D_800970A0.y_pos.i.hi) {
+    if (self->y_pos.i.hi < g_Player.y_pos.i.hi) {
         // !FAKE: shared result block keeps each arm's compare ahead of the result store
         goto three;
     }

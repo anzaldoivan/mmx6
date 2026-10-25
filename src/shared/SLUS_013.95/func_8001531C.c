@@ -40,7 +40,8 @@ extern s32 D_800E0D40[];
 
 void func_8001531C(void) {
     s32 tbl[4];
-    register s32 ret asm("$19");
+    s32 ret;
+    // !FAKE: depin: dropping it breaks the match (184/197)
     register s32 stop asm("$18");
 
     __builtin_memcpy(tbl, D_80010038, sizeof(tbl));

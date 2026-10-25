@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_80014F70(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-void func_80016178(void);                          /* extern */
+void func_80016178(void);                         /* extern */
 
 void func_8001447C(void) {
     func_80014F70(0x4A, 0, 0);

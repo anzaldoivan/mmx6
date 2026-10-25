@@ -5,7 +5,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 void* func_8002C32C();
-s32 func_80039BC4(struct X4_PlayerObj* self);
+s32 player_check_dash_jump_walk(struct X4_PlayerObj* self);
 void func_801ECE60(void* arg0);
 
 void func_801EACAC(u8* arg0) {
@@ -53,7 +53,7 @@ void func_801EACAC(u8* arg0) {
         flag = ((s8*)arg0)[0x45];
         if (flag == 1 && ((s8*)arg0)[0xD3] == 0) {
             arg0[0x8E] = 0;
-            if (func_80039BC4((struct X4_PlayerObj*)arg0) != 0) {
+            if (player_check_dash_jump_walk((struct X4_PlayerObj*)arg0) != 0) {
                 return;
             }
             arg0[0x8E] = flag;

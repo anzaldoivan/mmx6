@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 extern u16 D_80090D6A;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 void func_80027D6C(u32, s32, s32);
 
 void func_800268B0(s32 arg0) {
@@ -18,10 +18,10 @@ void func_800268B0(s32 arg0) {
         count = 0x20;
     }
     for (i = 0; i < 3; i++) {
-        y = D_800971F8[i].y_pos.i.hi / 16 + arg0;
+        y = background_objects[i].y_pos.i.hi / 16 + arg0;
         for (j = 0; j < 0x20; y++, j++) {
             if (y >= 0) {
-                x = D_800971F8[i].x_pos.i.hi / 16 + arg0;
+                x = background_objects[i].x_pos.i.hi / 16 + arg0;
                 for (k = 0; k < count; k++, x++) {
                     if (x >= 0) {
                         func_80027D6C(i, x, y);

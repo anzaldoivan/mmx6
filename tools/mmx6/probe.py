@@ -7,7 +7,8 @@
       -> one line per triple x probe, then `PIN <t> <k> of <k>` | `PIN NONE` | `PIN AMBIGUOUS <t1>,<t2>,...`;
          rc 0 only on a unique PIN (exactly one triple matching every probe, k >= 1)
   probe.py --self-test [--triples ...]
-      -> known-true control (src/probes/selftest_func_80055A04.c, INCLUDE_ASM) must MATCH under every triple;
+      -> known-true control (SLUS_013.95 0x80055A04, its INCLUDE_ASM written to .run/probe/mut/) must MATCH under
+         every triple; planted names that spell no address (.run/probe/plant/) resolve from symbols file + asm rows;
          planted mutation (.run/probe/mut/, one unrelocated instruction -> nop) must FAIL n-1/n; ends
          `SELF-TEST OK` (rc 0) or `SELF-TEST FAIL` (rc 1)
 
@@ -33,14 +34,100 @@ import dumps  # noqa: E402  (the C rule's dry-run recipe)
 
 JR_RA = 0x03E00008
 MASKS = {4: 0x03FFFFFF, 5: 0xFFFF, 6: 0xFFFF, 7: 0xFFFF}  # R_MIPS_26, HI16, LO16, GPREL16
-SELFTEST_FUNC = "func_80055A04"
-SELFTEST_PROG = "SLUS_013.95"
-SELFTEST_SRC = "src/probes/selftest_func_80055A04.c"
-SELFTEST_ASM = "asm/SLUS_013.95/nonmatchings/LIBSPU_S_M_UTIL/func_80055A04.s"
+SELFTEST_PROG, SELFTEST_VRAM = "SLUS_013.95", 0x80055A04  # the known-true control; its name is looked up (sym_name)
 MUT_DIR = ".run/probe/mut"
+PLANT_DIR = ".run/probe/plant"  # self-test: a planted tree whose symbols are not spelled with their address
 CORPUS = "build/corpus/functions.jsonl"
+SYMBOLS = "config/symbols.{}.txt"
+SYM_RE = re.compile(r"^\s*(\w+)\s*=\s*0x([0-9A-Fa-f]+)\s*;(.*)$")
+LABEL_RE = re.compile(r"^\s*([gjda])label\s+(\S+)\s*$")
+ROW_RE = re.compile(r"^\s*/\*\s+(?:[0-9A-Fa-f]+\s+)?([0-9A-Fa-f]{8})\s")  # spimdisasm `/* [off] vram [word] */`
 INSN_RE = re.compile(r"/\*\s+[0-9A-Fa-f]+\s+([0-9A-Fa-f]{8})\s+[0-9A-Fa-f]{8}\s+\*/\s+(\S+)(.*)")
 MUT_OPS = ("addu", "subu", "and", "or", "xor", "nor", "slt", "sltu")  # one-word R-type, never relocated
+
+
+def symbols(prog, root="."):
+    """[(name, vram, type or None)] of config/symbols.<prog>.txt (`name = 0xADDR; // type:func size:0x14`)."""
+    path = os.path.join(root, SYMBOLS.format(prog))
+    rows = []
+    if os.path.isfile(path):
+        with open(path) as f:
+            for line in f:
+                m = SYM_RE.match(line)
+                if m:
+                    t = re.search(r"\btype:(\w+)", m.group(3))
+                    rows.append((m.group(1), int(m.group(2), 16), t.group(1) if t else None))
+    return rows
+
+
+_SYMTAB = {}
+
+
+def symtab(prog, root="."):
+    """(name -> vram, function vram -> name, data vram -> name) of prog from config/symbols.<prog>.txt and the
+    build/corpus/functions.jsonl rows (the corpus names a function as the build does now). A name's spelling is never
+    read as an address: a symbol is resolved by these tables or not at all."""
+    key = (os.path.abspath(root), prog)
+    if key not in _SYMTAB:
+        n2v, fv, dv = {}, {}, {}
+        for n, v, t in symbols(prog, root):
+            n2v.setdefault(n, v)
+            (fv if t == "func" else dv).setdefault(v, n)
+        path = os.path.join(root, CORPUS)
+        if os.path.isfile(path):
+            with open(path) as f:
+                for line in f:
+                    r = json.loads(line)
+                    if r["prog"] == prog:
+                        v = int(r["vram"], 16)
+                        n2v[r["name"]] = v
+                        fv[v] = r["name"]
+        _SYMTAB[key] = (n2v, fv, dv)
+    return _SYMTAB[key]
+
+
+def sym_vram(prog, name, root="."):
+    """vram of prog's symbol `name` (symbols file or corpus), else None."""
+    return symtab(prog, root)[0].get(name)
+
+
+def sym_name(prog, vram, prefix="func", root="."):
+    """prog's current name of the function (prefix func) or datum (prefix D) at vram; splat's default
+    <prefix>_<VRAM> (address -> name) when no table names it."""
+    return symtab(prog, root)[1 if prefix == "func" else 2].get(vram, f"{prefix}_{vram:08X}")
+
+
+def plant_lookup(tool, prog, vram, prefix="func"):
+    """Self-test plant: a scratch symbols file naming (prog, vram) `alpha_helper`, a name that spells no address;
+    True iff both lookups read the table and the splat-default spelling resolves to nothing."""
+    root = f".run/{tool}/lookup-plant"
+    shutil.rmtree(root, ignore_errors=True)
+    os.makedirs(os.path.join(root, "config"))
+    with open(os.path.join(root, SYMBOLS.format(prog)), "w") as f:
+        f.write(f"// basis: planted\nalpha_helper = 0x{vram:08X}; // type:{'func' if prefix == 'func' else 'data'}\n")
+    got = (sym_name(prog, vram, prefix, root), sym_vram(prog, "alpha_helper", root),
+           sym_vram(prog, f"{prefix}_{vram:08X}", root))
+    _SYMTAB.pop((os.path.abspath(root), prog), None)
+    shutil.rmtree(root, ignore_errors=True)
+    ok = got == ("alpha_helper", vram, None)
+    print(f"{tool} self-test {'ok' if ok else 'FAIL'}: planted non-address name {prog} 0x{vram:08X} -> {got}")
+    return ok
+
+
+def asm_labels(text):
+    """[(kind g|j|d|a, name, vram)] of a split .s text's label lines: vram is the first row after the label, never
+    the label's spelling."""
+    out, pend = [], []
+    for line in text.splitlines():
+        m = LABEL_RE.match(line)
+        if m:
+            pend.append((m.group(1), m.group(2)))
+            continue
+        r = ROW_RE.match(line) if pend else None
+        if r:
+            out += [(k, n, int(r.group(1), 16)) for k, n in pend]
+            pend = []
+    return out
 
 
 def read_rows(path):
@@ -94,21 +181,21 @@ def yaml_layout(prog):
     return target, start, vram
 
 
-def find_extent(prog, func):
-    """(first vram, word count) of func's glabel..endlabel in asm/<prog>/."""
-    root = f"asm/{prog}"
-    if not os.path.isdir(root):
+def find_extent(prog, func, root="."):
+    """(first vram, word count) of func's glabel..endlabel in asm/<prog>/ (paths under root: the self-test's plant)."""
+    asm = os.path.join(root, f"asm/{prog}")
+    if not os.path.isdir(asm):
         subprocess.run(["make", "-s", f"build/split/{prog}.stamp"], check=True, stdout=subprocess.DEVNULL)
     tag = f"glabel {func}"
-    starts = set()  # every glabel func_<addr> / D_<addr> vram: bounds a function banked as C (no .s, T8)
-    for d, dirs, files in sorted(os.walk(root)):
+    starts = set()  # every glabel's first-row vram: bounds a function banked as C (no .s, T8)
+    for d, dirs, files in sorted(os.walk(asm)):
         dirs.sort()
         for name in sorted(files):
             if not name.endswith(".s"):
                 continue
             with open(os.path.join(d, name), errors="replace") as f:
                 text = f.read()
-            starts.update(int(a, 16) for a in re.findall(r"^\s*glabel \w+_([0-9A-Fa-f]{8})\s*$", text, re.M))
+            starts.update(v for k, _, v in asm_labels(text) if k == "g")
             if tag not in text:
                 continue
             vrams, inside = [], False
@@ -124,32 +211,33 @@ def find_extent(prog, func):
                     vrams.append(int(m.group(1), 16))
             if vrams:
                 return vrams[0], len(vrams)
-    # Banked as C in src/<prog>/ (splat writes no .s): [func_<addr>, next function start); retail_words trims (C0021).
-    m = re.fullmatch(r"func_([0-9A-Fa-f]{8})", func)
-    if m:
-        for d, dirs, files in os.walk(f"src/{prog}"):
+    # Banked as C in src/<prog>/ (splat writes no .s): [func's vram, next function start); retail_words trims (C0021).
+    # Every name's vram comes from the symbols file / corpus (sym_vram), never from its spelling.
+    lo = sym_vram(prog, func, root)
+    if lo is not None:
+        for d, dirs, files in os.walk(os.path.join(root, f"src/{prog}")):
             for name in files:
                 if name.endswith(".c"):
                     with open(os.path.join(d, name), errors="replace") as f:
                         src = f.read()
-                    if not re.search(rf"^\w[^;(]*\b{func}\(", src, re.M):
+                    if not re.search(rf"^\w[^;(]*\b{re.escape(func)}\(", src, re.M):
                         continue
-                    starts.update(int(a, 16) for a in re.findall(r"^\w[^;(]*\bfunc_([0-9A-Fa-f]{8})\(", src, re.M))
-                    starts.update(int(a, 16) for a in re.findall(r"^INCLUDE_ASM\([^,]*, *\w+_([0-9A-Fa-f]{8})\)", src, re.M))
-                    starts.update(int(a, 16) for a in re.findall(r'^#include "[^"]*/func_([0-9A-Fa-f]{8})\.c"', src, re.M))
-                    lo = int(m.group(1), 16)
+                    names = re.findall(r"^\w[^;(]*\b(\w+)\(", src, re.M)
+                    names += re.findall(r"^INCLUDE_ASM\([^,]*, *(\w+)\)", src, re.M)
+                    names += re.findall(r'^#include "[^"]*/(\w+)\.c"', src, re.M)
+                    starts.update(v for v in (sym_vram(prog, n, root) for n in names) if v is not None)
                     hi = min((a for a in starts if a > lo), default=None)
                     if hi is not None:
                         return lo, (hi - lo) // 4
     # A body reached through an #include (src/shared, T5: no .s, no def text under its name): its corpus row extent.
-    if os.path.isfile(CORPUS):
-        with open(CORPUS) as f:
+    if os.path.isfile(os.path.join(root, CORPUS)):
+        with open(os.path.join(root, CORPUS)) as f:
             for line in f:
                 r = json.loads(line)
                 if r["prog"] == prog and r["name"] == func:
                     lo = int(r["vram"], 16)
                     return lo, (int(r["end"], 16) - lo) // 4
-    sys.exit(f"probe: {func} not found under {root}/")
+    sys.exit(f"probe: {func} not found under {asm}/ (a C body's vram needs config/symbols.{prog}.txt or {CORPUS})")
 
 
 def retail_words(prog, func):
@@ -283,10 +371,24 @@ def ladder(probes_path, triples_path):
     return 1
 
 
-def make_mutation():
+def control(prog, vram):
+    """(name, .s path, control .c path) of the known-true control at (prog, vram): its current name looked up, its
+    INCLUDE_ASM written to MUT_DIR."""
+    func = sym_name(prog, vram)
+    paths = [os.path.join(d, func + ".s") for d, _, fs in sorted(os.walk(f"asm/{prog}/nonmatchings")) if func + ".s" in fs]
+    if len(paths) != 1:
+        sys.exit(f"probe: control {func} has {len(paths)} .s files under asm/{prog}/nonmatchings")
+    os.makedirs(MUT_DIR, exist_ok=True)
+    src = os.path.join(MUT_DIR, "selftest_ctl.c")
+    with open(src, "w") as f:
+        f.write(f'#include "common.h"\n\nINCLUDE_ASM("{os.path.dirname(paths[0])}", {func});\n')
+    return func, paths[0], src
+
+
+def make_mutation(func, asm):
     """Copy the control .s with the first one-word R-type instruction -> nop; returns the .c path."""
     os.makedirs(MUT_DIR, exist_ok=True)
-    with open(SELFTEST_ASM) as f:
+    with open(asm) as f:
         lines = f.read().split("\n")
     for i, line in enumerate(lines):
         m = INSN_RE.search(line)
@@ -295,23 +397,45 @@ def make_mutation():
             break
     else:
         sys.exit("probe: no mutable instruction in the control")
-    with open(os.path.join(MUT_DIR, SELFTEST_FUNC + ".s"), "w") as f:
+    with open(os.path.join(MUT_DIR, func + ".s"), "w") as f:
         f.write("\n".join(lines))
     src = os.path.join(MUT_DIR, "selftest_mut.c")
     with open(src, "w") as f:
-        f.write(f'#include "common.h"\n\nINCLUDE_ASM("{MUT_DIR}", {SELFTEST_FUNC});\n')
+        f.write(f'#include "common.h"\n\nINCLUDE_ASM("{MUT_DIR}", {func});\n')
     return src
+
+
+def plant_names():
+    """Planted tree: two functions whose names spell no address resolve from its symbols file and asm rows only."""
+    shutil.rmtree(PLANT_DIR, ignore_errors=True)
+    files = {"config/symbols.P.txt": "// basis: planted\nbeta_helper = 0x80001000; // type:func size:0x8\n"
+                                     "// basis: planted\nalpha_helper = 0x80001008; // type:func size:0x8\n",
+             "asm/P/nonmatchings/T/alpha_helper.s": "glabel alpha_helper\n    /* 1008 80001008 03E00008 */  jr $ra\n"
+                                                    "    /* 100C 8000100C 00000000 */   nop\nendlabel alpha_helper\n",
+             "src/P/T.c": 'void beta_helper(void) {\n}\n\nINCLUDE_ASM("asm/P/nonmatchings/T", alpha_helper);\n'}
+    for rel, text in files.items():
+        os.makedirs(os.path.dirname(os.path.join(PLANT_DIR, rel)), exist_ok=True)
+        with open(os.path.join(PLANT_DIR, rel), "w") as f:
+            f.write(text)
+    got = (sym_vram("P", "alpha_helper", PLANT_DIR), sym_name("P", 0x80001000, root=PLANT_DIR),
+           find_extent("P", "alpha_helper", PLANT_DIR), find_extent("P", "beta_helper", PLANT_DIR),
+           asm_labels(files["asm/P/nonmatchings/T/alpha_helper.s"]))
+    ok = got == (0x80001008, "beta_helper", (0x80001008, 2), (0x80001000, 2), [("g", "alpha_helper", 0x80001008)])
+    print(f"planted non-address names {'ok' if ok else 'FAIL'}: {got}")
+    shutil.rmtree(PLANT_DIR, ignore_errors=True)
+    return ok
 
 
 def self_test(triples_path):
     triples = triple_names(triples_path)
-    find_extent(SELFTEST_PROG, SELFTEST_FUNC)  # splits the program first when asm/ is missing
-    mut = make_mutation()
-    ok = bool(triples)
+    find_extent(SELFTEST_PROG, sym_name(SELFTEST_PROG, SELFTEST_VRAM))  # splits the program first when asm/ is missing
+    func, asm, ctl = control(SELFTEST_PROG, SELFTEST_VRAM)
+    mut = make_mutation(func, asm)
+    ok = bool(triples) and plant_names()
     for t in triples:
-        ok &= probe(SELFTEST_FUNC, SELFTEST_PROG, SELFTEST_SRC, t)[0]
+        ok &= probe(func, SELFTEST_PROG, ctl, t)[0]
     for t in triples:
-        match, matched, n = probe(SELFTEST_FUNC, SELFTEST_PROG, mut, t)
+        match, matched, n = probe(func, SELFTEST_PROG, mut, t)
         ok &= (not match) and matched == n - 1
     print("SELF-TEST OK" if ok else "SELF-TEST FAIL")
     return 0 if ok else 1

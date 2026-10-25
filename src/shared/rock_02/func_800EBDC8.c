@@ -8,6 +8,7 @@ extern s32 D_8009719C;
 
 void func_800EBDC8(void* arg0) {
     s32 temp_v0;
+    // !FAKE: depin: dropping it breaks the match (51/54)
     register s32 flag asm("$2");
 
     func_80017A04();

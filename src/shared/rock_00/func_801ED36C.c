@@ -2,18 +2,18 @@
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s8 D_800950A0[];
 void* func_8002C32C();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
-void func_8002D2B0(struct X4_MovingObj*);
+void move_object(struct X4_MovingObj*);
 M2C_UNK func_8002EE10(void*);
 void func_800383F8(void*);
 
 void func_801ED36C(s8* arg0) {
-    struct X4_PlayerObj* player = &D_800970A0;
+    struct X4_PlayerObj* player = &g_Player;
     s8* sub;
     s8* p;
     s8* spawn;
@@ -24,7 +24,7 @@ void func_801ED36C(s8* arg0) {
     u32 max;
 
     sub = arg0 + 0x8C;
-    func_8002D2B0((struct X4_MovingObj*)arg0);
+    move_object((struct X4_MovingObj*)arg0);
     max = 1;
     if (M2C_FIELD(player, u8*, 0xE7) == 4) {
         max = 3;
@@ -77,4 +77,4 @@ void func_801ED36C(s8* arg0) {
     func_8002CCB0(arg0, 0x2A, 0x22);
 }
 #undef func_8002CCB0
-#undef D_800970A0
+#undef g_Player

@@ -5,8 +5,10 @@ extern u16 D_80097222;
 #define CALL func_800FA4F8
 
 void func_800F84A8(void* arg0, s32 arg1) {
+    // !FAKE: depin: dropping it breaks the match (47/49)
     register s32 b asm("$2") = *((u8*)arg0 + 2);
-    register s32 kind asm("$4") = b & 0xF;
+    s32 kind = b & 0xF;
+    // !FAKE: depin: dropping it breaks the match (5/49)
     register s32 one asm("$3") = 1;
 #define ONE one
     if (kind == ONE) {

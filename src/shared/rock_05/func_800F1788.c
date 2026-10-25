@@ -25,6 +25,7 @@ void func_800F1788(void* arg0) {
             M2C_FIELD(arg0, s16*, 0x7C) = 2;
         }
         if ((s8)++M2C_FIELD(arg0, u8*, 0x5C) == D_800CCF5C) {
+            // !FAKE: depin: dropping it breaks the match (33/50)
             register s32 v asm("$4") = D_800F448C;
             D_80097240 = v;
             func_8003D330(v);

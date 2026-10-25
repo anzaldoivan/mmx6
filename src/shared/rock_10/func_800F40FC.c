@@ -3,11 +3,11 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_ObjectHeader D_80097420;
 
 #define EA_U8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -23,12 +23,12 @@ void func_800F40FC(void* arg0) {
     s32 t;
     s32 v;
 
-    if (D_800970A0.x_pos.i.hi > EA_S16(arg0, 0xA)) {
+    if (g_Player.x_pos.i.hi > EA_S16(arg0, 0xA)) {
         EA_U8(arg0, 0x15) = 0x40;
     } else {
         EA_U8(arg0, 0x15) = 0;
     }
-    p = &D_800970A0;
+    p = &g_Player;
     y = p->y_pos.i.hi + EA_S16(arg0, 0x82);
     x = p->x_pos.i.hi + EA_S16(arg0, 0x80);
     ang = func_80065B74(y - EA_S16(arg0, 0xE), x - EA_S16(arg0, 0xA));
@@ -51,5 +51,5 @@ void func_800F40FC(void* arg0) {
         }
     }
     func_80017A04(arg0);
-    func_8002D2B0(arg0);
+    move_object(arg0);
 }

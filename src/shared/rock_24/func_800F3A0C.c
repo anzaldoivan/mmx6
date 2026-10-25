@@ -10,15 +10,15 @@ s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern s32 D_8007573C[];
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern M2C_UNK D_800F76B8;
 extern M2C_UNK D_800F76BC;
 extern void* D_800F7800;
 #define D_800F7800 ((struct X4_MainObj*)D_800F7800)
 
 void func_800F3A0C(struct X4_MainObj* arg0) {
-    register struct X4_MainObj* p asm("$3");
+    struct X4_MainObj* p;
     struct X4_MainObj* q;
     u8 bg;
     s32 a;
@@ -29,7 +29,7 @@ void func_800F3A0C(struct X4_MainObj* arg0) {
     arg0->animation_table = p->animation_table;
     bg = p->bg_offset;
     {
-        register s32 k asm("$2") = 3;
+        s32 k = 3;
 
         arg0->unk16 = k;
     }
@@ -51,8 +51,8 @@ void func_800F3A0C(struct X4_MainObj* arg0) {
     q = *(struct X4_MainObj**)((u8*)arg0 + 0x7C);
     arg0->x_pos.i.hi = q->x_pos.i.hi;
     arg0->y_pos.i.hi = q->y_pos.i.hi;
-    angle = func_80065B74(D_800970A0.y_pos.i.hi - arg0->y_pos.i.hi,
-                          D_800970A0.x_pos.i.hi - arg0->x_pos.i.hi);
+    angle = func_80065B74(g_Player.y_pos.i.hi - arg0->y_pos.i.hi,
+                          g_Player.x_pos.i.hi - arg0->x_pos.i.hi);
     arg0->x_speed = func_80065A14(angle) << 6;
     arg0->y_speed = -func_80065944(angle) << 6;
     if (arg0->x_speed < 0) {
@@ -68,10 +68,11 @@ void func_800F3A0C(struct X4_MainObj* arg0) {
     ((void (*)(s32, s32, void*))func_80016C48)(2, 0x8C, arg0);
     arg0->unk5 = 0;
     {
+        // !FAKE: depin: dropping it breaks the match (121/124)
         register s32 t asm("$3") = (u8)arg0->state + 1;
 
         arg0->state = t;
     }
 }
 #undef D_800F7800
-#undef D_800970A0
+#undef g_Player

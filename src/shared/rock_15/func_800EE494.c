@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 
 #define F(o) (*((u8*)arg0 + (o)))
 void func_800EE494(void* arg0) {
@@ -16,6 +16,6 @@ void func_800EE494(void* arg0) {
         F(0x15) = 0;
         *(s32*)((u8*)arg0 + 0x20) = -0x4000;
     }
-    func_8002D2B0(arg0);
+    move_object(arg0);
 }
 #undef F

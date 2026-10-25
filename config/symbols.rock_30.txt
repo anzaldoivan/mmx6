@@ -4,5 +4,7 @@
 D_800E9860 = 0x800E9860;
 // basis: first code word after header (+0x4c)
 func_800E98AC = 0x800E98AC; // type:func size:0x18C
+// basis: name: x4 exact 76d90a83ca68 sozud/mmx4@6a6b455 src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04
+general_dust_end = 0x800EE1D0; // type:func
 // basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T5.c3; was D_800EEF98)
 func_800EEF98 = 0x800EEF98;

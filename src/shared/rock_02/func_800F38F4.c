@@ -16,7 +16,7 @@ extern M2C_UNK D_8007433C;
 extern s32 D_8007541C;
 extern s32 D_800754BC;
 extern s32 D_80075B9C;
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern s32 D_800FB300;
 extern M2C_UNK D_800FB304;
 extern s32 D_800FB308;
@@ -36,7 +36,7 @@ void func_800F38F4(void* arg0) {
     s32 b;
 
     s2 = M2C_FIELD(arg0, void**, 0x7C);
-    g = &D_800970A0;
+    g = &g_Player;
     M2C_FIELD(arg0, u8*, 4) = 1;
     M2C_FIELD(arg0, u8*, 6) = 0;
     M2C_FIELD(arg0, void**, 0x54) = 0;

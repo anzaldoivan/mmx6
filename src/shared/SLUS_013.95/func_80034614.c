@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 s32 func_80016C48(s32 a0, s32 a1, void* arg2); /* extern */
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_80097420;
 extern s8 D_800CD334;
 
@@ -15,7 +15,7 @@ void func_80034614(u8* arg0) {
         flag = 0;
         i = 0;
         do {
-            u8* pl = (u8*)&D_800970A0;
+            u8* pl = (u8*)&g_Player;
             s16* p = (s16*)(pl + 0xA8) + i;
             if (*p >= *(s16*)(pl + 0x14A)) {
                 *p = *(s16*)(pl + 0x14A);

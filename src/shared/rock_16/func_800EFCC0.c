@@ -6,7 +6,7 @@ M2C_UNK func_800179D0(void*, M2C_UNK, s8);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 s32 func_8004FF4C(s32);
 extern s32 D_8006D674[];
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 extern s32 D_800F0E74[];
 extern u16 D_800F1688[][2];
@@ -16,6 +16,7 @@ void func_800EFCC0(struct X4_AnimatedObj* self) {
     s32 w;
     s32 i;
     s32 x;
+    // !FAKE: depin: dropping it breaks the match (69/84)
     register s32 t asm("$3");
 
     t = D_800F1688[self->unk2][0];
@@ -23,7 +24,7 @@ void func_800EFCC0(struct X4_AnimatedObj* self) {
     self->x_pos.i.hi = x;
     self->y_pos.i.hi = D_800F1688[self->unk2][1];
     t = self->bg_offset;
-    if (D_800971F8[t].x_pos.i.hi < 0x400) {
+    if (background_objects[t].x_pos.i.hi < 0x400) {
         self->x_pos.i.hi = x - 0x600;
     }
     func_8002CCB0(self, 0x40, 0x10);

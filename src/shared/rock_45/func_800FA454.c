@@ -6,7 +6,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 void* func_8002C458();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern u8 D_800CCF5F;
 extern u8 D_800FA000[];
 
@@ -22,7 +22,7 @@ void func_800FA454(void* arg0) {
     if ((s16)++M2C_FIELD(arg0, u16*, 0x7C) == 0x32) {
         if (M2C_FIELD(arg0, s16*, 0x7E) < tbl[D_800CCF5F]) {
             void* e;
-            if (D_800970A0.x_pos.i.hi > M2C_FIELD(arg0, s16*, 0xA)) {
+            if (g_Player.x_pos.i.hi > M2C_FIELD(arg0, s16*, 0xA)) {
                 M2C_FIELD(arg0, u8*, 0x15) = 0x40;
             } else {
                 M2C_FIELD(arg0, u8*, 0x15) = 0;
@@ -33,7 +33,7 @@ void func_800FA454(void* arg0) {
                 M2C_FIELD(e, u8*, 0) = 0x41;
                 M2C_FIELD(e, u8*, 1) = 0x22;
                 v = 3;
-                if (D_800970A0.unk2 == 0) {
+                if (g_Player.unk2 == 0) {
                     v = 2;
                 }
                 M2C_FIELD(e, s8*, 2) = v;

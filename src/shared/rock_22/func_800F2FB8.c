@@ -6,6 +6,7 @@ u8 func_800F4094(struct X4_PlayerObj* self, s16 arg1, s16 arg2);
 
 s32 func_800F2FB8(void* arg0, u8 arg1, s32 arg2) {
     struct X4_MainObj* self = arg0;
+    // !FAKE: depin: dropping it breaks the match (18/104)
     register s32 d asm("$6");
     s16 dx;
     s16 x;
@@ -16,6 +17,7 @@ s32 func_800F2FB8(void* arg0, u8 arg1, s32 arg2) {
 
     if ((u8)arg2 == 0) {
         if (arg1 == 0) {
+            // !FAKE: depin: dropping it breaks the match (98/104)
             register s32 m asm("$3") = -SP_CUR_MAIN_OBJ->ext.main_19.unk8A;
             m <<= 16;
             y = (m >> 16) - self->terrain_box->unk3;

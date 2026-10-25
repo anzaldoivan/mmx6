@@ -3,12 +3,12 @@
 #define M2C_UNK s32
 
 M2C_UNK func_8002C9B0();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern void (*D_800F6CE8[])(void*);
 
 void func_800EED40(struct X4_PlayerObj* arg0) {
-    if (D_800970A0.x_pos.i.hi >= 0x1241) {
-        if (D_800970A0.y_pos.i.hi >= 0x4F1) {
+    if (g_Player.x_pos.i.hi >= 0x1241) {
+        if (g_Player.y_pos.i.hi >= 0x4F1) {
             func_8002C9B0();
         }
     }

@@ -2,14 +2,14 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern void (*D_801F3AA0[])(struct X4_PlayerObj*);
 
 #define F_S8(p, o) (*(s8*)((u8*)(p) + (o)))
 
 void func_801F1AE8(struct X4_PlayerObj* arg0) {
-    struct X4_PlayerObj* player = &D_800970A0;
+    struct X4_PlayerObj* player = &g_Player;
     s32 var_a1;
 
     var_a1 = F_S8(player, 0xD3) != 0;
@@ -24,4 +24,4 @@ void func_801F1AE8(struct X4_PlayerObj* arg0) {
     }
     D_801F3AA0[arg0->state](arg0);
 }
-#undef D_800970A0
+#undef g_Player

@@ -51,7 +51,7 @@ void func_800EB114(void* arg0) {
             goto left;
         }
     } else if (kind == 0x10) {
-        register void* a asm("$4") = arg0;
+        void* a = arg0;
         B(arg0, 0x60) = 0x7F;
         B(arg0, 0x5C) = 0;
         W(arg0, 0x58) = (s32)&D_80075B9C;
@@ -80,7 +80,7 @@ void func_800EB114(void* arg0) {
             B(arg0, 0x15) = 0x40;
         }
     } else if (kind == 0x20) {
-        register void* a asm("$4") = arg0;
+        void* a = arg0;
         B(arg0, 0x60) = 8;
         B(arg0, 0x5C) = 0;
         W(arg0, 0x58) = (s32)&D_80075B9C;

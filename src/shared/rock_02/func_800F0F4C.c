@@ -32,6 +32,7 @@ void func_800F0F4C(void* arg0) {
         }
         v = M2C_FIELD(arg0, s8*, 0x61);
         {
+            // !FAKE: depin: dropping it breaks the match (52/64)
             register s32 m asm("$2");
 
             if (v >= 6) {

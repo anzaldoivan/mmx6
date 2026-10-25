@@ -7,7 +7,7 @@
 void func_80017A04(struct X4_AnimatedObj*);
 s32 func_8002CBFC(struct X4_BaseObj*, s32, s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-void func_8002D2B0(struct X4_MovingObj*);
+void move_object(struct X4_MovingObj*);
 M2C_UNK func_8002EE10(void*);
 void func_800383F8(void*);
 
@@ -15,7 +15,7 @@ void func_801EEBF4(void* arg0) {
     if (func_8002CBFC(arg0, 0x10, 0x10) == 0) {
         func_80017A04(arg0);
         if (M2C_FIELD(arg0, s8*, 0x98) == 0) {
-            func_8002D2B0(arg0);
+            move_object(arg0);
             if ((M2C_FIELD(arg0, u8*, 0x70) != 0) ||
                 (func_8002EE10(arg0), (M2C_FIELD(arg0, u8*, 0x70) != 0))) {
                 func_800383F8(arg0);

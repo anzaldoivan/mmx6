@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 #define PL_138 (*(s32*)((u8*)pl + 0x138))
 #define OBJ_E7(o) (*(u8*)((u8*)(o) + 0xE7))
 #define OBJ_13E(o) (*(s16*)((u8*)(o) + 0x13E))
@@ -30,7 +30,7 @@ void func_800324C8(struct X4_MainObj* a, struct X4_MainObj* b, u8 flags) {
 
     if (flags & 8) {
         d = a->x_pos.i.hi - a->unk18.i.hi;
-        if (d != 0 && (pl = &D_800970A0, PL_138 == 0)) {
+        if (d != 0 && (pl = &g_Player, PL_138 == 0)) {
             PL_138 = d;
             SHIFT_X();
         }
@@ -40,8 +40,8 @@ void func_800324C8(struct X4_MainObj* a, struct X4_MainObj* b, u8 flags) {
             ao = a->unk1C.i.hi - b->unk1C.i.hi;
             b->y_pos.i.hi = rel + (a->y_pos.i.hi - ao);
         } else if (d < 0) {
-            register struct X4_Unk_unk68* ta5 asm("$5");
-            register struct X4_Unk_unk68* tb6 asm("$6");
+            struct X4_Unk_unk68* ta5;
+            struct X4_Unk_unk68* tb6;
             tb6 = b->terrain_box;
             ta5 = a->terrain_box;
             v = b->y_pos.i.hi + tb6->unk1;
@@ -54,7 +54,7 @@ void func_800324C8(struct X4_MainObj* a, struct X4_MainObj* b, u8 flags) {
     } else if (flags & 4) {
         if ((b->unk5 == 0x1F && b->unk6 < 4) || b->unk5 == 0x3F) {
             d = a->x_pos.i.hi - a->unk18.i.hi;
-            if (d != 0 && (pl = &D_800970A0, PL_138 == 0)) {
+            if (d != 0 && (pl = &g_Player, PL_138 == 0)) {
                 PL_138 = d;
                 SHIFT_X();
             }

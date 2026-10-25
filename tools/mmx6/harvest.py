@@ -503,7 +503,7 @@ def self_test():
     try:
         shutil.rmtree(st, ignore_errors=True)
         os.makedirs(camp)
-        exe, ev, ename, _, esrc = bank.EXEMPLAR
+        exe, ev, ename, _, esrc = bank.exemplar()
         rows = corpus_rows()
         other = next(m for m in sorted((m[0], int(m[1], 16)) for m in bank.dup_key(exe, ev)["members"])
                      if m[0] == exe and m != (exe, ev) and m in rows)

@@ -11,7 +11,9 @@ extern s8 D_800CCF5C;
 
 void func_800EFE14(struct X4_MainObj* self) {
     u32 r;
+    // !FAKE: depin: dropping it breaks the match (100/106)
     register s32 v asm("$2");
+    // !FAKE: depin: dropping it breaks the match (102/106)
     register s32 c asm("$2");
     u8 m;
 
@@ -50,7 +52,9 @@ void func_800EFE14(struct X4_MainObj* self) {
             if (SCRATCH_4C[0x89] == 1 && (func_8002D2D4() & 3)) {
                 func_800179A4(self, 0);
                 {
+                    // !FAKE: depin: dropping it breaks the match (103/106)
                     register s32 a asm("$2") = 0x5A;
+                    // !FAKE: depin: dropping it breaks the match (24/106)
                     register s32 b asm("$3") = 8;
                     self->unk7C = a;
                     self->unk5 = b;

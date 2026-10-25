@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern void (*D_800761BC[])(void*);
 
 #define PL_S8(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -10,7 +10,7 @@ void func_80045D68(void* arg0) {
     struct X4_PlayerObj* p;
     s32 var_a1;
 
-    p = &D_800970A0;
+    p = &g_Player;
     var_a1 = PL_S8(p, 0xD3) != 0;
     if (PL_S8(p, 0xD4) != 0) {
         var_a1 = 1;

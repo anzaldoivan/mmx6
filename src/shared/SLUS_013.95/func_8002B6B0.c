@@ -5,8 +5,8 @@ extern u8 D_80073738[];
 extern u8 D_80091298[];
 extern s8 D_800950A0[];
 #define M2C_UNK s32
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_8002B6B0(void) {
     u32 i;
@@ -37,8 +37,8 @@ void func_8002B6B0(void) {
             } while (n--);
         }
     }
-    D_800970A0.special_shot_count = 0;
-    D_800970A0.shot_count = 0;
-    D_800970A0.stock_charge = 0;
+    g_Player.special_shot_count = 0;
+    g_Player.shot_count = 0;
+    g_Player.stock_charge = 0;
 }
-#undef D_800970A0
+#undef g_Player

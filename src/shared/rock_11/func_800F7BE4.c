@@ -28,6 +28,7 @@ void func_800F7BE4(void* arg0) {
     q = ABS(a - b) / 48;
     m = ABS(a - b) % 48;
     {
+        // !FAKE: depin: dropping it breaks the match (64/149)
         register s32 v asm("$2");
         if (m != 0) {
             v = q;

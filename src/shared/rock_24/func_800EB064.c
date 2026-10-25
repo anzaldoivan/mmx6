@@ -11,7 +11,7 @@ s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern s32 D_8007429C;
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern s32 D_800F679C;
 extern s32 D_800F67A0;
 
@@ -35,8 +35,8 @@ void func_800EB064(void* arg0) {
     M2C_FIELD(arg0, u8*, 5) = 0;
     M2C_FIELD(arg0, u8*, 6) = 0;
     M2C_FIELD(arg0, u8*, 7) = 0;
-    px = ((struct X4_PlayerObj*)&D_800970A0)->x_pos.i.hi;
-    py = ((struct X4_PlayerObj*)&D_800970A0)->y_pos.i.hi;
+    px = ((struct X4_PlayerObj*)&g_Player)->x_pos.i.hi;
+    py = ((struct X4_PlayerObj*)&g_Player)->y_pos.i.hi;
     angle = func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - py,
                           px - M2C_FIELD(arg0, s16*, 0xA));
     M2C_FIELD(arg0, s32*, 0x28) = 0;

@@ -21,8 +21,9 @@ extern u8 func_800F08CC[];
 
 void func_800E9A64(u8* arg0) {
     extern s8 D_80097420[];
+    // !FAKE: depin: dropping it breaks the match (7/248)
     register u8* self asm("$17") = arg0;
-    register s32 five asm("$18") = 5;
+    s32 five = 5;
     u8 prev;
     u8 old;
 
@@ -50,6 +51,7 @@ void func_800E9A64(u8* arg0) {
         return;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (241/248)
         register u8* eng asm("$16") = (u8*)D_80097420;
         prev = eng[7];
         if (D_800C456C[2] & 0x1000) {
@@ -116,6 +118,7 @@ void func_800E9A64(u8* arg0) {
         } else if (D_800C456C[2] & 0x40) {
             func_800186A8();
             {
+                // !FAKE: depin: dropping it breaks the match (243/248)
                 register s32 i asm("$2") = OPT_SB(3);
                 func_80018060(func_800F08CC[i], 0x7F);
             }

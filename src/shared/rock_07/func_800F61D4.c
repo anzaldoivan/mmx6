@@ -10,10 +10,12 @@ extern s32 D_800F90C4;
 void func_800F61D4(void* arg0) {
     func_800179A4(arg0, 0x13);
     {
+        // !FAKE: depin: dropping it breaks the match (15/19)
         register s32* a asm("$2") = &D_800F90C0;
         F(s32*, arg0, 0x50) = a;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (12/19)
         register s32* b asm("$3") = &D_800F90C4;
         F(s32*, arg0, 0x54) = b;
     }

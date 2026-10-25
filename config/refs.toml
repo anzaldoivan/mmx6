@@ -192,11 +192,11 @@ ref      = "6a6b4555e775820b5f4e45c6f50bd5859223a453"
 licence  = "AGPL-3.0"
 class    = "copyleft"
 tier     = "optional"
-when     = "a function shared by the X4 and X6 engines: partners and names (x4share.py, x4names.py); the port lane (x4port.py, include/mmx6/x4.h) keeps its own pin"
+when     = "a function shared by the X4 and X6 engines: partners and names (x4share.py, x4names.py); the port lane (x4port.py: PIN = this ref; --repin) follows it, except include/mmx6/x4.h and 40 src/shared files held at 29b62af (THIRD_PARTY.md rows; phase-ends 1.10 T4)"
 covers   = "Mega Man X4 (SLUS_005.61 US / JP / EU) main exe only; PsyQ 4.0 headers; not X6's addresses or its libraries"
 topics   = ["sibling", "capcom-engine", "x4-partners", "x4-names", "gcc-2.7.2", "aspsx-2.56", "expand-div", "splat-config"]
 paths    = ["LICENSE", "build.py", "compiler.sh", "config", "include", "src"]
-used_by  = "mmx6 T7 (the X4 lane, campaign/x4/partners.tsv; 155 adapted files, THIRD_PARTY.md) and campaign/x4/names.tsv (docs/x4-names.md); fetched by tools/mmx6/x4core.py ensure_clone into .run/mmx4, never copied outside the lane"
+used_by  = "mmx6 T7 (the X4 lane, campaign/x4/partners.tsv; 158 adapted src/shared files + include/mmx6/x4.h, THIRD_PARTY.md: 118 at this ref, 40 + x4.h at 29b62af) and config/x4/names.tsv (docs/x4-names.md); fetched by tools/mmx6/x4core.py ensure_clone into .run/mmx4, never copied outside the lane"
 checked  = "2026-10-23"
 
 # ---- byo: never fetched -------------------------------------------------------------------------------------------
@@ -477,3 +477,42 @@ rule = "symbols on the target disc itself win; then another build of the same pr
 what = "a prototype's symbols speak for the prototype, not for retail addresses: code moves, grows and disappears between builds, and another region's disc is another build too"
 evidence = "FedericoMilesi/soul-re and diabpsx/psx_decomp each target the build that carries the symbols (a prototype, the Japanese disc), not another one (READMEs read 2026-10-13)"
 do = "map a name to the target by a byte check: the function body is identical at both addresses, or the name stays a lead; when most bodies differ, weigh the symbol-bearing build as the first target"
+
+# ---- added by /psxdecomp:upgrade 2026-10-24 ----
+[[ref]]
+name = "psy-k"
+url = "https://github.com/ttkb-oss/psy-k"
+ref = "e25c309c48cf5a1ae133e092f661fb874cc0f47f"
+licence = "BSD-3-Clause (LICENSE.TXT through GitHub's licence API, and crates.io; read 2026-10-24)"
+class = "adapt"
+tier = "optional"
+when = "you supplied PsyQ libraries (byo) and need the .OBJ members of a .LIB"
+covers = "psy-k 0.4.0 (tag v0.4.0 = this commit; the kit's image/Dockerfile pins the crate by sha256): `psyk extract <LIB>` splits a PsyQ .LIB into its .OBJ members; it converts nothing to ELF (psyq-obj-parser does)"
+topics = ["psyq-lib", "lib-extract", "lnk-format", "library-conversion", "sdk-leg"]
+used_by = "mipsmatch (psy-k's README L14, read 2026-10-24); mmx6 phase 1.9 T4 (cee67b0d, 2026-10-24): psyk in its image, built from the sha256-pinned crate"
+checked = "2026-10-24"
+
+[[trap]]
+what = "psylink orders an object's .comm variables by a name hash ((length + byte sum) mod 512, ascending), not in record order: an ELF link in record order misplaces weak .bss"
+evidence = "parasite-eve-2-decomp tools/patches/README.md L102, L138-154 and lib/versions.txt; silent-hill-decomp issue #142 (a LIEF script) (both read 2026-10-24); mmx6 cookbook C0241 (1.9 T4, 2026-10-24)"
+do = "give each .bss global of a converted object its own address (a hard ld assignment), or keep that object's .bss as split bytes; never take the converter's .bss order as psylink's"
+
+[[trap]]
+what = "psyq-obj-parser converts no crt0: snmain and 2MBYTE.OBJ carry relocations it refuses (sectstart/sectend, expression type 12)"
+evidence = "silent-hill-decomp src/main/libsn/snmain.s L7; parasite-eve-2-decomp configs/USA/main.yaml L157 (both read 2026-10-24); mmx6 1.9 T4, 2MBYTE.OBJ (cookbook C0241 and tools/mmx6/sdk.py lnk_symbolize, 2026-10-24)"
+do = "keep crt0 as assembly, or rewrite its sectstart/sectend nodes into symbol references in a scratch copy of the object before conversion"
+
+[[trap]]
+what = "GNU ld takes an object from a .a archive only for a reference it has seen: an object that only overlays reference is dropped"
+evidence = "silent-hill-decomp issue #142 (read 2026-10-24)"
+do = "name each converted object in the linker script (an `o` segment, or a splat `lib` segment `<lib>.a:<obj>.o`); never rely on an archive search"
+
+[[trap]]
+what = "splat's `lib` segment names `<lib>.a:<obj>.o` (src/splat/segtypes/common/lib.py L81): it reads a GNU ar archive of ELF objects, never a PsyQ .LIB"
+evidence = "splat lib.py L81 and docs/Segments.md L276, L299 (read 2026-10-24)"
+do = "convert a .LIB and pack it with ar before a `lib` segment names it, or name each converted object in an `o` segment (o_path)"
+
+[[trap]]
+what = "a byo SDK object's data can differ from retail where its .text matches: mmx6's LIBCD_BIOS_1 holds 1 at 0x8007CCE4, retail 0"
+evidence = "mmx6 1.9 T4 summary (cee67b0d, 2026-10-24): 232 objects' data equal, 1 differs, 9 not compared (no relocation reaches their initialized sections: LIBCARD_INIT, LIBCD_CDROM, seven LIBCD_C_*)"
+do = "compare an object's data with retail before you link that data from the object; otherwise link its .text only and keep the split data"

@@ -4,7 +4,7 @@
 
 extern u32* D_8007789C[];
 extern u8 D_80077C0C[][3];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
@@ -12,7 +12,7 @@ void func_800499A0(void*);
 s32 func_801EE434(void);
 
 void func_80049270(struct X4_VisualObj* arg0) {
-    register s32 idx asm("$17");
+    s32 idx;
     s8 kind;
 
     kind = arg0->unk2;
@@ -39,7 +39,7 @@ void func_80049270(struct X4_VisualObj* arg0) {
         if (arg0->unk2 == 0) {
             arg0->unk42 = func_801EE434();
             {
-                struct X4_PlayerObj* player = &D_800970A0;
+                struct X4_PlayerObj* player = &g_Player;
                 if (*(s32*)((u8*)player + 0xEC) & 0x40000) {
                     arg0->unk42 = 0x7844;
                 }
@@ -48,7 +48,7 @@ void func_80049270(struct X4_VisualObj* arg0) {
     }
     arg0->unk16 = 0;
     {
-        struct X4_PlayerObj* player = &D_800970A0;
+        struct X4_PlayerObj* player = &g_Player;
         arg0->unk15 = player->unk15;
     }
     arg0->unk5C.value = 0;

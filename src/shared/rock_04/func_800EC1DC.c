@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 M2C_UNK func_8002F288(M2C_UNK*);
 s32 func_800EB96C(struct X4_PlayerObj*, s16, s16);
 
@@ -34,7 +34,7 @@ void func_800EC1DC(void* arg0) {
     s32 vx;
     s16 t;
 
-    ((void (*)(void))func_8002D2B0)();
+    ((void (*)(void))move_object)();
     ((void (*)(void*))func_8002F288)(arg0);
     a = func_800EB96C(arg0, (t = RX(arg0), t - 1), FY(arg0));
     b = func_800EB96C(arg0, (t = LX(arg0), t + 1), FY(arg0));

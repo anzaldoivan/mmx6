@@ -30,6 +30,7 @@ void func_8001ACC4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     func_80068D94(D_800C4578, 0, 0, arg0, arg1);
     func_80068D94(D_800C4578 + 0xF0, 0, 0xF0, arg0, arg1);
     {
+        // !FAKE: depin: dropping it breaks the match (93/96)
         register s32 one asm("$3") = 1;
         D_800C4578[0x101] = one;
         D_800C4578[0x11] = one;

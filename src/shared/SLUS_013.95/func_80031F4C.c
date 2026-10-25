@@ -23,7 +23,7 @@ void func_80031F4C(void* arg0) {
                 y = *(s32*)(p + 0xC);
                 func_800323D4(arg0, p);
                 {
-                    register s32 o asm("$3") = (i >> 5) << 2;
+                    s32 o = (i >> 5) << 2;
                     u8* b = (u8*)arg0 + 0x98;
                     w = (s32*)(b + o);
                 }

@@ -17,6 +17,7 @@ void func_800F6484(void* arg0) {
     void* parent;
     s32 state;
     s32 t;
+    // !FAKE: depin: dropping it breaks the match (62/86)
     register s32 u asm("$3");
 
     parent = *(void**)((u8*)arg0 + 0x7C);
@@ -42,6 +43,7 @@ void func_800F6484(void* arg0) {
     }
     if (func_80031474(arg0) < 0) {
         {
+            // !FAKE: depin: dropping it breaks the match (46/86)
             register void* a asm("$4") = arg0;
             B(arg0, 3) = 0;
             func_80049E50(a);
@@ -53,6 +55,7 @@ void func_800F6484(void* arg0) {
         t = B(arg0, 2) & 0xF0;
         if (t == 0x10 || t == 0x30) {
             {
+                // !FAKE: depin: dropping it breaks the match (84/86)
                 register void* a asm("$4") = arg0;
                 B(arg0, 3) = 0;
                 func_80049D90(a);

@@ -4,14 +4,14 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 
 void func_800F96C4(void* arg0) {
     s8 v;
 
     ((void (*)(void))func_80017A04)();
     if (*(s16*)((u8*)arg0 + 0x7C) != 0) {
-        ((void (*)(void*))func_8002D2B0)(arg0);
+        ((void (*)(void*))move_object)(arg0);
         *(s16*)((u8*)arg0 + 0x7C) -= 1;
         return;
     }

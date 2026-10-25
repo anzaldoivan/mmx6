@@ -6,21 +6,21 @@
 M2C_UNK func_80017A04();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 s32 func_8002D654(s8*, u8*);
 M2C_UNK func_8002EE10(void*);
 M2C_UNK func_80030ECC(void*);
 s32 func_80031474(void*);
 M2C_UNK func_80049D90(void*);
 M2C_UNK func_80049E50(void*);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_800F42AC(void* arg0) {
     // !FAKE: separate state store tail in the second return register
     register s32 v asm("$3");
 
     func_80017A04();
-    func_8002D2B0(arg0);
+    move_object(arg0);
     func_80030ECC(arg0);
     if (func_80031474(arg0) < 0) {
         func_80049E50(arg0);
@@ -28,7 +28,7 @@ void func_800F42AC(void* arg0) {
         // !FAKE: shared state store block with the 0x70 arm
         goto block_6;
     }
-    if (func_8002D654((s8*)arg0, (u8*)&D_800970A0) == 0) {
+    if (func_8002D654((s8*)arg0, (u8*)&g_Player) == 0) {
         if (M2C_FIELD(arg0, u8*, 0x70) != 0 ||
             (func_8002EE10(arg0), M2C_FIELD(arg0, u8*, 0x70) != 0)) {
             func_80049D90(arg0);

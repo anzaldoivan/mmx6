@@ -26,6 +26,7 @@ void func_800F8894(u8* arg0) {
         {
             u32 r;
             {
+                // !FAKE: depin: dropping it breaks the match (64/66)
                 register s32 k asm("$2") = 0x5A;
                 *(s16*)(arg0 + 0x7E) = k;
             }

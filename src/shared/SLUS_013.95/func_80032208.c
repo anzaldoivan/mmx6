@@ -5,7 +5,7 @@ s32 func_8002DCF4(void*, void*);
 s32 func_8002DE54(void*, void*);
 void func_8002DFA0(void*, void*);
 void func_8002E0DC(void*, void*);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 #define F8(p, o) (*(u8*)((u8*)(p) + (o)))
 #define S8(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -21,7 +21,7 @@ s32 func_80032208(struct X4_MainObj* self, struct X4_PlayerObj* tgt) {
     if (self->unk66 == 0) {
         if (func_8002DE54(self, tgt) != 0) {
             tgt->unk71 = 0xF;
-            if (tgt == &D_800970A0) {
+            if (tgt == &g_Player) {
                 F8(tgt, 0xE6) = F8(self, 0x60);
             }
             return 1;

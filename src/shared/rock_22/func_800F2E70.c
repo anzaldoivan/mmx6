@@ -11,7 +11,7 @@
 M2C_UNK func_80017A04();
 void* func_8002C458();
 s32 func_8002D2D4();
-void func_8002D3B4(void*, s32);
+void set_velocity_from_angle(void*, s32);
 extern s16 D_800FC6D8[];
 
 void func_800F2E70(u8* arg0) {
@@ -42,7 +42,7 @@ void func_800F2E70(u8* arg0) {
                 F8(p, 0x16) = t;
             }
             F8(p, 0x15) = F8(arg0, 0x15);
-            func_8002D3B4(p, FU8(SPAD, 0x83));
+            set_velocity_from_angle(p, FU8(SPAD, 0x83));
         }
         F8(arg0, 0x45) = 0;
         return;

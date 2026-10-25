@@ -13,6 +13,7 @@ extern s16 D_80097216;
 
 void func_800F32B8(u8* arg0) {
     u8* sp = SPAD;
+    // !FAKE: depin: dropping it breaks the match (59/66)
     register s32 t asm("$2");
 
     if (*(s8*)(sp + 0x89) == 0) {

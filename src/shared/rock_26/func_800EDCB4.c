@@ -11,7 +11,7 @@ M2C_UNK func_8002C9B0();
 s32 func_8002D2D4();
 extern s8 D_800CD30A;
 extern u32* D_80095098;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
 extern s32 D_800EFC50;
 extern s32 D_8007497C;
@@ -69,8 +69,8 @@ void func_800EDCB4(void* self) {
         }
         break;
     case 5:
-        if ((u32)((u16)D_800970A0.x_pos.i.hi - 0x141) < 0x71F &&
-            D_800970A0.y_pos.i.hi < 0x430) {
+        if ((u32)((u16)g_Player.x_pos.i.hi - 0x141) < 0x71F &&
+            g_Player.y_pos.i.hi < 0x430) {
             START(self);
         }
         break;
@@ -94,7 +94,7 @@ void func_800EDCB4(void* self) {
         break;
     }
     if (flag) {
-        struct X4_PlayerObj* p = &D_800970A0;
+        struct X4_PlayerObj* p = &g_Player;
         M2C_FIELD(self, u8*, 0x5C) = 4;
         M2C_FIELD(self, u8*, 0x61) = 0;
         M2C_FIELD(self, u8*, 0x14) = M2C_FIELD(p, u8*, 0x14);

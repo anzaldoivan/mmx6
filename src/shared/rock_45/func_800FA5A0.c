@@ -19,6 +19,7 @@ void func_800FA5A0(void* arg0) {
     if (D_800970AA < D_800FCE50) {
         M2C_FIELD(arg0, u8*, 0x15) = 0;
         {
+            // !FAKE: depin: dropping it breaks the match (78/83)
             register s32 t asm("$3") = (u16)D_800FCE4E;
             d = t - M2C_FIELD(arg0, s16*, 0xA);
         }
@@ -30,6 +31,7 @@ void func_800FA5A0(void* arg0) {
     }
     M2C_FIELD(arg0, u8*, 0x15) = 0x40;
     {
+        // !FAKE: depin: dropping it breaks the match (77/83)
         register s32 t asm("$3") = (u16)D_800FCE4C;
         d = t - M2C_FIELD(arg0, s16*, 0xA);
     }
@@ -41,6 +43,7 @@ void func_800FA5A0(void* arg0) {
         func_80012D9C(6);
         M2C_FIELD(arg0, s16*, 0x7C) = 0;
         {
+            // !FAKE: depin: dropping it breaks the match (53/83)
             register s32 t asm("$2") = M2C_FIELD(arg0, u8*, 6) + 2;
             M2C_FIELD(arg0, u8*, 6) = t;
         }

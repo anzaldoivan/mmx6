@@ -243,3 +243,13 @@ C0240 | PsyQ LIB split with psy-k (built in rust:slim), OBJ to ELF via psyq-obj-
 C0241 | Substituting PsyQ objects for splat asm TUs: ld rewrite, XBSS per-symbol, jlabel PROVIDE, stub identity by reloc | psyq,sdk,splat,ld,vendor,link,xbss,jlabel | 2026-10-24 | 1.9/T4 | mmx6 T4.c1
 C0242 | Generated public doc must pass the commit style gate before the long run | commit-gate,style,generated-doc,contract | 2026-10-24 | 1.9/T7 | T7.c1 doc commit refused after 1 h run
 C0243 | A public-projection proof checks build and hash only. Health rungs read unpublished inputs | split-mode,public,projection,fresh-clone,health,contract | 2026-10-24 | 1.9/T8 | mmx6 contract
+C0244 | depin.py throughput: ~1.2 s/pin serial, 6 workers saturate 8 CPUs at 2.5x, ~70 MiB each | depin,parallel,throughput,docker,workers,xargs | 2026-10-24 | 1.10/T2 | mmx6 T2.c1
+C0245 | Check a depin sweep with debt --files, because depin counts differ from the floor | depin,pin-unmarked,debt,fake,clang-format | 2026-10-24 | 1.10/T2 | mmx6 T2 remark
+C0246 | Pin inside a macro body: depin nocompile, floor counts per use, mark each use line | depin,pin-unmarked,macro,fake,floor | 2026-10-24 | 1.10/T3 | mmx6 T3.c1 rock_02
+C0247 | Re-port an upstream lane at a new pin: compare definitions only, hold the shared header | port,x4,pin,upstream,repin,mmx4 | 2026-10-25 | 1.10/T4 | 1.10 T4.c1
+C0248 | Symbol address from symbols file / corpus / asm row, never name spelling | symbols,resolver,self-test,spelling,probe | 2026-10-25 | 1.10/T5 | mmx6 T5.c1
+C0249 | A vote-derived alias cannot corroborate the votes that made it | x4,names,evidence,corroborator,circular,promote | 2026-10-25 | 1.10/T6 | 1.10 T6 review of T6.c1
+C0250 | x4share --partners in a fresh container needs corpus, census and sig first | x4,x4share,container,partners,widen,sequence | 2026-10-25 | 1.10/T6 | 1.10 T6.c1
+C0251 | Overlays see exe symbols only by func_/D_<addr> name: renaming an exe symbol overlays call breaks their link | rename,overlay,link,provide,symbols,x4 | 2026-10-25 | 1.10/T8 | mmx6 T8.c1
+C0252 | Ghidra: mirror external names as a delta JSONL through the existing importer, then re-export | ghidra,import,rename,jsonl,roundtrip | 2026-10-25 | 1.10/T10 | T10.c1
+C0253 | campaign/ is never public. check-public DIR needs its own git repo | split-mode,public,projection,check-public,style | 2026-10-25 | 1.10/T12 | mmx6 T12

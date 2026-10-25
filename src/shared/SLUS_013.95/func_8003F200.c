@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void func_8003F4C4(struct X4_PlayerObj* self, s32 animation);
+void player_set_animation_shooting(struct X4_PlayerObj* self, s32 animation);
 
 s32 func_8003F200(struct X4_PlayerObj* self) {
     u8 v;
@@ -24,7 +24,7 @@ s32 func_8003F200(struct X4_PlayerObj* self) {
     M2C_FIELD(self, u8*, 0x8C) = 0;
     M2C_FIELD(self, u8*, 0xD9) = 0xB4;
     M2C_FIELD(self, u8*, 0xDA) = 0;
-    func_8003F4C4(self, 0x15);
+    player_set_animation_shooting(self, 0x15);
     self->unk5 = 0x21;
     self->unk6 = 0;
     return 1;

@@ -35,6 +35,7 @@ void func_800F44A0(void* arg0) {
         M2C_FIELD(arg0, void**, 0x3C) = (u8*)tbl + off;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (254/261)
         register s32 m asm("$2");
         m = 0xA;
         M2C_FIELD(arg0, u8*, 0x60) = m;

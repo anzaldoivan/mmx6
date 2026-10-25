@@ -6,7 +6,7 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8003D330();
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_800CCF5C;
 extern u8 D_800FD598;
 
@@ -17,7 +17,7 @@ void func_800F9308(void* arg0) {
     }
     if (++M2C_FIELD(arg0, s8*, 0x5C) == D_800CCF5C) {
         // !FAKE: base built straight in the first arg register
-        register struct X4_BackgroundObj* bg asm("$4") = D_800971F8;
+        register struct X4_BackgroundObj* bg asm("$4") = background_objects;
         s32 v = D_800FD598;
         bg->unk2A = 0x10;
         bg->unk48 = v;

@@ -24,7 +24,7 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EB188);
 
 #include "../shared/rock_00/func_801EB6E8.c"
 
-#include "../shared/rock_00/func_801EB730.c"
+#include "../shared/rock_00/player_ladder_shoot.c"
 
 #include "../shared/rock_00/func_801EB7C8.c"
 
@@ -80,23 +80,23 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EB188);
 
 #include "../shared/rock_00/func_801EC020.c"
 
-#include "../shared/rock_00/func_801EC0C0.c"
+#include "../shared/rock_00/player_hover_hold.c"
 
-#include "../shared/rock_00/func_801EC124.c"
+#include "../shared/rock_00/player_hover_forward.c"
 
-#include "../shared/rock_00/func_801EC1B4.c"
+#include "../shared/rock_00/player_hover_forward_stop.c"
 
-#include "../shared/rock_00/func_801EC240.c"
+#include "../shared/rock_00/player_hover_back.c"
 
-#include "../shared/rock_00/func_801EC2D0.c"
+#include "../shared/rock_00/player_hover_back_stop.c"
 
 #include "../shared/rock_00/func_801EC35C.c"
 
 #include "../shared/rock_00/func_801EC3AC.c"
 
-#include "../shared/rock_00/func_801EC478.c"
+#include "../shared/rock_00/player_hover_set_direction.c"
 
-#include "../shared/rock_00/func_801EC4C0.c"
+#include "../shared/rock_00/player_nova_strike_windup.c"
 
 #include "../shared/rock_00/func_801EC514.c"
 
@@ -335,10 +335,10 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EC678);
 #include "../shared/rock_00/func_801F120C.c"
 
 #define func_801F0F5C func_801F1260
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_00/func_801F0F5C.c"
 #undef func_801F0F5C
-#undef D_800970A0
+#undef g_Player
 
 #include "../shared/rock_00/func_801F129C.c"
 
@@ -419,10 +419,10 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EC678);
 #undef FAMILY_FIELD
 
 #define func_801F0F5C func_801F2BCC
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_00/func_801F0F5C.c"
 #undef func_801F0F5C
-#undef D_800970A0
+#undef g_Player
 
 #include "../shared/rock_00/func_801F2C08.c"
 

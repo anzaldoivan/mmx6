@@ -44,6 +44,7 @@ void func_800F43B8(struct X4_MainObj* arg0) {
     func_80027BA0(0, (s16)arg0->x_pos.u.hi - 0x10, (s16)arg0->y_pos.u.hi - 0x18,
                   D_800F7518 + arg0->unk2 * 8);
     {
+        // !FAKE: depin: dropping it breaks the match (103/106)
         register u8 s asm("$3") = arg0->state;
         arg0->x_speed = 0;
         arg0->y_speed = 0;

@@ -30,7 +30,7 @@ void func_80052E44(u8* arg0) {
         }
         func_80016858(a0, 0x800FA000);
         {
-            register s32 t asm("$2") = arg0[4] + 1;
+            s32 t = arg0[4] + 1;
             arg0[4] = t;
         }
         return;

@@ -11,6 +11,7 @@ extern u16 D_80090E70;
 void func_80053E44(struct X4_EffectObj* self) {
     struct X4_QuadObj* q;
     struct X4_QuadObj* q2;
+    // !FAKE: depin: dropping it breaks the match (63/72)
     register s32 c asm("$2");
     s32 t;
 

@@ -13,7 +13,9 @@ void func_800F8794(u8* arg0) {
         func_80016C48(2, 0x52, arg0);
         func_800179A4(arg0, 8);
         {
+            // !FAKE: depin: dropping it breaks the match (42/45)
             register s32* p asm("$2") = &D_8007433C;
+            // !FAKE: depin: dropping it breaks the match (42/45)
             register s32 one asm("$3") = 1;
             *(s32**)(arg0 + 0x58) = p;
             arg0[0x8E] = one;
@@ -23,8 +25,11 @@ void func_800F8794(u8* arg0) {
         func_80016C48(2, 0x52, arg0);
         func_800179A4(arg0, 6);
         {
+            // !FAKE: depin: dropping it breaks the match (42/45)
             register s32* p asm("$2") = &D_8007433C;
+            // !FAKE: depin: dropping it breaks the match (37/45)
             register s32 t asm("$4") = arg0[6];
+            // !FAKE: depin: dropping it breaks the match (39/45)
             register s32 one asm("$3") = 1;
             *(s32**)(arg0 + 0x58) = p;
             arg0[0x8E] = one;

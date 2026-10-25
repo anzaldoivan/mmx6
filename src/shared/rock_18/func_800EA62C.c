@@ -8,7 +8,7 @@ void func_800ED50C(u8 arg0, s8 arg1, s16 arg2, s16 arg3);
 void func_800ED58C(u8, s8, s16, s16, u8);
 void func_800ED61C(s32, s32, s32, s32);
 extern s32 D_80070CC4[];
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_80097427;
 
 void func_800EA62C(u8* arg0) {
@@ -28,11 +28,11 @@ void func_800EA62C(u8* arg0) {
     func_800ED50C(0x1B, 0, 0xE0, 0xD0);
     func_800ED50C(0x1D, 0, 0x180, 0xD0);
     func_800ED61C(0, 1, 0, 0);
-    D_800971F8[0].unk3 = 1;
-    D_800971F8[0].x_pos.i.hi = 0x200;
-    D_800971F8[0].y_pos.i.hi = 0;
-    D_800971F8[0].unk4C = 1;
-    D_800971F8[1].unk3 = 0;
-    D_800971F8[2].unk3 = 0;
+    background_objects[0].unk3 = 1;
+    background_objects[0].x_pos.i.hi = 0x200;
+    background_objects[0].y_pos.i.hi = 0;
+    background_objects[0].unk4C = 1;
+    background_objects[1].unk3 = 0;
+    background_objects[2].unk3 = 0;
     ((void (*)(s32))func_800139A0)(8);
 }

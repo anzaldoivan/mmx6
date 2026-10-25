@@ -5,8 +5,8 @@
 
 void* func_8002C4C4();
 s32 func_8002D2D4();
-extern struct X4_PlayerObj D_800970A0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_PlayerObj g_Player;
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800EE038(void* arg0) {
     struct X4_PlayerObj* q;
@@ -14,7 +14,7 @@ void func_800EE038(void* arg0) {
     void* e;
     s32 r;
 
-    q = &D_800970A0;
+    q = &g_Player;
     if (M2C_FIELD(q, s8*, 0xE0) != 2) {
         if (M2C_FIELD(arg0, s8*, 5) < 0x10) {
             if ((s16)(M2C_FIELD(arg0, s16*, 0x18) % 144) == 0) {
@@ -33,14 +33,15 @@ void func_800EE038(void* arg0) {
         }
         M2C_FIELD(arg0, s16*, 0x18)++;
     }
-    p = &D_800970A0;
-    if (M2C_FIELD(arg0, s8*, 0x1A) == 0 && D_800971F8[0].unk20 < 0x431) {
-        D_800971F8[0].unk2C += 0x30;
+    p = &g_Player;
+    if (M2C_FIELD(arg0, s8*, 0x1A) == 0 &&
+        background_objects[0].unk20 < 0x431) {
+        background_objects[0].unk2C += 0x30;
         M2C_FIELD(arg0, s8*, 0x1A)++;
     }
     if (p->x_pos.i.hi > 0x1680 && p->y_pos.i.hi < 0x1C0 &&
         M2C_FIELD(arg0, s8*, 0x1A) == 1) {
-        D_800971F8[0].unk2C -= 0x30;
+        background_objects[0].unk2C -= 0x30;
         M2C_FIELD(arg0, s8*, 0x1A)++;
     }
 }

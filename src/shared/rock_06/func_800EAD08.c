@@ -5,7 +5,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 extern M2C_UNK D_800743DC;
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern M2C_UNK D_800F3698;
 extern M2C_UNK D_800F369C;
 extern M2C_UNK D_800F36A4;
@@ -19,10 +19,10 @@ void func_800EAD08(void* arg0) {
     self->state++;
     self->unk5 = 1;
     x = self->x_pos.val;
-    self->bg_offset = (*(struct X4_PlayerObj*)&D_800970A0).bg_offset;
+    self->bg_offset = (*(struct X4_PlayerObj*)&g_Player).bg_offset;
     self->unk18.val = x;
     self->unk1C.val = self->y_pos.val;
-    f = ((*(struct X4_PlayerObj*)&D_800970A0).x_pos.val >= x) << 6;
+    f = ((*(struct X4_PlayerObj*)&g_Player).x_pos.val >= x) << 6;
     self->animation_table = (u32**)&D_800F379C;
     self->unk16 = 6;
     M2C_FIELD(arg0, M2C_UNK**, 0x68) = &D_800F3698;

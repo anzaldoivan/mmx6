@@ -5,21 +5,23 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(s32);
-extern struct X4_BackgroundObj D_800971F8[3];
+M2C_UNK move_object(s32);
+extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_8009721E;
 
 void func_800F4FF8(void* arg0) {
     func_80017A04();
-    func_8002D2B0((s32)arg0);
+    move_object((s32)arg0);
     {
         // !FAKE: retail reads the state field into the first return register
         register s32 st asm("$2") = M2C_FIELD(arg0, s16*, 0x8C);
         if (st == 0) {
-            if (M2C_FIELD(arg0, s16*, 0xA) >= D_800971F8[0].unk26 + 0x30) {
+            if (M2C_FIELD(arg0, s16*, 0xA) >=
+                background_objects[0].unk26 + 0x30) {
                 return;
             }
-            if (D_800971F8[0].unk2A + 0xB0 >= M2C_FIELD(arg0, s16*, 0xE)) {
+            if (background_objects[0].unk2A + 0xB0 >=
+                M2C_FIELD(arg0, s16*, 0xE)) {
                 return;
             }
         } else if (M2C_FIELD(arg0, s16*, 0xA) >= D_8009721E + 0x30) {

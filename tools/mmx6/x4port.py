@@ -2,7 +2,7 @@
 """x4port.py -- the X4 lane: spelling-first port packs from mmx4's C for X6 functions with an exact mmx4 partner (container, stdlib).
 
   x4port.py --wave W-x4 [--root waves] [--pv P]... [--limit K]
-      -> reads campaign/x4/partners.tsv (x4share.py --partners), the mmx4 clone .run/mmx4 (pinned 29b62af) and its
+      -> reads campaign/x4/partners.tsv (x4share.py --partners), the mmx4 clone .run/mmx4 (at PIN, the config/refs.toml mmx4 ref) and its
          objects .run/x4share/gcc2.95.2-psx-aspsx2.86/obj/<src>.o. Per census dup class (= exact key) with an open
          member (corpus asm|include_asm): skipped `class gated` (a gated registry row of the key) or `class banked <pv>`
          (a c|c-empty member: propagate's job) or `skipped no-c-unit` (no member bank can take); else the representative,
@@ -23,6 +23,16 @@
          `*(none yet)*` and the table head above it) of THIRD_PARTY.md: the components table, one row per adapted file
          (include/mmx6/x4.h, each src/shared/**/*.c that opens with the attribution header), sorted by path. Line
          `X4PORT CREDITS <n> rows`.
+  x4port.py --repin
+      -> every src/shared/**.c whose attribution header names a pin != PIN: the partner by the header's exact key
+         (campaign/x4/partners.tsv; the header's src:func first) re-ported at PIN for the file's own X6 function
+         (build/corpus/functions.jsonl, prog = its directory). The draft's definition of the function == the file's (code
+         only: comments and whitespace dropped) -> only the header is rewritten (`same`); different -> the file's
+         definition is replaced by the draft's, the file's declarations kept (they are what its TU's other shared
+         files and declsync agree on), its `// !` mark lines kept before the same code line (`changed`, a candidate
+         the build judges); no port, no definition or a lost mark anchor -> the file is left (`skipped <why>`). Rewrites
+         include/mmx6/x4.h from the union of the re-ported drafts' blocks. Lines `X4PORT REPIN <path> same|changed|
+         skipped <why>`, last `X4PORT REPIN <s> same <c> changed <k> skipped`.
   x4port.py --self-test
       -> planted control (C0054) in .run/x4port-selftest/: our banked func_8001E78C (src/SLUS_013.95/120A0.c) as a fake
          mmx4 source and object, every D_8/func_8 name renamed (Q_8/fanc_8, the object's strtab patched in place, same
@@ -57,9 +67,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import census  # noqa: E402
+import probe  # noqa: E402  (sym_vram, sym_name, asm_labels: names resolved from tables, never their spelling)
 import propagate  # noqa: E402  (registry_rows)
 import sig  # noqa: E402
 import verbatim  # noqa: E402
+import x4core  # noqa: E402  (pin, short)
 import x4share  # noqa: E402
 
 PARTNERS = "campaign/x4/partners.tsv"
@@ -68,10 +80,10 @@ CLASSES = "build/census/classes.jsonl"
 REGISTRY = "config/dedup_registry.txt"
 C_UNITS = "config/c_units.txt"
 TRIPLE = "gcc2.95.2-psx-aspsx2.86"
-PIN = "29b62af"
+PIN = x4core.short(x4core.pin())  # the config/refs.toml mmx4 ref (was the literal "29b62af")
 OPEN = ("asm", "include_asm")
 SELFTEST = ".run/x4port-selftest"
-SELF_PROG, SELF_FUNC, SELF_VRAM, SELF_TU = "SLUS_013.95", "func_8001E78C", "0x8001E78C", "120A0"
+SELF_PROG, SELF_VRAM, SELF_TU = "SLUS_013.95", "0x8001E78C", "120A0"  # the self-test's function: name looked up
 HEADER = ("/* Adapted from sozud/mmx4 @{pin} {src}:{func}, AGPL-3.0; proven shared with X6 by exact signature {key} "
           "(see THIRD_PARTY.md). */\n")
 X4H = "include/mmx6/x4.h"
@@ -180,6 +192,7 @@ class Addrs:
 
     def __init__(self, prog):
         e = Elf(f"build/{prog}.elf")
+        self.prog, self.labels = prog, None
         self.by_name, self.by_addr = {}, {}
         for name, val, _, info, sh in e.syms:
             if name and info & 0xF != 4 and sh != 0 and not name.startswith(".") and not NOISE.fullmatch(name):
@@ -187,10 +200,20 @@ class Addrs:
                 self.by_addr.setdefault(val, set()).add(name)
 
     def addr(self, name):
+        """name's address: the linked ELF, else config/symbols.<prog>.txt / the corpus, else its split asm label row."""
         if name in self.by_name:
             return self.by_name[name]
-        m = re.search(r"_([0-9A-Fa-f]{8})$", name)
-        return int(m.group(1), 16) if m else None
+        a = probe.sym_vram(self.prog, name)
+        if a is None:
+            if self.labels is None:
+                self.labels = {}
+                for d, dirs, files in sorted(os.walk(f"asm/{self.prog}")):
+                    for f in sorted(x for x in files if x.endswith(".s")):
+                        with open(os.path.join(d, f), errors="replace") as fh:
+                            for _, n, v in probe.asm_labels(fh.read()):
+                                self.labels.setdefault(n, v)
+            a = self.labels.get(name)
+        return a
 
     def name(self, a, text):
         names = self.by_addr.get(a)
@@ -825,6 +848,98 @@ def lane(wave, root, pvs, limit, only_h=False):
     return 0
 
 
+# ---- repin -----------------------------------------------------------------------------------------------------------
+
+MARKLINE = re.compile(r"^\s*//\s*!")
+
+
+def code_of(text):
+    """text's code tokens, its leading comment (the attribution header), comments and whitespace dropped."""
+    if text.lstrip().startswith("/*"):
+        text = text.split("*/", 1)[1]
+    return " ".join(t for t in TOK.findall(strip_comments(text)))
+
+
+def keep_marks(old, new):
+    """new with each `// !` mark line of old inserted before the first line of new whose code equals the code line
+    that follows the mark in old; Skip when that line is absent from new."""
+    lines, out, marks = old.split("\n"), new.split("\n"), []
+    for i, x in enumerate(lines):
+        if MARKLINE.match(x):
+            nxt = next((code_of(y) for y in lines[i + 1:] if code_of(y)), "")
+            marks.append((x, nxt))
+    for x, nxt in marks:
+        at = next((j for j, y in enumerate(out) if nxt and code_of(y) == nxt and not MARKLINE.match(y)), None)
+        if at is None:
+            raise Skip(f"mark anchor lost: {x.strip()[:60]}")
+        out.insert(at, x)
+    return "\n".join(out)
+
+
+def repin():
+    import cards  # noqa: E402  (body_of)
+    for p in (PARTNERS, FUNCS):
+        if not os.path.isfile(p):
+            sys.exit(f"x4port: {p} missing")
+    funcs = {(r["prog"], r["name"]): r for r in jl(FUNCS)}
+    rows = [x.rstrip("\n").split("\t") for x in open(PARTNERS) if x.strip()]
+    ctx = mmx4_ctx()
+    blocks, counts, out = {}, {"same": 0, "changed": 0, "skipped": 0}, []
+    for f in sorted(str(x) for x in Path("src/shared").rglob("*.c")):
+        text = Path(f).read_text()
+        m = ADAPTED.match(" ".join(text.split("*/", 1)[0].split()))
+        if not m or m.group(1) == PIN or not m.group(3):
+            continue
+        hsrc, hfn = m.group(2).rsplit(":", 1)
+        prog, name = Path(f).parent.name, Path(f).stem
+        row = funcs.get((prog, name))
+        try:
+            if row is None:
+                raise Skip(f"no corpus row {prog}:{name}")
+            mine = [r for r in rows if r[4].startswith(m.group(3))]
+            if not mine:
+                raise Skip(f"no partner of key {m.group(3)}")
+            own = [r for r in mine if (r[0], r[1]) == (prog, row["vram"])] or mine
+            cands = sorted({(r[5], r[6]) for r in own}, key=lambda x: (x != (hsrc, hfn), x))
+            why, got = [], None
+            for src, fn in cands:
+                try:
+                    got = (src, fn) + port(ctx, prog, row, own[0][4], src, fn)
+                    break
+                except Skip as e:
+                    why.append(f"{src}:{fn} {e}")
+            if got is None:
+                raise Skip("; ".join(why))
+            src, fn, draft, _, hb = got
+            old, fdef = cards.body_of(text, name), cards.body_of(draft, name)
+            if not old or not fdef:
+                raise Skip(f"no definition of {name} in the {'file' if not old else 'draft'}")
+            clash = sorted(g[2:] for g, t, _ in hb if blocks.get(g, (t,))[0] != t)
+            if clash:
+                raise Skip("x4.h conflict " + " ".join(clash))
+            new, what = draft.split("\n", 1)[0] + "\n" + text.split("*/", 1)[1].lstrip("\n"), "same"
+            if code_of(fdef) != code_of(old):
+                new, what = new.replace(old, keep_marks(old, fdef)), "changed"
+        except Skip as e:
+            counts["skipped"] += 1
+            out.append(f"X4PORT REPIN {f} skipped {e}")
+            continue
+        for g, t, hf in hb:
+            hf = os.path.normpath(hf) if hf else ""
+            blocks.setdefault(g, (t, hf if hf and not os.path.isabs(hf) and not hf.startswith("..") else ""))
+        Path(f).write_text(new)
+        counts[what] += 1
+        out.append(f"X4PORT REPIN {f} {what} {src}:{fn}" + ("" if (src, fn) == (hsrc, hfn) else f" (was {hsrc}:{hfn})"))
+    text = x4h(blocks)
+    ok, why, _ = verbatim.check(text)
+    if not ok:
+        sys.exit(f"x4port: {X4H} refused by verbatim ({why})")
+    Path(X4H).write_text(text)
+    print("\n".join(out))
+    print(f"X4PORT REPIN {counts['same']} same {counts['changed']} changed {counts['skipped']} skipped")
+    return 0
+
+
 # ---- credits ---------------------------------------------------------------------------------------------------------
 
 THIRD = "THIRD_PARTY.md"
@@ -866,6 +981,14 @@ def credits():
 def self_test():
     import cards  # noqa: E402  (top_decls, body_of)
     fails = []
+    SELF_FUNC = probe.sym_name(SELF_PROG, int(SELF_VRAM, 16))
+    # planted: a name that spells no address resolves from its split asm label row; a spelled one alone does not
+    ad = Addrs(SELF_PROG)
+    ad.labels = {"alpha_helper": 0x80001000}
+    planted = (ad.addr("alpha_helper"), ad.addr("func_8FFFFFF0"))
+    print(f"X4PORT self control: planted non-address name alpha_helper -> {planted}")
+    if planted != (0x80001000, None):
+        fails.append("planted-name")
     shutil.rmtree(SELFTEST, ignore_errors=True)
     clone, objroot = os.path.abspath(f"{SELFTEST}/clone"), os.path.abspath(f"{SELFTEST}/obj")
     src = "src/main/120A0.c"
@@ -962,12 +1085,15 @@ def main():
     ap.add_argument("--limit", type=int, default=0, help="a deterministic stride sample of K representatives")
     ap.add_argument("--x4h", action="store_true", help="with --wave: rewrite include/mmx6/x4.h only, no packs")
     ap.add_argument("--credits", action="store_true", help=f"rewrite the mmx4 credits table of {THIRD}")
+    ap.add_argument("--repin", action="store_true", help="re-port every src/shared file adapted at another pin")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:
         sys.exit(self_test())
     if a.credits:
         sys.exit(credits())
+    if a.repin:
+        sys.exit(repin())
     if not (a.wave and re.fullmatch(r"W-[a-z0-9]+", a.wave)):
         ap.error("--wave W-<lane> required")
     sys.exit(lane(a.wave, a.root, a.pv, a.limit, a.x4h))

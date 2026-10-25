@@ -5,7 +5,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_800179D0(void*, M2C_UNK, s8);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 #define F(type, off) M2C_FIELD(arg0, type*, off)
 
@@ -15,7 +15,7 @@ void func_800F1048(void* arg0) {
     s32 x;
     s32 y;
 
-    bg = D_800971F8;
+    bg = background_objects;
     F(s8, 0x3) = 1;
     x = (s16)(F(s16, 0x8) - bg->x_pos.i.hi) - 0xA0;
     k = F(s16, 0x54);

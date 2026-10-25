@@ -413,6 +413,7 @@
 {"k":"data","addr":"0x800fdc74","type":"/undefined *","len":4}
 {"k":"data","addr":"0x800fdc78","type":"/undefined *","len":4}
 {"k":"data","addr":"0x800fdc7c","type":"/undefined *","len":4}
+{"k":"comment","addr":"0x800fbdbc","type":"plate","text":"x4: slash_beast_death_blink [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_54_slash_beast.c:slash_beast_death_blink"}
 {"k":"comment","addr":"0x800fcf6c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800fd338","type":"pre","text":"Possible PsyQ macro: setLineF2()"}
 {"k":"comment","addr":"0x800fd39c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}

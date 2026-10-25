@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 extern u8 D_80071EE0[];
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 extern u8 D_800CD338;
 extern u8 D_800CD339;
@@ -15,7 +15,7 @@ void func_800280F4(void) {
     u32 i;
     u8* p;
 
-    bg = D_800971F8;
+    bg = background_objects;
     i = 0;
     do {
         bg->unk0 = 1;
@@ -34,11 +34,11 @@ void func_800280F4(void) {
     D_800CD3F0[1] = *p++;
     D_800CD3F0[2] = *p++;
     D_800CD3F0[3] = *p++;
-    D_800971F8[0].unk4B = *p++;
-    D_800971F8[0].unk4A = *p++;
-    D_800971F8[1].unk4B = *p++;
-    D_800971F8[1].unk4A = *p++;
-    D_800971F8[2].unk4B = *p++;
-    D_800971F8[2].unk4A = *p++;
+    background_objects[0].unk4B = *p++;
+    background_objects[0].unk4A = *p++;
+    background_objects[1].unk4B = *p++;
+    background_objects[1].unk4A = *p++;
+    background_objects[2].unk4B = *p++;
+    background_objects[2].unk4A = *p++;
 }
 #undef D_800CD3F0

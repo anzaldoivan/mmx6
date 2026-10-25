@@ -5,7 +5,7 @@
 
 #include "mmx6/x4.h"
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 M2C_UNK func_8003D10C(void*); /* extern */
 
 void func_8003A678(void* arg0) {
@@ -15,7 +15,7 @@ void func_8003A678(void* arg0) {
 
     var_a2 = 0;
     t = M2C_FIELD(arg0, u16*, 0xA) - 0x40;
-    d = t - D_800971F8[M2C_FIELD(arg0, s8*, 0x14)].x_pos.i.hi;
+    d = t - background_objects[M2C_FIELD(arg0, s8*, 0x14)].x_pos.i.hi;
     if (d != 0) {
         if (d > 0) {
             M2C_FIELD(arg0, s8*, 0x15) = 0;
@@ -32,7 +32,7 @@ void func_8003A678(void* arg0) {
     if (var_a2 != 0) {
         func_8003D10C(arg0);
         {
-            u16 x = D_800971F8[M2C_FIELD(arg0, s8*, 0x14)].x_pos.u.hi;
+            u16 x = background_objects[M2C_FIELD(arg0, s8*, 0x14)].x_pos.u.hi;
             M2C_FIELD(arg0, s8*, 0xD0) = -1;
             M2C_FIELD(arg0, s8*, 0x15) = 0x40;
             M2C_FIELD(arg0, s8*, 0x5) = 0x14;

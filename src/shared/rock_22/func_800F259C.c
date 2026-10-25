@@ -34,12 +34,16 @@ void func_800F259C(u8* arg0) {
         func_80049E50(arg0);
         func_800477E4(8, &D_800FC5F8, arg0);
         {
+            // !FAKE: depin: dropping it breaks the match (68/73)
             register u8* sp asm("$2") = SPAD;
             x = M2C_FIELD(arg0, s16*, 0xA);
             y = M2C_FIELD(arg0, s16*, 0xE);
             if (sp[0x81] < 2) {
+                // !FAKE: depin: dropping it breaks the match (46/73)
                 register u8* a asm("$4") = arg0;
+                // !FAKE: depin: dropping it breaks the match (39/73)
                 register s32 t asm("$6") = x;
+                // !FAKE: depin: dropping it breaks the match (45/73)
                 register s32 k asm("$5") = 0x12;
                 if (M2C_FIELD(arg0, u8*, 0x15) != 0) {
                     t -= 0x10;

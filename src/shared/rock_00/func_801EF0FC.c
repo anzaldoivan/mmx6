@@ -17,6 +17,7 @@ void func_801EF0FC(u8* arg0) {
                 arg0, (D_801F3998[arg0[0x8D] + arg0[0x8F] * 3] + arg0[0x90]),
                 D_801F39AC[D_801F3998[arg0[0x8D] + arg0[0x8E] * 3]]);
         } else {
+            // !FAKE: depin: dropping it breaks the match (39/98)
             register u8* b asm("$7");
 
             func_801EFB5C(

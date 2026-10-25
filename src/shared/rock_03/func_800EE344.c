@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define F16(n) M2C_FIELD(self, s16*, (n))
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern u16 D_800F7784[];
 
 void func_800EE344(struct X4_BaseObj* self) {
@@ -35,8 +35,8 @@ void func_800EE344(struct X4_BaseObj* self) {
         neg = F16(0x42);
         F16(0x42) = -neg;
     }
-    if (D_800970A0.x_pos.i.hi < left || right < D_800970A0.x_pos.i.hi ||
-        D_800970A0.y_pos.i.hi < top || bottom < D_800970A0.y_pos.i.hi) {
+    if (g_Player.x_pos.i.hi < left || right < g_Player.x_pos.i.hi ||
+        g_Player.y_pos.i.hi < top || bottom < g_Player.y_pos.i.hi) {
         if (--M2C_FIELD(self, s32*, 0x38) < 0) {
             M2C_FIELD(self, s32*, 0x38) = 0;
             F16(0x34) = 0;

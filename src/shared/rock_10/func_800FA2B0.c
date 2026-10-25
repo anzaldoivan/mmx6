@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 extern s16 D_80097202;
 
 void func_800FA2B0(void* arg0) {
@@ -11,7 +11,7 @@ void func_800FA2B0(void* arg0) {
     s32 v;
 
     temp_s1 = M2C_FIELD(arg0, void**, 0x7C);
-    ((void (*)(void*))func_8002D2B0)(arg0);
+    ((void (*)(void*))move_object)(arg0);
     if (M2C_FIELD(arg0, u8*, 0x15) == 0) {
         if (D_80097202 + 0x30 >= M2C_FIELD(arg0, s16*, 0xA)) {
             v = 3;

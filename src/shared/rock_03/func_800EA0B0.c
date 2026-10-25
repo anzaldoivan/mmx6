@@ -15,7 +15,9 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 
 void func_800EA0B0(u8* arg0) {
     u8* obj;
+    // !FAKE: depin: dropping it breaks the match (106/109)
     register u8* par asm("$2");
+    // !FAKE: depin: dropping it breaks the match (106/109)
     register s32 one asm("$3");
 
     func_8002CCB0(arg0, 0x10, 0x10);

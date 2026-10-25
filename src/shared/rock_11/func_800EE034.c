@@ -32,7 +32,7 @@ void func_800EE034(void* self) {
             func_800F3E10(self, 0x27);
             func_800F3E10(self, 0x28);
             {
-                register s32 n asm("$2") = F(u8, 6) + 1;
+                s32 n = F(u8, 6) + 1;
                 F(s16, 0x7C) = 0x3C;
                 F(u8, 6) = n;
             }

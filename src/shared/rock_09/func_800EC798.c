@@ -7,9 +7,12 @@ s32 func_8002D2D4();
 extern u8 D_800F4BF0[];
 
 void func_800EC798(void* arg0) {
+    // !FAKE: depin: dropping it breaks the match (35/63)
     register s32 r asm("$16");
     s32 t;
+    // !FAKE: depin: dropping it breaks the match (60/63)
     register s32 tbl asm("$5");
+    // !FAKE: depin: dropping it breaks the match (58/63)
     register s32 v asm("$4");
 
     func_800179A4(arg0, 3);

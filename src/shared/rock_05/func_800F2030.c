@@ -7,7 +7,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 extern s16 D_800F4480;
 
 #define SETB                                                                   \
@@ -27,7 +27,7 @@ void func_800F2030(void* arg0) {
     } else if (S16(arg0, 0xE) >= D_800F4480 + 0x438) {
         SETB
     }
-    func_8002D2B0(arg0);
+    move_object(arg0);
     func_80017A04(arg0);
 }
 #undef SETB

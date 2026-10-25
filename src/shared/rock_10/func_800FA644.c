@@ -8,6 +8,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 void func_800FA644(void* arg0) {
     s8 kind;
     s32 hi;
+    // !FAKE: depin: dropping it breaks the match (49/51)
     register s32 flags asm("$3");
     s8 mode;
 

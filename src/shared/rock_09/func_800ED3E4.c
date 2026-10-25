@@ -4,10 +4,10 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*); /* extern */
 extern u8 D_8008EAFC;
-extern s32 D_800970A0;
+extern s32 g_Player;
 extern s8 D_800CCEF6;
 
-#define PL ((u8*)&D_800970A0)
+#define PL ((u8*)&g_Player)
 #define F_S8(p, o) (*(s8*)((p) + (o)))
 #define F_S16(p, o) (*(s16*)((p) + (o)))
 

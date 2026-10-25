@@ -11,7 +11,7 @@ extern u8 D_80093C98[];
 extern s8 D_800950A0[];
 extern u8 D_800964A0[];
 #define M2C_UNK s32
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern struct X4_UnkObj D_800972F8[3];
 extern s8 D_8009742C;
 extern struct X4_EffectObj D_8009B7B0[0x20];
@@ -49,7 +49,7 @@ void func_8002B838(void) {
 
     {
         s8 z1 = 0;
-        CLRV(&D_800970A0, 0x154, z1);
+        CLRV(&g_Player, 0x154, z1);
     }
     for (i = 0; i < 3; i++) {
         CLR(&D_800972F8[i], 0x60);

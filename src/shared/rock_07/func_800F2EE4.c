@@ -22,8 +22,10 @@ void func_800F2EE4(void* arg0) {
     }
     func_80017A04(arg0);
     {
+        // !FAKE: depin: dropping it breaks the match (73/76)
         register void** tbl asm("$2") = (void**)D_800F96F4;
-        register s32 i asm("$3") = M2C_FIELD(arg0, s8*, 5);
+        s32 i = M2C_FIELD(arg0, s8*, 5);
+        // !FAKE: depin: dropping it breaks the match (74/76)
         register void* fp asm("$5") = tbl[i];
         ((void (*)(void*))fp)(arg0);
     }

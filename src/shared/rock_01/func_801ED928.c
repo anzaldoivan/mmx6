@@ -8,13 +8,13 @@ M2C_UNK func_80017A04();
 M2C_UNK func_8002C9B0();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
-void func_8002D3B4(void*, s32);
+M2C_UNK move_object(void*);
+void set_velocity_from_angle(void*, s32);
 M2C_UNK func_8002EE10(void*);
 void func_8003CF24(s32, s32, s32);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 extern s32 D_8007798C;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_801EE3E0;
 extern s32 D_801EE3E4;
 extern s32 D_801EE6F0;
@@ -26,7 +26,7 @@ void func_801ED928(struct X4_WeaponObj* arg0) {
     u8* t;
     s32 off;
 
-    player = &D_800970A0;
+    player = &g_Player;
     if (arg0->state == 0) {
         arg0->on_screen = 1;
         arg0->unk50 = &D_801EE3E0;
@@ -41,7 +41,7 @@ void func_801ED928(struct X4_WeaponObj* arg0) {
         func_8003CF24(6, 0x13, 1);
         arg0->x_pos.i.hi = player->x_pos.i.hi;
         arg0->y_pos.i.hi = player->y_pos.i.hi + 0x18;
-        func_8002D3B4(arg0, ((arg0->unk2 * 2) + 0x16) & 0xFE);
+        set_velocity_from_angle(arg0, ((arg0->unk2 * 2) + 0x16) & 0xFE);
         arg0->x_vel.val *= 5;
         arg0->y_vel.val *= 5;
         ((void (*)(void*, s32))func_800179A4)(arg0, 3);
@@ -49,7 +49,7 @@ void func_801ED928(struct X4_WeaponObj* arg0) {
     } else if (arg0->state == 1 && func_8002CBFC(arg0, 0x20, 0x20) == 0 &&
                arg0->unk98 == 0) {
         func_80017A04(arg0);
-        ((void (*)(void*))func_8002D2B0)(arg0);
+        ((void (*)(void*))move_object)(arg0);
         arg0->unk64 = arg0->unk2 + 1;
         if (arg0->unk70 == 0) {
             func_8002EE10(arg0);

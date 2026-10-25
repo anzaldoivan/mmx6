@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/object_motion.c:func_8002B9F0, AGPL-3.0; proven shared with X6 by exact signature 5e8e8871519a (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/object_motion.c:func_8002B9F0, AGPL-3.0; proven shared with X6 by exact signature 5e8e8871519a (see THIRD_PARTY.md). */
 #include "common.h"
 extern s32 D_80073760[];
 extern s32 D_80073784[];

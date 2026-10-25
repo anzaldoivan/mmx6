@@ -6,9 +6,9 @@ M2C_UNK func_80012D9C(M2C_UNK);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 void* func_8002BBF4();
 s32 func_8002D2D4();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 extern struct X4_EngineObj D_800CCED0;
 
@@ -16,7 +16,7 @@ extern struct X4_EngineObj D_800CCED0;
 #define UB(p, o) (*(u8*)((u8*)(p) + (o)))
 #define H(p, o) (*(s16*)((u8*)(p) + (o)))
 #define UH(p, o) (*(u16*)((u8*)(p) + (o)))
-#define PL ((struct X4_BaseObj*)&D_800970A0)
+#define PL ((struct X4_BaseObj*)&g_Player)
 #define W(p, o) (*(s32*)((u8*)(p) + (o)))
 
 void func_800EF160(void* arg0) {
@@ -77,10 +77,10 @@ void func_800EF160(void* arg0) {
                     UB(obj, 2) = 0;
                     r = func_8002D2D4();
                     m = func_8002D2D4();
-                    UH(obj, 0xA) = D_800971F8[0].x_pos.u.hi + (r % 4) * 0x50 +
-                                   ((m % 3) << 5);
-                    UH(obj, 0xE) =
-                        D_800971F8[0].y_pos.u.hi - (func_8002D2D4() % 5) * 0x10;
+                    UH(obj, 0xA) = background_objects[0].x_pos.u.hi +
+                                   (r % 4) * 0x50 + ((m % 3) << 5);
+                    UH(obj, 0xE) = background_objects[0].y_pos.u.hi -
+                                   (func_8002D2D4() % 5) * 0x10;
                     UH(obj, 0x42) = UH(arg0, 0x42) & 0x7FFF;
                     W(obj, 0x30) = W(arg0, 0x30);
                     W(obj, 0x3C) = W(arg0, 0x3C);
@@ -96,9 +96,9 @@ void func_800EF160(void* arg0) {
             if (!(func_8002D2D4() & 0xF)) {
                 UB(arg0, 0x80) = 6;
             }
-            D_800971F8[0].y_pos.u.hi += (s8)UB(arg0, 0x80);
+            background_objects[0].y_pos.u.hi += (s8)UB(arg0, 0x80);
         } else {
-            D_800971F8[0].y_pos.u.hi -= (s8)UB(arg0, 0x80);
+            background_objects[0].y_pos.u.hi -= (s8)UB(arg0, 0x80);
         }
         return;
     }

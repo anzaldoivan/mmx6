@@ -7,7 +7,7 @@
 
 M2C_UNK func_8002C9B0();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 
 void func_800F1F50(void* arg0) {
@@ -32,11 +32,12 @@ void func_800F1F50(void* arg0) {
             D_800CCED0.checkpoint += 9;
         }
         {
+            // !FAKE: depin: dropping it breaks the match (59/67)
             register s32 t3 asm("$5");
             D_800CCED0.enable_boss = 0;
             D_800CCED0.boss_ptr = 0;
-            t3 = D_800971F8[0].y_pos.u.hi;
-            D_800971F8[0].unk2A = t3;
+            t3 = background_objects[0].y_pos.u.hi;
+            background_objects[0].unk2A = t3;
             func_8002C9B0(arg0, t3);
         }
     }

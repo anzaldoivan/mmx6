@@ -6,7 +6,7 @@
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
@@ -21,14 +21,14 @@ void func_800EB170(void* arg0) {
 
     px = M2C_FIELD(SPAD, s16*, 0x8A);
     {
-        register s32 py asm("$3") = M2C_FIELD(SPAD, s16*, 0x8C);
+        s32 py = M2C_FIELD(SPAD, s16*, 0x8C);
         angle = func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - py,
                               px - M2C_FIELD(arg0, s16*, 0xA));
     }
     M2C_FIELD(arg0, s32*, 0x28) = 0;
     M2C_FIELD(arg0, s32*, 0x2C) = 0;
     {
-        register s32 m asm("$2");
+        s32 m;
         s32 lo;
         m = func_80065A14(angle);
         lo = m << 4;
@@ -39,9 +39,10 @@ void func_800EB170(void* arg0) {
         m = (m << 6) + lo;
         M2C_FIELD(arg0, s32*, 0x24) = (m << 1) / 8;
     }
-    func_8002D2B0((s32)arg0);
+    move_object((s32)arg0);
     func_8002CCB0(arg0, 0x30, 0x40);
     {
+        // !FAKE: depin: dropping it breaks the match (80/86)
         register u8* sp asm("$2") = SPAD;
         s32 ax;
         do {

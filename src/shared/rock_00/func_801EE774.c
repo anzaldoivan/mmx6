@@ -5,7 +5,7 @@ extern s32 D_80077A80;
 extern s32 D_801F37C4;
 extern s32 D_801F37C8;
 M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_8003D510(M2C_UNK, M2C_UNK, s8, M2C_UNK);
+M2C_UNK player_spawn_visual(M2C_UNK, M2C_UNK, s8, M2C_UNK);
 #define SCRATCH_14 (*(u8**)0x1F800014)
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 
@@ -39,5 +39,5 @@ void func_801EE774(struct X4_WeaponObj* arg0) {
     func_800179A4(arg0, 0);
     arg0->unk5 = 0;
     arg0->state++;
-    func_8003D510(1, 0x1B, 8, 0);
+    player_spawn_visual(1, 0x1B, 8, 0);
 }

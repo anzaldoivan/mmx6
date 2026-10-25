@@ -39,7 +39,9 @@ void func_80035BDC(void* arg0) {
         } else if (M2C_FIELD(arg0, s32*, 0x2C) != 0) {
             func_8003BA04(arg0, 0xB);
             {
+                // !FAKE: depin: dropping it breaks the match (84/87)
                 register s32 m1 asm("$2") = -1;
+                // !FAKE: depin: dropping it breaks the match (84/87)
                 register s32 k7 asm("$3") = 7;
                 M2C_FIELD(arg0, s8*, 0x67) = m1;
                 M2C_FIELD(arg0, u8*, 5) = k7;

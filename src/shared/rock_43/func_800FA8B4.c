@@ -9,7 +9,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800FDE30;
 
 void func_800FA8B4(struct X4_MainObj* self) {
@@ -30,6 +30,7 @@ void func_800FA8B4(struct X4_MainObj* self) {
         {
             u8* b;
             s32 i;
+            // !FAKE: depin: dropping it breaks the match (73/138)
             register s32 k asm("$3") = self->unk7C;
             b = (u8*)&D_800FDE30 + 0x2E4;
             i = 0x41 - k;
@@ -45,22 +46,23 @@ void func_800FA8B4(struct X4_MainObj* self) {
     } else if (t < 0x7E) {
     } else if ((u16)(self->unk7C - 0x7E) < 0x10) {
         if (t == 0x7E) {
-            if (D_800970A0.x_pos.i.hi > M2C_FIELD(self, s16*, 0xA)) {
+            if (g_Player.x_pos.i.hi > M2C_FIELD(self, s16*, 0xA)) {
                 self->unk15 = 0x40;
             } else {
                 self->unk15 = 0;
             }
             func_80016C48(2, 0x99, self);
-            M2C_FIELD(self, u16*, 0x88) = D_800970A0.x_pos.i.hi;
+            M2C_FIELD(self, u16*, 0x88) = g_Player.x_pos.i.hi;
         }
         {
             u8* b;
-            register s32 i asm("$2");
+            s32 i;
             i = self->unk7C - 0x7E;
             b = (u8*)&D_800FDE30 + 0x2E4;
             {
+                // !FAKE: depin: dropping it breaks the match (38/138)
                 register s32 u asm("$3") = M2C_FIELD(self, u16*, 0x88);
-                register s32 w asm("$7") = *(u16*)(b + i * 2);
+                s32 w = *(u16*)(b + i * 2);
                 M2C_FIELD(self, u16*, 0xA) = u + w;
             }
         }
@@ -71,6 +73,7 @@ void func_800FA8B4(struct X4_MainObj* self) {
         if (t == 0x8E) {
             func_800179A4(self, 0);
             {
+                // !FAKE: depin: dropping it breaks the match (136/138)
                 register s32 c asm("$2") = M2C_FIELD(self, u16*, 0x88);
                 M2C_FIELD(self, u16*, 0xA) = c;
             }
@@ -83,8 +86,8 @@ void func_800FA8B4(struct X4_MainObj* self) {
         M2C_FIELD(self, s16*, 0x8A) = 0;
         {
             u8* tb = (u8*)&D_800FDE30 + 0x284;
-            register u8* q asm("$3") = tb + (M2C_FIELD(self, u8*, 0x87)++ +
-                                             M2C_FIELD(self, u8*, 0x86) * 6);
+            u8* q = tb + (M2C_FIELD(self, u8*, 0x87)++ +
+                          M2C_FIELD(self, u8*, 0x86) * 6);
             self->unk5 = *q;
         }
         self->unk6 = 0;

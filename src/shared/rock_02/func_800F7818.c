@@ -21,6 +21,7 @@ void func_800F7818(void* arg0) {
     if ((s16)t >= 0x79) {
         func_800179A4(arg0, 8);
         {
+            // !FAKE: depin: dropping it breaks the match (24/49)
             register s32 b asm("$2");
             b = M2C_FIELD(arg0, u8*, 6) + 1;
             M2C_FIELD(arg0, u8*, 6) = b;

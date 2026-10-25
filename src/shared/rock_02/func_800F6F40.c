@@ -6,7 +6,7 @@
 
 M2C_UNK func_80017A04();
 M2C_UNK func_800F82C0();
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F6F40(void* arg0) {
     func_800F82C0();
@@ -17,9 +17,10 @@ void func_800F6F40(void* arg0) {
         M2C_FIELD(arg0, s32*, 0x24) = 0x20000;
         M2C_FIELD(arg0, s32*, 0x2C) = 0;
         {
-            register s32 t asm("$4") = D_800971F8[0].unk1E - 0x140;
+            s32 t = background_objects[0].unk1E - 0x140;
             if (M2C_FIELD(arg0, s16*, 0xA) <
-                D_800971F8[0].unk1E + (D_800971F8[0].unk1C - t) / 2) {
+                background_objects[0].unk1E +
+                    (background_objects[0].unk1C - t) / 2) {
                 M2C_FIELD(arg0, u8*, 0x15) = 0x40;
             } else {
                 M2C_FIELD(arg0, u8*, 0x15) = 0;

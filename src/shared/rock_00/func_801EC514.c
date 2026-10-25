@@ -6,7 +6,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8003B114(s32);
 void func_8003CF54(void*, s32);
-M2C_UNK func_8003D3F8(M2C_UNK, s8, M2C_UNK, void*);
+M2C_UNK player_spawn_weapon(M2C_UNK, s8, M2C_UNK, void*);
 M2C_UNK func_801EC678(); /* extern */
 extern s8 D_800CCEEC;
 
@@ -22,7 +22,7 @@ void func_801EC514(void* arg0) {
     }
     if (M2C_FIELD(arg0, u8*, 0x45) & 0x20) {
         M2C_FIELD(arg0, u8*, 0x45) = 0;
-        func_8003D3F8(1, 0x16, 0, 0);
+        player_spawn_weapon(1, 0x16, 0, 0);
         func_8003CF54(arg0, 0x49);
         func_80016C48(1, 0x12, arg0);
         if (M2C_FIELD(arg0, u8*, 0x15) != 0) {

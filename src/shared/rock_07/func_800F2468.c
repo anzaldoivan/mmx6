@@ -6,7 +6,7 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 void func_800F6880(void* arg0, u8 arg1, s16 arg2, s16 arg3);
 extern s16 D_800970AA;
 extern s32 D_80097420;
@@ -19,8 +19,9 @@ void func_800F2468(void* arg0) {
     s32 m;
     u16 x;
 
-    func_8002D2B0(arg0);
+    move_object(arg0);
     {
+        // !FAKE: depin: dropping it breaks the match (96/98)
         register s32 f asm("$2") = self->unk15;
         if (f == 0) {
             x = self->x_pos.u.hi;

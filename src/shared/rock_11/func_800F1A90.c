@@ -17,12 +17,15 @@ M2C_UNK func_800F1A90(void* self, u8 arg1) {
     s32 b;
     void* obj;
     s32 k;
+    // !FAKE: depin: dropping it breaks the match (84/86)
     register s32 t asm("$4");
 
     obj = func_8002C458();
     {
+        // !FAKE: depin: dropping it breaks the match (84/86)
         register s32 k2 asm("$2") = 0x41;
         if (obj != 0) {
+            // !FAKE: depin: dropping it breaks the match (83/86)
             register s32 k3 asm("$3") = 0x1C;
             G(u8, 0) = k2;
             G(u8, 1) = k3;

@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 extern X4_P_TAG* D_8008EB08[2][4][8];
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_80071414[];
 s32 func_80068DD4(s32, s32, s32, s32);
 
@@ -30,8 +30,10 @@ void func_800241D4(void* arg0) {
             dx = *(s16*)(a + 0xA);
             dy = *(s16*)(a + 0xE);
         } else {
-            dx = *(u16*)(a + 0xA) - D_800971F8[*(s8*)(a + 0x37)].x_pos.u.hi;
-            dy = *(u16*)(a + 0xE) - D_800971F8[*(s8*)(a + 0x37)].y_pos.u.hi;
+            dx = *(u16*)(a + 0xA) -
+                 background_objects[*(s8*)(a + 0x37)].x_pos.u.hi;
+            dy = *(u16*)(a + 0xE) -
+                 background_objects[*(s8*)(a + 0x37)].y_pos.u.hi;
         }
         tp = SCR_TPAGE;
         prim = SCR_PRIM;

@@ -5,7 +5,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 extern M2C_UNK D_800743DC;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800FB7A0;
 extern s32 D_800FB7A4;
 extern s32 D_800FB7A8;
@@ -16,7 +16,7 @@ void func_800EC670(void* self) {
     s32 v;
 
     M2C_FIELD(self, void**, 0x30) = &D_800FBA80;
-    t = D_800970A0.bg_offset;
+    t = g_Player.bg_offset;
     M2C_FIELD(self, u8*, 0x16) = 5;
     M2C_FIELD(self, void**, 0x68) = &D_800FB7A0;
     M2C_FIELD(self, void**, 0x50) = &D_800FB7A4;
@@ -34,14 +34,14 @@ void func_800EC670(void* self) {
     M2C_FIELD(self, u8*, 0x14) = t;
     switch (M2C_FIELD(self, s8*, 2)) {
     case 0:
-        if (D_800970A0.unk2 == 0) {
+        if (g_Player.unk2 == 0) {
             M2C_FIELD(self, u8*, 5) = 6;
         } else {
             M2C_FIELD(self, u8*, 5) = 4;
         }
         break;
     case 1:
-        if (D_800970A0.unk2 == 0) {
+        if (g_Player.unk2 == 0) {
             M2C_FIELD(self, u8*, 5) = 7;
         } else {
             M2C_FIELD(self, u8*, 5) = 5;

@@ -7,5 +7,5 @@ s32 func_8002CB50(struct X4_BaseObj*); /* extern */
 
 void func_80048560(void* arg0) {
     M2C_FIELD(arg0, s8*, 3) = 1;
-    ((s32 (*)())func_8002CB50)();
+    ((s32(*)())func_8002CB50)();
 }

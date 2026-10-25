@@ -3,7 +3,7 @@
 
 extern u32* D_8008EC18[2][102];
 extern u16 D_80090D6A;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800A21B8[3][32][64];
 
 #define SP_PRIM_PTR (*(u8**)SP(0x108))
@@ -33,7 +33,7 @@ void func_800270D0(s32 arg0) {
     s32 layer;
     u32 slot;
 
-    base = D_800971F8;
+    base = background_objects;
     bg = &base[arg0];
     prim = SP_PRIM_PTR;
     p = bg->pad51[1];

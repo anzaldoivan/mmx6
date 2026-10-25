@@ -6,7 +6,7 @@
 void* func_8002C530();
 s32 func_8002D2D4();
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_800EBC08(u8* self) {
     u8* obj;
@@ -19,7 +19,7 @@ void func_800EBC08(u8* self) {
             self[0x93] = 1;
         }
         self[0x8D]--;
-        py = D_800970A0.y_pos.i.hi;
+        py = g_Player.y_pos.i.hi;
         sy = M2C_FIELD(self, s16*, 0xE) + 8;
         d = py - sy;
         if (d >= 0) {
@@ -30,7 +30,7 @@ void func_800EBC08(u8* self) {
             }
         } else if (sy - py >= 3) {
         far:
-            if (D_800970A0.y_pos.i.hi - 8 >= M2C_FIELD(self, s16*, 0xE)) {
+            if (g_Player.y_pos.i.hi - 8 >= M2C_FIELD(self, s16*, 0xE)) {
                 M2C_FIELD(self, s32*, 0x24) = 0xFFFE0000;
             } else {
                 M2C_FIELD(self, s32*, 0x24) = 0x20000;

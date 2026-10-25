@@ -5,7 +5,7 @@
 #define SCRATCH_4C (*(u8**)0x1F80004C)
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 extern s16 D_800F4480;
 
 void func_800EF9B8(struct X4_MainObj* self) {
@@ -37,5 +37,5 @@ void func_800EF9B8(struct X4_MainObj* self) {
         }
     }
     ((void (*)(void*))func_80017A04)(self);
-    ((void (*)(s32))func_8002D2B0)((s32)self);
+    ((void (*)(s32))move_object)((s32)self);
 }

@@ -34,6 +34,7 @@ void func_800528F4(struct X4_BaseObj* self) {
     switch (state) {
     case 0:
         if (D_800CD40C == 0) {
+            // !FAKE: depin: dropping it breaks the match (161/228)
             register u16* p asm("$3") = D_8007A0E0;
             p += D_800CCED0.stage;
 

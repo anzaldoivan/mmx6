@@ -5,7 +5,7 @@
 
 M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
 M2C_UNK func_8002B410(M2C_UNK*, M2C_UNK*, M2C_UNK, s32, s32);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern M2C_UNK D_800ED640;
 extern M2C_UNK D_800EE840;
 extern M2C_UNK D_800EFA40;
@@ -22,8 +22,8 @@ void func_800E9DA8(u8* arg0) {
         __builtin_memcpy((u8*)&D_800ED640, (u8*)(SPAD28 + 0x1200), 0x200);
         func_8002B410(&D_800EE840, &D_800ED640, 0x100, D_800F2242, 0x60);
         func_8002B3D4(0x90, &D_800EE840, 0x10);
-        D_800971F8[1].x_pos.u.hi = 0x600;
-        D_800971F8[1].unk4C = 1;
+        background_objects[1].x_pos.u.hi = 0x600;
+        background_objects[1].unk4C = 1;
         arg0[1]++;
     }
 }

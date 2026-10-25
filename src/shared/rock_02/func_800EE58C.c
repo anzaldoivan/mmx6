@@ -8,14 +8,14 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002A47C(s32);
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_800EE58C(void* arg0) {
     s16 v;
     s16 w;
 
-    if (D_800970A0.x_pos.i.hi > M2C_FIELD(arg0, s16*, 0xA)) {
+    if (g_Player.x_pos.i.hi > M2C_FIELD(arg0, s16*, 0xA)) {
         M2C_FIELD(arg0, u8*, 0x15) = 0x40;
     } else {
         M2C_FIELD(arg0, u8*, 0x15) = 0;
@@ -29,16 +29,16 @@ void func_800EE58C(void* arg0) {
         M2C_FIELD(arg0, s32*, 0x28) = 0x10000;
         M2C_FIELD(arg0, u8*, 0x6)++;
     }
-    if (M2C_FIELD(arg0, s16*, 0xE) < D_800970A0.y_pos.i.hi) {
+    if (M2C_FIELD(arg0, s16*, 0xE) < g_Player.y_pos.i.hi) {
         M2C_FIELD(arg0, s16*, 0xE) = v = M2C_FIELD(arg0, s16*, 0xE) + 2;
-        if (D_800970A0.y_pos.i.hi < v) {
-            M2C_FIELD(arg0, s16*, 0xE) = D_800970A0.y_pos.i.hi;
+        if (g_Player.y_pos.i.hi < v) {
+            M2C_FIELD(arg0, s16*, 0xE) = g_Player.y_pos.i.hi;
         }
-    } else if (D_800970A0.y_pos.i.hi < M2C_FIELD(arg0, s16*, 0xE)) {
+    } else if (g_Player.y_pos.i.hi < M2C_FIELD(arg0, s16*, 0xE)) {
         M2C_FIELD(arg0, s16*, 0xE) = w = M2C_FIELD(arg0, s16*, 0xE) - 2;
-        if (w < D_800970A0.y_pos.i.hi) {
-            M2C_FIELD(arg0, s16*, 0xE) = D_800970A0.y_pos.i.hi;
+        if (w < g_Player.y_pos.i.hi) {
+            M2C_FIELD(arg0, s16*, 0xE) = g_Player.y_pos.i.hi;
         }
     }
 }
-#undef D_800970A0
+#undef g_Player

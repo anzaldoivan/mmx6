@@ -13,7 +13,7 @@ void func_800F066C(u8* arg0) {
     i = 0;
     arg0[3] = 1;
     {
-        register s32 c1 asm("$6") = 1;
+        s32 c1 = 1;
 
         if (D_80073610[arg0[2] & 0xF] == c1) {
             do {
@@ -23,6 +23,7 @@ void func_800F066C(u8* arg0) {
         next:
             i++;
             if (i < 0x10) {
+                // !FAKE: depin: dropping it breaks the match (61/65)
                 register s32 one asm("$4") = 1;
 
                 if ((one << i) == D_80073610[arg0[2] & 0xF]) {
@@ -34,6 +35,7 @@ void func_800F066C(u8* arg0) {
         }
     }
     {
+        // !FAKE: depin: dropping it breaks the match (61/65)
         register u16* tbl asm("$2") = D_8006D600;
 
         key = tbl[sel];

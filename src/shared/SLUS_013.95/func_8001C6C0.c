@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/memcard.c:func_8001CE84, AGPL-3.0; proven shared with X6 by exact signature e642975dc52e (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/memcard.c:func_8001CE84, AGPL-3.0; proven shared with X6 by exact signature e642975dc52e (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern long func_80069F34(char*);

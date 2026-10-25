@@ -14,7 +14,7 @@ s32 func_80031474(void*);                        /* extern */
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*); /* extern */
 M2C_UNK func_80049E50(void*);                    /* extern */
 extern s16 D_800970AA;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_8009721C;
 extern s16 D_80097222;
 extern struct X4_EngineObj D_800CCED0;
@@ -37,7 +37,7 @@ void func_800ED504(struct X4_MainObj* arg0) {
     }
     if (r < 0) {
         if (D_800F7794 == 5) {
-            D_800971F8[0].unk26 = D_800971F8[0].unk24;
+            background_objects[0].unk26 = background_objects[0].unk24;
         }
         if (D_800F6D6C[D_800F7794] != 0) {
             D_8009721C = D_800F6D6C[D_800F7794];

@@ -5,7 +5,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 s32 func_800179A4(void*, s32);
 void func_800F9E04(struct X4_AnimatedObj*);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F8BB4(struct X4_AnimatedObj* self) {
     s8 mode = ((s8*)self)[0x45];
@@ -15,8 +15,8 @@ void func_800F8BB4(struct X4_AnimatedObj* self) {
         func_800179A4(self, 0xC);
         func_800F9E04(self);
         self->unk15 = 0x40;
-        self->x_pos.i.hi = D_800971F8[0].x_pos.i.hi + 0xA0;
-        self->y_pos.i.hi = D_800971F8[0].y_pos.i.hi + 0x40;
+        self->x_pos.i.hi = background_objects[0].x_pos.i.hi + 0xA0;
+        self->y_pos.i.hi = background_objects[0].y_pos.i.hi + 0x40;
         self->unk6++;
     } else if (mode == 2) {
         func_80016C48(2, 0x59, self);

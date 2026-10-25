@@ -8,13 +8,14 @@ void* func_8002BBF4();
 M2C_UNK func_8002C9B0();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 extern s32 D_800F4490;
 
 void func_800EF55C(struct X4_MainObj* self) {
     s8* p;
     s8* obj;
+    // !FAKE: depin: dropping it breaks the match (84/93)
     register s32 y asm("$5");
 
     self->on_screen = 0;
@@ -51,8 +52,8 @@ void func_800EF55C(struct X4_MainObj* self) {
         }
         D_800CCED0.enable_boss = 0;
         D_800CCED0.boss_ptr = 0;
-        y = D_800971F8[0].y_pos.u.hi;
-        D_800971F8[0].unk2A = y;
+        y = background_objects[0].y_pos.u.hi;
+        background_objects[0].unk2A = y;
         func_8002C9B0(self, y);
     }
 }

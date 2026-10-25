@@ -26,6 +26,7 @@ void func_800F2324(void* arg0) {
     W(arg0, 0x24) = 0;
     func_800179A4(arg0, 2);
     {
+        // !FAKE: depin: dropping it breaks the match (32/35)
         register s32 c asm("$2") = UB(arg0, 6) + 1;
         UB(arg0, 6) = c;
     }

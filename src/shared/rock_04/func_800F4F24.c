@@ -12,6 +12,7 @@ extern u8 D_800F7030[];
 void func_800F4F24(void* arg0) {
     s8 kind;
     s8 r;
+    // !FAKE: depin: dropping it breaks the match (27/43)
     register u8* tbl asm("$2");
 
     if (--H(arg0, 0x7C) == 0) {
@@ -29,6 +30,7 @@ void func_800F4F24(void* arg0) {
         case 1:
             tbl = D_800F7030;
         set: {
+            // !FAKE: depin: dropping it breaks the match (41/43)
             register s32 b asm("$4") = tbl[r * 8];
             UB(arg0, 5) = b;
         } break;

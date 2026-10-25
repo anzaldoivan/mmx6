@@ -4,13 +4,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 s32 func_80030234(struct X4_PlayerObj*, s16, s16);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 void func_800F402C(void*, s32);
-extern struct X4_PlayerObj D_800970A0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_PlayerObj g_Player;
+extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_800FD516;
 extern s16 D_800FD518;
 extern s8 D_800FD51A;
@@ -46,30 +46,31 @@ void func_800EFCC0(struct X4_PlayerObj* self) {
     self->bg_offset = 0;
     self->x_pos.u.hi = F(u16, 0x84);
     self->y_pos.u.hi = F(u16, 0x86);
-    self->x_pos.u.hi = D_800971F8[0].x_pos.u.hi + self->x_pos.u.hi;
-    self->y_pos.u.hi = D_800971F8[0].y_pos.u.hi + self->y_pos.u.hi;
+    self->x_pos.u.hi = background_objects[0].x_pos.u.hi + self->x_pos.u.hi;
+    self->y_pos.u.hi = background_objects[0].y_pos.u.hi + self->y_pos.u.hi;
     self->x_vel.val = func_80065A14(F(s16, 0x7C)) << 7;
     self->y_vel.val = func_80065944(F(s16, 0x7C)) << 7;
     do {
-        func_8002D2B0(self);
+        move_object(self);
         c = func_80030234(self, self->x_pos.i.hi, self->y_pos.i.hi) & 0xFF;
         hit = tile_hit_800EFCC0(c);
         if (hit) {
             n = 1000;
         }
-        if ((u32)(self->x_pos.i.hi - D_800971F8[0].x_pos.i.hi + 0x10) >=
+        if ((u32)(self->x_pos.i.hi - background_objects[0].x_pos.i.hi + 0x10) >=
                 0x161 ||
-            (d = self->y_pos.i.hi - D_800971F8[0].y_pos.i.hi, d < -0x10) ||
+            (d = self->y_pos.i.hi - background_objects[0].y_pos.i.hi,
+             d < -0x10) ||
             d > 0x100) {
             n = 1000;
         }
         n++;
     } while (n < 0x46);
     self->bg_offset = -1;
-    x = self->x_pos.u.hi - D_800971F8[0].x_pos.u.hi;
+    x = self->x_pos.u.hi - background_objects[0].x_pos.u.hi;
     self->x_pos.u.hi = x;
     t = F(s16, 0x7E);
-    y = self->y_pos.u.hi - D_800971F8[0].y_pos.u.hi;
+    y = self->y_pos.u.hi - background_objects[0].y_pos.u.hi;
     self->y_pos.u.hi = y;
     D_800FD516 = x;
     D_800FD518 = y;
@@ -91,10 +92,11 @@ void func_800EFCC0(struct X4_PlayerObj* self) {
     } else if (D_800FD51B == 1) {
         u16 v;
         self->bg_offset = -1;
-        D_800FD516 = v = D_800970A0.x_pos.u.hi - D_800971F8[0].x_pos.u.hi;
-        D_800FD518 = D_800970A0.y_pos.u.hi - D_800971F8[0].y_pos.u.hi;
+        D_800FD516 = v = g_Player.x_pos.u.hi - background_objects[0].x_pos.u.hi;
+        D_800FD518 = g_Player.y_pos.u.hi - background_objects[0].y_pos.u.hi;
         self->x_pos.u.hi = v;
-        self->y_pos.u.hi = D_800970A0.y_pos.u.hi - D_800971F8[0].y_pos.u.hi;
+        self->y_pos.u.hi =
+            g_Player.y_pos.u.hi - background_objects[0].y_pos.u.hi;
         func_800F402C(self, 4);
         F(s16, 0x7C) = 0x3C;
         self->unk6++;

@@ -11,22 +11,22 @@ M2C_UNK func_8003C4EC();
 M2C_UNK func_8003CDF0();
 M2C_UNK func_8003CE30(void*);
 M2C_UNK func_8003F3DC(void*);
-extern struct X4_PlayerObj D_800970A0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_PlayerObj g_Player;
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 
 void func_800EB298(void* arg0) {
     void* p;
     s32 v;
 
-    p = &D_800970A0;
+    p = &g_Player;
     if (func_8002D654(arg0, p) != 0) {
         if (M2C_FIELD(arg0, s8*, 3) != 0) {
             func_80016C48(1, 1, arg0);
         }
-        D_800971F8[0].unk44 = 0;
-        D_800971F8[1].unk44 = 0;
-        D_800971F8[2].unk44 = 0;
+        background_objects[0].unk44 = 0;
+        background_objects[1].unk44 = 0;
+        background_objects[2].unk44 = 0;
         v = 2;
         D_800CCED0.unk10 = v;
         D_800CCED0.unk11 = v;

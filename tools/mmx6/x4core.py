@@ -789,12 +789,13 @@ def selftest():
     case("same_name", same == ("src/main/c.c", "planted_same", " same-name 2")
          and pick([("a", "x"), ("b", "y")]) is None, "one name over two partners admitted, two names refused")
     # slot votes: the game objects reference func_/D_ names where the mmx4 objects name the callee and the global
-    grel = [(2, 4, "func_80020000"), (3, 5, "D_80030000"), (4, 6, "D_80030000")]
+    # (the global planted as alpha_global: a game name that spells no address, resolved by the explicit table)
+    grel = [(2, 4, "func_80020000"), (3, 5, "alpha_global"), (4, 6, "alpha_global")]
     make_obj(str(SELFTEST / "game/g.o"), [("func_80010000", body, True, grel),
                                           ("func_80010100", body[:5] + [0x00021080] + body[6:], True, grel)],
-             ("func_80020000", "D_80030000"))
+             ("func_80020000", "alpha_global"))
     ge = Elf(str(SELFTEST / "game/g.o"))
-    addr_of = lambda n: int(n.rsplit("_", 1)[1], 16)
+    addr_of = {"func_80020000": 0x80020000, "alpha_global": 0x80030000}.get
     votes = []
     for gname, src, xf in (("func_80010000", "src/main/a.c", "planted_one"),
                            ("func_80010100", "src/main/weapons/b.c", "planted_two")):

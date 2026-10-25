@@ -53,7 +53,7 @@ void func_800515B4(struct X4_MainObj* self) {
     func_80032B34((struct X4_PlayerObj*)self);
     func_80032BE8((struct X4_PlayerObj*)self);
     {
-        register s32 f asm("$2") = D_80097185;
+        s32 f = D_80097185;
         if (f == 0) {
             ((M2C_UNK(*)())func_80031DA8)(self);
         }

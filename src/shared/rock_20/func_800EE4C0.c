@@ -55,6 +55,7 @@ s32 func_800EE4C0(u8* arg0, s32 arg1, u32 arg2) {
         n = func_80069F04(fd, buf, 0x200);
         func_80069F24(fd);
         {
+            // !FAKE: depin: dropping it breaks the match (139/141)
             register s32 k asm("$3") = 0x200;
             if (n == k) {
                 return 0;

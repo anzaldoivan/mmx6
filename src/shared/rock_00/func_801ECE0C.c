@@ -5,11 +5,11 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8003D510(M2C_UNK, M2C_UNK, s8, M2C_UNK);
+M2C_UNK player_spawn_visual(M2C_UNK, M2C_UNK, s8, M2C_UNK);
 void func_801EEB7C(struct X4_WeaponObj* arg0);
 extern u32* D_8007789C[];
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3790;
 extern s32 D_801F37B0;
 
@@ -33,7 +33,7 @@ void func_801ECE0C(struct X4_WeaponObj* arg0) {
     arg0->unk16 = 1;
     arg0->animation_table = D_8007789C;
     arg0->unk3C = sc + v;
-    player = &D_800970A0;
+    player = &g_Player;
     h = 0x7802;
     if (M2C_FIELD(player, s32*, 0xEC) & 0x180) {
         h = 0x7844;
@@ -61,6 +61,6 @@ void func_801ECE0C(struct X4_WeaponObj* arg0) {
     func_800179A4(arg0, 0x15);
     arg0->state++;
     func_8002CCB0(arg0, 0xC, 8);
-    func_8003D510(0x21, 2, 0, 0);
+    player_spawn_visual(0x21, 2, 0, 0);
 }
-#undef D_800970A0
+#undef g_Player

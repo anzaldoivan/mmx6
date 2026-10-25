@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_8002C9B0();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_80046550(s8* arg0) {
     s8* p;
@@ -16,7 +16,7 @@ void func_80046550(s8* arg0) {
         if (arg0[7] != 0) {
             return;
         }
-        var_a1 = (s8*)&D_800970A0;
+        var_a1 = (s8*)&g_Player;
         if (var_a1[0xA6] == 2) {
             var_a1[0xA6] = 0;
         }

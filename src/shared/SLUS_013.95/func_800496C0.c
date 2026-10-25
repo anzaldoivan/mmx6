@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_attach, AGPL-3.0; proven shared with X6 by exact signature 3cea93403e4f (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_attach, AGPL-3.0; proven shared with X6 by exact signature 3cea93403e4f (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_VisualAttachmentOffset D_80077BF4[2];

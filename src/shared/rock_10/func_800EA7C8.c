@@ -3,7 +3,7 @@
 
 void func_800ED1CC(u8* arg0);
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_800FBEC0[];
 extern u8 D_800FBEC8[];
 extern u8 D_800FBED0[];
@@ -17,7 +17,7 @@ void func_800EA7C8(struct X4_AnimatedObj* self) {
 
     switch (self->unk2 & 0xF) {
     case 0: {
-        bg = &D_800971F8[0];
+        bg = &background_objects[0];
         if (bg->x_pos.i.hi < self->x_pos.i.hi + 0x10) {
             return;
         }
@@ -27,7 +27,7 @@ void func_800EA7C8(struct X4_AnimatedObj* self) {
         return;
     }
     case 1: {
-        bg = &D_800971F8[0];
+        bg = &background_objects[0];
         if (bg->x_pos.i.hi < self->x_pos.i.hi + 0x10) {
             return;
         }
@@ -37,7 +37,7 @@ void func_800EA7C8(struct X4_AnimatedObj* self) {
         return;
     }
     case 2: {
-        bg = &D_800971F8[0];
+        bg = &background_objects[0];
         if (bg->x_pos.i.hi < self->x_pos.i.hi + 0x10) {
             return;
         }
@@ -47,7 +47,7 @@ void func_800EA7C8(struct X4_AnimatedObj* self) {
         return;
     }
     case 3: {
-        bg = &D_800971F8[0];
+        bg = &background_objects[0];
         if (bg->x_pos.i.hi < self->x_pos.i.hi + 0x10) {
             return;
         }
@@ -57,7 +57,7 @@ void func_800EA7C8(struct X4_AnimatedObj* self) {
         return;
     }
     case 4: {
-        bg = &D_800971F8[0];
+        bg = &background_objects[0];
         if (bg->y_pos.i.hi < self->y_pos.i.hi + 0x10) {
             return;
         }
@@ -70,7 +70,7 @@ void func_800EA7C8(struct X4_AnimatedObj* self) {
         return;
     }
     case 5: {
-        bg = &D_800971F8[0];
+        bg = &background_objects[0];
         if (bg->y_pos.i.hi < self->y_pos.i.hi + 0x10) {
             return;
         }

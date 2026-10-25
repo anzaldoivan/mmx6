@@ -26,6 +26,7 @@ void func_800EC800(void* arg0) {
         F(void*, 0x58) = &D_800743DC;
         func_800179A4(arg0, 4);
         {
+            // !FAKE: depin: dropping it breaks the match (37/40)
             register s32 v asm("$2") = F(u8, 0x7) + 1;
             F(u8, 0x7) = v;
         }

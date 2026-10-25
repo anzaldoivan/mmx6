@@ -57,6 +57,7 @@ void func_801EF284(struct X4_WeaponObj* arg0) {
     func_80016C48(1, 0x16, arg0);
     func_8002CCB0(arg0, 0x20, 0x20);
     {
+        // !FAKE: depin: dropping it breaks the match (13/99)
         register s32 st asm("$2") = (u8)arg0->state;
         arg0->unk5 = 2;
         arg0->state = st + 1;

@@ -5,7 +5,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 
 void func_800F213C(void* arg0) {
     if (M2C_FIELD(arg0, u8*, 0x70) & 2) {
@@ -21,6 +21,6 @@ void func_800F213C(void* arg0) {
         M2C_FIELD(arg0, u8*, 6) = M2C_FIELD(arg0, u8*, 6) + 1;
         return;
     }
-    func_8002D2B0(arg0);
+    move_object(arg0);
     func_80017A04(arg0);
 }

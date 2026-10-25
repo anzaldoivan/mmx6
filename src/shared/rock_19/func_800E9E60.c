@@ -4,7 +4,7 @@
 
 void func_8001D218();
 M2C_UNK func_8002B838();
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_80097424;
 
 void func_800E9E60(u8* arg0) {
@@ -12,7 +12,7 @@ void func_800E9E60(u8* arg0) {
         func_8001D218();
         {
             // !FAKE: retail keeps the background table base in the second return register
-            register struct X4_BackgroundObj* bg asm("$3") = D_800971F8;
+            register struct X4_BackgroundObj* bg asm("$3") = background_objects;
             bg[0].unk3 = 0;
             bg[1].unk3 = 0;
             bg[2].unk3 = 0;

@@ -7,7 +7,7 @@
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 s32 func_8002D2D4();
 M2C_UNK func_80030ECC(void*);
 s32 func_80031474(void*);
@@ -60,7 +60,9 @@ void func_800FB438(struct X4_MainObj* self) {
         if (++M2C_FIELD(self, s32*, 0x8C) == 0xC) {
             func_800179A4(self, 0xA);
             {
+                // !FAKE: depin: dropping it breaks the match (137/141)
                 register void* a asm("$2") = &D_800FE1F8;
+                // !FAKE: depin: dropping it breaks the match (99/141)
                 register void* b asm("$3") = &D_800FE1FC;
                 self->attack_box = a;
                 self->hurt_box = b;
@@ -77,5 +79,5 @@ void func_800FB438(struct X4_MainObj* self) {
         break;
     }
     func_80017A04(self);
-    func_8002D2B0(self);
+    move_object(self);
 }

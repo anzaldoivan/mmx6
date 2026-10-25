@@ -4,7 +4,7 @@
 
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 s32 func_8004FF4C(s32);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F01D0(struct X4_AnimatedObj* self) {
     s32 count;
@@ -22,7 +22,7 @@ void func_800F01D0(struct X4_AnimatedObj* self) {
     self->y_pos.i.hi = 0x50;
     base = self->unk2 * 0x18;
     self->x_pos.i.hi = base + 0x7A8;
-    if (D_800971F8[self->bg_offset].x_pos.i.hi < 0x400) {
+    if (background_objects[self->bg_offset].x_pos.i.hi < 0x400) {
         self->x_pos.i.hi = base + 0x1A8;
     }
     if (self->unk2 == 0) {

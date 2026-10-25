@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 s32 func_8002D2D4();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern u8 D_800FD4E4[];
 
 void func_800FA01C(u8* arg0) {
@@ -10,7 +10,7 @@ void func_800FA01C(u8* arg0) {
         arg0[0x8E]--;
     }
     {
-        volatile u8* pl = (u8*)&D_800970A0;
+        volatile u8* pl = (u8*)&g_Player;
         arg0[0x93] = pl[0xA4];
     }
     if (*(s8*)(arg0 + 7) >= 2) {

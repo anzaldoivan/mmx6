@@ -6,7 +6,7 @@
 M2C_UNK func_80017A04();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 M2C_UNK func_8002EE10();
 M2C_UNK func_80030ECC();
 s32 func_80031474(void*);
@@ -15,7 +15,7 @@ M2C_UNK func_80049E50(void*);
 
 void func_800F0AB4(void* arg0) {
     ((M2C_UNK(*)())func_80017A04)();
-    func_8002D2B0((s32)arg0);
+    move_object((s32)arg0);
     if (func_80030ECC(arg0) == 0) {
         if (func_80031474(arg0) < 0) {
             ((void (*)(void*))func_80049E50)(arg0);

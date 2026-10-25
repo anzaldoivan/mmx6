@@ -9,8 +9,8 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 void* func_8002C458();
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_800FAF14;
 extern s32 D_80074B5C;
 
@@ -24,9 +24,10 @@ void func_800EEB48(void* arg0) {
     M2C_FIELD(arg0, u16*, 0x40) = M2C_FIELD(parent, u16*, 0x40);
     M2C_FIELD(arg0, s32*, 0x30) = M2C_FIELD(parent, s32*, 0x30);
     M2C_FIELD(arg0, u16*, 0x42) = M2C_FIELD(parent, u16*, 0x42) & 0x7FFF;
-    pl = &D_800970A0;
+    pl = &g_Player;
     b = M2C_FIELD(pl, u8*, 0x14);
     {
+        // !FAKE: depin: dropping it breaks the match (81/89)
         register s32 t asm("$2") = 3;
         M2C_FIELD(arg0, u8*, 0x16) = t;
     }
@@ -42,7 +43,7 @@ void func_800EEB48(void* arg0) {
     M2C_FIELD(arg0, u16*, 0xE) = 0x100;
     M2C_FIELD(arg0, u8*, 0x14) = b;
     {
-        register s32 k asm("$2") = 0x18E0;
+        s32 k = 0x18E0;
         if (k < pl->x_pos.i.hi) {
             M2C_FIELD(arg0, u8*, 0x15) = 0x40;
         } else {
@@ -59,6 +60,7 @@ void func_800EEB48(void* arg0) {
     {
         s32 idx = func_8002A47C(M2C_FIELD(arg0, s8*, 1));
         s32 base = SPAD20;
+        // !FAKE: depin: dropping it breaks the match (60/89)
         register s32 off asm("$6") = *(s32*)(idx * 4 + base + 4);
         M2C_FIELD(arg0, s32*, 0x3C) = base + off;
         ((void (*)(void*, s32, s32))func_800179A4)(arg0, 0xF, off);
@@ -77,4 +79,4 @@ void func_800EEB48(void* arg0) {
     M2C_FIELD(arg0, s8*, 6) = 0;
     M2C_FIELD(arg0, s8*, 4)++;
 }
-#undef D_800970A0
+#undef g_Player

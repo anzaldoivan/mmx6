@@ -30,6 +30,7 @@ void func_800EB110(void* self) {
             M2C_FIELD(self, s16*, 0xE) = M2C_FIELD(parent, s16*, 0xE) + 6;
             func_800179A4(self, 0xF);
             {
+                // !FAKE: depin: dropping it breaks the match (37/99)
                 register s32 a asm("$2") = (s32)&D_800F6AB8;
                 M2C_FIELD(self, s32*, 0x50) = a;
             }
@@ -38,6 +39,7 @@ void func_800EB110(void* self) {
             M2C_FIELD(self, s16*, 0xE) = M2C_FIELD(parent, s16*, 0xE) - 0x11;
             func_800179A4(self, 0x1E);
             {
+                // !FAKE: depin: dropping it breaks the match (48/99)
                 register s32 a asm("$2") = (s32)&D_800F6ABC;
                 M2C_FIELD(self, s32*, 0x50) = a;
             }
@@ -48,6 +50,7 @@ void func_800EB110(void* self) {
             M2C_FIELD(self, s16*, 0xE) = M2C_FIELD(parent, s16*, 0xE) - 0x11;
             func_800179A4(self, 0x1E);
             {
+                // !FAKE: depin: dropping it breaks the match (62/99)
                 register s32 a asm("$2") = (s32)&D_800F6ABC;
                 M2C_FIELD(self, s32*, 0x50) = a;
             }
@@ -56,6 +59,7 @@ void func_800EB110(void* self) {
             M2C_FIELD(self, s16*, 0xE) = M2C_FIELD(parent, s16*, 0xE) + 6;
             func_800179A4(self, 0xF);
             {
+                // !FAKE: depin: dropping it breaks the match (38/99)
                 register s32 a asm("$2") = (s32)&D_800F6AB8;
                 M2C_FIELD(self, s32*, 0x50) = a;
             }

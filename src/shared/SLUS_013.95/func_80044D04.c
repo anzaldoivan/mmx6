@@ -6,12 +6,12 @@
 #define F32(p, off) (*(s32*)((u8*)(p) + (off)))
 #define PTR(p, off) (*(void**)((u8*)(p) + (off)))
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 M2C_UNK func_80017A04();
 s8* func_8002BEC4(s8* p, s32 dir);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 
 void func_80044D04(struct X4_BaseObj* self) {
     s8* child;
@@ -43,10 +43,10 @@ void func_80044D04(struct X4_BaseObj* self) {
             UB(self, 0x64)++;
         }
         func_80017A04(self);
-        func_8002D2B0(self);
+        move_object(self);
         out = 0;
-        dx = self->x_pos.i.hi - D_800971F8[self->bg_offset].x_pos.i.hi;
-        dy = self->y_pos.i.hi - D_800971F8[self->bg_offset].y_pos.i.hi;
+        dx = self->x_pos.i.hi - background_objects[self->bg_offset].x_pos.i.hi;
+        dy = self->y_pos.i.hi - background_objects[self->bg_offset].y_pos.i.hi;
         if (self->unk15 != 0) {
             n = dx - 0x20;
             out = n >= 0x141;

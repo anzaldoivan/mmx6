@@ -10,9 +10,10 @@ s32 func_80065A14(s32);
 
 void func_800F1EB0(void* arg0) {
     s32 r;
+    // !FAKE: depin: dropping it breaks the match (74/76)
     register s32 v asm("$2");
     s32 ang;
-    register s32 m asm("$3");
+    s32 m;
 
     if (M2C_FIELD(arg0, s8*, 0x45) != 0) {
         func_80016C48(2, 0x11, arg0);

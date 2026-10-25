@@ -3,11 +3,11 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0();
+M2C_UNK move_object();
 s32 func_8002D354(void* arg0, s32 arg1, s32 arg2);
-void func_8002D3B4(void*, s32);
-extern struct X4_PlayerObj D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+void set_velocity_from_angle(void*, s32);
+extern struct X4_PlayerObj g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_800EE8C0(struct X4_MainObj* self) {
     struct X4_PlayerObj* pl;
@@ -15,9 +15,9 @@ void func_800EE8C0(struct X4_MainObj* self) {
     s32 dx;
 
     func_80017A04();
-    func_8002D2B0(self);
-    pl = &D_800970A0;
-    func_8002D3B4(
+    move_object(self);
+    pl = &g_Player;
+    set_velocity_from_angle(
         self,
         func_8002D354(self, pl->x_pos.val, pl->y_pos.val + 0xFFB00000) & 0xFF);
     v = self->x_speed + self->x_speed / 2;
@@ -32,4 +32,4 @@ void func_800EE8C0(struct X4_MainObj* self) {
         self->unk6 = 0;
     }
 }
-#undef D_800970A0
+#undef g_Player

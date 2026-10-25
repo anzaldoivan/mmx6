@@ -49,7 +49,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import census  # noqa: E402
-import probe  # noqa: E402  (MASKS: the self-test's check of the core's table)
+import probe  # noqa: E402  (MASKS: the self-test's check of the core's table; sym_name)
 import sig  # noqa: E402
 import x4adapter  # noqa: E402  (the triple, the clone directory, the X6 functions)
 import x4core  # noqa: E402  (the mmx4 recipe, ELF reader, key, table writer)
@@ -66,7 +66,7 @@ CPP_TAIL = x4core.CPP_TAIL
 AS = x4core.AS
 OVERRIDE = x4core.OVERRIDE
 SELF_OBJ = "build/src/SLUS_013.95/120A0.c.o"
-SELF_FUNC, SELF_PROG, SELF_VRAM = "func_8001E78C", "SLUS_013.95", "0x8001E78C"
+SELF_PROG, SELF_VRAM = "SLUS_013.95", "0x8001E78C"  # the self-test's function: its name looked up (probe.sym_name)
 PARTNERS = "campaign/x4/partners.tsv"
 OPEN = ("asm", "include_asm")
 
@@ -140,6 +140,9 @@ def self_test():
     x6 = load_x6()
     tgt = next((i for i, s in enumerate(x6) if (s["prog"], s["vram"]) == (SELF_PROG, SELF_VRAM)), None)
     fails = []
+    SELF_FUNC = probe.sym_name(SELF_PROG, int(SELF_VRAM, 16))
+    if not probe.plant_lookup("x4share", SELF_PROG, int(SELF_VRAM, 16)):
+        fails.append("planted-name")
     if tgt is None or not os.path.isfile(SELF_OBJ):
         die(f"self-test inputs missing ({SELF_PROG} {SELF_VRAM} in {sig.SIGS}, {SELF_OBJ})")
     fs = {n: (w, m) for n, w, m in functions(SELF_OBJ)}

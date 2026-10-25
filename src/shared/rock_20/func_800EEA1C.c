@@ -7,7 +7,7 @@ s32 func_800280F4();
 void func_80029B8C(void);
 M2C_UNK func_8002B838();
 void func_8002C2B8();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj D_800CCED0;
 extern u8 D_800E3140;
 extern u8 D_800E3141;
@@ -30,7 +30,7 @@ void func_800EEA1C(u8* arg0) {
     func_80025F34();
     e->character_state.bytes[2] = 0;
     {
-        struct X4_PlayerObj* pl = &D_800970A0;
+        struct X4_PlayerObj* pl = &g_Player;
         ((u8*)pl)[0xC9] = arg0[0x60];
         pl->unk2 = *(u8*)(D_800F366C + 0x128A);
     }

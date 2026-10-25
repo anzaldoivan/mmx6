@@ -21,10 +21,10 @@ INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FB288);
 INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FB3CC);
 
 #define func_800F0DE0 func_800FB6A0
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_03/func_800F0DE0.c"
 #undef func_800F0DE0
-#undef D_800970A0
+#undef g_Player
 
 INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FB7DC);
 

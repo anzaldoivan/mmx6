@@ -16,9 +16,11 @@ void func_800EA448(void* arg0) {
     M2C_FIELD(arg0, void**, 0x58) = &D_800741FC;
     M2C_FIELD(arg0, void**, 0x50) = &D_800F5E8C;
     {
+        // !FAKE: depin: dropping it breaks the match (25/35)
         register s32 one asm("$5") = 1;
         M2C_FIELD(arg0, u8*, 0x3) = one;
         {
+            // !FAKE: depin: dropping it breaks the match (29/35)
             register s32 k asm("$3") = 5;
             M2C_FIELD(arg0, u8*, 0x60) = k;
         }

@@ -6,7 +6,7 @@
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 void* func_8002C458();
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 s32 func_8002D2D4();
 
 void func_800F8BAC(void* arg0) {
@@ -18,7 +18,7 @@ void func_800F8BAC(void* arg0) {
     s32 off;
 
     func_80017A04();
-    ((void (*)(s32))func_8002D2B0)((s32)arg0);
+    ((void (*)(s32))move_object)((s32)arg0);
     p = M2C_FIELD(arg0, void**, 0x7C);
     if (--M2C_FIELD(arg0, s16*, 0x8C) == 0 || M2C_FIELD(p, s8*, 6) == 0 ||
         M2C_FIELD(p, s8*, 4) >= 2) {

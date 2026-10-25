@@ -8,7 +8,8 @@ extern s32 D_8009719C;
 
 void func_800EA554(void* arg0) {
     s32 temp_v0;
-    register s32 flag asm("$2"); // !FAKE: inherited from src/shared/rock_02/func_800EBDC8.c
+    // !FAKE: inherited from src/shared/rock_02/func_800EBDC8.c
+    register s32 flag asm("$2");
 
     func_80017A04();
     flag = M2C_FIELD(arg0, u8*, 0x70) & 8;

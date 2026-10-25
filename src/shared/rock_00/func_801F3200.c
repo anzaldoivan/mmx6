@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_80077AD8;
 extern s32 D_80097420;
 extern s32 D_801F3B08[];
@@ -25,7 +25,7 @@ void func_801F3200(struct X4_WeaponObj* arg0) {
     u8 dir;
     s32 t;
 
-    player = &D_800970A0;
+    player = &g_Player;
     t = player->unk5;
     if ((t ^ 0x4C) != 0) {
         func_8002C9B0(arg0);
@@ -58,6 +58,7 @@ void func_801F3200(struct X4_WeaponObj* arg0) {
         func_8003CF24(0x55, 0x1B, 1);
         func_80017B04((s32*)arg0, 0x140, 0x40);
         {
+            // !FAKE: depin: dropping it breaks the match (121/124)
             register s32 s asm("$2") = (u8)arg0->state + 1;
             arg0->state = s;
         }
@@ -79,6 +80,6 @@ void func_801F3200(struct X4_WeaponObj* arg0) {
     }
     arg0->on_screen = 1;
 }
-#undef D_800970A0
+#undef g_Player
 #undef SCRATCH_14
 #undef SCRATCH_1C

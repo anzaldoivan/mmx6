@@ -6,7 +6,7 @@
 
 void func_80017A04(struct X4_AnimatedObj*);
 s32 func_8002CBFC(struct X4_BaseObj*, s32, s32);
-void func_8002D2B0(struct X4_MovingObj*);
+void move_object(struct X4_MovingObj*);
 M2C_UNK func_8002EE10(void*);
 void func_800383F8(void*);
 extern s32 D_80097420;
@@ -14,7 +14,7 @@ extern s32 D_80097420;
 void func_801EE860(void* arg0) {
     if (func_8002CBFC(arg0, 0x20, 0x20) == 0) {
         func_80017A04(arg0);
-        func_8002D2B0(arg0);
+        move_object(arg0);
         if (!(D_80097420 & 3)) {
             M2C_FIELD(arg0, u8*, 0x64) = (u8)(M2C_FIELD(arg0, u8*, 0x64) + 1);
         }

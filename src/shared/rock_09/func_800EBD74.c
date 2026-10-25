@@ -7,8 +7,10 @@ extern u8 D_800970B4;
 extern u8 D_800F4BF0[];
 
 void func_800EBD74(void* arg0) {
-    register void* p asm("$4");
+    void* p;
+    // !FAKE: depin: dropping it breaks the match (12/59)
     register s32 b asm("$5");
+    // !FAKE: depin: dropping it breaks the match (12/59)
     register s32 h asm("$2");
 
     p = M2C_FIELD(arg0, void**, 0x80);
@@ -20,6 +22,7 @@ void func_800EBD74(void* arg0) {
     h = (s32)(D_800F4BF0 + 0x10D0);
     M2C_FIELD(arg0, void**, 0x50) = (void*)h;
     {
+        // !FAKE: depin: dropping it breaks the match (56/59)
         register s32 five asm("$3") = 5;
         M2C_FIELD(arg0, u8*, 0x16) = five;
     }

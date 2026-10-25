@@ -4,7 +4,7 @@
 
 M2C_UNK func_80021760(M2C_UNK, M2C_UNK, M2C_UNK);
 extern s16 D_80090D5C;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_80097430;
 extern s32 D_800C1220[];
 extern struct X4_EngineObj D_800CCED0;
@@ -36,7 +36,7 @@ void func_800F05F4(u8* arg0) {
                     } while (n-- != 0);
                 }
             }
-            q = (u8*)D_800971F8;
+            q = (u8*)background_objects;
             q[0x57] = 0;
             q[0xAB] = 0;
             *(s16*)(arg0 + 0x7C) = 0x78;

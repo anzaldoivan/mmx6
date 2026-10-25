@@ -25,7 +25,7 @@ extern s32 D_800EFC14;
 
 void func_800ED41C(struct X4_MainObj* self) {
     struct X4_EngineObj* e = &D_800CCED0;
-    register s32* p asm("$3");
+    s32* p;
     s32 i;
     s8 t;
     s32 r;

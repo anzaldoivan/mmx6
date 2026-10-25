@@ -10,7 +10,7 @@ void func_80042A9C(struct X4_MainObj* self, s32);
 void func_80042C18(struct X4_MainObj* self);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 void func_80041D5C(struct X4_MainObj* self) {
     s16 ang;
@@ -25,7 +25,7 @@ void func_80041D5C(struct X4_MainObj* self) {
         func_80042C18(self);
         ang = func_8002D2D4() * 0x10;
         {
-            struct X4_PlayerObj* p = &D_800970A0;
+            struct X4_PlayerObj* p = &g_Player;
             M2C_FIELD(self, u16*, 0x84) = p->x_pos.i.hi;
             M2C_FIELD(self, u16*, 0x86) = p->y_pos.i.hi;
         }

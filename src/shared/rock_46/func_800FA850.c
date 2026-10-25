@@ -5,7 +5,7 @@
 M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
 M2C_UNK func_8002B54C(M2C_UNK*, M2C_UNK*, M2C_UNK, u16);
 extern s8 D_8008EAB0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern M2C_UNK D_800FAD20;
 extern M2C_UNK D_800FBF20;
 extern s16 D_800FD120;
@@ -17,10 +17,10 @@ void func_800FA850(u8* arg0) {
     func_8002B3D4(0x90, &D_800FBF20, 0x30);
     if (D_800FD120 >= 0x20) {
         D_8008EAB0 = 1;
-        D_800971F8[1].unk3 = 0;
-        D_800971F8[2].x_pos.i.hi = 0;
-        D_800971F8[2].y_pos.i.hi = 0x300;
-        D_800971F8[2].unk4C = 1;
+        background_objects[1].unk3 = 0;
+        background_objects[2].x_pos.i.hi = 0;
+        background_objects[2].y_pos.i.hi = 0x300;
+        background_objects[2].unk4C = 1;
         {
             s32 t;
             t = arg0[1];

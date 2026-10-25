@@ -4,7 +4,7 @@
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 extern s32 D_80076124;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_80097420;
 
 #define F_U8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -36,10 +36,10 @@ void func_80043DBC(s8* arg0) {
             } else if (!(D_80097420 & 7)) {
                 F_U8(arg0, 0x64)++;
             }
-            pl = &D_800970A0;
+            pl = &g_Player;
             F_U8(arg0, 0x15) = pl->unk15;
             {
-                register s32 off asm("$2") = (arg0[2] - 1) * 0x555 + 0xE00;
+                s32 off = (arg0[2] - 1) * 0x555 + 0xE00;
                 ang = (F_U16(parent, 0x94) + off) & 0xFFF;
             }
             v = func_80065A14(ang) * F_S16(arg0, 0x88);

@@ -7,8 +7,8 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
-extern struct X4_PlayerObj D_800970A0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_PlayerObj g_Player;
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_800CCEEC;
 
 void func_80050F58(void* arg0) {
@@ -19,7 +19,7 @@ void func_80050F58(void* arg0) {
             M2C_FIELD(arg0, s8*, 0x45) = 0;
         }
     } else {
-        struct X4_PlayerObj* pl = &D_800970A0;
+        struct X4_PlayerObj* pl = &g_Player;
 
         M2C_FIELD(arg0, s8*, 0x4) = 2;
         M2C_FIELD(arg0, s8*, 0x5) = 0;
@@ -28,5 +28,5 @@ void func_80050F58(void* arg0) {
             D_800CCEEC = 0;
         }
     }
-    D_800971F8[0].unk34 &= 0xF;
+    background_objects[0].unk34 &= 0xF;
 }

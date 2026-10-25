@@ -9,7 +9,8 @@ M2C_UNK func_80017A04();
 extern u8 D_800CCF5F;
 
 void func_800FC3E0(void* arg0) {
-    register s32 t asm("$2"); // !FAKE: inherited from src/shared/rock_08/func_800F2378.c
+    // !FAKE: inherited from src/shared/rock_08/func_800F2378.c
+    register s32 t asm("$2");
 
     func_80017A04();
     t = OH(arg0, 0x7C) - 1;

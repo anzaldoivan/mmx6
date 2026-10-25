@@ -20,8 +20,8 @@ void func_800EE828(void* self);
 void func_800F1C80(void* arg0);
 s32 func_800F1DA8(void*, s32, s32);
 
-extern M2C_UNK D_800970A0;
-#define F1EC4_PL (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define F1EC4_PL (*(struct X4_PlayerObj*)&g_Player)
 extern u16 D_80097202;
 extern s8 D_800CCEDF;
 extern s8 D_800CCEF6;

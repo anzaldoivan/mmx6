@@ -6,7 +6,7 @@ void func_800246B4(void* arg0);
 void func_800249D4(void* arg0);
 void func_80024CC0(s32 arg0, u8 arg1);
 void func_80024F90(void* arg0, s32 arg1);
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern s32 D_80097420;
 extern struct X4_EngineObj D_800CCED0;
 
@@ -15,7 +15,7 @@ extern struct X4_EngineObj D_800CCED0;
 #define S16(p, o) (*(s16*)((u8*)(p) + (o)))
 
 void func_800244C0(void) {
-    u8* p = (u8*)&D_800970A0;
+    u8* p = (u8*)&g_Player;
     struct X4_EngineObj* e = &D_800CCED0;
     s32 v;
     s32 q;

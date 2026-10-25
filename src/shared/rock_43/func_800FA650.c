@@ -7,7 +7,7 @@ s32 func_8002D2D4();
 M2C_UNK func_80017A04(void*);
 M2C_UNK func_8002D230(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj D_800CCED0;
 extern s8 D_800CCF5C;
 extern s32 D_800FDE30;
@@ -20,13 +20,13 @@ void func_800FA650(void* arg0) {
 
     r = func_8002D2D4() & 0xF;
     M2C_FIELD(arg0, u8*, 0x87) = 0;
-    if (D_800970A0.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA) >= 0) {
-        if (D_800970A0.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA) < 0x41) {
+    if (g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA) >= 0) {
+        if (g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA) < 0x41) {
             goto near;
         }
         goto far;
     }
-    if (M2C_FIELD(arg0, s16*, 0xA) - D_800970A0.x_pos.i.hi < 0x41) {
+    if (M2C_FIELD(arg0, s16*, 0xA) - g_Player.x_pos.i.hi < 0x41) {
     near:
         if (D_800CCF5C / 2 < M2C_FIELD(arg0, s8*, 0x5C)) {
             if (r < 0x10) {
@@ -37,14 +37,14 @@ void func_800FA650(void* arg0) {
         }
     } else {
     far:
-        d = D_800970A0.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE);
+        d = g_Player.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE);
         if (d >= 0) {
             if (d >= 0x30) {
                 goto far2;
             }
             goto near2;
         }
-        if (M2C_FIELD(arg0, s16*, 0xE) - D_800970A0.y_pos.i.hi >= 0x30) {
+        if (M2C_FIELD(arg0, s16*, 0xE) - g_Player.y_pos.i.hi >= 0x30) {
         far2:
             e = (u8*)&D_800CCED0;
             if (M2C_FIELD(e, s8*, 0x8C) / 2 < M2C_FIELD(arg0, s8*, 0x5C)) {
@@ -94,7 +94,7 @@ void func_800FA650(void* arg0) {
     }
     {
         u8* t = (u8*)&D_800FDE30 + 0x284;
-        register u8* q asm("$3") =
+        u8* q =
             t + (M2C_FIELD(arg0, u8*, 0x87)++ + M2C_FIELD(arg0, u8*, 0x86) * 6);
         M2C_FIELD(arg0, u8*, 5) = *q;
     }

@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/game_info.c:func_8001D134, AGPL-3.0; proven shared with X6 by exact signature 6643b2ef34c8 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/game_info.c:func_8001D134, AGPL-3.0; proven shared with X6 by exact signature 6643b2ef34c8 (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 void func_8002B838(void);

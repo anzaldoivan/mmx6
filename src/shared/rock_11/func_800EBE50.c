@@ -4,7 +4,7 @@
 
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
 extern u8 D_800FB26C[];
@@ -70,5 +70,5 @@ void func_800EBE50(struct X4_BaseObj* self) {
             }
         }
     }
-    func_8002D2B0(self);
+    move_object(self);
 }

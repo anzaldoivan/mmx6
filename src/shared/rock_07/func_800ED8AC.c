@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_800F88E8[][4];
 extern u16 D_800F8988[][8][2];
 extern u16 D_800F985C;
@@ -22,5 +22,5 @@ void func_800ED8AC(void) {
             0, D_800F88E8[i][0], D_800F88E8[i][1], (u8*)buf);
         i++;
     } while (i < 20);
-    D_800971F8[0].unk4C = 1;
+    background_objects[0].unk4C = 1;
 }

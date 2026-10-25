@@ -41,6 +41,7 @@ void func_8001D0E4(void) {
                 mask = 0x8F0;
             }
             if (D_800C456C[2] & mask) {
+                // !FAKE: depin: dropping it breaks the match (74/77)
                 register s8* g asm("$2");
                 func_80016C48(0, 0x22, 0);
                 M2C_FIELD(&D_800CD3F8, s8*, 0xD) = 1;

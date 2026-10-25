@@ -14,9 +14,9 @@ M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern M2C_UNK D_8007433C;
 extern s32 D_800748DC;
 extern u32* D_80095098;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AE;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 extern s8 D_800CCEED;
 extern s32 D_800F3DD8;
@@ -30,6 +30,7 @@ void func_800EAB28(void* self) {
     s32 i;
     s32 a;
     s32 b;
+    // !FAKE: depin: dropping it breaks the match (499/503)
     register s32 flag asm("$6");
     s32 x;
     void* o;
@@ -42,7 +43,7 @@ void func_800EAB28(void* self) {
     M2C_FIELD(self, u8*, 0x5C) = 0x20;
     M2C_FIELD(self, u8*, 0x60) = 8;
     M2C_FIELD(self, u8*, 0x61) = 0;
-    M2C_FIELD(self, u8*, 0x14) = D_800970A0.bg_offset;
+    M2C_FIELD(self, u8*, 0x14) = g_Player.bg_offset;
     M2C_FIELD(self, void**, 0x30) = &D_800F3ED8;
     M2C_FIELD(self, s32*, 0x20) = 0;
     M2C_FIELD(self, s32*, 0x24) = 0;
@@ -71,8 +72,7 @@ void func_800EAB28(void* self) {
             M2C_FIELD(self, s16*, 0xE) = 0xAC0;
             func_8003D308(0x14, 0);
         } else if (t == 5) {
-            if (D_800970A0.x_pos.i.hi < 0x16B &&
-                D_800970A0.y_pos.i.hi < 0x1D0) {
+            if (g_Player.x_pos.i.hi < 0x16B && g_Player.y_pos.i.hi < 0x1D0) {
                 return;
             }
             M2C_FIELD(self, u16*, 0x40) =
@@ -100,49 +100,47 @@ void func_800EAB28(void* self) {
             M2C_FIELD(self, u8*, 0x8D) = 1;
             func_8003D308(0x14, 0x40);
         } else if (t == 8) {
-            o = &D_800970A0;
+            o = &g_Player;
             if (D_800CCEED == 5) {
                 func_8002C9B0(self);
                 return;
             }
             flag = 0;
-            D_800971F8[0].unk28 = D_800971F8[0].unk2A = 0xB00;
+            background_objects[0].unk28 = background_objects[0].unk2A = 0xB00;
             if (((struct X4_PlayerObj*)o)->y_pos.i.hi < 0xAF0) {
                 ((struct X4_PlayerObj*)o)->y_pos.i.hi = 0xAF0;
             }
-            if (D_800970A0.x_pos.i.hi < 0xB80 &&
-                D_800970A0.y_pos.i.hi < 0xB60) {
+            if (g_Player.x_pos.i.hi < 0xB80 && g_Player.y_pos.i.hi < 0xB60) {
                 flag = 1;
             }
-            if (D_800970A0.x_pos.i.hi > 0xBC0 &&
-                D_800970A0.x_pos.i.hi < 0xC00 &&
-                D_800970A0.y_pos.i.hi < 0xB40) {
+            if (g_Player.x_pos.i.hi > 0xBC0 && g_Player.x_pos.i.hi < 0xC00 &&
+                g_Player.y_pos.i.hi < 0xB40) {
                 flag = 1;
             }
             if (flag == 0) {
                 return;
             }
             M2C_FIELD(self, s16*, 0xA) = 0xBD0;
-            M2C_FIELD(self, s16*, 0xE) = D_800971F8[0].unk2A + 0x160;
-            D_800971F8[2].unk3 = 1;
-            *(s16*)&D_800971F8[2].unk40 = -0x120;
-            D_800971F8[2].unk4C = 1;
-            func_8003D308(0x14, D_800970A0.unk15);
+            M2C_FIELD(self, s16*, 0xE) = background_objects[0].unk2A + 0x160;
+            background_objects[2].unk3 = 1;
+            *(s16*)&background_objects[2].unk40 = -0x120;
+            background_objects[2].unk4C = 1;
+            func_8003D308(0x14, g_Player.unk15);
         } else if (t == 9) {
             if (D_800CCEED == 4) {
                 func_8002C9B0(self);
                 return;
             }
-            D_800971F8[0].unk28 = D_800971F8[0].unk2A = 0x870;
+            background_objects[0].unk28 = background_objects[0].unk2A = 0x870;
             M2C_FIELD(self, s16*, 0xA) = 0xBD0;
-            M2C_FIELD(self, s16*, 0xE) = D_800971F8[0].unk2A + 0x160;
-            D_800971F8[2].unk3 = 1;
-            *(s16*)&D_800971F8[2].unk40 = -0x120;
-            D_800971F8[2].unk4C = 1;
+            M2C_FIELD(self, s16*, 0xE) = background_objects[0].unk2A + 0x160;
+            background_objects[2].unk3 = 1;
+            *(s16*)&background_objects[2].unk40 = -0x120;
+            background_objects[2].unk4C = 1;
             func_8003D308(0x14, 0x40);
         } else if (t == 10) {
             if (M2C_FIELD(self, u8*, 0x90) == 0) {
-                D_800971F8[0].unk2E -= 0x40;
+                background_objects[0].unk2E -= 0x40;
                 for (i = 0; i < 4; i++) {
                     o = func_8002C458();
                     if (o != NULL) {
@@ -159,23 +157,24 @@ void func_800EAB28(void* self) {
                         M2C_FIELD(o, s16*, 0xE) = 0x518;
                     }
                 }
-                D_800971F8[2].unk3 = 1;
-                D_800971F8[2].unk4 = 2;
-                *(s16*)&D_800971F8[2].unk40 = -0x8E0;
-                D_800971F8[2].unk42 = 0x260;
-                D_800971F8[2].unk4C = 1;
+                background_objects[2].unk3 = 1;
+                background_objects[2].unk4 = 2;
+                *(s16*)&background_objects[2].unk40 = -0x8E0;
+                background_objects[2].unk42 = 0x260;
+                background_objects[2].unk4C = 1;
                 M2C_FIELD(self, s16*, 0xA) = 0xE20;
-                M2C_FIELD(self, s16*, 0xE) = D_800971F8[0].unk2A + 0x160;
+                M2C_FIELD(self, s16*, 0xE) =
+                    background_objects[0].unk2A + 0x160;
                 M2C_FIELD(self, u8*, 0x90) = 1;
             }
-            if (D_800970A0.x_pos.i.hi < 0xD10) {
+            if (g_Player.x_pos.i.hi < 0xD10) {
                 return;
             }
             func_8003D308(0x14, 0x40);
         }
-        D_800971F8[1].x_pos.i.hi = 0x200 - M2C_FIELD(self, u16*, 0xA);
-        D_800971F8[1].y_pos.i.hi = 0x200 - M2C_FIELD(self, u16*, 0xE);
-        D_800971F8[1].unk4C = 1;
+        background_objects[1].x_pos.i.hi = 0x200 - M2C_FIELD(self, u16*, 0xA);
+        background_objects[1].y_pos.i.hi = 0x200 - M2C_FIELD(self, u16*, 0xE);
+        background_objects[1].unk4C = 1;
         for (i = 0; i < 4; i++) {
             ob = func_8002BCCC(self, 0);
             if (ob != NULL) {
@@ -208,8 +207,8 @@ void func_800EAB28(void* self) {
                 M2C_FIELD(o, void**, 0x7C) = self;
             }
         }
-        D_800971F8[1].unk3 = 1;
-        D_800971F8[1].pad51[1] = 0;
+        background_objects[1].unk3 = 1;
+        background_objects[1].pad51[1] = 0;
         if (M2C_FIELD(self, s8*, 2) < 8) {
             M2C_FIELD(self, void**, 0x68) = &D_800F3DD8;
             M2C_FIELD(self, u8*, 5) = 9;
@@ -220,7 +219,7 @@ void func_800EAB28(void* self) {
             M2C_FIELD(self, u8*, 5) = 10;
         }
         if (M2C_FIELD(self, s8*, 2) == 4) {
-            D_800971F8[1].unk3 = 0;
+            background_objects[1].unk3 = 0;
         }
         M2C_FIELD(self, void**, 0x54) = &D_800F3DE0;
         M2C_FIELD(self, void**, 0x50) = &D_800F3DDC;

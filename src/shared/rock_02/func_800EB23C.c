@@ -37,6 +37,7 @@ void func_800EB23C(void* arg0) {
     M2C_FIELD(arg0, void**, 0x54) = &D_800FAB68;
     M2C_FIELD(arg0, void**, 0x50) = &D_800FAB68;
     {
+        // !FAKE: depin: dropping it breaks the match (57/65)
         register s32 one asm("$4") = 1;
         M2C_FIELD(arg0, u8*, 0x5C) = one;
         M2C_FIELD(arg0, u8*, 0x60) = one;

@@ -1148,21 +1148,37 @@
 {"k":"data","addr":"0x800fcfe0","type":"/undefined *","len":4}
 {"k":"data","addr":"0x800fcfe4","type":"/undefined *","len":4}
 {"k":"data","addr":"0x800fcfe8","type":"/undefined *","len":4}
+{"k":"comment","addr":"0x800ea068","type":"plate","text":"x4: spawn_common_effect [gate/object] sozud/mmx4@6a6b455 src/main/misc/misc_00_static_sprite.c:spawn_common_effect"}
+{"k":"comment","addr":"0x800ea0dc","type":"plate","text":"x4: common_effect_animate [gate/object] sozud/mmx4@6a6b455 src/main/misc/misc_01_common_effect.c:common_effect_animate"}
 {"k":"comment","addr":"0x800ea11c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800ecc10","type":"plate","text":"x4: web_spider_swing_wait [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_43_web_spider.c:web_spider_swing_wait"}
 {"k":"comment","addr":"0x800ed290","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ed304","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ed4ac","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800ee524","type":"plate","text":"x4: sentry_drone_wait_for_player [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_48_sentry_drone.c:sentry_drone_wait_for_player"}
+{"k":"comment","addr":"0x800ee5a8","type":"plate","text":"x4: sentry_drone_drift_start [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_48_sentry_drone.c:sentry_drone_drift_start"}
+{"k":"comment","addr":"0x800ee60c","type":"plate","text":"x4: sentry_drone_drift_move [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_48_sentry_drone.c:sentry_drone_drift_move"}
+{"k":"comment","addr":"0x800ee6a4","type":"plate","text":"x4: sentry_drone_dash_start [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_48_sentry_drone.c:sentry_drone_dash_start"}
+{"k":"comment","addr":"0x800ee720","type":"plate","text":"x4: sentry_drone_dash_move [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_48_sentry_drone.c:sentry_drone_dash_move"}
+{"k":"comment","addr":"0x800ee820","type":"plate","text":"x4: sentry_drone_burst_wait [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_48_sentry_drone.c:sentry_drone_burst_wait"}
+{"k":"comment","addr":"0x800ee848","type":"plate","text":"x4: sentry_drone_burst_repeat [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_48_sentry_drone.c:sentry_drone_burst_repeat"}
+{"k":"comment","addr":"0x800eeb68","type":"plate","text":"x4: sentry_drone_spread_repeat [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_48_sentry_drone.c:sentry_drone_spread_repeat"}
+{"k":"comment","addr":"0x800eec30","type":"plate","text":"x4: sentry_drone_drop_start [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_48_sentry_drone.c:sentry_drone_drop_start"}
 {"k":"comment","addr":"0x800ef01c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800ef090","type":"plate","text":"x4: sentry_flash_animate [gate/object] sozud/mmx4@6a6b455 src/main/misc/misc_25_sentry_flash.c:sentry_flash_animate"}
 {"k":"comment","addr":"0x800ef0f0","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800efe28","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800f0434","type":"plate","text":"x4: dash_gunner_explode [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_27_dash_gunner.c:dash_gunner_explode"}
 {"k":"comment","addr":"0x800f0974","type":"plate","text":"Possible VM_VIB.OBJ/SeVibOn"}
 {"k":"comment","addr":"0x800f097c","type":"plate","text":"Possible VM_VIB.OBJ/SetVib"}
 {"k":"comment","addr":"0x800f0984","type":"plate","text":"Possible VM_VIB.OBJ/SsUtVibrateOn"}
 {"k":"comment","addr":"0x800f098c","type":"plate","text":"Possible VM_VIB.OBJ/SsUtVibrateOff"}
 {"k":"comment","addr":"0x800f0b90","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800f1728","type":"plate","text":"x4: tile_scanner_init [gate/object] sozud/mmx4@6a6b455 src/main/effects/effect_05_tile_scanner.c:tile_scanner_init"}
 {"k":"comment","addr":"0x800f25e0","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f3f34","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f43f4","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800f79f4","type":"plate","text":"x4: frost_walrus_death_explode [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_57_frost_walrus.c:frost_walrus_death_explode"}
 {"k":"comment","addr":"0x800f7d70","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f8b1c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f99fc","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}

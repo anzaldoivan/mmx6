@@ -6,7 +6,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 void* func_8002C458();
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800F6720;
 
 #define S_ID(s) M2C_FIELD(s, u8*, 0x0)
@@ -31,7 +31,7 @@ void func_800EA048(void* self) {
         M2C_FIELD(self, void**, 0x68) = &D_800F6720;
     }
 
-    if (D_800970A0.x_pos.i.hi > S_X(self)) {
+    if (g_Player.x_pos.i.hi > S_X(self)) {
         S_FACE(self) = 0x40;
     } else {
         S_FACE(self) = 0;
@@ -44,7 +44,7 @@ void func_800EA048(void* self) {
         S_STATE(self)++;
         break;
     case 1:
-        if (ABS(D_800970A0.x_pos.i.hi - S_X(self)) < 0xB5) {
+        if (ABS(g_Player.x_pos.i.hi - S_X(self)) < 0xB5) {
             goto attack;
         } else if (S_TIMER(self) % 200 == 0) {
             ((void (*)(void*, s32))func_800179A4)(self, 4);
@@ -52,7 +52,7 @@ void func_800EA048(void* self) {
         }
         break;
     case 2:
-        if (ABS(D_800970A0.x_pos.i.hi - S_X(self)) < 0xB5) {
+        if (ABS(g_Player.x_pos.i.hi - S_X(self)) < 0xB5) {
         attack:
             func_800179A4(self, 5);
             S_TIMER(self) = 0;

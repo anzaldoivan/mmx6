@@ -6,8 +6,8 @@
 void func_80042F7C(s8 arg0, s8* arg1, s8* arg2);
 extern u8 D_80071190[];
 #define M2C_UNK s32
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s8 D_800970A2;
 extern struct X4_EngineObj D_800CCED0;
 extern s8 D_800E3140;
@@ -105,12 +105,12 @@ void func_8001E32C(void* arg0) {
             }
         } else {
             M2C_FIELD(arg0, s8*, 0x1E) = -1;
-            M2C_FIELD(arg0, u8*, 0x5A) = D_800970A0.hp;
+            M2C_FIELD(arg0, u8*, 0x5A) = g_Player.hp;
             for (i = 0; i < 0x10; i++) {
                 ((u16*)((u8*)arg0 + 0x3A))[i] =
-                    ((u16*)D_800970A0.weapon_energy)[i];
+                    ((u16*)g_Player.weapon_energy)[i];
             }
-            M2C_FIELD(arg0, u8*, 0x5D) = D_800970A0.weapon;
+            M2C_FIELD(arg0, u8*, 0x5D) = g_Player.weapon;
             M2C_FIELD(arg0, s8*, 0) = 9;
         }
     } else {
@@ -148,4 +148,4 @@ void func_8001E32C(void* arg0) {
     M2C_FIELD(arg0, s8*, 1) = 0;
     M2C_FIELD(arg0, s8*, 0xF) = 0;
 }
-#undef D_800970A0
+#undef g_Player

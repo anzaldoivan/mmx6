@@ -4,15 +4,16 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 extern s16 D_800970AA;
 
 void func_800F351C(struct X4_MainObj* self) {
     s32 v;
     u8 t;
 
-    func_8002D2B0(self);
+    move_object(self);
     {
+        // !FAKE: depin: dropping it breaks the match (55/57)
         register s32 f asm("$2") = self->unk15;
         if (f == 0) {
             if (D_800970AA >= self->x_pos.i.hi || (self->collision_flags & 2)) {

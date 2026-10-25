@@ -9,6 +9,7 @@ struct X4_VisualObj* func_8002C398(void);
 void func_800FA31C(void* arg0) {
     struct X4_VisualObj* self = arg0;
     struct X4_VisualObj* obj;
+    // !FAKE: depin: dropping it breaks the match (56/63)
     register s32 x asm("$2");
 
     obj = func_8002C398();

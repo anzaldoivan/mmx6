@@ -9,6 +9,6 @@ extern s32 D_80097420;
 void func_80048524(void* arg0) {
     M2C_FIELD(arg0, s8*, 3) = 0;
     if (D_80097420 & 0x10) {
-        ((s32 (*)())func_8002CB50)();
+        ((s32(*)())func_8002CB50)();
     }
 }

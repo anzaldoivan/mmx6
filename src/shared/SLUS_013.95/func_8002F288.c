@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern u8 D_800E4190;
 extern u8 D_800E4191;
 extern s16 D_800E41A4;
@@ -36,7 +36,7 @@ void func_8002F288(struct X4_PlayerObj* arg0) {
             }
         }
         if ((arg0->y_pos.val - arg0->unk1C.val) >= 0) {
-            if ((arg0 != &D_800970A0) || !(arg0->unk72 & 8)) {
+            if ((arg0 != &g_Player) || !(arg0->unk72 & 8)) {
                 func_8002F840(arg0);
                 if (D_800E4190 != 0) {
                     return;
@@ -65,4 +65,4 @@ void func_8002F288(struct X4_PlayerObj* arg0) {
     }
 }
 
-#undef D_800970A0
+#undef g_Player

@@ -7,7 +7,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 void func_80025FD8();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 extern s8* D_800FDA74;
 extern s16 D_800FDA80;
@@ -35,7 +35,7 @@ void func_800F66D8(void* arg0) {
         E(void*, 0x20) = arg0;
         func_80025FD8();
         E(u8, 0x8C) = tbl[E(u8, 0x8F)] + 0x30;
-        b = D_800971F8;
+        b = background_objects;
         F(s16, 0xA) = B(s16, 0x26) + 0xD0;
         {
             u16 y = B(u16, 0x2A);

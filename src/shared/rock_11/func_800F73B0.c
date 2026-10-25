@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 s32 func_800FA630(void*, s16, s16);
 extern s16 D_800970AA;
 
@@ -14,6 +14,7 @@ void func_800F73B0(void* self) {
     s16 x;
     s32 d;
     s32 v;
+    // !FAKE: depin: dropping it breaks the match (101/103)
     register s32 t asm("$2");
 
     if (F_U8(0x15) == 0) {
@@ -65,5 +66,5 @@ gen:
         F_U8(0x6) = 4;
         return;
     }
-    func_8002D2B0(self);
+    move_object(self);
 }

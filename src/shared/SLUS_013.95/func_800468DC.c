@@ -77,5 +77,5 @@ void func_800468DC(void* arg0) {
             }
         }
     }
-    ((s32 (*)())func_8002CB50)(arg0);
+    ((s32(*)())func_8002CB50)(arg0);
 }

@@ -9,8 +9,8 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
 s32 func_801EE34C();
 extern s32 D_80077A28[];
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3A4C[];
 extern s32 D_801F3A50;
 
@@ -36,7 +36,7 @@ void func_801F129C(struct X4_WeaponObj* arg0) {
     arg0->unk42 = 0x7801;
     arg0->unk16 = 2;
     arg0->unk3C = temp_a0 + var_a0;
-    player = &D_800970A0;
+    player = &g_Player;
     arg0->unk15 = player->unk15;
     kind = arg0->unk2;
     arg0->unk64 = 1;
@@ -66,6 +66,6 @@ void func_801F129C(struct X4_WeaponObj* arg0) {
     func_8002CCB0(arg0, 0x20, 0x20);
     arg0->state++;
 }
-#undef D_800970A0
+#undef g_Player
 #undef func_800179A4
 #undef func_8002CCB0

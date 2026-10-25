@@ -4,12 +4,12 @@
 
 s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 s32 func_8003EB0C(void* arg0, s32 arg1);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 #define F5F78(p, t, o) (*(t*)((u8*)(p) + (o)))
 
 void func_80045F78(void* arg0) {
-    struct X4_PlayerObj* p = &D_800970A0;
+    struct X4_PlayerObj* p = &g_Player;
     s32 hit = 0;
     s32 v;
 
@@ -18,7 +18,7 @@ void func_80045F78(void* arg0) {
 
         hit = w < func_8003EB0C(p, 4);
     } else {
-        v = ((s16*)((u8*)&D_800970A0 + 0xA8))[p->weapon];
+        v = ((s16*)((u8*)&g_Player + 0xA8))[p->weapon];
         v = v < func_8003EB0C(p, p->weapon);
         if (v) {
             hit = 1;

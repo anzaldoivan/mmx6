@@ -5,10 +5,10 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*); /* extern */
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800EBD0C(void* arg0) {
-    struct X4_BackgroundObj* bg = D_800971F8;
+    struct X4_BackgroundObj* bg = background_objects;
 
     M2C_FIELD(bg, s32*, 0x60) = (s32)(M2C_FIELD(bg, s32*, 0x60) + 0x18000);
     if (M2C_FIELD(bg, s16*, 0x62) >= 0x368) {

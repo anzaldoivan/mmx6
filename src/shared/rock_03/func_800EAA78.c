@@ -10,7 +10,7 @@ extern s16 D_800970AA;
 
 void func_800EAA78(u8* arg0) {
     s16 x;
-    register s32 d asm("$3");
+    s32 d;
 
     func_800179A4(arg0, 7);
     *(u16*)(arg0 + 0xE) = *(u16*)(SPAD + 0x84) - 0x1A;
@@ -23,6 +23,7 @@ void func_800EAA78(u8* arg0) {
     *(s32*)(arg0 + 0x2C) = 0x8000;
     func_8002D230(arg0);
     {
+        // !FAKE: depin: dropping it breaks the match (36/39)
         register s32 t asm("$2") = arg0[6] + 1;
         arg0[6] = t;
     }

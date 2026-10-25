@@ -7,7 +7,7 @@ M2C_UNK func_8002B838();
 void* func_8002C530();
 struct X4_QuadObj* func_8002C7F0(void);
 M2C_UNK func_800F03B8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_80097427;
 extern M2C_UNK* D_800B91B8;
 extern struct X4_MiscObj D_800E2F90;
@@ -22,7 +22,7 @@ void func_800EB1CC(u8* arg0) {
     {
         s32 base;
 
-        bg = (u8*)D_800971F8;
+        bg = (u8*)background_objects;
         *(s16*)(bg + 0xB2) = 0x200;
         base = (s32)D_800B91B8;
         bg[0xF4] = 1;

@@ -13,7 +13,7 @@ void func_800EA76C(u8* arg0) {
     u8 v;
 
     if (ENG_SB(4) == 0) {
-        register s32 one asm("$18") = 1;
+        s32 one = 1;
         if (D_800C456C[2] & 0x1000) {
             func_80016C48(0, 0xC, 0);
             v = ENG_B(7);
@@ -43,6 +43,7 @@ void func_800EA76C(u8* arg0) {
         if (D_800C456C[2] & 0x10) {
             func_800139F4(8);
             {
+                // !FAKE: depin: dropping it breaks the match (80/85)
                 register s32 b asm("$2") = arg0[1];
                 *(s16*)(arg0 + 0xA) = 2;
                 arg0[1] = b + 2;

@@ -15,6 +15,7 @@ void func_8001EE7C(void* arg) {
     u8* p;
     u8* obj;
     u8 i;
+    // !FAKE: depin: dropping it breaks the match (133/147)
     register s32 one asm("$19");
 
     func_8001D218();

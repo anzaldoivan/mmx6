@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 int func_80060964(int mode);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_80097420;
 extern struct X4_EngineObj D_800CCED0;
 extern u8 D_800C4568;
@@ -17,7 +17,7 @@ extern void (*D_80073ABC[])(struct X4_PlayerObj*);
 #define EW(o) (*(s32*)((u8*)e + (o)))
 
 void func_80034DCC(void) {
-    struct X4_PlayerObj* p = &D_800970A0;
+    struct X4_PlayerObj* p = &g_Player;
 
     if (PB(0xCD) != 0) {
         PB(0xCC) = 5;

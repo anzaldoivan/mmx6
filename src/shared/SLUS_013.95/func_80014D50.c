@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/3D88.c:func_800136B0, AGPL-3.0; proven shared with X6 by exact signature 630fc0e04ff1 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/3D88.c:func_800136B0, AGPL-3.0; proven shared with X6 by exact signature 630fc0e04ff1 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 int func_80064CB4(void* madr, int size);

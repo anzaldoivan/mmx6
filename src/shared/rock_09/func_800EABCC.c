@@ -14,8 +14,10 @@ extern s32 D_800F5B9C;
 
 void func_800EABCC(void* arg0) {
     s8 v;
+    // !FAKE: depin: dropping it breaks the match (36/65)
     register s32 c asm("$5");
     u8 b;
+    // !FAKE: depin: dropping it breaks the match (61/65)
     register s32 e asm("$2");
 
     M2C_FIELD(arg0, u8*, 0x60) = 4;
@@ -28,10 +30,12 @@ void func_800EABCC(void* arg0) {
         M2C_FIELD(arg0, u8*, 0x16) = 7;
     } while (0);
     {
+        // !FAKE: depin: dropping it breaks the match (60/65)
         register void* q58 asm("$2") = &D_800743DC;
         M2C_FIELD(arg0, void**, 0x58) = q58;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (61/65)
         register void* q50 asm("$2") = &D_800F5B98;
         M2C_FIELD(arg0, void**, 0x50) = q50;
     }
@@ -46,7 +50,7 @@ void func_800EABCC(void* arg0) {
     M2C_FIELD(arg0, u8*, 0x3) = 0;
     M2C_FIELD(arg0, s32*, 0x68) = 0;
     {
-        register void* q54 asm("$3") = &D_800F5B9C;
+        void* q54 = &D_800F5B9C;
         M2C_FIELD(arg0, void**, 0x54) = q54;
     }
     M2C_FIELD(arg0, u8*, 0x14) = b;

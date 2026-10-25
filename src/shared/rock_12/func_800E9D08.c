@@ -4,7 +4,7 @@
 
 M2C_UNK func_80017A04();
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_800CCED4;
 extern s16 D_800EA858[];
 extern s16 D_800EA874[][2];
@@ -32,7 +32,7 @@ void func_800E9D08(void* arg0) {
             off = idx * 4;
             func_80027BA0(*p, *(s16*)(off + q),
                           ((s16*)((u8*)D_800EA874 + off))[1], r[idx]);
-            D_800971F8[*p].unk4C = 1;
+            background_objects[*p].unk4C = 1;
             F(u8, 0x3) = 0;
         }
         D_800CCED4 = 0;

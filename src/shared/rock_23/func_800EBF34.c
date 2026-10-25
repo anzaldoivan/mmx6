@@ -4,13 +4,13 @@
 M2C_UNK func_80017A04();
 M2C_UNK func_8002C9B0();
 M2C_UNK func_8002CB50();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 extern s32 D_80097420;
 
 M2C_UNK func_800EBF34(u8* arg0) {
     u8 temp_v1;
 
-    func_8002D2B0(arg0);
+    move_object(arg0);
     ((void (*)())func_80017A04)(arg0);
     if (*(s8*)(arg0 + 0x46) == 0) {
         *(s32*)(arg0 + 0x20) = 0;

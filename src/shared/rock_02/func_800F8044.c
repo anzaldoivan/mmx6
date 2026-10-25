@@ -20,6 +20,7 @@ void func_800F8044(void* self) {
     if (SPAD4C[0x8A] != 0x11) {
         func_800179A4(self, 0x13);
         {
+            // !FAKE: depin: dropping it breaks the match (30/32)
             register s32 v asm("$2") = 5;
             F(u8, 0x6) = v;
         }

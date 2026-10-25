@@ -5,7 +5,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK); /* extern */
 M2C_UNK func_80017A04();               /* extern */
-M2C_UNK func_8002D2B0(s32);            /* extern */
+M2C_UNK move_object(s32);              /* extern */
 
 void func_800F89F4(void* arg0) {
     s32 temp_v0;
@@ -13,7 +13,7 @@ void func_800F89F4(void* arg0) {
     u8 temp_v1;
 
     func_80017A04();
-    func_8002D2B0(arg0);
+    move_object(arg0);
     temp_v0 = M2C_FIELD(arg0, s32*, 0x20);
     if (temp_v0 > 0) {
         temp_v1 = M2C_FIELD(arg0, u8*, 0x70);

@@ -6,10 +6,10 @@
 
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8003D330();
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800EC4D4(void* arg0) {
-    struct X4_BackgroundObj* bg = D_800971F8;
+    struct X4_BackgroundObj* bg = background_objects;
 
     if (M2C_FIELD(bg, s16*, 0x96) >= -0x4F) {
         M2C_FIELD(bg, s16*, 0x96) = M2C_FIELD(bg, s16*, 0x96) - 1;

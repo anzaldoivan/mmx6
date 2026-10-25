@@ -5,8 +5,8 @@
 M2C_UNK func_80017A04();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 void func_8002CCB0(struct X4_BaseObj*, s32, s32);
-M2C_UNK func_8002D2B0(void*);
-#define func_8002D2B0 ((void (*)(void*))func_8002D2B0)
+M2C_UNK move_object(void*);
+#define move_object ((void (*)(void*))move_object)
 M2C_UNK func_8002EE10(void*);
 M2C_UNK func_80030ECC(void*);
 s32 func_80031474(void*);
@@ -15,7 +15,7 @@ M2C_UNK func_80049E50(void*);
 
 void func_800ECDC4(struct X4_PlayerObj* self) {
     func_80017A04();
-    func_8002D2B0(self);
+    move_object(self);
     self->unk42 &= 0x7FFF;
 
     if (func_80030ECC(self) != 0) {
@@ -47,4 +47,4 @@ void func_800ECDC4(struct X4_PlayerObj* self) {
     }
     self->state = 2;
 }
-#undef func_8002D2B0
+#undef move_object

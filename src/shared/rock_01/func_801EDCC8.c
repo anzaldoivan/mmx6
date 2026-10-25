@@ -7,11 +7,11 @@ M2C_UNK func_80017A04();
 M2C_UNK func_8002C9B0();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 M2C_UNK func_8002EE10(void*);
 void func_800383F8(void*);
 extern s32 D_8007798C;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_801EE3E8;
 extern s32 D_801EE3FC;
 
@@ -32,7 +32,7 @@ void func_801EDCC8(u8* arg0) {
     s32 t;
     s8 state;
 
-    pl = &D_800970A0;
+    pl = &g_Player;
     state = SB(arg0, 4);
     if (state == 0) {
         W(arg0, 0x68) = (s32)&D_801EE3E8;
@@ -93,7 +93,7 @@ void func_801EDCC8(u8* arg0) {
         }
         ((void (*)())func_80017A04)(arg0);
         W(arg0, 0x68) = (s32)(&D_801EE3E8 + (B(arg0, 0x45) & 0x7F));
-        func_8002D2B0(arg0);
+        move_object(arg0);
         if (pl->unk5 == 0x11) {
             // !FAKE: shared dead-path call block before the tail, as retail lays it out
             goto dead;

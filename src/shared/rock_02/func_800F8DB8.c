@@ -6,6 +6,7 @@
 M2C_UNK func_80017A04(); /* extern */
 
 void func_800F8DB8(void* arg0) {
+    // !FAKE: depin: dropping it breaks the match (17/28)
     register void* temp_s1 asm("$17");
 
     temp_s1 = M2C_FIELD(arg0, void**, 0x7C);

@@ -377,10 +377,14 @@ def self_test():
     ok([m.group(1) for m in CDEF_RE.finditer(s)] == ["g", "f"], "static inline skipped, static and extern kept")
     res = corpus(programs())
     fs = [f for _, funcs, _ in res for f in funcs]
-    by = {(f["prog"], f["name"]): f for f in fs}
-    f = by.get(("SLUS_013.95", "func_80055A04"))
+    # the control by (prog, vram), its current name read from the rows (never spelled here)
+    at = lambda rows, p, v: next((r for r in rows if (r["prog"], r["vram"]) == (p, v)), None)
+    f = at(fs, "SLUS_013.95", 0x80055A04)
     ok(f is not None and (f["state"], f["tu"], f["lane"]) == ("include_asm", "LIBSPU_S_M_UTIL", "lib"),
-       "func_80055A04 include_asm LIBSPU_S_M_UTIL lib")
+       f"SLUS_013.95 0x80055A04 {f and f['name']} include_asm LIBSPU_S_M_UTIL lib")
+    plant = [dict(r, name="alpha_helper") if r is f else r for r in fs]  # planted: a name that spells no address
+    ok(f is not None and at(plant, "SLUS_013.95", 0x80055A04)["name"] == "alpha_helper",
+       "planted non-address name alpha_helper found at SLUS_013.95 0x80055A04")
     banked = set()
     with open("config/probes.txt") as pf:
         for line in pf:

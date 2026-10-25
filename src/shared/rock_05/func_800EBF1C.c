@@ -8,7 +8,7 @@ s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_800743DC;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800F3FF4;
 extern s32 D_800F3FF8;
 extern s32 D_800F3FFC;
@@ -52,8 +52,8 @@ void func_800EBF1C(void* arg0) {
     } else if (t == 4) {
         BF_U8(arg0, 0x60) = 4;
         BF_U8(arg0, 0x5C) = 2;
-        ang = func_80065B74(D_800970A0.y_pos.i.hi - BF_S16(arg0, 0xE),
-                            D_800970A0.x_pos.i.hi - BF_S16(arg0, 0xA));
+        ang = func_80065B74(g_Player.y_pos.i.hi - BF_S16(arg0, 0xE),
+                            g_Player.x_pos.i.hi - BF_S16(arg0, 0xA));
         BF_S32(arg0, 0x20) = func_80065A14(ang) << 6;
         BF_S32(arg0, 0x24) = -func_80065944(ang) << 6;
         BF_PTR(arg0, 0x50) = &D_800F3FF4;
@@ -65,8 +65,8 @@ void func_800EBF1C(void* arg0) {
     } else if (t == 5) {
         BF_U8(arg0, 0x60) = 4;
         BF_U8(arg0, 0x5C) = 2;
-        ang = func_80065B74(D_800970A0.y_pos.i.hi - BF_S16(arg0, 0xE),
-                            D_800970A0.x_pos.i.hi - BF_S16(arg0, 0xA));
+        ang = func_80065B74(g_Player.y_pos.i.hi - BF_S16(arg0, 0xE),
+                            g_Player.x_pos.i.hi - BF_S16(arg0, 0xA));
         BF_S32(arg0, 0x20) = func_80065A14(ang) << 6;
         BF_S32(arg0, 0x24) = -func_80065944(ang) << 6;
         BF_PTR(arg0, 0x50) = &D_800F3FF4;

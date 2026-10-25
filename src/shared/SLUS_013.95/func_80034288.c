@@ -4,7 +4,7 @@
 
 s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern u16 D_800C4570;
 extern struct X4_EngineObj D_800CCED0;
 
@@ -28,7 +28,7 @@ void func_80034288(struct X4_PlayerObj* self) {
         }
         switch (((u8*)self)[0x2D]) {
         case 4: {
-            struct X4_PlayerObj* pl = &D_800970A0;
+            struct X4_PlayerObj* pl = &g_Player;
             if ((pl->hp & 0x7F) < ((s8*)&D_800CCED0 + pl->unk2)[0x5B]) {
                 self->unk5 = 9;
             }
@@ -38,8 +38,8 @@ void func_80034288(struct X4_PlayerObj* self) {
             j = 0;
             found = 0;
             for (; j < 9; j++) {
-                u8* pl = (u8*)&D_800970A0;
-                if (*(s16*)((u8*)&D_800970A0 + j * 2 + 0xA8) <
+                u8* pl = (u8*)&g_Player;
+                if (*(s16*)((u8*)&g_Player + j * 2 + 0xA8) <
                     *(s16*)(pl + 0x14A)) {
                     found = 1;
                     break;
@@ -57,14 +57,14 @@ void func_80034288(struct X4_PlayerObj* self) {
             }
             func_80016C48(0, 0x22, 0);
             if (((u8*)self)[0x2D] == 6) {
-                u8* pl = (u8*)&D_800970A0;
+                u8* pl = (u8*)&g_Player;
                 *(s16*)(pl + 0x148) = 0x1E0;
             } else {
-                u8* pl = (u8*)&D_800970A0;
+                u8* pl = (u8*)&g_Player;
                 *(s16*)(pl + 0x148) = 0x12C;
             }
             {
-                u8* pl = (u8*)&D_800970A0;
+                u8* pl = (u8*)&g_Player;
                 *(s32*)(pl + 0x144) = ((u8*)self)[0x2D];
             }
             break;

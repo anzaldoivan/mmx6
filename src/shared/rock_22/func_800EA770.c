@@ -7,8 +7,8 @@
 void* func_8002BBF4();
 M2C_UNK func_8003D308(M2C_UNK, u8);
 
-extern struct X4_PlayerObj D_800970A0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_PlayerObj g_Player;
+extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_8009728E;
 extern u8 D_800FB6F8[];
 
@@ -20,7 +20,7 @@ void func_800EA770(struct X4_PlayerObj* self) {
     struct X4_PlayerObj* pl;
 
     if (self->unk2 == 0) {
-        struct X4_BackgroundObj* bg = D_800971F8;
+        struct X4_BackgroundObj* bg = background_objects;
 
         *(s16*)&bg[1].unk40 = -0x1540;
         *(s16*)&bg[1].unk42 = -0x50;
@@ -41,9 +41,9 @@ void func_800EA770(struct X4_PlayerObj* self) {
             i = n;
         } while (i < 5);
         self->unk5 = 2;
-        func_8003D308(0x14, D_800970A0.unk15);
+        func_8003D308(0x14, g_Player.unk15);
     } else if (self->unk2 == 1) {
-        struct X4_BackgroundObj* bg = D_800971F8;
+        struct X4_BackgroundObj* bg = background_objects;
 
         *(s16*)&bg[1].unk40 = -0x17C0;
         *(s16*)&bg[1].unk42 = -0x50;
@@ -65,7 +65,7 @@ void func_800EA770(struct X4_PlayerObj* self) {
         } while (i < 5);
         self->unk5 = 3;
     } else if (self->unk2 == 2) {
-        struct X4_BackgroundObj* bg = D_800971F8;
+        struct X4_BackgroundObj* bg = background_objects;
 
         *(s16*)&bg[1].unk40 = -0x1B70;
         *(s16*)&bg[1].unk42 = -0x50;
@@ -92,10 +92,11 @@ void func_800EA770(struct X4_PlayerObj* self) {
         self->unk50 = D_800FB6F8;
         self->unk5 = 5;
     }
-    pl = &D_800970A0;
+    pl = &g_Player;
     self->invincibility_timer = 0;
     b = M2C_FIELD(pl, u8*, 0x14);
     {
+        // !FAKE: depin: dropping it breaks the match (163/175)
         register s32 c asm("$2") = 5;
         self->unk16 = c;
     }

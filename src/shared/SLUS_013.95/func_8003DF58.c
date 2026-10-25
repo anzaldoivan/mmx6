@@ -8,8 +8,8 @@ void func_8003F7BC(void* arg0, M2C_UNK arg1, M2C_UNK arg2);
 
 M2C_UNK func_8003DF58(void* self) {
     u8 t;
-    register s32 k asm(
-        "$6"); // !FAKE: depin: dropping it breaks the match (62/69)
+    // !FAKE: depin: dropping it breaks the match (62/69)
+    register s32 k asm("$6");
 
     t = UB(0xE7);
     k = 2;

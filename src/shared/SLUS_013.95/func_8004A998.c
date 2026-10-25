@@ -46,7 +46,9 @@ void func_8004A998(u8 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
             t += 1;
             t &= 0xFFFF;
             {
+                // !FAKE: depin: dropping it breaks the match (140/185)
                 register s32 a asm("$4") = arg3;
+                // !FAKE: depin: dropping it breaks the match (179/185)
                 register s32 e asm("$3") = (s16)(a - arg1);
                 if (e == 0) {
                     S16(0xA) = arg1;

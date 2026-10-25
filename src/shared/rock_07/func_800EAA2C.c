@@ -6,7 +6,7 @@
 
 void* func_8002C458();
 s32 func_8002D2D4();
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800EAA2C(struct X4_MainObj* arg0, M2C_UNK arg1) {
     u8 sub;
@@ -32,10 +32,10 @@ void func_800EAA2C(struct X4_MainObj* arg0, M2C_UNK arg1) {
         M2C_FIELD(o, void**, 0x7C) = arg0;
         t = sub;
         if (t == 0) {
-            o->x_pos.i.hi = D_800971F8[0].x_pos.i.hi +
-                            M2C_FIELD(D_800971F8, u16*, 0x5E) + 0xA0;
-            o->y_pos.i.hi = D_800971F8[0].y_pos.i.hi -
-                            M2C_FIELD(D_800971F8, u16*, 0x62) + 0x3A8;
+            o->x_pos.i.hi = background_objects[0].x_pos.i.hi +
+                            M2C_FIELD(background_objects, u16*, 0x5E) + 0xA0;
+            o->y_pos.i.hi = background_objects[0].y_pos.i.hi -
+                            M2C_FIELD(background_objects, u16*, 0x62) + 0x3A8;
             o->x_pos.i.hi = o->x_pos.i.hi + (func_8002D2D4() & 0x7F);
         } else if (t == 0x30) {
             M2C_FIELD(o, s32*, 0x84) = arg0->unk6;

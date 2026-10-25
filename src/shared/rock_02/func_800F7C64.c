@@ -23,6 +23,7 @@ void func_800F7C64(u8* arg0) {
         func_80016C48(2, 0x3D, arg0);
         func_800179A4(arg0, 9);
         {
+            // !FAKE: depin: dropping it breaks the match (36/38)
             register s32 t asm("$2") = 5;
             arg0[6] = t;
         }

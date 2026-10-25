@@ -6,7 +6,7 @@
 s32 func_8002D2D4();
 M2C_UNK func_8003CFE0(void*, M2C_UNK);
 void func_8003D18C(void* arg0);
-void func_8003F4C4(struct X4_PlayerObj* self, s32 animation);
+void player_set_animation_shooting(struct X4_PlayerObj* self, s32 animation);
 extern u8 D_80073CE4[];
 
 M2C_UNK func_8003AF1C(void* arg0) {
@@ -22,7 +22,7 @@ M2C_UNK func_8003AF1C(void* arg0) {
         M2C_FIELD(arg0, s8*, 0x8C) = 1;
     }
     M2C_FIELD(arg0, s8*, 0x8B) = 0xA;
-    func_8003F4C4(arg0, 0xA);
+    player_set_animation_shooting(arg0, 0xA);
     if (func_8002D2D4() & 4) {
         func_8003CFE0(
             arg0,

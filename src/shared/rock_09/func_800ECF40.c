@@ -11,7 +11,7 @@ void func_80031F4C(struct X4_PlayerObj*);
 M2C_UNK func_8003208C();
 s32 func_80032B34(struct X4_PlayerObj*);
 void func_80032BE8(struct X4_PlayerObj*);
-extern s32 D_800970A0;
+extern s32 g_Player;
 extern u8 D_800F4BF0[];
 
 void func_800ECF40(void* arg0) {
@@ -19,7 +19,7 @@ void func_800ECF40(void* arg0) {
 
     func_80032B34(arg0);
     func_80032BE8(arg0);
-    p = &D_800970A0;
+    p = &g_Player;
     if (((s8*)p)[0xE0] != 2) {
         ((void (**)(void*))(D_800F4BF0 + 0x14B0))[M2C_FIELD(arg0, s8*, 6)](
             arg0);

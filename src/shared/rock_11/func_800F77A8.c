@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 s32 func_8002D2D4();
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
@@ -47,7 +47,7 @@ void func_800F77A8(void* self) {
     } else {
         M2C_FIELD(self, u8*, 0x15) = 0x40;
     }
-    func_8002D2B0(self);
+    move_object(self);
     d = M2C_FIELD(t, s16*, 0xA) - M2C_FIELD(self, s16*, 0xA);
     if (d >= 0) {
         if (d < 2) {

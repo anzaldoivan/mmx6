@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/3D88.c:func_80014968, AGPL-3.0; proven shared with X6 by exact signature 587b9efb8c19 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/3D88.c:func_80014968, AGPL-3.0; proven shared with X6 by exact signature 587b9efb8c19 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern short func_80060604(unsigned char*, unsigned long, short);

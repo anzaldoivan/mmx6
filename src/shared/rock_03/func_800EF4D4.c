@@ -3,7 +3,7 @@
 
 #define F(p, t, o) (*(t*)((u8*)(p) + (o)))
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s8 D_800CCEDC;
 extern u8 D_800F7900[];
 
@@ -18,10 +18,10 @@ s32 func_800EF4D4(u32 arg0) {
     b = D_800F7900;
     off = arg0 * 10;
     p = off + b;
-    if (c == F(p, u8, 8) && D_800970A0.x_pos.i.hi >= F(p, s16, 0) &&
-        F(D_800F7900 + off, s16, 4) >= D_800970A0.x_pos.i.hi &&
-        D_800970A0.y_pos.i.hi >= F(D_800F7900 + off, s16, 2) &&
-        F(D_800F7900 + off, s16, 6) >= D_800970A0.y_pos.i.hi) {
+    if (c == F(p, u8, 8) && g_Player.x_pos.i.hi >= F(p, s16, 0) &&
+        F(D_800F7900 + off, s16, 4) >= g_Player.x_pos.i.hi &&
+        g_Player.y_pos.i.hi >= F(D_800F7900 + off, s16, 2) &&
+        F(D_800F7900 + off, s16, 6) >= g_Player.y_pos.i.hi) {
         return 1;
     }
     return 0;

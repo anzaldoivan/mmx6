@@ -9,6 +9,7 @@ s32 func_800ED484(void* arg0) {
     s8* obj = arg0;
     s8 state;
     u8* tbl;
+    // !FAKE: depin: dropping it breaks the match (129/133)
     register u8 v asm("$4");
     u8 w;
 

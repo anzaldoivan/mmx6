@@ -18,6 +18,7 @@ extern u32* D_80095098;
 extern u8 D_800970B4;
 
 void func_8004E800(void* arg0) {
+    // !FAKE: depin: dropping it breaks the match (41/158)
     register s32 t asm("$5");
 
     if (F(u8, 2) != 0x80 && (u32)(func_8004FF4C(F(u8, 2)) - 2) < 3) {

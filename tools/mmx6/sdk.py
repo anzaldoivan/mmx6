@@ -27,6 +27,9 @@ import struct
 import subprocess
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import probe  # noqa: E402  (asm_labels: a label's address from its split asm row)
+
 OUT = "build/sdk"
 R_32, R_26, R_HI, R_LO = 2, 4, 5, 6
 SHF_ALLOC = 2
@@ -422,15 +425,15 @@ def main():
             frag.append(f"{n} = {addr[n]:#x};")
 
     # Labels of the dropped subsegments that other objects may reference (jump tables in the shared rodata blocks
-    # name `.L<addr>`): the replacing text is identical at those addresses, so each is PROVIDEd at its spelled address.
+    # name `.L<addr>`): the replacing text is identical at those addresses, so each is PROVIDEd at its asm row's vram.
     for seg in sorted(subst):
         srcs = [f"asm/{prog}/{seg}.s"]
         nm = f"asm/{prog}/nonmatchings/{seg}"
         srcs += sorted(os.path.join(nm, f) for f in os.listdir(nm)) if os.path.isdir(nm) else []
         for path in srcs:
             if os.path.exists(path):
-                for m in re.finditer(r"^\s*[gjda]label\s+(\S*([0-9A-F]{8}))\s*$", open(path).read(), re.M):
-                    frag.append(f"PROVIDE({m[1]} = 0x{m[2]});")
+                for _, name, vram in probe.asm_labels(open(path).read()):
+                    frag.append(f"PROVIDE({name} = 0x{vram:08X});")
     open(f"{OUT}/{prog}.ld", "w").write("\n".join(frag) + "\n")
     drop = [seg_obj[s] for s in subst]
     ld = []

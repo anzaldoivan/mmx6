@@ -28,6 +28,7 @@ void func_8005011C(void* arg0) {
     {
         s32* p = &D_80078DCC;
         u8* q;
+        // !FAKE: depin: dropping it breaks the match (60/77)
         register s32 one asm("$3");
         do {
         } while (0);

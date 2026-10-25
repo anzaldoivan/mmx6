@@ -13,7 +13,7 @@ extern M2C_UNK D_8007433C;
 extern M2C_UNK D_8007523C;
 extern M2C_UNK D_800752DC;
 extern M2C_UNK D_8007537C;
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern s8 D_8009711A;
 extern u8 D_80097187;
 extern void (*D_800FB850[])(void*);
@@ -73,7 +73,7 @@ void func_800F1980(void* arg0) {
     } else if (v != 0x7F) {
         if (st == 8) {
             if (M2C_FIELD(arg0, s8*, 6) == 0) {
-                q = (u8*)&D_800970A0;
+                q = (u8*)&g_Player;
                 if (M2C_FIELD(q, s8*, 2) != 0) {
                     if (v != 0) {
                         func_80016C48(2, 0x3D, arg0);
@@ -130,7 +130,7 @@ void func_800F1980(void* arg0) {
         if (M2C_FIELD(arg0, s8*, 5) != 2) {
             M2C_FIELD(arg0, s32*, 0x90) += 1;
         }
-        p = (u8*)&D_800970A0;
+        p = (u8*)&g_Player;
         if (M2C_FIELD(p, s8*, 0x5C) == -0x80) {
             M2C_FIELD(p, s8*, 0x5C) = 1;
         }

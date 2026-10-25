@@ -41,50 +41,50 @@ INCLUDE_ASM("asm/rock_21/nonmatchings/E9860", func_800EA7B0);
 #include "../shared/rock_21/func_800EBBB0.c"
 
 #define func_800EBAB4 func_800EBC4C
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/rock_21/func_800EBAB4.c"
 #undef func_800EBAB4
-#undef D_800971F8
+#undef background_objects
 
 #include "../shared/rock_21/func_800EBCDC.c"
 
 #include "../shared/rock_21/func_800EBD48.c"
 
 #define func_800EBAB4 func_800EBDE4
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/rock_21/func_800EBAB4.c"
 #undef func_800EBAB4
-#undef D_800971F8
+#undef background_objects
 
 #include "../shared/rock_21/func_800EBE74.c"
 
 #include "../shared/rock_21/func_800EBEE0.c"
 
 #define func_800EBAB4 func_800EBF7C
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/rock_21/func_800EBAB4.c"
 #undef func_800EBAB4
-#undef D_800971F8
+#undef background_objects
 
 #include "../shared/rock_21/func_800EC00C.c"
 
 #include "../shared/rock_21/func_800EC078.c"
 
 #define func_800EBAB4 func_800EC114
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/rock_21/func_800EBAB4.c"
 #undef func_800EBAB4
-#undef D_800971F8
+#undef background_objects
 
 #include "../shared/rock_21/func_800EC1A4.c"
 
 #include "../shared/rock_21/func_800EC240.c"
 
 #define func_800EBAB4 func_800EC2DC
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/rock_21/func_800EBAB4.c"
 #undef func_800EBAB4
-#undef D_800971F8
+#undef background_objects
 
 #include "../shared/rock_21/func_800EC36C.c"
 

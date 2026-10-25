@@ -3,8 +3,8 @@
 #define M2C_UNK s32
 
 s32 func_8003AD18(void* arg0);
-extern struct X4_PlayerObj D_800970A0;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_PlayerObj g_Player;
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_ObjectHeader D_80097420;
 #define EEDB8_FLAGS (*(s32*)&D_80097420)
 extern struct X4_EngineObj D_800CCED0;
@@ -25,17 +25,17 @@ void func_800EEDB8(u8* arg0) {
     b = FU16(arg0, 0x82) + 1;
     FU16(arg0, 0x82) = b;
     if (!(EEDB8_FLAGS & 1)) {
-        D_800970A0.x_pos.i.hi = a;
+        g_Player.x_pos.i.hi = a;
     } else {
-        D_800970A0.x_pos.i.hi = b;
+        g_Player.x_pos.i.hi = b;
     }
     if (F16(arg0, 0x7C) >= 0x1D) {
-        D_800971F8[0].unk44 = 1;
-        D_800971F8[1].unk44 = 1;
-        D_800971F8[2].unk44 = 1;
-        D_800970A0.x_pos.i.hi = EEDB8_TBL[F16(arg0, 0x7E) * 16];
-        D_800970A0.unk68 = *(void**)(arg0 + 0x88);
-        func_8003AD18(&D_800970A0);
+        background_objects[0].unk44 = 1;
+        background_objects[1].unk44 = 1;
+        background_objects[2].unk44 = 1;
+        g_Player.x_pos.i.hi = EEDB8_TBL[F16(arg0, 0x7E) * 16];
+        g_Player.unk68 = *(void**)(arg0 + 0x88);
+        func_8003AD18(&g_Player);
         q = (u8*)&D_800CCED0;
         q[0x10] = 0;
         q[0x11] = 0;

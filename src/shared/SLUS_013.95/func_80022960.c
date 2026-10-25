@@ -12,8 +12,8 @@ extern u8 D_80091298[];
 extern u8 D_80093C98[];
 extern s8 D_800950A0[];
 extern u8 D_800964A0[];
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern u8 D_800973B8[];
 extern s8 D_80097428;
 #define D_80097428 (*(u8*)&D_80097428)
@@ -56,7 +56,7 @@ void func_80022960(void) {
         func_800244C0();
     }
     func_80026128();
-    pl = &D_800970A0;
+    pl = &g_Player;
     if (pl->on_screen != 0) {
         savedX = pl->x_pos.i.hi;
         if (pl->unk5 == 0x1B ||
@@ -149,5 +149,5 @@ void func_80022960(void) {
     }
     func_80022E44();
 }
-#undef D_800970A0
+#undef g_Player
 #undef D_80097428

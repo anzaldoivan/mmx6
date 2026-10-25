@@ -42,7 +42,7 @@ void func_8001E088(u8* arg0) {
     g = (u8*)&D_80097420;
     g[8] = 0;
     {
-        register s32 c asm("$3") = 0x8CA0;
+        s32 c = 0x8CA0;
         p = (s32*)(arg0 + 0x440);
         i = 7;
         do {
@@ -51,7 +51,7 @@ void func_8001E088(u8* arg0) {
         } while (i >= 0);
     }
     {
-        register s32 one asm("$2");
+        s32 one;
         i = 9;
         one = 1;
         arg0[0x5F] = one;

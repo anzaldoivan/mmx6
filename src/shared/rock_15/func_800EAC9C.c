@@ -6,7 +6,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 extern M2C_UNK D_8007433C;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern M2C_UNK D_800F5EA0;
 extern M2C_UNK D_800F5EA4;
 extern M2C_UNK D_800F5EA8;
@@ -22,7 +22,7 @@ void func_800EAC9C(void* arg0) {
     FX(arg0, u8, 0x60) = 6;
     FX(arg0, u8, 0x61) = 0;
     FX(arg0, void*, 0x58) = &D_8007433C;
-    pl = &D_800970A0;
+    pl = &g_Player;
     b = FX(pl, u8, 0x14);
     x = FX(arg0, s32, 0x8);
     y = FX(arg0, s32, 0xC);

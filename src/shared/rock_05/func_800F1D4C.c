@@ -13,6 +13,7 @@ s32 func_8002D2D4();
 
 void func_800F1D4C(void* arg0) {
     u32 r;
+    // !FAKE: depin: dropping it breaks the match (8/69)
     register u32 q asm("$5");
     s32 sel;
     s32 mode;

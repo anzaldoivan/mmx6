@@ -8,7 +8,7 @@ s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 s32 func_8002DCF4(void*, void*);
 s32 func_80031474(void*);
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_RideArmorObj D_800CD340;
 
 void func_800F3CA0(void* arg0) {
@@ -19,7 +19,7 @@ void func_800F3CA0(void* arg0) {
     s32 t;
     s32 c;
 
-    pl = &D_800970A0;
+    pl = &g_Player;
     if (FLD_F3CA0(pl, s8, 0xD5) == 0) {
         tgt = pl;
     } else {

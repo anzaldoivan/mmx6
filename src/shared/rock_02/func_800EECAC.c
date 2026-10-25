@@ -12,8 +12,8 @@ s32 func_8002A47C(s32);
 void* func_8002C458();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 s32 func_80031474(void*);
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_800FBC70;
 
 #define SET_ANIM(obj, id)                                                      \
@@ -69,6 +69,7 @@ void func_800EECAC(void* arg0) {
         switch (M2C_FIELD(arg0, s8*, 6)) {
         case 0:
             if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
+                // !FAKE: depin: macro pin; drop breaks match (82/400)
                 SET_ANIM(arg0, 0xC);
                 func_80016C48(2, 7, arg0);
                 M2C_FIELD(arg0, s16*, 0x7C) = 0;
@@ -107,7 +108,7 @@ void func_800EECAC(void* arg0) {
             }
             break;
         case 1:
-            if (D_800970A0.unk2 == 0) {
+            if (g_Player.unk2 == 0) {
                 if (M2C_FIELD(arg0, s16*, 0x7C) == 0 ||
                     M2C_FIELD(arg0, s16*, 0x7C) == 8 ||
                     M2C_FIELD(arg0, s16*, 0x7C) == 0x10 ||
@@ -135,7 +136,7 @@ void func_800EECAC(void* arg0) {
         M2C_FIELD(arg0, u8*, 0x5C) = 0x7F;
         r = func_80031474(arg0);
         M2C_FIELD(arg0, u16*, 0x42) &= 0x7FFF;
-        if (D_800970A0.unk2 == 0) {
+        if (g_Player.unk2 == 0) {
             if (!((r >= 0x13 && r < 0x17) || r == 0x33 || r == 0x34)) {
                 goto tail;
             }
@@ -143,6 +144,7 @@ void func_800EECAC(void* arg0) {
             goto tail;
         }
         M2C_FIELD(M2C_FIELD(arg0, void**, 0x80), s8*, 5) = 0x63;
+        // !FAKE: depin: macro pin; drop breaks match (82/400)
         SET_ANIM(arg0, 0x10);
         func_80016C48(2, 9, arg0);
         func_80016C48(2, 0x14, arg0);
@@ -162,17 +164,18 @@ void func_800EECAC(void* arg0) {
             return;
         case 1:
             if (++M2C_FIELD(arg0, s16*, 0x7C) == 0x3C) {
-                if (D_800970A0.x_pos.i.hi < 0x1878) {
+                if (g_Player.x_pos.i.hi < 0x1878) {
                     M2C_FIELD(arg0, s16*, 0xA) = 0x18E0;
                 } else {
                     M2C_FIELD(arg0, s16*, 0xA) = 0x1810;
                 }
                 M2C_FIELD(arg0, s16*, 0xE) = 0x100;
-                if (D_800970A0.x_pos.i.hi > M2C_FIELD(arg0, s16*, 0xA)) {
+                if (g_Player.x_pos.i.hi > M2C_FIELD(arg0, s16*, 0xA)) {
                     M2C_FIELD(arg0, u8*, 0x15) = 0x40;
                 } else {
                     M2C_FIELD(arg0, u8*, 0x15) = 0;
                 }
+                // !FAKE: depin: macro pin; drop breaks match (82/400)
                 SET_ANIM(arg0, 0xF);
                 func_80016C48(2, 9, arg0);
                 M2C_FIELD(arg0, s8*, 5) = 0;
@@ -187,4 +190,4 @@ void func_800EECAC(void* arg0) {
         return;
     }
 }
-#undef D_800970A0
+#undef g_Player

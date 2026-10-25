@@ -9,7 +9,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002D2D4();
 void func_800FA150(void*, s32);
 void func_800FA234(void*, s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj D_800CCED0;
 extern s8 D_800FD2EC[];
 extern u8 D_800FDA78[];
@@ -23,6 +23,7 @@ void func_800F6998(void* arg0) {
     func_80016C48(2, 0x21, arg0);
     func_800179A4(arg0, 8);
     {
+        // !FAKE: depin: dropping it breaks the match (110/113)
         register s32 six asm("$2") = 6;
         M2C_FIELD(arg0, s8*, 0x60) = six;
     }
@@ -42,7 +43,7 @@ void func_800F6998(void* arg0) {
     if (D_800FDA7C < D_800FD2EC[(u8)D_800CCED0.player_initial_data[0x46]]) {
         func_800FA150(arg0, 1);
     }
-    if (M2C_FIELD(arg0, s16*, 0xA) < D_800970A0.x_pos.i.hi) {
+    if (M2C_FIELD(arg0, s16*, 0xA) < g_Player.x_pos.i.hi) {
         M2C_FIELD(arg0, u8*, 0x15) = 0x40;
         M2C_FIELD(arg0, s32*, 0x20) = 0xFFFB0000;
         M2C_FIELD(arg0, s32*, 0x28) = -0x4000;

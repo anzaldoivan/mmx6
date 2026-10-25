@@ -37,6 +37,7 @@ M2C_UNK func_8003CD9C();
 
 s32 func_80038594(void* arg0) {
     s32 c;
+    // !FAKE: depin: dropping it breaks the match (120/125)
     register s32 m asm("$4");
     s32 s;
     s32 w;

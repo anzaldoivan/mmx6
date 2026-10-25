@@ -10,8 +10,9 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 
 void func_800F527C(struct X4_MainObj* arg0) {
     u8* p;
-    register s32 t asm("$3");
-    register s32 v asm("$2");
+    s32 t;
+    s32 v;
+    // !FAKE: depin: dropping it breaks the match (29/65)
     register s16 d asm("$2");
 
     ((M2C_UNK(*)())func_80017A04)();

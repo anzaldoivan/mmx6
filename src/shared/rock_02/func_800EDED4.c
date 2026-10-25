@@ -11,7 +11,7 @@ M2C_UNK func_80017A04();
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8002A47C(s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 extern s32 D_800FAF08;
 
 void func_800EDED4(void* arg0) {
@@ -43,6 +43,6 @@ void func_800EDED4(void* arg0) {
     }
     M2C_FIELD(arg0, s32*, 0x24) -= M2C_FIELD(arg0, s32*, 0x2C);
     func_80017A04(arg0);
-    ((void (*)(void*))func_8002D2B0)(arg0);
+    ((void (*)(void*))move_object)(arg0);
     func_8002CCB0(arg0, 0xA0, 0xA0);
 }

@@ -10,8 +10,8 @@ void func_801EC6D0(void*, s32);
 extern s32 D_80090C90[];
 extern s8 D_80090D56;
 extern s16 D_80090D5C;
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s8 D_8009742C;
 extern s16 D_80097430;
 extern u8 D_800C4560;
@@ -35,7 +35,7 @@ void func_801EA724(u8* arg0) {
         for (i = 0; i < 16; i++) {
             D_80090C90[i + 16] = D_801F4DE8[i];
         }
-        player = &D_800970A0;
+        player = &g_Player;
         {
             s8* p0 = &D_80090D56;
             s8* p1 = &D_8009742C;
@@ -125,4 +125,4 @@ void func_801EA724(u8* arg0) {
         }
     }
 }
-#undef D_800970A0
+#undef g_Player

@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/55C4.c:func_80016E84, AGPL-3.0; proven shared with X6 by exact signature adc4ba01bdcd (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/55C4.c:func_80016E84, AGPL-3.0; proven shared with X6 by exact signature adc4ba01bdcd (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 int func_80060964(int mode);
@@ -14,9 +14,9 @@ void func_80018B60(void) {
 
     u8 sp10;
 
-    if (((int (*)())func_80064874)(1, 0) == 0x02) {
+    if (func_80064874(1, 0) == 0x02) {
         sp10 = 0x80 | 0x40 | 0x08;
-        if (((int (*)())func_800648D4)(0x0e, &sp10, &D_800E2E40) != 0) {
+        if (func_800648D4(0x0e, &sp10, &D_800E2E40) != 0) {
             func_80060964(3);
             D_800E2E18 = 6;
             if (D_800E2E40[0] & 0x10) {

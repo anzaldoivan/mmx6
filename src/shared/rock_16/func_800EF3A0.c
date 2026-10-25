@@ -12,6 +12,7 @@ extern s32 D_800F0E74[];
 #define EF3A0_U8(o) (*(u8*)((s8*)arg0 + (o)))
 
 void func_800EF3A0(void* arg0) {
+    // !FAKE: depin: dropping it breaks the match (51/54)
     register s32 t asm("$2");
     func_800179D0(arg0, 3, EF3A0_ENG_2A);
     t = D_800CCED0.unk5F;

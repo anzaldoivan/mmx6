@@ -3,6 +3,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 M2C_UNK func_80017A04();
 void func_800EBED0(void* arg0) {
+    // !FAKE: depin: dropping it breaks the match (22/27)
     register s32 t asm("$2");
     func_80017A04(arg0);
     t = M2C_FIELD(arg0, u16*, 0x7C) - 1;

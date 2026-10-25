@@ -10,6 +10,7 @@ M2C_UNK func_80049E50(void*);
 
 void func_801EEFC0(struct X4_WeaponObj* arg0) {
     s8 temp_v1;
+    // !FAKE: depin: dropping it breaks the match (39/79)
     register s32 t asm("$4");
 
     if (func_8002CBFC((struct X4_BaseObj*)arg0, 0x10, 0x10) == 0) {
@@ -35,6 +36,7 @@ void func_801EEFC0(struct X4_WeaponObj* arg0) {
         if ((t & 0xFF) == 8) {
             func_800179A4(arg0, 2);
             {
+                // !FAKE: depin: dropping it breaks the match (76/79)
                 register s32 c1 asm("$2") = 1;
                 M2C_FIELD(arg0, u8*, 0x75) = c1;
             }
@@ -49,6 +51,7 @@ void func_801EEFC0(struct X4_WeaponObj* arg0) {
             return;
         }
         {
+            // !FAKE: depin: dropping it breaks the match (77/79)
             register s32 m asm("$2") = t & 7;
             if (m != 0) {
                 func_80049E50(arg0);

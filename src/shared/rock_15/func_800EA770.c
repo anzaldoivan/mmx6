@@ -25,12 +25,16 @@ void func_800EA770(struct X4_PlayerObj* self) {
     void* tbl;
 
     if (self->unk2 == 0) {
+        // !FAKE: depin: dropping it breaks the match (155/162)
         register void* p asm("$2");
+        // !FAKE: depin: dropping it breaks the match (155/162)
         register s32 n asm("$4");
+        // !FAKE: depin: dropping it breaks the match (49/162)
         register void* q asm("$3");
         s32 vx;
         s16 x;
         u8 dir;
+        // !FAKE: depin: dropping it breaks the match (28/162)
         register s32 t asm("$2");
 
         func_8002943C(8, 2, 2);

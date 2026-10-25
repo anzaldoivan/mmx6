@@ -1,8 +1,8 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3954;
 extern s32 D_801F395C;
 M2C_UNK func_800179A4(void*, M2C_UNK);
@@ -11,8 +11,8 @@ M2C_UNK func_80049E50(void*);
 s32 func_801EE34C();
 
 void func_801EF9C8(struct X4_WeaponObj* arg0) {
-    arg0->unk15 = D_800970A0.unk15;
-    func_801EE34C(arg0, &D_800970A0, arg0->id);
+    arg0->unk15 = g_Player.unk15;
+    func_801EE34C(arg0, &g_Player, arg0->id);
     if (arg0->animation_step.fields.event == 1) {
         func_800179A4(arg0, 1);
         arg0->unk88.half = 3;
@@ -37,4 +37,4 @@ void func_801EF9C8(struct X4_WeaponObj* arg0) {
         }
     }
 }
-#undef D_800970A0
+#undef g_Player

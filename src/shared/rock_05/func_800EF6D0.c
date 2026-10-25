@@ -12,8 +12,8 @@ extern struct X4_EngineObj D_800CCED0;
 void func_800EF6D0(void* arg0) {
     u8 v;
     u8* e;
-    register s32 t asm("$4");
-    register u8* q asm("$3");
+    s32 t;
+    u8* q;
 
     if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
         func_8003D308(0x14, 0x40);
@@ -25,6 +25,7 @@ void func_800EF6D0(void* arg0) {
         M2C_FIELD(e, void**, 0x20) = arg0;
         func_80025FD8();
         {
+            // !FAKE: depin: dropping it breaks the match (61/65)
             register s32 k asm("$3") = 0x30;
             M2C_FIELD(e, u8*, 0x8C) = k;
         }
@@ -36,12 +37,14 @@ void func_800EF6D0(void* arg0) {
         }
         q = (u8*)&D_800CCED0;
         {
+            // !FAKE: depin: dropping it breaks the match (62/65)
             register u8* w asm("$4") = SCRATCH_4C;
+            // !FAKE: depin: dropping it breaks the match (34/65)
             register s32 r asm("$2") = M2C_FIELD(q, u8*, 0x8C);
             M2C_FIELD(w, u8*, 0x87) = r;
         }
         {
-            register s32 k asm("$2") = 0xFFFF0000;
+            s32 k = 0xFFFF0000;
             M2C_FIELD(arg0, s32*, 0x24) = k;
         }
         M2C_FIELD(arg0, s8*, 0x15) = 0;

@@ -2,14 +2,15 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj D_800CCED0;
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 
 void func_80051924(struct X4_PlayerObj* arg0) {
-    struct X4_PlayerObj* p = &D_800970A0;
+    struct X4_PlayerObj* p = &g_Player;
     s16 d;
+    // !FAKE: depin: dropping it breaks the match (66/72)
     register s32 dx asm("$2");
 
     d = p->x_pos.i.hi - arg0->x_pos.i.hi;

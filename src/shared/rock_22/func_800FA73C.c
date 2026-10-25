@@ -8,13 +8,13 @@
 M2C_UNK func_80017A04();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 M2C_UNK func_80030ECC(void*);
 M2C_UNK func_80049D90(void*);
 
 void func_800FA73C(u8* arg0) {
     func_80017A04();
-    func_8002D2B0((s32)arg0);
+    move_object((s32)arg0);
     {
         // !FAKE: test byte lands in the first return register
         register s32 t asm("$2") = M2C_FIELD(arg0, u8*, 0x70);

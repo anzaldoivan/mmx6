@@ -9,13 +9,14 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 #define func_8002CCB0 func_8002CCB0
 void func_8003CF24(s32, s32, s32);
-M2C_UNK func_8003D510(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2, M2C_UNK arg3);
-#define func_8003D510 func_8003D510
+M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
+                            M2C_UNK arg3);
+#define player_spawn_visual player_spawn_visual
 s32 func_801EE34C();
 extern s32 D_8007615C[];
 extern s32 D_80076164[];
 extern s32 D_80077A0C[];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
 #define SCRATCH_1C (*(u8**)0x1F80001C)
@@ -28,7 +29,7 @@ void func_800445A8(struct X4_WeaponObj* arg0) {
     arg0->unk68 = (struct X4_Unk_unk68*)D_80076164;
     arg0->unk64 = 1;
     arg0->animation_table = (u32**)D_80077A0C;
-    player = &D_800970A0;
+    player = &g_Player;
     if (player->unk2 != 0) {
         arg0->unk38 = SCRATCH_14 + *(s32*)(SCRATCH_14 + 0xC);
         arg0->unk3C = SCRATCH_1C + *(s32*)(SCRATCH_1C + 0x20);
@@ -80,9 +81,9 @@ void func_800445A8(struct X4_WeaponObj* arg0) {
     func_8002CCB0(arg0, 0x20, 0x20);
     F_S8(arg0, 0x90) = 0;
     F_S8(arg0, 0x8E) = 0;
-    func_8003D510(1, 0x1B, 2, 0);
+    player_spawn_visual(1, 0x1B, 2, 0);
 }
 #undef func_80016C48
 #undef func_800179A4
 #undef func_8002CCB0
-#undef func_8003D510
+#undef player_spawn_visual

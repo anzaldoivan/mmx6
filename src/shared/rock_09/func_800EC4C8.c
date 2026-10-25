@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/mains/main_32_bomb_bat.c:bomb_bat_drop_start, AGPL-3.0; proven shared with X6 by exact signature 32f9f02b5c88 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @6a6b455 src/main/mains/main_32_bomb_bat.c:bomb_bat_drop_start, AGPL-3.0; proven shared with X6 by exact signature 32f9f02b5c88 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_Unk_unk68 D_800F5F04;

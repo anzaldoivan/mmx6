@@ -5,7 +5,7 @@
 M2C_UNK func_800179A4(void*, M2C_UNK);
 struct X4_VisualObj* func_8002C398(void);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj D_800CCED0;
 
 void func_80051C68(struct X4_PlayerObj* arg0) {
@@ -14,7 +14,7 @@ void func_80051C68(struct X4_PlayerObj* arg0) {
 
     if (arg0->unk72 & 8) {
         ((void (*)(void*, s32))func_800179A4)(arg0, 1);
-        player = &D_800970A0;
+        player = &g_Player;
         func_8003D308(0x18, player->unk15);
         obj = func_8002C398();
         if (obj != 0) {

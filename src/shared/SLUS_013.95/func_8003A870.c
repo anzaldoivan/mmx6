@@ -5,7 +5,7 @@
 
 s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_8003F3DC(void*);
-void func_8003F4C4(struct X4_PlayerObj* self, s32 animation);
+void player_set_animation_shooting(struct X4_PlayerObj* self, s32 animation);
 
 s32 func_8003A870(void* arg0) {
     if (M2C_FIELD(arg0, s8*, 0xD3) != 0) {
@@ -25,7 +25,7 @@ s32 func_8003A870(void* arg0) {
         M2C_FIELD(arg0, s8*, 0x67) = 1;
         M2C_FIELD(arg0, s32*, 0x20) = 0;
         M2C_FIELD(arg0, s32*, 0x24) = M2C_FIELD(arg0, s32*, 0xF8) * 2;
-        func_8003F4C4(arg0, 0xA);
+        player_set_animation_shooting(arg0, 0xA);
         M2C_FIELD(arg0, s8*, 0x8B) = 0xA;
         func_8003F3DC(arg0);
         {

@@ -18,6 +18,7 @@ void func_800F7B9C(u8* arg0) {
     if ((*(s16*)(arg0 + 0x7C))++ >= 0x79) {
         func_800179A4(arg0, 8);
         {
+            // !FAKE: depin: dropping it breaks the match (47/50)
             register s32 t asm("$2") = arg0[6] + 1;
             arg0[6] = t;
         }
@@ -27,6 +28,7 @@ void func_800F7B9C(u8* arg0) {
         func_80016C48(2, 0x3D, arg0);
         func_800179A4(arg0, 2);
         {
+            // !FAKE: depin: dropping it breaks the match (48/50)
             register s32 t asm("$2") = 5;
             arg0[6] = t;
         }

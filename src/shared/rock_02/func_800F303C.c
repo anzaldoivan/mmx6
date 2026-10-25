@@ -6,13 +6,13 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 extern s16 D_800970AA;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 #define SPAD (*(u8**)0x1F80004C)
 #define CENTER                                                                 \
     ({                                                                         \
-        s32 l_ = D_800971F8[0].unk1E - 320;                                    \
-        D_800971F8[0].unk1E + (D_800971F8[0].unk1C - l_) / 2;                  \
+        s32 l_ = background_objects[0].unk1E - 320;                            \
+        background_objects[0].unk1E + (background_objects[0].unk1C - l_) / 2;  \
     })
 
 void func_800F303C(void* arg0) {

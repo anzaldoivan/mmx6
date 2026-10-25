@@ -7,6 +7,7 @@ M2C_UNK func_80017A04();
 M2C_UNK func_800F82C0();
 
 void func_800F712C(u8* arg0) {
+    // !FAKE: depin: dropping it breaks the match (23/30)
     register s32 t asm("$2");
     func_800F82C0();
     func_80017A04(arg0);

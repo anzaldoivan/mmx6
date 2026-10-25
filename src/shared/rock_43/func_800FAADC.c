@@ -32,6 +32,7 @@ void func_800FAADC(struct X4_MainObj* self) {
         {
             u8* b;
             s32 i;
+            // !FAKE: depin: dropping it breaks the match (78/136)
             register s32 k asm("$3") = self->unk7C;
             b = (u8*)&D_800FDE30 + 0x2E4;
             i = 0x41 - k;
@@ -58,12 +59,13 @@ void func_800FAADC(struct X4_MainObj* self) {
         }
         {
             u8* b;
-            register s32 i asm("$2");
+            s32 i;
             i = self->unk7C - 0x7E;
             b = (u8*)&D_800FDE30 + 0x2E4;
             {
+                // !FAKE: depin: dropping it breaks the match (37/136)
                 register s32 u asm("$3") = M2C_FIELD(self, u16*, 0x88);
-                register s32 w asm("$7") = *(u16*)(b + i * 2);
+                s32 w = *(u16*)(b + i * 2);
                 M2C_FIELD(self, u16*, 0xA) = u + w;
             }
         }
@@ -74,6 +76,7 @@ void func_800FAADC(struct X4_MainObj* self) {
         if (t == 0x8E) {
             func_800179A4(self, 0);
             {
+                // !FAKE: depin: dropping it breaks the match (134/136)
                 register s32 c asm("$2") = M2C_FIELD(self, u16*, 0x88);
                 M2C_FIELD(self, u16*, 0xA) = c;
             }

@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 extern s16 D_800970AA;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_80097202;
 extern u8 D_80100D18[][7];
 extern u16 D_80100D28[][2];
@@ -55,8 +55,8 @@ void func_800FC704(struct X4_AnimatedObj* arg0) {
         F(u16, 0x92) = D_80100D28[sw][1];
         break;
     case 0:
-        F(u16, 0x90) = F(u16, 0x88) - D_800971F8[0].x_pos.i.hi;
-        F(u16, 0x92) = F(u16, 0x8A) - D_800971F8[0].y_pos.i.hi;
+        F(u16, 0x90) = F(u16, 0x88) - background_objects[0].x_pos.i.hi;
+        F(u16, 0x92) = F(u16, 0x8A) - background_objects[0].y_pos.i.hi;
         break;
     }
     arg0->unk6++;

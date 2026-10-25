@@ -347,6 +347,7 @@
 {"k":"data","addr":"0x800eb4e4","type":"/undefined *","len":4}
 {"k":"data","addr":"0x800eb4e8","type":"/undefined *","len":4}
 {"k":"comment","addr":"0x800e9d7c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800e9e3c","type":"plate","text":"x4: jet_stingray_vortex_finish [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_56_jet_stingray.c:jet_stingray_vortex_finish"}
 {"k":"comment","addr":"0x800ea4d8","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ea920","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"bookmark","addr":"0x800e9898","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800e9898)"}

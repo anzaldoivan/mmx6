@@ -4,7 +4,7 @@
   x4names.py --build
       -> reads campaign/x4/partners.tsv and the line-1 headers of src/shared/**/*.c (x4port.ADAPTED); admits a row
          when its X4 name is real (not func_8XXXXXXX), it has exactly one X4 partner and it is 8 words or more;
-         writes campaign/x4/names.tsv, sorted by (prog, vram, kind), tab-separated, NO header row (so the row count of
+         writes config/x4/names.tsv, sorted by (prog, vram, kind), tab-separated, NO header row (so the row count of
          the last line equals `wc -l`):
              prog  vram  kind  x6name  alias  tier  scope  votes  basis
          kind   func | data (--widen only)
@@ -69,6 +69,26 @@
   x4names.py --doc
       -> (re)writes docs/x4-names.md from names.tsv: the aliases grouped by mmx4 source file, the tier `slot` rows
          as leads, and `## For phase 1.10`
+  x4names.py --promote [--votes <path>]
+      -> host; reads names.tsv, the votes (default .run/x4names/votes.tsv, the container's --widen output) and
+         config/symbols/basis.tsv; rewrites the basis rows of kind `x4` only (hand rows kept verbatim) and writes
+         config/x4/held.tsv (docs/naming.md). A func row is admitted when tier gate, scope engine, one partner
+         (no ` same-name`/` slot` suffix) and a corroborator: caller (a vote at its address for its alias by another
+         voter), callee (its own voter's vote on an address whose exact alias, never a slot one, is the voted symbol) or hand (a basis row of
+         kind string|xref|oracle|debug|community there); a vote there for another symbol holds it. A data row is
+         admitted when tier slot, scope engine, votes a/0 with a >= 3. Voters compare without `.c`. basis.tsv
+         `prog vram name basis-kind basis-ref tier`, the x4 basis-ref = the names basis without `x4 ` plus
+         `; corroborator caller <voter>|callee <voter> <prog>:<vram>|hand <kind>` (func rows); held.tsv
+         `prog vram kind x6name alias tier scope reason` (every failing clause, comma-separated). The votes used are
+         copied to campaign/x4/votes.tsv (rewrite later with --votes that path). A voter that is no names
+         row's basis `path:function` -> `X4NAMES promote REFUSE stale votes <voter>` rc 1; no votes file ->
+         `X4NAMES promote REFUSE no votes (run --widen in the container)` rc 1. Lines
+         `X4NAMES promote rows <n> = admitted <a> + held <h>`, last `X4NAMES promote <a> admitted (func <f> data <d>);
+         held <h>`
+  x4names.py --upstream
+      -> host; config/x4/upstream.tsv, one row per non-x4 basis.tsv row whose X6 function has one mmx4 partner
+         (partners.tsv) under another name: `prog vram mmx4-path:function proposed-name basis-kind basis-ref`
+         (handed to mmx4 by the developer only). Last line `X4NAMES upstream <n> rows`
   x4names.py --self-test
       -> planted table in .run/x4names-selftest/: a two-partner row, a func_8 partner and a 7-word row are each
          refused, one good row is admitted with its tier and scope. 2a: a planted class whose partners share one
@@ -77,7 +97,10 @@
          with one occurrence is a unique hit, two occurrences in one program are refused, constant fill and an
          address-looking word are refused. slot_objects (container: needs
          build/src/SLUS_013.95/120A0.c.o and the corpus; on the host `X4NAMES CASE slot_objects skipped no-objects`):
-         a renamed copy of our own object as the X4 side through the real relocation pairing. Ends
+         a renamed copy of our own object as the X4 side through the real relocation pairing. promote (planted, in
+         .run/x4names-selftest/promote/): a caller-voted admit, an object-scope row held `scope object`, a lone
+         gate+engine row held `no corroborator`, a hand string row that corroborates a row and yields one upstream
+         row. Ends
          `X4NAMES CONTROL OK`, rc 1 on any miss
 
 Admission, tiers, widening, --who and the doc writer live in x4core.py (shared with mmx5, byte-identical; its own
@@ -160,7 +183,143 @@ def who(text):
 
 
 def doc():
-    return x4core.doc(x4adapter)
+    return x4adapter.doc()  # x4core.doc + the adapter's header prose (DOC_HEAD)
+
+
+# ---- promotion: names.tsv rows -> config/symbols/basis.tsv `x4` rows (admitted) | config/x4/held.tsv --------------
+
+BASIS = ROOT / "config/symbols/basis.tsv"
+HELD = ROOT / "config/x4/held.tsv"
+UPSTREAM = ROOT / "config/x4/upstream.tsv"
+VOTES = SCRATCH / "votes.tsv"
+VOTES_LOG = ROOT / "campaign/x4/votes.tsv"  # the votes a --promote used, for a rewrite without --widen
+BASIS_HEAD = "# prog\tvram\tname\tbasis-kind\tbasis-ref\ttier"
+HELD_HEAD = "# prog\tvram\tkind\tx6name\talias\ttier\tscope\treason"
+UP_HEAD = "# prog\tvram\tmmx4-path:function\tproposed-name\tbasis-kind\tbasis-ref"
+HAND = ("string", "xref", "oracle", "debug", "community")  # the hand basis kinds that corroborate an x4 row
+MIN_DATA_VOTES = 3
+
+
+def norm_voter(v):
+    """`path[.c]:function` -> `path:function` (x4core votes name the source without `.c`, basis rows with it)."""
+    path, _, fn = v.rpartition(":")
+    return f"{path[:-2] if path.endswith('.c') else path}:{fn}"
+
+
+def own_voter(basis):
+    """The row's own `path:function` (normalised) from an `x4 exact|...` basis, else None (a slot row)."""
+    f = basis.split()
+    return norm_voter(f[4]) if len(f) >= 5 and f[1] == "exact" and ":" in f[4] else None
+
+
+def read_tsv(path):
+    """Rows of a TAB file, `#` lines skipped; [] when absent."""
+    if not os.path.isfile(path):
+        return []
+    return [x.split("\t") for x in Path(path).read_text().splitlines() if x and not x.startswith("#")]
+
+
+def write_tsv(path, head, lines):
+    os.makedirs(Path(path).parent, exist_ok=True)
+    Path(path).write_text("\n".join([head] + lines) + "\n")
+
+
+def promote(names, votes_path, basis, held, votes_log):
+    """The admission rules of docs/naming.md over names.tsv + votes + the hand basis rows (module header)."""
+    if not os.path.isfile(votes_path):
+        print(f"{TAG} promote REFUSE no votes (run --widen in the container)")
+        return 1
+    rows = load(names)
+    votes = read_tsv(votes_path)  # prog vram jump|addr symbol voter
+    known = {own_voter(r[8]) for r in rows} - {None}
+    for v in sorted({norm_voter(v[4]) for v in votes}):
+        if v not in known:
+            print(f"{TAG} promote REFUSE stale votes {v}")
+            return 1
+    if Path(votes_path).resolve() != Path(votes_log).resolve():
+        os.makedirs(Path(votes_log).parent, exist_ok=True)
+        shutil.copyfile(votes_path, votes_log)
+    # callee targets: exact rows only; a slot row exists because of these same votes (circular, T6 review)
+    alias = {(r[0], r[1]): r[4] for r in rows if r[8].startswith("x4 exact")}
+    at, by = {}, {}
+    for prog, vram, _, sym, voter in votes:
+        at.setdefault((prog, vram), []).append((sym, norm_voter(voter)))
+        by.setdefault(norm_voter(voter), []).append((prog, vram, sym))
+    hand_raw = ["\t".join(f) for f in read_tsv(basis) if f[3] != "x4"]  # hand rows, kept verbatim
+    hand = {}
+    for x in hand_raw:
+        f = x.split("\t")
+        if f[3] in HAND:
+            hand.setdefault((f[0], f[1]), set()).add(f[3])
+    out, kept, nf, nd = [], [], 0, 0
+    for r in rows:
+        prog, vram, kind, x6, al, tier, scope, vt, bs = r
+        why, corr = [], None
+        if scope != "engine":
+            why.append(f"scope {scope}")
+        sym_at = at.get((prog, vram), [])
+        conflict = any(s != al for s, _ in sym_at)
+        if kind == "data":
+            if tier != "slot":
+                why.append(f"tier {tier}")
+            a, _, d = vt.partition("/")
+            if not a.isdigit() or int(a) < MIN_DATA_VOTES:
+                why.append(f"anchors {a}")
+            if conflict or d not in ("", "0"):
+                why.append("vote conflict")
+        else:
+            if tier != "gate":
+                why.append(f"tier {tier}")
+            m = re.search(r" (same-name|slot) (\d+)$", bs)
+            if m:
+                why.append(f"partners {m.group(1)} {m.group(2)}")
+            me = own_voter(bs)
+            caller = sorted({v for s, v in sym_at if s == al and v != me})
+            callee = sorted(f"{p}:{a}" for p, a, s in by.get(me, ()) if alias.get((p, a)) == s) if me else []
+            hk = [k for k in HAND if k in hand.get((prog, vram), ())]
+            if caller:
+                corr = f"caller {caller[0]}"
+            elif callee:
+                corr = f"callee {me} {callee[0]}"
+            elif hk:
+                corr = f"hand {hk[0]}"
+            if conflict:
+                why.append("vote conflict")
+            elif corr is None:
+                why.append("no corroborator")
+        if why:
+            kept.append("\t".join([prog, vram, kind, x6, al, tier, scope, ", ".join(why)]))
+            continue
+        ref = bs[3:] if bs.startswith("x4 ") else bs
+        if corr:
+            ref += f"; corroborator {corr}"
+        out.append((prog, vram, "x4", "\t".join([prog, vram, al, "x4", ref, tier])))
+        nf, nd = nf + (kind != "data"), nd + (kind == "data")
+    for x in hand_raw:
+        f = x.split("\t")
+        out.append((f[0], f[1], f[3], x))
+    write_tsv(basis, BASIS_HEAD, [x for *_, x in sorted(out)])
+    write_tsv(held, HELD_HEAD, sorted(kept, key=lambda x: (x.split("\t")[:3], x)))
+    a = nf + nd
+    assert a + len(kept) == len(rows), (a, len(kept), len(rows))
+    print(f"{TAG} promote rows {len(rows)} = admitted {a} + held {len(kept)}")
+    print(f"{TAG} promote {a} admitted (func {nf} data {nd}); held {len(kept)}")
+    return 0
+
+
+def upstream(basis, partners, out):
+    """One row per non-x4 basis row whose X6 function has one mmx4 partner under another name (module header)."""
+    part = {(c[0], c[1]): c for c in read_tsv(partners)}
+    lines = []
+    for f in read_tsv(basis):
+        c = part.get((f[0], f[1]))
+        if f[3] == "x4" or c is None or c[7] != "1" or c[6] == f[2]:
+            continue
+        lines.append("\t".join([f[0], f[1], f"{c[5]}:{c[6]}", f[2], f[3], f[4]]))
+    lines = sorted(set(lines))
+    write_tsv(out, UP_HEAD, lines)
+    print(f"{TAG} upstream {len(lines)} rows")
+    return 0
 
 
 # ---- 2c: the X4 executable off the medium, data tables by content (measured, lane not built) -------------------------
@@ -400,6 +559,39 @@ def slot_objects():
                         f"{admitted[func][0]} and {admitted[data][0]} removed {gone}, conflicts {len(conf2)}")
 
 
+def promote_cases():
+    """Planted names/votes/basis/partners: caller-corroborated admit, object scope, no corroborator, hand string."""
+    d = SELFTEST / "promote"
+    os.makedirs(d)
+    pin = f"sozud/mmx4@{x4port.PIN}"
+    ex = lambda k, p, f: f"x4 exact {k * 12} {pin} {p}:{f}"  # noqa: E731
+    names = [("0x80020000", "planted_admit", "gate", "engine", ex("a", "src/main/p.c", "planted_admit")),
+             ("0x80020100", "planted_caller", "gate", "object", ex("b", "src/main/weapons/q.c", "planted_caller")),
+             ("0x80020200", "planted_lonely", "gate", "engine", ex("c", "src/main/p.c", "planted_lonely")),
+             ("0x80020300", "planted_hand", "gate", "engine", ex("d", "src/main/p.c", "planted_hand"))]
+    (d / "names.tsv").write_text("".join(f"PLANTED\t{v}\tfunc\tfunc_{v[2:]}\t{al}\t{t}\t{s}\t-\t{b}\n"
+                                         for v, al, t, s, b in names))
+    (d / "votes.tsv").write_text("PLANTED\t0x80020000\tjump\tplanted_admit\tsrc/main/weapons/q:planted_caller\n")
+    (d / "basis.tsv").write_text(f"{BASIS_HEAD}\nPLANTED\t0x80020300\thand_name\tstring\tplanted text ref\t-\n")
+    (d / "partners.tsv").write_text("PLANTED\t0x80020300\tfunc_80020300\t9\t" + "d" * 12 +
+                                    "\tsrc/main/p.c\tplanted_hand\t1\tinclude_asm\n")
+    rc = promote(d / "names.tsv", d / "votes.tsv", d / "basis.tsv", d / "held.tsv", d / "votes.log.tsv")
+    up = rc or upstream(d / "basis.tsv", d / "partners.tsv", d / "upstream.tsv")
+    b = {(f[1], f[3]): f for f in read_tsv(d / "basis.tsv")}
+    h = {f[1]: f[7] for f in read_tsv(d / "held.tsv")}
+    u = read_tsv(d / "upstream.tsv") if not up else []
+    a0, a3 = b.get(("0x80020000", "x4")), b.get(("0x80020300", "x4"))
+    fails = case("promote_caller", rc == 0 and a0 is not None
+                 and a0[4].endswith("; corroborator caller src/main/weapons/q:planted_caller"),
+                 f"admitted {a0[2] + ' ' + a0[4].rpartition('; ')[2] if a0 else 'none'}")
+    fails += case("promote_object", h.get("0x80020100") == "scope object", f"held {h.get('0x80020100')}")
+    fails += case("promote_nocorr", h.get("0x80020200") == "no corroborator", f"held {h.get('0x80020200')}")
+    good = (a3 is not None and a3[4].endswith("; corroborator hand string") and ("0x80020300", "string") in b
+            and [f[2:4] for f in u] == [["src/main/p.c:planted_hand", "hand_name"]])
+    return fails + case("promote_hand", good, f"admitted {a3[2] if a3 else 'none'} by hand string; "
+                        f"hand row kept {('0x80020300', 'string') in b}; upstream {len(u)} rows")
+
+
 def self_test():
     shutil.rmtree(SELFTEST, ignore_errors=True)
     os.makedirs(SELFTEST / "shared/planted")
@@ -422,6 +614,7 @@ def self_test():
             fails.append(name)
     fails += case("lane_triple", x4adapter.TRIPLE == x4port.TRIPLE, f"x4adapter.TRIPLE {x4adapter.TRIPLE}")
     fails += widen_cases()
+    fails += promote_cases()
     for name in fails:
         print(f"X4NAMES CONTROL FAIL {name}")
     if fails:
@@ -447,6 +640,11 @@ def main(argv):
         return who(argv[1])
     if argv == ["--doc"]:
         return doc()
+    if argv == ["--promote"] or (len(argv) == 3 and argv[:2] == ["--promote", "--votes"]):
+        votes = Path(argv[2]) if len(argv) == 3 else VOTES
+        return promote(NAMES, votes if votes.is_absolute() else ROOT / votes, BASIS, HELD, VOTES_LOG)
+    if argv == ["--upstream"]:
+        return upstream(BASIS, PARTNERS, UPSTREAM)
     if argv == ["--self-test"]:
         return self_test()
     print(__doc__.strip(), file=sys.stderr)

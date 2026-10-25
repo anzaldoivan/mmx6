@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
@@ -22,7 +22,7 @@ void func_800EF304(void* arg0) {
     angle = func_80065B74(F(s16, 0xE) - 0x48, x - F(s16, 0xA));
     F(s32, 0x20) = func_80065A14(angle) << 5;
     F(s32, 0x24) = func_80065944(angle) << 5;
-    func_8002D2B0(arg0);
+    move_object(arg0);
     t = F(s16, 0xA);
     d = x - t;
     if (d >= 0) {

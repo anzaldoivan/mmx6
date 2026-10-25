@@ -8,8 +8,8 @@ M2C_UNK func_80048584(void*, u8);
 extern u8 D_80077B44[];
 
 void func_80048268(void* arg0) {
-    register s32 t asm(
-        "$2"); // !FAKE: depin: dropping it breaks the match (55/70)
+    // !FAKE: depin: dropping it breaks the match (55/70)
+    register s32 t asm("$2");
 
     if (M2C_FIELD(M2C_FIELD(arg0, void**, 0x50), u8*, 0x16) != 0) {
         func_80048584(arg0, 0);

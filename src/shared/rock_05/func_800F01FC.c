@@ -6,7 +6,7 @@ M2C_UNK func_80012D9C(M2C_UNK);
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8002D2D4();
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 extern s16 D_800F4480;
 
@@ -16,9 +16,9 @@ void func_800F01FC(struct X4_MainObj* self) {
         return;
     }
     if (!(D_80097420 & 1)) {
-        D_800971F8[0].y_pos.u.hi += 2;
+        background_objects[0].y_pos.u.hi += 2;
     } else {
-        D_800971F8[0].y_pos.u.hi -= 2;
+        background_objects[0].y_pos.u.hi -= 2;
     }
     if (self->unk7E != 0) {
         if (self->unk7E == 3) {

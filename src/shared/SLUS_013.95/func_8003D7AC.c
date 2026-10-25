@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 extern u16 D_8006D600[];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 u16 func_8003D7AC(u16 arg0) {
     u16 result;
@@ -29,7 +29,7 @@ u16 func_8003D7AC(u16 arg0) {
     if ((result & 0xC) == 0xC) {
         result &= 0xFFF3;
     }
-    if (D_800970A0.unk2 == 0) {
+    if (g_Player.unk2 == 0) {
         v = (result * 2) & 0x20;
         if (result & 0x20) {
             v |= 0x10;

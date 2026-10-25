@@ -1,17 +1,18 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern s32 D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern s32 g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s16 D_800F6BE8;
 
 void func_800F1064(struct X4_MainObj* arg0) {
     s16 x;
+    // !FAKE: depin: dropping it breaks the match (39/56)
     register s32 p asm("$6");
     s32 d;
 
     if (++arg0->unk7C == 0x3C) {
-        p = D_800970A0.x_pos.i.hi;
+        p = g_Player.x_pos.i.hi;
         x = arg0->x_pos.i.hi;
         d = p - x;
         if (d >= 0) {
@@ -31,7 +32,7 @@ void func_800F1064(struct X4_MainObj* arg0) {
             }
         } else {
         near:
-            if (D_800970A0.x_pos.i.hi > arg0->x_pos.i.hi) {
+            if (g_Player.x_pos.i.hi > arg0->x_pos.i.hi) {
                 arg0->unk15 = 0x40;
             } else {
                 arg0->unk15 = 0;
@@ -42,4 +43,4 @@ void func_800F1064(struct X4_MainObj* arg0) {
         arg0->unk6 = 8;
     }
 }
-#undef D_800970A0
+#undef g_Player

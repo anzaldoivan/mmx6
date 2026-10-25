@@ -3,7 +3,7 @@
 
 extern u16 D_8008EC10;
 extern u16 D_80090D6A;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800A21B8[3][32][64];
 extern u8 D_800CD338;
 extern u8 D_800CD339;
@@ -32,7 +32,7 @@ void func_800269F4(u8 arg0) {
     u8** tm;
 
     tm = &SP_BG_TILEMAP;
-    base = D_800971F8;
+    base = background_objects;
     bg = &base[arg0];
     p = bg->pad51[1];
     if (p < 0) {
@@ -87,5 +87,5 @@ void func_800269F4(u8 arg0) {
             row++;
         }
     }
-    D_800971F8[arg0].unk4C = 0;
+    background_objects[arg0].unk4C = 0;
 }

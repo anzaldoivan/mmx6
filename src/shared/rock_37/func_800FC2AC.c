@@ -4,7 +4,7 @@
 
 void func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 s32 func_8002D2D4();
 
 void func_800FC2AC(void* arg0) {
@@ -25,7 +25,7 @@ void func_800FC2AC(void* arg0) {
         self->input.buttons.held = 0x5A;
         return;
     }
-    ((void (*)(void*))func_8002D2B0)(arg0);
+    ((void (*)(void*))move_object)(arg0);
     self->unk5 = 2;
     self->unk6 = 1;
 }

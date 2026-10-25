@@ -13,6 +13,7 @@ void func_800ECC38(void* arg0) {
     s8* end;
     u32 n;
     s8* o;
+    // !FAKE: depin: dropping it breaks the match (101/103)
     register u16 t asm("$2");
 
     func_80017A04();

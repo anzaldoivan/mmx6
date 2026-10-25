@@ -7,7 +7,7 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 void func_80025FD8();
 void* func_8002BCCC(void*, s32);
 M2C_UNK func_8003D308(M2C_UNK, u8);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 extern struct X4_EngineObj D_800CCED0;
 
@@ -18,7 +18,7 @@ void func_800F6254(void* arg0) {
 
     if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
         func_8003D308(0x14, 0x40);
-        D_800971F8[0].unk26 = D_800971F8[0].unk24;
+        background_objects[0].unk26 = background_objects[0].unk24;
     }
     if (*M2C_FIELD(arg0, s8**, 0x80) == 0) {
         u8* e = (u8*)&D_800CCED0;

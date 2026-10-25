@@ -13,7 +13,7 @@ s32 func_80031474(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
 void func_800F4664(s16 arg0, s16 arg1);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_800FC99C;
 extern s32 D_800FC9A0;
 extern u8 D_800FC9C0[];
@@ -43,20 +43,22 @@ void func_800EED14(void* arg0) {
                 x = 0x10 - (func_8002D2D4() & 0x1F);
                 dy = 0x10 - (func_8002D2D4() & 0x1F);
                 t = dy + 8;
-                tx = D_800971F8[0].x_pos.u.hi + 0x10;
-                func_800F4664(x + tx, D_800971F8[0].y_pos.i.hi + (y + t));
+                tx = background_objects[0].x_pos.u.hi + 0x10;
+                func_800F4664(x + tx,
+                              background_objects[0].y_pos.i.hi + (y + t));
                 x = 0x10 - (func_8002D2D4() & 0x1F);
                 dy = 0x10 - (func_8002D2D4() & 0x1F);
                 t = dy + 8;
-                tx = D_800971F8[0].x_pos.u.hi + 0x130;
-                func_800F4664(x + tx, D_800971F8[0].y_pos.i.hi + (y + t));
+                tx = background_objects[0].x_pos.u.hi + 0x130;
+                func_800F4664(x + tx,
+                              background_objects[0].y_pos.i.hi + (y + t));
             }
-            func_80027BA0(0, D_800971F8[0].x_pos.i.hi, D_800971F8[0].y_pos.i.hi,
-                          D_800FC9C0);
-            func_80027BA0(0, D_800971F8[0].x_pos.i.hi + 0x120,
-                          D_800971F8[0].y_pos.i.hi, &D_800FC9C0[8]);
+            func_80027BA0(0, background_objects[0].x_pos.i.hi,
+                          background_objects[0].y_pos.i.hi, D_800FC9C0);
+            func_80027BA0(0, background_objects[0].x_pos.i.hi + 0x120,
+                          background_objects[0].y_pos.i.hi, &D_800FC9C0[8]);
             D_800FD51F = 0;
-            D_800971F8[0].unk4C = 1;
+            background_objects[0].unk4C = 1;
             D_800FD521 = 0;
         }
         goto block_14;
@@ -69,9 +71,9 @@ void func_800EED14(void* arg0) {
             break;
         }
         M2C_FIELD(arg0, u16*, 0xA) =
-            D_800971F8[0].x_pos.u.hi + M2C_FIELD(arg0, u16*, 0xA);
+            background_objects[0].x_pos.u.hi + M2C_FIELD(arg0, u16*, 0xA);
         M2C_FIELD(arg0, u16*, 0xE) =
-            D_800971F8[0].y_pos.u.hi + M2C_FIELD(arg0, u16*, 0xE);
+            background_objects[0].y_pos.u.hi + M2C_FIELD(arg0, u16*, 0xE);
         M2C_FIELD(arg0, s8*, 3) = 0;
         ((void (*)(void*))func_80049E50)(arg0);
         M2C_FIELD(arg0, s32*, 0x54) = 0;
@@ -93,9 +95,9 @@ void func_800EED14(void* arg0) {
         case 0x10:
             D_800FD522 -= 1;
             M2C_FIELD(arg0, u16*, 0xA) =
-                D_800971F8[0].x_pos.u.hi + M2C_FIELD(arg0, u16*, 0xA);
+                background_objects[0].x_pos.u.hi + M2C_FIELD(arg0, u16*, 0xA);
             M2C_FIELD(arg0, u16*, 0xE) =
-                D_800971F8[0].y_pos.u.hi + M2C_FIELD(arg0, u16*, 0xE);
+                background_objects[0].y_pos.u.hi + M2C_FIELD(arg0, u16*, 0xE);
             M2C_FIELD(arg0, s8*, 3) = 0;
             ((void (*)(void*))func_80049E50)(arg0);
             M2C_FIELD(arg0, s32*, 0x54) = 0;

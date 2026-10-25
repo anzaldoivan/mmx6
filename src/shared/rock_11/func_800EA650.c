@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK func_8002D2B0();
+M2C_UNK move_object();
 void func_800EAB04(void*);
 extern u16 D_80097202;
 #define D_80097202 (*(s16*)&D_80097202)
@@ -12,8 +12,9 @@ extern u8 D_800FB26C[];
 
 void func_800EA650(void* self) {
     ((void (**)(void*))(D_800FB26C + 0xB7C))[M2C_FIELD(self, s8*, 0x6)](self);
-    func_8002D2B0(self);
+    move_object(self);
     {
+        // !FAKE: depin: dropping it breaks the match (47/51)
         register u8* p asm("$2") = SPAD;
         if (p[0x88] == 0) {
             if ((M2C_FIELD(self, u8*, 0x15) == 0 &&

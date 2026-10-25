@@ -14,6 +14,7 @@ extern void* D_800F6C08;
 void func_800EC4DC(void* arg0) {
     func_80017A04();
     {
+        // !FAKE: depin: dropping it breaks the match (77/83)
         register s32 t asm("$2") = M2C_FIELD(arg0, u8*, 0x84) + 1;
         M2C_FIELD(arg0, u8*, 0x84) = t;
         if ((u8)t == 0x20) {

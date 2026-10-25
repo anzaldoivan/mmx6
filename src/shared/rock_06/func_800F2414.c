@@ -5,13 +5,13 @@
 
 M2C_UNK func_8002CD6C(void*);
 
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern s8 D_800CCEF6;
 extern void (*D_800F3A50[])(void*);
 
 void func_800F2414(void* self) {
     {
-        void* pl = &D_800970A0;
+        void* pl = &g_Player;
         if (M2C_FIELD(pl, s8*, 0xD0) == 0) {
             M2C_FIELD(self, u16*, 0x88) = M2C_FIELD(pl, u16*, 0x7C);
             M2C_FIELD(self, u16*, 0x8A) = M2C_FIELD(pl, u16*, 0x80);
@@ -21,7 +21,7 @@ void func_800F2414(void* self) {
         }
     }
     {
-        void* pl = &D_800970A0;
+        void* pl = &g_Player;
         if (M2C_FIELD(pl, s8*, 0xCC) != 0) {
             func_8002CD6C(self);
             return;

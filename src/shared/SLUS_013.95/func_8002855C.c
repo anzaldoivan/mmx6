@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_8002855C(struct X4_BackgroundObj* arg0) {
     s16 q;
@@ -12,10 +12,10 @@ void func_8002855C(struct X4_BackgroundObj* arg0) {
     u16 y;
     u16 t2;
 
-    q2 = (D_800971F8[0].x_pos.i.hi * 3) / 4;
+    q2 = (background_objects[0].x_pos.i.hi * 3) / 4;
     x = q2 + (s16)arg0->unk40;
     arg0->x_pos.i.hi = x;
-    q = (D_800971F8[0].y_pos.i.hi * 3) / 4;
+    q = (background_objects[0].y_pos.i.hi * 3) / 4;
     arg0->y_pos.i.hi = q + (s16)arg0->unk42;
     t = arg0->unk14.u.hi;
     d = x - t;

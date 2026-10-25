@@ -6,13 +6,14 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 s32 func_8002D2D4();
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F5378(struct X4_AnimatedObj* arg0) {
     s32 r;
     s32 n;
     s32 m;
-    register s32 x asm("$2");
+    s32 x;
+    // !FAKE: depin: dropping it breaks the match (114/138)
     register s32 y asm("$3");
 
     if (M2C_FIELD(arg0, s8*, 0x45) == 2) {
@@ -28,23 +29,23 @@ void func_800F5378(struct X4_AnimatedObj* arg0) {
         switch (r) {
         case 0:
             arg0->unk15 = 0;
-            arg0->x_pos.i.hi = D_800971F8[0].x_pos.i.hi + 0x120;
-            arg0->y_pos.i.hi = D_800971F8[0].y_pos.i.hi + 0x20;
+            arg0->x_pos.i.hi = background_objects[0].x_pos.i.hi + 0x120;
+            arg0->y_pos.i.hi = background_objects[0].y_pos.i.hi + 0x20;
             break;
         case 1:
             arg0->unk15 = 0x40;
-            arg0->x_pos.i.hi = D_800971F8[0].x_pos.i.hi + 0x20;
-            arg0->y_pos.i.hi = D_800971F8[0].y_pos.i.hi + 0x20;
+            arg0->x_pos.i.hi = background_objects[0].x_pos.i.hi + 0x20;
+            arg0->y_pos.i.hi = background_objects[0].y_pos.i.hi + 0x20;
             break;
         case 2:
             arg0->unk15 = 0x40;
-            arg0->x_pos.i.hi = D_800971F8[0].x_pos.i.hi + 0x20;
-            arg0->y_pos.i.hi = D_800971F8[0].y_pos.i.hi + 0x90;
+            arg0->x_pos.i.hi = background_objects[0].x_pos.i.hi + 0x20;
+            arg0->y_pos.i.hi = background_objects[0].y_pos.i.hi + 0x90;
             break;
         case 3:
             arg0->unk15 = 0;
-            arg0->x_pos.i.hi = D_800971F8[0].x_pos.i.hi + 0x120;
-            arg0->y_pos.i.hi = D_800971F8[0].y_pos.i.hi + 0x90;
+            arg0->x_pos.i.hi = background_objects[0].x_pos.i.hi + 0x120;
+            arg0->y_pos.i.hi = background_objects[0].y_pos.i.hi + 0x90;
             break;
         }
         m = (u8)((u32)func_8002D2D4() % 3);

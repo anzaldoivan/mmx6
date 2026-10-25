@@ -10,6 +10,7 @@ M2C_UNK func_8002D230(void*);
 extern struct X4_MainObj* D_800F7DEC;
 
 void func_800F3FB0(void* arg0) {
+    // !FAKE: depin: dropping it breaks the match (59/70)
     register void* p asm("$2");
     u8 f;
     u8 t;
@@ -24,6 +25,7 @@ void func_800F3FB0(void* arg0) {
         M2C_FIELD(arg0, s16*, 0xA) = M2C_FIELD(p, s16*, 0xA) - 3;
     }
     {
+        // !FAKE: depin: dropping it breaks the match (67/70)
         register s32 e asm("$4") = M2C_FIELD(p, u16*, 0xE) - 6;
         M2C_FIELD(arg0, s16*, 0xE) = e;
     }

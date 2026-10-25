@@ -22,14 +22,15 @@ void func_800E9CA8(struct X4_BaseObj* self) {
     s32 dir;
 
     {
+        // !FAKE: depin: dropping it breaks the match (106/108)
         register s32 x asm("$2") = M2C_FIELD(self, s32*, 0x8);
-        register s32 y asm("$4") = M2C_FIELD(self, s32*, 0xC);
+        s32 y = M2C_FIELD(self, s32*, 0xC);
         M2C_FIELD(self, s32*, 0x18) = x;
         M2C_FIELD(self, s32*, 0x1C) = y;
     }
     {
-        register u8* tbl asm("$3") = D_800ED718;
-        register void* fn asm("$5") = ((void**)tbl)[self->unk5];
+        u8* tbl = D_800ED718;
+        void* fn = ((void**)tbl)[self->unk5];
         ((void (*)(struct X4_BaseObj*))fn)(self);
     }
     func_80017A04(self);

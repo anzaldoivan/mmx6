@@ -10,7 +10,7 @@ s32 func_8002A47C(s32);
 void* func_8002C458();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern M2C_UNK D_8007433C;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s8 D_800CCF01;
 extern M2C_UNK D_800F67C0;
 extern M2C_UNK D_800F67C8;
@@ -22,9 +22,10 @@ void func_800EFC90(void* self) {
     s32 n;
     s32 m;
     void* obj;
-    register u8 c asm("$5");
+    u8 c;
     u16 x;
     struct X4_PlayerObj* pl;
+    // !FAKE: depin: dropping it breaks the match (136/144)
     register s32 two asm("$18");
 
     {
@@ -40,10 +41,11 @@ void func_800EFC90(void* self) {
         } while (0);
     }
     {
+        // !FAKE: depin: dropping it breaks the match (137/144)
         register void* a asm("$2") = &D_8007433C;
         F(void*, 0x58) = a;
     }
-    pl = &D_800970A0;
+    pl = &g_Player;
     F(s8, 0x5C) = 0;
     F(s8, 0x61) = 0;
     F(s8, 3) = 0;
@@ -86,7 +88,7 @@ void func_800EFC90(void* self) {
         M2C_FIELD(obj, s32*, 0x3C) = F(s32, 0x3C);
         M2C_FIELD(obj, u16*, 0x40) = F(u16, 0x40);
         M2C_FIELD(obj, u8*, 0x15) = F(u8, 0x15);
-        M2C_FIELD(obj, u8*, 0x14) = D_800970A0.bg_offset;
+        M2C_FIELD(obj, u8*, 0x14) = g_Player.bg_offset;
         x = F(u16, 0xA);
         M2C_FIELD(obj, u16*, 0x8) = 0;
         M2C_FIELD(obj, u16*, 0xA) = x;

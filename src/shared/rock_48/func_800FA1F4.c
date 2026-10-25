@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 struct X4_QuadObj* func_8002C7F0(void);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800FA1F4(struct X4_BackgroundObj* arg0) {
     u8* q = (u8*)func_8002C7F0();
@@ -13,9 +13,9 @@ void func_800FA1F4(struct X4_BackgroundObj* arg0) {
         q[0x36] = 0x11;
         q[2] = 1;
     }
-    D_800971F8[2].unk3 = 1;
-    D_800971F8[2].x_pos.i.hi = 0;
-    D_800971F8[2].y_pos.i.hi = 0;
+    background_objects[2].unk3 = 1;
+    background_objects[2].x_pos.i.hi = 0;
+    background_objects[2].y_pos.i.hi = 0;
     *(s16*)&arg0->unk4 = 0x3C;
     arg0->unk1++;
 }

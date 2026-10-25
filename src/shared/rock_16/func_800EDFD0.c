@@ -20,8 +20,8 @@ void func_800EDFD0(void* arg0) {
     DFD0_PTR(0x30) = D_800F11E0;
     DFD0_U8(0x16) = 3;
     if (v < 2) {
-        register u8* p asm("$5");
-        register s32 a asm("$6");
+        u8* p;
+        s32 a;
         p = DFD0_SCRATCH;
         p += *(s32*)(p + 0);
         DFD0_S16(0x42) = 0x780D;
@@ -32,8 +32,8 @@ void func_800EDFD0(void* arg0) {
         DFD0_U8(5) = 0;
         ((void (*)(void*, s32, s32))func_800179D0)(arg0, v, 0);
     } else if (v < 4) {
-        register u8* p asm("$5");
-        register s32 a asm("$6");
+        u8* p;
+        s32 a;
         p = DFD0_SCRATCH;
         p += *(s32*)(p + 8);
         DFD0_S16(0x42) = 0x788E;
@@ -45,7 +45,7 @@ void func_800EDFD0(void* arg0) {
         ((void (*)(void*, s32, s32))func_800179D0)(arg0, v, 1);
     } else if (v < 6) {
         u8* p;
-        register s32 a asm("$6");
+        s32 a;
         DFD0_S16(0x42) = 0x7843;
         p = DFD0_SCRATCH;
         p += *(s32*)(p + 4);

@@ -22,6 +22,15 @@ the game. Callers: x4share.py (the partner table), x4names.py (the names table a
          the export's order; a function's own comment field follows its entry's plate comment), written
          to <path> (scratch; config/ghidra is never written here). Never a rename. Last line
          `X4NAMES ghidra <prog> <n> aliases: <new> new plate comments, <appended> appended, <kept> already there`
+  x4adapter.py --mirror --out <dir>
+      -> the symbol mirror into the Ghidra database (tools/mmx6/ghidra/mirror.sh applies it): per program
+         (SLUS_013.95 + import.sh --list) <dir>/<prog>.jsonl = the program row of config/ghidra/<prog>.jsonl + delta
+         records only. A renamed symbol (config/symbols.<prog>.txt: a `// basis:`-annotated name != func_/D_<ADDR>):
+         a `func` record first when the export has no function there (creates it), a `label` {primary, USER_DEFINED,
+         func for type:func}, the basis line as plate comment. Every other names.tsv row of <prog>: its plate line.
+         Plate text = the export's plate + the new line unless already there. Every record is emitted on a rerun too
+         (Ghidra counts it unchanged). Last line per program
+         `X4NAMES mirror <prog> <r> renames (<f> new funcs): <new> new plate comments, <appended> appended, <kept> already there`
 """
 import json
 import os
@@ -46,7 +55,7 @@ OBJROOT = f"{SCR}/{TRIPLE}/obj"
 EXE = "SLUS_013.95"
 PARTNERS = ROOT / "campaign/x4/partners.tsv"
 SHARED = ROOT / "src/shared"
-NAMES = ROOT / "campaign/x4/names.tsv"
+NAMES = ROOT / "config/x4/names.tsv"
 DOC = ROOT / "docs/x4-names.md"
 SCRATCH = ROOT / ".run/x4names"  # --widen intermediates: container only, never pulled or tracked
 GHIDRA = ROOT / "config/ghidra"
@@ -59,9 +68,9 @@ PHASE_1_10 = """## For phase 1.10
 Handoff for the planner of phase 1.10 (Readability). Nothing here is applied yet: every row above is an alias.
 
 Proposed row amendment:
-- Scope gains "X4-proven renames applied by script from `campaign/x4/names.tsv`".
-- Milestone gains "every rename-admitted row of names.tsv is applied or listed with a reason; no tool derives an
-  address from a symbol's spelling".
+- Scope gains "X4-proven renames applied by script from `config/x4/names.tsv`".
+- Milestone gains "every rename-admitted row of names.tsv is applied or listed with a reason".
+- Milestone gains "no tool derives an address from a symbol's spelling".
 
 Rename admission:
 - `kind func` with tier `gate` and scope `engine`.
@@ -70,22 +79,53 @@ Rename admission:
 - Everything else stays an alias.
 
 Order of work:
-1. Remove name-to-address code: `tools/mmx6/probe.py:105-131`, `tools/mmx6/bound2.py:526`, the `func_` filter at
-   `tools/mmx6/cards.py:350`, the address-named self-test constants (`bank.py:61`, `gate.py:73`, `corpus.py:381`,
-   `x4port.py:74`, `x4share.py:68`, `carve.py:641`, `mk/tools-health.mk:162-164`); each self-test gains a planted
-   non-address name.
-2. A rename tool: writes `alias = 0xADDR;` with its `// basis:` line into `config/symbols.<prog>.txt`, rewrites
-   definitions, calls, prototypes, `INCLUDE_ASM` names, the `define` fields of `config/dedup_registry.txt`,
-   `src/shared` file names and `THIRD_PARTY.md` (through `x4port.py --credits`); never touches generated assembly
-   (G6); writes `campaign/x4/renames.tsv` old-to-new so journal history stays searchable. Executable symbols
-   referenced from overlays are renamed in every overlay's files (C0125).
-3. Gate: clean fleet N of N; a rename is byte-neutral, so any difference is a missed reference.
+1. Remove name-to-address code: `tools/mmx6/probe.py:184-228`, `tools/mmx6/bound2.py:512-530` and the `func_`
+   filter at `tools/mmx6/cards.py:385`. Also `sdk.py:435`, `x4port.py:202` and `x4core.py:798`. The address-named
+   self-test constants go too: `bank.py:61`, `gate.py:73`, `corpus.py:382`, `x4port.py:86`, `x4share.py:69`,
+   `carve.py:657-715` and `mk/tools-health.mk:162-164`. Each self-test gains a planted non-address name.
+2. A rename tool writes `alias = 0xADDR;` with its `// basis:` line into `config/symbols.<prog>.txt`. It rewrites
+   definitions, calls, prototypes and `INCLUDE_ASM` names. It also rewrites the `define` fields of
+   `config/dedup_registry.txt`, the `src/shared` file names and `THIRD_PARTY.md` (through `x4port.py --credits`).
+   It never touches generated assembly (G6). It writes `config/x4/renames.tsv` old-to-new, so journal history stays
+   searchable. Executable symbols referenced from overlays are renamed in every overlay's files (C0125).
+3. Gate: a clean fleet N of N. A rename is byte-neutral, so any difference is a missed reference.
 4. Rename-coverage scanner.
 5. Ghidra mirror by script: `label` records with `func:true` through `ImportAnnotations.java`, round-trip green.
 """
 DOC_TEXT = dict(title="X4 names for shared X6 code", tool="tools/mmx6/x4names.py",
                 note=" Prior-art row: `docs/prior-art.md` L5a.", lookup="alias text | func_8XXXXXXX | PROG:0xVRAM",
                 tail=PHASE_1_10)
+# x4core.doc's header prose (shared with mmx5, byte-identical: never edited here), rewritten for the style gate
+# (psxd_publish.py style): (core text, this repo's text). Each core text must match once, else doc() refuses.
+_W, _G = x4core.MIN_WORDS, GAME
+DOC_HEAD = (
+    ("--doc` from `config/x4/names.tsv`; never hand-edited.", "--doc` from `config/x4/names.tsv`. Never hand-edited."),
+    (f"A `gate` or `bytes`\nrow is an {_G} function of {_W} words or more whose compiled body equals an mmx4 function "
+     f"under {_G}'s compiler: its\nonly partner, or partners that all carry one name (`same-name <n>` in the basis), "
+     "or the one partner the\nrelocation slots of other aliased functions point at (`slot <n>`). The name is an alias: "
+     "a search key for the\n",
+     f"A `gate` or `bytes`\nrow is an {_G} function of {_W} words or more. Its compiled body equals an mmx4 function "
+     f"under {_G}'s compiler.\n\nThat function is its only partner, or one of partners that all carry one name "
+     "(`same-name <n>` in the basis).\nOtherwise it is the one partner the relocation slots of other aliased "
+     "functions point at (`slot <n>`).\nThe name is an alias: a search key for the "),
+    ("- scope `object`: the mmx4 source is one object's file; identical bytes do not prove the same role, so the\n"
+     "  name stays an alias until a role basis exists.",
+     "- scope `object`: the mmx4 source is one object's file. Identical bytes do not prove the same role. The\n"
+     "  name stays an alias until a role basis exists."),
+)
+
+
+def doc():
+    """x4core.doc over this adapter, then DOC_HEAD's rewrites of the core's header prose (DOC is regenerated whole)."""
+    rc = x4core.doc(sys.modules[__name__])
+    text = DOC.read_text()
+    for old, new in DOC_HEAD:
+        if text.count(old) != 1:
+            sys.exit(f"{TAG} doc refused: x4core header text changed, DOC_HEAD needs a new match for {old[:40]!r}")
+        text = text.replace(old, new)
+    with open(DOC, "w", newline="\n") as f:
+        f.write(text)
+    return rc
 
 
 # ---- the toolchain ---------------------------------------------------------------------------------------------------
@@ -262,9 +302,97 @@ def ghidra(prog, out):
     return 0
 
 
+SYMBOL = re.compile(r"^(\w+) = (0x[0-9A-Fa-f]+);(.*)$")  # config/symbols.<prog>.txt: `name = 0xADDR; // attrs`
+BASIS = "// basis: "
+
+
+def renamed(prog):
+    """[(vram int, name, basis text, is_func)] of config/symbols.<prog>.txt: annotated names != func_/D_<ADDR>."""
+    out, prev = [], ""
+    for line in (ROOT / f"config/symbols.{prog}.txt").read_text().splitlines():
+        m = SYMBOL.match(line)
+        if m:
+            a = int(m.group(2), 16)
+            if prev.startswith(BASIS) and not re.fullmatch(r"(func|D)_%08X" % a, m.group(1), re.I):
+                out.append((a, m.group(1), prev[len(BASIS):], "type:func" in m.group(3)))
+        prev = line
+    return out
+
+
+def mirror_one(prog, out):
+    lines = (GHIDRA / f"{prog}.jsonl").read_text().splitlines()
+    head = [x for x in lines if x.startswith('{"k":"program"')]
+    funcs = {int(json.loads(x)["addr"], 16) for x in lines if x.startswith('{"k":"func"')}
+    plate = {}
+    for x in lines:
+        if x.startswith('{"k":"comment"'):
+            r = json.loads(x)
+            if r["type"] == "plate":
+                plate[int(r["addr"], 16)] = r["text"]
+    n = dict(new=0, appended=0, kept=0)
+
+    def merge(a, text):  # the full plate text at a with text as one of its lines
+        cur = plate.get(a)
+        if cur is None:
+            plate[a], k = text, "new"
+        elif text in cur.split("\n"):
+            k = "kept"
+        else:
+            plate[a], k = cur + "\n" + text, "appended"
+        n[k] += 1
+        return plate[a]
+
+    def rec(d):
+        return json.dumps(d, separators=(",", ":"), ensure_ascii=False)
+
+    body, made = [], 0
+    ren = renamed(prog)
+    for a, name, basis, is_func in ren:
+        addr, text = f"0x{a:08x}", merge(a, basis)
+        if is_func and a not in funcs:
+            body.append(rec({"k": "func", "addr": addr, "name": name, "ret": "/undefined", "cc": "unknown",
+                             "varargs": False, "noreturn": False, "inline": False, "custom": False, "sigsrc": "DEFAULT",
+                             "params": [], "locals": [], "comment": text}))
+            made += 1
+        body.append(rec({"k": "label", "addr": addr, "name": name, "primary": True, "src": "USER_DEFINED",
+                         "func": is_func or a in funcs}))
+        body.append(rec({"k": "comment", "addr": addr, "type": "plate", "text": text}))
+    done = {a for a, *_ in ren}
+    for _, vram, line in x4core.ghidra_aliases(NAMES, prog):
+        a = int(vram, 16)
+        if a in done:
+            continue
+        body.append(rec({"k": "comment", "addr": f"0x{a:08x}", "type": "plate", "text": merge(a, line)}))
+    # a later line at the same address carries the merged text of all; keep only the last plate record per address
+    last = {}
+    for i, x in enumerate(body):
+        if x.startswith('{"k":"comment"'):
+            last[json.loads(x)["addr"]] = i
+    body = [x for i, x in enumerate(body) if not x.startswith('{"k":"comment"') or last[json.loads(x)["addr"]] == i]
+    with open(out / f"{prog}.jsonl", "w", newline="\n") as f:
+        f.write("".join(x + "\n" for x in head + body))
+    print(f"{TAG} mirror {prog} {len(ren)} renames ({made} new funcs): {n['new']} new plate comments, "
+          f"{n['appended']} appended, {n['kept']} already there")
+
+
+def mirror(out):
+    import subprocess
+    out = Path(out)
+    os.makedirs(out, exist_ok=True)
+    listed = subprocess.run(["bash", str(ROOT / "tools/mmx6/ghidra/import.sh"), "--list"], capture_output=True,
+                            text=True, check=True).stdout
+    progs = [EXE] + [x.split()[0] for x in listed.splitlines() if x.strip()]
+    for prog in progs:
+        mirror_one(prog, out)
+    print(f"{TAG} mirror {len(progs)} programs -> {out}")
+    return 0
+
+
 def main(argv):
     if len(argv) == 4 and argv[0] == "--ghidra" and argv[2] == "--out":
         return ghidra(argv[1], argv[3])
+    if len(argv) == 3 and argv[0] == "--mirror" and argv[1] == "--out":
+        return mirror(argv[2])
     print(__doc__.strip(), file=sys.stdout if argv in (["--help"], ["-h"]) else sys.stderr)
     return 0 if argv in (["--help"], ["-h"]) else 2
 

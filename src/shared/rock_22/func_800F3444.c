@@ -33,6 +33,7 @@ void func_800F3444(u8* arg0) {
         func_80049E50(arg0);
         func_800477E4(8, &D_800FC5F8, arg0);
         {
+            // !FAKE: depin: dropping it breaks the match (91/94)
             register u8* sp asm("$4") = SPAD;
             x = M2C_FIELD(arg0, s16*, 0xA);
             y = M2C_FIELD(arg0, s16*, 0xE);

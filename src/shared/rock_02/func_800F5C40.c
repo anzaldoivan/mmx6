@@ -13,6 +13,7 @@ void func_800F5C40(void* self) {
 
     func_800F82C0();
     {
+        // !FAKE: depin: dropping it breaks the match (28/33)
         register s32 t asm("$2");
         t = M2C_FIELD(self, u16*, 0x7C) - 1;
         M2C_FIELD(self, u16*, 0x7C) = t;

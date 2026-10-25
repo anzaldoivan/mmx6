@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 struct X4_EffectObj* func_8002C3F8(void);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 #define F8(p, o) (*(u8*)((u8*)(p) + (o)))
 #define S8(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -12,8 +12,8 @@ extern struct X4_BackgroundObj D_800971F8[3];
 void func_800EA1CC(void* arg0) {
     void* obj;
     s32 v;
-    register s32 w asm(
-        "$2"); // !FAKE: depin: dropping it breaks the match (58/69)
+    // !FAKE: depin: dropping it breaks the match (58/69)
+    register s32 w asm("$2");
 
     if (--F16(arg0, 0x7C) == 0) {
         obj = func_8002C3F8();
@@ -21,10 +21,10 @@ void func_800EA1CC(void* arg0) {
             F8(obj, 0) = 1;
             F8(obj, 1) = 0x1A;
             F8(obj, 2) = 1;
-            F16(obj, 0xA) =
-                D_800971F8[0].x_pos.i.hi + D_800971F8[1].x_pos.i.hi + 0xA0;
-            F16(obj, 0xE) =
-                D_800971F8[0].y_pos.i.hi - D_800971F8[1].y_pos.i.hi + 0x390;
+            F16(obj, 0xA) = background_objects[0].x_pos.i.hi +
+                            background_objects[1].x_pos.i.hi + 0xA0;
+            F16(obj, 0xE) = background_objects[0].y_pos.i.hi -
+                            background_objects[1].y_pos.i.hi + 0x390;
             F32(arg0, 0x88) = obj;
         }
         F8(arg0, 5)++;

@@ -8,7 +8,7 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
-void func_8003C6A4(void* arg0);
+void player_spawn_dash_spark(void* arg0);
 extern s16 D_800970AA;
 
 void func_800FC5C8(struct X4_MainObj* self) {
@@ -29,7 +29,7 @@ void func_800FC5C8(struct X4_MainObj* self) {
         }
         func_80016C48(2, 0x85, self);
         func_80016C48(2, 0x97, self);
-        func_8003C6A4(self);
+        player_spawn_dash_spark(self);
     }
     if (M2C_FIELD(self, s8*, 0x45) == 2) {
         self->unk6++;

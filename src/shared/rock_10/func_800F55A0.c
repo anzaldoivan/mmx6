@@ -6,12 +6,12 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern M2C_UNK D_8007433C;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_800CCF38;
 
 #define OFS_X M2C_FIELD(arg0, s16*, 0x84)
@@ -22,9 +22,9 @@ void func_800F55A0(struct X4_AnimatedObj* arg0) {
     s32 angle;
     s32 s;
 
-    angle =
-        func_80065B74(arg0->y_pos.i.hi - (D_800971F8[0].y_pos.i.hi + OFS_Y),
-                      (D_800971F8[0].x_pos.i.hi + OFS_X) - arg0->x_pos.i.hi);
+    angle = func_80065B74(
+        arg0->y_pos.i.hi - (background_objects[0].y_pos.i.hi + OFS_Y),
+        (background_objects[0].x_pos.i.hi + OFS_X) - arg0->x_pos.i.hi);
     arg0->x_vel.val = func_80065A14(angle) << 6;
     s = func_80065944(angle);
     arg0->y_vel.val = s << 6;
@@ -48,7 +48,7 @@ void func_800F55A0(struct X4_AnimatedObj* arg0) {
         func_800179A4(arg0, 0x25);
     }
     if (arg0->unk17 == 0x27 || arg0->unk17 == 0x28) {
-        if (arg0->x_pos.i.hi - D_800971F8[0].x_pos.i.hi < 0xA0) {
+        if (arg0->x_pos.i.hi - background_objects[0].x_pos.i.hi < 0xA0) {
             arg0->unk15 = 0x40;
         } else {
             arg0->unk15 = 0;
@@ -58,11 +58,13 @@ void func_800F55A0(struct X4_AnimatedObj* arg0) {
     } else {
         arg0->unk15 = 0;
     }
-    ((void (*)(struct X4_AnimatedObj*))func_8002D2B0)(arg0);
-    if (ABS(OFS_X - (arg0->x_pos.i.hi - D_800971F8[0].x_pos.i.hi)) < 4) {
-        if (ABS(OFS_Y - (arg0->y_pos.i.hi - D_800971F8[0].y_pos.i.hi)) < 4) {
-            arg0->x_pos.i.hi = D_800971F8[0].x_pos.i.hi + OFS_X;
-            arg0->y_pos.i.hi = D_800971F8[0].y_pos.i.hi + OFS_Y;
+    ((void (*)(struct X4_AnimatedObj*))move_object)(arg0);
+    if (ABS(OFS_X - (arg0->x_pos.i.hi - background_objects[0].x_pos.i.hi)) <
+        4) {
+        if (ABS(OFS_Y - (arg0->y_pos.i.hi - background_objects[0].y_pos.i.hi)) <
+            4) {
+            arg0->x_pos.i.hi = background_objects[0].x_pos.i.hi + OFS_X;
+            arg0->y_pos.i.hi = background_objects[0].y_pos.i.hi + OFS_Y;
             M2C_FIELD(arg0, s16*, 0x7E)++;
             if (M2C_FIELD(arg0, s16*, 0x7E) >= 4) {
                 ((void (*)(void*, s32))func_800179A4)(arg0, 6);

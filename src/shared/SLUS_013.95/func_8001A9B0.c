@@ -34,10 +34,12 @@ void func_8001A9B0(void) {
     X4_RECT rect = D_80010090;
     s32 a1;
     s32 done;
-    register s32 b0 asm("$3") = 0x80103000;
+    s32 b0 = 0x80103000;
+    // !FAKE: depin: dropping it breaks the match (22/197)
     register s32 b1 asm("$6") = 0x80107000;
+    // !FAKE: depin: dropping it breaks the match (20/197)
     register s32 b2 asm("$7") = 0x80115000;
-    register s32 b3 asm("$8") = 0x80123000;
+    s32 b3 = 0x80123000;
 
     D_800E2E70 = b0;
     D_800E2E74 = b1;

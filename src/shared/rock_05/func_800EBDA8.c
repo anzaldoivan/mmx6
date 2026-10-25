@@ -8,7 +8,7 @@ M2C_UNK func_80012D9C(M2C_UNK);
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 void* func_8002C458();
 extern s8 D_800970A5;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800EBDA8(void* arg0) {
     void* o;
@@ -47,7 +47,7 @@ void func_800EBDA8(void* arg0) {
             M2C_FIELD(o2, s32*, 0xC) = M2C_FIELD(arg0, s32*, 0xC);
             M2C_FIELD(arg0, void**, 0x88) = o2;
         }
-        g = (u8*)D_800971F8;
+        g = (u8*)background_objects;
         M2C_FIELD(g, u8*, 0xAC) = 9;
         M2C_FIELD(g, s16*, 0xB2) = 0x3C0;
         M2C_FIELD(g, s16*, 0xB6) = 0x640;

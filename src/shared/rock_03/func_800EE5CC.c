@@ -5,14 +5,14 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_800179A4(void*, M2C_UNK); /* extern */
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern M2C_UNK D_800F77B0;
 extern M2C_UNK D_800F77B4;
 extern M2C_UNK D_800F77B8;
 extern M2C_UNK D_800F77EC;
 
 void func_800EE5CC(void* arg0) {
-    void* temp = &D_800970A0;
+    void* temp = &g_Player;
 
     M2C_FIELD(arg0, u8*, 0x5C) = 0x20;
     M2C_FIELD(arg0, u8*, 0x60) = 4;

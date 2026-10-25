@@ -1,14 +1,14 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern void (*D_8007622C[])(s8*);
 
 void func_80045E58(s8* arg0) {
     s8* p;
     s32 flag;
 
-    p = (s8*)&D_800970A0;
+    p = (s8*)&g_Player;
     flag = p[0xD3] != 0;
     if (p[0xD4] != 0) {
         flag = 1;

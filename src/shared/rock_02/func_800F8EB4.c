@@ -8,8 +8,8 @@ M2C_UNK func_80017A04();
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern M2C_UNK D_800FB304;
 extern M2C_UNK D_800FB310;
 
@@ -18,7 +18,7 @@ void func_800F8EB4(void* arg0) {
     void* g;
 
     ((M2C_UNK(*)())func_80017A04)();
-    g = &D_800970A0;
+    g = &g_Player;
     M2C_FIELD(arg0, s32*, 0x24) = 0xFFFF0000;
     M2C_FIELD(arg0, s32*, 0x20) = 0;
     M2C_FIELD(arg0, void**, 0x54) = &D_800FB304;
@@ -30,4 +30,4 @@ void func_800F8EB4(void* arg0) {
     M2C_FIELD(arg0, u8*, 0x8D) = 0x14;
     M2C_FIELD(arg0, u8*, 6) = M2C_FIELD(arg0, u8*, 6) + 1;
 }
-#undef D_800970A0
+#undef g_Player

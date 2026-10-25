@@ -52,6 +52,7 @@ void func_800EF804(void* arg0) {
                 M2C_FIELD(arg0, s32*, 0x2C) = 0;
                 M2C_FIELD(arg0, s16*, 0xE) = t - 0x4E;
             }
+            // !FAKE: depin: macro pin; drop breaks match (59/150)
             SET_ANIM2(arg0, 0x14, q);
             p = func_8002C458();
             if (p != 0) {
@@ -66,6 +67,7 @@ void func_800EF804(void* arg0) {
         break;
     case 1:
         if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
+            // !FAKE: depin: macro pin; drop breaks match (59/150)
             SET_ANIM(arg0, 0x15);
             M2C_FIELD(arg0, void**, 0x50) = &D_800FB290;
             M2C_FIELD(arg0, s32*, 0x8C) = 0;
@@ -74,6 +76,7 @@ void func_800EF804(void* arg0) {
         break;
     case 2:
         if (++M2C_FIELD(arg0, s32*, 0x8C) == 0x32) {
+            // !FAKE: depin: macro pin; drop breaks match (59/150)
             SET_ANIM(arg0, 0x16);
             M2C_FIELD(arg0, void**, 0x50) = 0;
             M2C_FIELD(arg0, s8*, 5)++;

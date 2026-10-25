@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 
 void func_801EFC70(u8* arg0) {
-    struct X4_PlayerObj* p = &D_800970A0;
+    struct X4_PlayerObj* p = &g_Player;
     if (p->unk6 == 0) {
         if (p->unk5 != 0x23) {
             if (p->unk5 < 0x24) {

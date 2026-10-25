@@ -5,7 +5,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 extern M2C_UNK D_800743DC;
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern u8 D_800CCF38;
 extern M2C_UNK D_800FAADC;
 extern M2C_UNK D_800FAAE0;
@@ -22,7 +22,7 @@ void func_800EAFFC(void* arg0) {
     M2C_FIELD(arg0, u8*, 0x60) = 4;
     M2C_FIELD(arg0, u8*, 0x61) = 0;
     M2C_FIELD(arg0, void**, 0x58) = &D_800743DC;
-    pl = (u8*)&D_800970A0;
+    pl = (u8*)&g_Player;
     b = M2C_FIELD(pl, u8*, 0x14);
     x = M2C_FIELD(arg0, s32*, 8);
     y = M2C_FIELD(arg0, s32*, 0xC);
@@ -47,6 +47,7 @@ void func_800EAFFC(void* arg0) {
     M2C_FIELD(arg0, void**, 0x50) = &D_800FAAE0;
     func_800179A4(arg0, 0);
     {
+        // !FAKE: depin: dropping it breaks the match (64/68)
         register s32 one asm("$2") = 1;
         M2C_FIELD(arg0, u8*, 5) = one;
     }

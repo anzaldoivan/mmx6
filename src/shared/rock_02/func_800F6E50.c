@@ -8,6 +8,7 @@ extern M2C_UNK D_8007523C;
 
 void func_800F6E50(void* arg0) {
     u8* p = SPAD4C;
+    // !FAKE: depin: dropping it breaks the match (29/36)
     register s32 t asm("$2");
 
     if (M2C_FIELD(p, s8*, 0x89) == 0) {

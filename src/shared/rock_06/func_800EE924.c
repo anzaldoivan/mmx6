@@ -7,8 +7,8 @@
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002DCF4(void*, void*);
 
-extern M2C_UNK D_800970A0;
-#define PLAYER (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define PLAYER (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_EngineObj D_800CCED0;
 extern struct X4_RideArmorObj D_800CD340;
 extern s32 D_800F3A44;
@@ -17,6 +17,7 @@ extern s32 D_800F3A48;
 void func_800EE924(struct X4_BaseObj* self) {
     struct X4_PlayerObj* pl;
     struct X4_EngineObj* en;
+    // !FAKE: depin: dropping it breaks the match (101/106)
     register void* saved asm("$19");
     s8 v;
 

@@ -2,14 +2,18 @@
 # The contract run (1.9 T7, host): every gate of the tree in one pass from a clean committed tree, then
 # docs/contract-run.md written wholly from captured values. Stops at the first failing step (`CONTRACT FAIL <step>
 # rc=<rc>`, rc 1, the doc untouched); on success last line `CONTRACT OK <n> steps`.
-# Each step: full output -> .run/1.9/contract/<i>-<step>.log; result line = the step's own last verdict line (grepped).
+# Each step: full output -> .run/<phase>/contract/<i>-<step>.log; result line = the step's own last verdict line (grepped).
 # Usage: MX6_DUMP=<dump dir> bash tools/mmx6/contract.sh   (env: PY = host python, MX6_IMAGE = container image)
 set -uo pipefail
 cd "$(dirname "$0")/../.." || exit 2
 PY="${PY:-/opt/homebrew/opt/python@3.14/bin/python3.14}"
 MX="bash tools/docker/mx.sh"
 NBIN=57  # binaries of the fleet (config/*.yaml programs)
-LOGD=.run/1.9/contract
+# The open phase's temp folder (as tools/run.sh: `# Phase <id>` of PHASE_PLAN.md), else .run (no plan open).
+PHASE=$(sed -n '1s/^#[[:space:]]*Phase[[:space:]][[:space:]]*\([A-Za-z0-9._-][A-Za-z0-9._-]*\).*/\1/p' \
+  phase-ends/current/PHASE_PLAN.md 2>/dev/null | head -n 1)
+case "$PHASE" in "" | . | ..) SCR=.run ;; *) SCR=.run/$PHASE ;; esac
+LOGD=$SCR/contract
 DOC=docs/contract-run.md
 
 dirty=$(git status --porcelain -- Makefile mk src include config tools/mmx6 tools/docker)

@@ -13,8 +13,8 @@ void func_800ED234(void* arg0) {
     s32 i;
     s8 hp;
     s8 max;
-    register s32 f asm(
-        "$2"); // !FAKE: depin: dropping it breaks the match (67/70)
+    // !FAKE: depin: dropping it breaks the match (67/70)
+    register s32 f asm("$2");
 
     func_8002D230(arg0);
     f = M2C_FIELD(arg0, u8*, 0x70);

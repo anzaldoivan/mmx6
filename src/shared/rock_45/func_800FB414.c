@@ -6,7 +6,7 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 M2C_UNK func_80021760(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 s32 func_800533F4(M2C_UNK);
 M2C_UNK func_80053440(M2C_UNK);
 extern s32 D_800FCA84;
@@ -33,6 +33,6 @@ void func_800FB414(void* arg0) {
         }
     }
     func_80017A04(arg0);
-    func_8002D2B0(arg0);
+    move_object(arg0);
     func_8002CCB0(arg0, 0x40, 0x40);
 }

@@ -38,7 +38,9 @@ void func_800EC378(u8* arg0) {
         case 0:
             func_800139F4(8);
             {
+                // !FAKE: depin: dropping it breaks the match (72/75)
                 register s32 three asm("$2") = 3;
+                // !FAKE: depin: dropping it breaks the match (72/75)
                 register s32 k1 asm("$3") = 1;
 
                 arg0[2] = three;

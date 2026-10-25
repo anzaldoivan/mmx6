@@ -117,10 +117,10 @@ INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800EB560);
 #undef func_800EA980
 
 #define func_800EA9B4 func_800EB6C8
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_24/func_800EB6C8.c"
 #undef func_800EA9B4
-#undef D_800970A0
+#undef g_Player
 
 #include "../shared/rock_24/func_800EB764.c"
 
@@ -189,10 +189,10 @@ INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800EC4D0);
 INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800EC688);
 
 #define func_800E9D5C func_800EC9B4
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/rock_24/func_800EC9B4.c"
 #undef func_800E9D5C
-#undef D_800971F8
+#undef background_objects
 
 #define func_80048DC8 func_800ECAF0
 #define D_80077BC0 D_800F69A4
@@ -205,16 +205,16 @@ INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800EC688);
 INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800ECB5C);
 
 #define func_800EE150 func_800ECC70
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_24/func_800ECC70.c"
 #undef func_800EE150
-#undef D_800970A0
+#undef g_Player
 
 #define func_800EE27C func_800ECD9C
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_24/func_800ECD9C.c"
 #undef func_800EE27C
-#undef D_800970A0
+#undef g_Player
 
 INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800ECE50);
 
@@ -270,9 +270,9 @@ INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800ED0C8);
 #include "../shared/rock_09/func_800EE8D4.c"
 #undef func_800EE8D4
 
-#define func_800EE934 func_800ED454
-#include "../shared/rock_09/func_800EE934.c"
-#undef func_800EE934
+#define general_dust_end general_dust_end
+#include "../shared/rock_09/general_dust_end.c"
+#undef general_dust_end
 
 #define func_800484D8 func_800ED498
 #define D_80077BA4 D_800F6B84
@@ -361,10 +361,10 @@ INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800EDFA4);
 INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800EE6C8);
 
 #define func_800EE70C func_800EE808
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_24/func_800EE808.c"
 #undef func_800EE70C
-#undef D_800970A0
+#undef g_Player
 
 #define func_800EE800 func_800EE8FC
 #define D_80097420 D_80097420
@@ -373,10 +373,10 @@ INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800EE6C8);
 #undef D_80097420
 
 #define func_800EE8C4 func_800EE9C0
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/rock_24/func_800EE9C0.c"
 #undef func_800EE8C4
-#undef D_800971F8
+#undef background_objects
 
 INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800EEAC0);
 
@@ -393,10 +393,10 @@ INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800EF00C);
 #include "../shared/rock_24/func_800EF088.c"
 
 #define func_800EEFCC func_800EF0C8
-#define D_800970A0 D_800970A0
+#define g_Player g_Player
 #include "../shared/rock_24/func_800EF0C8.c"
 #undef func_800EEFCC
-#undef D_800970A0
+#undef g_Player
 
 #include "../shared/rock_24/func_800EF140.c"
 

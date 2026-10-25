@@ -13,7 +13,9 @@ extern u16 D_800FDA7E;
 void func_800F9340(void* arg0) {
     s8 buf[4];
     s16 i;
+    // !FAKE: depin: dropping it breaks the match (81/83)
     register s32 n asm("$4");
+    // !FAKE: depin: dropping it breaks the match (77/83)
     register s32 v asm("$2");
     s8 t;
 

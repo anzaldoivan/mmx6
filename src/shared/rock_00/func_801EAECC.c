@@ -4,7 +4,7 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
-M2C_UNK func_8003D510(M2C_UNK, M2C_UNK, s8, M2C_UNK);
+M2C_UNK player_spawn_visual(M2C_UNK, M2C_UNK, s8, M2C_UNK);
 
 void func_801EAECC(u8* arg0) {
     s32 v;
@@ -39,6 +39,7 @@ void func_801EAECC(u8* arg0) {
     } else {
         func_8003BA04(arg0, 0xC0);
         {
+            // !FAKE: depin: dropping it breaks the match (86/88)
             register s32 t asm("$2") = arg0[0x15];
             if (t != 0) {
                 v = M2C_FIELD(arg0, s32*, 0x108) * 2;
@@ -52,5 +53,5 @@ void func_801EAECC(u8* arg0) {
     arg0[0x8C] = 1;
     arg0[0x7A] = 1;
     arg0[6]++;
-    func_8003D510(0x21, 0x19, 0, 0);
+    player_spawn_visual(0x21, 0x19, 0, 0);
 }

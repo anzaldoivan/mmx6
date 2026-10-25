@@ -11,7 +11,7 @@ void func_8003CF24(s32, s32, s32);
 s32 func_8003EB0C(void* arg0, s32 arg1);
 void func_8003F740(void*, s32);
 extern s32 D_800779C0[];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
 #define SCRATCH_1C (*(u8**)0x1F80001C)
@@ -28,7 +28,7 @@ void func_80043638(struct X4_WeaponObj* arg0) {
     s32 hp;
     u8* q;
 
-    player = &D_800970A0;
+    player = &g_Player;
     if (arg0->unk2 == 0) {
         i = 0;
         F_S16(arg0, 0x94) = 0x1000;

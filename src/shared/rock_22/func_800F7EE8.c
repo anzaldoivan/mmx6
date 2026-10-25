@@ -14,7 +14,7 @@ s32 func_8002D2D4();
 s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800FC970;
 extern s32 D_800FC97C;
 extern s32 D_800FC980;
@@ -71,8 +71,8 @@ void func_800F7EE8(void* arg0) {
         ((void (*)(void*, s32))func_800179A4)(arg0, 0x24);
         M2C_FIELD(arg0, s16*, 0x8C) = 0x12C;
     } else if (kind == 3) {
-        ang = func_80065B74(D_800970A0.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
-                            D_800970A0.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
+        ang = func_80065B74(g_Player.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
+                            g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
         {
             s32 t;
             s32 w;
@@ -157,8 +157,8 @@ void func_800F7EE8(void* arg0) {
         M2C_FIELD(arg0, s8*, 5) = 4;
     } else if (M2C_FIELD(arg0, s8*, 2) == 10) {
         func_80016C48(2, 0x6C, arg0);
-        ang = func_80065B74(D_800970A0.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
-                            D_800970A0.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
+        ang = func_80065B74(g_Player.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
+                            g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
         {
             s32 t;
             s32 w;

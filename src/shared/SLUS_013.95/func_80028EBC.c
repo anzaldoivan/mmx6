@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK D_800970A0;
-#define D_800970A0 (*(struct X4_PlayerObj*)&D_800970A0)
+extern M2C_UNK g_Player;
+#define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_80028EBC(struct X4_BackgroundObj* arg0) {
     s32 spd1;
@@ -35,10 +35,10 @@ void func_80028EBC(struct X4_BackgroundObj* arg0) {
                 arg0->unk1E = t;
                 goto block2;
             } else {
-                t = D_800970A0.x_pos.i.hi;
+                t = g_Player.x_pos.i.hi;
                 t = t - pos1;
                 if ((s16)(t - arg0->unk30) >= 0) {
-                    t = D_800970A0.x_pos.i.hi - D_800970A0.unk18.i.hi;
+                    t = g_Player.x_pos.i.hi - g_Player.unk18.i.hi;
                     if (t >= 0) {
                         t = 0;
                     }
@@ -76,12 +76,12 @@ block2:
                 }
                 goto store2;
             }
-            t = D_800970A0.x_pos.i.hi;
+            t = g_Player.x_pos.i.hi;
             t = t - pos2;
             t = t - arg0->unk32;
             t = t + 2;
             if (t < 4) {
-                t = D_800970A0.x_pos.i.hi - D_800970A0.unk18.i.hi;
+                t = g_Player.x_pos.i.hi - g_Player.unk18.i.hi;
                 if (t < 0) {
                     t = 0;
                 }
@@ -121,11 +121,11 @@ block3:
             }
             goto block4;
         }
-        t = D_800970A0.y_pos.i.hi;
+        t = g_Player.y_pos.i.hi;
         t = t - pos3;
         t = t - arg0->unk2C;
         if (t < 0) {
-            t = D_800970A0.y_pos.i.hi - D_800970A0.unk1C.i.hi;
+            t = g_Player.y_pos.i.hi - g_Player.unk1C.i.hi;
             if (t >= 0) {
                 t = 0;
             }
@@ -149,12 +149,12 @@ block4:
             arg0->unk20 = t;
             return;
         }
-        t = D_800970A0.y_pos.i.hi;
+        t = g_Player.y_pos.i.hi;
         t = t - pos4;
         t = t - arg0->unk2E;
         t = t + 2;
         if (t < 4) {
-            t = D_800970A0.y_pos.i.hi - D_800970A0.unk1C.i.hi;
+            t = g_Player.y_pos.i.hi - g_Player.unk1C.i.hi;
             if (t < 0) {
                 t = 0;
             }
@@ -169,4 +169,4 @@ block4:
         arg0->unk20 = arg0->unk28;
     }
 }
-#undef D_800970A0
+#undef g_Player

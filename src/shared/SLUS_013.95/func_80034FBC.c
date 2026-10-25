@@ -7,7 +7,7 @@ void func_80039F78(void* arg0);
 void func_8003A1C8(void* arg0);
 void func_8003A268(void* arg0);
 void func_8003C3C8(void* arg0);
-void func_8003CE38(struct X4_PlayerObj* self);
+void player_update_flash(struct X4_PlayerObj* self);
 void func_8003EC78(struct X4_PlayerObj* arg0);
 void func_8003F048(void* arg0);
 extern void (*D_80073ACC[])(struct X4_PlayerObj*);
@@ -62,7 +62,7 @@ void func_80034FBC(struct X4_PlayerObj* p) {
     }
     if (D_800CCED0.unk10 != 2) {
         func_8003EC78(p);
-        func_8003CE38(p);
+        player_update_flash(p);
         func_8003C3C8(p);
     }
 }

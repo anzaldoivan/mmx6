@@ -11,11 +11,12 @@ M2C_UNK func_8003BA04(void*, M2C_UNK);     /* extern */
 M2C_UNK func_8003BB94(void*, M2C_UNK, s8); /* extern */
 
 void func_800389B4(void* arg0) {
-    register s32 var_a2 asm("$6");
+    s32 var_a2;
     s32 var_s1;
     s32 var_a0;
     s32 var_a1;
     s32 var_v1;
+    // !FAKE: depin: dropping it breaks the match (68/125)
     register s32 var_v0 asm("$2");
     u16 temp_v1;
 

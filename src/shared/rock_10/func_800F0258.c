@@ -4,7 +4,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 void* func_8002C458();
-void func_8002D3B4(void*, s32);
+void set_velocity_from_angle(void*, s32);
 
 void func_800F0258(void* arg0) {
     void* temp_v0;
@@ -44,7 +44,7 @@ skip:
             x = M2C_FIELD(arg0, s32*, 8);
             M2C_FIELD(temp_v0, s32*, 8) = x;
             M2C_FIELD(temp_v0, s32*, 0xC) = M2C_FIELD(arg0, s32*, 0xC);
-            func_8002D3B4(temp_v0, M2C_FIELD(arg0, u8*, 0x81));
+            set_velocity_from_angle(temp_v0, M2C_FIELD(arg0, u8*, 0x81));
             M2C_FIELD(temp_v0, u8*, 4) = 0;
             M2C_FIELD(temp_v0, s32*, 0x20) = M2C_FIELD(temp_v0, s32*, 0x20) * 3;
             M2C_FIELD(temp_v0, s32*, 0x24) = M2C_FIELD(temp_v0, s32*, 0x24) * 3;

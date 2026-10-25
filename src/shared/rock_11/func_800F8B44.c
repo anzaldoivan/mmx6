@@ -5,7 +5,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D2B0(void*);
+M2C_UNK move_object(void*);
 void func_800FA4C8(struct X4_MainObj* self);
 
 void func_800F8B44(struct X4_MainObj* self) {
@@ -22,5 +22,5 @@ void func_800F8B44(struct X4_MainObj* self) {
         }
         return;
     }
-    func_8002D2B0(self);
+    move_object(self);
 }

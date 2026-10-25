@@ -12,7 +12,7 @@ extern s8 D_800E30EA;
 
 void func_800EB964(u8* arg0) {
     s32 ret;
-    register s32 done asm("$2");
+    s32 done;
     u32 sel;
 
     if (D_800E2F90.x_pos.bytes[2] != 0) {
@@ -21,8 +21,8 @@ void func_800EB964(u8* arg0) {
     }
     ret = func_8001C5EC(D_800E2F90.unk6);
     if (ret != 0) {
-        register s32 one asm("$4") = 1;
-        register s32 two asm("$3") = 2;
+        s32 one = 1;
+        s32 two = 2;
 
         if (ret == one) {
             arg0[1] = 0x15;

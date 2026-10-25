@@ -4,7 +4,7 @@
 
 M2C_UNK func_800139A0(s8);
 struct X4_QuadObj* func_8002C7F0(void);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 
 void func_800FA180(struct X4_BackgroundObj* arg0) {
     u8* q = (u8*)func_8002C7F0();
@@ -15,11 +15,11 @@ void func_800FA180(struct X4_BackgroundObj* arg0) {
         q[2] = 1;
     }
     ((void (*)(s32))func_800139A0)(8);
-    D_800971F8[0].unk3 = 0;
-    D_800971F8[1].unk3 = 0;
-    D_800971F8[2].unk3 = 1;
-    D_800971F8[2].x_pos.u.hi = 0;
-    D_800971F8[2].y_pos.u.hi = 0;
-    D_800971F8[2].unk4C = 1;
+    background_objects[0].unk3 = 0;
+    background_objects[1].unk3 = 0;
+    background_objects[2].unk3 = 1;
+    background_objects[2].x_pos.u.hi = 0;
+    background_objects[2].y_pos.u.hi = 0;
+    background_objects[2].unk4C = 1;
     arg0->unk1++;
 }

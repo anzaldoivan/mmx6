@@ -21,6 +21,7 @@ void func_800F180C(void* arg0) {
     s32 a, b, c, d;
     s16 dx;
     s16 dy;
+    // !FAKE: depin: dropping it breaks the match (104/108)
     register s32 v asm("$2");
 
     parent = FLD(arg0, void*, 0x7C);

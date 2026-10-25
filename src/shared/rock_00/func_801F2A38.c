@@ -7,7 +7,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 #define func_800179A4 ((void (*)(void*, s32))func_800179A4)
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern s32 D_8007798C;
 extern s32 D_801F3ABC;
 
@@ -32,7 +32,7 @@ void func_801F2A38(void* arg0) {
     } else {
         func_800179A4(arg0, 0xC);
     }
-    player = (u8*)&D_800970A0;
+    player = (u8*)&g_Player;
     M2C_FIELD(arg0, u8*, 4)++;
     player[0x99]++;
     player[0x98]++;

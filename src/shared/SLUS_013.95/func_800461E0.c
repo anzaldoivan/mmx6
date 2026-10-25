@@ -4,14 +4,14 @@
 
 M2C_UNK func_80017A04();
 extern u8 D_80076194[][2];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 #define F_S8(p, o) (*(s8*)((u8*)(p) + (o)))
 
 void func_800461E0(struct X4_WeaponObj* arg0) {
     struct X4_PlayerObj* player;
 
-    player = &D_800970A0;
+    player = &g_Player;
     if (player->unk15 != 0) {
         arg0->x_pos.i.hi =
             player->x_pos.i.hi - (s8)D_80076194[arg0->unk2 - 1][0];

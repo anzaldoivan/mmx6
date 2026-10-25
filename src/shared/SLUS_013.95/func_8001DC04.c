@@ -6,7 +6,7 @@
 void func_8001750C(u8, u8); /* extern */
 void func_800186A8();       /* extern */
 void func_80025F84();       /* extern */
-void func_8002B838(void);    /* extern */
+void func_8002B838(void);   /* extern */
 void func_8002C2B8();       /* extern */
 extern s8 D_80097424;
 

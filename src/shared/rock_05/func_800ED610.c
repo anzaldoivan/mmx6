@@ -6,18 +6,18 @@
 void func_80025FD8();
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
 
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s8 D_8009724F;
 extern struct X4_EngineObj D_800CCED0;
 extern u8 D_800F3F14;
 
 void func_800ED610(struct X4_MainObj* self) {
     if (self->unk2 == 4) {
-        if (D_800970A0.y_pos.i.hi >= 0xA11) {
+        if (g_Player.y_pos.i.hi >= 0xA11) {
             D_8009724F = 1;
         }
     }
-    if (D_800970A0.unk5 == 0x14) {
+    if (g_Player.unk5 == 0x14) {
         D_800CCED0.unk1C = 1;
         if (self->unk2 == 4) {
             func_80027BA0(0, 0x4C0, 0x930, &D_800F3F14);

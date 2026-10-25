@@ -7,7 +7,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 void* func_8002C458();
-M2C_UNK func_8002D2B0(s32);
+M2C_UNK move_object(s32);
 s32 func_8002D2D4();
 extern u16 D_800FD59A;
 
@@ -30,7 +30,7 @@ void func_800F69A0(struct X4_MainObj* arg0) {
 
     ((void (*)())func_80017A04)();
     if (arg0->unk7C != 0) {
-        ((void (*)(void*))func_8002D2B0)(arg0);
+        ((void (*)(void*))move_object)(arg0);
         arg0->unk7C--;
         return;
     }

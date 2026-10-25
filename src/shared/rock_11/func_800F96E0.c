@@ -25,6 +25,7 @@ void func_800F96E0(void* arg0) {
         func_80012D9C(5);
         func_8002943C(0x14, 6, 2);
         {
+            // !FAKE: depin: dropping it breaks the match (35/40)
             register s32 b asm("$2") = F8(arg0, 6);
             F16(arg0, 0x7C) = 0x1E;
             F8(arg0, 6) = b + 1;

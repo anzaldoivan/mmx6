@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_800B91C0[];
 
 void func_800269F4(u8 arg0);
@@ -21,12 +21,13 @@ void func_80026D44(void) {
     i = 0;
     SP_PRIM_COUNT = 0;
     do {
-        if (D_800971F8[i].unk4C != 0 || D_800971F8[i].pad51[1] >= 0) {
+        if (background_objects[i].unk4C != 0 ||
+            background_objects[i].pad51[1] >= 0) {
             func_800269F4(i & 0xFF);
         }
         i++;
     } while (i < 3);
-    bg = D_800971F8;
+    bg = background_objects;
     func_800273E4();
     i = 0;
     SP_PRIM_PTR = (SP_BUF << 14) + D_800B91C0;

@@ -21,6 +21,7 @@ void func_800F4D00(struct X4_MainObj* arg0) {
     arg0->y_speed = g * v;
     func_8002D230(arg0);
     {
+        // !FAKE: depin: dropping it breaks the match (41/44)
         register s32 t asm("$2") = (u8)arg0->unk6 + 1;
         arg0->unk6 = t;
     }

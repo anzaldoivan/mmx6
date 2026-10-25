@@ -30,6 +30,7 @@ void func_800F11FC(void* arg0) {
         }
         temp_v1 = M2C_FIELD(arg0, s8*, 0x61);
         {
+            // !FAKE: depin: dropping it breaks the match (52/64)
             register s32 var_v0 asm("$2");
             if (temp_v1 >= 6) {
                 var_v0 = temp_v1;

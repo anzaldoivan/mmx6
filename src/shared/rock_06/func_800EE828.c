@@ -4,6 +4,7 @@ void func_800EE828(void* self) {
     s32 flag;
     s8 st;
     s32 t;
+    // !FAKE: depin: dropping it breaks the match (62/63)
     register s32 one asm("$2");
 
     if (*(u8*)((u8*)self + 0x8D) == 0 && !(*(u8*)((u8*)self + 0x97) & 2) &&

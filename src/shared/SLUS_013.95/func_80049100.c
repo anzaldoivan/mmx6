@@ -8,7 +8,7 @@ M2C_UNK func_8002C9B0();
 s32 func_8002CB50(struct X4_BaseObj*);
 void func_80049748(struct X4_BaseObj* arg0, struct X4_BaseObj* arg1);
 extern u32* D_8007789C[];
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 
@@ -17,7 +17,7 @@ void func_80049100(struct X4_VisualObj* arg0) {
     u8* p;
     s32 off;
 
-    if (D_800970A0.unk5 == 0x14) {
+    if (g_Player.unk5 == 0x14) {
         ((void (*)())func_8002C9B0)();
         return;
     }
@@ -31,20 +31,20 @@ void func_80049100(struct X4_VisualObj* arg0) {
         arg0->unk42 = 0x7802;
         arg0->unk16 = 3;
         arg0->unk3C = p += off;
-        ((void (*)())func_80049748)(arg0, &D_800970A0, p, off);
+        ((void (*)())func_80049748)(arg0, &g_Player, p, off);
         ((void (*)())func_800179A4)(arg0, 2);
         arg0->state++;
     } else {
         ((void (*)())func_80017A04)(arg0);
-        ((void (*)())func_80049748)(arg0, &D_800970A0);
+        ((void (*)())func_80049748)(arg0, &g_Player);
         var_v1 = 0;
-        if (D_800970A0.dash_momentum > 0) {
-            if (D_800970A0.unk17 != 0x10) {
-                var_v1 = D_800970A0.unk17 != 0x80;
+        if (g_Player.dash_momentum > 0) {
+            if (g_Player.unk17 != 0x10) {
+                var_v1 = g_Player.unk17 != 0x80;
             }
-        } else if (D_800970A0.unk17 != 0x55 && D_800970A0.unk17 != 0x12 &&
-                   D_800970A0.unk17 != 0xAB && D_800970A0.unk17 != 0xAC &&
-                   D_800970A0.unk17 != 0xAD && D_800970A0.unk17 != 0xA9) {
+        } else if (g_Player.unk17 != 0x55 && g_Player.unk17 != 0x12 &&
+                   g_Player.unk17 != 0xAB && g_Player.unk17 != 0xAC &&
+                   g_Player.unk17 != 0xAD && g_Player.unk17 != 0xA9) {
             var_v1 = 1;
         }
         if (arg0->animation_step.fields.relative_step < 0) {
@@ -55,5 +55,5 @@ void func_80049100(struct X4_VisualObj* arg0) {
             return;
         }
     }
-    ((s32 (*)())func_8002CB50)(arg0);
+    ((s32(*)())func_8002CB50)(arg0);
 }

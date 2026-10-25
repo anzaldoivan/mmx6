@@ -10,8 +10,10 @@ s32 func_8003EB0C(void* arg0, s32 arg1);
 #define F_U32(p, o) (*(u32*)((u8*)(p) + (o)))
 
 void func_8003EEE4(void* arg0) {
+    // !FAKE: depin: dropping it breaks the match (62/71)
     register s16* hp asm("$16");
     s32 n;
+    // !FAKE: depin: dropping it breaks the match (60/71)
     register u32 b asm("$6");
     u32 x;
     s32 c;

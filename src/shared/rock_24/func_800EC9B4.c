@@ -6,12 +6,13 @@ M2C_UNK func_8002C9B0();
 M2C_UNK func_80030ECC(void*, s16);
 #define func_80030ECC ((M2C_UNK(*)())func_80030ECC)
 extern s16 D_800970AA;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 
 void func_800EC9B4(u8* self) {
-    *(s16*)(self + 0xE) = *(s16*)(self + 0x86) +
-                          (D_800971F8[0].y_pos.i.hi - D_800971F8[1].y_pos.i.hi);
+    *(s16*)(self + 0xE) =
+        *(s16*)(self + 0x86) +
+        (background_objects[0].y_pos.i.hi - background_objects[1].y_pos.i.hi);
     if (D_800CCED0.stage == 4) {
         if (D_800CCED0.substage == 0) {
             if (*(s8*)(self + 2) == 0) {

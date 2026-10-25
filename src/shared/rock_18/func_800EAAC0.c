@@ -25,10 +25,11 @@ extern u8 D_800E9864[];
 #define AB_SB(p, o) (*(s8*)((u8*)(p) + (o)))
 
 void func_800EAAC0(u8* arg0) {
+    // !FAKE: depin: dropping it breaks the match (147/183)
     register u8* self asm("$17") = arg0;
     u32 r;
     s32 t;
-    register s32 f asm("$2");
+    s32 f;
     s16 i;
     u8* obj;
     u8* e;
@@ -40,8 +41,8 @@ void func_800EAAC0(u8* arg0) {
     }
     t = func_8001C5EC((u8)D_800E2F90.unk6);
     if (t != 0) {
-        register s32 one asm("$4") = 1;
-        register s32 two asm("$3") = 2;
+        s32 one = 1;
+        s32 two = 2;
         if (t == one) {
             AB_B(self, 1) = 5;
             D_800E2F90.x_pos.bytes[0] = one;

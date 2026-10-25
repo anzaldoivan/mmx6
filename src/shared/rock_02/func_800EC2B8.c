@@ -5,7 +5,7 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002D380(void*, void*);
-extern M2C_UNK D_800970A0;
+extern M2C_UNK g_Player;
 extern u8 D_800FAE14[];
 
 void func_800EC2B8(void* arg0) {
@@ -14,7 +14,7 @@ void func_800EC2B8(void* arg0) {
     if (--((s8*)SPAD4C)[0x80] != 0) {
         return;
     }
-    g = &D_800970A0;
+    g = &g_Player;
     if (M2C_FIELD(g, s16*, 0xA) - M2C_FIELD(arg0, s16*, 0xA) > 0) {
         M2C_FIELD(arg0, u8*, 0x15) = 0x40;
     }

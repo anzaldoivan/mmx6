@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 extern u16 D_8008EC10;
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800A21B8[3][32][64];
 extern u8 D_800CD338;
 extern u8 D_800CD339;
@@ -41,7 +41,7 @@ void func_800274A0(s32 arg0, s32 arg1, s32 arg2) {
         ry = arg2 % 512 / 16;
         py = ry & 0xF;
         px = rx & 0xF;
-        base = D_800971F8;
+        base = background_objects;
         bg = &base[arg0];
         lo = bg->unk4D;
         if (col < lo) {
@@ -52,7 +52,7 @@ void func_800274A0(s32 arg0, s32 arg1, s32 arg2) {
                 return;
             }
         }
-        base2 = D_800971F8;
+        base2 = background_objects;
         bg2 = &base2[arg0];
         lo = bg2->unk4E;
         if (lo < col) {

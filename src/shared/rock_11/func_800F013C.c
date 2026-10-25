@@ -7,7 +7,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK func_800179D0(void*, M2C_UNK, s8);
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800FCBA4;
 extern s32 D_800FCBA8;
 extern s8 D_800FD51D;
@@ -45,8 +45,8 @@ void func_800F013C(void* arg0) {
         F(s16, 0xA) = 0xA0;
         F(s16, 0xE) = 0x38;
         {
-            register s32 py asm("$7");
-            register struct X4_PlayerObj* pl asm("$2") = &D_800970A0;
+            s32 py;
+            struct X4_PlayerObj* pl = &g_Player;
             F(s16, 0x8C) = pl->x_pos.u.hi;
             py = pl->y_pos.u.hi;
             F(u8, 0x5) = 0;

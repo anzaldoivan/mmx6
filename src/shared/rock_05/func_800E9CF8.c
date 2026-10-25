@@ -17,6 +17,7 @@ void func_800E9CF8(struct X4_MainObj* self) {
 
     sp = SPADP;
     {
+        // !FAKE: depin: dropping it breaks the match (47/50)
         register s32 c asm("$2") = 0xC;
         self->hp = c;
     }

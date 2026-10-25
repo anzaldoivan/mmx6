@@ -5,7 +5,7 @@
 
 M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
 M2C_UNK func_8002B410(M2C_UNK*, M2C_UNK*, M2C_UNK, s32, s32);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_800CD40C;
 extern M2C_UNK D_800ED240;
 extern M2C_UNK D_800ED440;
@@ -39,18 +39,18 @@ void func_800E9864(u8* arg0) {
         func_8002B3D4(0x80, &D_800F0C40, 0x10);
         func_8002B410(&D_800F2040, &D_800F1E40, 0x10, D_800F2240, 0x60);
         func_8002B3D4(0x61, &D_800F2040, 1);
-        D_800971F8[0].x_pos.u.hi = 0;
-        D_800971F8[0].y_pos.u.hi = 0;
-        D_800971F8[0].unk4C = 1;
-        D_800971F8[1].x_pos.u.hi = 0x200;
-        D_800971F8[1].y_pos.u.hi = 0;
-        D_800971F8[1].unk4C = 1;
-        D_800971F8[2].x_pos.u.hi = 0x400;
-        D_800971F8[2].y_pos.u.hi = 0;
-        D_800971F8[2].unk4C = 1;
-        D_800971F8[0].unk3 = 1;
-        D_800971F8[1].unk3 = 1;
-        D_800971F8[2].unk3 = 1;
+        background_objects[0].x_pos.u.hi = 0;
+        background_objects[0].y_pos.u.hi = 0;
+        background_objects[0].unk4C = 1;
+        background_objects[1].x_pos.u.hi = 0x200;
+        background_objects[1].y_pos.u.hi = 0;
+        background_objects[1].unk4C = 1;
+        background_objects[2].x_pos.u.hi = 0x400;
+        background_objects[2].y_pos.u.hi = 0;
+        background_objects[2].unk4C = 1;
+        background_objects[0].unk3 = 1;
+        background_objects[1].unk3 = 1;
+        background_objects[2].unk3 = 1;
         arg0[1]++;
     }
 }

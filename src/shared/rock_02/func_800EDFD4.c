@@ -46,6 +46,7 @@ void func_800EDFD4(void* arg0) {
             M2C_FIELD(arg0, s32*, 0x3C) = SPAD20 + v;
             func_800179A4(arg0, 9);
             {
+                // !FAKE: depin: dropping it breaks the match (106/109)
                 register s32 n asm("$2") = M2C_FIELD(arg0, u8*, 7) + 1;
                 M2C_FIELD(arg0, u8*, 7) = n;
             }

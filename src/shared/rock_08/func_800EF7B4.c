@@ -14,8 +14,9 @@ extern M2C_UNK D_800F5D3C;
 void func_800EF7B4(struct X4_MainObj* self) {
     func_8002D230(self);
     {
+        // !FAKE: depin: dropping it breaks the match (39/42)
         register s32 y asm("$2") = self->y_speed;
-        register s32 k asm("$3") = -0x20000;
+        s32 k = -0x20000;
         if (y < k) {
             self->y_speed = k;
         }

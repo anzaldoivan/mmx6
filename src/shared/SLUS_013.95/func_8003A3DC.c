@@ -3,7 +3,7 @@
 s32 func_8002FD3C(void* arg0);
 s32 func_80030068(void* arg0);
 void func_8003B63C(void*);
-void func_8003B708(void*);
+void player_enter_ladder_climb_on_top(void*);
 
 s32 func_8003A3DC(void* arg0) {
     u8* p = arg0;
@@ -24,6 +24,6 @@ s32 func_8003A3DC(void* arg0) {
     if (func_80030068(p) != 0x21) {
         return 0;
     }
-    func_8003B708(p);
+    player_enter_ladder_climb_on_top(p);
     return 1;
 }

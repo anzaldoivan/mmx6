@@ -10,7 +10,7 @@ s32 func_80065944(s32);
 s32 func_80065A14(s32);
 s32 func_80065B74(s32, s32);
 extern s32 D_80075AFC;
-extern struct X4_PlayerObj D_800970A0;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800FCA84;
 extern s32 D_800FCE24;
 extern s32 D_800FCE28;
@@ -19,8 +19,11 @@ extern s32 D_800FCE28;
 
 void func_800FA984(void* arg0) {
     s32 ang;
+    // !FAKE: depin: dropping it breaks the match (136/143)
     register u8* r asm("$3");
+    // !FAKE: depin: dropping it breaks the match (136/143)
     register u8* p asm("$5");
+    // !FAKE: depin: dropping it breaks the match (116/143)
     register u8* q asm("$6");
     u16 y;
     s32 t3c;
@@ -63,8 +66,8 @@ void func_800FA984(void* arg0) {
         M2C_FIELD(arg0, s32*, 0x24) = 0;
     } else {
         ang = (s16)func_80065B74(
-            D_800970A0.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
-            D_800970A0.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
+            g_Player.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
+            g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
         M2C_FIELD(arg0, s32*, 0x20) = func_80065A14(ang) * 0x30;
         M2C_FIELD(arg0, s32*, 0x24) = -func_80065944(ang) * 0x30;
         if (M2C_FIELD(arg0, s32*, 0x20) < 0) {
@@ -74,6 +77,7 @@ void func_800FA984(void* arg0) {
         }
     }
     {
+        // !FAKE: depin: dropping it breaks the match (126/143)
         register s32 vx asm("$5") = M2C_FIELD(arg0, s32*, 0x20);
         M2C_FIELD(arg0, u8*, 0x5C) = 0x64;
         M2C_FIELD(arg0, u8*, 0x60) = 6;
@@ -81,17 +85,19 @@ void func_800FA984(void* arg0) {
         M2C_FIELD(arg0, s32*, 0x28) = 0;
         M2C_FIELD(arg0, s32*, 0x2C) = 0;
         {
-            register s32 t asm("$2") = vx * 3;
+            s32 t = vx * 3;
             M2C_FIELD(arg0, s32*, 0x20) = t / 2;
         }
     }
     {
+        // !FAKE: depin: dropping it breaks the match (128/143)
         register s32 vy asm("$5") = M2C_FIELD(arg0, s32*, 0x24);
+        // !FAKE: depin: dropping it breaks the match (131/143)
         register s32 u asm("$3") = vy * 3;
         M2C_FIELD(arg0, s32*, 0x24) = u / 2;
     }
     {
-        register u8 c asm("$2") = M2C_FIELD(q, u8*, 0x7) + 1;
+        u8 c = M2C_FIELD(q, u8*, 0x7) + 1;
         M2C_FIELD(q, u8*, 0x7) = c;
     }
     func_80016C48(2, 0x43, arg0);

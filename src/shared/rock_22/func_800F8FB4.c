@@ -6,7 +6,7 @@
 
 M2C_UNK func_8002C9B0();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-extern struct X4_BackgroundObj D_800971F8[3];
+extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj D_800CCED0;
 
 void func_800F8FB4(void* arg0) {
@@ -27,8 +27,8 @@ void func_800F8FB4(void* arg0) {
         D_800CCED0.unkF = 0x10;
         D_800CCED0.enable_boss = 0;
         D_800CCED0.boss_ptr = 0;
-        y = D_800971F8[0].y_pos.u.hi;
-        D_800971F8[0].unk2A = y;
+        y = background_objects[0].y_pos.u.hi;
+        background_objects[0].unk2A = y;
         func_8002C9B0(arg0);
     }
 }

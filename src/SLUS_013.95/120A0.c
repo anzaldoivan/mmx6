@@ -534,7 +534,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001FB3C);
 
 #include "../shared/SLUS_013.95/func_800207D4.c"
 
-#include "../shared/SLUS_013.95/func_800208EC.c"
+#include "../shared/SLUS_013.95/update_layer_objects.c"
 
 #include "../shared/SLUS_013.95/func_80020A08.c"
 
@@ -708,24 +708,24 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80027BA0);
 #include "../shared/SLUS_013.95/func_800287D0.c"
 
 #define func_80028338 func_80028900
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/SLUS_013.95/func_80028338.c"
 #undef func_80028338
-#undef D_800971F8
+#undef background_objects
 
 #include "../shared/SLUS_013.95/func_80028A14.c"
 
 #define func_800286A0 func_80028B4C
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/SLUS_013.95/func_800286A0.c"
 #undef func_800286A0
-#undef D_800971F8
+#undef background_objects
 
 #define func_800287D0 func_80028C7C
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/SLUS_013.95/func_800287D0.c"
 #undef func_800287D0
-#undef D_800971F8
+#undef background_objects
 
 #include "../shared/SLUS_013.95/func_80028DAC.c"
 
@@ -775,10 +775,10 @@ void func_800297B4(void) {
 #include "../shared/SLUS_013.95/func_8002992C.c"
 
 #define func_80029780 func_80029958
-#define D_800971F8 D_800971F8
+#define background_objects background_objects
 #include "../shared/SLUS_013.95/func_80029780.c"
 #undef func_80029780
-#undef D_800971F8
+#undef background_objects
 
 #include "../shared/SLUS_013.95/func_8002998C.c"
 
@@ -967,7 +967,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002CD6C);
 
 #include "../shared/SLUS_013.95/func_8002D230.c"
 
-#include "../shared/SLUS_013.95/func_8002D2B0.c"
+#include "../shared/SLUS_013.95/move_object.c"
 
 #include "../shared/SLUS_013.95/func_8002D2D4.c"
 
@@ -977,7 +977,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002CD6C);
 
 #include "../shared/SLUS_013.95/func_8002D380.c"
 
-#include "../shared/SLUS_013.95/func_8002D3B4.c"
+#include "../shared/SLUS_013.95/set_velocity_from_angle.c"
 
 #include "../shared/SLUS_013.95/func_8002D454.c"
 

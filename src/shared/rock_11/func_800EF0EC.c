@@ -1,12 +1,10 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK move_object(void*);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 void func_800F4254(void* arg0, u8 arg1);
 M2C_UNK func_800F4534(void*, M2C_UNK);
 
@@ -19,9 +17,9 @@ void func_800EF0EC(void* arg0) {
     s32 x;
 
     x = 0xA0;
-    angle = func_80065B74(F(s16, 0xE) - 0x20, x - F(s16, 0xA));
-    F(s32, 0x20) = func_80065A14(angle) << 5;
-    F(s32, 0x24) = func_80065944(angle) << 5;
+    angle = ratan2(F(s16, 0xE) - 0x20, x - F(s16, 0xA));
+    F(s32, 0x20) = rcos(angle) << 5;
+    F(s32, 0x24) = rsin(angle) << 5;
     move_object(arg0);
     t = F(s16, 0xA);
     d = x - t;

@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/player_common.c:player_spawn_wall_slide_dust, AGPL-3.0; proven shared with X6 by exact signature 8e04af3111c5 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/player_common.c:player_spawn_wall_slide_dust, AGPL-3.0; proven shared with X6 by exact signature 8e04af3111c5 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 struct X4_VisualObj* func_8002C398(void);

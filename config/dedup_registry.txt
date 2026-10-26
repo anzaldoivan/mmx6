@@ -2448,7 +2448,7 @@ d1adcd118b38b2be7e2b1deaa4e279b8f60def4f SLUS_013.95:0x80017A88 src/shared/SLUS_
 f2a2862257fa3c4efafe8caeb57d62ae200a1515 SLUS_013.95:0x8001B428 src/shared/SLUS_013.95/func_8001B428.c SLUS_013.95:0x8001B428 gated exemplar
 fae0caed23115ec75fe7ba2a244617f3a32f0ea6 SLUS_013.95:0x8001B6D0 src/shared/SLUS_013.95/func_8001B6D0.c SLUS_013.95:0x8001B6D0 gated exemplar
 e997ebfce7dc8a7b719ce71f78bc195774a27ecd SLUS_013.95:0x8001B784 src/shared/SLUS_013.95/func_8001B784.c SLUS_013.95:0x8001B784 gated exemplar
-e642975dc52eeee1a90094836f1649600f17092d SLUS_013.95:0x8001C6C0 src/shared/SLUS_013.95/func_8001C6C0.c SLUS_013.95:0x8001C6C0 gated exemplar
+e642975dc52eeee1a90094836f1649600f17092d SLUS_013.95:0x8001C6C0 src/shared/SLUS_013.95/memcard_format.c SLUS_013.95:0x8001C6C0 gated exemplar
 a1a1bb6682a36eaea83e0a195090966b6e6276ea SLUS_013.95:0x8001C824 src/shared/SLUS_013.95/func_8001C824.c SLUS_013.95:0x8001C824 gated exemplar
 6643b2ef34c8b78bc932869244f3f51116746f53 SLUS_013.95:0x8001D218 src/shared/SLUS_013.95/func_8001D218.c SLUS_013.95:0x8001D218 gated exemplar
 57aab085cb3ced03bc3015816dc3b2c0e7cff690 SLUS_013.95:0x8001D760 src/shared/SLUS_013.95/func_8001D760.c SLUS_013.95:0x8001D760 gated exemplar
@@ -4518,7 +4518,7 @@ da35de57e54521e3a6c5532358af23f8ef8d7806 rock_43:0x800FB438 src/shared/rock_43/f
 84d85d07fa97bb14b81cf2064cdcd5de323895b2 rock_04:0x800ECDE8 src/shared/rock_04/func_800ECDE8.c rock_04:0x800ECDE8 gated exemplar
 8ea050aab572333c807b996f09389c86254be079 rock_17:0x800E9D04 src/shared/rock_17/func_800E9D04.c rock_17:0x800E9D04 gated exemplar
 a3dacfbb28374a3a2a7dffb87c23ff1a3ba188cb rock_18:0x800F0438 src/shared/rock_18/func_800F0438.c rock_18:0x800F0438 gated exemplar
-80fae79e1b20113c5dd15d04f10b6b017cfefde2 rock_20:0x800EE4C0 src/shared/rock_20/func_800EE4C0.c rock_20:0x800EE4C0 gated exemplar
+80fae79e1b20113c5dd15d04f10b6b017cfefde2 rock_20:0x800EE4C0 src/shared/rock_20/memcard_write_save_file.c rock_20:0x800EE4C0 gated exemplar
 62c2970f9acd8f1c0fc818122cf6dfa1eff1c9df rock_22:0x800F22B8 src/shared/rock_22/func_800F22B8.c rock_22:0x800F22B8 gated exemplar
 5ecbba16fd8ac52e87c9efb7b624a7e54bc7f82a rock_24:0x800F4560 src/shared/rock_24/func_800F4560.c rock_24:0x800F4560 gated exemplar
 a4b2d888991749c60a5b9c0445f0fee30906b660 rock_45:0x800FA984 src/shared/rock_45/func_800FA984.c rock_45:0x800FA984 gated exemplar
@@ -5279,7 +5279,7 @@ a05f832a2428f63cfbe74481cdba924cf580f7c9 rock_15:0x800F0744 src/shared/rock_15/f
 58e2c37e98d6c5cdaad40a4526502c0cde4bc898 rock_04:0x800F5A94 src/shared/rock_04/func_800F5A94.c rock_04:0x800F5A94 gated exemplar
 feedf5f73576ca0ff726e97ad21779ce86d98277 rock_09:0x800EE5A8 src/shared/rock_09/func_800EE5A8.c rock_09:0x800EE5A8 gated exemplar
 8bace2e25f86dc6e893195287a2b37fdc1922d18 rock_16:0x800EB080 src/shared/rock_16/func_800EB080.c rock_16:0x800EB080 gated exemplar
-d895b4f0e7de26b81dc26e5326dc815b473877f8 SLUS_013.95:0x800147D0 src/shared/SLUS_013.95/func_800147D0.c SLUS_013.95:0x800147D0 gated exemplar
+d895b4f0e7de26b81dc26e5326dc815b473877f8 SLUS_013.95:0x800147D0 src/shared/SLUS_013.95/load_rock_dat_file_table.c SLUS_013.95:0x800147D0 gated exemplar
 d4e0f1442a522c8e79c0cc1ee9a55c88df16a27f SLUS_013.95:0x8001FB90 src/shared/SLUS_013.95/func_8001FB90.c SLUS_013.95:0x8001FB90 gated exemplar
 04071ae2a76cd6b96fca0fdf5e4804cc5c21fdc8 SLUS_013.95:0x8002C530 src/shared/SLUS_013.95/func_8002C530.c SLUS_013.95:0x8002C530 gated exemplar
 5ba08ab435cc4ab03a72b3407bd0fee27a8b9c50 SLUS_013.95:0x8002F288 src/shared/SLUS_013.95/func_8002F288.c SLUS_013.95:0x8002F288 gated exemplar
@@ -5665,7 +5665,7 @@ e3a266ec5d3b354af301c15d7ee9ec134f0c120d rock_22:0x800EAA2C src/shared/rock_22/f
 5c703f49d61acabf0ff8f274eec472468d9a104e rock_20:0x800EAE98 src/shared/rock_20/func_800EAE98.c rock_20:0x800EAE98 gated exemplar
 c83c2587e2e7b77068f4fc2fcbb4c1f9419fc66e rock_38:0x800FE160 src/shared/rock_38/func_800FE160.c rock_38:0x800FE160 gated exemplar
 7f99c9c2adbcc1928360a1c86249cc26f5dde27c rock_43:0x800FB1F0 src/shared/rock_43/func_800FB1F0.c rock_43:0x800FB1F0 gated exemplar
-038a983fea6cd1bf1f50b0259d455d9b35d706ea SLUS_013.95:0x8001C384 src/shared/SLUS_013.95/func_8001C384.c SLUS_013.95:0x8001C384 gated exemplar
+038a983fea6cd1bf1f50b0259d455d9b35d706ea SLUS_013.95:0x8001C384 src/shared/SLUS_013.95/memcard_read_save_file.c SLUS_013.95:0x8001C384 gated exemplar
 0dbe0b72e5c915b5c6c4f07da3b53b7845c44864 SLUS_013.95:0x8001CC1C src/shared/SLUS_013.95/func_8001CC1C.c SLUS_013.95:0x8001CC1C gated exemplar
 9313141946e184b54cd423da96b8e635f63bb64b SLUS_013.95:0x8001D0E4 src/shared/SLUS_013.95/func_8001D0E4.c SLUS_013.95:0x8001D0E4 gated exemplar
 0bd8f0b23960ecb85500ed037532eddcd2b3c5f9 SLUS_013.95:0x8001E088 src/shared/SLUS_013.95/func_8001E088.c SLUS_013.95:0x8001E088 gated exemplar
@@ -5844,7 +5844,7 @@ de8eae4c2c15186cee71649176e0a25e9070d60f rock_24:0x800F0654 src/shared/rock_24/f
 32f3cfb193047f6b98cde8808ca3bab545fbb8d5 SLUS_013.95:0x800122A4 src/shared/SLUS_013.95/func_800122A4.c SLUS_013.95:0x800122A4 gated exemplar
 e5f41f2f218dd2e550f0d0dd526905993959c5ba SLUS_013.95:0x80013BF0 src/shared/SLUS_013.95/func_80013BF0.c SLUS_013.95:0x80013BF0 gated exemplar
 e384d9a4631db20680893f3ef4f4e800bb4bc202 SLUS_013.95:0x80015630 src/shared/SLUS_013.95/func_80015630.c SLUS_013.95:0x80015630 gated exemplar
-8b3cabf90d61d2b99f846883a82bf7ca622c29f4 SLUS_013.95:0x8001C4C0 src/shared/SLUS_013.95/func_8001C4C0.c SLUS_013.95:0x8001C4C0 gated exemplar
+8b3cabf90d61d2b99f846883a82bf7ca622c29f4 SLUS_013.95:0x8001C4C0 src/shared/SLUS_013.95/memcard_list_files.c SLUS_013.95:0x8001C4C0 gated exemplar
 ba702e158042f003496093d96a7aad7bf9c0916b SLUS_013.95:0x8001EA28 src/shared/SLUS_013.95/func_8001EA28.c SLUS_013.95:0x8001EA28 gated exemplar
 8cfa4395c31ecc88e6ab1b8ecbddab6062eefc1d SLUS_013.95:0x8001F65C src/shared/SLUS_013.95/func_8001F65C.c SLUS_013.95:0x8001F65C gated exemplar
 7f72f16e31cf83d5ca9d66ff6efeb9081abc2286 SLUS_013.95:0x800205A0 src/shared/SLUS_013.95/func_800205A0.c SLUS_013.95:0x800205A0 gated exemplar
@@ -6450,7 +6450,7 @@ f9ccb639b09fa2658a9464ced0f36a378cd1cca0 rock_10:0x800F7F00 src/shared/rock_10/f
 cc1373a1829ee931b0221762a62cb51590f56793 rock_28:0x800EBC8C src/shared/rock_28/func_800EBC8C.c rock_28:0x800EBC8C gated exemplar
 6c96aa2f0b32d1901afa0c492303311fb1828351 rock_22:0x800F42AC src/shared/rock_22/func_800F42AC.c rock_22:0x800F42AC gated exemplar
 0b974ae67fb9d8f1df9e198c77962963f23309b8 SLUS_013.95:0x80013D10 src/shared/SLUS_013.95/func_80013D10.c SLUS_013.95:0x80013D10 gated exemplar
-ecb5542965dd2eea2cac40e2f1747d0b48481b3f SLUS_013.95:0x80016780 src/shared/SLUS_013.95/func_80016780.c SLUS_013.95:0x80016780 gated exemplar
+ecb5542965dd2eea2cac40e2f1747d0b48481b3f SLUS_013.95:0x80016780 src/shared/SLUS_013.95/load_rock_bin_file_table.c SLUS_013.95:0x80016780 gated exemplar
 73a6e9ddbffed02eafc5bf217ba330320c6459f5 SLUS_013.95:0x8001DA20 src/shared/SLUS_013.95/func_8001DA20.c SLUS_013.95:0x8001DA20 gated exemplar
 fac53e2cbb8c6bfac00f1c8276f00bd669ffe42f SLUS_013.95:0x8001E914 src/shared/SLUS_013.95/func_8001E914.c SLUS_013.95:0x8001E914 gated exemplar
 c711867f59b9bb28577667f001054f42298647ca SLUS_013.95:0x80027C98 src/shared/SLUS_013.95/func_80027C98.c SLUS_013.95:0x80027C98 gated exemplar

@@ -1,14 +1,13 @@
 #include "common.h"
+#include "psyq/libcd.h"
+#include "psyq/libetc.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
 void func_80014E60(s32, s32);
 u8 func_80016570(void);
-int func_80060964(int mode);
-s32 func_80064804(s32);
 s32 func_80064894(s32, s32);
 X4_CdlCB func_800648B4(X4_CdlCB func);
-s32 func_80064B44(M2C_UNK, M2C_UNK, u8*);
 extern u8 D_8008EC08;
 extern u8 D_8009509C;
 extern M2C_UNK* D_800B91B8;
@@ -45,7 +44,7 @@ s32 func_80014B78(void) {
         D_800E0D30 = D_800B91B8;
         D_800E0D34 = D_800E0374;
         if (func_80064894(1, 0) != 0) {
-            func_80064B44(9, 0, 0);
+            CdControlB(9, 0, 0);
         }
         if (D_8009509C != 0x80) {
             D_800E0380 = 0;
@@ -73,10 +72,10 @@ s32 func_80014B78(void) {
     if (++D_800E0380 >= 0x259U) {
         func_800648B4(0);
         do {
-        } while (func_80064804(0) == 0);
+        } while (CdReset(0) == 0);
         do {
-        } while (func_80064B44(0xE, (s32)&sp10, 0) == 0);
-        func_80060964(3);
+        } while (CdControlB(0xE, (s32)&sp10, 0) == 0);
+        VSync(3);
         D_8009509C = 0xC0;
     }
     return 0;

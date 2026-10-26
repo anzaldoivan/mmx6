@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/items/item_20_gravity_switch.c:gravity_switch_main, AGPL-3.0; proven shared with X6 by exact signature 590ed0325c72 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/items/item_20_gravity_switch.c:gravity_switch_main, AGPL-3.0; proven shared with X6 by exact signature 590ed0325c72 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern void (*D_80077BA4[])(struct X4_ItemObj*);

@@ -14,7 +14,8 @@ void func_800EB6C8(void* arg0) {
         if (d < 2) {
             M2C_FIELD(arg0, s32*, 0x24) = 0;
         } else {
-            goto far; // !FAKE: inherited from src/shared/rock_11/func_800EA9B4.c
+            // !FAKE: inherited from src/shared/rock_11/func_800EA9B4.c
+            goto far;
         }
     } else if (M2C_FIELD(arg0, s16*, 0xE) - g_Player.y_pos.i.hi >= 2) {
     far:

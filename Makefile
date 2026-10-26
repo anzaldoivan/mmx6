@@ -3,7 +3,7 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check split build build-bins clean extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mirror ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check health tools-health fleet expected probe-ladder dumps
+.PHONY: format format-check split build build-bins clean extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mirror ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check health tools-health fleet expected probe-ladder dumps strings-check badges
 
 # Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
 PYTHON ?= python3
@@ -242,6 +242,14 @@ loadmap:
 # Forced boundaries (jump tables, PsyQ objects, -O0 candidates, missed func starts) per program → config/boundaries.txt.
 boundaries:
 	$(PYTHON) tools/mmx6/boundaries.py --out config/boundaries.txt --psyq-dir "$(GHIDRA_HOME)/Ghidra/Extensions/ghidra_psx_ldr/data/psyq"
+
+# M16 game-string gate (docs/strings.md): glossed short strings only, no dialogue in tracked files.
+strings-check:
+	$(PYTHON) tools/mmx6/gamestr.py check
+
+# README badges (docs/badges/*.json, shields.io endpoints): named functions, finished files, debt per category.
+badges:
+	$(PYTHON) tools/mmx6/badges.py --write
 
 format:
 	find src -type f \( -name '*.c' -o -name '*.h' \) -not -name '.*' -print0 | xargs -0 -r clang-format -i --style=file

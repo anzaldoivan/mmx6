@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/items/item_00_breakable_wall.c:breakable_wall_update, AGPL-3.0; proven shared with X6 by exact signature 092b78e20e4a (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/items/item_00_breakable_wall.c:breakable_wall_update, AGPL-3.0; proven shared with X6 by exact signature 092b78e20e4a (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern void (*D_80077BC0[])(struct X4_ItemObj*);

@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/mains/main_54_slash_beast.c:slash_beast_death_blink, AGPL-3.0; proven shared with X6 by exact signature df30c9a4d6e8 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_54_slash_beast.c:slash_beast_death_blink, AGPL-3.0; proven shared with X6 by exact signature df30c9a4d6e8 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 struct X4_EffectObj* func_8002C3F8(void);

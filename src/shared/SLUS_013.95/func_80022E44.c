@@ -1,10 +1,15 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/14A60.c:func_80024260, AGPL-3.0; proven shared with X6 by exact signature ce7e7513ad74 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/14A60.c:func_80024260, AGPL-3.0; proven shared with X6 by exact signature ce7e7513ad74 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern X4_P_TAG* D_8008EB08[2][4][8];
 extern X4_P_TAG* D_80090D70[2][4][8];
 extern struct X4_DrawInfo* D_8009B7A0;
 #define M2C_UNK s32
+/* libgpu ordering-table link helpers: read or write a primitive's next-pointer */
+#ifndef setaddr
+#define setaddr(p, a) (((X4_P_TAG*)(p))->addr = (X4_u_long)(a))
+#define getaddr(p) (X4_u_long)(((X4_P_TAG*)(p))->addr)
+#endif
 extern M2C_UNK D_800CD3F0;
 #define D_800CD3F0 (*(s8(*)[4]) & D_800CD3F0)
 
@@ -14,17 +19,15 @@ void func_80022E44(void) {
     u32 j;
     X4_OT_TYPE* otag;
 
-    buffer = (*(s32*)(0x1F800000 + (0x000)));
+    buffer = SP_DRAW_BUFFER;
 
     for (i = 0; i < 4; i++) {
         otag = &D_8009B7A0->ordering_table.start + D_800CD3F0[i];
 
         for (j = 0; j < 8; j++) {
-            if (D_80090D70[buffer][i][j] != ((void*)0)) {
-                (((X4_P_TAG*)(D_8008EB08[buffer][i][j]))->addr =
-                     (X4_u_long)((X4_u_long)(((X4_P_TAG*)(otag))->addr)));
-                (((X4_P_TAG*)(otag))->addr =
-                     (X4_u_long)(D_80090D70[buffer][i][j]));
+            if (D_80090D70[buffer][i][j] != NULL) {
+                setaddr(D_8008EB08[buffer][i][j], getaddr(otag));
+                setaddr(otag, D_80090D70[buffer][i][j]);
             }
         }
     }

@@ -51,7 +51,9 @@
          agrees, a gated row refused -> DRIFT, a c-empty exemplar refused -> agrees; a planted unit alias above a member's
          INCLUDE_ASM -> the identity define dropped; grouped (plan on planted rows, planted verdicts): a gated exemplar
          row refused inside a 2+-key group -> DRIFT, rc 1; a refused member row -> its unit isolated, agrees, rc 0;
-         exemplar row removed -> planned with the rows' named exemplar; rows disagreeing on it -> setup error. Ends `PROPAGATE CONTROL OK` (rc 0), else rc 1.
+         exemplar row removed -> planned with the rows' named exemplar; rows disagreeing on it -> setup error;
+         mark_inherited on a planted body (pin near column 80, a goto) -> standalone markers above, none trailing,
+         psxd_floor 0 unmarked, again after a second pass of the repo clang-format. Ends `PROPAGATE CONTROL OK` (rc 0), else rc 1.
 Firewall G12: names, addresses, counts and hashes of our own files only.
 """
 import argparse
@@ -272,8 +274,9 @@ def rodata_step(prog, vram, src, defines, log, n, why):
 
 
 def mark_inherited(text, src):
-    """`text` with each pin/goto/barrier psxd_floor counts unmarked given `// !FAKE: inherited from <src>`: on its own
-    line, or (a second one on that line) on a line of its own above it. Comment-only: no code token changes."""
+    """`text` with each pin/goto/barrier psxd_floor counts unmarked given a standalone `<indent>// !FAKE: inherited
+    from <src>` line directly above it (indent = that line's; never trailing, so clang-format cannot reflow it away;
+    depin.py's form). Comment-only: no code token changes."""
     sys.path.insert(0, os.path.dirname(HERE))
     import psxd_floor as pf
     note = f"// !FAKE: inherited from {src}"
@@ -283,10 +286,9 @@ def mark_inherited(text, src):
         if not todo:
             return text
         ln = todo[0]
-        if "!FAKE:" in lines[ln]:  # the line's own marker is taken: a standalone one above
-            lines.insert(ln, re.match(r"[ \t]*", lines[ln]).group(0) + note)
-        else:
-            lines[ln] += " " + note
+        if ln and lines[ln - 1].strip() == note:  # a second construct on one line: one standalone marker covers one
+            break
+        lines.insert(ln, re.match(r"[ \t]*", lines[ln]).group(0) + note)
         text = "\n".join(lines)
     raise RuntimeError(f"mark_inherited: no fixpoint for a copy of {src}")
 
@@ -804,6 +806,31 @@ def grouped_controls(d, cls):
     return fails
 
 
+def inherited_control():
+    """mark_inherited on a planted body (C0054: planted, never borrowed): a pin near column 80 and a goto each get a
+    standalone marker above (never trailing) on the clang-formatted body (as tudecl_step), and a second clang-format
+    pass leaves psxd_floor 0 unmarked. Returns fails."""
+    sys.path.insert(0, os.path.dirname(HERE))
+    import psxd_floor as pf
+    src = "src/planted/inherited.c"
+    body = ("void planted_inherited(int arg)\n{\n"
+            "    register int planted_counter_long_name asm(\"$s0\") = arg + 0x1234 * 0x5678;\n"
+            "    if (arg) goto planted_exit;\n    planted_counter_long_name++;\nplanted_exit:\n    return;\n}\n")
+    unmarked = lambda t: sum(k.endswith("-unmarked") for k, _ in pf.marked(pf.raw_keywords(t), pf.markers(t)))
+    fmt = lambda t: subprocess.run(["clang-format", "--style=file", "--assume-filename=src/planted_inherited.c"],
+                                   input=t, capture_output=True, text=True)
+    pre = fmt(body)  # tudecl_step marks a gm.fmt-formatted body
+    out = mark_inherited(pre.stdout, src)
+    note = f"// !FAKE: inherited from {src}"
+    trailing = [ln for ln in out.split("\n") if note in ln and ln.strip() != note]
+    fmt = fmt(out)
+    good = (pre.returncode == 0 and unmarked(pre.stdout) == 2 and out.count(note) == 2 and not trailing
+            and unmarked(out) == 0 and fmt.returncode == 0 and unmarked(fmt.stdout) == 0)
+    print(f"control inherited marker {'ok' if good else 'FAIL'}: unmarked {unmarked(pre.stdout)} -> {unmarked(out)}, "
+          f"{len(trailing)} trailing, clang-format rc {fmt.returncode} -> {unmarked(fmt.stdout)} unmarked")
+    return not good
+
+
 def self_test():
     d = os.path.join(SCRATCH, "selftest")
     os.makedirs(d, exist_ok=True)
@@ -879,6 +906,7 @@ def self_test():
     good = got == [True, False, False]
     print(f"control unit alias {'ok' if good else 'FAIL'}: {got}")
     fails += not good
+    fails += inherited_control()
     if fails:
         print(f"PROPAGATE SELF-TEST FAIL {fails}")
         return 1

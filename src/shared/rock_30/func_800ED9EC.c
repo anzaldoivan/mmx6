@@ -20,7 +20,7 @@ void func_800ED9EC(void* self) {
         M2C_FIELD(self, s8*, 0) |= 8;
         if ((g_Player.hp & 0x7F) >=
             ((struct X4_EngineObj*)((s8*)&D_800CCED0 - -g_Player.unk2))
-                ->unk5C[-1]) {
+                ->sub_tanks[-1]) {
             ((void (*)(void*, s32))func_800179A4)(self, 2);
             M2C_FIELD(self, s8*, 6) += 1;
             return;

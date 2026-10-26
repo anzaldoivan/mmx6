@@ -1,12 +1,10 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern s32 D_8007429C;
 extern M2C_UNK D_8007433C;
 extern struct X4_PlayerObj g_Player;
@@ -136,10 +134,10 @@ void func_800F60AC(void* arg0) {
         g = &g_Player;
         dx = M2C_FIELD(g, s16*, 0xA);
         dy = M2C_FIELD(g, s16*, 0xE);
-        ang = func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - dy,
-                            dx - M2C_FIELD(arg0, s16*, 0xA));
-        M2C_FIELD(arg0, s32*, 0x20) = func_80065A14(ang) << 5;
-        c = func_80065944(ang);
+        ang = ratan2(M2C_FIELD(arg0, s16*, 0xE) - dy,
+                     dx - M2C_FIELD(arg0, s16*, 0xA));
+        M2C_FIELD(arg0, s32*, 0x20) = rcos(ang) << 5;
+        c = rsin(ang);
         M2C_FIELD(arg0, s32*, 0x24) = c << 5;
         if (D_800CCF38 >= 2) {
             M2C_FIELD(arg0, s32*, 0x24) = c << 6;

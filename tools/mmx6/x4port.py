@@ -30,15 +30,18 @@
          only: comments and whitespace dropped) -> only the header is rewritten (`same`); different -> the file's
          definition is replaced by the draft's, the file's declarations kept (they are what its TU's other shared
          files and declsync agree on), its `// !` mark lines kept before the same code line (`changed`, a candidate
-         the build judges); no port, no definition or a lost mark anchor -> the file is left (`skipped <why>`). Rewrites
-         include/mmx6/x4.h from the union of the re-ported drafts' blocks. Lines `X4PORT REPIN <path> same|changed|
-         skipped <why>`, last `X4PORT REPIN <s> same <c> changed <k> skipped`.
+         the build judges); no port, no definition or a lost mark anchor -> the file is left (`skipped <why>`). A path
+         in config/x4/hold.tsv (`path pin blocker`) is never read or rewritten (`held <blocker>`). Rewrites
+         include/mmx6/x4.h from the union of the re-ported drafts' blocks, unless the hold list holds it. Lines
+         `X4PORT REPIN <path> same|changed|skipped <why>|held <blocker>`, last
+         `X4PORT REPIN <s> same <c> changed <k> skipped <h> held`.
   x4port.py --self-test
       -> planted control (C0054) in .run/x4port-selftest/: our banked func_8001E78C (src/SLUS_013.95/120A0.c) as a fake
          mmx4 source and object, every D_8/func_8 name renamed (Q_8/fanc_8, the object's strtab patched in place, same
          length). (1) the port maps every name back by address arithmetic: draft body == our body, verbatim ok, its
          pack probes `match`; (2) one unmasked bit of the fake object flipped -> `not exact`; (3) one X6 relocation
-         addend shifted by 4 -> the draft names another symbol; (4) a psy-q-origin block never reaches x4.h. Ends `X4PORT CONTROL OK` | `X4PORT CONTROL FAIL <cases>`.
+         addend shifted by 4 -> the draft names another symbol; (4) a psy-q-origin block never reaches x4.h; (5) a planted held file and a held
+         x4.h are byte-identical after --repin with a temp hold list. Ends `X4PORT CONTROL OK` | `X4PORT CONTROL FAIL <cases>`.
 
 Port (G54, spelling first): the mmx4 definition's own text (raw source lines; the preprocessed text when the body holds
 a preprocessor line), `static`/`inline` dropped from its head, then renamed: every mmx4 symbol the body relocates ->
@@ -56,6 +59,8 @@ draft and of x4.h: the attribution header (THIRD_PARTY.md; x4.h lists its mmx4 s
 """
 import argparse
 import bisect
+import contextlib
+import io
 import json
 import os
 import re
@@ -87,6 +92,7 @@ SELF_PROG, SELF_VRAM, SELF_TU = "SLUS_013.95", "0x8001E78C", "120A0"  # the self
 HEADER = ("/* Adapted from sozud/mmx4 @{pin} {src}:{func}, AGPL-3.0; proven shared with X6 by exact signature {key} "
           "(see THIRD_PARTY.md). */\n")
 X4H = "include/mmx6/x4.h"
+HOLD = "config/x4/hold.tsv"  # `path pin blocker`: files --repin never rewrites (x4.h included)
 PSYQ = "include/psy-q-4.0/"  # mmx4's copies of the Sony SDK headers: never emitted; include/mmx6/psyq_api.h instead
 X4H_HEADER = ("/* Adapted from sozud/mmx4 @{pin} {srcs}, AGPL-3.0; proven shared with X6 by the exact signature each "
               "including draft names (see THIRD_PARTY.md). */")
@@ -414,9 +420,11 @@ class TU:
         self.items = [Item(i, *x) for i, x in enumerate(split_items(pp))]
         self.files = sorted({os.path.normpath(m.group(1)) for m in re.finditer(r'^#\s*\d+\s+"([^"<]*)"', pp, re.M)})
         self.texts = {}
-        self.macros = {}
+        self.macros, self.defined = {}, set()  # defined: every macro name, builtins and -D included (for #ifdef)
         for line in run_cpp(cpp + ["-dM", src], cwd).split("\n"):
             m = DEFINE.match(line)
+            if m:
+                self.defined.add(m.group(1))
             if m and line not in builtins:
                 self.macros[m.group(1)] = line
         self.by = {}
@@ -510,28 +518,71 @@ class Ctx:
         return self.addrs[prog]
 
 
-def raw_body(ctx, it, name):
-    """The definition's own source text from its file and line, or the preprocessed item text."""
+SKIPRE = re.compile(r'/\*.*?\*/|//[^\n]*|"(?:\\.|[^"\\\n])*"|\'(?:\\.|[^\'\\\n])*\'', re.S)
+COND = re.compile(r"#\s*(?:(ifdef|ifndef)\s+(\w+)|if\s+(!?)\s*defined\s*(?:\(\s*(\w+)\s*\)|\s(\w+))|(else|endif))$")
+
+
+def body_end(text):
+    """Index of the '}' closing the first '{' of text (comments and literals skipped), or None."""
+    depth, i, n, seen = 0, 0, len(text), False
+    while i < n:
+        m = SKIPRE.match(text, i)
+        if m:
+            i = m.end()
+            continue
+        depth += {"{": 1, "}": -1}.get(text[i], 0)
+        seen = seen or text[i] == "{"
+        if seen and depth == 0:
+            return i
+        i += 1
+    return None
+
+
+def resolve_ifdefs(raw, defined):
+    """raw with #ifdef/#ifndef/#if [!]defined/#else/#endif resolved against defined (directives and dead branches
+    dropped), or None on any other directive or an unbalanced nest."""
+    out, stack = [], []  # stack: [condition, in #else]
+    for x in raw.split("\n"):
+        s = x.lstrip()
+        if not s.startswith("#"):
+            if all(c != e for c, e in stack):
+                out.append(x)
+            continue
+        m = COND.match(re.sub(r"/\*.*?\*/|//.*", "", s).strip())
+        if not m:
+            return None
+        if m.group(6) == "else":
+            if not stack or stack[-1][1]:
+                return None
+            stack[-1][1] = True
+        elif m.group(6) == "endif":
+            if not stack:
+                return None
+            stack.pop()
+        elif m.group(1):
+            stack.append([(m.group(2) in defined) == (m.group(1) == "ifdef"), False])
+        else:
+            stack.append([((m.group(4) or m.group(5)) in defined) != (m.group(3) == "!"), False])
+    return None if stack else "\n".join(out)
+
+
+def raw_body(ctx, it, name, defined=()):
+    """The definition's own source text from its file and line (in-body #ifdef-style conditionals resolved against
+    defined), or the preprocessed item text."""
     path = os.path.join(ctx.clone, it.file)
     if os.path.isfile(path):
         lines = Path(path).read_text(errors="replace").split("\n")[it.line - 1:]
         text = "\n".join(lines)
-        depth, i, n, seen = 0, 0, len(text), False
-        while i < n:
-            m = re.compile(r'/\*.*?\*/|//[^\n]*|"(?:\\.|[^"\\\n])*"|\'(?:\\.|[^\'\\\n])*\'', re.S).match(text, i)
-            if m:
-                i = m.end()
-                continue
-            depth += {"{": 1, "}": -1}.get(text[i], 0)
-            seen = seen or text[i] == "{"
-            if seen and depth == 0:
-                raw = text[:i + 1]
-                head = raw.split("{", 1)[0]
-                if re.search(rf"\b{re.escape(name)}\s*\(", head) and \
-                        not any(x.lstrip().startswith("#") for x in raw.split("\n")):
+        i = body_end(text)
+        if i is not None:
+            raw = text[:i + 1]
+            head = raw.split("{", 1)[0]
+            if re.search(rf"\b{re.escape(name)}\s*\(", head):
+                if not any(x.lstrip().startswith("#") for x in raw.split("\n")):
                     return raw, "raw"
-                break
-            i += 1
+                res = resolve_ifdefs(raw, defined)
+                if res is not None and body_end(res) == len(res) - 1:
+                    return res, "raw-if"
     return it.text, "pp"
 
 
@@ -577,7 +628,7 @@ def port(ctx, prog, row, key, src, xf, tamper=None):
     fd = next((it for it in tu.items if it.kind == "fdef" and xf in it.names), None)
     if fd is None:
         raise Skip(f"no definition of {xf} in {src}")
-    body, how = raw_body(ctx, fd, xf)
+    body, how = raw_body(ctx, fd, xf, tu.defined)
     code = strip_comments(body)
     if re.search(r'"', re.sub(r"'(?:\\.|[^'\\])*'", "''", code)):
         raise Skip("string literal")
@@ -860,6 +911,45 @@ def code_of(text):
     return " ".join(t for t in TOK.findall(strip_comments(text)))
 
 
+FDECL = re.compile(r"^(?:extern\s+)?(?P<ret>[\w\s*]+?)\s*\b(?P<name>\w+)\s*\((?P<args>[^()]*)\)\s*;\s*$", re.M)
+
+
+def cast_calls(kept, draft, body):
+    """body with each direct call `f(` cast to the draft's `((R (*)())f)(` where the file's kept declaration of f
+    (siblings share it in the overlay's TU, so it stays) has another return type or other non-pointer parameters
+    than the draft's prototype: upstream dropped its `((void (*)())f)(x)` casts at 807a01b for real prototypes, and
+    `f(x)` under the old `M2C_UNK f(void*);` changes the register allocation (2.1 T5). A name the kept text
+    #defines is left alone."""
+    alias = dict(re.findall(r"^#define\s+(\w+)\s+(\w+)\s*$", kept, re.M))
+    defined = set(re.findall(r"^#define\s+(\w+)", kept, re.M))
+
+    def sig(m):
+        ret = " ".join(alias.get(t, t) for t in m.group("ret").replace("*", " * ").split() if t != "extern")
+        args = m.group("args").strip()
+        if not args:
+            return ret, None  # unprototyped
+        ps = []
+        for p in args.split(","):
+            t = p.replace("*", " * ").split()
+            t = t[:-1] if len(t) > 1 and t[-1] != "*" and t[-1] not in ("int", "char", "short", "long") else t
+            ps.append("*" if "*" in t else " ".join(alias.get(x, x) for x in t))
+        return ret, ps
+
+    old = {m.group("name"): sig(m) for m in FDECL.finditer(kept)}
+    for m in FDECL.finditer(draft):
+        nm = m.group("name")
+        if nm in defined or nm not in old:
+            continue
+        (r0, p0), (r1, p1) = old[nm], sig(m)
+        if r0 != r1 or (p0 is not None and p1 is not None and p0 != p1):
+            ret = m.group("ret").strip()
+            ret = ret[len("extern"):].strip() if ret.startswith("extern ") else ret
+            head, rest = body.split("{", 1)
+            rest = re.sub(rf"(?<![\w.>]){re.escape(nm)}\s*\(", f"(({ret} (*)()){nm})(", rest)
+            body = head + "{" + rest
+    return body
+
+
 def keep_marks(old, new):
     """new with each `// !` mark line of old inserted before the first line of new whose code equals the code line
     that follows the mark in old; Skip when that line is absent from new."""
@@ -876,20 +966,32 @@ def keep_marks(old, new):
     return "\n".join(out)
 
 
-def repin():
+def held(hold=HOLD):
+    """{path: blocker} of the hold list (`path pin blocker`, tab-separated, `#` comments)."""
+    rows = [x.rstrip("\n").split("\t") for x in open(hold) if x.strip() and not x.startswith("#")] if os.path.isfile(hold) else []
+    return {os.path.normpath(r[0]): r[2] for r in rows}
+
+
+def repin(hold=HOLD, shared="src/shared"):
     import cards  # noqa: E402  (body_of)
     for p in (PARTNERS, FUNCS):
         if not os.path.isfile(p):
             sys.exit(f"x4port: {p} missing")
     funcs = {(r["prog"], r["name"]): r for r in jl(FUNCS)}
     rows = [x.rstrip("\n").split("\t") for x in open(PARTNERS) if x.strip()]
-    ctx = mmx4_ctx()
-    blocks, counts, out = {}, {"same": 0, "changed": 0, "skipped": 0}, []
-    for f in sorted(str(x) for x in Path("src/shared").rglob("*.c")):
+    hl, ctx = held(hold), None
+    blocks, counts, out = {}, {"same": 0, "changed": 0, "skipped": 0, "held": 0}, []
+    for f in sorted(str(x) for x in Path(shared).rglob("*.c")):
+        # held and at-pin files are ported for their x4.h blocks only, never rewritten
+        hw = hl.get(os.path.normpath(f))
+        if hw is not None:
+            counts["held"] += 1
+            out.append(f"X4PORT REPIN {f} held {hw}")
         text = Path(f).read_text()
         m = ADAPTED.match(" ".join(text.split("*/", 1)[0].split()))
-        if not m or m.group(1) == PIN or not m.group(3):
+        if not m or not m.group(3):
             continue
+        keep = hw is not None or m.group(1) == PIN
         hsrc, hfn = m.group(2).rsplit(":", 1)
         prog, name = Path(f).parent.name, Path(f).stem
         row = funcs.get((prog, name))
@@ -904,6 +1006,7 @@ def repin():
             why, got = [], None
             for src, fn in cands:
                 try:
+                    ctx = ctx or mmx4_ctx()
                     got = (src, fn) + port(ctx, prog, row, own[0][4], src, fn)
                     break
                 except Skip as e:
@@ -919,24 +1022,38 @@ def repin():
                 raise Skip("x4.h conflict " + " ".join(clash))
             new, what = draft.split("\n", 1)[0] + "\n" + text.split("*/", 1)[1].lstrip("\n"), "same"
             if code_of(fdef) != code_of(old):
+                fdef = cast_calls(text.replace(old, ""), draft.replace(fdef, ""), fdef)
                 new, what = new.replace(old, keep_marks(old, fdef)), "changed"
         except Skip as e:
+            if hw is not None:
+                out[-1] += f" (no blocks: {e})"
+                continue
             counts["skipped"] += 1
-            out.append(f"X4PORT REPIN {f} skipped {e}")
+            out.append(f"X4PORT REPIN {f} skipped {e}" + (" (at pin, no blocks)" if keep else ""))
             continue
         for g, t, hf in hb:
             hf = os.path.normpath(hf) if hf else ""
             blocks.setdefault(g, (t, hf if hf and not os.path.isabs(hf) and not hf.startswith("..") else ""))
+        if keep:
+            if hw is None:
+                counts["same"] += 1
+                if what != "same":
+                    out.append(f"X4PORT REPIN {f} at pin, port differs (not rewritten) {src}:{fn}")
+            continue
         Path(f).write_text(new)
         counts[what] += 1
         out.append(f"X4PORT REPIN {f} {what} {src}:{fn}" + ("" if (src, fn) == (hsrc, hfn) else f" (was {hsrc}:{hfn})"))
-    text = x4h(blocks)
-    ok, why, _ = verbatim.check(text)
-    if not ok:
-        sys.exit(f"x4port: {X4H} refused by verbatim ({why})")
-    Path(X4H).write_text(text)
+    if X4H in hl:
+        out.append(f"X4PORT REPIN {X4H} held {hl[X4H]}")
+    else:
+        text = x4h(blocks)
+        ok, why, _ = verbatim.check(text)
+        if not ok:
+            sys.exit(f"x4port: {X4H} refused by verbatim ({why})")
+        Path(X4H).write_text(text)
     print("\n".join(out))
-    print(f"X4PORT REPIN {counts['same']} same {counts['changed']} changed {counts['skipped']} skipped")
+    print(f"X4PORT REPIN {counts['same']} same {counts['changed']} changed {counts['skipped']} skipped "
+          f"{counts['held']} held {len(blocks)} x4.h blocks")
     return 0
 
 
@@ -1062,6 +1179,22 @@ def self_test():
     print(f"X4PORT self control: X6 addend +4 -> other symbol {moved}")
     if not moved:
         fails.append("shift")
+    # control: a function-like macro in the live branch of an in-body #ifdef survives porting; the dead branch goes
+    i = body.index("{") + 1
+    live = body[:i] + "\n    PLANT_M(0);" + body[i:]
+    cond = body[:i] + "\n#ifdef X4PORT_NEVER_DEFINED\n    DEAD_PLANT(1);\n#else\n    PLANT_M(0);\n#endif" + body[i:]
+    fake2 = '#include "common.h"\n#define PLANT_M(x) ((void)(x))\n' + "\n".join(cards.top_decls(text)) + "\n\n" + cond
+    Path(f"{clone}/{src}").write_text(re.sub(r"\bfunc_8", "fanc_8", re.sub(r"\bD_8", "Q_8", fake2)))
+    ctx.tus.pop(src, None)
+    try:
+        d3, n3, hb = port(ctx, SELF_PROG, row, x6["exact"], src, xf)
+    except Skip as ex:
+        d3, n3, hb = "", str(ex), []
+    kept = (d3.split("\n\n")[-1].strip() == live.strip() and "(raw-if)" in n3
+            and any(k == "m PLANT_M" and "#define PLANT_M(x)" in t for k, t, _ in hb))
+    print(f"X4PORT self control: macro kept unexpanded under #ifdef, dead branch dropped {kept} ({n3})")
+    if not kept:
+        fails.append("ifdef-macro")
     # control: a psy-q-origin block never reaches x4.h, nor its file the attribution
     t = x4h({"t X4_D_X4_RECT": ("#ifndef X4_D_X4_RECT\n#define X4_D_X4_RECT\nPSYQ_PLANT\n#endif", PSYQ + "LIBGPU.H"),
              "m FOO": ("#ifndef FOO\n#define FOO 1\n#endif", "include/common.h")})
@@ -1069,6 +1202,20 @@ def self_test():
     print(f"X4PORT self control: psy-q block kept out of x4.h {clean}")
     if not clean:
         fails.append("psyq")
+    # control: a held file and a held x4.h are never rewritten by --repin
+    hdir = f"{SELFTEST}/held/{SELF_PROG}"
+    os.makedirs(hdir)
+    hf, x4h0 = f"{hdir}/{SELF_FUNC}.c", Path(X4H).read_bytes() if os.path.isfile(X4H) else None
+    plant = HEADER.format(pin="0000000", src=src, func=xf, key=x6["exact"]).encode() + text.encode()
+    Path(hf).write_bytes(plant)
+    Path(f"{SELFTEST}/hold.tsv").write_text(f"# path\tpin\tblocker\n{hf}\t0000000\tplanted\n{X4H}\t0000000\tplanted\n")
+    with contextlib.redirect_stdout(io.StringIO()) as so:
+        repin(f"{SELFTEST}/hold.tsv", f"{SELFTEST}/held")
+    kept = (Path(hf).read_bytes() == plant and f"X4PORT REPIN {hf} held planted" in so.getvalue()
+            and (Path(X4H).read_bytes() if os.path.isfile(X4H) else None) == x4h0)
+    print(f"X4PORT self control: held file and x4.h byte-identical after repin {kept}")
+    if not kept:
+        fails.append("held")
     if fails:
         print(f"X4PORT CONTROL FAIL {' '.join(fails)}")
         return 1
@@ -1085,7 +1232,7 @@ def main():
     ap.add_argument("--limit", type=int, default=0, help="a deterministic stride sample of K representatives")
     ap.add_argument("--x4h", action="store_true", help="with --wave: rewrite include/mmx6/x4.h only, no packs")
     ap.add_argument("--credits", action="store_true", help=f"rewrite the mmx4 credits table of {THIRD}")
-    ap.add_argument("--repin", action="store_true", help="re-port every src/shared file adapted at another pin")
+    ap.add_argument("--repin", action="store_true", help=f"re-port every src/shared file adapted at another pin, except those {HOLD} holds")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if a.self_test:

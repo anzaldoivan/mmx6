@@ -1,9 +1,9 @@
 #include "common.h"
+#include "psyq/libgpu.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800660B8(M2C_UNK);
 void func_8001447C(void);
 void func_80017488(void);
 void func_8001CBE0(void);
@@ -19,7 +19,7 @@ void func_8001CB3C(void) {
     s32 i;
     s32 z;
 
-    func_800660B8(0);
+    SetDispMask(0);
     func_8001447C();
     func_80017488();
     func_8001CBE0();

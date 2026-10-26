@@ -53,13 +53,13 @@ void func_80050250(struct X4_ItemObj* arg0, s32 arg1, u8* arg2) {
     if (func_80050C88(arg0) == 0) {
         return;
     }
-    if (D_800CCED0.unk1C == 0) {
+    if (D_800CCED0.gameplay_locked == 0) {
         if (arg0->unk2 == 0x19 || arg0->unk2 == 0x27) {
             func_80016C48(5, 1, 0);
             func_80012D9C(4);
         }
     }
-    D_800CCED0.unk1C = 1;
+    D_800CCED0.gameplay_locked = 1;
     arg2[0xD4] = 1;
     if (arg0->unk2 == 0x19) {
         if ((s16)background_objects[1].unk42 >= -0x4F) {

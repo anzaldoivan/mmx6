@@ -1,12 +1,10 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK move_object(s32);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern struct X4_BackgroundObj background_objects[3];
 
 #define ABS_LT7(d) (((d) < 0 ? -(d) : (d)) < 7)
@@ -37,14 +35,13 @@ void func_800F5AF0(struct X4_AnimatedObj* arg0) {
         oy = 0x90;
         break;
     }
-    angle = func_80065B74(
-        arg0->y_pos.i.hi - (background_objects[0].y_pos.i.hi + oy),
-        (background_objects[0].x_pos.i.hi + ox) - arg0->x_pos.i.hi);
+    angle = ratan2(arg0->y_pos.i.hi - (background_objects[0].y_pos.i.hi + oy),
+                   (background_objects[0].x_pos.i.hi + ox) - arg0->x_pos.i.hi);
     do {
-        v = func_80065A14(angle);
+        v = rcos(angle);
         t = v * 16;
         arg0->x_vel.val = (v * 32 + t) * 2;
-        v = func_80065944(angle);
+        v = rsin(angle);
         t = v * 16;
         arg0->y_vel.val = (v * 32 + t) * 2;
     } while (0);

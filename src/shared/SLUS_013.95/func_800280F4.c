@@ -21,7 +21,7 @@ void func_800280F4(void) {
         bg->unk0 = 1;
         bg->unk3 = 1;
         bg->unk44 = 1;
-        bg->pad51[1] = -1;
+        bg->pad52[0] = -1;
         bg->unk4D = 0;
         bg->min_y = 0;
         bg->unk4E = D_800CD338 - 1;

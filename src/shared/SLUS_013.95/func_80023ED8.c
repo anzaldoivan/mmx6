@@ -1,10 +1,10 @@
 #include "common.h"
+#include "psyq/libgpu.h"
 #include "mmx6/x4.h"
 
 extern X4_P_TAG* D_8008EB08[2][4][8];
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_DrawInfo* D_8009B7A0;
-s32 func_80068DD4(s32, s32, s32, s32);
 
 #define SCR_BUF (*(s32*)0x1F800000)
 #define SCR_PRIM (*(u8**)0x1F800100)
@@ -61,7 +61,7 @@ void func_80023ED8(u8* arg0) {
         c = *(u16*)(arg0 + 0x34) >> 10;
         prim[6] = (c << 3) + (c >> 2);
         ((u8*)tp)[3] = 1;
-        tp[1] = (func_80068DD4(0, (s32)(arg0[0] << 24) >> 29, 0, 0) & 0x9FF) |
+        tp[1] = (GetTPage(0, (s32)(arg0[0] << 24) >> 29, 0, 0) & 0x9FF) |
                 0xE1000000;
         tag = arg0[0x36];
         hi = (u8)tag;

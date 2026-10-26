@@ -123,7 +123,7 @@ void func_800EE8C8(struct X4_MainObj* self) {
     self->unk6 = 0;
     self->unk7 = 0;
     self->on_screen = 1;
-    background_objects[1].pad51[1] = -1;
+    background_objects[1].pad52[0] = -1;
     background_objects[1].unk3 = 1;
 }
 #undef D_800F447E

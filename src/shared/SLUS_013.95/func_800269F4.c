@@ -34,7 +34,7 @@ void func_800269F4(u8 arg0) {
     tm = &SP_BG_TILEMAP;
     base = background_objects;
     bg = &base[arg0];
-    p = bg->pad51[1];
+    p = bg->pad52[0];
     if (p < 0) {
         x = bg->x_pos.i.hi / 16;
         y = bg->y_pos.i.hi / 16;

@@ -83,6 +83,9 @@ record redux-smoke "${RESULT%% log=*}"
 step audit_public '^audit_public: (OK|FAIL)' "$PY" tools/audit_public.py
 record audit_public "$RESULT"
 
+step gamestr '^GAMESTR (OK|FAIL)' "$PY" tools/mmx6/gamestr.py check
+record gamestr "$RESULT"
+
 TRIPLE=$(sed -n 's/^TRIPLE ?= *//p' Makefile)
 IMG=$(docker image inspect --format '{{.Id}}' "${MX6_IMAGE:-mmx6-build}")
 TH=$(git log -1 --format='%cs, "%s", %h' -- phase-ends/PhaseEnd_Phase1.8.1.md)

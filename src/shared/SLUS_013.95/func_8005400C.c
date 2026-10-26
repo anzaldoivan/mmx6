@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/effects/effect_27_teleport_intro.c:teleport_intro_spawn_quads, AGPL-3.0; proven shared with X6 by exact signature 6c6bde588dbe (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/effects/effect_27_teleport_intro.c:teleport_intro_spawn_quads, AGPL-3.0; proven shared with X6 by exact signature 6c6bde588dbe (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 struct X4_QuadObj* func_8002C7F0(void);

@@ -1,9 +1,9 @@
 #include "common.h"
+#include "psyq/libcd.h"
 #define M2C_UNK s32
 
 void func_80014E60(s32, s32);
 s32 func_80064894(s32, s32);
-s32 func_80064B44(M2C_UNK, M2C_UNK, u8*);
 extern u8 D_8009509C;
 extern s32 D_800E01A8;
 extern u8* D_800E01AC;
@@ -24,7 +24,7 @@ void func_8001642C(s32 arg0, s32* arg1, u8* arg2) {
     register s32 b asm("$5");
 
     if (func_80064894(1, 0) != 0) {
-        func_80064B44(9, 0, 0);
+        CdControlB(9, 0, 0);
     }
     if (D_8009509C != 0x80) {
         D_800E0380 = 0;
@@ -33,7 +33,7 @@ void func_8001642C(s32 arg0, s32* arg1, u8* arg2) {
     D_800E0379 = arg0;
     D_800E037C = (s32)arg1;
     do {
-        while (func_80064B44(1, 0, res) == 0) {
+        while (CdControlB(1, 0, res) == 0) {
         }
     } while (res[0] & 0x40);
     p = D_800E0398[arg0];

@@ -52,7 +52,7 @@ void func_800EBEA0(void* arg0) {
             g_Player.y_pos.i.hi--;
         }
         g_Player.spike_immune = 0;
-        D_800CCED0.unk1C = 0;
+        D_800CCED0.gameplay_locked = 0;
         g_Player.nova_strike_active = 0;
         g_Player.unk18.val = g_Player.x_pos.val;
         g_Player.unk1C.val = g_Player.y_pos.val;

@@ -1,11 +1,11 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_80065B74(s32, s32);
 void func_800EB6C8(struct X4_MainObj*);
 extern struct X4_PlayerObj g_Player;
 extern u8 D_800ED700[];
@@ -24,7 +24,7 @@ void func_800EB480(struct X4_BaseObj* self) {
             func_800EB6C8((struct X4_MainObj*)self);
             px = g_Player.x_pos.i.hi;
             py = g_Player.y_pos.i.hi;
-            a = func_80065B74(self->y_pos.i.hi - py, px - self->x_pos.i.hi);
+            a = ratan2(self->y_pos.i.hi - py, px - self->x_pos.i.hi);
             a += 0x800;
             tbl = D_800ED748;
             SPAD[0x8C] = tbl[a >> 8];

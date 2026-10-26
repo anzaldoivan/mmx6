@@ -57,13 +57,13 @@ void func_800FA004(u8* arg0) {
     }
     arg0[1]++;
     for (i = 0; i < 4; i++) {
-        if ((s8)(s32)D_800CCED0.unk38 == 0) {
+        if ((s8)(s32)D_800CCED0.controlled_player == 0) {
             D_800EA510[i] = func_800FA728[i];
         } else {
             D_800EA510[i] = D_800FA72C[i];
         }
     }
-    if ((s8)(s32)D_800CCED0.unk38 == 0) {
+    if ((s8)(s32)D_800CCED0.controlled_player == 0) {
         background_objects[2].y_pos.val = 0;
     } else {
         background_objects[2].y_pos.i.hi = 0x200;

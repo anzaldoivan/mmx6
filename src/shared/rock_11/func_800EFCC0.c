@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -6,8 +7,6 @@
 
 M2C_UNK move_object(void*);
 s32 func_80030234(struct X4_PlayerObj*, s16, s16);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 void func_800F402C(void*, s32);
 extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
@@ -48,8 +47,8 @@ void func_800EFCC0(struct X4_PlayerObj* self) {
     self->y_pos.u.hi = F(u16, 0x86);
     self->x_pos.u.hi = background_objects[0].x_pos.u.hi + self->x_pos.u.hi;
     self->y_pos.u.hi = background_objects[0].y_pos.u.hi + self->y_pos.u.hi;
-    self->x_vel.val = func_80065A14(F(s16, 0x7C)) << 7;
-    self->y_vel.val = func_80065944(F(s16, 0x7C)) << 7;
+    self->x_vel.val = rcos(F(s16, 0x7C)) << 7;
+    self->y_vel.val = rsin(F(s16, 0x7C)) << 7;
     do {
         move_object(self);
         c = func_80030234(self, self->x_pos.i.hi, self->y_pos.i.hi) & 0xFF;

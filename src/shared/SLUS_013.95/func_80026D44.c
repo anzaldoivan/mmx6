@@ -22,7 +22,7 @@ void func_80026D44(void) {
     SP_PRIM_COUNT = 0;
     do {
         if (background_objects[i].unk4C != 0 ||
-            background_objects[i].pad51[1] >= 0) {
+            background_objects[i].pad52[0] >= 0) {
             func_800269F4(i & 0xFF);
         }
         i++;

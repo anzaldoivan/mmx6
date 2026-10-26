@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/player_special.c:player_ladder_shoot, AGPL-3.0; proven shared with X6 by exact signature 543816517dc7 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/player_special.c:player_ladder_shoot, AGPL-3.0; proven shared with X6 by exact signature 543816517dc7 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void func_8003BB94(struct X4_PlayerObj*, s32, s32);
@@ -14,7 +14,7 @@ void player_ladder_shoot(struct X4_PlayerObj* self) {
             self->unk15 = 0;
         }
         if (self->pressed_input & PLAYER_INPUT_RIGHT) {
-            self->unk15 = 0x40;
+            self->unk15 = PLAYER_FACING_RIGHT;
         }
         if (self->attack_ended != 0) {
             func_8003BB94(self, 0x20, 3);

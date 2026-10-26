@@ -1,9 +1,8 @@
 #include "common.h"
+#include "psyq/libgte.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 extern s32 D_80097420;
 extern u8 D_800E99F4[];
 
@@ -22,10 +21,10 @@ void func_800F166C(void* self) {
     __builtin_memcpy(tbl, D_800E99F4, sizeof(tbl));
     switch (M2C_FIELD(self, u8*, 2) & 0xF) {
     case 0:
-        s = (func_80065A14((M2C_FIELD(self, s32*, 0x3C) - 0x400) & 0xFFF) *
+        s = (rcos((M2C_FIELD(self, s32*, 0x3C) - 0x400) & 0xFFF) *
              tbl[M2C_FIELD(self, s16*, 0x48)][0] * 16) >>
             16;
-        c = func_80065944((M2C_FIELD(self, s32*, 0x3C) - 0x400) & 0xFFF);
+        c = rsin((M2C_FIELD(self, s32*, 0x3C) - 0x400) & 0xFFF);
         M2C_FIELD(self, s16*, 0x16) = s + M2C_FIELD(self, s16*, 0x44);
         M2C_FIELD(self, s16*, 0x1E) = M2C_FIELD(self, s16*, 0x44);
         M2C_FIELD(self, s16*, 0x22) = M2C_FIELD(self, s16*, 0x46);
@@ -37,10 +36,10 @@ void func_800F166C(void* self) {
         M2C_FIELD(self, s16*, 0x32) = t + M2C_FIELD(self, s16*, 0x42);
         break;
     case 1:
-        s = (func_80065A14((M2C_FIELD(self, s32*, 0x3C) + 0x400) & 0xFFF) *
+        s = (rcos((M2C_FIELD(self, s32*, 0x3C) + 0x400) & 0xFFF) *
              tbl[M2C_FIELD(self, s16*, 0x48)][0] * 16) >>
             16;
-        c = func_80065944((M2C_FIELD(self, s32*, 0x3C) + 0x400) & 0xFFF);
+        c = rsin((M2C_FIELD(self, s32*, 0x3C) + 0x400) & 0xFFF);
         t = (-c * tbl[M2C_FIELD(self, s16*, 0x48)][0] * 16) >> 16;
         M2C_FIELD(self, s16*, 0x1A) = M2C_FIELD(self, s16*, 0x46);
         M2C_FIELD(self, s16*, 0x16) = M2C_FIELD(self, s16*, 0x44);
@@ -52,10 +51,10 @@ void func_800F166C(void* self) {
         M2C_FIELD(self, s16*, 0x32) = M2C_FIELD(self, s16*, 0x42);
         break;
     case 2:
-        s = (func_80065A14((M2C_FIELD(self, s32*, 0x3C) - 0x400) & 0xFFF) *
+        s = (rcos((M2C_FIELD(self, s32*, 0x3C) - 0x400) & 0xFFF) *
              tbl[M2C_FIELD(self, s16*, 0x48)][1] * 16) >>
             16;
-        c = func_80065944((M2C_FIELD(self, s32*, 0x3C) - 0x400) & 0xFFF);
+        c = rsin((M2C_FIELD(self, s32*, 0x3C) - 0x400) & 0xFFF);
         M2C_FIELD(self, s16*, 0x16) = s + M2C_FIELD(self, s16*, 0x44);
         M2C_FIELD(self, s16*, 0x1E) = M2C_FIELD(self, s16*, 0x44);
         M2C_FIELD(self, s16*, 0x22) = M2C_FIELD(self, s16*, 0x46);
@@ -67,10 +66,10 @@ void func_800F166C(void* self) {
         M2C_FIELD(self, s16*, 0x32) = t + M2C_FIELD(self, s16*, 0x42);
         break;
     case 3:
-        s = (func_80065A14((M2C_FIELD(self, s32*, 0x3C) + 0x400) & 0xFFF) *
+        s = (rcos((M2C_FIELD(self, s32*, 0x3C) + 0x400) & 0xFFF) *
              tbl[M2C_FIELD(self, s16*, 0x48)][1] * 16) >>
             16;
-        c = func_80065944((M2C_FIELD(self, s32*, 0x3C) + 0x400) & 0xFFF);
+        c = rsin((M2C_FIELD(self, s32*, 0x3C) + 0x400) & 0xFFF);
         t = (-c * tbl[M2C_FIELD(self, s16*, 0x48)][1] * 16) >> 16;
         M2C_FIELD(self, s16*, 0x1A) = M2C_FIELD(self, s16*, 0x46);
         M2C_FIELD(self, s16*, 0x16) = M2C_FIELD(self, s16*, 0x44);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libcd.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -6,7 +7,6 @@ void func_800186A8(void);
 int func_800617A4(X4_CdlLOC* p);
 s32 func_800647F4();
 s8 func_80064874(M2C_UNK, u8*);
-s32 func_80064A10(M2C_UNK, M2C_UNK*);
 extern s32 D_800E2E18;
 extern u32 D_800E2E24;
 extern u32 D_800E2E2C;
@@ -37,7 +37,7 @@ void func_800185B4(void) {
                         }
                     }
                 }
-                func_80064A10(0x11, 0);
+                CdControlF(0x11, 0);
             }
         }
     }

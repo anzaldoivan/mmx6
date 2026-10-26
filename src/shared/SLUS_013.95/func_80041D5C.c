@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -8,8 +9,6 @@ s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
 s32 func_8002D2D4();
 void func_80042A9C(struct X4_MainObj* self, s32);
 void func_80042C18(struct X4_MainObj* self);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 extern struct X4_PlayerObj g_Player;
 
 void func_80041D5C(struct X4_MainObj* self) {
@@ -29,9 +28,8 @@ void func_80041D5C(struct X4_MainObj* self) {
             M2C_FIELD(self, u16*, 0x84) = p->x_pos.i.hi;
             M2C_FIELD(self, u16*, 0x86) = p->y_pos.i.hi;
         }
-        self->x_pos.i.hi =
-            M2C_FIELD(self, u16*, 0x84) + (func_80065A14(ang) >> 6);
-        t = func_80065944(ang) >> 6;
+        self->x_pos.i.hi = M2C_FIELD(self, u16*, 0x84) + (rcos(ang) >> 6);
+        t = rsin(ang) >> 6;
         self->unk7 = 0;
         self->y_pos.i.hi = M2C_FIELD(self, u16*, 0x86) + t;
         func_80042A9C(self, 0);

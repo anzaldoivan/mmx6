@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -6,9 +7,6 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002A47C(s32);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern s32 D_8007429C;
 extern M2C_UNK g_Player;
 extern s32 D_800FB294;
@@ -62,12 +60,11 @@ void func_800EFA5C(void* arg0) {
         M2C_FIELD(M2C_FIELD(arg0, void**, 0x7C), s16*, 0xE);
     {
         u8* g = (u8*)&g_Player;
-        ang = (s16)func_80065B74(
-            M2C_FIELD(g, s16*, 0xE) - M2C_FIELD(arg0, s16*, 0xE),
-            M2C_FIELD(g, s16*, 0xA) - M2C_FIELD(arg0, s16*, 0xA));
+        ang = (s16)ratan2(M2C_FIELD(g, s16*, 0xE) - M2C_FIELD(arg0, s16*, 0xE),
+                          M2C_FIELD(g, s16*, 0xA) - M2C_FIELD(arg0, s16*, 0xA));
     }
-    M2C_FIELD(arg0, s32*, 0x20) = func_80065A14(ang) << 5;
-    M2C_FIELD(arg0, s32*, 0x24) = -func_80065944(ang) << 5;
+    M2C_FIELD(arg0, s32*, 0x20) = rcos(ang) << 5;
+    M2C_FIELD(arg0, s32*, 0x24) = -rsin(ang) << 5;
     M2C_FIELD(arg0, u8*, 0x5C) = 1;
     M2C_FIELD(arg0, s32*, 0x28) = 0;
     M2C_FIELD(arg0, s32*, 0x2C) = 0;

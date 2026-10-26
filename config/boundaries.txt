@@ -2,8 +2,8 @@
 # rows: jtbl <table_lo> <table_hi> <func> <src> [note|reason]; lib <lo> <hi> <LIB/OBJ>; optcand <lo> <hi> <reason> funcs=<n>; fstart <addr> calls=<n> [ovl_calls=<n>]; spans [lo, hi)
 # program SLUS_013.95 base 0x80010000 size 0x7f000
 # jtbl sites=47 switchdata=41 both=41 scan=6 ghidra=0 hi_mismatch=9 rejected_jr=360
-# lib objects=235 funcs_covered=828/1343 ambiguous_name=9 ambiguous_plate=374 overlaps=4
-# optcand spans=0 funcs=0/1343 fstart=90
+# lib objects=234 funcs_covered=832/1355 ambiguous_name=9 ambiguous_plate=374 overlaps=3
+# optcand spans=0 funcs=0/1355 fstart=86
 jtbl 0x80010024 0x80010038 0x80014f70 scan ghidra-address-table-not-switch bound=sltiu
 jtbl 0x8001004c 0x80010068 0x80015230 both ghidra_hi=0x80010090
 jtbl 0x80010068 0x80010090 0x8001a330 both ghidra_hi=unknown
@@ -40,7 +40,7 @@ jtbl 0x80011398 0x800113ac 0x80034830 both
 jtbl 0x800113b0 0x800113c4 0x80034b70 both ghidra_hi=0x80011574
 jtbl 0x800113c4 0x8001149c 0x8003aad0 both ghidra_hi=unknown
 jtbl 0x8001149c 0x80011574 0x8003f864 both ghidra_hi=unknown
-jtbl 0x80011590 0x800115b0 0x8003fff4 both ghidra_hi=unknown
+jtbl 0x80011590 0x800115b0 0x80040304 both ghidra_hi=unknown
 jtbl 0x800115f0 0x80011614 0x80048584 scan ghidra-address-table-not-switch bound=sltiu
 jtbl 0x80011614 0x80011674 0x8004d598 both ghidra_hi=unknown
 jtbl 0x80011644 0x80011674 0x8004e26c both ghidra_hi=unknown
@@ -112,7 +112,6 @@ lib 0x80058734 0x800587f4 LIBSND.LIB/SSSATTR.OBJ
 lib 0x800587f4 0x80058b74 LIBSPU.LIB/S_SCA.OBJ
 lib 0x80058b74 0x80058bc4 LIBSND.LIB/SSSMV.OBJ
 lib 0x80058bc4 0x80058ed4 LIBSND.LIB/SSSTART.OBJ
-lib 0x80058df4 0x80058e14 LIBSPU.LIB/S_IH.OBJ
 lib 0x80058ed4 0x80059144 LIBSND.LIB/SSCALL.OBJ
 lib 0x80059144 0x80059354 LIBSND.LIB/CRES.OBJ
 lib 0x80059354 0x800593f4 LIBSND.LIB/PAUSE.OBJ
@@ -318,7 +317,6 @@ fstart 0x8002c6f0 calls=0 ovl_calls=4
 fstart 0x8002cf0c calls=0 ovl_calls=1
 fstart 0x8002d354 calls=0 ovl_calls=6
 fstart 0x8002d380 calls=0 ovl_calls=13
-fstart 0x8002d3b4 calls=1 ovl_calls=26
 fstart 0x8002e47c calls=2 ovl_calls=0
 fstart 0x8002e664 calls=1 ovl_calls=0
 fstart 0x8002e974 calls=0 ovl_calls=1
@@ -333,7 +331,7 @@ fstart 0x80032be8 calls=2 ovl_calls=24
 fstart 0x80032c88 calls=2 ovl_calls=0
 fstart 0x80032d24 calls=1 ovl_calls=0
 fstart 0x8003a0e8 calls=0 ovl_calls=1
-fstart 0x8003a5d8 calls=0 ovl_calls=1
+fstart 0x8003a5d8 calls=0 ovl_calls=2
 fstart 0x80040004 calls=0 ovl_calls=1
 fstart 0x80040008 calls=0 ovl_calls=3
 fstart 0x8004000c calls=0 ovl_calls=2
@@ -373,13 +371,10 @@ fstart 0x80051fe8 calls=3 ovl_calls=0
 fstart 0x800533f4 calls=0 ovl_calls=1
 fstart 0x80053440 calls=0 ovl_calls=1
 fstart 0x80058574 calls=1 ovl_calls=0
-fstart 0x80058594 calls=1 ovl_calls=0
-fstart 0x8005fd54 calls=1 ovl_calls=0
-fstart 0x8005fd64 calls=1 ovl_calls=0
 # program rock_00 base 0x801ea000 size 0xae2c
 # jtbl sites=2 switchdata=2 both=2 scan=0 ghidra=0 hi_mismatch=1 rejected_jr=1
-# lib objects=0 funcs_covered=0/15 ambiguous_name=0 ambiguous_plate=3 overlaps=0
-# optcand spans=0 funcs=0/15 fstart=0
+# lib objects=0 funcs_covered=0/22 ambiguous_name=0 ambiguous_plate=3 overlaps=0
+# optcand spans=0 funcs=0/22 fstart=0
 jtbl 0x801ea004 0x801ea064 0x801f0858 both ghidra_hi=0x801ea0c4
 jtbl 0x801ea064 0x801ea0c4 0x801f0858 both ghidra_hi=unknown
 # program rock_01 base 0x801ea000 size 0x59b4
@@ -545,11 +540,11 @@ jtbl 0x800e98ec 0x800e9900 0x800ea740 both ghidra_hi=unknown
 jtbl 0x800e9900 0x800e9970 0x800ea740 both ghidra_hi=unknown
 # program rock_09 base 0x800e9860 size 0xd3b0
 # jtbl sites=6 switchdata=5 both=5 scan=1 ghidra=0 hi_mismatch=1 rejected_jr=4
-# lib objects=0 funcs_covered=0/12 ambiguous_name=0 ambiguous_plate=19 overlaps=0
-# optcand spans=0 funcs=0/12 fstart=3
-jtbl 0x800e9864 0x800e9894 0x800ee330 both ghidra_hi=0x800e98c0
-jtbl 0x800e9894 0x800e98ac 0x800ee330 both ghidra_hi=unknown
-jtbl 0x800e98ac 0x800e98c0 0x800ee330 both ghidra_hi=unknown
+# lib objects=0 funcs_covered=0/13 ambiguous_name=0 ambiguous_plate=19 overlaps=0
+# optcand spans=0 funcs=0/13 fstart=3
+jtbl 0x800e9864 0x800e9894 0x800ee934 both ghidra_hi=0x800e98c0
+jtbl 0x800e9894 0x800e98ac 0x800ee934 both ghidra_hi=unknown
+jtbl 0x800e98ac 0x800e98c0 0x800ee934 both ghidra_hi=unknown
 jtbl 0x800e98c8 0x800e98f8 0x800f14d4 scan ghidra-address-table-not-switch bound=sltiu
 jtbl 0x800e9900 0x800e9914 0x800f14d4 both
 jtbl 0x800e9918 0x800e992c 0x800f14d4 both
@@ -755,19 +750,19 @@ fstart 0x800ebe84 calls=1
 fstart 0x800ebf34 calls=1
 # program rock_24 base 0x800e9860 size 0xdfaa
 # jtbl sites=11 switchdata=10 both=10 scan=1 ghidra=0 hi_mismatch=2 rejected_jr=9
-# lib objects=0 funcs_covered=0/10 ambiguous_name=0 ambiguous_plate=20 overlaps=0
-# optcand spans=0 funcs=0/10 fstart=5
+# lib objects=0 funcs_covered=0/11 ambiguous_name=0 ambiguous_plate=20 overlaps=0
+# optcand spans=0 funcs=0/11 fstart=5
 jtbl 0x800e9864 0x800e9884 - both ghidra_hi=0x800e98b8
 jtbl 0x800e9884 0x800e98a4 - both ghidra_hi=unknown
-jtbl 0x800e98a4 0x800e98b8 0x800ece50 both ghidra_hi=unknown
-jtbl 0x800e98c8 0x800e9954 0x800ece50 scan ghidra-address-table-not-switch bound=sltiu
-jtbl 0x800e9958 0x800e99ac 0x800ece50 both
-jtbl 0x800e99b0 0x800e9a04 0x800ece50 both
-jtbl 0x800e9a08 0x800e9a5c 0x800ece50 both
-jtbl 0x800e9a60 0x800e9a74 0x800ece50 both ghidra_hi=0x800e9a6c
-jtbl 0x800e9a78 0x800e9acc 0x800ece50 both
-jtbl 0x800e9ad0 0x800e9b24 0x800ece50 both
-jtbl 0x800e9b28 0x800e9b40 0x800ece50 both
+jtbl 0x800e98a4 0x800e98b8 0x800ed454 both ghidra_hi=unknown
+jtbl 0x800e98c8 0x800e9954 0x800ed454 scan ghidra-address-table-not-switch bound=sltiu
+jtbl 0x800e9958 0x800e99ac 0x800ed454 both
+jtbl 0x800e99b0 0x800e9a04 0x800ed454 both
+jtbl 0x800e9a08 0x800e9a5c 0x800ed454 both
+jtbl 0x800e9a60 0x800e9a74 0x800ed454 both ghidra_hi=0x800e9a6c
+jtbl 0x800e9a78 0x800e9acc 0x800ed454 both
+jtbl 0x800e9ad0 0x800e9b24 0x800ed454 both
+jtbl 0x800e9b28 0x800e9b40 0x800ed454 both
 fstart 0x800ea0b0 calls=1
 fstart 0x800ea6f4 calls=1
 fstart 0x800edb44 calls=1
@@ -810,10 +805,10 @@ fstart 0x800f089c calls=2
 jtbl 0x800e9864 0x800e98d4 0x800eb1fc both
 # program rock_30 base 0x800e9860 size 0x68dc
 # jtbl sites=2 switchdata=2 both=2 scan=0 ghidra=0 hi_mismatch=1 rejected_jr=2
-# lib objects=0 funcs_covered=0/6 ambiguous_name=0 ambiguous_plate=12 overlaps=0
-# optcand spans=0 funcs=0/6 fstart=3
-jtbl 0x800e9864 0x800e9894 0x800edbcc both ghidra_hi=0x800e98ac
-jtbl 0x800e9894 0x800e98ac 0x800edbcc both ghidra_hi=unknown
+# lib objects=0 funcs_covered=0/7 ambiguous_name=0 ambiguous_plate=12 overlaps=0
+# optcand spans=0 funcs=0/7 fstart=3
+jtbl 0x800e9864 0x800e9894 0x800ee1d0 both ghidra_hi=0x800e98ac
+jtbl 0x800e9894 0x800e98ac 0x800ee1d0 both ghidra_hi=unknown
 fstart 0x800eb45c calls=1
 fstart 0x800eb5d8 calls=1
 fstart 0x800eb85c calls=1
@@ -1032,5 +1027,5 @@ jtbl 0x800fa014 0x800fa028 - both
 # jtbl sites=0 switchdata=0 both=0 scan=0 ghidra=0 hi_mismatch=0 rejected_jr=0
 # lib objects=0 funcs_covered=0/0 ambiguous_name=0 ambiguous_plate=0 overlaps=0
 # optcand spans=0 funcs=0/0 fstart=0
-# totals programs=57 sites=224 switchdata=431 both=212 scan=12 ghidra=219 hi_mismatch=48 lib=239 lib_funcs=828/1815 optcand_funcs=0/1815 fstart=122 unexplained=0
+# totals programs=57 sites=224 switchdata=431 both=212 scan=12 ghidra=219 hi_mismatch=48 lib=238 lib_funcs=832/1837 optcand_funcs=0/1837 fstart=118 unexplained=0
 # reasons ghidra-address-table-not-switch=8 inside-ghidra-switch-extent=2 jr-before-first-ghidra-func=2 label-inside-scan-table=219

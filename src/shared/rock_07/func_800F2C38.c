@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -9,9 +10,6 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK move_object(void*);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern s16 D_8009721E;
 
 void func_800F2C38(void* arg0) {
@@ -21,14 +19,14 @@ void func_800F2C38(void* arg0) {
 
     a = H(arg0, 0x84);
     b = H(arg0, 0x86);
-    ang = func_80065B74(H(arg0, 0xE) - b, a - H(arg0, 0xA));
+    ang = ratan2(H(arg0, 0xE) - b, a - H(arg0, 0xA));
     {
         s32 u;
-        t = func_80065A14(ang);
+        t = rcos(ang);
         u = t << 4;
         W(arg0, 0x20) = ((t << 5) + u) * 2;
     }
-    t = func_80065944(ang);
+    t = rsin(ang);
     {
         s32 u = t << 4;
         t = (t << 5) + u;

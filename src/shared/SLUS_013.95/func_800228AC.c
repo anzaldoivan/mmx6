@@ -8,8 +8,8 @@ s32 func_800228AC(void) {
     s32 ret;
     u8 v;
 
-    if (*(s8*)&p->unk38 == 0) {
-        v = p->unk5C[2];
+    if (*(s8*)&p->controlled_player == 0) {
+        v = p->sub_tanks[2];
         if (v == 0) {
             ret = 0;
         } else if (v == 4) {

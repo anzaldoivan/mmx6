@@ -1,11 +1,10 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #include "mmx6/x4.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 s32 func_8002D2D4();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 extern s16 D_800115B0[16][2];
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
@@ -48,17 +47,17 @@ void func_80041770(void* arg0) {
     px.i.hi = bx;
     py.i.hi = by;
     ext = (s8*)arg0 + 0x38;
-    dx = func_80065A14(ang) << 6;
-    dy = -func_80065944(ang) << 6;
+    dx = rcos(ang) << 6;
+    dy = -rsin(ang) << 6;
     for (n = 0; n < M2C_FIELD(arg0, s16*, 0x4C); n++) {
         px.val += dx;
         py.val += dy;
     }
     ang2 = (ang + 0x400) & 0xFFF;
-    t = func_80065A14(ang2);
+    t = rcos(ang2);
     w = M2C_FIELD(arg0, s16*, 0x4E) + 1;
     r = (t * (s16)(((s16)(n >> 2) >> 1) + w)) >> 12;
-    t = func_80065944(ang2);
+    t = rsin(ang2);
     z = py.i.hi;
     bgx = background_objects[0].x_pos.i.hi;
     bgy = background_objects[0].y_pos.i.hi;

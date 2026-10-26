@@ -8,6 +8,7 @@ extern s32 D_800FC9A0;
 extern void (*D_800FCB88[])(void*);
 extern s8 D_800FD51C;
 
+// str 0x800FC9A0 sha1=44c6d6c2ecd801e25abad8013bf897c534962379 = "printable byte run: a table, not text"
 void func_800F39A8(void* arg0) {
     if (D_800FD51C == 0) {
         if (M2C_FIELD(arg0, s8*, 6) != 3) {

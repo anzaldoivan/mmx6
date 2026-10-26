@@ -1,10 +1,9 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #include "mmx6/x4.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 extern s32 D_80097420;
 extern u8 D_800E99B4[];
 
@@ -33,8 +32,8 @@ void func_800F1264(void* self) {
     y0 = M2C_FIELD(parent, u16*, 0xE) + tbl[ang >> 8][1];
     px.i.hi = x0;
     py.i.hi = y0;
-    dx = func_80065A14(ang) << 8;
-    dy = -func_80065944(ang) << 8;
+    dx = rcos(ang) << 8;
+    dy = -rsin(ang) << 8;
     i = 0;
     do {
         px.val += dx;
@@ -52,8 +51,8 @@ void func_800F1264(void* self) {
     case 0:
         a = ang - 0x400;
         a &= 0xFFF;
-        ox = (func_80065A14(a) * 0x60) >> 16;
-        oy = (-func_80065944(a) * 0x60) >> 16;
+        ox = (rcos(a) * 0x60) >> 16;
+        oy = (-rsin(a) * 0x60) >> 16;
         M2C_FIELD(self, s16*, 0x16) = x0 + ox;
         M2C_FIELD(self, s16*, 0x1A) = y0 + oy;
         M2C_FIELD(self, s16*, 0x1E) = x0;
@@ -66,8 +65,8 @@ void func_800F1264(void* self) {
     case 1:
         a = ang + 0x400;
         a &= 0xFFF;
-        ox = (func_80065A14(a) * 0x60) >> 16;
-        oy = (-func_80065944(a) * 0x60) >> 16;
+        ox = (rcos(a) * 0x60) >> 16;
+        oy = (-rsin(a) * 0x60) >> 16;
         M2C_FIELD(self, s16*, 0x1E) = x0 + ox;
         M2C_FIELD(self, s16*, 0x22) = y0 + oy;
         M2C_FIELD(self, s16*, 0x16) = x0;
@@ -80,8 +79,8 @@ void func_800F1264(void* self) {
     case 2:
         a = ang - 0x400;
         a &= 0xFFF;
-        ox = (func_80065A14(a) * 0x80) >> 16;
-        oy = (-func_80065944(a) * 0x80) >> 16;
+        ox = (rcos(a) * 0x80) >> 16;
+        oy = (-rsin(a) * 0x80) >> 16;
         M2C_FIELD(self, s16*, 0x16) = x0 + ox;
         M2C_FIELD(self, s16*, 0x1A) = y0 + oy;
         M2C_FIELD(self, s16*, 0x1E) = x0;
@@ -94,8 +93,8 @@ void func_800F1264(void* self) {
     case 3:
         a = ang + 0x400;
         a &= 0xFFF;
-        ox = (func_80065A14(a) * 0x80) >> 16;
-        oy = (-func_80065944(a) * 0x80) >> 16;
+        ox = (rcos(a) * 0x80) >> 16;
+        oy = (-rsin(a) * 0x80) >> 16;
         M2C_FIELD(self, s16*, 0x1E) = x0 + ox;
         M2C_FIELD(self, s16*, 0x22) = y0 + oy;
         M2C_FIELD(self, s16*, 0x16) = x0;

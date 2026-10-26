@@ -1,16 +1,17 @@
 #include "common.h"
+#include "psyq/libgpu.h"
 #include "mmx6/x4.h"
 
 extern X4_P_TAG* D_8008EB08[2][4][8];
 extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_80071414[];
-s32 func_80068DD4(s32, s32, s32, s32);
 
 #define SCR_BUF (*(s32*)0x1F800000)
 #define SCR_PRIM (*(u8**)0x1F800100)
 #define SCR_TPAGE (*(u32**)0x1F800104)
 #define SCR_COUNT (*(s32*)0x1F800124)
 
+// str 0x80071414 sha1=da17cf3c1e17339ae83536220ac20010c213d1ea = "six 0xC6 bytes: data, not text"
 void func_800241D4(void* arg0) {
     u8* a = arg0;
     s16 dx;
@@ -66,8 +67,8 @@ void func_800241D4(void* arg0) {
         prim[0x15] = *c++;
         prim[0x16] = *c++;
         ((X4_P_TAG*)tp)->len = 1;
-        tp[1] = (func_80068DD4(0, (s32)(a[0] << 24) >> 29, 0, 0) & 0x9FF) |
-                0xE1000000;
+        tp[1] =
+            (GetTPage(0, (s32)(a[0] << 24) >> 29, 0, 0) & 0x9FF) | 0xE1000000;
         hi = a[0x36] >> 4;
         lo = a[0x36] & 7;
         D_8008EB08[SCR_BUF][hi][lo]->addr = (u32)tp;

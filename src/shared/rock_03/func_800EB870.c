@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 
 #define SPAD (*(u8**)0x1F80004C)
@@ -8,8 +9,6 @@
 #define FU8(p, o) (*(u8*)((u8*)(p) + (o)))
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 void func_800EBB70(u8* arg0, u8 arg1);
 
 void func_800EB870(void* arg0) {
@@ -18,8 +17,8 @@ void func_800EB870(void* arg0) {
 
     F32(SPAD, 0x80) += F32(SPAD, 0x84);
     F32(SPAD, 0x80) &= 0xFFF;
-    s = (func_80065A14(F32(SPAD, 0x80)) << 4) >> 12;
-    c = (func_80065944(F32(SPAD, 0x80)) << 4) >> 12;
+    s = (rcos(F32(SPAD, 0x80)) << 4) >> 12;
+    c = (rsin(F32(SPAD, 0x80)) << 4) >> 12;
     F16(arg0, 0xA) = F16(SPAD, 0x8A) + s;
     F16(arg0, 0xE) = F16(SPAD, 0x8C) - c;
     if (--F16(arg0, 0x7C) == 0) {

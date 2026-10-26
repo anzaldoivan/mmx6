@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/55C4.c:func_800163EC, AGPL-3.0; proven shared with X6 by exact signature 65b2d7edf418 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:func_800163EC, AGPL-3.0; proven shared with X6 by exact signature 65b2d7edf418 (see THIRD_PARTY.md). */
 #include "common.h"
 extern s8 D_800CC869;
 extern u8 D_800E2E14;

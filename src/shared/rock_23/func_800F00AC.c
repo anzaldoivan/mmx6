@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -8,9 +9,6 @@
 s32 func_800179A4(void*, s32);
 M2C_UNK func_80017A04();
 M2C_UNK func_8002D230();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern struct X4_PlayerObj g_Player;
 
 void func_800F00AC(struct X4_MainObj* self) {
@@ -21,7 +19,8 @@ void func_800F00AC(struct X4_MainObj* self) {
         // !FAKE: inherited from src/shared/rock_08/func_800ECBC4.c
         register s32 t asm("$2") = OH(self, 0x80);
         if (t == 0) {
-            goto ready; // !FAKE: inherited from src/shared/rock_08/func_800ECBC4.c
+            // !FAKE: inherited from src/shared/rock_08/func_800ECBC4.c
+            goto ready;
         }
     }
     {
@@ -39,9 +38,9 @@ ready:
         OH(self, 0x82) = x;
         y = g_Player.y_pos.i.hi;
         OH(self, 0x84) = y;
-        a = func_80065B74((s16)y - self->y_pos.i.hi, (s16)x - self->x_pos.i.hi);
+        a = ratan2((s16)y - self->y_pos.i.hi, (s16)x - self->x_pos.i.hi);
     }
-    OW(self, 0x20) = func_80065A14(a) << 5;
-    OW(self, 0x24) = -func_80065944(a) << 5;
+    OW(self, 0x20) = rcos(a) << 5;
+    OW(self, 0x24) = -rsin(a) << 5;
     self->unk7++;
 }

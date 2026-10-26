@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -9,8 +10,6 @@ extern u16 D_8009B79C;
 struct X4_QuadObj* func_8002C7F0(void);
 M2C_UNK func_8002C9B0();
 void func_8004D598(void* arg0);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 
 void func_8004D318(struct X4_QuadObj* self) {
     struct X4_QuadObj* q;
@@ -49,9 +48,9 @@ void func_8004D318(struct X4_QuadObj* self) {
             }
             F32(self, 0x3C) = (F32(self, 0x3C) * 0x16A0) >> 12;
         }
-        F32(self, 0x50) = func_80065A14(F32(self, 0x38));
-        F32(self, 0x4C) = func_80065944(F32(self, 0x38));
-        F32(self, 0x54) = -func_80065944(F32(self, 0x38));
+        F32(self, 0x50) = rcos(F32(self, 0x38));
+        F32(self, 0x4C) = rsin(F32(self, 0x38));
+        F32(self, 0x54) = -rsin(F32(self, 0x38));
         q = func_8002C7F0();
         if (q != 0) {
             q->active = self->active;

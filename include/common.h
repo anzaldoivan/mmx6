@@ -1,4 +1,4 @@
-/* common.h — included first by every src/ C unit (hand-edited).
+/* common.h -- included first by every src/ C unit (hand-edited).
  * INCLUDE_ASM(FOLDER, NAME): a function not yet decompiled; assembles the splat-written
  * FOLDER/NAME.s (asm/<bin>/nonmatchings/<tu>/, ignored, never tracked) in place.
  * A NON_MATCHING draft sits under `#ifdef NON_MATCHING` with its INCLUDE_ASM in the

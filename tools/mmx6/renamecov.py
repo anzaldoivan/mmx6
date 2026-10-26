@@ -6,8 +6,8 @@
          config/refs.toml) and prints the lines below.
   renamecov.py --self-test
       -> planted tree under .run/<phase>/renamecov-selftest/ (removed at the end): a clean tree passes; a symbols-file
-         symbol with no basis, a src extern with no basis and an x4 row with a wrong name are each refused with the
-         right why. Ends `RENAMECOV CONTROL OK` rc 0, or `RENAMECOV CONTROL FAIL <case>` rc 1.
+         symbol with no basis, a src extern with no basis, an x4 row with a wrong name and an sdk row of tier `lead`
+         are each refused with the right why; an sdk row of tier `proven-at-gate` passes. Ends `RENAMECOV CONTROL OK` rc 0, or `RENAMECOV CONTROL FAIL <case>` rc 1.
 
 Inputs
   symbols   config/symbols.<prog>.txt (prog = the filename middle): lines `name = 0xADDR; ...`; `//` lines skipped.
@@ -35,6 +35,7 @@ Rules
     scope <s>                  any other scope
     name <n> not <alias>       without a role clause the name is the names alias (col 5)
     role name equals alias <a> with a role clause the name differs from the alias
+  Each `sdk` basis row (a PsyQ SDK library match): tier must be `proven-at-gate`, else `tier <t>`; counted as other.
 
 Lines (sorted, stable)
   RENAMECOV REFUSE <prog> <vram> <name> <why>     one per fault
@@ -241,6 +242,8 @@ def scan(symdir, srcdir, basis_path, names_path, refs_path):
     for row in basis:
         if len(row) < 4 or row[3] != "x4":
             o += 1
+            if len(row) >= 4 and row[3] == "sdk" and (row + [""] * 6)[5] != "proven-at-gate":
+                refuse.add(f"RENAMECOV REFUSE {row[0]} {row[1]} {row[2]} tier {(row + [''] * 6)[5]}")
             continue
         if ROLE.search(row[4] if len(row) > 4 else ""):
             r += 1
@@ -274,7 +277,7 @@ PIN_FULL = "abcdef0123456789abcdef0123456789abcdef01"
 NB = "x4 exact 0123456789ab sozud/mmx4@abcdef0 src/main/a.c:do_thing"
 
 
-def plant(base, extra_sym="", extra_src="", alias="do_thing"):
+def plant(base, extra_sym="", extra_src="", alias="do_thing", extra_basis=""):
     if base.exists():
         shutil.rmtree(base)
     (base / "config/symbols").mkdir(parents=True)
@@ -291,7 +294,7 @@ def plant(base, extra_sym="", extra_src="", alias="do_thing"):
     head = "# prog\tvram\tname\tbasis-kind\tbasis-ref\ttier\n"
     (base / "config/symbols/basis.tsv").write_text(
         head + f"SLUS_013.95\t0x80010010\tdo_thing\tx4\t{NB[3:]}; corroborator hand community\tgate\n"
-        "SLUS_013.95\t0x80054AD8\t__start\tcommunity\tcrt0\t-\n")
+        "SLUS_013.95\t0x80054AD8\t__start\tcommunity\tcrt0\t-\n" + extra_basis)
     (base / "names.tsv").write_text(f"SLUS_013.95\t0x80010010\tfunc\tfunc_80010010\t{alias}\tgate\tengine\t-\t{NB}\n")
     (base / "refs.toml").write_text(f'[[ref]]\nname = "other"\nref = "1111111"\n\n[[ref]]\nname = "mmx4"\n'
                                     f'ref = "{PIN_FULL}"\n')
@@ -306,6 +309,10 @@ def selftest():
          "RENAMECOV REFUSE rock_01 - planted_extern no basis"),
         ("x4-wrong-name", {"alias": "other_thing"},
          "RENAMECOV REFUSE SLUS_013.95 0x80010010 do_thing name do_thing not other_thing"),
+        ("sdk-proven", {"extra_basis": "SLUS_013.95\t0x80050000\tCdInit\tsdk\tLIBCD CDINIT.OBJ\tproven-at-gate\n"},
+         None),
+        ("sdk-lead", {"extra_basis": "SLUS_013.95\t0x80050000\tCdInit\tsdk\tLIBCD CDINIT.OBJ\tlead\n"},
+         "RENAMECOV REFUSE SLUS_013.95 0x80050000 CdInit tier lead"),
     ]
     rc = 0
     try:
@@ -313,7 +320,7 @@ def selftest():
             plant(SELFTEST, **kw)
             refuse, renames, n = scan(SELFTEST / "config", SELFTEST / "src", SELFTEST / "config/symbols/basis.tsv",
                                       SELFTEST / "names.tsv", SELFTEST / "refs.toml")
-            ok = renames == "RENAMES x4 1 role 0 other 1"
+            ok = renames == f"RENAMES x4 1 role 0 other {1 + ('extra_basis' in kw)}"
             ok = ok and (refuse == [] and n == 2 if want is None else refuse == [want])
             if not ok:
                 print(f"RENAMECOV CONTROL FAIL {case}")

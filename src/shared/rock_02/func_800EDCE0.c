@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/misc/misc_25_sentry_flash.c:sentry_flash_animate, AGPL-3.0; proven shared with X6 by exact signature 7ce572c2f092 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/misc/misc_25_sentry_flash.c:sentry_flash_animate, AGPL-3.0; proven shared with X6 by exact signature 7ce572c2f092 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32

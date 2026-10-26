@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/visuals/visual_02_charge_muzzle_flash.c:charge_muzzle_flash_fade, AGPL-3.0; proven shared with X6 by exact signature eb3a6db008dc (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_02_charge_muzzle_flash.c:charge_muzzle_flash_fade, AGPL-3.0; proven shared with X6 by exact signature eb3a6db008dc (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
@@ -10,6 +10,6 @@ void func_80049950(struct X4_VisualObj* arg0) {
         arg0->unk5C.value != 0) {
         ((void (*)())func_8002C9B0)(arg0);
     } else {
-        ((void (*)())func_8002CCB0)(arg0, 0x40, 0x20);
+        func_8002CCB0(arg0, 0x40, 0x20);
     }
 }

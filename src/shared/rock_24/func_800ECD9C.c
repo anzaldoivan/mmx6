@@ -17,8 +17,8 @@ void func_800ECD9C(void* self) {
         M2C_FIELD(self, s16*, 0x7C) = 2;
         hi = g_Player.hp & 0x80;
         e = (struct X4_EngineObj*)((s8*)&D_800CCED0 - -g_Player.unk2);
-        if ((g_Player.hp & 0x7F) >= e->unk5C[-1]) {
-            g_Player.hp = hi | e->unk5C[-1];
+        if ((g_Player.hp & 0x7F) >= e->sub_tanks[-1]) {
+            g_Player.hp = hi | e->sub_tanks[-1];
             M2C_FIELD(self, s16*, 0x7C) = 0x1B;
             M2C_FIELD(self, s8*, 6) += 1;
         } else {

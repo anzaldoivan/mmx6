@@ -1,7 +1,7 @@
 #include "common.h"
+#include "psyq/libetc.h"
 #include "mmx6/x4.h"
 
-int func_80060964(int mode);
 extern struct X4_PlayerObj g_Player;
 extern s32 D_80097420;
 extern struct X4_EngineObj D_800CCED0;
@@ -45,7 +45,7 @@ void func_80034DCC(void) {
         } else {
             if (D_80073A1C[p->unk5 & 0x3F] != 0 && D_800CCF37 != 0) {
                 if (D_80097420 & 1) {
-                    func_80060964(0);
+                    VSync(0);
                 }
             }
             if (D_80073A6C[p->unk5 & 0x3F] != 0) {

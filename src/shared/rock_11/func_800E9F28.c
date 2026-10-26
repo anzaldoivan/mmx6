@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -6,15 +7,13 @@
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK move_object();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 void func_800EAB04(void*);
 extern s8 D_800970A2;
 
 #define AIM(dir, ang)                                                          \
     func_800179A4(self, (dir));                                                \
-    M2C_FIELD(self, s32*, 0x20) = func_80065A14((ang)) << 5;                   \
-    M2C_FIELD(self, s32*, 0x24) = func_80065944((ang)) << 5;                   \
+    M2C_FIELD(self, s32*, 0x20) = rcos((ang)) << 5;                            \
+    M2C_FIELD(self, s32*, 0x24) = rsin((ang)) << 5;                            \
     break;
 
 void func_800E9F28(struct X4_BaseObj* self) {

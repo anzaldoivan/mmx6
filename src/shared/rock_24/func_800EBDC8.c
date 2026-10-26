@@ -52,17 +52,20 @@ void func_800EBDC8(struct X4_MainObj* self) {
             }
             f = g = FLAGS;
             if (!(g & 8)) {
-                goto set2; // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+                // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+                goto set2;
             }
         }
         if ((f & 2) || (f & 1)) {
-            goto set2; // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+            // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+            goto set2;
         }
         if (func_8002CBFC(self, 0x20, 0x20) != 0) {
             self->state = 2;
             return;
         }
-        goto approach; // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+        // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+        goto approach;
     } else if (self->unk2 == 1) {
         t = M2C_FIELD(self, s16*, 0x8C);
         self->on_screen = 1;
@@ -79,17 +82,21 @@ void func_800EBDC8(struct X4_MainObj* self) {
         if (func_80030ECC(self) != 0) {
         turn:
             func_80049E50(self);
-            goto set2; // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+            // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+            goto set2;
         }
         if (r < 0 || FLAGS != 0) {
-            goto turn; // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+            // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+            goto turn;
         }
         func_8002EE10(self);
         if (FLAGS != 0) {
-            goto turn; // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+            // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+            goto turn;
         }
         if (func_8002CBFC(self, 0x20, 0x20) != 0) {
-            goto set2; // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+            // !FAKE: inherited from src/shared/rock_09/func_800EA178.c
+            goto set2;
         }
     approach:
         func_8002CCB0(self, 0x10, 0x10);

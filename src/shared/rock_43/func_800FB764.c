@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -6,9 +7,6 @@
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern M2C_UNK D_8007433C;
 extern struct X4_PlayerObj g_Player;
 extern s32 D_800FDE30;
@@ -62,7 +60,7 @@ void func_800FB764(struct X4_MainObj* self) {
     } else {
         x = x - pl->x_pos.i.hi;
     }
-    a = (s16)func_80065B74(pl->y_pos.i.hi - (s16)y, x);
+    a = (s16)ratan2(pl->y_pos.i.hi - (s16)y, x);
     if (a <= 0) {
         if (a >= -0x3FF) {
             if (a < -0x200) {
@@ -81,8 +79,8 @@ void func_800FB764(struct X4_MainObj* self) {
     if (self->unk2 == 5) {
         a = (self->unk15 == 0) << 11;
     }
-    self->x_speed = func_80065A14(a) << 6;
-    self->y_speed = -func_80065944(a) << 6;
+    self->x_speed = rcos(a) << 6;
+    self->y_speed = -rsin(a) << 6;
     self->x_accel = 0;
     self->gravity = 0;
     self->hp = 1;

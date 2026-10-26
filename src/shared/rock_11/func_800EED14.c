@@ -26,6 +26,8 @@ extern s8 D_800FD520;
 extern s8 D_800FD521;
 extern u8 D_800FD522;
 
+// str 0x800FC99C sha1=0eac54faaac158f6d801fad2ace88d48fcfa11f5 = "printable byte run: a table, not text"
+// str 0x800FC9A0 sha1=44c6d6c2ecd801e25abad8013bf897c534962379 = "tail of the same byte run"
 void func_800EED14(void* arg0) {
     s32 i;
     s32 y;

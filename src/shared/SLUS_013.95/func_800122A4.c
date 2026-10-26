@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgpu.h"
 #include "mmx6/x4.h"
 
 extern u8 D_8006D5FC[];
@@ -6,8 +7,6 @@ extern u16 D_8009B79C;
 extern struct X4_EngineObj D_800CCED0;
 extern u8 D_800CF908[];
 extern u8 D_800CF948[];
-void func_80066EDC(void*, s16*);
-void func_80066F5C(void*, s16*);
 
 void func_800122A4(s8 arg0, s8 arg1) {
     s16 r[4];
@@ -23,8 +22,8 @@ void func_800122A4(s8 arg0, s8 arg1) {
     t[2] = (s8)e[0xD0];
     t[1] = (s8)e[0xD1];
     t[3] = (s8)e[0xD1] + 0xF0;
-    func_80066F5C(D_800CF908, &t[0]);
-    func_80066F5C(D_800CF908 + 0xC, &t[2]);
+    SetDrawOffset(D_800CF908, &t[0]);
+    SetDrawOffset(D_800CF908 + 0xC, &t[2]);
     if ((s8)e[0xD0] < 0) {
         r[0] = 0;
         r[2] = D_8009B79C + (s8)e[0xD0];
@@ -43,7 +42,7 @@ void func_800122A4(s8 arg0, s8 arg1) {
     r[3] = v;
     do {
     } while (0);
-    func_80066EDC(D_800CF948, r);
+    SetDrawArea(D_800CF948, r);
     r[1] += 0xF0;
-    func_80066EDC(D_800CF948 + 0xC, r);
+    SetDrawArea(D_800CF948 + 0xC, r);
 }

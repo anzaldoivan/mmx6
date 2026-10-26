@@ -4,7 +4,7 @@
   sdk.py --sdk DIR [--prog P] [--only RE]
       inputs: campaign/ledger.tsv (each distinct `vendor:<L>.LIB/<TU>` of P), config/boundaries.txt `lib` rows and
       docs/ops/compiler-pin.md `- gap` rows (TU -> LIB/OBJ), config/P.yaml (text subsegments), build/P.ld (splat),
-      extracted/retail/iso/P (the retail exe, `PS-X EXE`). DIR is the SDK tree (refs/Psy-Q_47, mounted at /sdk).
+      extracted/retail/iso/P (the retail exe, `PS-X EXE`). DIR is the SDK tree (tools/psyq, mounted at /sdk).
       `--only RE`: substitute only the TUs whose name matches RE (iteration aid; default every vendor TU).
       -> build/sdk/<TU>.o (psyk extract + psyq-obj-parser), build/sdk/P.ld (the fragment: one NOLOAD output section per
          non-text alloc section at its solved address, PROVIDE for each unresolved global), build/sdk/P.main.ld (the

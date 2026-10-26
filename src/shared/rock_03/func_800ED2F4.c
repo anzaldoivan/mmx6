@@ -1,11 +1,9 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 
 M2C_UNK func_80017A04();
 M2C_UNK move_object(s32);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 
 #define FU8(p, o) (*(u8*)((u8*)(p) + (o)))
 #define F16(p, o) (*(s16*)((u8*)(p) + (o)))
@@ -25,10 +23,10 @@ void func_800ED2F4(void* arg0) {
     b = F16(t, 0xA);
     x = FU8(arg0, 0x15) != 0 ? b + 0x10 : b - 0x10;
     y = F16(t, 0xE);
-    ang = func_80065B74(y - F16(arg0, 0xE), x - F16(arg0, 0xA));
-    m = func_80065A14(ang) * 0x10;
+    ang = ratan2(y - F16(arg0, 0xE), x - F16(arg0, 0xA));
+    m = rcos(ang) * 0x10;
     F32(arg0, 0x20) = m * 2 + m;
-    m = -func_80065944(ang) * 0x10;
+    m = -rsin(ang) * 0x10;
     F32(arg0, 0x24) = m * 2 + m;
     func_80017A04(arg0);
     move_object((s32)arg0);

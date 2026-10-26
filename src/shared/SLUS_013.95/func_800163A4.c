@@ -1,10 +1,9 @@
 #include "common.h"
+#include "psyq/libcd.h"
+#include "psyq/libetc.h"
 #define M2C_UNK s32
 
 void func_80018444(void);
-int func_80060964(int mode);
-s32 func_80061654();
-s32 func_800648D4(M2C_UNK, M2C_UNK, u8*);
 extern u8 D_8008EC08;
 extern u8 D_8009509C;
 extern u8 D_800DF998;
@@ -17,11 +16,11 @@ void func_800163A4(void) {
     u8 sp10;
 
     sp10 = 0xA0;
-    while (func_80061654() == 0) {
+    while (CdInit() == 0) {
     }
-    while (func_800648D4(0xE, &sp10, 0) == 0) {
+    while (CdControl(0xE, &sp10, 0) == 0) {
     }
-    func_80060964(3);
+    VSync(3);
     D_800E01CC = 0;
     D_8009509C = 0;
     D_8008EC08 = 0;

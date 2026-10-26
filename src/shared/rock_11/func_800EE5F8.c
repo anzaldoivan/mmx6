@@ -21,6 +21,7 @@ extern u8 D_800FC9D0[];
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 
+// str 0x800FC9A4 sha1=6d053fc8f29c0bf2185d6a1e0f2776be21a6d66d = "printable byte run: a table, not text"
 void func_800EE5F8(void* self) {
     s32 i;
     s32 row;

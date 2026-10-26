@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/player_weapon.c:player_set_animation_shooting, AGPL-3.0; proven shared with X6 by exact signature b7ee5de16676 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/player_weapon.c:player_set_animation_shooting, AGPL-3.0; proven shared with X6 by exact signature b7ee5de16676 (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -14,9 +15,6 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern s32 D_800741FC[];
 extern struct X4_PlayerObj g_Player;
 extern M2C_UNK D_800F8840;
@@ -79,10 +77,10 @@ void func_800EAB50(void* arg0) {
         g = &g_Player;
         dx = H(g, 0xA);
         dy = H(g, 0xE);
-        ang = func_80065B74(H(arg0, 0xE) - dy, dx - H(arg0, 0xA));
-        a = func_80065A14(ang) << 4;
+        ang = ratan2(H(arg0, 0xE) - dy, dx - H(arg0, 0xA));
+        a = rcos(ang) << 4;
         W(arg0, 0x20) = (a << 2) + a;
-        b = func_80065944(ang) << 4;
+        b = rsin(ang) << 4;
         W(arg0, 0x24) = (b << 2) + b;
         if (W(arg0, 0x20) != 0) {
             B(arg0, 0x15) = 0x40;

@@ -1,9 +1,9 @@
 #include "common.h"
+#include "psyq/libcd.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 s8 func_80014D50();
 X4_CdlCB func_800648B4(X4_CdlCB func);
-s32 func_80064B44(M2C_UNK, M2C_UNK, u8*);
 extern u16 D_8006E2EC[][2];
 extern u8 D_8008EC08;
 extern u8 D_8009509C;
@@ -41,7 +41,7 @@ void func_8001574C(void) {
     if (func_80014D50() == -1) {
     fail:
         func_800648B4(0);
-        func_80064B44(9, 0, 0);
+        CdControlB(9, 0, 0);
         D_8009509C = 0x80;
         return;
     }

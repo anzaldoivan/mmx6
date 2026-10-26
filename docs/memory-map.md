@@ -377,7 +377,8 @@ Version SLUS-01395 v1.1 throughout. Status: proven runtime (observed live in our
 - bases (prior-art L3 recomp): 0x801EA000, 0x800E9860, 0x800FA000 proven runtime (lines above).
 - L4 (Kuumba123 `MegaManX6_PS1_Modding` b3a1bf4, 5 US files): addresses only, names never committed, G102. 88 addresses.
   - 68 inside the exe text [0x80010000, 0x8008F000), checked against `config/ghidra/SLUS_013.95.jsonl` func rows + exe words (T7, 2026-10-01): 61 Ghidra function starts (consistent-with-bytes). 3 byte-level starts Ghidra did not split (prologue right after `jr ra`+slot): 0x80017e98, 0x80027aa8, 0x80027ba0 (consistent-with-bytes, missed-function candidates). 2 right after `jr ra`+slot, no prologue, in a span Ghidra left without functions: 0x800533f4, 0x80053440 (lead, leaf-function candidates). 1 no prologue, not after `jr ra`: 0x80017248 (lead, unconfirmed). 1 zero word: 0x8008ec10 (data, not code).
-  - The other 20 lie outside the exe image (RAM/scratchpad). Status: lead.
+  - The other 20 lie outside the exe text. Status (1.2): lead.
+  - 2.2 T7.c1 (2026-10-26) checked them against `.run/oracle/functions.tsv` and our splits (exe image, bss to 0x800E9860). Of 67 code addresses, 66 are census starts (the 5 Ghidra misses above included). 0x80017248 lies inside func_8001717C (mismatch). Of 21 data addresses, 18 lie in data or bss splits, and 3 lie in scratchpad RAM (not-checkable). 0x8008ec10 is a variable in data split 6D5D4. The rows are in `docs/leads/ram.tsv`, with 89 Archipelago RAM addresses (49 consistent-with-bytes, 40 mismatch).
   - None checked at runtime.
   - Scratch check: `.run/t7/l4check.py`.
 

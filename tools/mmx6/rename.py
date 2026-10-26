@@ -31,7 +31,10 @@ Edits (one plan per rename, applied only when nothing refuses)
   journal   config/x4/renames.tsv gains `prog vram old new basis` (TAB, no header).
 
 Refusals (`RENAME REFUSE <prog:vram> <why>`, rc 1; nothing of that rename is written), checked in this order
-  unknown prog:vram             no config/symbols.<prog>.txt, or no symbols line and no func_/D_<VRAM> token in scope
+  unknown prog:vram             no config/symbols.<prog>.txt, or no symbols line, no func_/D_<VRAM> token in scope and
+                                no function start at VRAM: a `"k":"func"` of config/ghidra/<prog>.jsonl, or (the prog
+                                of its `# program` line) a config/boundaries.txt `fstart`/`lib` start (an asm-only
+                                function, e.g. a PsyQ library one: it is func_<VRAM>, only its symbols line is inserted)
   define cycle <x>-><y>         a rewritten define set maps x to y with y != x also a source (C0072)
   <new> already defined         <new> is a name in the prog's symbols file, or a token on a non-preprocessor line of a
                                 scope file (`#define` alias lines do not count)
@@ -55,6 +58,7 @@ Lines (deterministic order)
   RENAME OK <n> renamed <u> unchanged | RENAME FAIL <m> refused    last line
 """
 import argparse
+import json
 import os
 import re
 import shutil
@@ -121,6 +125,7 @@ class Tree:
     def __init__(self, root):
         self.root = Path(root)
         self.cache = {}
+        self.starts = {}
         self.progs = sorted(p.name[len("symbols."):-len(".txt")] for p in (self.root / "config").glob("symbols.*.txt"))
         self.code = sorted(str(p.relative_to(self.root)) for d in ("src", "include") if (self.root / d).is_dir()
                            for p in (self.root / d).rglob("*") if p.is_file() and p.suffix in (".c", ".h"))
@@ -158,7 +163,27 @@ class Tree:
             rx = word(name)
             if any(rx.search(self.read(f)) for f in self.scope(prog)):
                 return name
-        return None
+        return f"func_{vram:08X}" if vram in self.funcs(prog) else None
+
+    def funcs(self, prog):
+        """function starts (tracked lists, asm-only functions included): config/ghidra/<prog>.jsonl `func` rows, and
+        config/boundaries.txt `fstart`/`lib` lo when its `# program` is prog (ghidra misses a few library starts)."""
+        if prog not in self.starts:
+            path, got = self.root / f"config/ghidra/{prog}.jsonl", set()
+            if path.exists():
+                for ln in path.open():
+                    if '"k":"func"' in ln:
+                        got.add(int(json.loads(ln)["addr"], 16))
+            path, mine = self.root / "config/boundaries.txt", False
+            if path.exists():
+                for ln in path.open():
+                    w = ln.split()
+                    if w[:2] == ["#", "program"] and len(w) > 2:
+                        mine = w[2] == prog
+                    elif mine and w and w[0] in ("fstart", "lib"):
+                        got.add(int(w[1], 16))
+            self.starts[prog] = got
+        return self.starts[prog]
 
     def registry(self):
         rel = "config/dedup_registry.txt"
@@ -441,6 +466,9 @@ REG = "# registry\n" \
       "func_800E0000=func_800E5000 func_800E0100=func_800E5100\n"
 PLANT = {
     "config/symbols.SLUS_013.95.txt": "// exe\n// basis: pc0\n__start = 0x80054AD8;\n",
+    "config/ghidra/SLUS_013.95.jsonl": '{"k":"program","name":"SLUS_013.95"}\n'
+                                       '{"k":"func","addr":"0x80069f04","name":"read"}\n',
+    "config/boundaries.txt": "# program SLUS_013.95 base 0x80010000\nlib 0x800615f4 0x80061624 LIBETC.LIB/VMODE.OBJ\n",
     "config/symbols.rock_09.txt": "// r9\n// basis: first code word\nfunc_800EE934 = 0x800EE934; // type:func\n",
     "config/symbols.rock_15.txt": "// basis: x\nfunc_800EE934 = 0x800EE934; // type:func\n",
     "config/symbols.rock_24.txt": "// basis: y\nfunc_800ED454 = 0x800ED454; // type:func\n"
@@ -537,6 +565,12 @@ def selftest():
          and "    move_object(1);\n" in rd("src/shared/rock_07/func_800E7000.c")
          and "void move_object(void*);" in rd("include/exe.h")
          and 'INCLUDE_ASM("asm/x", move_object);' in rd("src/SLUS_013.95/main.c"))
+    # an asm-only function (no token in src/include): a ghidra function start; only its symbols line is inserted
+    rc, out = go([(EXE, 0x80069F04, "read", "sdk LIBAPI/A52+0x0"), (EXE, 0x800615F4, "SetVideoMode", "sdk v")])
+    case("asm-only start", rc == 0 and "RENAME SLUS_013.95:0x80069F04 func_80069F04 -> read" in out
+         and rd("config/symbols.SLUS_013.95.txt").endswith(
+             "__start = 0x80054AD8;\n// basis: name: sdk v\nSetVideoMode = 0x800615F4; // type:func\n"
+             "// basis: name: sdk LIBAPI/A52+0x0\nread = 0x80069F04; // type:func\n"))
     snap = {r: rd(r) for r in ("src/rock_07/E9860.c", "include/exe.h", "config/symbols.SLUS_013.95.txt")}
     refusals = [
         ("refuse overlay name", [(EXE, 0x8003744C, "wall_hit", "x")],
@@ -558,7 +592,7 @@ def selftest():
         case(name, rc == 1 and want in out.splitlines() and out.rstrip().endswith("RENAME FAIL 1 refused"))
     case("refusals write nothing", all(rd(r) == snap[r] for r in snap)
          and (SELFTEST / "src/shared/rock_09/dust_end.c").exists()
-         and rd("config/x4/renames.tsv").count("\n") == 3)
+         and rd("config/x4/renames.tsv").count("\n") == 5)
     shutil.rmtree(SELFTEST, ignore_errors=True)
     if fails:
         print(f"RENAME CONTROL FAIL {fails[0]}")

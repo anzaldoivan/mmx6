@@ -1,13 +1,11 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80017A04();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern struct X4_PlayerObj g_Player;
 extern u8 D_800CCF38;
 
@@ -36,12 +34,12 @@ void func_800EDD88(void* arg0) {
                 dy = py - sy;
             }
             M2C_FIELD(arg0, u16*, 0x90) = g_Player.y_pos.i.hi;
-            angle = func_80065B74(dy, dx);
+            angle = ratan2(dy, dx);
         }
-        v = func_80065A14(angle);
+        v = rcos(angle);
         t = v * 16;
         M2C_FIELD(arg0, s32*, 0x20) = v * 64 + t;
-        v = -func_80065944(angle);
+        v = -rsin(angle);
         t = v * 16;
         M2C_FIELD(arg0, s32*, 0x24) = v * 64 + t;
         M2C_FIELD(arg0, u16*, 0x8C) = 0;

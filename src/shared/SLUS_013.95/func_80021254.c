@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/afterimage.c:func_800AEA58, AGPL-3.0; proven shared with X6 by exact signature 2a177c96c5fb (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/afterimage.c:func_800AEA58, AGPL-3.0; proven shared with X6 by exact signature 2a177c96c5fb (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 

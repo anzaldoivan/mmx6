@@ -1,12 +1,10 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern struct X4_PlayerObj g_Player;
 extern u8 D_800F7BA0[][6];
 extern s16 D_800F7E10;
@@ -29,10 +27,10 @@ void func_800F174C(void* arg0) {
         } else {
             UB(arg0, 0x15) = 0;
         }
-        ang = func_80065B74(g_Player.y_pos.i.hi - H(arg0, 0xE),
-                            g_Player.x_pos.i.hi - H(arg0, 0xA));
-        W(arg0, 0x20) = func_80065A14(ang) << 5;
-        W(arg0, 0x24) = -func_80065944(ang) << 5;
+        ang = ratan2(g_Player.y_pos.i.hi - H(arg0, 0xE),
+                     g_Player.x_pos.i.hi - H(arg0, 0xA));
+        W(arg0, 0x20) = rcos(ang) << 5;
+        W(arg0, 0x24) = -rsin(ang) << 5;
     }
     D_800F7E40[H(arg0, 0x8E)][0] = H(arg0, 0xA);
     D_800F7E40[H(arg0, 0x8E)][1] = H(arg0, 0xE);

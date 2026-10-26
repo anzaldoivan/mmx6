@@ -1,8 +1,8 @@
 #include "common.h"
+#include "psyq/libgte.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_80065944(s32);
 extern s8 D_800FD514;
 extern s8 D_800FD51B;
 extern s8 D_800FD51E;
@@ -15,7 +15,7 @@ extern s16 D_800FD526;
 void func_800EF204(void* arg0) {
     s32 m;
 
-    F(s16, 0xE) = ((-func_80065944(F(s16, 0x7E)) * 6) >> 12) + 0x20;
+    F(s16, 0xE) = ((-rsin(F(s16, 0x7E)) * 6) >> 12) + 0x20;
     F(s16, 0x7E) += 0x14;
     m = D_800FD514;
     if (m == 3 && (--F(s16, 0x8A) == 0 || (u16)D_800FD526 < 0xB)) {

@@ -585,7 +585,7 @@
 {"k":"comment","addr":"0x800eb7d4","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800eb7f4","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800eb900","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
-{"k":"comment","addr":"0x800ec498","type":"plate","text":"x4: tile_scanner_init [gate/object] sozud/mmx4@6a6b455 src/main/effects/effect_05_tile_scanner.c:tile_scanner_init"}
+{"k":"comment","addr":"0x800ec498","type":"plate","text":"x4: tile_scanner_init [gate/object] sozud/mmx4@6a6b455 src/main/effects/effect_05_tile_scanner.c:tile_scanner_init\nx4: tile_scanner_init [gate/object] sozud/mmx4@807a01b src/main/effects/effect_05_tile_scanner.c:tile_scanner_init"}
 {"k":"comment","addr":"0x800ed334","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800edc14","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ee46c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}

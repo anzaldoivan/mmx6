@@ -7,6 +7,9 @@ Where a symbol name comes from, what proves it, and which tool records the proof
   (`set_animation`, `get_layout_screen`, `player_set_animation_frame`, `bomb_bat_hover_start`). A global starts
   with `g_`, as mmx4 writes `g_Player`. A table is a plain noun (`background_objects`, `vram_rect_ptrs`).
   Library names (`DecDCTReset`) keep the SDK's spelling.
+- These names stay compatible with sozud/mmx4. An unnamed function is `func_XXXXXXXX` and unnamed data is `D_XXXXXXXX`,
+  with the address in eight hex digits. An object's per-frame function is `update_<object>`. An unknown field is
+  `unkXX`, where XX is its hex offset. The standard for a finished file and its comments is `docs/semantic-c.md`.
 
 ## Tiers (D1)
 1. A function with tier `gate`, scope `engine`, one mmx4 partner and at least one corroborator takes its mmx4 name

@@ -1,0 +1,2 @@
+# config/x4/hold.tsv -- files x4port --repin never rewrites (phase 2.1 T2; causes R2.1-004, 1.10 T4).
+# path	pin	blocker

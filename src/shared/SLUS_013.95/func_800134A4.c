@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/2824.c:func_80012910, AGPL-3.0; proven shared with X6 by exact signature 56ff4cada450 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/2824.c:func_80012910, AGPL-3.0; proven shared with X6 by exact signature 56ff4cada450 (see THIRD_PARTY.md). */
 #include "common.h"
 
 void func_800134A4(s32 arg0) {

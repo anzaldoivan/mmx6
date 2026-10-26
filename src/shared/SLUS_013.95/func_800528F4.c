@@ -1,13 +1,12 @@
 #include "common.h"
+#include "psyq/libcd.h"
+#include "psyq/libetc.h"
+#include "psyq/libsnd.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
 M2C_UNK func_80014F70(M2C_UNK, M2C_UNK, M2C_UNK);
-void func_8005FD74(s32);
-int func_80060964(int mode);
-s32 func_80064804(s32);
 X4_CdlCB func_800648B4(X4_CdlCB func);
-s32 func_80064B44(M2C_UNK, M2C_UNK, u8*);
 extern u16 D_8007A0E0[];
 extern u8 D_8008EC08;
 extern s8 D_80090D50[6];
@@ -87,7 +86,7 @@ void func_800528F4(struct X4_BaseObj* self) {
         }
         if (self->unk5 == 1) {
             if (D_80090D50[5] != -1) {
-                func_8005FD74(D_80090D50[5]);
+                SsVabClose(D_80090D50[5]);
                 D_80090D50[5] = -1;
                 D_800E4490 = D_8009776C;
             } else {
@@ -113,11 +112,11 @@ void func_800528F4(struct X4_BaseObj* self) {
             D_800E4488 = 0;
         } else if (++D_800E4488 >= 0x259) {
             func_800648B4(0);
-            while (func_80064804(0) == 0) {
+            while (CdReset(0) == 0) {
             }
-            while (func_80064B44(0xE, (s32)&sp10, 0) == 0) {
+            while (CdControlB(0xE, (s32)&sp10, 0) == 0) {
             }
-            func_80060964(3);
+            VSync(3);
             D_8009509C = 0xC0;
         }
         break;

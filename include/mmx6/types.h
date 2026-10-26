@@ -1,4 +1,4 @@
-/* mmx6/types.h — the one home of the project's types (hand-edited; Phase 1.6 T3).
+/* mmx6/types.h -- the one home of the project's types (hand-edited; Phase 1.6 T3).
  * Every typedef and struct the C units use is defined here, once, each preceded by its `// evidence:` line.
  * tools/mmx6/typecheck.py refuses a definition outside include/mmx6/, a duplicate shape, or a raw address cast in
  * src/<prog>/. Included by common.h. */

@@ -1,12 +1,11 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 s32 func_8002D2D4();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 
 void func_800F1EB0(void* arg0) {
     s32 r;
@@ -30,16 +29,16 @@ void func_800F1EB0(void* arg0) {
             break;
         }
         if (M2C_FIELD(arg0, u8*, 0x15) == 0) {
-            v = func_80065A14(0x71D);
+            v = rcos(0x71D);
             ang = 0x71D;
         } else {
-            v = func_80065A14(0xE3);
+            v = rcos(0xE3);
             ang = 0xE3;
         }
         m = v * 0x10;
         v = m * 2 + m;
         M2C_FIELD(arg0, s32*, 0x20) = v * 2;
-        v = func_80065944(ang);
+        v = rsin(ang);
         m = v * 0x10;
         v = m * 2 + m;
         v = v * 2;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
@@ -8,7 +9,6 @@ void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 s32 func_8004EECC(void*);
 s32 func_8004FE8C();
 void func_8004FF00(u8, s32);
-s32 func_80065944(s32);
 extern s32 D_80097420;
 
 void func_8004EA78(u8* arg0) {
@@ -45,8 +45,7 @@ void func_8004EA78(u8* arg0) {
         }
         if (arg0[0x7E] == 1) {
             *(s16*)(arg0 + 0xE) =
-                *(u16*)(arg0 + 0x7C) +
-                (func_80065944((D_80097420 & 0x7F) << 5) >> 0xA);
+                *(u16*)(arg0 + 0x7C) + (rsin((D_80097420 & 0x7F) << 5) >> 0xA);
         }
         if (func_8002CBFC(arg0, 0x30, 0x30) == 0) {
             if (arg0[0x84] == 0) {

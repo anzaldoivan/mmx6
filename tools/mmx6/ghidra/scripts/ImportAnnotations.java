@@ -366,7 +366,11 @@ public class ImportAnnotations extends GhidraScript {
         SymbolTable st = currentProgram.getSymbolTable();
         for (Symbol sym : st.getSymbols(a))
             if (sym.getName().equals(name)) {
-                if (bo(o, "primary") && !sym.isPrimary()) { sym.setPrimary(); nLabels++; } else unchanged++;
+                boolean ch = false;
+                if (bo(o, "primary") && !sym.isPrimary()) { sym.setPrimary(); ch = true; }
+                // analysis may already hold the name (e.g. a psx_ldr signature match): carry the row's source
+                if (sym.getSource() != src) { sym.setSource(src); ch = true; }
+                if (ch) nLabels++; else unchanged++;
                 return;
             }
         Function f = currentProgram.getFunctionManager().getFunctionAt(a);

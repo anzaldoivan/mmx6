@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -8,9 +9,6 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern s32 D_8007429C;
 extern M2C_UNK D_8007433C;
 extern s32 D_8007541C;
@@ -53,17 +51,16 @@ void func_800F38F4(void* arg0) {
         M2C_FIELD(arg0, void**, 0x54) = &D_800FB300;
         M2C_FIELD(arg0, void**, 0x50) = &D_800FB30C;
         M2C_FIELD(arg0, void**, 0x68) = &D_800FB318;
-        ang =
-            func_80065B74(M2C_FIELD(g, s16*, 0xE) - M2C_FIELD(arg0, s16*, 0xE),
-                          M2C_FIELD(g, s16*, 0xA) - M2C_FIELD(arg0, s16*, 0xA));
+        ang = ratan2(M2C_FIELD(g, s16*, 0xE) - M2C_FIELD(arg0, s16*, 0xE),
+                     M2C_FIELD(g, s16*, 0xA) - M2C_FIELD(arg0, s16*, 0xA));
         if (M2C_FIELD(s2, s8*, 2) == 0) {
-            M2C_FIELD(arg0, s32*, 0x20) = func_80065A14(ang) * 32;
-            M2C_FIELD(arg0, s32*, 0x24) = -func_80065944(ang) * 32;
+            M2C_FIELD(arg0, s32*, 0x20) = rcos(ang) * 32;
+            M2C_FIELD(arg0, s32*, 0x24) = -rsin(ang) * 32;
         } else {
-            c = func_80065A14(ang);
+            c = rcos(ang);
             v = c * 16;
             M2C_FIELD(arg0, s32*, 0x20) = c * 64 + v;
-            d = -func_80065944(ang);
+            d = -rsin(ang);
             v = d << 4;
             M2C_FIELD(arg0, s32*, 0x24) = (d << 6) + v;
         }

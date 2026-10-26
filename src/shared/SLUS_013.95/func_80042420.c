@@ -1,18 +1,17 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #include "mmx6/x4.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void func_80042A9C(struct X4_MainObj* self, s32 arg1);
 void func_80042C18(struct X4_MainObj* self);
-s32 func_80065944(s32);
 extern s32 D_80097420;
 
 void func_80042420(struct X4_MainObj* self) {
     s16 y;
 
-    y = M2C_FIELD(self, u16*, 0x86) +
-        (func_80065944((D_80097420 & 0x7F) << 5) >> 9);
+    y = M2C_FIELD(self, u16*, 0x86) + (rsin((D_80097420 & 0x7F) << 5) >> 9);
     self->y_pos.i.hi = y;
     if (--self->unk7C == 0) {
         if ((self->unk2 & 0xF0) == 0x30) {

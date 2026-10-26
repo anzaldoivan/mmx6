@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #include "mmx6/x4.h"
 
 #define OUB(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -6,9 +7,6 @@
 #define OW(p, o) (*(s32*)((u8*)(p) + (o)))
 #define OP(p, o) (*(void**)((u8*)(p) + (o)))
 
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern struct X4_PlayerObj g_Player;
 extern s32 D_800F977C;
 extern s32 D_800F9780;
@@ -24,9 +22,9 @@ void func_800F7130(void* arg0) {
     OP(arg0, 0x68) = &D_800F9784;
     dx = g_Player.x_pos.i.hi;
     dy = g_Player.y_pos.i.hi;
-    angle = func_80065B74(OH(arg0, 0xE) - dy, dx - OH(arg0, 0xA));
-    OW(arg0, 0x20) = func_80065A14(angle) << 6;
-    OW(arg0, 0x24) = func_80065944(angle) << 6;
+    angle = ratan2(OH(arg0, 0xE) - dy, dx - OH(arg0, 0xA));
+    OW(arg0, 0x20) = rcos(angle) << 6;
+    OW(arg0, 0x24) = rsin(angle) << 6;
     OW(arg0, 0x28) = 0;
     OW(arg0, 0x2C) = 0;
     OUB(arg0, 0x6) = OUB(arg0, 0x6) + 1;

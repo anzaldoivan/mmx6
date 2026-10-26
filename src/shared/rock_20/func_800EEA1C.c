@@ -20,7 +20,7 @@ void func_800EEA1C(u8* arg0) {
 
     e->character_state.bytes[0] = a;
     e->character_state.bytes[1] = b;
-    *(u8*)(D_800F366C + 0x128A) = *(u8*)&e->unk38;
+    *(u8*)(D_800F366C + 0x128A) = *(u8*)&e->controlled_player;
     do {
         func_8002B838(arg0, a, b);
     } while (0);

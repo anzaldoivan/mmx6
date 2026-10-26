@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/visuals/visual_22_missile_smoke.c:missile_smoke_main, AGPL-3.0; proven shared with X6 by exact signature c82f771f5c19 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_22_missile_smoke.c:missile_smoke_main, AGPL-3.0; proven shared with X6 by exact signature c82f771f5c19 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32
@@ -18,7 +18,7 @@ void func_8004B50C(struct X4_VisualObj* arg0) {
                 func_800179A4(arg0, ((arg0->unk2 - 1) >> 1) + 0x21);
             }
             arg0->unk2++;
-            ((s32(*)())func_8002CB50)(arg0);
+            ((void (*)())func_8002CB50)(arg0);
         } else {
             arg0->on_screen = 0;
             arg0->state = 2;
@@ -31,7 +31,7 @@ void func_8004B50C(struct X4_VisualObj* arg0) {
             arg0->x_pos.i.hi = temp_a0->x_pos.i.hi;
             arg0->y_pos.i.hi = temp_a0->y_pos.i.hi;
             ((void (*)())func_80017A04)(arg0);
-            ((s32(*)())func_8002CB50)(arg0);
+            ((void (*)())func_8002CB50)(arg0);
             return;
         }
         arg0->on_screen = 0;

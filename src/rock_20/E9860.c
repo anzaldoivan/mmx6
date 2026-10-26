@@ -70,7 +70,7 @@ INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800ED45C);
 
 #include "../shared/rock_20/func_800EE19C.c"
 
-#include "../shared/rock_20/func_800EE4C0.c"
+#include "../shared/rock_20/memcard_write_save_file.c"
 
 #include "../shared/rock_20/func_800EE6F4.c"
 
@@ -486,6 +486,7 @@ INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800F3364);
 
 INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800F33B8);
 
+// str 0x800F42F0 sha1=359bbf181e646fd64258495a1d1ebdd3523de68b = "printable byte run: data, not text"
 INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800F340C);
 
 #define func_800F0770 func_800F3510

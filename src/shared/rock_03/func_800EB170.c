@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -7,9 +8,6 @@
 
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(s32);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 
 #define NEAR3(d, a, b) ((d) = (a) - (b), (d) >= 0 ? (d) < 3 : ((b) - (a)) < 3)
 
@@ -22,19 +20,19 @@ void func_800EB170(void* arg0) {
     px = M2C_FIELD(SPAD, s16*, 0x8A);
     {
         s32 py = M2C_FIELD(SPAD, s16*, 0x8C);
-        angle = func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - py,
-                              px - M2C_FIELD(arg0, s16*, 0xA));
+        angle = ratan2(M2C_FIELD(arg0, s16*, 0xE) - py,
+                       px - M2C_FIELD(arg0, s16*, 0xA));
     }
     M2C_FIELD(arg0, s32*, 0x28) = 0;
     M2C_FIELD(arg0, s32*, 0x2C) = 0;
     {
         s32 m;
         s32 lo;
-        m = func_80065A14(angle);
+        m = rcos(angle);
         lo = m << 4;
         m = (m << 6) + lo;
         M2C_FIELD(arg0, s32*, 0x20) = (m << 1) / 8;
-        m = func_80065944(angle);
+        m = rsin(angle);
         lo = m << 4;
         m = (m << 6) + lo;
         M2C_FIELD(arg0, s32*, 0x24) = (m << 1) / 8;

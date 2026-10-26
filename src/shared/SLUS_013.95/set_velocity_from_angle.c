@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/object_motion.c:set_velocity_from_angle, AGPL-3.0; proven shared with X6 by exact signature e92a2af1038e (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/object_motion.c:set_velocity_from_angle, AGPL-3.0; proven shared with X6 by exact signature e92a2af1038e (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern s32 D_80073760[];

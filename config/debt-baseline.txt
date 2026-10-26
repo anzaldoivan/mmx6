@@ -17,7 +17,7 @@ mode cast count
 mode field count
 mode asm down
 mode gte count
-mode placeholder count
+mode placeholder down
 mode placeholder-use count
 mode struct count
 mode extern count
@@ -25,14 +25,15 @@ mode filename count
 raise protected 1 2026-10-14 psxdecomp 0.6.0: the guard hook fails closed (upgrade from the first build of the floor)
 raise protected 1 2026-10-16 own gate dropped: fleet runs in dev CI, land_check and the milestone gate, not on push
 raise protected 1 2026-10-24 1.9/T6 no-rom audits: README lint + 6 no-game self-tests
+raise protected 1 2026-10-25 2.0 no-rom: gamestr check + badges --check
 824 pin
 579 goto
 484 goto-unmarked
-32588 offset
+32582 offset
 1877 address
 70 cast
-6637 field
-4992 placeholder
-35756 placeholder-use
-16184 extern
-4750 filename
+6607 field
+4986 placeholder
+34455 placeholder-use
+15714 extern
+4744 filename

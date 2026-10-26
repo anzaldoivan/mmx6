@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -10,8 +11,6 @@ extern s32 D_801F3848;
 M2C_UNK func_800179A4(void*, M2C_UNK);
 void func_80017A04(struct X4_AnimatedObj*);
 M2C_UNK func_8002C9B0();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 #define func_800179A4 ((void (*)(void*, s32))func_800179A4)
 #define SCRATCH_14 (*(u8**)0x1F800014)
 #define SCRATCH_1C (*(u8**)0x1F80001C)
@@ -71,12 +70,11 @@ void func_801EDA64(struct X4_WeaponObj* arg0) {
     }
     angle = (M2C_FIELD(arg0, s16*, 0x92) << 12) / 66;
     M2C_FIELD(arg0, s16*, 0x90) = angle;
-    arg0->x_pos.u.hi = player->x_pos.u.hi + func_80065A14((s16)angle) *
-                                                M2C_FIELD(arg0, s16*, 0x8C) /
-                                                4096;
+    arg0->x_pos.u.hi = player->x_pos.u.hi +
+                       rcos((s16)angle) * M2C_FIELD(arg0, s16*, 0x8C) / 4096;
     M2C_FIELD(arg0, s16*, 0xE) =
-        player->y_pos.u.hi + func_80065944(M2C_FIELD(arg0, s16*, 0x90)) *
-                                 M2C_FIELD(arg0, s16*, 0x8E) / 4096;
+        player->y_pos.u.hi +
+        rsin(M2C_FIELD(arg0, s16*, 0x90)) * M2C_FIELD(arg0, s16*, 0x8E) / 4096;
     if (!(D_80097420 & 7)) {
         arg0->unk64++;
     }

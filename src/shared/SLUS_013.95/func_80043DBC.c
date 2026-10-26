@@ -1,8 +1,7 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #include "mmx6/x4.h"
 
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 extern s32 D_80076124;
 extern struct X4_PlayerObj g_Player;
 extern s32 D_80097420;
@@ -42,12 +41,12 @@ void func_80043DBC(s8* arg0) {
                 s32 off = (arg0[2] - 1) * 0x555 + 0xE00;
                 ang = (F_U16(parent, 0x94) + off) & 0xFFF;
             }
-            v = func_80065A14(ang) * F_S16(arg0, 0x88);
+            v = rcos(ang) * F_S16(arg0, 0x88);
             if (v < 0) {
                 v += 0xFFF;
             }
             F_S16(arg0, 0xA) = pl->x_pos.i.hi + (v >> 12);
-            q = func_80065944(ang) * F_S16(arg0, 0x88);
+            q = rsin(ang) * F_S16(arg0, 0x88);
             v = q >> 12;
             if (q < 0) {
                 v = (q + 0xFFF) >> 12;

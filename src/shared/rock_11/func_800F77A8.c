@@ -1,13 +1,11 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK move_object(void*);
 s32 func_8002D2D4();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 
 void func_800F77A8(void* self) {
     void* t;
@@ -23,23 +21,23 @@ void func_800F77A8(void* self) {
     }
     v = M2C_FIELD(t, s16*, 0xA);
     w = M2C_FIELD(t, s16*, 0xE);
-    ang = func_80065B74(M2C_FIELD(self, s16*, 0xE) - w,
-                        v - M2C_FIELD(self, s16*, 0xA));
+    ang =
+        ratan2(M2C_FIELD(self, s16*, 0xE) - w, v - M2C_FIELD(self, s16*, 0xA));
     switch (M2C_FIELD(self, s16*, 0x58)) {
     case 0:
     default:
-        M2C_FIELD(self, s32*, 0x20) = func_80065A14(ang) * 16 / 3;
-        M2C_FIELD(self, s32*, 0x24) = func_80065944(ang) * 16 / 3;
+        M2C_FIELD(self, s32*, 0x20) = rcos(ang) * 16 / 3;
+        M2C_FIELD(self, s32*, 0x24) = rsin(ang) * 16 / 3;
         break;
     case 1:
-        v = func_80065A14(ang) * 16;
+        v = rcos(ang) * 16;
         M2C_FIELD(self, s32*, 0x20) = v / 4;
-        w = func_80065944(ang) * 16;
+        w = rsin(ang) * 16;
         M2C_FIELD(self, s32*, 0x24) = w / 4;
         break;
     case 2:
-        M2C_FIELD(self, s32*, 0x20) = func_80065A14(ang) * 16 / 6;
-        M2C_FIELD(self, s32*, 0x24) = func_80065944(ang) * 16 / 6;
+        M2C_FIELD(self, s32*, 0x20) = rcos(ang) * 16 / 6;
+        M2C_FIELD(self, s32*, 0x24) = rsin(ang) * 16 / 6;
         break;
     }
     if (M2C_FIELD(self, s32*, 0x20) < 0) {

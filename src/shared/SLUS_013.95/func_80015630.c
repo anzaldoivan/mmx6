@@ -1,12 +1,12 @@
 #include "common.h"
+#include "psyq/libcd.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 s8 func_80014D50();
-void func_80055D74(s8);
-s8 func_80055F94(void*, s8, s32);
-void func_8005A3CC(s8, u32, s32, s32);
+void SsSepClose(s8);
+s8 SsSepOpen(void*, s8, s32);
+void SsSepSetVol(s8, u32, s32, s32);
 X4_CdlCB func_800648B4(X4_CdlCB func);
-s32 func_80064B44(M2C_UNK, M2C_UNK, u8*);
 extern s8 D_80090D50[6];
 extern s8 D_80090D64[];
 extern u8 D_8009509C;
@@ -27,7 +27,7 @@ void func_80015630(void) {
     }
     if (func_80014D50() == -1) {
         func_800648B4(0);
-        func_80064B44(9, 0, 0);
+        CdControlB(9, 0, 0);
         D_8009509C = 0x80;
         return;
     }
@@ -35,12 +35,12 @@ void func_80015630(void) {
         i = (D_800E01BC >> 8) & 0xFF;
         p = &D_80090D64[i];
         if (*p != -1) {
-            func_80055D74(*p);
+            SsSepClose(*p);
             *p = -1;
         }
-        *p = func_80055F94(D_800E0368, D_80090D50[i], 6);
+        *p = SsSepOpen(D_800E0368, D_80090D50[i], 6);
         for (k = 0; k < 6; k++) {
-            func_8005A3CC(D_80090D64[i], (s16)k, 0x7F, 0x7F);
+            SsSepSetVol(D_80090D64[i], (s16)k, 0x7F, 0x7F);
         }
     }
 }

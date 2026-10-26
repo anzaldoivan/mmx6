@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/55C4.c:clear_vram_rect_ptrs, AGPL-3.0; proven shared with X6 by exact signature fd1585f50292 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:clear_vram_rect_ptrs, AGPL-3.0; proven shared with X6 by exact signature fd1585f50292 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_RectPtrPair D_800C11C0[];

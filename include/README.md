@@ -1,4 +1,4 @@
-# `include/` — headers shared by `src/` (hand-edited)
+# `include/` -- headers shared by `src/` (hand-edited)
 
 What lives here: the project's own headers (types, structs, globals, macros) included by `src/`. The first files arrive
 with segmentation (Phase 1.3).

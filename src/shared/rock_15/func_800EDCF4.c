@@ -1,12 +1,10 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK move_object(s32);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 
 void func_800EDCF4(void* arg0) {
     void* parent;
@@ -19,12 +17,12 @@ void func_800EDCF4(void* arg0) {
     {
         // !FAKE: depin: dropping it breaks the match (69/73)
         register s32 py asm("$2") = M2C_FIELD(parent, s16*, 0xE);
-        angle = func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - py,
-                              M2C_FIELD(parent, s16*, 0xA) -
-                                  M2C_FIELD(arg0, s16*, 0xA));
+        angle =
+            ratan2(M2C_FIELD(arg0, s16*, 0xE) - py,
+                   M2C_FIELD(parent, s16*, 0xA) - M2C_FIELD(arg0, s16*, 0xA));
     }
-    M2C_FIELD(arg0, s32*, 0x20) = func_80065A14(angle) * 0x10;
-    M2C_FIELD(arg0, s32*, 0x24) = func_80065944(angle) * 0x10;
+    M2C_FIELD(arg0, s32*, 0x20) = rcos(angle) * 0x10;
+    M2C_FIELD(arg0, s32*, 0x24) = rsin(angle) * 0x10;
     if (M2C_FIELD(arg0, s32*, 0x20) < 0) {
         M2C_FIELD(arg0, u8*, 0x15) = 0;
     } else {

@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/player_common.c:player_update_flash, AGPL-3.0; proven shared with X6 by exact signature e08fdf21be18 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/player_common.c:player_update_flash, AGPL-3.0; proven shared with X6 by exact signature e08fdf21be18 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 

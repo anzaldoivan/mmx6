@@ -1,15 +1,14 @@
 #include "common.h"
+#include "psyq/libcd.h"
+#include "psyq/libetc.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
 void func_80013360(s32);
 void func_80014E60(s32, s32);
 M2C_UNK func_80014F70(M2C_UNK, M2C_UNK, M2C_UNK);
-int func_80060964(int mode);
-s32 func_80064804(s32);
 s32 func_80064894(s32, s32);
 X4_CdlCB func_800648B4(X4_CdlCB func);
-s32 func_80064B44(M2C_UNK, M2C_UNK, u8*);
 extern u8 D_8008EC08;
 extern s32 D_8008EC0C;
 extern u8 D_8009509C;
@@ -46,7 +45,7 @@ void func_80016178(void) {
                     idx = D_800E0379;
                     loc = D_800E037C;
                     if (func_80064894(1, 0) != 0) {
-                        func_80064B44(9, 0, 0);
+                        CdControlB(9, 0, 0);
                     }
                     if (D_8009509C != 0x80) {
                         D_800E0380 = 0;
@@ -55,7 +54,7 @@ void func_80016178(void) {
                     D_800E0379 = idx;
                     D_800E037C = loc;
                     do {
-                        while (func_80064B44(1, 0, res) == 0) {
+                        while (CdControlB(1, 0, res) == 0) {
                         }
                     } while (res[0] & 0x40);
                     D_800E01C0 = 0;
@@ -71,11 +70,11 @@ void func_80016178(void) {
             } else {
                 if (++D_800E0380 >= 0x259) {
                     func_800648B4(0);
-                    while (func_80064804(0) == 0) {
+                    while (CdReset(0) == 0) {
                     }
-                    while (func_80064B44(0xE, (s32)param, 0) == 0) {
+                    while (CdControlB(0xE, (s32)param, 0) == 0) {
                     }
-                    func_80060964(3);
+                    VSync(3);
                     D_8009509C = 0xC0;
                 }
             }

@@ -1,13 +1,11 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
 M2C_UNK func_80012D9C(M2C_UNK);
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK move_object(s32);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern struct X4_BackgroundObj background_objects[3];
 
 #define OFS_X(p) (((s16*)(p))[0x48])
@@ -20,11 +18,11 @@ void func_800F6D58(struct X4_AnimatedObj* self) {
     s32 st;
     s32 v;
 
-    angle = func_80065B74(
+    angle = ratan2(
         self->y_pos.i.hi - (background_objects[0].y_pos.i.hi + OFS_Y(self)),
         (background_objects[0].x_pos.i.hi + OFS_X(self)) - self->x_pos.i.hi);
-    self->x_vel.val = (func_80065A14(angle) << 4) * (self->unk7 / 2 + 6);
-    self->y_vel.val = (func_80065944(angle) << 4) * (self->unk7 / 2 + 6);
+    self->x_vel.val = (rcos(angle) << 4) * (self->unk7 / 2 + 6);
+    self->y_vel.val = (rsin(angle) << 4) * (self->unk7 / 2 + 6);
     if (self->x_vel.val >= 0) {
         self->unk15 = 0x40;
     } else {

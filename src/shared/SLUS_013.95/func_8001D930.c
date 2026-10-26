@@ -1,14 +1,15 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/game_info.c:func_8001D6DC, AGPL-3.0; proven shared with X6 by exact signature 07619b425e9d (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/game_info.c:func_8001D6DC, AGPL-3.0; proven shared with X6 by exact signature 07619b425e9d (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
-extern s8 D_80097424;
-#define D_80097424 (*(s8(*)[]) & D_80097424)
+/* siblings in the same TU declare it as s32; view it as the upstream state block */
+extern s32 D_80097420;
+#define D_80097420 (*(struct X4_MainBssState*)&D_80097420)
 void func_80025FB0();
 
 #define M2C_UNK s32
 void func_80022960(void);
 void func_8001D930(struct X4_GameInfo* arg0) {
-    if (D_80097424[0] == 0) {
+    if (D_80097420.transition.active == 0) {
         if (arg0->unkE == 1) {
             arg0->unk0 = 6;
         } else {
@@ -33,4 +34,4 @@ void func_8001D930(struct X4_GameInfo* arg0) {
         break;
     }
 }
-#undef D_80097424
+#undef D_80097420

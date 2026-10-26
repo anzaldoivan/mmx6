@@ -3,6 +3,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
+// Nightmare Soul gate: souls the current character needs (halfword at
+// 0x800CCFA2 + 2 * character) before the stage-clear cutscene state 0x13.
+// basis: oracle proto-2001-09-21 SLPM_869.59 0x800208A8 compares 5000 here, retail 3000
+// (docs/leads/proto.tsv, TCRF docs/leads/tcrf-proto.md:24); corroborator: Archipelago
+// patch site 0x8001E448 inside this function (docs/leads/ram.tsv:151).
+#define NIGHTMARE_SOUL_GATE 3000
+
 void func_80042F7C(s8 arg0, s8* arg1, s8* arg2);
 extern u8 D_80071190[];
 #define M2C_UNK s32
@@ -48,7 +55,7 @@ void func_8001E32C(void* arg0) {
                     M2C_FIELD(arg0, s8*, 0) = 0xB;
                     if (e[0x66] < 3 &&
                         *(s16*)((u8*)&D_800CCED0 + (s8)e[0x38] * 2 + 0xD2) >=
-                            3000) {
+                            NIGHTMARE_SOUL_GATE) {
                         D_800CCED0.state = 0x13;
                         e[0x1D] = 5;
                     }

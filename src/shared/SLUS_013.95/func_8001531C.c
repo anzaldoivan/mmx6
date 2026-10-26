@@ -1,13 +1,12 @@
 #include "common.h"
+#include "psyq/libcd.h"
+#include "psyq/libds.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
 int func_800617A4(X4_CdlLOC* p);
 s32 func_80064894(s32, s32);
 X4_CdlCB func_800648B4(X4_CdlCB func);
-s32 func_800648D4(M2C_UNK, M2C_UNK, u8*);
-s32 func_80064B44(M2C_UNK, M2C_UNK, u8*);
-int func_80064CB4(void* madr, int size);
 
 extern s32 D_80010038[4];
 extern u8** D_8006E27C[];
@@ -54,14 +53,14 @@ void func_8001531C(void) {
     }
     if (D_800E01D0 == 0) {
         D_800E01B8 = D_800E0D40;
-        func_80064CB4(&D_800E0388, 3);
+        DsGetSector(&D_800E0388, 3);
         if (func_800617A4(&D_800E0388) != D_800E01B4) {
         fail:
             func_800648B4(0);
-            func_80064B44(9, 0, 0);
+            CdControlB(9, 0, 0);
             D_8009509C = stop;
         } else {
-            func_80064CB4(D_800E01B8, 0x200);
+            DsGetSector(D_800E01B8, 0x200);
             D_800E01C4 = *D_800E01B8++;
             D_800E01B0 = *D_800E01B8++;
             D_800E01BC = *D_800E01B8++;
@@ -87,7 +86,7 @@ void func_8001531C(void) {
         if (D_800E01C4 == 0) {
             func_800648B4(0);
             D_8009509C = 0;
-            while (func_800648D4(9, 0, 0) == 0) {
+            while (CdControl(9, 0, 0) == 0) {
             }
             D_8009509C = 2;
             D_800B91B8 = (M2C_UNK*)D_800E0368;

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define SPAD20 (*(s32*)0x1F800020)
@@ -6,9 +7,6 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002A47C(s32);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern s32 D_8007573C[];
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
@@ -51,10 +49,10 @@ void func_800F3A0C(struct X4_MainObj* arg0) {
     q = *(struct X4_MainObj**)((u8*)arg0 + 0x7C);
     arg0->x_pos.i.hi = q->x_pos.i.hi;
     arg0->y_pos.i.hi = q->y_pos.i.hi;
-    angle = func_80065B74(g_Player.y_pos.i.hi - arg0->y_pos.i.hi,
-                          g_Player.x_pos.i.hi - arg0->x_pos.i.hi);
-    arg0->x_speed = func_80065A14(angle) << 6;
-    arg0->y_speed = -func_80065944(angle) << 6;
+    angle = ratan2(g_Player.y_pos.i.hi - arg0->y_pos.i.hi,
+                   g_Player.x_pos.i.hi - arg0->x_pos.i.hi);
+    arg0->x_speed = rcos(angle) << 6;
+    arg0->y_speed = -rsin(angle) << 6;
     if (arg0->x_speed < 0) {
         arg0->unk15 = 0;
     } else {

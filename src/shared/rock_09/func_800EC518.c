@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/mains/main_32_bomb_bat.c:bomb_bat_drop_release, AGPL-3.0; proven shared with X6 by exact signature b8c90aca8278 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_32_bomb_bat.c:bomb_bat_drop_release, AGPL-3.0; proven shared with X6 by exact signature b8c90aca8278 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void func_800ECAA0(struct X4_MainObj*);

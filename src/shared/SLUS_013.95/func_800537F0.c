@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/effects/effect_24_boss_warning.c:boss_warning_finish, AGPL-3.0; proven shared with X6 by exact signature 7ccb25922a7c (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/effects/effect_24_boss_warning.c:boss_warning_finish, AGPL-3.0; proven shared with X6 by exact signature 7ccb25922a7c (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 

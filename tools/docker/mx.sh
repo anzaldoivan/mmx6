@@ -7,7 +7,7 @@
 #   pull <path>... copy named relative paths from /work back into the clone (firewall paths refused; no *.s under
 #                  waves/: game asm never reaches the clone, G12)
 #   disc <dir>     load <dir>'s top-level *.cue/*.bin into the disc volume at /disc
-#   sdk <dir>      load <dir>'s whole tree (the PsyQ SDK, refs/Psy-Q_47) into the sdk volume at /sdk (vendor bytes
+#   sdk <dir>      load <dir>'s whole tree (the PsyQ SDK, tools/psyq) into the sdk volume at /sdk (vendor bytes
 #                  stay in the volume, never in git or the image)
 #   run <cmd...>   run a command in /work with /disc and /sdk mounted read-only
 # Env overrides (per worktree, cookbook C0004): MX6_IMAGE, MX6_VOLUME, MX6_DISC_VOLUME, MX6_SDK_VOLUME.

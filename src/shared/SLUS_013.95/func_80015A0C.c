@@ -1,11 +1,11 @@
 #include "common.h"
+#include "psyq/libcd.h"
+#include "psyq/libspu.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 s8 func_80014D50();
-void func_80055BA4(s32);
-s8 func_800601A4(u8*, u8, s32);
+s8 SsVabOpenHeadSticky(u8*, u8, s32);
 X4_CdlCB func_800648B4(X4_CdlCB func);
-s32 func_80064B44(M2C_UNK, M2C_UNK, u8*);
 extern u8 D_8008EC08;
 extern s8 D_80090D50[6];
 extern u8 D_8009509C;
@@ -35,7 +35,7 @@ void func_80015A0C(void) {
     D_800E01D6++;
     if (D_800E01D6 - D_800E01D4 >= 0x20) {
         func_800648B4(0);
-        func_80064B44(9, 0, 0);
+        CdControlB(9, 0, 0);
         D_8009509C = 0x80;
         return;
     }
@@ -48,13 +48,13 @@ void func_80015A0C(void) {
         D_80097778[i] = b + 2;
         p = (u8*)b + (*b & 0xFFFFFF);
         D_80097738[i] = p;
-        if ((D_80090D50[i] = func_800601A4(p, a, D_800E0374)) == -1) {
+        if ((D_80090D50[i] = SsVabOpenHeadSticky(p, a, D_800E0374)) == -1) {
             func_800648B4(0);
-            func_80064B44(9, 0, 0);
+            CdControlB(9, 0, 0);
             D_8009509C = 0x80;
             return;
         }
-        func_80055BA4(0);
+        SpuSetTransferMode(0);
         n = D_800E01A8;
         D_800E01CD = 0;
         D_800E01E8[D_800DF999].transfer_pending = 0xFFFF;
@@ -64,7 +64,7 @@ void func_80015A0C(void) {
     D_800E01AC = D_800CF998.sectors[D_800DF999];
     if (func_80014D50() == -1) {
         func_800648B4(0);
-        func_80064B44(9, 0, 0);
+        CdControlB(9, 0, 0);
         D_8009509C = 0x80;
         return;
     }

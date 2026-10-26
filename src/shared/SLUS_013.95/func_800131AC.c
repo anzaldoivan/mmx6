@@ -1,11 +1,11 @@
 #include "common.h"
 #define M2C_UNK s32
 
-s32 func_80069E74(s32, s32, s32);
-s32 func_80069E84(s32);
-void func_80069E94(s32);
-M2C_UNK func_80069ED4();
-M2C_UNK func_80069EE4();
+s32 OpenTh(s32, s32, s32);
+s32 CloseTh(s32);
+void ChangeTh(s32);
+M2C_UNK EnterCriticalSection();
+M2C_UNK ExitCriticalSection();
 extern s32 D_8006D9AC;
 extern s32 D_800CF960;
 
@@ -26,15 +26,15 @@ void func_800131AC(void) {
         case 4:
         case 0x7F:
             *(u16*)SLOT_PTR = 0x7F;
-            func_80069E94(*(s32*)(SLOT_PTR + 8));
+            ChangeTh(*(s32*)(SLOT_PTR + 8));
             if (D_8006D9AC != 0) {
                 D_8006D9AC = 0;
-                func_80069ED4();
-                func_80069E84(*(s32*)(SLOT_PTR + 8));
+                EnterCriticalSection();
+                CloseTh(*(s32*)(SLOT_PTR + 8));
                 *(s32*)(SLOT_PTR + 8) =
-                    func_80069E74(D_800CF960, *(s32*)(SLOT_PTR + 0x10),
+                    OpenTh(D_800CF960, *(s32*)(SLOT_PTR + 0x10),
                                   *(s32*)(SLOT_PTR + 0x44));
-                func_80069EE4();
+                ExitCriticalSection();
             }
             break;
         }

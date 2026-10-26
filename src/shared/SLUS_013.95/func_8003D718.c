@@ -9,7 +9,7 @@ M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
 
 M2C_UNK func_8003D718(void* arg0) {
     u8* o = arg0;
-    u8 m = D_800CCED0.unk5C[2];
+    u8 m = D_800CCED0.sub_tanks[2];
 
     o[0xE7] = m;
     *(s32*)(o + 0xEC) = *(s32*)((u8*)&D_800CCED0 + 0x74 + ((s8*)o)[2] * 4);

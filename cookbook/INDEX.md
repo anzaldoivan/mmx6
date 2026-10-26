@@ -253,3 +253,27 @@ C0250 | x4share --partners in a fresh container needs corpus, census and sig fir
 C0251 | Overlays see exe symbols only by func_/D_<addr> name: renaming an exe symbol overlays call breaks their link | rename,overlay,link,provide,symbols,x4 | 2026-10-25 | 1.10/T8 | mmx6 T8.c1
 C0252 | Ghidra: mirror external names as a delta JSONL through the existing importer, then re-export | ghidra,import,rename,jsonl,roundtrip | 2026-10-25 | 1.10/T10 | T10.c1
 C0253 | campaign/ is never public. check-public DIR needs its own git repo | split-mode,public,projection,check-public,style | 2026-10-25 | 1.10/T12 | mmx6 T12
+C0254 | Import a script without a __main__ guard via ast (drop top-level calls) | python,import,tools | 2026-10-25 | 2.0/T5 | T5 badges.py
+C0255 | Mark debt constructs on clang-formatted text: InsertBraces splits if-goto | clang-format,debt-marker,fake,goto,insertbraces,propagate | 2026-10-25 | 2.1/T1 | T1.c1 self-test control
+C0256 | Regenerating x4.h needs a port pass over every adapted file, since the packs are gone | x4,x4.h,repin,port,stub,header | 2026-10-25 | 2.1/T3 | 2.1 T3.c1
+C0257 | Repin swaps only the body: a changed upstream preamble fails cc1, hold or hand-port | x4,repin,port,preamble,clang-format,hold | 2026-10-25 | 2.1/T4 | 2.1 T4.c1
+C0258 | Repin keeps a stale callee prototype: it compiles, the hash fails, so cast the call | x4,repin,port,preamble,prototype,diff,regalloc | 2026-10-25 | 2.1/T5 | 2.1 T5.c1
+C0259 | In-body #ifdef sends a port to preprocessed text: resolve conditionals, keep macros | x4,port,macro,ifdef,repin,raw-body,debt | 2026-10-25 | 2.1/T6 | 2.1 T6.c1
+C0260 | Struct field offsets via an offsetof table compiled by the pinned cc1 | struct,offset,layout,cc1,x4,compare | 2026-10-25 | 2.1/T9 | 2.1 T9.c1
+C0261 | Key overlay strings: own range, then exe, then other bases | strings,overlay,xref,lui,base | 2026-10-25 | 2.2/T2 | mmx6 2.2 T2.c1
+C0262 | imgadapter strings --check: proto order, census, proto exe names | strings,proto,check,census,iso9660 | 2026-10-25 | 2.2/T2 | mmx6 2.2 T2.c1
+C0263 | Repin drops hand comments in adapted files unless they are // ! mark lines | x4,repin,port,comment,gamestr,hold | 2026-10-25 | 2.2/T3 | 2.2 T3 retriever
+C0264 | ROCK_X6.DAT slot joins: three readers of D_800E0398, packed records, byte-checked sheet offsets | mmx6,rock_x6.dat,loader,asset-map,redux,vab | 2026-10-25 | 2.2/T4 | T4.c1
+C0265 | Per-stage object dispatch tables: locate via the scratchpad setter, prove with table[id]==fn at runtime | object,dispatch,scratchpad,overlay,redux,breakpoint,table | 2026-10-25 | 2.2/T5 | mmx6 T5.c1
+C0266 | Proto-only functions: census the build side, pair in order between held anchors, mask-ratio 0.6 | proto,census,pairing,oracle,debug,anchors,difflib | 2026-10-25 | 2.2/T6 | mmx6 T6.c1
+C0267 | Check a community address list against the function census (strict starts, overlay group by base) | address,census,leads,overlay,control | 2026-10-26 | 2.2/T7 | mmx6 T7.c1
+C0268 | Survey a platform port vs the PSX image: Rich header, string kinds, 32-byte window data overlap, sector sha1 | port,pe,oracle,data,survey | 2026-10-26 | 2.2/T8 | mmx6 PC port survey
+C0269 | Host function-start census from tracked files: Ghidra JSONL + src func_ definitions | census,function-start,ghidra,jsonl,host,regex | 2026-10-26 | 2.2/T11 | mmx6 T11.c2
+C0270 | Upstream retyped global clashing with sibling decls: local self-alias macro | x4,repin,port,preamble,extern,alias | 2026-10-26 | 2.3/T1 | 2.3 T1.c1
+C0271 | x4port --repin/--self-test after sync: rerun extract, build, corpus, census, sig, x4share | x4,repin,port,sync,corpus,container | 2026-10-26 | 2.3/T1 | 2.3 T1.c1
+C0272 | Classify a refused name lead (object start, inside object, out of image) before adding a symbol | names,leads,symbols,splat,dlabel | 2026-10-26 | 2.3/T2 | mmx6 T2.c2
+C0273 | Naming PsyQ lib functions from placed objects: reloc cross-check, trivial objects, no statics | psyq,lib,names,reloc,stub,vendor | 2026-10-26 | 2.3/T3 | mmx6 T3.c1
+C0274 | Batch rename: name asm-only starts, rebuild the ledger, make boundaries after a Ghidra refresh | rename,ledger,boundaries,psyq,asm-only,builtin | 2026-10-26 | 2.3/T4 | mmx6 T4.c1
+C0275 | Ghidra round-trip src diff: importer must set the row's source when analysis already holds the name | ghidra,roundtrip,import,source,psx_ldr | 2026-10-26 | 2.3/T4 | mmx6 T4
+C0276 | Header adoption across shared-include TUs: adopt per (TU component, library), check by .o compare | header,include,prototype,conflicting-types,object-compare | 2026-10-26 | 2.3/T4 | mmx6 T4.c2
+C0277 | Cross-unit masked twin: assign only a unique hit, count the ambiguous ones | twins,masked,protodiff,proto,census | 2026-10-26 | 2.3/T5 | mmx6 T5.c1

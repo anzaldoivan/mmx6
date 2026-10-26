@@ -1,12 +1,12 @@
 #include "common.h"
+#include "psyq/libgpu.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800660B8(M2C_UNK);
 void func_800E9F7C(void);
 extern s8 D_800CCF08;
 
 void func_800FA314(u8* arg0) {
-    func_800660B8(1);
+    SetDispMask(1);
     func_800E9F7C();
     {
         // !FAKE: flag read lands in the first return register

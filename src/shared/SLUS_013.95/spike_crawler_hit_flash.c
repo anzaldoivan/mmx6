@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/enemy_reaction.c:spike_crawler_hit_flash, AGPL-3.0; proven shared with X6 by exact signature 0f5c026ba0d7 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/enemy_reaction.c:spike_crawler_hit_flash, AGPL-3.0; proven shared with X6 by exact signature 0f5c026ba0d7 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 

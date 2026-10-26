@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_fade, AGPL-3.0; proven shared with X6 by exact signature 246e79a6823b (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_fade, AGPL-3.0; proven shared with X6 by exact signature 246e79a6823b (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
@@ -12,5 +12,5 @@ void func_80049670(struct X4_VisualObj* arg0, struct X4_PlayerObj* arg1) {
         ((void (*)())func_8002C9B0)(arg0);
         return;
     }
-    ((void (*)())func_8002CCB0)(arg0, 0x20, 0x20);
+    func_8002CCB0(arg0, 0x20, 0x20);
 }

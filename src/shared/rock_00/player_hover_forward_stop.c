@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/player_special.c:player_hover_forward_stop, AGPL-3.0; proven shared with X6 by exact signature c351fcf586bf (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/player_special.c:player_hover_forward_stop, AGPL-3.0; proven shared with X6 by exact signature c351fcf586bf (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 s32 func_801EC35C();
@@ -11,8 +11,8 @@ void player_hover_set_direction(struct X4_PlayerObj* self, s32 direction);
 void player_hover_forward_stop(struct X4_PlayerObj* self) {
     s32 action;
 
-    if (func_801EC35C(self) == 0 && ((s32(*)())func_8003A2CC)(self) == 0) {
-        action = ((s32(*)())func_801EC3AC)(self);
+    if (func_801EC35C(self) == 0 && func_8003A2CC(self) == 0) {
+        action = func_801EC3AC(self);
         if (action != PLAYER_BEAM_IN) {
             player_hover_set_direction(self, action);
             return;

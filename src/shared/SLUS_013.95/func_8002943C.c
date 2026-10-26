@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/stage_objects.c:start_screen_shake_x, AGPL-3.0; proven shared with X6 by exact signature 43e71a929bf8 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/stage_objects.c:start_screen_shake_x, AGPL-3.0; proven shared with X6 by exact signature 43e71a929bf8 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_BackgroundObj background_objects[3];

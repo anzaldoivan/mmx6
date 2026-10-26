@@ -149,7 +149,10 @@ th-propagate-full: th-propagate
 # x4port.py (planted control: our own banked C as the fake mmx4 source), x4names.py (planted table, votes and data
 # probe; the real pairing on our own object), x4core.py (the core shared with mmx5: synthetic ELF objects),
 # tools/psxd_img.py (psxdecomp's map core: synthetic words), imgadapter.py (its contract files: a planted archive)
-# and renamecov.py (rename coverage: a planted symbols/src/basis/names tree).
+# renamecov.py (rename coverage: a planted symbols/src/basis/names tree), gamestr.py (the M16 game-string gate:
+# one planted file per refusal plus a passing tree), docconv.py (the DC1-DC8 documentation check: one planted file
+# per rule plus a passing file; then its real check of config/docconv.txt) and badges.py (README badges: a planted
+# stale and fresh badge).
 th-selftests:
 	$(PYTHON) tools/mmx6/boundaries.py --self-test
 	$(PYTHON) tools/mmx6/loadmap.py --self-test
@@ -163,6 +166,10 @@ th-selftests:
 	$(PYTHON) tools/mmx6/imgadapter.py --self-test
 	$(PYTHON) tools/mmx6/readcensus.py --self-test
 	$(PYTHON) tools/mmx6/renamecov.py --self-test
+	$(PYTHON) tools/mmx6/gamestr.py --self-test
+	$(PYTHON) tools/mmx6/docconv.py --self-test
+	$(PYTHON) tools/mmx6/docconv.py check
+	$(PYTHON) tools/mmx6/badges.py --self-test
 
 # The permuter wrapper (tools/mmx6/permute.py; decomp-permuter pinned in the image): planted controls only in
 # .run/permute/ (xor operand swap reaches masked 0 with the stock-scorer contrast, register pin hidden and restored,

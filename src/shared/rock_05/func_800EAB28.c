@@ -208,7 +208,7 @@ void func_800EAB28(void* self) {
             }
         }
         background_objects[1].unk3 = 1;
-        background_objects[1].pad51[1] = 0;
+        background_objects[1].pad52[0] = 0;
         if (M2C_FIELD(self, s8*, 2) < 8) {
             M2C_FIELD(self, void**, 0x68) = &D_800F3DD8;
             M2C_FIELD(self, u8*, 5) = 9;

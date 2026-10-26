@@ -14,14 +14,15 @@ extern struct X4_EngineObj D_800CCED0;
 
 void func_800EBFE0(void* arg0) {
     func_80017A04();
-    if ((s8)(s32)D_800CCED0.unk38 != (M2C_FIELD(arg0, s32*, 0x84) & 1)) {
+    if ((s8)(s32)D_800CCED0.controlled_player !=
+        (M2C_FIELD(arg0, s32*, 0x84) & 1)) {
         func_800179A4(arg0, 2);
     } else {
         func_800179A4(arg0, 1);
     }
     if (M2C_FIELD(arg0, s8*, 2) == 0) {
         if ((M2C_FIELD(arg0, s32*, 0x84) == 2) &&
-            ((s8)(s32)D_800CCED0.unk38 == 0)) {
+            ((s8)(s32)D_800CCED0.controlled_player == 0)) {
             func_80016C48(2, 0x56, arg0);
             func_800EC648(arg0);
         } else {

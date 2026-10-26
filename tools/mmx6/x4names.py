@@ -89,6 +89,18 @@
       -> host; config/x4/upstream.tsv, one row per non-x4 basis.tsv row whose X6 function has one mmx4 partner
          (partners.tsv) under another name: `prog vram mmx4-path:function proposed-name basis-kind basis-ref`
          (handed to mmx4 by the developer only). Last line `X4NAMES upstream <n> rows`
+  x4names.py --compare
+      -> container only (the clone .run/mmx4 at the refs.toml pin, the pinned cc1); writes docs/x4-compare.md, never
+         hand-edited. Functions: every `func` row of names.tsv, ours = the name at its vram in
+         config/symbols.<prog>.txt (the alias when one of the names there is it, else the first non-func_/D_ one),
+         mmx4's = alias + basis `path:function` (`-` for slot rows). Fields: every struct|union X4_<N> of
+         include/mmx6/x4.h against mmx4's tag <N> in the first mmx4 .c defining it (x4.h's line-1 .c files first);
+         offsets from an `(int)&((T *)0)->f` table compiled by the pinned cc1 on each preprocessed TU, read from the
+         .s; bitfields and anonymous members get offset `-` (paired by ordinal among those); pairs by (offset,
+         ordinal at that offset), an absent side a placeholder. Classes agree | conflict | X6-only | mmx4-only
+         (+ held.tsv reason for functions) | unnamed (both placeholders, counted not listed); placeholder
+         func `(func|sub|D)_<8 hex>`, field `(unk|pad|field|filler)_?(0x)?<hex>`. Sorted, no timestamps. Lines
+         `X4NAMES compare structs <n> absent <a>`, `X4NAMES compare functions <class n>...; fields <class n>...`
   x4names.py --self-test
       -> planted table in .run/x4names-selftest/: a two-partner row, a func_8 partner and a 7-word row are each
          refused, one good row is admitted with its tier and scope. 2a: a planted class whose partners share one
@@ -592,6 +604,315 @@ def promote_cases():
                         f"hand row kept {('0x80020300', 'string') in b}; upstream {len(u)} rows")
 
 
+# ---- --compare: our names against mmx4's at the pin (functions: names.tsv rows; fields: include/mmx6/x4.h) -------
+
+COMPARE = ROOT / "docs/x4-compare.md"
+X4H = ROOT / "include/mmx6/x4.h"
+CMP_SCR = SCRATCH / "compare"  # container only: the offset TUs and their .s, never pulled or tracked
+PH_FUNC = re.compile(r"^(func|sub|D)_[0-9A-Fa-f]{8}$")
+PH_FIELD = re.compile(r"^(unk|pad|field|filler)_?(0x)?[0-9A-Fa-f]*$")
+CLASSES = ("conflict", "agree", "X6-only", "mmx4-only", "unnamed")
+ANON = "(anonymous)"
+
+
+def klass(ours, theirs, ph):
+    """One of CLASSES; None (absent) and ANON are placeholders."""
+    a = ours is not None and ours != ANON and not ph.match(ours)
+    b = theirs is not None and theirs != ANON and not ph.match(theirs)
+    if a and b:
+        return "agree" if ours == theirs else "conflict"
+    return "X6-only" if a else "mmx4-only" if b else "unnamed"
+
+
+def our_name(names, alias):
+    """Our name at an address among the symbols there: the alias if one is it, else the first real one, else the first."""
+    if alias in names:
+        return alias
+    real = sorted(n for n in names if not re.match(r"(func|sub|D)_[0-9A-Fa-f]{8}", n))
+    return (real or sorted(names) or [None])[0]
+
+
+def func_rows(rows, syms, held):
+    """[(prog, vram, ours, alias, path, class, held)] of the func rows of names.tsv. syms: {(prog, vram int): [names]};
+    held: {(prog, vram): reason}."""
+    out = []
+    for r in rows:
+        prog, vram, kind, _, alias = r[:5]
+        if kind != "func":
+            continue
+        f = r[8].split()
+        path = f[4] if len(f) >= 5 and f[1] == "exact" and ":" in f[4] else "-"
+        ours = our_name(syms.get((prog, int(vram, 16)), []), alias)
+        c = klass(ours, alias, PH_FUNC)
+        out.append((prog, vram, ours or "-", alias, path, c, held.get((prog, vram), "-") if c == "mmx4-only" else ""))
+    return sorted(out, key=lambda x: (x[0], int(x[1], 16)))
+
+
+def field_rows(layouts):
+    """(rows, absent). layouts: {N: (ours, theirs | None)}, each side [(offset | None, name, note)] in declaration
+    order. rows: (N, offset | None, ordinal, ours, theirs, class, note); paired by (offset, ordinal at that offset),
+    offset None (bitfield, anonymous) as one more offset; a side without the pair is a placeholder."""
+    rows, absent = [], []
+    for n in sorted(layouts):
+        ours, theirs = layouts[n]
+        if theirs is None:
+            absent.append(n)
+            continue
+        sides = []
+        for fields in (ours, theirs):
+            seen, d = {}, {}
+            for off, name, note in fields:
+                k = (off, seen.get(off, 0))
+                seen[off] = k[1] + 1
+                d[k] = (name, note)
+            sides.append(d)
+        for k in set(sides[0]) | set(sides[1]):
+            a, b = sides[0].get(k, (None, "")), sides[1].get(k, (None, ""))
+            note = ", ".join(sorted({a[1], b[1]} - {""}))
+            rows.append((n, k[0], k[1], a[0], b[0], klass(a[0], b[0], PH_FIELD), note))
+    rows.sort(key=lambda x: (x[0], x[1] is None, x[1] or 0, x[2]))
+    return rows, absent
+
+
+def compare_doc(funcs, fields, absent, pin, nstructs):
+    """docs/x4-compare.md text: names, addresses, paths, field names and offsets only (no types, no C)."""
+    cnt = {c: [sum(1 for x in funcs if x[5] == c), sum(1 for x in fields if x[5] == c)] for c in CLASSES}
+    noff = sum(1 for x in fields if x[1] is None and x[5] != "unnamed")
+    out = ["# X4 names compared with mmx4", "",
+           f"This file is generated by `tools/mmx6/x4names.py --compare`. Do not edit it by hand. "
+           f"The mmx4 pin is `{pin}`.", "",
+           "The tool compares our names with the mmx4 names at the pin. The functions are the `func` rows of "
+           "`config/x4/names.tsv`. Our function name is the name in `config/symbols.<prog>.txt` at that address. "
+           "The fields are the members of each `X4_` struct and union in `include/mmx6/x4.h`. "
+           "The pinned compiler gives the offset of each field on each side.", "",
+           "A pair is `agree` when the two names are equal, and `conflict` when they differ. "
+           "A pair is `X6-only` when only our name is real, and `mmx4-only` when only the mmx4 name is real. "
+           "A pair with two placeholder names counts as `unnamed`. This file does not list these pairs.", "",
+           "A field without an offset (a bitfield or an anonymous member) has the offset `-`. "
+           "An unnamed padding bitfield is not a field here. X6 `-` means no symbol at that address.", "",
+           "## Counts", "", "| class | functions | fields |", "|---|---|---|"]
+    out += [f"| {c} | {cnt[c][0]} | {cnt[c][1]} |" for c in CLASSES]
+    out += ["", f"Structs compared: {nstructs - len(absent)}. Absent at the pin: {len(absent)}. "
+            f"Listed fields without an offset: {noff}.", ""]
+
+    def fn(x):
+        tail = f", held: {x[6]}" if x[5] == "mmx4-only" else ""
+        return f"- `{x[0]}` `{x[1]}`: X6 `{x[2]}`, mmx4 `{x[3]}` (`{x[4]}`){tail}"
+
+    def fld(c):
+        lines, cur = [], None
+        for x in fields:
+            if x[5] != c:
+                continue
+            if x[0] != cur:
+                cur = x[0]
+                lines += ["", f"#### `X4_{cur}` (mmx4 `{cur}`)", ""]
+            off = "-" if x[1] is None else f"+0x{x[1]:X}"
+            ordn = f" #{x[2]}" if x[2] else ""
+            note = f" ({x[6]})" if x[6] else ""
+            lines.append(f"- `{off}`{ordn}: X6 `{x[3] or '-'}`, mmx4 `{x[4] or '-'}`{note}")
+        return lines or ["", "None."]
+
+    for title, c in (("Conflicts", "conflict"), ("Agree", "agree"), ("X6-only", "X6-only"),
+                     ("mmx4-only", "mmx4-only")):
+        f = [fn(x) for x in funcs if x[5] == c]
+        out += [f"## {title}", "", "### Functions", ""] + (f or ["None."]) + ["", "### Fields"] + fld(c) + [""]
+    out += ["## Absent at the pin", ""] + ([f"- `X4_{n}` (mmx4 `{n}`)" for n in absent] or ["None."])
+    return "\n".join(out) + "\n"
+
+
+def split_members(ts):
+    """The member declarations (token lists) of a struct body's tokens: `;` at depth 0 of ( [ {."""
+    parts, cur, d = [], [], 0
+    for t in ts:
+        d += 1 if t in "([{" else -1 if t in ")]}" else 0
+        if t == ";" and d == 0:
+            parts.append(cur)
+            cur = []
+        else:
+            cur.append(t)
+    return [p for p in parts + [cur] if p]
+
+
+def members(pp, kind, tag):
+    """[(name, note)] of the first `kind tag {...}` in preprocessed text pp (None when absent); note `bitfield` or
+    `anonymous` (no offset taken), else ''."""
+    m = re.search(rf"\b{kind}\s+{tag}\s*\{{", pp)
+    if not m:
+        return None
+    d, i = 0, m.end() - 1
+    while True:
+        d += {"{": 1, "}": -1}.get(pp[i], 0)
+        if d == 0:
+            break
+        i += 1
+    out = []
+    for decl in split_members(x4port.toks(pp[m.end():i])):
+        d, bit = 0, False
+        for t in decl:
+            d += 1 if t in "([{" else -1 if t in ")]}" else 0
+            bit = bit or (t == ":" and d == 0)
+        if bit:  # `T a : 3, b : 5`: the identifier before each `:`; `T : 8` (padding, no type before it) is skipped
+            names = [p[p.index(":") - 1] for k, p in enumerate(x4port.top_split(decl, ",")) if ":" in p
+                     and p.index(":") >= (2 if k == 0 else 1) and x4port.IDENT.fullmatch(p[p.index(":") - 1])]
+            out += [(n, "bitfield") for n in names]
+            continue
+        text = " ".join("__attribute__" if t == "__attribute" else t for t in decl)  # unattr knows only __attribute__
+        names = [n for n, _ in x4port.declarators(text)]
+        if not names and "{" in decl:
+            out.append((ANON, "anonymous"))
+        out += [(n, "") for n in names]
+    return out
+
+
+def offsets(pp, reqs, cc1):
+    """{(i, field): offset} from the pinned cc1: pp + one `int x4cmp_<i>[]` table per (i, C type, [fields]) of
+    reqs (offset + 1, so no table is all zero), compiled to assembly and read back from its `.word` lines."""
+    tab = [f"int x4cmp_{i}[] = {{ " + ", ".join(f"(int)&(({ct} *)0)->{f} + 1" for f in fl) + " };"
+           for i, ct, fl in reqs if fl]
+    src = pp + "\n" + "\n".join(tab) + "\n"
+    p = x4port.subprocess.run(cc1, input=src, capture_output=True, text=True)
+    if p.returncode != 0:
+        (CMP_SCR / "failed.i").write_text(src)  # kept for the reader: the container's .run, never pulled
+        sys.exit(f"{TAG} compare cc1 rc {p.returncode} ({CMP_SCR / 'failed.i'}): "
+                 + " | ".join(p.stderr.strip().splitlines()[:4])[:400])
+    words, cur = {}, None
+    for line in p.stdout.splitlines():
+        m = re.match(r"(x4cmp_\d+):", line)
+        if m:
+            cur = m.group(1)
+            words[cur] = []
+        elif cur and re.match(r"\s*\.(word|4byte)\s", line):
+            words[cur].append(int(line.split()[1], 0) - 1)
+        elif cur and not line.startswith(("\t.", " .")):
+            cur = None
+    out = {}
+    for i, _, fl in reqs:
+        if fl:
+            got = words.get(f"x4cmp_{i}", [])
+            if len(got) != len(fl):
+                sys.exit(f"{TAG} compare offsets of table {i}: {len(got)} words for {len(fl)} fields")
+            out.update({(i, f): o for f, o in zip(fl, got)})
+    return out
+
+
+def layout(pp, tags, cc1):
+    """{N: [(offset | None, name, note)] | None} of the `kind N` tags in pp; tags: [(kind, N, C tag name)]."""
+    mem = {n: members(pp, k, t) for k, n, t in tags}
+    reqs = [(i, f"{k} {t}", [x for x, note in mem[n] if not note]) for i, (k, n, t) in enumerate(tags)
+            if mem[n] is not None]
+    off = offsets(pp, reqs, cc1)
+    idx = {n: i for i, (_, n, _) in enumerate(tags)}
+    return {n: None if mem[n] is None else [(off.get((idx[n], x)) if not note else None, x, note)
+                                            for x, note in mem[n]] for n in mem}
+
+
+def struct_layouts():
+    """{N: (ours, theirs | None)} for every struct|union X4_<N> of x4.h (container: the clone at the pin, cc1)."""
+    os.chdir(ROOT)
+    ctx = x4port.mmx4_ctx()  # exits unless the clone is at the pin
+    cc1 = x4adapter.tools(x4adapter.triple(x4port.TRIPLE))["cc1"]
+    text = X4H.read_text()
+    kinds = {}
+    for m in re.finditer(r"\b(struct|union)\s+X4_(\w+)\s*\{", text):
+        kinds.setdefault(m.group(2), m.group(1))
+    os.makedirs(CMP_SCR, exist_ok=True)
+    src = CMP_SCR / "ours.c"
+    src.write_text('#include "mmx6/x4.h"\n')
+    ours_cpp = ["mipsel-linux-gnu-cpp", "-nostdinc", "-undef", "-D__GNUC__=2", "-DPSX", "-Iinclude"]  # Makefile CPP
+    pp = x4port.run_cpp(ours_cpp + [str(src)], str(ROOT))
+    ours = layout(pp, [(k, n, f"X4_{n}") for n, k in sorted(kinds.items())], cc1)
+    # mmx4: the first .c that defines tag N, the files x4.h is adapted from first (its line 1), then all sorted
+    first = re.findall(r"\b(src/\S+?\.c)\b", text.split("\n", 1)[0])
+    clone = Path(ctx.clone)
+    rest = sorted(str(p.relative_to(clone)) for p in clone.glob("src/**/*.c"))
+    theirs, todo = {}, dict(kinds)
+    for c in sorted(set(first)) + [x for x in rest if x not in first]:
+        if not todo:
+            break
+        try:
+            tpp = x4port.run_cpp(ctx.cpp + [c], str(clone))
+        except x4port.Skip:
+            continue
+        here = [(k, n, n) for n, k in sorted(todo.items()) if re.search(rf"\b{k}\s+{n}\s*\{{", tpp)]
+        if here:
+            theirs.update(layout(tpp, here, cc1))
+            for _, n, _ in here:
+                del todo[n]
+    shutil.rmtree(CMP_SCR, ignore_errors=True)
+    return {n: (ours[n], theirs.get(n)) for n in kinds}
+
+
+def compare():
+    rows = load(NAMES)
+    syms = {}
+    for prog in sorted({r[0] for r in rows}):
+        for line in (ROOT / f"config/symbols.{prog}.txt").read_text().splitlines():
+            m = x4adapter.SYMBOL.match(line)
+            if m:
+                syms.setdefault((prog, int(m.group(2), 16)), []).append(m.group(1))
+    held = {(r[0], r[1]): r[7] for r in read_tsv(HELD)}
+    funcs = func_rows(rows, syms, held)
+    lay = struct_layouts()
+    fields, absent = field_rows(lay)
+    COMPARE.write_text(compare_doc(funcs, fields, absent, pin7(), len(lay)))
+    cf = " ".join(f"{c} {sum(1 for x in funcs if x[5] == c)}" for c in CLASSES)
+    cd = " ".join(f"{c} {sum(1 for x in fields if x[5] == c)}" for c in CLASSES)
+    print(f"{TAG} compare structs {len(lay)} absent {len(absent)}")
+    print(f"{TAG} compare functions {cf}; fields {cd}")
+    return 0
+
+
+def compare_cases():
+    """Planted functions, fields and struct text: every class, a held clause, a both-placeholder, an absent side, a
+    bitfield and an anonymous member, and the same doc from shuffled input (pure Python, host)."""
+    import random
+    b = "x4 exact 0123456789ab sozud/mmx4@abcdef0 src/main/p.c:"
+    rows = [["P", "0x80010000", "func", "-", "same", "gate", "engine", "-", b + "same"],
+            ["P", "0x80010100", "func", "-", "func_80999999", "slot", "engine", "-", "x4 slot 2/0 sozud/mmx4@abcdef0 x"],
+            ["P", "0x80010200", "func", "-", "theirs_only", "bytes", "engine", "-", b + "theirs_only"],
+            ["P", "0x80010300", "func", "-", "theirs_name", "gate", "engine", "-", b + "theirs_name"],
+            ["P", "0x80010400", "func", "-", "func_80010400", "slot", "engine", "-", "x4 slot 2/0 sozud/mmx4@abcdef0 y"],
+            ["P", "0x80010500", "data", "-", "datum", "slot", "engine", "3/0", "x4 slot 3/0 sozud/mmx4@abcdef0 datum"]]
+    syms = {("P", 0x80010000): ["same"], ("P", 0x80010100): ["ours_only"], ("P", 0x80010200): ["func_80010200"],
+            ("P", 0x80010300): ["ours_name", "func_80010300_2p"], ("P", 0x80010400): ["func_80010400"]}
+    held = {("P", "0x80010200"): "tier bytes, no corroborator"}
+    funcs = func_rows(rows, syms, held)
+    fc = {x[1]: (x[5], x[6]) for x in funcs}
+    lay = {"S": ([(0, "a", ""), (4, "ours_b", ""), (8, "unk_8", ""), (12, "pad", ""), (16, "same_arr", ""),
+                  (None, "bits", "bitfield")],
+                 [(0, "a", ""), (4, "their_b", ""), (8, "theirs_c", ""), (12, "filler_C", ""), (16, "same_arr", ""),
+                  (20, "tail", ""), (None, "bits", "bitfield")]),
+           "U": ([(0, "x", ""), (0, "y", "")], [(0, "x", "")]),
+           "Gone": ([(0, "z", "")], None)}
+    fields, absent = field_rows(lay)
+    fd = {(x[0], x[1], x[2]): x[5] for x in fields}
+    want_f = {"0x80010000": ("agree", ""), "0x80010100": ("X6-only", ""),
+              "0x80010200": ("mmx4-only", "tier bytes, no corroborator"), "0x80010300": ("conflict", ""),
+              "0x80010400": ("unnamed", "")}
+    want_d = {("S", 0, 0): "agree", ("S", 4, 0): "conflict", ("S", 8, 0): "mmx4-only", ("S", 12, 0): "unnamed",
+              ("S", 16, 0): "agree", ("S", 20, 0): "mmx4-only", ("S", None, 0): "agree", ("U", 0, 0): "agree",
+              ("U", 0, 1): "X6-only"}
+    fails = case("compare_funcs", fc == want_f and len(funcs) == 5, f"{sorted(fc.items())}")
+    fails += case("compare_fields", fd == want_d and absent == ["Gone"], f"{sorted(fd.items(), key=str)} absent {absent}")
+    doc1 = compare_doc(funcs, fields, absent, "abcdef0", len(lay))
+    rnd = random.Random(7)
+    rows2, lay2 = rows[:], list(lay.items())
+    rnd.shuffle(rows2)
+    rnd.shuffle(lay2)
+    doc2 = compare_doc(func_rows(rows2, syms, held), *field_rows(dict(lay2)), "abcdef0", len(lay))
+    good = (doc1 == doc2 and "held: tier bytes, no corroborator" in doc1 and "| unnamed | 1 | 1 |" in doc1
+            and "func_80010400" not in doc1 and ";" not in doc1.replace("x4names.py --compare", ""))
+    fails += case("compare_doc", good, f"shuffled same {doc1 == doc2}, {len(doc1)} chars")
+    pp = ("struct T { int a; unsigned b : 3, c : 5; union { int u; short v; }; struct { char q; } nest; "
+          "void (*fp)(int); char unk_10[4]; s16 : 4; struct { int w; } __attribute((packed)) pk; };")
+    got = members(pp, "struct", "T")
+    want = [("a", ""), ("b", "bitfield"), ("c", "bitfield"), (ANON, "anonymous"), ("nest", ""), ("fp", ""),
+            ("unk_10", ""), ("pk", "")]
+    fails += case("compare_members", got == want and members(pp, "union", "T") is None, f"{got}")
+    return fails
+
+
 def self_test():
     shutil.rmtree(SELFTEST, ignore_errors=True)
     os.makedirs(SELFTEST / "shared/planted")
@@ -615,6 +936,7 @@ def self_test():
     fails += case("lane_triple", x4adapter.TRIPLE == x4port.TRIPLE, f"x4adapter.TRIPLE {x4adapter.TRIPLE}")
     fails += widen_cases()
     fails += promote_cases()
+    fails += compare_cases()
     for name in fails:
         print(f"X4NAMES CONTROL FAIL {name}")
     if fails:
@@ -645,6 +967,8 @@ def main(argv):
         return promote(NAMES, votes if votes.is_absolute() else ROOT / votes, BASIS, HELD, VOTES_LOG)
     if argv == ["--upstream"]:
         return upstream(BASIS, PARTNERS, UPSTREAM)
+    if argv == ["--compare"]:
+        return compare()
     if argv == ["--self-test"]:
         return self_test()
     print(__doc__.strip(), file=sys.stderr)

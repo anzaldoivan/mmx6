@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -6,9 +7,6 @@
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK move_object(s32);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern struct X4_PlayerObj g_Player;
 
 #define NEAR3(d, a, b) ((d) = (a) - (b), (d) >= 0 ? (d) < 3 : ((b) - (a)) < 3)
@@ -30,17 +28,17 @@ void func_800EAE94(void* arg0) {
         y = M2C_FIELD(arg0, s16*, 0xE) + 0x40;
         dy = g_Player.y_pos.i.hi - y;
     }
-    angle = func_80065B74(-dy, dx);
+    angle = ratan2(-dy, dx);
     M2C_FIELD(arg0, s32*, 0x28) = 0;
     M2C_FIELD(arg0, s32*, 0x2C) = 0;
     {
         s32 m;
         s32 lo;
-        m = func_80065A14(angle);
+        m = rcos(angle);
         lo = m << 4;
         m = (m << 6) + lo;
         M2C_FIELD(arg0, s32*, 0x20) = (m << 1) / 4;
-        m = func_80065944(angle);
+        m = rsin(angle);
         lo = m << 4;
         m = (m << 6) + lo;
         M2C_FIELD(arg0, s32*, 0x24) = (m << 1) / 8;

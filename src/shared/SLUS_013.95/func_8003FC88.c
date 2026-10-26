@@ -10,7 +10,7 @@ void func_8003FC88(void* arg0) {
     M2C_FIELD(arg0, s8*, 5) = 0x4B;
     M2C_FIELD(arg0, s8*, 6) = 0;
     M2C_FIELD(arg0, s8*, 7) = 0;
-    D_800CCED0.unk1C = 1;
+    D_800CCED0.gameplay_locked = 1;
     M2C_FIELD(arg0, s8*, 0x67) = 1;
     M2C_FIELD(arg0, s8*, 0xE1) = 0;
     D_800CCED0.unk16 = 1;

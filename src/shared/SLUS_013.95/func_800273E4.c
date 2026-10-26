@@ -18,7 +18,7 @@ void func_800273E4(void) {
     i = 0;
     p = background_objects;
     do {
-        if (p->pad51[1] < 0) {
+        if (p->pad52[0] < 0) {
             x = p->x_pos.i.hi;
             y = p->y_pos.i.hi;
             y0 = y - 0x10;

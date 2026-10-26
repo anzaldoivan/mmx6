@@ -8,7 +8,7 @@ s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 void func_8004FE58(s32, s8);
 
 #define ENG ((u8*)&D_800CCED0)
-#define ENG5B (((struct X4_EngineObj*)(ENG - -g_Player.unk2))->unk5C[-1])
+#define ENG5B (((struct X4_EngineObj*)(ENG - -g_Player.unk2))->sub_tanks[-1])
 
 void func_8004ED4C(u8* arg0, u8 arg1, u8 a2) {
     // !FAKE: depin: dropping it breaks the match (90/96)

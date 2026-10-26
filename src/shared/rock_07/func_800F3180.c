@@ -1,11 +1,11 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-s32 func_80065B74(s32, s32);
 void func_800F6C70(void*, s16, s16, s16);
 extern struct X4_PlayerObj g_Player;
 
@@ -25,8 +25,7 @@ void func_800F3180(void* arg0) {
         }
         y += 0x34;
         do {
-            ang =
-                func_80065B74(y - g_Player.y_pos.i.hi, g_Player.x_pos.i.hi - x);
+            ang = ratan2(y - g_Player.y_pos.i.hi, g_Player.x_pos.i.hi - x);
             func_80016C48(2, 0x63, arg0);
         } while (0);
         {

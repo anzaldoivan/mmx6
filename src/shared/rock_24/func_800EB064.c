@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -7,9 +8,6 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern s32 D_8007429C;
 extern M2C_UNK g_Player;
 extern s32 D_800F679C;
@@ -37,14 +35,14 @@ void func_800EB064(void* arg0) {
     M2C_FIELD(arg0, u8*, 7) = 0;
     px = ((struct X4_PlayerObj*)&g_Player)->x_pos.i.hi;
     py = ((struct X4_PlayerObj*)&g_Player)->y_pos.i.hi;
-    angle = func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - py,
-                          px - M2C_FIELD(arg0, s16*, 0xA));
+    angle = ratan2(M2C_FIELD(arg0, s16*, 0xE) - py,
+                   px - M2C_FIELD(arg0, s16*, 0xA));
     M2C_FIELD(arg0, s32*, 0x28) = 0;
     M2C_FIELD(arg0, s32*, 0x2C) = 0;
-    t = func_80065A14(angle);
+    t = rcos(angle);
     v = t * 16;
     M2C_FIELD(arg0, s32*, 0x20) = (t * 64 + v) >> 1;
-    t = func_80065944(angle);
+    t = rsin(angle);
     v = t * 16;
     M2C_FIELD(arg0, s32*, 0x24) = (t * 64 + v) >> 1;
     func_80016C48(2, 0x3B, arg0);

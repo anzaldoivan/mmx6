@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/mains/main_19_surface_hopper.c:surface_hopper_probe_tile, AGPL-3.0; proven shared with X6 by exact signature bc88cc45895f (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_19_surface_hopper.c:surface_hopper_probe_tile, AGPL-3.0; proven shared with X6 by exact signature bc88cc45895f (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 u8 func_80030234(struct X4_PlayerObj*, s16, s16);

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -12,8 +13,6 @@ s32 func_8002D2D4();
 M2C_UNK func_80030ECC(void*);
 s32 func_80031474(void*);
 M2C_UNK func_80049E50(void*);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 extern s32 D_800FDE30;
 extern s32 D_800FE1F8;
 extern s32 D_800FE1FC;
@@ -50,8 +49,8 @@ void func_800FB438(struct X4_MainObj* self) {
                 } else {
                     a = t * 128;
                 }
-                self->x_speed = func_80065A14(a) << 6;
-                self->y_speed = -func_80065944(a) << 6;
+                self->x_speed = rcos(a) << 6;
+                self->y_speed = -rsin(a) << 6;
             }
             self->unk5++;
         }

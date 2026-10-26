@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/mains/main_57_frost_walrus.c:frost_walrus_blizzard_finish, AGPL-3.0; proven shared with X6 by exact signature ab19d9ae77b7 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_57_frost_walrus.c:frost_walrus_blizzard_finish, AGPL-3.0; proven shared with X6 by exact signature ab19d9ae77b7 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 

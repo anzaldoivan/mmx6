@@ -36,7 +36,7 @@ void func_800FA004(u8* arg0) {
     func_8002B2F8(0);
     background_objects[0].unk3 = 0;
     background_objects[1].unk3 = 1;
-    if ((s8)(s32)D_800CCED0.unk38 != 0) {
+    if ((s8)(s32)D_800CCED0.controlled_player != 0) {
         background_objects[1].y_pos.i.hi = 0x100;
         background_objects[0].y_pos.i.hi = 0x100;
     }
@@ -55,7 +55,7 @@ void func_800FA004(u8* arg0) {
     }
     arg0[1]++;
     for (i = 0; i < 4; i++) {
-        if ((s8)(s32)D_800CCED0.unk38 == 0) {
+        if ((s8)(s32)D_800CCED0.controlled_player == 0) {
             D_800EA510[i] = func_800FA7C4[i];
         } else {
             D_800EA510[i] = D_800FA7C8[i];

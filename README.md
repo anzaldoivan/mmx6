@@ -115,6 +115,12 @@ Progress bars powered by [decomp.dev][psxd-progress].
 [psxd-progress]: https://decomp.dev/anzaldoivan/mmx6
 <!-- psxdecomp:progress:end -->
 
+![named functions](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fanzaldoivan%2Fmmx6%2Fmain%2Fdocs%2Fbadges%2Ffunctions.json)
+![finished files](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fanzaldoivan%2Fmmx6%2Fmain%2Fdocs%2Fbadges%2Ffinished.json)
+![debt: main](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fanzaldoivan%2Fmmx6%2Fmain%2Fdocs%2Fbadges%2Fdebt-main.json)
+![debt: rock](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fanzaldoivan%2Fmmx6%2Fmain%2Fdocs%2Fbadges%2Fdebt-rock.json)
+![debt: sdk](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fanzaldoivan%2Fmmx6%2Fmain%2Fdocs%2Fbadges%2Fdebt-sdk.json)
+
 Like many late PlayStation games, *Mega Man X6* keeps much of its code in *overlays*. Overlays are binaries that the
 executable loads at a fixed address when it needs them. Because of this, only part of the game's code occupies
 memory at once.

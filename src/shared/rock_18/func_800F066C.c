@@ -5,6 +5,7 @@ extern u16 D_80073610[];
 extern u16 D_80073620[];
 extern u8 D_800F1148[];
 
+// str 0x800F1148 sha1=359bbf181e646fd64258495a1d1ebdd3523de68b = "printable byte run: data, not text"
 void func_800F066C(u8* arg0) {
     u8 i;
     u8 sel;

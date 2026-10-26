@@ -1,16 +1,15 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK move_object(void*);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern u8 D_800E9884[];
 
 #define F(type, off) M2C_FIELD(arg0, type*, off)
 
+// str 0x800E9884 sha1=cc02398329fa039d76fae5aa30b17ad91bc6c29c = "rising byte ramp: a table, not text"
 void func_800EF408(void* arg0) {
     s8 a[16];
     s32 angle;
@@ -35,10 +34,10 @@ void func_800EF408(void* arg0) {
         y = 0xB0;
         break;
     }
-    angle = func_80065B74(F(s16, 0xE) - y, x - F(s16, 0xA));
-    v = func_80065A14(angle) * 16;
+    angle = ratan2(F(s16, 0xE) - y, x - F(s16, 0xA));
+    v = rcos(angle) * 16;
     F(s32, 0x20) = v * 2 + v;
-    v = func_80065944(angle) * 16;
+    v = rsin(angle) * 16;
     F(s32, 0x24) = v * 2 + v;
     move_object(arg0);
     t = F(s16, 0xA);

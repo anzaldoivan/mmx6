@@ -503,7 +503,7 @@
 {"k":"data","addr":"0x80100d54","type":"/undefined *","len":4}
 {"k":"data","addr":"0x80100d58","type":"/undefined *","len":4}
 {"k":"data","addr":"0x80100d5c","type":"/undefined *","len":4}
-{"k":"comment","addr":"0x800fd59c","type":"plate","text":"x4: frost_walrus_death_explode [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_57_frost_walrus.c:frost_walrus_death_explode"}
+{"k":"comment","addr":"0x800fd59c","type":"plate","text":"x4: frost_walrus_death_explode [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_57_frost_walrus.c:frost_walrus_death_explode\nx4: frost_walrus_death_explode [gate/object] sozud/mmx4@807a01b src/main/mains/main_57_frost_walrus.c:frost_walrus_death_explode"}
 {"k":"comment","addr":"0x800fd918","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800fe6c4","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ff5a4","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgpu.h"
 #define M2C_UNK s32
 
 M2C_UNK func_800133A0();
@@ -11,7 +12,6 @@ void func_8001F5A0(void*, s32);
 void func_8001FB90(u8* t, s16 arg1);
 void func_8002AA74(void);
 void func_8002C1DC();
-M2C_UNK func_800660B8(M2C_UNK);
 extern M2C_UNK D_800711F4;
 extern s32 D_80071200;
 extern s32 D_80097420;
@@ -45,7 +45,7 @@ void func_8001FD10(u8* arg0) {
             *(s32*)(arg0 + 0x34) = 0;
             if (g[7] == 0) {
                 arg0[7] = 0;
-                func_800660B8(0);
+                SetDispMask(0);
                 func_8001D218();
                 func_80016B3C();
                 func_8002C1DC();

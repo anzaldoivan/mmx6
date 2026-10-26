@@ -6,6 +6,7 @@
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 extern u8 func_801F3698[];
 
+// str 0x801F3698 sha1=4f9ab48fb4b5a74dbaff79949a7171d7221c076e = "printable byte run: data, not text"
 M2C_UNK func_801EBF28(void* arg0) {
     func_8003BA04(arg0, func_801F3698[M2C_FIELD(arg0, s8*, 0x96)]);
 }

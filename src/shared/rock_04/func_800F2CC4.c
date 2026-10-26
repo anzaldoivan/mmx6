@@ -1,13 +1,11 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
 extern s32 D_800F76A0;
@@ -54,21 +52,21 @@ void func_800F2CC4(void* arg0) {
             p = &g_Player;
             px = p->x_pos.i.hi;
             py = p->y_pos.i.hi;
-            ang = func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - py,
-                                px - M2C_FIELD(arg0, s16*, 0xA));
-            M2C_FIELD(arg0, s32*, 0x20) = func_80065A14(ang) << 6;
-            M2C_FIELD(arg0, s32*, 0x24) = func_80065944(ang) << 6;
+            ang = ratan2(M2C_FIELD(arg0, s16*, 0xE) - py,
+                         px - M2C_FIELD(arg0, s16*, 0xA));
+            M2C_FIELD(arg0, s32*, 0x20) = rcos(ang) << 6;
+            M2C_FIELD(arg0, s32*, 0x24) = rsin(ang) << 6;
             M2C_FIELD(arg0, s32*, 0x28) = 0;
             M2C_FIELD(arg0, s32*, 0x2C) = 0;
         } else if (type == 2) {
             p = &g_Player;
             px = p->x_pos.i.hi;
             py = p->y_pos.i.hi;
-            ang = func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - py,
-                                px - M2C_FIELD(arg0, s16*, 0xA));
-            v = func_80065A14(ang);
+            ang = ratan2(M2C_FIELD(arg0, s16*, 0xE) - py,
+                         px - M2C_FIELD(arg0, s16*, 0xA));
+            v = rcos(ang);
             M2C_FIELD(arg0, s32*, 0x20) = -(v << 4) + (v << 7);
-            v = func_80065944(ang);
+            v = rsin(ang);
             t = v << 4;
             M2C_FIELD(arg0, s32*, 0x24) = (v << 7) - t;
             M2C_FIELD(arg0, s32*, 0x28) = 0;

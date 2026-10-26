@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -11,9 +12,6 @@ void* func_8003D480(s8 arg0, s8 arg1, s8 arg2, s32 arg3);
 M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
                             M2C_UNK arg3);
 #define player_spawn_visual player_spawn_visual
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern s16 D_800761CC[][2];
 extern s32 D_800761DC[][2];
 extern s32 D_80077A5C[];
@@ -83,10 +81,9 @@ void func_80045928(struct X4_WeaponObj* arg0) {
         arg0->y_pos.i.hi = D_800761CC[arg0->unk2 - 5][1];
         i = arg0->unk2 - 5;
         y = D_800761DC[i][1];
-        ang = func_80065B74(arg0->y_pos.i.hi - y,
-                            D_800761DC[i][0] - arg0->x_pos.i.hi);
-        arg0->x_vel.val = func_80065A14(ang) << 6;
-        arg0->y_vel.val = func_80065944(ang) << 6;
+        ang = ratan2(arg0->y_pos.i.hi - y, D_800761DC[i][0] - arg0->x_pos.i.hi);
+        arg0->x_vel.val = rcos(ang) << 6;
+        arg0->y_vel.val = rsin(ang) << 6;
         arg0->unk16 = 0x10;
         arg0->unk64 = 1;
         func_800179A4(arg0, 1);

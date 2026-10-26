@@ -36,7 +36,7 @@ void func_800270D0(s32 arg0) {
     base = background_objects;
     bg = &base[arg0];
     prim = SP_PRIM_PTR;
-    p = bg->pad51[1];
+    p = bg->pad52[0];
     buf = SP_DRAW_BUFFER;
     if (p < 0) {
         x = bg->x_pos.i.hi;

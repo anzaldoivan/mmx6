@@ -1,4 +1,6 @@
 #include "common.h"
+#include "psyq/libetc.h"
+#include "psyq/libgpu.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -11,11 +13,6 @@ void func_8001B784(void);
 void func_8001B7A8(void);
 void func_8001B90C(u32 arg0);
 void func_8001B984(s32);
-int func_80060964(int mode);
-M2C_UNK func_800660B8(M2C_UNK);
-M2C_UNK func_80066150(M2C_UNK);
-void func_800662D4(X4_RECT*, s32, s32, s32);
-void func_80066980(void*);
 
 extern X4_RECT D_80010090;
 extern u16 D_80070CA4[];
@@ -63,30 +60,30 @@ void func_8001A9B0(void) {
             }
             done = func_8001B184(0, a1);
             func_8001B784();
-            func_80060964(0);
+            VSync(0);
             func_80012A34();
             if (D_800C456C[2] & D_80070CA4[5]) {
                 done = 1;
             }
-            func_80066980(&DB_DISP(D_800E2E6C));
+            PutDispEnv(&DB_DISP(D_800E2E6C));
         } while (done == 0);
     }
     rect.x = 0;
     rect.y = 0;
     rect.w = 0x1E0;
     rect.h = 0x1E0;
-    func_800662D4(&rect, 0, 0, 0);
-    func_80066150(0);
+    ClearImage(&rect, 0, 0, 0);
+    DrawSync(0);
     func_8001B7A8();
-    ((void (*)(s32))func_800660B8)(0);
+    ((void (*)(s32))SetDispMask)(0);
     D_800C456C[2] = 0;
     D_800C456C[0] = 0;
     DB_DISP(0) = D_800E2E88[0];
     DB_DISP(1) = D_800E2E88[1];
     D_800E2E6C ^= 1;
-    func_80066980(&DB_DISP(D_800E2E6C));
-    func_80066150(0);
-    func_80060964(0);
-    func_80066150(0);
+    PutDispEnv(&DB_DISP(D_800E2E6C));
+    DrawSync(0);
+    VSync(0);
+    DrawSync(0);
 }
 #undef DB_DISP

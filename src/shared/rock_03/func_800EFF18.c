@@ -1,11 +1,9 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002D2D4();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern s16 D_800F7DC0;
 extern s16 D_800F7DC2;
 extern s16 D_800F7DCA;
@@ -40,9 +38,9 @@ void func_800EFF18(void* arg0) {
         W(arg0, 0x20) = 0;
         W(arg0, 0x24) = 0;
     } else {
-        ang = func_80065B74(y - H(arg0, 0xE), x - H(arg0, 0xA));
-        W(arg0, 0x20) = func_80065A14(ang) * 32;
-        W(arg0, 0x24) = -func_80065944(ang) * 32;
+        ang = ratan2(y - H(arg0, 0xE), x - H(arg0, 0xA));
+        W(arg0, 0x20) = rcos(ang) * 32;
+        W(arg0, 0x24) = -rsin(ang) * 32;
     }
     if (W(arg0, 0x20) != 0) {
         ((void (*)(void*, s32))func_800179A4)(arg0, 2);

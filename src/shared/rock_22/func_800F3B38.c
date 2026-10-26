@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/mains/main_19_surface_hopper.c:surface_hopper_update, AGPL-3.0; proven shared with X6 by exact signature a46c53ea4229 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_19_surface_hopper.c:surface_hopper_update, AGPL-3.0; proven shared with X6 by exact signature a46c53ea4229 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern void (*D_800FC674[])(struct X4_MainObj*);

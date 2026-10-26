@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -8,8 +9,6 @@ M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 s32 func_8002D2D4();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 
 extern u8 D_800FBF9C[];
 extern u8 D_800FBFA0[];
@@ -87,10 +86,10 @@ void func_800EC180(void* self) {
             a -= 0xAA;
         }
     }
-    r = func_80065A14(a);
+    r = rcos(a);
     t = r * 16;
     M2C_FIELD(self, s32*, 0x20) = r * 32 + t;
-    r = func_80065944(a);
+    r = rsin(a);
     t = r * 16;
     M2C_FIELD(self, s32*, 0x24) = r * 32 + t;
     M2C_FIELD(self, s32*, 0x28) = 0;

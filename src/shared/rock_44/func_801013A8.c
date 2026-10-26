@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -7,9 +8,6 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 M2C_UNK move_object();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
@@ -25,18 +23,17 @@ void func_801013A8(void* arg0) {
             s32 c = u - 1;
             M2C_FIELD(arg0, s8*, 7) = c;
             if ((s8)c == 0) {
-                ang = func_80065B74(
-                    g_Player.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
-                    g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
+                ang = ratan2(g_Player.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
+                             g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
                 {
                     s32 t;
                     s32 w;
                     s32 u;
                     s32 x;
-                    t = func_80065A14(ang);
+                    t = rcos(ang);
                     w = t << 4;
                     M2C_FIELD(arg0, s32*, 0x20) = (t << 6) + w;
-                    u = -func_80065944(ang);
+                    u = -rsin(ang);
                     x = u << 4;
                     M2C_FIELD(arg0, s32*, 0x24) = (u << 6) + x;
                 }

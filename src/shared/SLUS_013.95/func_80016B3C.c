@@ -1,7 +1,7 @@
 #include "common.h"
 
-void func_80055D74(s8);
-void func_8005FD74(s32);
+void SsSepClose(s8);
+void SsVabClose(s32);
 extern s8 D_80090D50[6];
 extern s8 D_80090D64[];
 extern s8 D_800E25E0[];
@@ -20,13 +20,13 @@ void func_80016B3C(void) {
 
     for (i = 0; (t = i, u = t < 6, u); i++) {
         if (D_80090D64[i] != -1) {
-            func_80055D74(D_80090D64[i]);
+            SsSepClose(D_80090D64[i]);
             D_80090D64[i] = -1;
         }
     }
     for (i = 0; (t = i, u = t < 6, u); i++) {
         if (D_80090D50[i] != -1) {
-            func_8005FD74(D_80090D50[i]);
+            SsVabClose(D_80090D50[i]);
             D_80090D50[i] = -1;
         }
     }

@@ -23,7 +23,7 @@ void func_800249D4(void* arg0) {
     i = FB(arg0, 0x93);
     if (i == 0) {
         struct X4_EngineObj* e = &D_800CCED0;
-        x = (s8) * ((u8*)&e->unk38 + 1);
+        x = (s8) * ((u8*)&e->controlled_player + 1);
         d = x / 10;
         func_80024CC0(3, d + 0x3B);
         func_80024CC0(4, x - d * 10 + 0x3B);

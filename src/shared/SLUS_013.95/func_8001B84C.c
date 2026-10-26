@@ -1,8 +1,6 @@
 #include "common.h"
+#include "psyq/libgpu.h"
 #define M2C_UNK s32
-
-M2C_UNK func_80066150(M2C_UNK);
-M2C_UNK func_800663FC(M2C_UNK*, M2C_UNK*);
 
 void func_8001B84C(s32* arg0, s32 arg1, s32 arg2, u32 arg3, s32 arg4,
                    s32 arg5) {
@@ -21,8 +19,8 @@ void func_8001B84C(s32* arg0, s32 arg1, s32 arg2, u32 arg3, s32 arg4,
     rect[3] = arg4;
     t = (u32)(h * arg4) >> 1;
     for (i = 0; i < arg3 >> 4; i++) {
-        func_800663FC((M2C_UNK*)rect, arg0);
-        func_80066150(0);
+        LoadImage((M2C_UNK*)rect, arg0);
+        DrawSync(0);
         arg0 += t;
         rect[0] += h;
     }

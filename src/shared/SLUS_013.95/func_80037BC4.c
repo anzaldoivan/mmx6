@@ -21,7 +21,7 @@ void func_80037BC4(void* arg0) {
         func_8003CCBC(arg0);
         ((void (*)(void*))func_8003AF1C)(arg0);
         M2C_FIELD(arg0, u8*, 0x86) = 1;
-        e->unk1C = 0;
+        e->gameplay_locked = 0;
         return;
     }
     if (M2C_FIELD(arg0, s8*, 0x6) == 0) {

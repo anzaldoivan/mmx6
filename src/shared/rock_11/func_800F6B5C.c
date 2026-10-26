@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -6,9 +7,6 @@
 
 M2C_UNK move_object(void*);
 s32 func_8002D2D4();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern struct X4_PlayerObj g_Player;
 extern u8 D_800CCF38;
 
@@ -20,12 +18,12 @@ void func_800F6B5C(void* arg0) {
     if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
         s16 px = g_Player.x_pos.i.hi;
         s16 py = g_Player.y_pos.i.hi;
-        angle = func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - py,
-                              px - M2C_FIELD(arg0, s16*, 0xA));
-        v = func_80065A14(angle);
+        angle = ratan2(M2C_FIELD(arg0, s16*, 0xE) - py,
+                       px - M2C_FIELD(arg0, s16*, 0xA));
+        v = rcos(angle);
         t = v * 16;
         M2C_FIELD(arg0, s32*, 0x20) = ((v * 32 + t) << 1) / 4;
-        v = func_80065944(angle);
+        v = rsin(angle);
         t = v * 16;
         M2C_FIELD(arg0, s32*, 0x24) = ((v * 32 + t) << 1) / 4;
         if (D_800CCF38 >= 2) {

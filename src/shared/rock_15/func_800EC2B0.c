@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/mains/main_51_fortress_cannon.c:fortress_cannon_volley_wait, AGPL-3.0; proven shared with X6 by exact signature 7c2510b02378 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_51_fortress_cannon.c:fortress_cannon_volley_wait, AGPL-3.0; proven shared with X6 by exact signature 7c2510b02378 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 

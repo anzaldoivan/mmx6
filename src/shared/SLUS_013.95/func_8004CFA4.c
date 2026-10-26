@@ -1,9 +1,9 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/quads/quad_07_ready_line.c:ready_line_init, AGPL-3.0; proven shared with X6 by exact signature 2100185f1445 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/quads/quad_07_ready_line.c:ready_line_init, AGPL-3.0; proven shared with X6 by exact signature 2100185f1445 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
 void func_8004CFA4(struct X4_QuadObj* arg0) {
-    arg0->active |= 0x92;
+    arg0->active |= SATURN_ALT(0x92, 0x82);
     if (arg0->unk2 == 0) {
         arg0->unk36 = 0x10;
     } else {

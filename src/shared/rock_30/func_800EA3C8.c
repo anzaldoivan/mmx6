@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -7,7 +8,6 @@
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-s32 func_80065B74(s32, s32);
 extern s32 D_8007429C;
 extern s32 g_Player;
 extern s32 D_800EF998;
@@ -45,8 +45,8 @@ void func_800EA3C8(void* arg0) {
         struct X4_PlayerObj* p = &g_Player;
         s32 px = p->x_pos.i.hi;
         s32 py = p->y_pos.i.hi;
-        func_80065B74(M2C_FIELD(arg0, s16*, 0xE) - py,
-                      px - M2C_FIELD(arg0, s16*, 0xA));
+        ratan2(M2C_FIELD(arg0, s16*, 0xE) - py,
+               px - M2C_FIELD(arg0, s16*, 0xA));
     }
     M2C_FIELD(arg0, s32*, 0x28) = 0;
     M2C_FIELD(arg0, s32*, 0x2C) = 0;

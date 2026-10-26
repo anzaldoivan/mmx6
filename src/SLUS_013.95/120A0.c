@@ -94,7 +94,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800144DC);
 
 #include "../shared/SLUS_013.95/func_800146F4.c"
 
-#include "../shared/SLUS_013.95/func_800147D0.c"
+#include "../shared/SLUS_013.95/load_rock_dat_file_table.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001494C);
 
@@ -143,7 +143,7 @@ void func_800166FC(void) {
 
 #include "../shared/SLUS_013.95/func_80016704.c"
 
-#include "../shared/SLUS_013.95/func_80016780.c"
+#include "../shared/SLUS_013.95/load_rock_bin_file_table.c"
 
 #include "../shared/SLUS_013.95/func_80016858.c"
 
@@ -311,13 +311,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001AE44);
 
 #include "../shared/SLUS_013.95/func_8001C1AC.c"
 
-#include "../shared/SLUS_013.95/func_8001C384.c"
+#include "../shared/SLUS_013.95/memcard_read_save_file.c"
 
-#include "../shared/SLUS_013.95/func_8001C4C0.c"
+#include "../shared/SLUS_013.95/memcard_list_files.c"
 
 #include "../shared/SLUS_013.95/func_8001C5EC.c"
 
-#include "../shared/SLUS_013.95/func_8001C6C0.c"
+#include "../shared/SLUS_013.95/memcard_format.c"
 
 #include "../shared/SLUS_013.95/func_8001C718.c"
 

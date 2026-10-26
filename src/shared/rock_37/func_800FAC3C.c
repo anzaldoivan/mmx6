@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -15,9 +16,6 @@
 void func_800179A4(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 s32 func_8002D2D4();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_80074D3C;
 extern M2C_UNK D_80074DDC;
@@ -58,19 +56,19 @@ void func_800FAC3C(struct X4_MainObj* self) {
                 self->x_speed = -0x30000;
             }
         } else {
-            temp = func_80065B74(g_Player.y_pos.i.hi - self->y_pos.i.hi,
-                                 g_Player.x_pos.i.hi - self->x_pos.i.hi);
+            temp = ratan2(g_Player.y_pos.i.hi - self->y_pos.i.hi,
+                          g_Player.x_pos.i.hi - self->x_pos.i.hi);
             {
                 s32 m;
                 s32 t;
-                m = func_80065A14(temp);
+                m = rcos(temp);
                 t = m << 4;
                 self->x_speed = (m << 5) + t;
             }
             {
                 s32 m;
                 s32 t;
-                m = -func_80065944(temp);
+                m = -rsin(temp);
                 t = m << 4;
                 self->y_speed = (m << 5) + t;
             }

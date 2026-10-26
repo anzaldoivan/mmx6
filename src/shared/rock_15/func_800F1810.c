@@ -1,12 +1,10 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #include "mmx6/x4.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 s32 func_8002D2D4();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_800F6F30[];
@@ -38,18 +36,18 @@ void func_800F1810(void* self) {
             U8(0x6) = 4;
             x = background_objects[0].unk2A + 0xC0;
         }
-        t = func_80065B74(x - S16(0xE), y - S16(0xA));
-        S32(0x20) = func_80065A14(t) << 6;
-        S32(0x24) = -func_80065944(t) << 6;
+        t = ratan2(x - S16(0xE), y - S16(0xA));
+        S32(0x20) = rcos(t) << 6;
+        S32(0x24) = -rsin(t) << 6;
     } else {
         i = ((u32)func_8002D2D4() % 15) & 0xFF;
         U16(0x8C) = i;
         y = background_objects[0].unk26 + (D_800F700C[i][0] + 0x20);
         dy = y - S16(0xA);
         x = background_objects[0].unk2A + (D_800F700C[i][1] + 0x30);
-        t = func_80065B74(x - S16(0xE), dy);
-        S32(0x20) = func_80065A14(t) << 6;
-        S32(0x24) = -func_80065944(t) << 6;
+        t = ratan2(x - S16(0xE), dy);
+        S32(0x20) = rcos(t) << 6;
+        S32(0x24) = -rsin(t) << 6;
         {
             s16 m = S16(0x8C) % 3;
             u16 b = background_objects[0].unk26;

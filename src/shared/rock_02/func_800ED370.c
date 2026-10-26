@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/mains/main_48_sentry_drone.c:sentry_drone_dash_move, AGPL-3.0; proven shared with X6 by exact signature 0de043eb0114 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_48_sentry_drone.c:sentry_drone_dash_move, AGPL-3.0; proven shared with X6 by exact signature 0de043eb0114 (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"

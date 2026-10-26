@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @29b62af src/main/mains/main_06_bulldozer.c:bulldozer_fall, AGPL-3.0; proven shared with X6 by exact signature 6c63f20ba27c (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_06_bulldozer.c:bulldozer_fall, AGPL-3.0; proven shared with X6 by exact signature 6c63f20ba27c (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32
@@ -17,5 +17,5 @@ void func_800EC3C8(struct X4_MainObj* self) {
         self->air_state = 0;
         return;
     }
-    func_8002D230(ANIMATED_OBJECT(self));
+    ((void (*)())func_8002D230)(ANIMATED_OBJECT(self));
 }

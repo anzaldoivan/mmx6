@@ -14,7 +14,7 @@ extern struct X4_EngineObj D_800CCED0;
 void func_8003B870(struct X4_PlayerObj* self) {
     ((void (*)())func_8003CDF0)();
     ((void (*)(void*))func_8003F3DC)(self);
-    D_800CCED0.unk1C = 1;
+    D_800CCED0.gameplay_locked = 1;
     if (D_800CCED0.unkF & 0x10) {
         func_8003D10C(self);
         func_8003F000(self);

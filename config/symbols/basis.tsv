@@ -1,34 +1,406 @@
 # prog	vram	name	basis-kind	basis-ref	tier
-SLUS_013.95	0x800208EC	update_layer_objects	x4	exact 00a3e13855ef sozud/mmx4@6a6b455 src/main/object_update.c:update_layer_objects; corroborator callee src/main/object_update:update_layer_objects SLUS_013.95:0x800208EC	gate
-SLUS_013.95	0x8002D2B0	move_object	x4	exact 6534750cb678 sozud/mmx4@6a6b455 src/main/object_motion.c:move_object; corroborator caller src/main/mains/main_19_surface_hopper:surface_hopper_fly	gate
-SLUS_013.95	0x8002D3B4	set_velocity_from_angle	x4	exact e92a2af1038e sozud/mmx4@6a6b455 src/main/object_motion.c:set_velocity_from_angle; corroborator callee src/main/object_motion:set_velocity_from_angle SLUS_013.95:0x8002D3B4	gate
-SLUS_013.95	0x80037548	player_ladder_climb_on_top	x4	exact 78487e2d128b sozud/mmx4@6a6b455 src/main/player.c:player_ladder_climb_on_top; corroborator callee src/main/player:player_ladder_climb_on_top SLUS_013.95:0x80017A04	gate
-SLUS_013.95	0x800375D0	player_ladder_step_off_bottom	x4	exact 26cbae375ca4 sozud/mmx4@6a6b455 src/main/player.c:player_ladder_step_off_bottom; corroborator callee src/main/player:player_ladder_step_off_bottom SLUS_013.95:0x80017A04	gate
-SLUS_013.95	0x800377FC	player_ladder_let_go	x4	exact 97ce869b32ad sozud/mmx4@6a6b455 src/main/player.c:player_ladder_let_go; corroborator callee src/main/player:player_ladder_let_go SLUS_013.95:0x80017A04	gate
-SLUS_013.95	0x80037838	player_hurt	x4	exact 94a81587fc1f sozud/mmx4@6a6b455 src/main/player.c:player_hurt; corroborator callee src/main/player:player_hurt SLUS_013.95:0x80017A04	gate
-SLUS_013.95	0x80037F70	player_script_vanish	x4	exact 8c272e77d29e sozud/mmx4@6a6b455 src/main/player.c:player_script_vanish; corroborator callee src/main/player:player_script_vanish SLUS_013.95:0x80017A04	gate
-SLUS_013.95	0x80039BC4	player_check_dash_jump_walk	x4	exact 67a670686326 sozud/mmx4@6a6b455 src/main/player_check.c:player_check_dash_jump_walk; corroborator callee src/main/player_check:player_check_dash_jump_walk SLUS_013.95:0x80039BC4	gate
-SLUS_013.95	0x8003B3B8	player_enter_wall_cling	x4	exact 0d5bb8e12551 sozud/mmx4@6a6b455 src/main/player_enter.c:player_enter_wall_cling; corroborator callee src/main/player_enter:player_enter_wall_cling SLUS_013.95:0x8003B3B8	gate
-SLUS_013.95	0x8003B708	player_enter_ladder_climb_on_top	x4	exact 2d72789ebd19 sozud/mmx4@6a6b455 src/main/player_enter.c:player_enter_ladder_climb_on_top; corroborator callee src/main/player_enter:player_enter_ladder_climb_on_top SLUS_013.95:0x8003CD9C	gate
-SLUS_013.95	0x8003B774	player_enter_ladder_step_off_bottom	x4	exact 625cccce011c sozud/mmx4@6a6b455 src/main/player_enter.c:player_enter_ladder_step_off_bottom; corroborator callee src/main/player_enter:player_enter_ladder_step_off_bottom SLUS_013.95:0x8003CDBC	gate
-SLUS_013.95	0x8003C6A4	player_spawn_dash_spark	x4	exact 5698b541d539 sozud/mmx4@6a6b455 src/main/player_common.c:player_spawn_dash_spark; corroborator callee src/main/player_common:player_spawn_dash_spark SLUS_013.95:0x8003C6A4	gate
-SLUS_013.95	0x8003CE38	player_update_flash	x4	exact e08fdf21be18 sozud/mmx4@6a6b455 src/main/player_common.c:player_update_flash; corroborator callee src/main/player_common:player_update_flash SLUS_013.95:0x8003CE38	gate
-SLUS_013.95	0x8003D3F8	player_spawn_weapon	x4	exact 797fb806be5b sozud/mmx4@6a6b455 src/main/player_common.c:player_spawn_weapon; corroborator caller src/main/player_weapon:player_fire_weapon	gate
-SLUS_013.95	0x8003D510	player_spawn_visual	x4	exact bcd7efacb341 sozud/mmx4@6a6b455 src/main/player_common.c:player_spawn_visual; corroborator callee src/main/player_common:player_spawn_visual SLUS_013.95:0x8003D510	gate
-SLUS_013.95	0x8003F4C4	player_set_animation_shooting	x4	exact b7ee5de16676 sozud/mmx4@6a6b455 src/main/player_weapon.c:player_set_animation_shooting; corroborator caller src/main/player_enter:player_enter_wall_cling	gate
-SLUS_013.95	0x8003FA60	player_fire_weapon	x4	exact 8c58cd89382c sozud/mmx4@6a6b455 src/main/player_weapon.c:player_fire_weapon; corroborator callee src/main/player_weapon:player_fire_weapon SLUS_013.95:0x8003D3F8	gate
-SLUS_013.95	0x80040304	spike_crawler_hit_flash	x4	exact 0f5c026ba0d7 sozud/mmx4@6a6b455 src/main/enemy_reaction.c:spike_crawler_hit_flash; corroborator callee src/main/enemy_reaction:spike_crawler_hit_flash SLUS_013.95:0x80040304	gate
-SLUS_013.95	0x80054AD8	__start	community	PsyQ crt0 entry label __start; address = exe header pc0 (retail bytes, phase 1.3 T2)	-
-SLUS_013.95	0x800970A0	g_Player	x4	slot 7/0 sozud/mmx4@6a6b455 g_Player	slot
-SLUS_013.95	0x800971F8	background_objects	x4	slot 3/0 sozud/mmx4@6a6b455 background_objects	slot
-rock_00	0x801EB730	player_ladder_shoot	x4	exact 543816517dc7 sozud/mmx4@6a6b455 src/main/player_special.c:player_ladder_shoot; corroborator callee src/main/player_special:player_ladder_shoot SLUS_013.95:0x80017A04	gate
-rock_00	0x801EC0C0	player_hover_hold	x4	exact 2140a7d039ea sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_hold; corroborator callee src/main/player_special:player_hover_hold rock_00:0x801EC0C0	gate
-rock_00	0x801EC124	player_hover_forward	x4	exact ecb393d0593c sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_forward; corroborator callee src/main/player_special:player_hover_forward SLUS_013.95:0x8003F4C4	gate
-rock_00	0x801EC1B4	player_hover_forward_stop	x4	exact c351fcf586bf sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_forward_stop; corroborator callee src/main/player_special:player_hover_forward_stop SLUS_013.95:0x8003F4C4	gate
-rock_00	0x801EC240	player_hover_back	x4	exact 89cef0de1a8c sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_back; corroborator callee src/main/player_special:player_hover_back SLUS_013.95:0x8003F4C4	gate
-rock_00	0x801EC2D0	player_hover_back_stop	x4	exact b28126054f46 sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_back_stop; corroborator callee src/main/player_special:player_hover_back_stop SLUS_013.95:0x8003F4C4	gate
-rock_00	0x801EC478	player_hover_set_direction	x4	exact 5022eaa90621 sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_set_direction; corroborator caller src/main/player_special:player_hover_back_stop	gate
-rock_00	0x801EC4C0	player_nova_strike_windup	x4	exact a538f84cd138 sozud/mmx4@6a6b455 src/main/player_special.c:player_nova_strike_windup; corroborator callee src/main/player_special:player_nova_strike_windup rock_00:0x801EC4C0	gate
-rock_09	0x800EE934	general_dust_end	x4	exact 76d90a83ca68 sozud/mmx4@6a6b455 src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04	gate
-rock_24	0x800ED454	general_dust_end	x4	exact 76d90a83ca68 sozud/mmx4@6a6b455 src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04	gate
-rock_30	0x800EE1D0	general_dust_end	x4	exact 76d90a83ca68 sozud/mmx4@6a6b455 src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04	gate
+SLUS_013.95	0x800208EC	update_layer_objects	x4	exact 00a3e13855ef sozud/mmx4@807a01b src/main/object_update.c:update_layer_objects; corroborator callee src/main/object_update:update_layer_objects SLUS_013.95:0x800208EC	gate
+SLUS_013.95	0x8002D2B0	move_object	x4	exact 6534750cb678 sozud/mmx4@807a01b src/main/object_motion.c:move_object; corroborator caller src/main/mains/main_19_surface_hopper:surface_hopper_fly	gate
+SLUS_013.95	0x8002D3B4	set_velocity_from_angle	x4	exact e92a2af1038e sozud/mmx4@807a01b src/main/object_motion.c:set_velocity_from_angle; corroborator callee src/main/object_motion:set_velocity_from_angle SLUS_013.95:0x8002D3B4	gate
+SLUS_013.95	0x80037548	player_ladder_climb_on_top	x4	exact 78487e2d128b sozud/mmx4@807a01b src/main/player.c:player_ladder_climb_on_top; corroborator callee src/main/player:player_ladder_climb_on_top SLUS_013.95:0x80017A04	gate
+SLUS_013.95	0x800375D0	player_ladder_step_off_bottom	x4	exact 26cbae375ca4 sozud/mmx4@807a01b src/main/player.c:player_ladder_step_off_bottom; corroborator callee src/main/player:player_ladder_step_off_bottom SLUS_013.95:0x80017A04	gate
+SLUS_013.95	0x800377FC	player_ladder_let_go	x4	exact 97ce869b32ad sozud/mmx4@807a01b src/main/player.c:player_ladder_let_go; corroborator callee src/main/player:player_ladder_let_go SLUS_013.95:0x80017A04	gate
+SLUS_013.95	0x80037838	player_hurt	x4	exact 94a81587fc1f sozud/mmx4@807a01b src/main/player.c:player_hurt; corroborator callee src/main/player:player_hurt SLUS_013.95:0x80017A04	gate
+SLUS_013.95	0x80037F70	player_script_vanish	x4	exact 8c272e77d29e sozud/mmx4@807a01b src/main/player.c:player_script_vanish; corroborator callee src/main/player:player_script_vanish SLUS_013.95:0x80017A04	gate
+SLUS_013.95	0x80039BC4	player_check_dash_jump_walk	x4	exact 67a670686326 sozud/mmx4@807a01b src/main/player_check.c:player_check_dash_jump_walk; corroborator callee src/main/player_check:player_check_dash_jump_walk SLUS_013.95:0x80039BC4	gate
+SLUS_013.95	0x8003B3B8	player_enter_wall_cling	x4	exact 0d5bb8e12551 sozud/mmx4@807a01b src/main/player_enter.c:player_enter_wall_cling; corroborator callee src/main/player_enter:player_enter_wall_cling SLUS_013.95:0x8003B3B8	gate
+SLUS_013.95	0x8003B708	player_enter_ladder_climb_on_top	x4	exact 2d72789ebd19 sozud/mmx4@807a01b src/main/player_enter.c:player_enter_ladder_climb_on_top; corroborator callee src/main/player_enter:player_enter_ladder_climb_on_top SLUS_013.95:0x8003CD9C	gate
+SLUS_013.95	0x8003B774	player_enter_ladder_step_off_bottom	x4	exact 625cccce011c sozud/mmx4@807a01b src/main/player_enter.c:player_enter_ladder_step_off_bottom; corroborator callee src/main/player_enter:player_enter_ladder_step_off_bottom SLUS_013.95:0x8003CDBC	gate
+SLUS_013.95	0x8003C6A4	player_spawn_dash_spark	x4	exact 5698b541d539 sozud/mmx4@807a01b src/main/player_common.c:player_spawn_dash_spark; corroborator callee src/main/player_common:player_spawn_dash_spark SLUS_013.95:0x8003C6A4	gate
+SLUS_013.95	0x8003CE38	player_update_flash	x4	exact e08fdf21be18 sozud/mmx4@807a01b src/main/player_common.c:player_update_flash; corroborator callee src/main/player_common:player_update_flash SLUS_013.95:0x8003CE38	gate
+SLUS_013.95	0x8003D3F8	player_spawn_weapon	x4	exact 797fb806be5b sozud/mmx4@807a01b src/main/player_common.c:player_spawn_weapon; corroborator caller src/main/player_weapon:player_fire_weapon	gate
+SLUS_013.95	0x8003D510	player_spawn_visual	x4	exact bcd7efacb341 sozud/mmx4@807a01b src/main/player_common.c:player_spawn_visual; corroborator callee src/main/player_common:player_spawn_visual SLUS_013.95:0x8003D510	gate
+SLUS_013.95	0x8003F4C4	player_set_animation_shooting	x4	exact b7ee5de16676 sozud/mmx4@807a01b src/main/player_weapon.c:player_set_animation_shooting; corroborator caller src/main/player_enter:player_enter_wall_cling	gate
+SLUS_013.95	0x8003FA60	player_fire_weapon	x4	exact 8c58cd89382c sozud/mmx4@807a01b src/main/player_weapon.c:player_fire_weapon; corroborator callee src/main/player_weapon:player_fire_weapon SLUS_013.95:0x8003D3F8	gate
+SLUS_013.95	0x80040304	spike_crawler_hit_flash	x4	exact 0f5c026ba0d7 sozud/mmx4@807a01b src/main/enemy_reaction.c:spike_crawler_hit_flash; corroborator callee src/main/enemy_reaction:spike_crawler_hit_flash SLUS_013.95:0x80040304	gate
+SLUS_013.95	0x800970A0	g_Player	x4	slot 7/0 sozud/mmx4@807a01b g_Player	slot
+SLUS_013.95	0x800971F8	background_objects	x4	slot 3/0 sozud/mmx4@807a01b background_objects	slot
+rock_00	0x801EB730	player_ladder_shoot	x4	exact 543816517dc7 sozud/mmx4@807a01b src/main/player_special.c:player_ladder_shoot; corroborator callee src/main/player_special:player_ladder_shoot SLUS_013.95:0x80017A04	gate
+rock_00	0x801EC0C0	player_hover_hold	x4	exact 2140a7d039ea sozud/mmx4@807a01b src/main/player_special.c:player_hover_hold; corroborator callee src/main/player_special:player_hover_hold rock_00:0x801EC0C0	gate
+rock_00	0x801EC124	player_hover_forward	x4	exact ecb393d0593c sozud/mmx4@807a01b src/main/player_special.c:player_hover_forward; corroborator callee src/main/player_special:player_hover_forward SLUS_013.95:0x8003F4C4	gate
+rock_00	0x801EC1B4	player_hover_forward_stop	x4	exact c351fcf586bf sozud/mmx4@807a01b src/main/player_special.c:player_hover_forward_stop; corroborator callee src/main/player_special:player_hover_forward_stop SLUS_013.95:0x8003F4C4	gate
+rock_00	0x801EC240	player_hover_back	x4	exact 89cef0de1a8c sozud/mmx4@807a01b src/main/player_special.c:player_hover_back; corroborator callee src/main/player_special:player_hover_back SLUS_013.95:0x8003F4C4	gate
+rock_00	0x801EC2D0	player_hover_back_stop	x4	exact b28126054f46 sozud/mmx4@807a01b src/main/player_special.c:player_hover_back_stop; corroborator callee src/main/player_special:player_hover_back_stop SLUS_013.95:0x8003F4C4	gate
+rock_00	0x801EC478	player_hover_set_direction	x4	exact 5022eaa90621 sozud/mmx4@807a01b src/main/player_special.c:player_hover_set_direction; corroborator caller src/main/player_special:player_hover_back_stop	gate
+rock_00	0x801EC4C0	player_nova_strike_windup	x4	exact a538f84cd138 sozud/mmx4@807a01b src/main/player_special.c:player_nova_strike_windup; corroborator callee src/main/player_special:player_nova_strike_windup rock_00:0x801EC4C0	gate
+rock_09	0x800EE934	general_dust_end	x4	exact 76d90a83ca68 sozud/mmx4@807a01b src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04	gate
+rock_24	0x800ED454	general_dust_end	x4	exact 76d90a83ca68 sozud/mmx4@807a01b src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04	gate
+rock_30	0x800EE1D0	general_dust_end	x4	exact 76d90a83ca68 sozud/mmx4@807a01b src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04	gate
+SLUS_013.95	0x80054AD0	__main	sdk	2MBYTE/2MBYTE+0x0	proven-at-gate
+SLUS_013.95	0x80054AD8	__SN_ENTRY_POINT	sdk	2MBYTE/2MBYTE+0x8	proven-at-gate
+SLUS_013.95	0x80054AFC	stup1	sdk	2MBYTE/2MBYTE+0x2c	proven-at-gate
+SLUS_013.95	0x80054B78	stup0	sdk	2MBYTE/2MBYTE+0xa8	proven-at-gate
+SLUS_013.95	0x80054B94	SpuClearReverbWorkArea	sdk	LIBSPU/S_CRWA+0x0	proven-at-gate
+SLUS_013.95	0x80054D34	_spu_init	sdk	LIBSPU/SPU+0x0	proven-at-gate
+SLUS_013.95	0x80055174	_spu_FiDMA	sdk	LIBSPU/SPU+0x440	proven-at-gate
+SLUS_013.95	0x80055230	_spu_Fr_	sdk	LIBSPU/SPU+0x4fc	proven-at-gate
+SLUS_013.95	0x800552D8	_spu_t	sdk	LIBSPU/SPU+0x5a4	proven-at-gate
+SLUS_013.95	0x80055558	_spu_Fw	sdk	LIBSPU/SPU+0x824	proven-at-gate
+SLUS_013.95	0x800555DC	_spu_Fr	sdk	LIBSPU/SPU+0x8a8	proven-at-gate
+SLUS_013.95	0x80055640	_spu_FsetRXX	sdk	LIBSPU/SPU+0x90c	proven-at-gate
+SLUS_013.95	0x80055684	_spu_FsetRXXa	sdk	LIBSPU/SPU+0x950	proven-at-gate
+SLUS_013.95	0x80055728	_spu_FgetRXXa	sdk	LIBSPU/SPU+0x9f4	proven-at-gate
+SLUS_013.95	0x80055764	_spu_FsetPCR	sdk	LIBSPU/SPU+0xa30	proven-at-gate
+SLUS_013.95	0x8005580C	_spu_Fw1ts	sdk	LIBSPU/SPU+0xad8	proven-at-gate
+SLUS_013.95	0x80055874	_SpuInit	sdk	LIBSPU/S_INI+0x0	proven-at-gate
+SLUS_013.95	0x8005595C	SpuStart	sdk	LIBSPU/S_INI+0xe8	proven-at-gate
+SLUS_013.95	0x800559D4	_SpuDataCallback	sdk	LIBSPU/S_DCB+0x0	proven-at-gate
+SLUS_013.95	0x80055A04	_SpuIsInAllocateArea	sdk	LIBSPU/S_M_UTIL+0x0	proven-at-gate
+SLUS_013.95	0x80055A84	_SpuIsInAllocateArea_	sdk	LIBSPU/S_M_UTIL+0x80	proven-at-gate
+SLUS_013.95	0x80055B14	SpuGetKeyStatus	sdk	LIBSPU/S_GKS+0x0	proven-at-gate
+SLUS_013.95	0x80055BA4	SpuSetTransferMode	sdk	LIBSPU/S_STM+0x0	proven-at-gate
+SLUS_013.95	0x80055D50	SsSeqClose	sdk	LIBSND/SSCLOSE+0x17c	proven-at-gate
+SLUS_013.95	0x80055D74	SsSepClose	sdk	LIBSND/SSCLOSE+0x1a0	proven-at-gate
+SLUS_013.95	0x80055DA4	SsEnd	sdk	LIBSND/SSEND+0x0	proven-at-gate
+SLUS_013.95	0x80055E54	_SsInit	sdk	LIBSND/SSINIT+0x0	proven-at-gate
+SLUS_013.95	0x80055EF4	SsInit	sdk	LIBSND/SSINIT_C+0x0	proven-at-gate
+SLUS_013.95	0x80055F54	SsIsEos	sdk	LIBSND/SSISEOS+0x0	proven-at-gate
+SLUS_013.95	0x80055F94	SsSepOpen	sdk	LIBSND/SSOPENP+0x0	proven-at-gate
+SLUS_013.95	0x80056294	_SsContBankChange	sdk	LIBSND/CC_0+0x0	proven-at-gate
+SLUS_013.95	0x80056314	_SsContDataEntry	sdk	LIBSND/CC_6+0x0	proven-at-gate
+SLUS_013.95	0x80056694	_SsContMainVol	sdk	LIBSND/CC_7+0x0	proven-at-gate
+SLUS_013.95	0x80056764	_SsContPanpot	sdk	LIBSND/CC_10+0x0	proven-at-gate
+SLUS_013.95	0x80056834	_SsContExpression	sdk	LIBSND/CC_11+0x0	proven-at-gate
+SLUS_013.95	0x80056924	_SsContDamper	sdk	LIBSND/CC_64+0x0	proven-at-gate
+SLUS_013.95	0x800569D4	_SsContExternal	sdk	LIBSND/CC_91+0x0	proven-at-gate
+SLUS_013.95	0x80056A64	_SsContNrpn1	sdk	LIBSND/CC_98+0x0	proven-at-gate
+SLUS_013.95	0x80056B64	_SsContNrpn2	sdk	LIBSND/CC_99+0x0	proven-at-gate
+SLUS_013.95	0x80056CA4	_SsContRpn1	sdk	LIBSND/CC_100+0x0	proven-at-gate
+SLUS_013.95	0x80056D14	_SsContRpn2	sdk	LIBSND/CC_101+0x0	proven-at-gate
+SLUS_013.95	0x80056D84	_SsContResetAll	sdk	LIBSND/CC_121+0x0	proven-at-gate
+SLUS_013.95	0x80056E44	_SsSetNrpnVabAttr0	sdk	LIBSND/DE_0+0x0	proven-at-gate
+SLUS_013.95	0x80056ED4	_SsSetNrpnVabAttr1	sdk	LIBSND/DE_1+0x0	proven-at-gate
+SLUS_013.95	0x80056F94	_SsSetNrpnVabAttr2	sdk	LIBSND/DE_2+0x0	proven-at-gate
+SLUS_013.95	0x80057024	_SsSetNrpnVabAttr3	sdk	LIBSND/DE_3+0x0	proven-at-gate
+SLUS_013.95	0x800570B4	_SsSetNrpnVabAttr4	sdk	LIBSND/DE_4+0x0	proven-at-gate
+SLUS_013.95	0x80057164	_SsUtResolveADSR	sdk	LIBSND/CCADSR+0x0	proven-at-gate
+SLUS_013.95	0x800571C0	_SsUtBuildADSR	sdk	LIBSND/CCADSR+0x5c	proven-at-gate
+SLUS_013.95	0x80057264	_SsSetNrpnVabAttr5	sdk	LIBSND/DE_5+0x0	proven-at-gate
+SLUS_013.95	0x80057324	_SsSetNrpnVabAttr6	sdk	LIBSND/DE_6+0x0	proven-at-gate
+SLUS_013.95	0x800573D4	_SsSetNrpnVabAttr7	sdk	LIBSND/DE_7+0x0	proven-at-gate
+SLUS_013.95	0x80057484	_SsSetNrpnVabAttr8	sdk	LIBSND/DE_8+0x0	proven-at-gate
+SLUS_013.95	0x80057534	_SsSetNrpnVabAttr9	sdk	LIBSND/DE_9+0x0	proven-at-gate
+SLUS_013.95	0x800575F4	_SsSetNrpnVabAttr10	sdk	LIBSND/DE_10+0x0	proven-at-gate
+SLUS_013.95	0x800576A4	_SsSetNrpnVabAttr11	sdk	LIBSND/DE_11+0x0	proven-at-gate
+SLUS_013.95	0x80057754	_SsSetNrpnVabAttr12	sdk	LIBSND/DE_12+0x0	proven-at-gate
+SLUS_013.95	0x80057834	_SsSetNrpnVabAttr13	sdk	LIBSND/DE_13+0x0	proven-at-gate
+SLUS_013.95	0x800578D4	_SsSetNrpnVabAttr14	sdk	LIBSND/DE_14+0x0	proven-at-gate
+SLUS_013.95	0x800579A4	_SsSetNrpnVabAttr16	sdk	LIBSND/DE_16+0x0	proven-at-gate
+SLUS_013.95	0x80057A64	_SsSetPitchBend	sdk	LIBSND/MIDIBEND+0x0	proven-at-gate
+SLUS_013.95	0x80057B14	_SsSetControlChange	sdk	LIBSND/MIDICC+0x0	proven-at-gate
+SLUS_013.95	0x80057D44	_SsGetMetaEvent	sdk	LIBSND/MIDIMETA+0x0	proven-at-gate
+SLUS_013.95	0x80057F14	_SsNoteOn	sdk	LIBSND/MIDINOTE+0x0	proven-at-gate
+SLUS_013.95	0x80057FF4	_SsSetProgramChange	sdk	LIBSND/MIDIPROG+0x0	proven-at-gate
+SLUS_013.95	0x80058064	_SsReadDeltaValue	sdk	LIBSND/MIDITIME+0x0	proven-at-gate
+SLUS_013.95	0x80058114	_SsInitSoundSep	sdk	LIBSND/SEPINIT+0x0	proven-at-gate
+SLUS_013.95	0x800584F4	SsSeqPlay	sdk	LIBSND/SSPLAY+0x0	proven-at-gate
+SLUS_013.95	0x80058534	SsSepPlay	sdk	LIBSND/SSPLAY_2+0x0	proven-at-gate
+SLUS_013.95	0x80058594	SpuQuit	sdk	LIBSPU/S_Q+0x0	proven-at-gate
+SLUS_013.95	0x80058614	Snd_SetPlayMode	sdk	LIBSND/PLAYMODE+0x0	proven-at-gate
+SLUS_013.95	0x80058734	SsSetSerialAttr	sdk	LIBSND/SSSATTR+0x0	proven-at-gate
+SLUS_013.95	0x800587F4	SpuSetCommonAttr	sdk	LIBSPU/S_SCA+0x0	proven-at-gate
+SLUS_013.95	0x80058B74	SsSetMVol	sdk	LIBSND/SSSMV+0x0	proven-at-gate
+SLUS_013.95	0x80058DF4	SsStart	sdk	LIBSND/SSSTART+0x230	proven-at-gate
+SLUS_013.95	0x80058E14	SsStart2	sdk	LIBSND/SSSTART+0x250	proven-at-gate
+SLUS_013.95	0x80058ED4	SsSeqCalledTbyT	sdk	LIBSND/SSCALL+0x0	proven-at-gate
+SLUS_013.95	0x80059144	_SsSndCrescendo	sdk	LIBSND/CRES+0x0	proven-at-gate
+SLUS_013.95	0x80059354	_SsSndPause	sdk	LIBSND/PAUSE+0x0	proven-at-gate
+SLUS_013.95	0x800593F4	_SsSndPlay	sdk	LIBSND/PLAY+0x0	proven-at-gate
+SLUS_013.95	0x80059424	_SsSeqPlay	sdk	LIBSND/MIDIREAD+0x0	proven-at-gate
+SLUS_013.95	0x80059520	_SsSeqGetEof	sdk	LIBSND/MIDIREAD+0xfc	proven-at-gate
+SLUS_013.95	0x80059764	_SsGetSeqData	sdk	LIBSND/MIDIREAD+0x340	proven-at-gate
+SLUS_013.95	0x80059B14	_SsSndNextSep	sdk	LIBSND/NEXT+0x0	proven-at-gate
+SLUS_013.95	0x80059C14	_SsSndReplay	sdk	LIBSND/REPLAY+0x0	proven-at-gate
+SLUS_013.95	0x80059C74	_SsSndStop	sdk	LIBSND/SSSTOP+0x0	proven-at-gate
+SLUS_013.95	0x80059DF4	SsSeqStop	sdk	LIBSND/SSSTOP+0x180	proven-at-gate
+SLUS_013.95	0x80059E1C	SsSepStop	sdk	LIBSND/SSSTOP+0x1a8	proven-at-gate
+SLUS_013.95	0x80059E54	SsSetSerialVol	sdk	LIBSND/SSSV+0x0	proven-at-gate
+SLUS_013.95	0x80059F64	SsSetTableSize	sdk	LIBSND/SSTABLE+0x0	proven-at-gate
+SLUS_013.95	0x8005A184	SsSetTickMode	sdk	LIBSND/SSTICK+0x0	proven-at-gate
+SLUS_013.95	0x8005A2D4	_SsSndSetVol	sdk	LIBSND/SSVOL+0x0	proven-at-gate
+SLUS_013.95	0x8005A364	SsSeqSetVol	sdk	LIBSND/SSVOL+0x90	proven-at-gate
+SLUS_013.95	0x8005A3CC	SsSepSetVol	sdk	LIBSND/SSVOL+0xf8	proven-at-gate
+SLUS_013.95	0x8005A464	_SsSndTempo	sdk	LIBSND/TEMPO+0x0	proven-at-gate
+SLUS_013.95	0x8005A684	SsUtGetProgAtr	sdk	LIBSND/UT_GPA+0x0	proven-at-gate
+SLUS_013.95	0x8005A794	SsUtGetVagAtr	sdk	LIBSND/UT_GVA+0x0	proven-at-gate
+SLUS_013.95	0x8005A9D4	SsUtKeyOnV	sdk	LIBSND/UT_KEYV+0x0	proven-at-gate
+SLUS_013.95	0x8005AD40	SsUtKeyOffV	sdk	LIBSND/UT_KEYV+0x36c	proven-at-gate
+SLUS_013.95	0x8005ADB4	SsUtSetReverbDelay	sdk	LIBSND/UT_RDEL+0x0	proven-at-gate
+SLUS_013.95	0x8005ADF4	SpuSetReverbModeParam	sdk	LIBSPU/S_SRMP+0x0	proven-at-gate
+SLUS_013.95	0x8005B2D4	_spu_setReverbAttr	sdk	LIBSPU/S_SRA+0x0	proven-at-gate
+SLUS_013.95	0x8005B7A4	SsUtSetReverbDepth	sdk	LIBSND/UT_RDEP+0x0	proven-at-gate
+SLUS_013.95	0x8005B834	SsUtSetReverbType	sdk	LIBSND/UT_REV+0x0	proven-at-gate
+SLUS_013.95	0x8005B8D4	SpuSetReverb	sdk	LIBSPU/S_SR+0x0	proven-at-gate
+SLUS_013.95	0x8005B9C4	SsUtSetReverbFeedback	sdk	LIBSND/UT_RFB+0x0	proven-at-gate
+SLUS_013.95	0x8005BA44	SsUtSetVagAtr	sdk	LIBSND/UT_SVA+0x0	proven-at-gate
+SLUS_013.95	0x8005BC14	SsUtSetVVol	sdk	LIBSND/UT_VVOL4+0x0	proven-at-gate
+SLUS_013.95	0x8005BCA4	_SsVmDoAllocate	sdk	LIBSND/VM_ALOC2+0x0	proven-at-gate
+SLUS_013.95	0x8005BE74	_SsVmDamperOff	sdk	LIBSND/VM_DOFF+0x0	proven-at-gate
+SLUS_013.95	0x8005BE84	_SsVmDamperOn	sdk	LIBSND/VM_DON+0x0	proven-at-gate
+SLUS_013.95	0x8005BE94	_SsVmFlush	sdk	LIBSND/VM_F+0x0	proven-at-gate
+SLUS_013.95	0x8005C364	SpuSetNoiseVoice	sdk	LIBSPU/S_SNV+0x0	proven-at-gate
+SLUS_013.95	0x8005C394	_SpuSetAnyVoice	sdk	LIBSPU/S_SAV+0x0	proven-at-gate
+SLUS_013.95	0x8005C654	SpuGetNoiseVoice	sdk	LIBSPU/S_GNV+0x0	proven-at-gate
+SLUS_013.95	0x8005C684	_SpuGetAnyVoice	sdk	LIBSPU/S_GAV+0x0	proven-at-gate
+SLUS_013.95	0x8005C6B4	SpuSetReverbVoice	sdk	LIBSPU/S_SRV+0x0	proven-at-gate
+SLUS_013.95	0x8005C6E4	SpuGetReverbVoice	sdk	LIBSPU/S_GRV+0x0	proven-at-gate
+SLUS_013.95	0x8005C714	SpuSetKey	sdk	LIBSPU/S_SK+0x0	proven-at-gate
+SLUS_013.95	0x8005C8D4	SpuSetVoiceAttr	sdk	LIBSPU/S_SVA+0x0	proven-at-gate
+SLUS_013.95	0x8005CED4	_spu_note2pitch	sdk	LIBSPU/S_N2P+0x0	proven-at-gate
+SLUS_013.95	0x8005CFA4	_spu_pitch2note	sdk	LIBSPU/S_N2P+0xd0	proven-at-gate
+SLUS_013.95	0x8005D0D4	SpuGetVoiceEnvelope	sdk	LIBSPU/S_GVEX+0x0	proven-at-gate
+SLUS_013.95	0x8005D0F4	_SsVmInit	sdk	LIBSND/VM_INIT+0x0	proven-at-gate
+SLUS_013.95	0x8005D444	SpuInitMalloc	sdk	LIBSPU/S_M_INIT+0x0	proven-at-gate
+SLUS_013.95	0x8005D4A4	_spu_setInTransfer	sdk	LIBSPU/S_IT+0x0	proven-at-gate
+SLUS_013.95	0x8005D4CC	_spu_getInTransfer	sdk	LIBSPU/S_IT+0x28	proven-at-gate
+SLUS_013.95	0x8005D4E4	_SsVmKeyOn	sdk	LIBSND/VM_KEY+0x0	proven-at-gate
+SLUS_013.95	0x8005DA00	_SsVmKeyOff	sdk	LIBSND/VM_KEY+0x51c	proven-at-gate
+SLUS_013.95	0x8005DB60	_SsVmSeKeyOn	sdk	LIBSND/VM_KEY+0x67c	proven-at-gate
+SLUS_013.95	0x8005DC4C	_SsVmSeKeyOff	sdk	LIBSND/VM_KEY+0x768	proven-at-gate
+SLUS_013.95	0x8005DC84	_SsVmAlloc	sdk	LIBSND/VM_ALOC1+0x0	proven-at-gate
+SLUS_013.95	0x8005DEF4	note2pitch	sdk	LIBSND/VM_N2P+0x0	proven-at-gate
+SLUS_013.95	0x8005DF40	note2pitch2	sdk	LIBSND/VM_N2P+0x4c	proven-at-gate
+SLUS_013.95	0x8005DFA8	SsPitchFromNote	sdk	LIBSND/VM_N2P+0xb4	proven-at-gate
+SLUS_013.95	0x8005E0D4	vmNoiseOn	sdk	LIBSND/VM_NO1+0x0	proven-at-gate
+SLUS_013.95	0x8005E644	SpuSetNoiseClock	sdk	LIBSPU/S_SNC+0x0	proven-at-gate
+SLUS_013.95	0x8005E694	vmNoiseOff	sdk	LIBSND/VM_NOFF+0x0	proven-at-gate
+SLUS_013.95	0x8005E6D4	_SsVmKeyOffNow	sdk	LIBSND/VM_NOWOF+0x0	proven-at-gate
+SLUS_013.95	0x8005E794	_SsVmKeyOnNow	sdk	LIBSND/VM_NOWON+0x0	proven-at-gate
+SLUS_013.95	0x8005EC64	_SsVmPBVoice	sdk	LIBSND/VM_PB+0x0	proven-at-gate
+SLUS_013.95	0x8005EE50	_SsVmPitchBend	sdk	LIBSND/VM_PB+0x1ec	proven-at-gate
+SLUS_013.95	0x8005EF34	_SsVmSetProgVol	sdk	LIBSND/VM_PROG2+0x0	proven-at-gate
+SLUS_013.95	0x8005EFA4	_SsVmSetSeqVol	sdk	LIBSND/VM_SEQ+0x0	proven-at-gate
+SLUS_013.95	0x8005F510	_SsVmGetSeqVol	sdk	LIBSND/VM_SEQ+0x56c	proven-at-gate
+SLUS_013.95	0x8005F574	_SsVmSeqKeyOff	sdk	LIBSND/VM_SEQ+0x5d0	proven-at-gate
+SLUS_013.95	0x8005F624	_SsVmSelectToneAndVag	sdk	LIBSND/VM_STAV+0x0	proven-at-gate
+SLUS_013.95	0x8005F6F4	_SsVmSetVol	sdk	LIBSND/VM_VOL+0x0	proven-at-gate
+SLUS_013.95	0x8005FC94	_SsVmVSetUp	sdk	LIBSND/VM_VSU+0x0	proven-at-gate
+SLUS_013.95	0x8005FD54	SsSetMono	sdk	LIBSND/VS_MONO+0x0	proven-at-gate
+SLUS_013.95	0x8005FD64	SsSetStereo	sdk	LIBSND/VS_MONO+0x10	proven-at-gate
+SLUS_013.95	0x8005FD74	SsVabClose	sdk	LIBSND/VS_VAB+0x0	proven-at-gate
+SLUS_013.95	0x8005FE24	SpuFree	sdk	LIBSPU/S_M_F+0x0	proven-at-gate
+SLUS_013.95	0x8005FEA4	_spu_gcSPU	sdk	LIBSPU/S_M_INT+0x0	proven-at-gate
+SLUS_013.95	0x800601A4	SsVabOpenHeadSticky	sdk	LIBSND/VS_VH+0x0	proven-at-gate
+SLUS_013.95	0x800601D8	SsVabFakeHead	sdk	LIBSND/VS_VH+0x34	proven-at-gate
+SLUS_013.95	0x80060214	_SsVabOpenHeadWithMode	sdk	LIBSND/VS_VH+0x70	proven-at-gate
+SLUS_013.95	0x80060604	SsVabTransBodyPartly	sdk	LIBSND/VS_VTBP+0x0	proven-at-gate
+SLUS_013.95	0x80060794	SpuSetTransferStartAddr	sdk	LIBSPU/S_STSA+0x0	proven-at-gate
+SLUS_013.95	0x800607F4	SpuWritePartly	sdk	LIBSPU/S_WP+0x0	proven-at-gate
+SLUS_013.95	0x80060884	SsVabTransCompleted	sdk	LIBSND/VS_VTC+0x0	proven-at-gate
+SLUS_013.95	0x800608B4	SpuIsTransferCompleted	sdk	LIBSPU/S_ITC+0x0	proven-at-gate
+SLUS_013.95	0x80060964	VSync	sdk	LIBETC/VSYNC+0x0	proven-at-gate
+SLUS_013.95	0x80060B74	ResetCallback	sdk	LIBETC/INTR+0x0	proven-at-gate
+SLUS_013.95	0x80060BA4	InterruptCallback	sdk	LIBETC/INTR+0x30	proven-at-gate
+SLUS_013.95	0x80060BD4	DMACallback	sdk	LIBETC/INTR+0x60	proven-at-gate
+SLUS_013.95	0x80060C04	VSyncCallback	sdk	LIBETC/INTR+0x90	proven-at-gate
+SLUS_013.95	0x80060C38	VSyncCallbacks	sdk	LIBETC/INTR+0xc4	proven-at-gate
+SLUS_013.95	0x80060C68	StopCallback	sdk	LIBETC/INTR+0xf4	proven-at-gate
+SLUS_013.95	0x80060C98	RestartCallback	sdk	LIBETC/INTR+0x124	proven-at-gate
+SLUS_013.95	0x80060CC8	CheckCallback	sdk	LIBETC/INTR+0x154	proven-at-gate
+SLUS_013.95	0x80060CD8	GetIntrMask	sdk	LIBETC/INTR+0x164	proven-at-gate
+SLUS_013.95	0x80060CF0	SetIntrMask	sdk	LIBETC/INTR+0x17c	proven-at-gate
+SLUS_013.95	0x80061234	startIntrVSync	sdk	LIBETC/INTR_VB+0x0	proven-at-gate
+SLUS_013.95	0x80061354	startIntrDMA	sdk	LIBETC/INTR_DMA+0x0	proven-at-gate
+SLUS_013.95	0x800615F4	SetVideoMode	sdk	LIBETC/VMODE+0x0	proven-at-gate
+SLUS_013.95	0x80061608	GetVideoMode	sdk	LIBETC/VMODE+0x14	proven-at-gate
+SLUS_013.95	0x80061624	StSetRing	sdk	LIBCD/CDROM+0x0	proven-at-gate
+SLUS_013.95	0x80061654	CdInit	sdk	LIBCD/EVENT+0x0	proven-at-gate
+SLUS_013.95	0x80061824	CdSearchFile	sdk	LIBCD/ISO9660+0x0	proven-at-gate
+SLUS_013.95	0x80062194	CdRead2	sdk	LIBCD/CDREAD2+0x0	proven-at-gate
+SLUS_013.95	0x80062244	StClearRing	sdk	LIBCD/C_002+0x0	proven-at-gate
+SLUS_013.95	0x800622A4	StUnSetRing	sdk	LIBCD/C_003+0x0	proven-at-gate
+SLUS_013.95	0x80062324	data_ready_callback	sdk	LIBCD/C_004+0x0	proven-at-gate
+SLUS_013.95	0x800623B0	StGetBackloc	sdk	LIBCD/C_004+0x8c	proven-at-gate
+SLUS_013.95	0x80062414	StSetStream	sdk	LIBCD/C_005+0x0	proven-at-gate
+SLUS_013.95	0x800624A4	StFreeRing	sdk	LIBCD/C_007+0x0	proven-at-gate
+SLUS_013.95	0x80062554	init_ring_status	sdk	LIBCD/C_008+0x0	proven-at-gate
+SLUS_013.95	0x80062594	StGetNext	sdk	LIBCD/C_009+0x0	proven-at-gate
+SLUS_013.95	0x80062654	StSetMask	sdk	LIBCD/C_010+0x0	proven-at-gate
+SLUS_013.95	0x80062674	StCdInterrupt	sdk	LIBCD/C_011+0x0	proven-at-gate
+SLUS_013.95	0x800636C8	CD_sync	sdk	LIBCD/BIOS_1+0x564	proven-at-gate
+SLUS_013.95	0x80063948	CD_ready	sdk	LIBCD/BIOS_1+0x7e4	proven-at-gate
+SLUS_013.95	0x80063C10	CD_cw	sdk	LIBCD/BIOS_1+0xaac	proven-at-gate
+SLUS_013.95	0x8006401C	CD_vol	sdk	LIBCD/BIOS_1+0xeb8	proven-at-gate
+SLUS_013.95	0x800640A4	CD_flush	sdk	LIBCD/BIOS_1+0xf40	proven-at-gate
+SLUS_013.95	0x80064178	CD_initvol	sdk	LIBCD/BIOS_1+0x1014	proven-at-gate
+SLUS_013.95	0x80064268	CD_initintr	sdk	LIBCD/BIOS_1+0x1104	proven-at-gate
+SLUS_013.95	0x800642B4	CD_init	sdk	LIBCD/BIOS_1+0x1150	proven-at-gate
+SLUS_013.95	0x80064494	CD_datasync	sdk	LIBCD/BIOS_1+0x1330	proven-at-gate
+SLUS_013.95	0x800645FC	CD_set_test_parmnum	sdk	LIBCD/BIOS_1+0x1498	proven-at-gate
+SLUS_013.95	0x80064804	CdReset	sdk	LIBCD/S_007+0x0	proven-at-gate
+SLUS_013.95	0x800648D4	CdControl	sdk	LIBCD/S_016+0x0	proven-at-gate
+SLUS_013.95	0x80064A10	CdControlF	sdk	LIBCD/S_016+0x13c	proven-at-gate
+SLUS_013.95	0x80064B44	CdControlB	sdk	LIBCD/S_016+0x270	proven-at-gate
+SLUS_013.95	0x80064CB4	DsGetSector	sdk	LIBDS/D3_002+0x0	proven-at-gate
+SLUS_013.95	0x80064CD4	CD_getsector	sdk	LIBCD/BIOS_2+0x0	proven-at-gate
+SLUS_013.95	0x80065364	CdReadBreak	sdk	LIBCD/CDR_1+0x560	proven-at-gate
+SLUS_013.95	0x80065504	CdRead	sdk	LIBCD/CDR_1+0x700	proven-at-gate
+SLUS_013.95	0x800656A0	CdReadSync	sdk	LIBCD/CDR_1+0x89c	proven-at-gate
+SLUS_013.95	0x800657C4	CdLastPos	sdk	LIBCD/S_006+0x0	proven-at-gate
+SLUS_013.95	0x80065834	CD_getsector2	sdk	LIBCD/BIOS_3+0x0	proven-at-gate
+SLUS_013.95	0x80065944	rsin	sdk	LIBGTE/GEO_00+0x0	proven-at-gate
+SLUS_013.95	0x80065980	sin_1	sdk	LIBGTE/GEO_00+0x3c	proven-at-gate
+SLUS_013.95	0x80065A14	rcos	sdk	LIBGTE/GEO_01+0x0	proven-at-gate
+SLUS_013.95	0x80065ABC	InitGeom	sdk	LIBGTE/MSC00+0x8	proven-at-gate
+SLUS_013.95	0x80065B44	SetGeomOffset	sdk	LIBGTE/REG12+0x0	proven-at-gate
+SLUS_013.95	0x80065B64	SetGeomScreen	sdk	LIBGTE/REG13+0x0	proven-at-gate
+SLUS_013.95	0x80065B74	ratan2	sdk	LIBGTE/RATAN+0x0	proven-at-gate
+SLUS_013.95	0x80065CF4	_patch_gte	sdk	LIBGTE/PATCHGTE+0x0	proven-at-gate
+SLUS_013.95	0x80065DD4	ResetGraph	sdk	LIBGPU/SYS+0x0	proven-at-gate
+SLUS_013.95	0x80065F48	SetGraphDebug	sdk	LIBGPU/SYS+0x174	proven-at-gate
+SLUS_013.95	0x80065FA4	SetGraphQueue	sdk	LIBGPU/SYS+0x1d0	proven-at-gate
+SLUS_013.95	0x80066048	GetGraphDebug	sdk	LIBGPU/SYS+0x274	proven-at-gate
+SLUS_013.95	0x80066058	DrawSyncCallback	sdk	LIBGPU/SYS+0x284	proven-at-gate
+SLUS_013.95	0x800660B8	SetDispMask	sdk	LIBGPU/SYS+0x2e4	proven-at-gate
+SLUS_013.95	0x80066150	DrawSync	sdk	LIBGPU/SYS+0x37c	proven-at-gate
+SLUS_013.95	0x800662D4	ClearImage	sdk	LIBGPU/SYS+0x500	proven-at-gate
+SLUS_013.95	0x80066364	ClearImage2	sdk	LIBGPU/SYS+0x590	proven-at-gate
+SLUS_013.95	0x800663FC	LoadImage	sdk	LIBGPU/SYS+0x628	proven-at-gate
+SLUS_013.95	0x8006645C	StoreImage	sdk	LIBGPU/SYS+0x688	proven-at-gate
+SLUS_013.95	0x800664BC	MoveImage	sdk	LIBGPU/SYS+0x6e8	proven-at-gate
+SLUS_013.95	0x80066574	ClearOTag	sdk	LIBGPU/SYS+0x7a0	proven-at-gate
+SLUS_013.95	0x8006663C	ClearOTagR	sdk	LIBGPU/SYS+0x868	proven-at-gate
+SLUS_013.95	0x800666E8	DrawPrim	sdk	LIBGPU/SYS+0x914	proven-at-gate
+SLUS_013.95	0x80066744	DrawOTag	sdk	LIBGPU/SYS+0x970	proven-at-gate
+SLUS_013.95	0x800667B4	PutDrawEnv	sdk	LIBGPU/SYS+0x9e0	proven-at-gate
+SLUS_013.95	0x80066874	DrawOTagEnv	sdk	LIBGPU/SYS+0xaa0	proven-at-gate
+SLUS_013.95	0x8006694C	GetDrawEnv	sdk	LIBGPU/SYS+0xb78	proven-at-gate
+SLUS_013.95	0x80066980	PutDispEnv	sdk	LIBGPU/SYS+0xbac	proven-at-gate
+SLUS_013.95	0x80066E78	GetDispEnv	sdk	LIBGPU/SYS+0x10a4	proven-at-gate
+SLUS_013.95	0x80066EAC	GetODE	sdk	LIBGPU/SYS+0x10d8	proven-at-gate
+SLUS_013.95	0x80066EDC	SetDrawArea	sdk	LIBGPU/SYS+0x1108	proven-at-gate
+SLUS_013.95	0x80066F5C	SetDrawOffset	sdk	LIBGPU/SYS+0x1188	proven-at-gate
+SLUS_013.95	0x80066F9C	SetDrawEnv	sdk	LIBGPU/SYS+0x11c8	proven-at-gate
+SLUS_013.95	0x8006886C	LoadImage2	sdk	LIBGPU/SYS+0x2a98	proven-at-gate
+SLUS_013.95	0x80068958	StoreImage2	sdk	LIBGPU/SYS+0x2b84	proven-at-gate
+SLUS_013.95	0x80068A44	MoveImage2	sdk	LIBGPU/SYS+0x2c70	proven-at-gate
+SLUS_013.95	0x80068B88	DrawOTag2	sdk	LIBGPU/SYS+0x2db4	proven-at-gate
+SLUS_013.95	0x80068C84	_GPU_ResetCallback	sdk	LIBGPU/SYS+0x2eb0	proven-at-gate
+SLUS_013.95	0x80068CD4	SetDefDrawEnv	sdk	LIBGPU/E03+0x0	proven-at-gate
+SLUS_013.95	0x80068D94	SetDefDispEnv	sdk	LIBGPU/E04+0x0	proven-at-gate
+SLUS_013.95	0x80068DD4	GetTPage	sdk	LIBGPU/P00+0x0	proven-at-gate
+SLUS_013.95	0x80068E14	SetDrawMode	sdk	LIBGPU/P41+0x0	proven-at-gate
+SLUS_013.95	0x80068EB4	DecDCTReset	sdk	LIBPRESS/LIBPRESS+0x0	proven-at-gate
+SLUS_013.95	0x80068EE8	DecDCTGetEnv	sdk	LIBPRESS/LIBPRESS+0x34	proven-at-gate
+SLUS_013.95	0x80068F74	DecDCTPutEnv	sdk	LIBPRESS/LIBPRESS+0xc0	proven-at-gate
+SLUS_013.95	0x8006900C	DecDCTin	sdk	LIBPRESS/LIBPRESS+0x158	proven-at-gate
+SLUS_013.95	0x80069088	DecDCTout	sdk	LIBPRESS/LIBPRESS+0x1d4	proven-at-gate
+SLUS_013.95	0x800690A8	DecDCTinSync	sdk	LIBPRESS/LIBPRESS+0x1f4	proven-at-gate
+SLUS_013.95	0x800690E4	DecDCToutSync	sdk	LIBPRESS/LIBPRESS+0x230	proven-at-gate
+SLUS_013.95	0x8006912C	DecDCTinCallback	sdk	LIBPRESS/LIBPRESS+0x278	proven-at-gate
+SLUS_013.95	0x80069150	DecDCToutCallback	sdk	LIBPRESS/LIBPRESS+0x29c	proven-at-gate
+SLUS_013.95	0x80069544	DecDCTvlcSize	sdk	LIBPRESS/VLC+0x0	proven-at-gate
+SLUS_013.95	0x80069574	DecDCTvlc	sdk	LIBPRESS/VLC+0x30	proven-at-gate
+SLUS_013.95	0x800698D4	_card_info	sdk	LIBCARD/C171+0x0	proven-at-gate
+SLUS_013.95	0x800698E4	_card_load	sdk	LIBCARD/C172+0x0	proven-at-gate
+SLUS_013.95	0x800698F4	_card_clear	sdk	LIBCARD/CARD+0x0	proven-at-gate
+SLUS_013.95	0x80069934	_card_write	sdk	LIBCARD/A78+0x0	proven-at-gate
+SLUS_013.95	0x80069944	_new_card	sdk	LIBCARD/A80+0x0	proven-at-gate
+SLUS_013.95	0x80069954	InitCARD	sdk	LIBCARD/INIT+0x0	proven-at-gate
+SLUS_013.95	0x800699E4	StartCARD	sdk	LIBCARD/INIT+0x90	proven-at-gate
+SLUS_013.95	0x80069A2C	StopCARD	sdk	LIBCARD/INIT+0xd8	proven-at-gate
+SLUS_013.95	0x80069A54	InitCARD2	sdk	LIBCARD/A74+0x0	proven-at-gate
+SLUS_013.95	0x80069A64	StartCARD2	sdk	LIBCARD/A75+0x0	proven-at-gate
+SLUS_013.95	0x80069A74	StopCARD2	sdk	LIBCARD/A76+0x0	proven-at-gate
+SLUS_013.95	0x80069A84	_patch_card_info	sdk	LIBCARD/PATCH+0x0	proven-at-gate
+SLUS_013.95	0x80069B60	_patch_card	sdk	LIBCARD/PATCH+0xdc	proven-at-gate
+SLUS_013.95	0x80069BF4	_patch_card2	sdk	LIBCARD/PATCH+0x170	proven-at-gate
+SLUS_013.95	0x80069C64	_copy_memcard_patch	sdk	LIBCARD/PATCH+0x1e0	proven-at-gate
+SLUS_013.95	0x80069CA4	_ExitCard	sdk	LIBCARD/END+0x0	proven-at-gate
+SLUS_013.95	0x80069D2C	puts	sdk	LIBC/A63+0x8	proven-at-gate
+SLUS_013.95	0x80069D44	setjmp	sdk	LIBC/C19+0x0	proven-at-gate
+SLUS_013.95	0x80069D54	strcmp	sdk	LIBC/C23+0x0	proven-at-gate
+SLUS_013.95	0x80069D64	strncmp	sdk	LIBC/C24+0x0	proven-at-gate
+SLUS_013.95	0x80069D74	strcpy	sdk	LIBC/C25+0x0	proven-at-gate
+SLUS_013.95	0x80069D84	memcpy	sdk	LIBC/C42+0x0	proven-at-gate
+SLUS_013.95	0x80069D94	memset	sdk	LIBC/C43+0x0	proven-at-gate
+SLUS_013.95	0x80069DA4	printf	sdk	LIBC/C63+0x0	proven-at-gate
+SLUS_013.95	0x80069DB4	InitHeap	sdk	LIBAPI/C57+0x0	proven-at-gate
+SLUS_013.95	0x80069DC4	FlushCache	sdk	LIBAPI/C68+0x0	proven-at-gate
+SLUS_013.95	0x80069DD4	GPU_cw	sdk	LIBAPI/C73+0x0	proven-at-gate
+SLUS_013.95	0x80069DEC	_96_remove	sdk	LIBAPI/C114+0x8	proven-at-gate
+SLUS_013.95	0x80069E04	DeliverEvent	sdk	LIBAPI/A07+0x0	proven-at-gate
+SLUS_013.95	0x80069E14	OpenEvent	sdk	LIBAPI/A08+0x0	proven-at-gate
+SLUS_013.95	0x80069E24	CloseEvent	sdk	LIBAPI/A09+0x0	proven-at-gate
+SLUS_013.95	0x80069E34	WaitEvent	sdk	LIBAPI/A10+0x0	proven-at-gate
+SLUS_013.95	0x80069E44	TestEvent	sdk	LIBAPI/A11+0x0	proven-at-gate
+SLUS_013.95	0x80069E54	EnableEvent	sdk	LIBAPI/A12+0x0	proven-at-gate
+SLUS_013.95	0x80069E64	DisableEvent	sdk	LIBAPI/A13+0x0	proven-at-gate
+SLUS_013.95	0x80069E74	OpenTh	sdk	LIBAPI/A14+0x0	proven-at-gate
+SLUS_013.95	0x80069E84	CloseTh	sdk	LIBAPI/A15+0x0	proven-at-gate
+SLUS_013.95	0x80069E94	ChangeTh	sdk	LIBAPI/A16+0x0	proven-at-gate
+SLUS_013.95	0x80069EA4	ReturnFromException	sdk	LIBAPI/A23+0x0	proven-at-gate
+SLUS_013.95	0x80069EB4	ResetEntryInt	sdk	LIBAPI/A24+0x0	proven-at-gate
+SLUS_013.95	0x80069EC4	HookEntryInt	sdk	LIBAPI/A25+0x0	proven-at-gate
+SLUS_013.95	0x80069ED4	EnterCriticalSection	sdk	LIBAPI/A36+0x0	proven-at-gate
+SLUS_013.95	0x80069EE4	ExitCriticalSection	sdk	LIBAPI/A37+0x0	proven-at-gate
+SLUS_013.95	0x80069EF4	open	sdk	LIBAPI/A50+0x0	proven-at-gate
+SLUS_013.95	0x80069F04	read	sdk	LIBAPI/A52+0x0	proven-at-gate
+SLUS_013.95	0x80069F14	write	sdk	LIBAPI/A53+0x0	proven-at-gate
+SLUS_013.95	0x80069F24	close	sdk	LIBAPI/A54+0x0	proven-at-gate
+SLUS_013.95	0x80069F34	format	sdk	LIBAPI/A65+0x0	proven-at-gate
+SLUS_013.95	0x80069F44	nextfile	sdk	LIBAPI/A67+0x0	proven-at-gate
+SLUS_013.95	0x80069F54	ChangeClearPAD	sdk	LIBAPI/A91+0x0	proven-at-gate
+SLUS_013.95	0x80069F64	ChangeClearRCnt	sdk	LIBAPI/L10+0x0	proven-at-gate
+SLUS_013.95	0x80069F74	SetRCnt	sdk	LIBAPI/COUNTER+0x0	proven-at-gate
+SLUS_013.95	0x8006A010	GetRCnt	sdk	LIBAPI/COUNTER+0x9c	proven-at-gate
+SLUS_013.95	0x8006A048	StartRCnt	sdk	LIBAPI/COUNTER+0xd4	proven-at-gate
+SLUS_013.95	0x8006A078	StopRCnt	sdk	LIBAPI/COUNTER+0x104	proven-at-gate
+SLUS_013.95	0x8006A0AC	ResetRCnt	sdk	LIBAPI/COUNTER+0x138	proven-at-gate
+SLUS_013.95	0x8006A0E4	firstfile	sdk	LIBAPI/FIRST+0x0	proven-at-gate
+SLUS_013.95	0x8006A384	firstfile2	sdk	LIBAPI/A66+0x0	proven-at-gate
+SLUS_013.95	0x8006A394	SetInitPadFlag	sdk	LIBAPI/PAD+0x0	proven-at-gate
+SLUS_013.95	0x8006A3A0	ReadInitPadFlag	sdk	LIBAPI/PAD+0xc	proven-at-gate
+SLUS_013.95	0x8006A3B0	PAD_init	sdk	LIBAPI/PAD+0x1c	proven-at-gate
+SLUS_013.95	0x8006A440	InitPAD	sdk	LIBAPI/PAD+0xac	proven-at-gate
+SLUS_013.95	0x8006A4D0	StartPAD	sdk	LIBAPI/PAD+0x13c	proven-at-gate
+SLUS_013.95	0x8006A624	InitPAD2	sdk	LIBAPI/A18+0x0	proven-at-gate
+SLUS_013.95	0x8006A634	StartPAD2	sdk	LIBAPI/A19+0x0	proven-at-gate
+SLUS_013.95	0x8006A644	PAD_init2	sdk	LIBAPI/A21+0x0	proven-at-gate
+SLUS_013.95	0x8006A654	SysEnqIntRP	sdk	LIBAPI/L02+0x0	proven-at-gate
+SLUS_013.95	0x8006A664	SysDeqIntRP	sdk	LIBAPI/L03+0x0	proven-at-gate
+SLUS_013.95	0x8006A674	EnablePAD	sdk	LIBAPI/PATCH+0x0	proven-at-gate
+SLUS_013.95	0x8006A688	DisablePAD	sdk	LIBAPI/PATCH+0x14	proven-at-gate
+SLUS_013.95	0x8006A69C	_patch_pad	sdk	LIBAPI/PATCH+0x28	proven-at-gate
+SLUS_013.95	0x8006A714	_remove_ChgclrPAD	sdk	LIBAPI/CHCLRPAD+0x0	proven-at-gate
+SLUS_013.95	0x8006A7D4	PadSetAct	sdk	LIBPAD/PDCMD1+0x0	proven-at-gate
+SLUS_013.95	0x8006A814	PadSetActAlign	sdk	LIBPAD/PDCMD2+0x0	proven-at-gate
+SLUS_013.95	0x8006A984	PadGetState	sdk	LIBPAD/PDENT2+0x0	proven-at-gate
+SLUS_013.95	0x8006AA54	PadInfoMode	sdk	LIBPAD/PDENT3+0x0	proven-at-gate
+SLUS_013.95	0x8006AB54	PadStartCom	sdk	LIBPAD/PDMAIINI+0x0	proven-at-gate
+SLUS_013.95	0x8006AC20	PadStopCom	sdk	LIBPAD/PDMAIINI+0xcc	proven-at-gate
+SLUS_013.95	0x8006AC64	PadInitDirect	sdk	LIBPAD/PDDIRINI+0x0	proven-at-gate
+SLUS_013.95	0x8006AD14	_padInitDirPort	sdk	LIBPAD/PDDIRRES+0x0	proven-at-gate
+SLUS_013.95	0x8006B644	_dirFailAuto	sdk	LIBPAD/PDDIRRES+0x930	proven-at-gate
+SLUS_013.95	0x8006B754	bzero	sdk	LIBC/C40+0x0	proven-at-gate
+SLUS_013.95	0x8006B764	_padIsVsync	sdk	LIBPAD/PDRESRES+0x0	proven-at-gate
+SLUS_013.95	0x8006B7CC	_padIntPad	sdk	LIBPAD/PDRESRES+0x68	proven-at-gate
+SLUS_013.95	0x8006B95C	_padInitSioMode	sdk	LIBPAD/PDRESRES+0x1f8	proven-at-gate
+SLUS_013.95	0x8006BD80	_padSioRW	sdk	LIBPAD/PDRESRES+0x61c	proven-at-gate
+SLUS_013.95	0x8006BFA4	_padSioRW2	sdk	LIBPAD/PDRESRES+0x840	proven-at-gate
+SLUS_013.95	0x8006C220	_padClrIntSio0	sdk	LIBPAD/PDRESRES+0xabc	proven-at-gate
+SLUS_013.95	0x8006C2B0	_padWaitRXready	sdk	LIBPAD/PDRESRES+0xb4c	proven-at-gate
+SLUS_013.95	0x8006C2D8	_padSetCmd	sdk	LIBPAD/PDRESRES+0xb74	proven-at-gate
+SLUS_013.95	0x8006C2E8	_padSendAtLoadInfo	sdk	LIBPAD/PDRESRES+0xb84	proven-at-gate
+SLUS_013.95	0x8006C36C	_padRecvAtLoadInfo	sdk	LIBPAD/PDRESRES+0xc08	proven-at-gate
+SLUS_013.95	0x8006C5DC	_padGetActSize	sdk	LIBPAD/PDRESRES+0xe78	proven-at-gate
+SLUS_013.95	0x8006C614	_padLoadActInfo	sdk	LIBPAD/PDRESRES+0xeb0	proven-at-gate
+SLUS_013.95	0x8006CB88	_padCmdParaMode	sdk	LIBPAD/PDRESRES+0x1424	proven-at-gate
+SLUS_013.95	0x8006CC30	_padSetRC2wait	sdk	LIBPAD/PDRESRES+0x14cc	proven-at-gate
+SLUS_013.95	0x8006CC50	_padChkRC2wait	sdk	LIBPAD/PDRESRES+0x14ec	proven-at-gate
+SLUS_013.95	0x800147D0	load_rock_dat_file_table	string	strings.tsv:3:SLUS_013.95:0x80010004	consistent-with-bytes
+SLUS_013.95	0x80016780	load_rock_bin_file_table	string	strings.tsv:4:SLUS_013.95:0x80010014	consistent-with-bytes
+SLUS_013.95	0x8001C384	memcard_read_save_file	string	strings.tsv:5:SLUS_013.95:0x80010098	consistent-with-bytes
+SLUS_013.95	0x8001C4C0	memcard_list_files	string	strings.tsv:6:SLUS_013.95:0x800100AC	consistent-with-bytes
+SLUS_013.95	0x8001C6C0	memcard_format	string	strings.tsv:6:SLUS_013.95:0x800100AC	consistent-with-bytes
+SLUS_013.95	0x80061B1C	CD_newmedia	string	strings.tsv:26:SLUS_013.95:0x800119FC	consistent-with-bytes
+SLUS_013.95	0x80061E84	CD_cachefile	string	strings.tsv:33:SLUS_013.95:0x80011ADC	consistent-with-bytes
+SLUS_013.95	0x80069174	MDEC_rest	string	strings.tsv:107:SLUS_013.95:0x80012050	consistent-with-bytes
+SLUS_013.95	0x80069380	MDEC_in_sync	string	strings.tsv:108:SLUS_013.95:0x8001206C	consistent-with-bytes
+SLUS_013.95	0x80069414	MDEC_out_sync	string	strings.tsv:109:SLUS_013.95:0x8001207C	consistent-with-bytes
+rock_20	0x800EE4C0	memcard_write_save_file	string	strings.tsv:403:rock_20:0x800E987C	consistent-with-bytes

@@ -1,12 +1,10 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
 M2C_UNK func_80017A04();
 M2C_UNK move_object(s32);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern struct X4_PlayerObj g_Player;
 
 #define FU8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -30,10 +28,10 @@ void func_800ED0F4(void* arg0) {
                            ABS(F16(arg0, 0x90) - F16(arg0, 0xE)) < 0x20)) {
         dx = g_Player.x_pos.i.hi - F16(arg0, 0xA);
         dy = g_Player.y_pos.i.hi - F16(arg0, 0xE);
-        ang = func_80065B74(dy, dx);
-        m = func_80065A14(ang) * 0x10;
+        ang = ratan2(dy, dx);
+        m = rcos(ang) * 0x10;
         F32(arg0, 0x20) = m * 4 + m;
-        m = -func_80065944(ang) * 0x10;
+        m = -rsin(ang) * 0x10;
         F32(arg0, 0x24) = m * 4 + m;
         FU8(arg0, 0x6)++;
     }

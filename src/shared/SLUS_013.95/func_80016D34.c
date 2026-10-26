@@ -1,9 +1,9 @@
 #include "common.h"
+#include "psyq/libspu.h"
 #include "mmx6/x4.h"
 
-s32 func_80055B14(s32);
-void func_8005A794(s32, s16, s16, u8*);
-s32 func_8005A9D4(s32, s32, s16, s16, s32, s32, s32, s32);
+void SsUtGetVagAtr(s32, s16, s16, u8*);
+s32 SsUtKeyOnV(s32, s32, s16, s16, s32, s32, s32, s32);
 extern struct X4_BackgroundObj background_objects[3];
 extern u8* D_800E155C;
 extern s8 D_800E25E0[];
@@ -53,7 +53,7 @@ s32 func_80016D34(u8 arg0, u8 arg1, struct X4_AnimatedObj* arg2) {
     flag = b >> 7;
     pri = a & 0xF;
     for (; n >= 0; n--, slot++) {
-        func_8005A794(arg1, row, col, buf);
+        SsUtGetVagAtr(arg1, row, col, buf);
         lo = buf[2];
         hi = lo;
         if (flag == 0 && arg2 != 0) {
@@ -65,14 +65,14 @@ s32 func_80016D34(u8 arg0, u8 arg1, struct X4_AnimatedObj* arg2) {
         }
         p26 = buf[6];
         p25 = buf[5];
-        if (func_80055B14(1 << slot) == 0) {
-            func_8005A9D4(slot, arg1, row, col, p26, p25, hi, lo);
+        if (SpuGetKeyStatus(1 << slot) == 0) {
+            SsUtKeyOnV(slot, arg1, row, col, p26, p25, hi, lo);
             D_800E25E0[slot] = pri;
         } else {
             if (pri < D_800E25E0[slot]) {
                 return -4;
             }
-            func_8005A9D4(slot, arg1, row, col, p26, p25, hi, lo);
+            SsUtKeyOnV(slot, arg1, row, col, p26, p25, hi, lo);
             D_800E25E0[slot] = pri;
         }
         col++;

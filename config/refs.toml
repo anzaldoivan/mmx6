@@ -188,16 +188,16 @@ checked  = "2026-10-14"
 [[ref]]
 name     = "mmx4"
 url      = "https://github.com/sozud/mmx4"
-ref      = "6a6b4555e775820b5f4e45c6f50bd5859223a453"
+ref      = "807a01b1b8928811908a33367b964cf22f5ce799"
 licence  = "AGPL-3.0"
 class    = "copyleft"
 tier     = "optional"
-when     = "a function shared by the X4 and X6 engines: partners and names (x4share.py, x4names.py); the port lane (x4port.py: PIN = this ref; --repin) follows it, except include/mmx6/x4.h and 40 src/shared files held at 29b62af (THIRD_PARTY.md rows; phase-ends 1.10 T4)"
+when     = "a function shared by the X4 and X6 engines: partners and names (x4share.py, x4names.py); the port lane (x4port.py: PIN = this ref; --repin) follows it, except the files config/x4/hold.tsv holds (path, pin, blocker; x4.h at 29b62af) (THIRD_PARTY.md rows; phase-ends 2.1 T2)"
 covers   = "Mega Man X4 (SLUS_005.61 US / JP / EU) main exe only; PsyQ 4.0 headers; not X6's addresses or its libraries"
 topics   = ["sibling", "capcom-engine", "x4-partners", "x4-names", "gcc-2.7.2", "aspsx-2.56", "expand-div", "splat-config"]
 paths    = ["LICENSE", "build.py", "compiler.sh", "config", "include", "src"]
-used_by  = "mmx6 T7 (the X4 lane, campaign/x4/partners.tsv; 158 adapted src/shared files + include/mmx6/x4.h, THIRD_PARTY.md: 118 at this ref, 40 + x4.h at 29b62af) and config/x4/names.tsv (docs/x4-names.md); fetched by tools/mmx6/x4core.py ensure_clone into .run/mmx4, never copied outside the lane"
-checked  = "2026-10-23"
+used_by  = "mmx6 T7 (the X4 lane, campaign/x4/partners.tsv; 158 adapted src/shared files + include/mmx6/x4.h, THIRD_PARTY.md: 118 at this ref, 40 + x4.h held at 29b62af by config/x4/hold.tsv) and config/x4/names.tsv (docs/x4-names.md); fetched by tools/mmx6/x4core.py ensure_clone into .run/mmx4, never copied outside the lane"
+checked  = "2026-10-25"
 
 # ---- byo: never fetched -------------------------------------------------------------------------------------------
 

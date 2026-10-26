@@ -3,8 +3,8 @@
 #include "mmx6/x4.h"
 
 s8 func_8001C1AC(u8);
-s32 func_8001C384(s32, u8, s32);
-s32 func_8001C4C0(u8, void*, void*);
+s32 memcard_read_save_file(s32, u8, s32);
+s32 memcard_list_files(u8, void*, void*);
 s32 func_8001C5EC(u8);
 s32 func_8001C8C4(void*);
 M2C_UNK func_8002B838();
@@ -24,6 +24,7 @@ extern u8 D_800E9864[];
 #define AB_H(p, o) (*(s16*)((u8*)(p) + (o)))
 #define AB_SB(p, o) (*(s8*)((u8*)(p) + (o)))
 
+// str 0x800E9864 "BASLUS-01395" = "save file name (product code)"
 void func_800EAAC0(u8* arg0) {
     // !FAKE: depin: dropping it breaks the match (147/183)
     register u8* self asm("$17") = arg0;
@@ -79,12 +80,13 @@ void func_800EAAC0(u8* arg0) {
         AB_B(self, 3) = 0x12;
         return;
     case 0:
-        if (func_8001C4C0((u8)D_800E2F90.unk6, D_800E2FA0, D_800E9864) != 0) {
+        if (memcard_list_files((u8)D_800E2F90.unk6, D_800E2FA0, D_800E9864) !=
+            0) {
             return;
         }
         if (D_800E2FA0[0x14A] != 0) {
-            if (func_8001C384(*(s32*)&D_800E2F90, (u8)D_800E2F90.unk6,
-                              0x2000) == 0) {
+            if (memcard_read_save_file(*(s32*)&D_800E2F90, (u8)D_800E2F90.unk6,
+                                       0x2000) == 0) {
                 func_8001C8C4((void*)D_800E2F90.y_pos.val);
                 func_8002B838();
                 AB_H(self, 4) = 1;

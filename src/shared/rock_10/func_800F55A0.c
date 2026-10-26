@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -7,9 +8,6 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 M2C_UNK move_object(s32);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern M2C_UNK D_8007433C;
 extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_800CCF38;
@@ -22,11 +20,11 @@ void func_800F55A0(struct X4_AnimatedObj* arg0) {
     s32 angle;
     s32 s;
 
-    angle = func_80065B74(
-        arg0->y_pos.i.hi - (background_objects[0].y_pos.i.hi + OFS_Y),
-        (background_objects[0].x_pos.i.hi + OFS_X) - arg0->x_pos.i.hi);
-    arg0->x_vel.val = func_80065A14(angle) << 6;
-    s = func_80065944(angle);
+    angle =
+        ratan2(arg0->y_pos.i.hi - (background_objects[0].y_pos.i.hi + OFS_Y),
+               (background_objects[0].x_pos.i.hi + OFS_X) - arg0->x_pos.i.hi);
+    arg0->x_vel.val = rcos(angle) << 6;
+    s = rsin(angle);
     arg0->y_vel.val = s << 6;
     if (D_800CCF38 >= 2) {
         arg0->x_vel.val = arg0->x_vel.val * 5 / 4;

@@ -37,7 +37,8 @@ void func_800FCF48(void* arg0) {
                         M2C_FIELD(arg0, s16*, 0xA) = v;
                     }
                 } else {
-                    goto right; // !FAKE: inherited from src/shared/rock_02/func_800F4620.c
+                    // !FAKE: inherited from src/shared/rock_02/func_800F4620.c
+                    goto right;
                 }
             } else if (M2C_FIELD(parent, u8*, 0x15) == 0) {
                 {

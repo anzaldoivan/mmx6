@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -11,9 +12,6 @@ s32 func_800179A4(void*, s32);
 s32 func_8002A47C(s32);
 M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
 s32 func_8002D2D4();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern struct X4_PlayerObj g_Player;
 extern s32 D_800FC970;
 extern s32 D_800FC97C;
@@ -71,17 +69,17 @@ void func_800F7EE8(void* arg0) {
         ((void (*)(void*, s32))func_800179A4)(arg0, 0x24);
         M2C_FIELD(arg0, s16*, 0x8C) = 0x12C;
     } else if (kind == 3) {
-        ang = func_80065B74(g_Player.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
-                            g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
+        ang = ratan2(g_Player.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
+                     g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
         {
             s32 t;
             s32 w;
             s32 u;
             s32 x;
-            t = func_80065A14(ang);
+            t = rcos(ang);
             w = t << 4;
             M2C_FIELD(arg0, s32*, 0x20) = ((t << 6) + w) >> 1;
-            u = -func_80065944(ang);
+            u = -rsin(ang);
             x = u << 4;
             M2C_FIELD(arg0, s32*, 0x24) = ((u << 6) + x) >> 1;
         }
@@ -157,17 +155,17 @@ void func_800F7EE8(void* arg0) {
         M2C_FIELD(arg0, s8*, 5) = 4;
     } else if (M2C_FIELD(arg0, s8*, 2) == 10) {
         func_80016C48(2, 0x6C, arg0);
-        ang = func_80065B74(g_Player.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
-                            g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
+        ang = ratan2(g_Player.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),
+                     g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA));
         {
             s32 t;
             s32 w;
             s32 u;
             s32 x;
-            t = func_80065A14(ang);
+            t = rcos(ang);
             w = t << 4;
             M2C_FIELD(arg0, s32*, 0x20) = ((t << 5) + w) >> 1;
-            u = -func_80065944(ang);
+            u = -rsin(ang);
             x = u << 4;
             M2C_FIELD(arg0, s32*, 0x24) = ((u << 5) + x) >> 1;
         }

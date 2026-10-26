@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @6a6b455 src/main/mains/main_19_surface_hopper.c:surface_hopper_crawl_turn_end, AGPL-3.0; proven shared with X6 by exact signature f1c046e43f2b (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_19_surface_hopper.c:surface_hopper_crawl_turn_end, AGPL-3.0; proven shared with X6 by exact signature f1c046e43f2b (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"

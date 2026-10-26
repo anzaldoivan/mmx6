@@ -1,13 +1,13 @@
 #include "common.h"
+#include "psyq/libgpu.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800660B8(M2C_UNK);
 void func_800E9F7C(void);
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800FA1AC(u8* arg0) {
-    ((void (*)(s32))func_800660B8)(1);
+    ((void (*)(s32))SetDispMask)(1);
     background_objects[0].unk3 = 0;
     background_objects[1].unk3 = 0;
     background_objects[2].unk3 = 1;

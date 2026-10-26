@@ -96,7 +96,7 @@ void func_800EC114(void) {
     spawnA(0xA8, 0x108, 0x2E);
     for (j = 0; j < 8; j++) {
         if ((UB(SAVE, 0x3A) >> j) & 1) {
-            if ((s8)(s32)D_800CCED0.unk38 == 0) {
+            if ((s8)(s32)D_800CCED0.controlled_player == 0) {
                 n = j;
                 spawnB(T(u8, D_800F0930, n, 6, 0),
                        T(s16, D_800F0930, n, 6, 2) + 0xA,

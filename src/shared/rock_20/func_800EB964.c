@@ -4,7 +4,7 @@
 
 s8 func_8001C1AC(u8);
 s32 func_8001C5EC(u8);
-s32 func_8001C6C0(s32 device_num);
+s32 memcard_format(s32 device_num);
 M2C_UNK func_8002B838();
 extern u8 D_80097427;
 extern struct X4_MiscObj D_800E2F90;
@@ -57,7 +57,7 @@ void func_800EB964(u8* arg0) {
         arg0[3] = 1;
         return;
     }
-    if (func_8001C6C0((u8)D_800E2F90.unk6) == 0) {
+    if (memcard_format((u8)D_800E2F90.unk6) == 0) {
         s32 ff = 0xFF;
 
         arg0[2] = arg0[2] + 1;

@@ -1,0 +1,363 @@
+# name prototype forward basis
+CD_cw	int CD_cw();	-	none
+CD_datasync	int CD_datasync();	-	none
+CD_flush	int CD_flush();	-	none
+CD_getsector	int CD_getsector();	-	none
+CD_getsector2	int CD_getsector2();	-	none
+CD_init	int CD_init();	-	none
+CD_initintr	int CD_initintr();	-	none
+CD_initvol	int CD_initvol();	-	none
+CD_ready	int CD_ready();	-	none
+CD_set_test_parmnum	int CD_set_test_parmnum();	-	none
+CD_sync	int CD_sync();	-	none
+CD_vol	int CD_vol();	-	none
+CdControl	int CdControl(unsigned char, unsigned char *, unsigned char *);	-	header:LIBCD.H
+CdControlB	int CdControlB(unsigned char, unsigned char *, unsigned char *);	-	header:LIBCD.H
+CdControlF	int CdControlF(unsigned char, unsigned char *);	-	header:LIBCD.H
+CdInit	int CdInit(void);	-	header:LIBCD.H
+CdLastPos	struct CdlLOC *CdLastPos(void);	struct CdlLOC;	header:LIBCD.H
+CdRead	int CdRead(int, unsigned long *, int);	-	header:LIBCD.H
+CdRead2	int CdRead2(long);	-	header:LIBCD.H
+CdReadBreak	void CdReadBreak(void);	-	header:LIBCD.H
+CdReadSync	int CdReadSync(int, unsigned char *);	-	header:LIBCD.H
+CdReset	int CdReset(int);	-	header:LIBCD.H
+CdSearchFile	struct CdlFILE *CdSearchFile(struct CdlFILE *, char *);	struct CdlFILE;	header:LIBCD.H
+ChangeClearPAD	void ChangeClearPAD(long);	-	header:LIBAPI.H
+ChangeClearRCnt	int ChangeClearRCnt();	-	none
+ChangeTh	int ChangeTh(long);	-	header:LIBAPI.H
+CheckCallback	int CheckCallback(void);	-	header:LIBETC.H
+ClearImage	int ClearImage(struct RECT *, unsigned char, unsigned char, unsigned char);	struct RECT;	header:LIBGPU.H
+ClearImage2	int ClearImage2(struct RECT *, unsigned char, unsigned char, unsigned char);	struct RECT;	header:LIBGPU.H
+ClearOTag	unsigned long *ClearOTag(unsigned long *, int);	-	header:LIBGPU.H
+ClearOTagR	unsigned long *ClearOTagR(unsigned long *, int);	-	header:LIBGPU.H
+CloseEvent	long CloseEvent(long);	-	header:LIBAPI.H
+CloseTh	int CloseTh(long);	-	header:LIBAPI.H
+DMACallback	int DMACallback();	-	none
+DecDCTGetEnv	struct DECDCTENV *DecDCTGetEnv(struct DECDCTENV *);	struct DECDCTENV;	header:LIBPRESS.H
+DecDCTPutEnv	struct DECDCTENV *DecDCTPutEnv(struct DECDCTENV *);	struct DECDCTENV;	header:LIBPRESS.H
+DecDCTReset	void DecDCTReset(int);	-	header:LIBPRESS.H
+DecDCTin	void DecDCTin(unsigned long *, int);	-	header:LIBPRESS.H
+DecDCTinCallback	int DecDCTinCallback(void (*)());	-	header:LIBPRESS.H
+DecDCTinSync	int DecDCTinSync(int);	-	header:LIBPRESS.H
+DecDCTout	void DecDCTout(unsigned long *, int);	-	header:LIBPRESS.H
+DecDCToutCallback	int DecDCToutCallback(void (*)());	-	header:LIBPRESS.H
+DecDCToutSync	int DecDCToutSync(int);	-	header:LIBPRESS.H
+DecDCTvlc	int DecDCTvlc(unsigned long *, unsigned long *);	-	header:LIBPRESS.H
+DecDCTvlcSize	int DecDCTvlcSize(int);	-	header:LIBPRESS.H
+DeliverEvent	void DeliverEvent(unsigned long, unsigned long);	-	header:LIBAPI.H
+DisableEvent	long DisableEvent(long);	-	header:LIBAPI.H
+DisablePAD	void DisablePAD(void);	-	header:LIBAPI.H
+DrawOTag	void DrawOTag(unsigned long *);	-	header:LIBGPU.H
+DrawOTag2	int DrawOTag2(unsigned long *);	-	header:LIBGPU.H
+DrawOTagEnv	void DrawOTagEnv(unsigned long *, struct DRAWENV *);	struct DRAWENV;	header:LIBGPU.H
+DrawPrim	void DrawPrim(void *);	-	header:LIBGPU.H
+DrawSync	int DrawSync(int);	-	header:LIBGPU.H
+DrawSyncCallback	unsigned long DrawSyncCallback(void (*)(void));	-	header:LIBGPU.H
+DsGetSector	int DsGetSector(void *, int);	-	header:LIBDS.H
+EnableEvent	long EnableEvent(long);	-	header:LIBAPI.H
+EnablePAD	void EnablePAD(void);	-	header:LIBAPI.H
+EnterCriticalSection	int EnterCriticalSection(void);	-	header:LIBAPI.H
+ExitCriticalSection	void ExitCriticalSection(void);	-	header:LIBAPI.H
+FlushCache	void FlushCache(void);	-	header:LIBAPI.H
+GPU_cw	int GPU_cw();	-	none
+GetDispEnv	struct DISPENV *GetDispEnv(struct DISPENV *);	struct DISPENV;	header:LIBGPU.H
+GetDrawEnv	struct DRAWENV *GetDrawEnv(struct DRAWENV *);	struct DRAWENV;	header:LIBGPU.H
+GetGraphDebug	int GetGraphDebug(void);	-	header:LIBGPU.H
+GetIntrMask	int GetIntrMask();	-	none
+GetODE	int GetODE(void);	-	header:LIBGPU.H
+GetRCnt	long GetRCnt(unsigned long);	-	header:LIBAPI.H
+GetTPage	unsigned short GetTPage(int, int, int, int);	-	header:LIBGPU.H
+GetVideoMode	long GetVideoMode(void);	-	header:LIBETC.H
+HookEntryInt	int HookEntryInt();	-	none
+InitCARD	void InitCARD(long);	-	header:LIBAPI.H
+InitCARD2	int InitCARD2();	-	none
+InitGeom	void InitGeom();	-	header:LIBGTE.H
+InitHeap	void InitHeap(unsigned long *, unsigned long);	-	header:MALLOC.H
+InitPAD	long InitPAD(char *, long, char *, long);	-	header:LIBAPI.H
+InitPAD2	int InitPAD2();	-	none
+InterruptCallback	int InterruptCallback();	-	none
+LoadImage	int LoadImage(struct RECT *, unsigned long *);	struct RECT;	header:LIBGPU.H
+LoadImage2	int LoadImage2(struct RECT *, unsigned long *);	struct RECT;	header:LIBGPU.H
+MoveImage	int MoveImage(struct RECT *, int, int);	struct RECT;	header:LIBGPU.H
+MoveImage2	int MoveImage2(struct RECT *, int, int);	struct RECT;	header:LIBGPU.H
+OpenEvent	long OpenEvent(unsigned long, long, long, long (*)());	-	header:LIBAPI.H
+OpenTh	long OpenTh(long (*)(), unsigned long, unsigned long);	-	header:LIBAPI.H
+PAD_init	int PAD_init();	-	none
+PAD_init2	int PAD_init2();	-	none
+PadGetState	int PadGetState(int);	-	header:LIBPAD.H
+PadInfoMode	int PadInfoMode(int, int, int);	-	header:LIBPAD.H
+PadInitDirect	void PadInitDirect(unsigned char *, unsigned char *);	-	header:LIBPAD.H
+PadSetAct	void PadSetAct(int, unsigned char *, int);	-	header:LIBPAD.H
+PadSetActAlign	int PadSetActAlign(int, unsigned char *);	-	header:LIBPAD.H
+PadStartCom	void PadStartCom(void);	-	header:LIBPAD.H
+PadStopCom	void PadStopCom(void);	-	header:LIBPAD.H
+PutDispEnv	struct DISPENV *PutDispEnv(struct DISPENV *);	struct DISPENV;	header:LIBGPU.H
+PutDrawEnv	struct DRAWENV *PutDrawEnv(struct DRAWENV *);	struct DRAWENV;	header:LIBGPU.H
+ReadInitPadFlag	int ReadInitPadFlag();	-	none
+ResetCallback	int ResetCallback(void);	-	header:LIBETC.H
+ResetEntryInt	int ResetEntryInt();	-	none
+ResetGraph	int ResetGraph(int);	-	header:LIBGPU.H
+ResetRCnt	long ResetRCnt(unsigned long);	-	header:LIBAPI.H
+RestartCallback	int RestartCallback(void);	-	header:LIBETC.H
+ReturnFromException	void ReturnFromException(void);	-	header:LIBAPI.H
+SetDefDispEnv	struct DISPENV *SetDefDispEnv(struct DISPENV *, int, int, int, int);	struct DISPENV;	header:LIBGPU.H
+SetDefDrawEnv	struct DRAWENV *SetDefDrawEnv(struct DRAWENV *, int, int, int, int);	struct DRAWENV;	header:LIBGPU.H
+SetDispMask	void SetDispMask(int);	-	header:LIBGPU.H
+SetDrawArea	void SetDrawArea(struct DR_AREA *, struct RECT *);	struct DR_AREA; struct RECT;	header:LIBGPU.H
+SetDrawEnv	void SetDrawEnv(struct DR_ENV *, struct DRAWENV *);	struct DRAWENV; struct DR_ENV;	header:LIBGPU.H
+SetDrawMode	void SetDrawMode(struct DR_MODE *, int, int, int, struct RECT *);	struct DR_MODE; struct RECT;	header:LIBGPU.H
+SetDrawOffset	void SetDrawOffset(struct DR_OFFSET *, unsigned short *);	struct DR_OFFSET;	header:LIBGPU.H
+SetGeomOffset	void SetGeomOffset(long, long);	-	header:LIBGTE.H
+SetGeomScreen	void SetGeomScreen(long);	-	header:LIBGTE.H
+SetGraphDebug	int SetGraphDebug(int);	-	header:LIBGPU.H
+SetGraphQueue	int SetGraphQueue();	-	none
+SetInitPadFlag	int SetInitPadFlag();	-	none
+SetIntrMask	int SetIntrMask();	-	none
+SetRCnt	long SetRCnt(unsigned long, unsigned short, long);	-	header:LIBAPI.H
+SetVideoMode	long SetVideoMode(long);	-	header:LIBETC.H
+Snd_SetPlayMode	int Snd_SetPlayMode();	-	none
+SpuClearReverbWorkArea	long SpuClearReverbWorkArea(long);	-	header:LIBSPU.H
+SpuFree	void SpuFree(unsigned long);	-	header:LIBSPU.H
+SpuGetKeyStatus	long SpuGetKeyStatus(unsigned long);	-	header:LIBSPU.H
+SpuGetNoiseVoice	unsigned long SpuGetNoiseVoice(void);	-	header:LIBSPU.H
+SpuGetReverbVoice	unsigned long SpuGetReverbVoice(void);	-	header:LIBSPU.H
+SpuGetVoiceEnvelope	void SpuGetVoiceEnvelope(int, short *);	-	header:LIBSPU.H
+SpuInitMalloc	long SpuInitMalloc(long, char *);	-	header:LIBSPU.H
+SpuIsTransferCompleted	long SpuIsTransferCompleted(long);	-	header:LIBSPU.H
+SpuQuit	void SpuQuit(void);	-	header:LIBSPU.H
+SpuSetCommonAttr	void SpuSetCommonAttr(struct SpuCommonAttr *);	struct SpuCommonAttr;	header:LIBSPU.H
+SpuSetKey	void SpuSetKey(long, unsigned long);	-	header:LIBSPU.H
+SpuSetNoiseClock	long SpuSetNoiseClock(long);	-	header:LIBSPU.H
+SpuSetNoiseVoice	unsigned long SpuSetNoiseVoice(long, unsigned long);	-	header:LIBSPU.H
+SpuSetReverb	long SpuSetReverb(long);	-	header:LIBSPU.H
+SpuSetReverbModeParam	long SpuSetReverbModeParam(struct SpuReverbAttr *);	struct SpuReverbAttr;	header:LIBSPU.H
+SpuSetReverbVoice	unsigned long SpuSetReverbVoice(long, unsigned long);	-	header:LIBSPU.H
+SpuSetTransferMode	long SpuSetTransferMode(long);	-	header:LIBSPU.H
+SpuSetTransferStartAddr	unsigned long SpuSetTransferStartAddr(unsigned long);	-	header:LIBSPU.H
+SpuSetVoiceAttr	void SpuSetVoiceAttr(struct SpuVoiceAttr *);	struct SpuVoiceAttr;	header:LIBSPU.H
+SpuStart	void SpuStart(void);	-	header:LIBSPU.H
+SpuWritePartly	unsigned long SpuWritePartly(unsigned char *, unsigned long);	-	header:LIBSPU.H
+SsEnd	void SsEnd(void);	-	header:LIBSND.H
+SsInit	void SsInit(void);	-	header:LIBSND.H
+SsIsEos	short SsIsEos(short, short);	-	header:LIBSND.H
+SsPitchFromNote	unsigned short SsPitchFromNote(short, short, unsigned char, unsigned char);	-	header:LIBSND.H
+SsSepClose	void SsSepClose(short);	-	header:LIBSND.H
+SsSepOpen	short SsSepOpen(unsigned long *, short, short);	-	header:LIBSND.H
+SsSepPlay	void SsSepPlay(short, short, char, short);	-	header:LIBSND.H
+SsSepSetVol	void SsSepSetVol(short, short, short, short);	-	header:LIBSND.H
+SsSepStop	void SsSepStop(short, short);	-	header:LIBSND.H
+SsSeqCalledTbyT	void SsSeqCalledTbyT(void);	-	header:LIBSND.H
+SsSeqClose	void SsSeqClose(short);	-	header:LIBSND.H
+SsSeqPlay	void SsSeqPlay(short, char, short);	-	header:LIBSND.H
+SsSeqSetVol	void SsSeqSetVol(short, short, short);	-	header:LIBSND.H
+SsSeqStop	void SsSeqStop(short);	-	header:LIBSND.H
+SsSetMVol	void SsSetMVol(short, short);	-	header:LIBSND.H
+SsSetMono	void SsSetMono(void);	-	header:LIBSND.H
+SsSetSerialAttr	void SsSetSerialAttr(char, char, char);	-	header:LIBSND.H
+SsSetSerialVol	void SsSetSerialVol(char, short, short);	-	header:LIBSND.H
+SsSetStereo	void SsSetStereo(void);	-	header:LIBSND.H
+SsSetTableSize	void SsSetTableSize(char *, short, short);	-	header:LIBSND.H
+SsSetTickMode	void SsSetTickMode(long);	-	header:LIBSND.H
+SsStart	void SsStart(void);	-	header:LIBSND.H
+SsStart2	void SsStart2(void);	-	header:LIBSND.H
+SsUtGetProgAtr	short SsUtGetProgAtr(short, short, struct ProgAtr *);	struct ProgAtr;	header:LIBSND.H
+SsUtGetVagAtr	short SsUtGetVagAtr(short, short, short, struct VagAtr *);	struct VagAtr;	header:LIBSND.H
+SsUtKeyOffV	short SsUtKeyOffV(short);	-	header:LIBSND.H
+SsUtKeyOnV	short SsUtKeyOnV(short, short, short, short, short, short, short, short);	-	header:LIBSND.H
+SsUtSetReverbDelay	void SsUtSetReverbDelay(short);	-	header:LIBSND.H
+SsUtSetReverbDepth	void SsUtSetReverbDepth(short, short);	-	header:LIBSND.H
+SsUtSetReverbFeedback	void SsUtSetReverbFeedback(short);	-	header:LIBSND.H
+SsUtSetReverbType	short SsUtSetReverbType(short);	-	header:LIBSND.H
+SsUtSetVVol	short SsUtSetVVol(short, short, short);	-	header:LIBSND.H
+SsUtSetVagAtr	short SsUtSetVagAtr(short, short, short, struct VagAtr *);	struct VagAtr;	header:LIBSND.H
+SsVabClose	void SsVabClose(short);	-	header:LIBSND.H
+SsVabFakeHead	short SsVabFakeHead(unsigned char *, short, unsigned long);	-	header:LIBSND.H
+SsVabOpenHeadSticky	short SsVabOpenHeadSticky(unsigned char *, short, unsigned long);	-	header:LIBSND.H
+SsVabTransBodyPartly	short SsVabTransBodyPartly(unsigned char *, unsigned long, short);	-	header:LIBSND.H
+SsVabTransCompleted	short SsVabTransCompleted(short);	-	header:LIBSND.H
+StCdInterrupt	void StCdInterrupt(void);	-	header:LIBCD.H
+StClearRing	void StClearRing(void);	-	header:LIBCD.H
+StFreeRing	unsigned long StFreeRing(unsigned long *);	-	header:LIBCD.H
+StGetBackloc	int StGetBackloc(struct CdlLOC *);	struct CdlLOC;	header:LIBCD.H
+StGetNext	unsigned long StGetNext(unsigned long **, unsigned long **);	-	header:LIBCD.H
+StSetMask	void StSetMask(unsigned long, unsigned long, unsigned long);	-	header:LIBCD.H
+StSetRing	void StSetRing(unsigned long *, unsigned long);	-	header:LIBCD.H
+StSetStream	void StSetStream(unsigned long, unsigned long, unsigned long, void (*)(), void (*)());	-	header:LIBCD.H
+StUnSetRing	void StUnSetRing(void);	-	header:LIBCD.H
+StartCARD	long StartCARD(void);	-	header:LIBAPI.H
+StartCARD2	int StartCARD2();	-	none
+StartPAD	long StartPAD(void);	-	header:LIBAPI.H
+StartPAD2	int StartPAD2();	-	none
+StartRCnt	long StartRCnt(unsigned long);	-	header:LIBAPI.H
+StopCARD	long StopCARD(void);	-	header:LIBAPI.H
+StopCARD2	int StopCARD2();	-	none
+StopCallback	int StopCallback(void);	-	header:LIBETC.H
+StopRCnt	long StopRCnt(unsigned long);	-	header:LIBAPI.H
+StoreImage	int StoreImage(struct RECT *, unsigned long *);	struct RECT;	header:LIBGPU.H
+StoreImage2	int StoreImage2(struct RECT *, unsigned long *);	struct RECT;	header:LIBGPU.H
+SysDeqIntRP	int SysDeqIntRP();	-	none
+SysEnqIntRP	int SysEnqIntRP();	-	none
+TestEvent	long TestEvent(long);	-	header:LIBAPI.H
+VSync	int VSync(int);	-	header:LIBETC.H
+VSyncCallback	int VSyncCallback(void (*)(void));	-	header:LIBETC.H
+VSyncCallbacks	int VSyncCallbacks();	-	none
+WaitEvent	long WaitEvent(long);	-	header:LIBAPI.H
+_96_remove	void _96_remove(void);	-	header:LIBAPI.H
+_ExitCard	int _ExitCard();	-	none
+_GPU_ResetCallback	int _GPU_ResetCallback();	-	none
+_SpuDataCallback	int _SpuDataCallback();	-	none
+_SpuGetAnyVoice	int _SpuGetAnyVoice();	-	none
+_SpuInit	int _SpuInit();	-	none
+_SpuIsInAllocateArea	int _SpuIsInAllocateArea();	-	none
+_SpuIsInAllocateArea_	int _SpuIsInAllocateArea_();	-	none
+_SpuSetAnyVoice	int _SpuSetAnyVoice();	-	none
+_SsContBankChange	void _SsContBankChange(short, short);	-	header:LIBSND.H
+_SsContDamper	void _SsContDamper(short, short, unsigned char);	-	header:LIBSND.H
+_SsContDataEntry	void _SsContDataEntry(short, short, unsigned char);	-	header:LIBSND.H
+_SsContExpression	void _SsContExpression(short, short, unsigned char);	-	header:LIBSND.H
+_SsContExternal	void _SsContExternal(short, short, unsigned char);	-	header:LIBSND.H
+_SsContMainVol	void _SsContMainVol(short, short, unsigned char);	-	header:LIBSND.H
+_SsContNrpn1	void _SsContNrpn1(short, short, unsigned char);	-	header:LIBSND.H
+_SsContNrpn2	void _SsContNrpn2(short, short, unsigned char);	-	header:LIBSND.H
+_SsContPanpot	void _SsContPanpot(short, short, unsigned char);	-	header:LIBSND.H
+_SsContResetAll	void _SsContResetAll(short, short);	-	header:LIBSND.H
+_SsContRpn1	void _SsContRpn1(short, short, unsigned char);	-	header:LIBSND.H
+_SsContRpn2	void _SsContRpn2(short, short, unsigned char);	-	header:LIBSND.H
+_SsGetMetaEvent	void _SsGetMetaEvent(short, short, unsigned char);	-	header:LIBSND.H
+_SsGetSeqData	int _SsGetSeqData();	-	none
+_SsInit	int _SsInit();	-	none
+_SsInitSoundSep	int _SsInitSoundSep();	-	none
+_SsNoteOn	void _SsNoteOn(short, short, unsigned char, unsigned char);	-	header:LIBSND.H
+_SsReadDeltaValue	int _SsReadDeltaValue();	-	none
+_SsSeqGetEof	int _SsSeqGetEof();	-	none
+_SsSeqPlay	int _SsSeqPlay();	-	none
+_SsSetControlChange	void _SsSetControlChange(short, short, unsigned char);	-	header:LIBSND.H
+_SsSetNrpnVabAttr0	void _SsSetNrpnVabAttr0(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr1	void _SsSetNrpnVabAttr1(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr10	void _SsSetNrpnVabAttr10(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr11	void _SsSetNrpnVabAttr11(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr12	void _SsSetNrpnVabAttr12(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr13	void _SsSetNrpnVabAttr13(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr14	void _SsSetNrpnVabAttr14(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr16	void _SsSetNrpnVabAttr16(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr2	void _SsSetNrpnVabAttr2(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr3	void _SsSetNrpnVabAttr3(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr4	void _SsSetNrpnVabAttr4(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr5	void _SsSetNrpnVabAttr5(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr6	void _SsSetNrpnVabAttr6(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr7	void _SsSetNrpnVabAttr7(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr8	void _SsSetNrpnVabAttr8(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetNrpnVabAttr9	void _SsSetNrpnVabAttr9(short, short, short, struct VagAtr, short, unsigned char);	struct VagAtr;	header:LIBSND.H
+_SsSetPitchBend	void _SsSetPitchBend(short, short);	-	header:LIBSND.H
+_SsSetProgramChange	void _SsSetProgramChange(short, short, unsigned char);	-	header:LIBSND.H
+_SsSndCrescendo	int _SsSndCrescendo();	-	none
+_SsSndNextSep	int _SsSndNextSep();	-	none
+_SsSndPause	int _SsSndPause();	-	none
+_SsSndPlay	int _SsSndPlay();	-	none
+_SsSndReplay	int _SsSndReplay();	-	none
+_SsSndSetVol	int _SsSndSetVol();	-	none
+_SsSndStop	int _SsSndStop();	-	none
+_SsSndTempo	int _SsSndTempo();	-	none
+_SsUtBuildADSR	int _SsUtBuildADSR();	-	none
+_SsUtResolveADSR	int _SsUtResolveADSR();	-	none
+_SsVabOpenHeadWithMode	int _SsVabOpenHeadWithMode();	-	none
+_SsVmAlloc	int _SsVmAlloc();	-	none
+_SsVmDamperOff	int _SsVmDamperOff();	-	none
+_SsVmDamperOn	int _SsVmDamperOn();	-	none
+_SsVmDoAllocate	int _SsVmDoAllocate();	-	none
+_SsVmFlush	int _SsVmFlush();	-	none
+_SsVmGetSeqVol	int _SsVmGetSeqVol();	-	none
+_SsVmInit	int _SsVmInit();	-	none
+_SsVmKeyOff	int _SsVmKeyOff();	-	none
+_SsVmKeyOffNow	int _SsVmKeyOffNow();	-	none
+_SsVmKeyOn	int _SsVmKeyOn();	-	none
+_SsVmKeyOnNow	int _SsVmKeyOnNow();	-	none
+_SsVmPBVoice	int _SsVmPBVoice();	-	none
+_SsVmPitchBend	int _SsVmPitchBend();	-	none
+_SsVmSeKeyOff	int _SsVmSeKeyOff();	-	none
+_SsVmSeKeyOn	int _SsVmSeKeyOn();	-	none
+_SsVmSelectToneAndVag	int _SsVmSelectToneAndVag();	-	none
+_SsVmSeqKeyOff	int _SsVmSeqKeyOff();	-	none
+_SsVmSetProgVol	int _SsVmSetProgVol();	-	none
+_SsVmSetSeqVol	int _SsVmSetSeqVol();	-	none
+_SsVmSetVol	int _SsVmSetVol();	-	none
+_SsVmVSetUp	int _SsVmVSetUp();	-	none
+__SN_ENTRY_POINT	int __SN_ENTRY_POINT();	-	none
+__main	int __main();	-	none
+_card_clear	long _card_clear(long);	-	header:LIBAPI.H
+_card_info	long _card_info(long);	-	header:LIBAPI.H
+_card_load	long _card_load(long);	-	header:LIBAPI.H
+_card_write	long _card_write(long, long, unsigned char *);	-	header:LIBAPI.H
+_copy_memcard_patch	int _copy_memcard_patch();	-	none
+_dirFailAuto	int _dirFailAuto();	-	none
+_new_card	void _new_card(void);	-	header:LIBAPI.H
+_padChkRC2wait	int _padChkRC2wait();	-	none
+_padClrIntSio0	int _padClrIntSio0();	-	none
+_padCmdParaMode	int _padCmdParaMode();	-	none
+_padGetActSize	int _padGetActSize();	-	none
+_padInitDirPort	int _padInitDirPort();	-	none
+_padInitSioMode	int _padInitSioMode();	-	none
+_padIntPad	int _padIntPad();	-	none
+_padIsVsync	int _padIsVsync();	-	none
+_padLoadActInfo	int _padLoadActInfo();	-	none
+_padRecvAtLoadInfo	int _padRecvAtLoadInfo();	-	none
+_padSendAtLoadInfo	int _padSendAtLoadInfo();	-	none
+_padSetCmd	int _padSetCmd();	-	none
+_padSetRC2wait	int _padSetRC2wait();	-	none
+_padSioRW	int _padSioRW();	-	none
+_padSioRW2	int _padSioRW2();	-	none
+_padWaitRXready	int _padWaitRXready();	-	none
+_patch_card	int _patch_card();	-	none
+_patch_card2	int _patch_card2();	-	none
+_patch_card_info	int _patch_card_info();	-	none
+_patch_gte	int _patch_gte();	-	none
+_patch_pad	int _patch_pad();	-	none
+_remove_ChgclrPAD	int _remove_ChgclrPAD();	-	none
+_spu_FgetRXXa	int _spu_FgetRXXa();	-	none
+_spu_FiDMA	int _spu_FiDMA();	-	none
+_spu_Fr	int _spu_Fr();	-	none
+_spu_Fr_	int _spu_Fr_();	-	none
+_spu_FsetPCR	int _spu_FsetPCR();	-	none
+_spu_FsetRXX	int _spu_FsetRXX();	-	none
+_spu_FsetRXXa	int _spu_FsetRXXa();	-	none
+_spu_Fw	int _spu_Fw();	-	none
+_spu_Fw1ts	int _spu_Fw1ts();	-	none
+_spu_gcSPU	int _spu_gcSPU();	-	none
+_spu_getInTransfer	int _spu_getInTransfer();	-	none
+_spu_init	int _spu_init();	-	none
+_spu_note2pitch	int _spu_note2pitch();	-	none
+_spu_pitch2note	int _spu_pitch2note();	-	none
+_spu_setInTransfer	int _spu_setInTransfer();	-	none
+_spu_setReverbAttr	int _spu_setReverbAttr();	-	none
+_spu_t	int _spu_t();	-	none
+bzero	void *bzero(unsigned char *, int);	-	header:MEMORY.H
+close	long close(long);	-	header:LIBAPI.H
+data_ready_callback	int data_ready_callback();	-	none
+firstfile	struct DIRENTRY *firstfile(char *, struct DIRENTRY *);	struct DIRENTRY;	header:LIBAPI.H
+firstfile2	int firstfile2();	-	none
+format	long format(char *);	-	header:LIBAPI.H
+init_ring_status	int init_ring_status();	-	none
+memcpy	void *memcpy();	-	header:MEMORY.H
+memset	void *memset();	-	header:MEMORY.H
+nextfile	struct DIRENTRY *nextfile(struct DIRENTRY *);	struct DIRENTRY;	header:LIBAPI.H
+note2pitch	int note2pitch();	-	none
+note2pitch2	int note2pitch2();	-	none
+open	long open(char *, unsigned long);	-	header:LIBAPI.H
+printf	int printf(const char *, ...);	-	header:STDIO.H
+puts	void puts(const char *);	-	header:STDIO.H
+ratan2	long ratan2(long, long);	-	header:LIBGTE.H
+rcos	int rcos(int);	-	header:LIBGTE.H
+read	long read(long, void *, long);	-	header:LIBAPI.H
+rsin	int rsin(int);	-	header:LIBGTE.H
+setjmp	int setjmp(int *);	-	header:SETJMP.H
+sin_1	int sin_1();	-	none
+startIntrDMA	int startIntrDMA();	-	none
+startIntrVSync	int startIntrVSync();	-	none
+strcmp	int strcmp();	-	header:STRINGS.H
+strcpy	char *strcpy();	-	header:STRINGS.H
+strncmp	int strncmp(const char *, const char *, int);	-	header:STRINGS.H
+stup0	int stup0();	-	none
+stup1	int stup1();	-	none
+vmNoiseOff	int vmNoiseOff();	-	none
+vmNoiseOn	int vmNoiseOn();	-	none
+write	long write(long, void *, long);	-	header:LIBAPI.H

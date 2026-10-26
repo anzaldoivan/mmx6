@@ -3,8 +3,8 @@
 #include "mmx6/x4.h"
 
 s8 func_8001C1AC(u8);
-s32 func_8001C384(s32, u8, s32);
-s32 func_8001C4C0(u8, void*, void*);
+s32 memcard_read_save_file(s32, u8, s32);
+s32 memcard_list_files(u8, void*, void*);
 s32 func_8001C5EC(u8);
 s32 func_8001C8C4(void*);
 M2C_UNK func_8002B838();
@@ -25,6 +25,7 @@ extern u8 D_800E9860[];
 #define F32(p, o) (*(s32*)((u8*)(p) + (o)))
 #define FP(p, o) (*(u8**)((u8*)(p) + (o)))
 
+// str 0x800E9868 "BASLUS-01395" = "save file name (product code)"
 void func_800EB2D4(u8* arg0) {
     s32 ret;
     s32 done;
@@ -80,13 +81,14 @@ void func_800EB2D4(u8* arg0) {
         // !FAKE: depin: dropping it breaks the match (111/242)
         register u8* addr asm("$6") = D_800E9860 + 4;
 
-        if (func_8001C4C0(D_800E2F90.unk6, D_800E2FA0, addr) == 0) {
+        if (memcard_list_files(D_800E2F90.unk6, D_800E2FA0, addr) == 0) {
             if (F32(D_800E2FA0, 0x14C) == 0x1E000) {
-                if (func_8001C4C0(D_800E2F90.unk6, D_800E2FA0,
-                                  D_800E9860 + 8) == 0) {
+                if (memcard_list_files(D_800E2F90.unk6, D_800E2FA0,
+                                       D_800E9860 + 8) == 0) {
                     if (F8(D_800E2FA0, 0x14A) != 0) {
-                        if (func_8001C384(*(s32*)&D_800E2F90, D_800E2F90.unk6,
-                                          0x2000) == 0) {
+                        if (memcard_read_save_file(*(s32*)&D_800E2F90,
+                                                   D_800E2F90.unk6,
+                                                   0x2000) == 0) {
                             func_8001C8C4(((u8*)D_800E2F90.y_pos.val));
                             goto block_29;
                         }
@@ -98,11 +100,11 @@ void func_800EB2D4(u8* arg0) {
                         return;
                     }
                 }
-            } else if (func_8001C4C0(D_800E2F90.unk6, D_800E2FA0,
-                                     D_800E9860 + 8) == 0) {
+            } else if (memcard_list_files(D_800E2F90.unk6, D_800E2FA0,
+                                          D_800E9860 + 8) == 0) {
                 if (F8(D_800E2FA0, 0x14A) != 0) {
-                    if (func_8001C384(*(s32*)&D_800E2F90, D_800E2F90.unk6,
-                                      0x2000) != 0) {
+                    if (memcard_read_save_file(*(s32*)&D_800E2F90,
+                                               D_800E2F90.unk6, 0x2000) != 0) {
                         return;
                     }
                     ((void (*)(void*))func_8001C8C4)(

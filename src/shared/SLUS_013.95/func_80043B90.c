@@ -1,12 +1,11 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 
 s32 func_80016C48(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 #define func_800179A4 ((void (*)(void*, s32))func_800179A4)
 s8* func_8002BEC4(s8* p, s32 dir);
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
 extern s32 D_8007610C;
 extern s32 D_80076110;
 extern s32 D_80076114;
@@ -53,8 +52,8 @@ void func_80043B90(s8* arg0, s16 arg1) {
     F_U16(child, 0xE) = F_U16(arg0, 0xE);
     child[4] = 1;
     child[5] = 8;
-    F_S32(child, 0x20) = func_80065A14(arg1) * 0x10;
-    F_S32(child, 0x24) = -func_80065944(arg1) * 0x10;
+    F_S32(child, 0x20) = rcos(arg1) * 0x10;
+    F_S32(child, 0x24) = -rsin(arg1) * 0x10;
     if (parent[0x93] & 2) {
         child[1] = 0xA;
         child[2] = 7;

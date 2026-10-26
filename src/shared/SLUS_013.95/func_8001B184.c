@@ -1,14 +1,13 @@
 #include "common.h"
+#include "psyq/libcd.h"
+#include "psyq/libetc.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-int func_80060964(int mode);
-void func_800624A4(s32);
-s32 func_80062594(s32*, s32**);
-void func_80068EB4(s32);
-void func_8006900C(s32, s32);
-extern void func_80069088(X4_u_long* buf, int size);
-void func_80069574(s32, s32, s32);
+void DecDCTReset(s32);
+void DecDCTin(s32, s32);
+extern void DecDCTout(X4_u_long* buf, int size);
+void DecDCTvlc(s32, s32, s32);
 extern s32 D_800E2EB0;
 extern s32 D_800E2EC0[];
 extern s32 D_800E2EC8;
@@ -40,8 +39,8 @@ s32 func_8001B184(s32 arg0, s32 arg1) {
     u32 i;
 
     i = 0;
-    while (func_80062594(&sp10, &sp14) != 0) {
-        func_80060964(0);
+    while (StGetNext(&sp10, &sp14) != 0) {
+        VSync(0);
         i++;
         if (i >= 0x259) {
             return 1;
@@ -77,12 +76,12 @@ s32 func_8001B184(s32 arg0, s32 arg1) {
         y = D_800E2F34;
         D_800E2F1C = D_800E2ED0 != 0 ? (u = y << 2, (y << 3) + u) : y * 8;
     }
-    func_80068EB4(1);
-    func_8006900C(D_800E2EC0[D_800E2ED8], D_800E2ED0);
+    DecDCTReset(1);
+    DecDCTin(D_800E2EC0[D_800E2ED8], D_800E2ED0);
     do {
         n = D_800E2F20;
     } while (0);
-    func_80069088((X4_u_long*)D_800E2EC8, n);
+    DecDCTout((X4_u_long*)D_800E2EC8, n);
     D_800E2EE8[0] = sp14[0];
     D_800E2EE8[1] = sp14[1];
     D_800E2EE8[2] = sp14[2];
@@ -95,7 +94,7 @@ s32 func_8001B184(s32 arg0, s32 arg1) {
     D_800E2EE8[7] = sp14[7];
     ((u16*)D_800E2EE8)[8] = (((u16*)D_800E2EE8)[8] + 8) / 16 * 16;
     ((u16*)D_800E2EE8)[9] = (((u16*)D_800E2EE8)[9] + 8) / 16 * 16;
-    func_80069574(sp10, D_800E2EC0[t], t);
-    func_800624A4(sp10);
+    DecDCTvlc(sp10, D_800E2EC0[t], t);
+    StFreeRing(sp10);
     return ret;
 }

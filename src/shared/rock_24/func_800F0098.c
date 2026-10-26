@@ -1,4 +1,5 @@
 #include "common.h"
+#include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
@@ -9,14 +10,12 @@ M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_800179A4(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 s32 func_8002D2D4();
-s32 func_80065944(s32);
-s32 func_80065A14(s32);
-s32 func_80065B74(s32, s32);
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_EngineObj D_800CCED0;
 extern u8 D_800E98C0[];
 
+// str 0x800E98C0 sha1=1319e42db8e4d96764593c2726f8a8f863f48283 = "printable byte run: data, not text"
 void func_800F0098(void* arg0) {
     u8 tbl[4];
     s32 r;
@@ -50,15 +49,15 @@ void func_800F0098(void* arg0) {
         ((void (*)(void*, s32))func_800179A4)(arg0, 3);
         M2C_FIELD(arg0, u16*, 0x88) = px = g_Player.x_pos.i.hi;
         M2C_FIELD(arg0, u16*, 0x8A) = py = g_Player.y_pos.i.hi;
-        angle = func_80065B74((s16)py - M2C_FIELD(arg0, s16*, 0xE),
-                              (s16)px - M2C_FIELD(arg0, s16*, 0xA));
+        angle = ratan2((s16)py - M2C_FIELD(arg0, s16*, 0xE),
+                       (s16)px - M2C_FIELD(arg0, s16*, 0xA));
         {
             u8* e;
             s32 c;
-            c = func_80065A14(angle);
+            c = rcos(angle);
             e = (u8*)&D_800CCED0;
             M2C_FIELD(arg0, s32*, 0x20) = c * tbl[e[0x8F]];
-            M2C_FIELD(arg0, s32*, 0x24) = -func_80065944(angle) * tbl[e[0x8F]];
+            M2C_FIELD(arg0, s32*, 0x24) = -rsin(angle) * tbl[e[0x8F]];
         }
         M2C_FIELD(arg0, u8*, 6)++;
     }

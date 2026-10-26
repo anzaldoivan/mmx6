@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80058734(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK SsSetSerialAttr(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_80064C94(M2C_UNK*, u32);
 extern u32 D_80070CC0;
 extern s8 D_800CC869;
@@ -14,7 +14,7 @@ void func_8001B520(void) {
     s32 i;
     s32 h;
 
-    ((void (*)(M2C_UNK, M2C_UNK, M2C_UNK))func_80058734)(0, 0, 1);
+    ((void (*)(M2C_UNK, M2C_UNK, M2C_UNK))SsSetSerialAttr)(0, 0, 1);
     if (D_800CC869 != 0) {
         i = 0;
         do {

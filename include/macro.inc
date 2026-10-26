@@ -1,4 +1,4 @@
-# macro.inc — label macros for splat 0.50.0 asm output (asm/<bin>/*.s), hand-edited.
+# macro.inc -- label macros for splat 0.50.0 asm output (asm/<bin>/*.s), hand-edited.
 
 .macro glabel label
     .global \label

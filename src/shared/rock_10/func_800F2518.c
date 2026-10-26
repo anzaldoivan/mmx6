@@ -19,11 +19,13 @@ void func_800F2518(void* arg0) {
     move_object(arg0);
     if (func_80030ECC(arg0) != 0) {
         st = 2;
-        goto store; // !FAKE: inherited from src/shared/rock_06/func_800EB4D4.c
+        // !FAKE: inherited from src/shared/rock_06/func_800EB4D4.c
+        goto store;
     }
     if (func_80031474(arg0) < 0) {
         st = 2;
-        goto store; // !FAKE: inherited from src/shared/rock_06/func_800EB4D4.c
+        // !FAKE: inherited from src/shared/rock_06/func_800EB4D4.c
+        goto store;
     }
     if (M2C_FIELD(arg0, u8*, 0x70) != 0 ||
         (func_8002EE10(arg0), M2C_FIELD(arg0, u8*, 0x70) != 0)) {

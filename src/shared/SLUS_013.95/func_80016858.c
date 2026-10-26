@@ -1,10 +1,10 @@
 #include "common.h"
+#include "psyq/libcd.h"
 #define M2C_UNK s32
 
 void func_80014E60(s32, s32);
 u8 func_80016570(void);
 s32 func_80064894(s32, s32);
-s32 func_80064B44(M2C_UNK, M2C_UNK, u8*);
 extern u8 D_8009509C;
 extern M2C_UNK* D_800B91B8;
 extern s32 D_800E01A8;
@@ -26,7 +26,7 @@ void func_80016858(s32 arg0, s32 arg1) {
     D_800E0D30 = D_800B91B8;
     D_800E0D34 = D_800E0374;
     if (func_80064894(1, 0) != 0) {
-        func_80064B44(9, 0, 0);
+        CdControlB(9, 0, 0);
     }
     if (D_8009509C != 0x80) {
         D_800E0380 = 0;

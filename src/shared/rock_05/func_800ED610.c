@@ -18,7 +18,7 @@ void func_800ED610(struct X4_MainObj* self) {
         }
     }
     if (g_Player.unk5 == 0x14) {
-        D_800CCED0.unk1C = 1;
+        D_800CCED0.gameplay_locked = 1;
         if (self->unk2 == 4) {
             func_80027BA0(0, 0x4C0, 0x930, &D_800F3F14);
         }

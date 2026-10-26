@@ -7,6 +7,7 @@ extern u8 D_80078860[];
 extern u8 D_800788F0[];
 extern u8 D_800CCF38;
 
+// str 0x800788F0 sha1=7b10bb32ce7696f0a4aca07d87c2b471482a6437 = "printable byte run: data, not text"
 void func_8004E680(struct X4_BaseObj* arg0, s8 arg1, s16 arg2, s16 arg3) {
     u8 i;
     u8 idx;

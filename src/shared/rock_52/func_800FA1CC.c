@@ -1,11 +1,11 @@
 #include "common.h"
+#include "psyq/libgpu.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800660B8(M2C_UNK);
 void func_800E9F7C(void);
 
 void func_800FA1CC(u8* arg0) {
-    ((void (*)(s32))func_800660B8)(1);
+    ((void (*)(s32))SetDispMask)(1);
     func_800E9F7C();
     {
         s32 v = arg0[1];

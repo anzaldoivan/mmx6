@@ -4,11 +4,11 @@
 #define FLD(p, type, off) (*(type*)((u8*)(p) + (off)))
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 M2C_UNK func_8002D230(s32);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 extern s16 D_800F6AF8;
 extern s16 D_800F6AFA;
 
@@ -29,7 +29,7 @@ void func_800F19BC(void* arg0) {
     func_80017A04();
     func_8002D230(arg0);
     if (FLD(arg0, s16, 0xE) > FLD(arg0, s16, 0x92)) {
-        func_80016C48(2, 0x36, parent);
+        play_sound(2, 0x36, parent);
         func_80012D9C(5);
         k = 0x38000;
         v = FLD(arg0, u16, 0x92);
@@ -37,7 +37,7 @@ void func_800F19BC(void* arg0) {
         FLD(arg0, s32, 0x2C) = 0x1C00;
         FLD(arg0, s16, 0xE) = v - 1;
     }
-    if ((FLD(arg0, s32, 0x8C) = func_80031474(arg0)) < 0) {
+    if ((FLD(arg0, s32, 0x8C) = check_enemy_hits(arg0)) < 0) {
         FLD(arg0, u8, 0x5) = 2;
         FLD(arg0, s16, 0x90) = 0x3C;
         FLD(parent, u8, 0x7) = 2;

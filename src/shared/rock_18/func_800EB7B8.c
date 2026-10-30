@@ -1,14 +1,14 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-void* func_8002C530();
+void* alloc_sprite_slot();
 s32 func_800ED69C(u8 arg0);
 extern u8 D_80097427;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s16 D_800F0B30[];
 
 static inline void spawn_7b8(u8 spr, s16 x, s16 y) {
-    u8* obj = func_8002C530();
+    u8* obj = alloc_sprite_slot();
     if (obj != 0) {
         obj[0] = 1;
         obj[1] = 0x2D;
@@ -16,7 +16,7 @@ static inline void spawn_7b8(u8 spr, s16 x, s16 y) {
         *(s16*)(obj + 0xA) = x;
         *(s16*)(obj + 0xE) = y;
         obj[0x58] = 1;
-        obj[0x59] = D_800CCED0.unk1;
+        obj[0x59] = g_playthrough_state.unk1;
         obj[0x5A] = D_80097427;
     }
 }

@@ -7,7 +7,7 @@
 #define H(p, o) M2C_FIELD(p, s16*, o)
 #define W(p, o) M2C_FIELD(p, s32*, o)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object();
 
 void func_800F25F0(void* arg0) {
@@ -43,7 +43,7 @@ void func_800F25F0(void* arg0) {
     dir = B(arg0, 0x15);
     if ((dir == 0 && (f & 2)) || (dir == 0x40 && (f & 1))) {
     hit:
-        func_800179A4(arg0, 0xB);
+        set_animation(arg0, 0xB);
         {
             // !FAKE: depin: dropping it breaks the match (77/82)
             register s32 c asm("$2") = B(arg0, 0x6);

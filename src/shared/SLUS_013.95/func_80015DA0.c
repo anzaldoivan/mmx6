@@ -24,7 +24,7 @@ void func_80015DA0(void) {
     temp_s1 = D_800E01E8[D_800DF998].callback_arg;
     var_s0 = MIN(0x800, D_800E01C8);
     temp_v0 = SsVabTransBodyPartly(D_800CF998.sectors[D_800DF998], var_s0,
-                            D_80090D50[temp_s1]);
+                                   D_80090D50[temp_s1]);
     D_800E01C8 -= var_s0;
     if ((D_800E01C8 == 0) && (temp_v0 == D_80090D50[temp_s1])) {
         while (!SsVabTransCompleted(0))

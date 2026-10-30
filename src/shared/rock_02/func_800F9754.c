@@ -4,7 +4,7 @@
 #define SPAD20_800F9754 (*(s32*)0x1F800020)
 
 s32 func_8002A47C(s32);
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 extern u32* D_80095098;
 extern s8 D_800CCEED;
 
@@ -14,7 +14,7 @@ void func_800F9754(void* arg0) {
     s32 c;
 
     if (D_800CCEED >= 2) {
-        ((M2C_UNK(*)())func_8002C9B0)();
+        ((M2C_UNK(*)())clear_object_slot)();
         return;
     }
     M2C_FIELD(arg0, u16*, 0x40) = D_80095098[func_8002A47C(0x92)] >> 7;

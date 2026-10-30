@@ -4,9 +4,9 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8001750C(M2C_UNK, M2C_UNK);
+M2C_UNK silence_sound(M2C_UNK, M2C_UNK);
 struct X4_VisualObj* func_8002C398(void);
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 s32 func_8002CAB4(void*);
 M2C_UNK func_8002CD6C(void*);
 M2C_UNK func_8002F288(M2C_UNK*);
@@ -59,7 +59,7 @@ void func_800F1EC4(void* self) {
             func_80049EBC(self, 0, 0x20, 0x20);
             func_80049EBC(self, 0, 0x20, 0x20);
             func_80049EBC(self, 0, 0x20, 0x20);
-            func_8002C9B0(self);
+            clear_object_slot(self);
             D_800CCEF6 = 0;
             U8(0xA8) = 0;
             return;
@@ -164,7 +164,7 @@ void func_800F1EC4(void* self) {
             S8(0x4) = 2;
             S8(0x3) = 0;
             func_80049E50(self);
-            func_8001750C(2, 8);
+            silence_sound(2, 8);
         } else {
             func_80049EBC(self, 0, 0x1F, 0x1F);
         }

@@ -1,13 +1,13 @@
 #include "common.h"
 
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 
 void func_8004FF7C(void* arg0, s32 arg1) {
     u8 t;
     u8* p;
 
     t = arg1;
-    p = func_8002BBF4();
+    p = enemy_slot_alloc();
     if (p != 0) {
         p[0] = 0x41;
         p[1] = 0xF;

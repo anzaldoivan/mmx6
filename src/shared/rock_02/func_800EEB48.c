@@ -5,8 +5,8 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20 (*(s32*)0x1F800020)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 void* func_8002C458();
 extern M2C_UNK g_Player;
@@ -63,9 +63,9 @@ void func_800EEB48(void* arg0) {
         // !FAKE: depin: dropping it breaks the match (60/89)
         register s32 off asm("$6") = *(s32*)(idx * 4 + base + 4);
         M2C_FIELD(arg0, s32*, 0x3C) = base + off;
-        ((void (*)(void*, s32, s32))func_800179A4)(arg0, 0xF, off);
+        ((void (*)(void*, s32, s32))set_animation)(arg0, 0xF, off);
     }
-    func_80016C48(2, 9, arg0);
+    play_sound(2, 9, arg0);
     p = func_8002C458();
     if (p != 0) {
         u8 o = M2C_FIELD(arg0, u8*, 0);

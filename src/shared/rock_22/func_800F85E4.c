@@ -4,8 +4,8 @@
 
 #define F32(p, o) (*(s32*)((u8*)(p) + (o)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 void* func_8002C458();
 M2C_UNK move_object(s32);
@@ -51,7 +51,7 @@ void func_800F85E4(struct X4_MainObj* self) {
                 self->x_speed = -0x40000;
             }
             self->y_speed = 0;
-            func_800179A4(self, 0x20);
+            set_animation(self, 0x20);
         } else if (f & 4) {
             if (D_800970AA > self->x_pos.i.hi) {
                 self->unk15 = 0x40;
@@ -61,30 +61,30 @@ void func_800F85E4(struct X4_MainObj* self) {
                 self->x_speed = -0x40000;
             }
             self->y_speed = 0;
-            func_800179A4(self, 0x27);
+            set_animation(self, 0x27);
         } else {
             if (f & 2) {
                 if (D_800970AE > self->y_pos.i.hi) {
                     self->y_speed = -0x40000;
-                    func_800179A4(self, 0x25);
+                    set_animation(self, 0x25);
                 } else {
                     self->y_speed = 0x40000;
-                    func_800179A4(self, 0x21);
+                    set_animation(self, 0x21);
                 }
                 self->unk15 = 0;
             } else {
                 if (D_800970AE > self->y_pos.i.hi) {
                     self->y_speed = -0x40000;
-                    func_800179A4(self, 0x25);
+                    set_animation(self, 0x25);
                 } else {
                     self->y_speed = 0x40000;
-                    func_800179A4(self, 0x21);
+                    set_animation(self, 0x21);
                 }
                 self->unk15 = 0x40;
             }
             self->x_speed = 0;
         }
         self->unk6++;
-        func_80016C48(2, 0x6E, self);
+        play_sound(2, 0x6E, self);
     }
 }

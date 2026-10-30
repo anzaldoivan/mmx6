@@ -3,10 +3,10 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object(void*);
-s32 func_8002D2D4();
+s32 random_byte();
 void func_800F513C(struct X4_AnimatedObj* arg0, u8 arg1);
 void func_800F5360(void*, s32);
 
@@ -26,15 +26,15 @@ void func_800F21E8(void* arg0) {
             }
             if (SH(arg0, 0xA) <= SH(arg0, 0x84)) {
                 SH(arg0, 0x84) =
-                    UH(arg0, 0xA) - ((func_8002D2D4() & 0x1F) | 0x20);
+                    UH(arg0, 0xA) - ((random_byte() & 0x1F) | 0x20);
                 func_800F513C(arg0, 0x12);
             }
         } else {
             if (UB(arg0, 0x70) & 1) {
             hit:
-                func_80016C48(2, 0x12, arg0);
+                play_sound(2, 0x12, arg0);
                 func_80012D9C(8);
-                func_800179A4(arg0, 0xB);
+                set_animation(arg0, 0xB);
                 {
                     // !FAKE: depin: dropping it breaks the match (78/81)
                     register s32 c asm("$2") = UB(arg0, 6);
@@ -44,7 +44,7 @@ void func_800F21E8(void* arg0) {
             }
             if (SH(arg0, 0xA) >= SH(arg0, 0x84)) {
                 SH(arg0, 0x84) =
-                    UH(arg0, 0xA) + ((func_8002D2D4() & 0x1F) | 0x20);
+                    UH(arg0, 0xA) + ((random_byte() & 0x1F) | 0x20);
                 func_800F513C(arg0, 0x12);
             }
         }

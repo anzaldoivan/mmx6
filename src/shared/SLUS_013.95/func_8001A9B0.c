@@ -15,10 +15,10 @@ void func_8001B90C(u32 arg0);
 void func_8001B984(s32);
 
 extern X4_RECT D_80010090;
-extern u16 D_80070CA4[];
-extern u16 D_800C456C[];
-extern u8 D_800C4578[];
-#define DB_DISP(i) (*(X4_DISPENV*)(D_800C4578 + (i) * 0xF0))
+extern u16 str_movie_table[];
+extern u16 g_pad1_buttons[];
+extern u8 g_draw_info_buffers[];
+#define DB_DISP(i) (*(X4_DISPENV*)(g_draw_info_buffers + (i) * 0xF0))
 extern s8 D_800E2E65;
 extern s32 D_800E2E6C;
 extern s32 D_800E2E70;
@@ -47,9 +47,9 @@ void func_8001A9B0(void) {
     func_8001B984(1);
     D_800E2E65 = 1;
     done = ((s32(*)(s32, s32, s32, s32, s32, s32, s32, s32, s32,
-                    s32))func_8001B6D0)(0xF3, 1, D_80070CA4[2], D_800E2E7C,
-                                        D_80070CA4[3], D_800E2E74, D_800E2E78,
-                                        D_800E2E70, 1, 1);
+                    s32))func_8001B6D0)(0xF3, 1, str_movie_table[2], D_800E2E7C,
+                                        str_movie_table[3], D_800E2E74,
+                                        D_800E2E78, D_800E2E70, 1, 1);
     D_800E2E6C = 0;
     if (done == 0) {
         do {
@@ -62,7 +62,7 @@ void func_8001A9B0(void) {
             func_8001B784();
             VSync(0);
             func_80012A34();
-            if (D_800C456C[2] & D_80070CA4[5]) {
+            if (g_pad1_buttons[2] & str_movie_table[5]) {
                 done = 1;
             }
             PutDispEnv(&DB_DISP(D_800E2E6C));
@@ -76,8 +76,8 @@ void func_8001A9B0(void) {
     DrawSync(0);
     func_8001B7A8();
     ((void (*)(s32))SetDispMask)(0);
-    D_800C456C[2] = 0;
-    D_800C456C[0] = 0;
+    g_pad1_buttons[2] = 0;
+    g_pad1_buttons[0] = 0;
     DB_DISP(0) = D_800E2E88[0];
     DB_DISP(1) = D_800E2E88[1];
     D_800E2E6C ^= 1;

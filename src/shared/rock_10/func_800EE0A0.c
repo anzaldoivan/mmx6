@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 extern u8 D_800FC15C[];
 
 void func_800EE0A0(struct X4_MainObj* self) {
@@ -20,7 +20,7 @@ void func_800EE0A0(struct X4_MainObj* self) {
     self->sprite_frames = parent->sprite_frames;
     self->unk15 = parent->unk15;
     self->bg_offset = parent->bg_offset;
-    ((void (*)(void*, s32))func_800179A4)(self, 7);
+    ((void (*)(void*, s32))set_animation)(self, 7);
     switch (self->unk2 & 0xFE) {
     case 2:
     case 4:

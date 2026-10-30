@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8003B114(s32);
+M2C_UNK end_dash(s32);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 M2C_UNK func_801ECD90(void*, M2C_UNK);
 
@@ -13,7 +13,7 @@ M2C_UNK func_801ECD90(void*, M2C_UNK);
 void func_801EC504(void* arg0) {
     if (F_S8(arg0, 0xD3) != 0) {
         F_S8(arg0, 0x8E) = 0;
-        func_8003B114((s32)arg0);
+        end_dash((s32)arg0);
         return;
     }
     if (F_S8(arg0, 0x6) == 0) {
@@ -35,6 +35,6 @@ void func_801EC504(void* arg0) {
     if (F_S8(arg0, 0x46) == 0) {
         F_S8(arg0, 0x8E) = 0;
         F_S8(arg0, 0x7A) = 0;
-        func_8003B114((s32)arg0);
+        end_dash((s32)arg0);
     }
 }

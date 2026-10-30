@@ -6,13 +6,13 @@
 #define SPAD20 (*(s32*)0x1F800020)
 #define SPAD4C (*(u8**)0x1F80004C)
 
-M2C_UNK func_80021760(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8002A47C(s32);
 void* func_8002C458();
 M2C_UNK move_object(s32);
 M2C_UNK func_800F82C0();
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_800F2EBC(void* arg0) {
     void* p;
@@ -50,7 +50,7 @@ void func_800F2EBC(void* arg0) {
         func_800F82C0(arg0);
         {
             // !FAKE: depin: dropping it breaks the match (92/96)
-            register void* e asm("$2") = &D_800CCED0;
+            register void* e asm("$2") = &g_playthrough_state;
             M2C_FIELD(e, u8*, 0x24) = 0;
             M2C_FIELD(e, s32*, 0x20) = 0;
         }
@@ -59,6 +59,6 @@ void func_800F2EBC(void* arg0) {
             register s32 t asm("$3") = M2C_FIELD(arg0, u8*, 6) + 1;
             M2C_FIELD(arg0, u8*, 6) = t;
         }
-        func_80021760(5, 0xFF, 0);
+        open_text_box(5, 0xFF, 0);
     }
 }

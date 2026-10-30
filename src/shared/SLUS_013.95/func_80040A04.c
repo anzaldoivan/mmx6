@@ -4,13 +4,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002D2D4();
+s32 random_byte();
 extern struct X4_PlayerObj g_Player;
 
 void func_80040A04(struct X4_PlayerObj* arg0) {
     s32 ang;
 
-    M2C_FIELD(arg0, s16*, 0x7C) = (func_8002D2D4() % 13) + 4;
+    M2C_FIELD(arg0, s16*, 0x7C) = (random_byte() % 13) + 4;
     {
         s32 px = g_Player.x_pos.i.hi;
         s32 py = g_Player.y_pos.i.hi;
@@ -25,7 +25,7 @@ void func_80040A04(struct X4_PlayerObj* arg0) {
     } else {
         arg0->unk15 = 0;
     }
-    switch (func_8002D2D4() % 3) {
+    switch (random_byte() % 3) {
     case 0:
         break;
     case 1:

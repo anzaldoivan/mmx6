@@ -6,12 +6,12 @@
 #define SPAD20 (*(s32*)0x1F800020)
 
 M2C_UNK func_80017A04();
-M2C_UNK func_80021760(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8002A47C(s32);
 void* func_8002C458();
 M2C_UNK move_object(void*);
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_800FAC10(void* arg0) {
     void* p;
@@ -37,15 +37,15 @@ void func_800FAC10(void* arg0) {
         }
         k = M2C_FIELD(arg0, s8*, 2);
         if (k == 0) {
-            func_80021760(4, 0xFF, 0);
+            open_text_box(4, 0xFF, 0);
         } else {
             if (k == 1) {
-                u8* e = (u8*)&D_800CCED0;
-                func_80021760(1, 0xFF, e[0x2E]);
+                u8* e = (u8*)&g_playthrough_state;
+                open_text_box(1, 0xFF, e[0x2E]);
                 e[0x2E] = 1;
             } else {
-                u8* e = (u8*)&D_800CCED0;
-                func_80021760(0, 0xFF, e[0x2E]);
+                u8* e = (u8*)&g_playthrough_state;
+                open_text_box(0, 0xFF, e[0x2E]);
                 e[0x2E] = 1;
             }
         }

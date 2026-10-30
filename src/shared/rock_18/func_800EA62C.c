@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_800139A0(M2C_UNK);
-M2C_UNK func_8002B838();
+M2C_UNK reset_level();
 void func_800ED50C(u8 arg0, s8 arg1, s16 arg2, s16 arg3);
 void func_800ED58C(u8, s8, s16, s16, u8);
 void func_800ED61C(s32, s32, s32, s32);
@@ -12,7 +12,7 @@ extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_80097427;
 
 void func_800EA62C(u8* arg0) {
-    ((void (*)())func_8002B838)();
+    ((void (*)())reset_level)();
     if (*(u8*)D_80070CC4 != 0xFF) {
         D_80097427 = 0;
         func_800ED58C(0x1F, 0, 0x108, 0x80, 0);

@@ -4,17 +4,17 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800139A0(M2C_UNK);                 /* extern */
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*); /* extern */
-void func_80029F38();                           /* extern */
-M2C_UNK func_8002B36C(M2C_UNK);                 /* extern */
-M2C_UNK func_8002B6B0();                        /* extern */
+M2C_UNK func_800139A0(M2C_UNK);              /* extern */
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
+void func_80029F38();                        /* extern */
+M2C_UNK func_8002B36C(M2C_UNK);              /* extern */
+M2C_UNK func_8002B6B0();                     /* extern */
 extern s8 D_8008EAB0;
 extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_ObjectHeader D_80097420;
 extern u8 D_800C4560;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s16 D_800F782C[][16];
 
 void func_800EE9C4(void* arg0) {
@@ -40,20 +40,20 @@ void func_800EE9C4(void* arg0) {
         case 2:
             if (g_Player.unk2 == 0) {
                 M2C_FIELD(arg0, s16*, 0x7E) = 0;
-                D_800CCED0.checkpoint = 1;
+                g_playthrough_state.checkpoint = 1;
                 D_8008EAB0 = 1;
             } else {
                 M2C_FIELD(arg0, s16*, 0x7E) = 1;
-                D_800CCED0.checkpoint = temp_a1_2;
+                g_playthrough_state.checkpoint = temp_a1_2;
                 D_8008EAB0 = 1;
             }
             break;
         case 3:
-            D_800CCED0.checkpoint = 3;
+            g_playthrough_state.checkpoint = 3;
             M2C_FIELD(arg0, s16*, 0x7E) = 2;
             break;
         case 4:
-            D_800CCED0.checkpoint = 3;
+            g_playthrough_state.checkpoint = 3;
             M2C_FIELD(arg0, s16*, 0x7E) = 3;
             break;
         }
@@ -68,7 +68,7 @@ void func_800EE9C4(void* arg0) {
             g_Player.y_pos.i.hi--;
         }
         g_Player.spike_immune = 0;
-        D_800CCED0.gameplay_locked = 0;
+        g_playthrough_state.gameplay_locked = 0;
         g_Player.nova_strike_active = 0;
         g_Player.unk18.val = g_Player.x_pos.val;
         g_Player.unk1C.val = g_Player.y_pos.val;
@@ -123,6 +123,6 @@ void func_800EE9C4(void* arg0) {
         background_objects[1].unk44 = 0;
         background_objects[2].unk44 = 0;
         M2C_FIELD(arg0, u8*, 6) = M2C_FIELD(arg0, u8*, 6) + 1;
-        func_80016C48(1, 1, arg0);
+        play_sound(1, 1, arg0);
     }
 }

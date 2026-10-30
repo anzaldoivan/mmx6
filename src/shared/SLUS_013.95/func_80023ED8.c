@@ -4,13 +4,13 @@
 
 extern X4_P_TAG* D_8008EB08[2][4][8];
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_DrawInfo* D_8009B7A0;
+extern struct X4_DrawInfo* g_cur_draw_info;
 
 #define SCR_BUF (*(s32*)0x1F800000)
 #define SCR_PRIM (*(u8**)0x1F800100)
 #define SCR_TPAGE (*(u32**)0x1F800104)
 #define SCR_COUNT (*(s32*)0x1F800124)
-#define OT_78 ((X4_P_TAG*)((u8*)D_8009B7A0 + 0x78))
+#define OT_78 ((X4_P_TAG*)((u8*)g_cur_draw_info + 0x78))
 #define SETADDR(p, a) (((X4_P_TAG*)(p))->addr = (u32)(a))
 #define GETADDR(p) (((X4_P_TAG*)(p))->addr)
 

@@ -11,6 +11,9 @@
       -> per pair one disagreement planted in memory into one instrument's result must be DISAGREE; a pair whose
          instrument raises must be NOT-RUN and counted; log .run/harness/selftest.log (never runs.log); ends
          `HARNESS CONTROL OK` (rc 0), else rc 1.
+  harness.py --self-test --sampled|--full
+      -> the self-test, then (only if it passed; else rc 1, no run) the run, in one process: P2's real gather (the
+         compiles) happens once, the self-test's result reused by the run (in memory; P3 is never reused) (T19).
 
 Pairs (A vs B; each side calls an existing instrument, never re-implements it, G33):
   P1 matched?    corpus.parse_c C definitions (all programs) vs corpus.fleet_c_names() (object FUNC symbols); (prog, name).
@@ -343,10 +346,14 @@ def emit(lines, path):
             print(x if x.startswith("HARNESS ") else f"HARNESS {x}", flush=True)  # stdout: `HARNESS <utc> P<n> … of <N>`
 
 
+P2_CACHE = {}  # 2 -> self_test's real p2_gather result, reused by run() in the same process (T19); never P3
+
+
 def run(sel):
     lines, d = [], 0
     for n in sel:
-        ln, bad = judge(n, PAIRS[n][1], PAIRS[n][2])
+        gather = (lambda: P2_CACHE[2]) if n in P2_CACHE else PAIRS[n][1]
+        ln, bad = judge(n, gather, PAIRS[n][2])
         lines.append(ln)
         d += bad
     lines.append(f"HARNESS {d} disagreements in {len(sel)} pairs")
@@ -401,6 +408,8 @@ def self_test():
             gather = lambda: (bins_sha1(), bins_sha1())  # noqa: E731
         try:
             g = gather()
+            if n == 2:
+                P2_CACHE[2] = g  # plant() builds new lists: the cached gather stays the real one
             real = compare(*g)[0]
         except (Exception, SystemExit) as e:
             ok(False, f"P{n} {q} gather raised {type(e).__name__}")
@@ -422,14 +431,18 @@ def self_test():
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    g = ap.add_mutually_exclusive_group(required=True)
+    g = ap.add_mutually_exclusive_group()
     g.add_argument("--sampled", action="store_true")
     g.add_argument("--full", action="store_true")
-    g.add_argument("--self-test", action="store_true")
+    ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
+    if not (a.sampled or a.full or a.self_test):
+        ap.error("one of --sampled, --full, --self-test is required")
     os.chdir(os.path.join(HERE, "..", ".."))
-    if a.self_test:
-        return self_test()
+    if a.self_test and self_test():
+        return 1
+    if not (a.sampled or a.full):
+        return 0
     return run(FULL if a.full else SAMPLED)
 
 

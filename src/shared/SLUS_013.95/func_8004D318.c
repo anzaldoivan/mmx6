@@ -6,9 +6,9 @@
 #define F32(p, off) (*(s32*)((u8*)(p) + (off)))
 
 extern struct X4_BackgroundObj background_objects[3];
-extern u16 D_8009B79C;
-struct X4_QuadObj* func_8002C7F0(void);
-M2C_UNK func_8002C9B0();
+extern u16 g_screen_width;
+struct X4_QuadObj* alloc_class6_slot(void);
+M2C_UNK clear_object_slot();
 void func_8004D598(void* arg0);
 
 void func_8004D318(struct X4_QuadObj* self) {
@@ -19,8 +19,8 @@ void func_8004D318(struct X4_QuadObj* self) {
     if (self->unk2 == 0) {
         dx = self->x_pos.i.hi - background_objects[self->bg_offset].x_pos.i.hi;
         dy = self->y_pos.i.hi - background_objects[self->bg_offset].y_pos.i.hi;
-        if (dx < 0 || D_8009B79C < dx || dy < 0 || dy >= 0xF1) {
-            ((M2C_UNK(*)())func_8002C9B0)(self);
+        if (dx < 0 || g_screen_width < dx || dy < 0 || dy >= 0xF1) {
+            ((M2C_UNK(*)())clear_object_slot)(self);
             return;
         }
         if (F32(self, 0x38) == 0) {
@@ -30,18 +30,18 @@ void func_8004D318(struct X4_QuadObj* self) {
                 F32(self, 0x3C) = 0xF0 - dy;
             }
         } else if (F32(self, 0x38) == 0x400) {
-            if (D_8009B79C - dx < dx) {
+            if (g_screen_width - dx < dx) {
                 F32(self, 0x3C) = dx;
             } else {
-                F32(self, 0x3C) = D_8009B79C - dx;
+                F32(self, 0x3C) = g_screen_width - dx;
             }
         } else {
             F32(self, 0x3C) = dx;
             if (dx < dy) {
                 F32(self, 0x3C) = dy;
             }
-            if (F32(self, 0x3C) < D_8009B79C - dx) {
-                F32(self, 0x3C) = D_8009B79C - dx;
+            if (F32(self, 0x3C) < g_screen_width - dx) {
+                F32(self, 0x3C) = g_screen_width - dx;
             }
             if (F32(self, 0x3C) < 0xF0 - dy) {
                 F32(self, 0x3C) = 0xF0 - dy;
@@ -51,7 +51,7 @@ void func_8004D318(struct X4_QuadObj* self) {
         F32(self, 0x50) = rcos(F32(self, 0x38));
         F32(self, 0x4C) = rsin(F32(self, 0x38));
         F32(self, 0x54) = -rsin(F32(self, 0x38));
-        q = func_8002C7F0();
+        q = alloc_class6_slot();
         if (q != 0) {
             q->active = self->active;
             q->id = self->id;

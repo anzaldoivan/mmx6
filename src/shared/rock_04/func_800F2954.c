@@ -5,12 +5,12 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern M2C_UNK D_800F76B8;
 
@@ -29,9 +29,9 @@ void func_800F2954(struct X4_BaseObj* self) {
     if (self->state != st) {
         goto end;
     }
-    if (func_80031474(self) < 0) {
+    if (check_enemy_hits(self) < 0) {
         if (!(self->unk2 & 0xF0)) {
-            func_80016C48(2, 0x17, self);
+            play_sound(2, 0x17, self);
             func_80012D9C(8);
         }
         goto kill;
@@ -39,7 +39,7 @@ void func_800F2954(struct X4_BaseObj* self) {
     if (func_80030ECC(self) != 0) {
         switch (self->unk2 & 0xF0) {
         case 0:
-            func_80016C48(2, 0x17, self);
+            play_sound(2, 0x17, self);
             func_80012D9C(8);
         case 0x10:
         kill:

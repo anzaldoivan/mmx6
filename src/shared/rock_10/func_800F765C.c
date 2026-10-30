@@ -4,13 +4,13 @@
 #define SCR_20 (*(s32**)0x1F800020)
 
 s32 func_8002A47C(s32);
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 extern s8 D_800CCEDC;
 
 void func_800F765C(void* arg0, u8 arg1) {
     void* p;
 
-    p = func_8002BBF4();
+    p = enemy_slot_alloc();
     if (p != 0) {
         M2C_FIELD(p, u8*, 0) = 0x41;
         M2C_FIELD(p, u8*, 1) = 0x33;

@@ -270,7 +270,7 @@ INCLUDE_ASM("asm/rock_04/nonmatchings/E9860", func_800F0F64);
 
 #include "../shared/rock_04/func_800F1490.c"
 
-#include "../shared/rock_04/func_800F14B0.c"
+#include "../shared/rock_04/init_wolfang_ice_spike.c"
 
 #include "../shared/rock_04/func_800F1738.c"
 
@@ -304,7 +304,7 @@ INCLUDE_ASM("asm/rock_04/nonmatchings/E9860", func_800F25A0);
 
 #include "../shared/rock_04/func_800F2CC4.c"
 
-INCLUDE_ASM("asm/rock_04/nonmatchings/E9860", func_800F2E8C);
+INCLUDE_ASM("asm/rock_04/nonmatchings/E9860", update_blizzard_wolfang);
 
 #define func_80041AB8 func_800F2EE8
 #define D_80075FD8 D_800F7550

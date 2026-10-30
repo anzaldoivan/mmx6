@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002D2D4();
+s32 random_byte();
 
 extern s32 D_800F6738;
 extern s32 D_800F673C;
@@ -17,7 +17,7 @@ void func_800EF8C8(void* self) {
     s32 t;
     s32 u;
 
-    a = (func_8002D2D4() * 8) & 0x7FF;
+    a = (random_byte() * 8) & 0x7FF;
     t = rcos(a) << 4;
     S32(0x20) = t * 4 + t;
     u = rsin(a) << 4;

@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 void func_8003B954(struct X4_PlayerObj* self);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
@@ -19,7 +19,7 @@ void func_80038144(void* arg0) {
     } else {
         if (M2C_FIELD(arg0, s8*, 0x45) & 0x80) {
             M2C_FIELD(arg0, u8*, 0x45) = 0;
-            func_80016C48(0, 0x21, 0);
+            play_sound(0, 0x21, 0);
         }
         if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
             func_8003BA04(arg0, 0x28);

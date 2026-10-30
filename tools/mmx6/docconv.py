@@ -18,7 +18,9 @@ Rules (line refs 1-based)
   DC2 no build path: no comment line holds a drive path, /Users/ /home/ /work/ /tmp/ /sdk/ /disc/ /mnt/ /private/,
       or `Source:`.
   DC3 header: each file-scope function definition is preceded by a `//` block opening `// 0x<8 HEX> <name>: <purpose>`
-      (address from config/symbols.<P>.txt or a func_ name; purpose >= 3 words).
+      (address from config/symbols.<P>.txt or a func_ name; purpose >= 3 words). Exempt (with DC4-DC6): a `static inline`
+      helper with no address (not in config/symbols.<P>.txt, no func_ name); it may carry a short header
+      `// <name>: <purpose>` (name matches, purpose >= 3 words) or none.
   DC4 basis: `// basis: <kind> <ref>` matching a config/symbols/basis.tsv row (prog, vram, kind; ref >= 8 chars inside
       basis-ref), or `// basis: none` for a func_ name.
   DC5 callers: `// callers: a, b` (names from any config/symbols.*.txt) or `// callers: none known`.
@@ -59,6 +61,7 @@ SYMLINE = re.compile(r"^\s*([A-Za-z_]\w*)\s*=\s*0x([0-9A-Fa-f]+)\s*;")
 HEAD = re.compile(r"^// 0x([0-9A-F]{8}) ([A-Za-z_]\w*): (.*)$")
 BASISLINE = re.compile(r"^// basis: (\S+)(?: (.+))?$")
 CALLERS = re.compile(r"^// callers: (.+)$")
+SHORTHEAD = re.compile(r"^// ([A-Za-z_]\w*): (.*)$")
 FUNCNAME = re.compile(r"^func_([0-9A-Fa-f]{8})$")
 STRUCT = re.compile(r"^\s*(?:typedef\s+struct(?:\s+\w+)?|struct\s+\w+)\s*\{")
 FNAME = re.compile(r"([A-Za-z_]\w*)\s*\($")
@@ -229,7 +232,9 @@ def check_file(rel, text, tables, root=ROOT):
                     else:
                         fm = FNAME.search(stmt.split("(", 1)[0].rstrip() + "(")
                         if "(" in stmt and "=" not in stmt.split("(", 1)[0] and fm:
-                            fails.extend(check_func(rel, lines, start, fm.group(1), prog, tables))
+                            words = re.findall(r"\w+", stmt.split("(", 1)[0])
+                            helper = "static" in words and ("inline" in words or "__inline__" in words)
+                            fails.extend(check_func(rel, lines, start, fm.group(1), prog, tables, helper))
                     stmt = None
                     depth += 1
                     continue
@@ -246,11 +251,19 @@ def check_file(rel, text, tables, root=ROOT):
     return fails
 
 
-def check_func(rel, lines, start, name, prog, tables):
+def check_func(rel, lines, start, name, prog, tables, helper=False):
     syms, names, basis, strs = tables
     ln = start + 1
     out = []
     block = block_above(lines, start)
+    if helper and not FUNCNAME.match(name) and (prog is None or name not in syms[prog]):
+        # a static inline helper has no symbol: no address header, basis or callers; a short header is checked
+        s = SHORTHEAD.match(block[0]) if block else None
+        if s and s.group(1) != name:
+            out.append(f"{rel}:{ln} DC3 header names {s.group(1)}, function is {name}")
+        elif s and len(s.group(2).split()) < 3:
+            out.append(f"{rel}:{ln} DC3 {name}: purpose under 3 words")
+        return out
     h = HEAD.match(block[0]) if block else None
     if not h:
         return [f"{rel}:{ln} DC3 {name}: no `// 0x<ADDR> {name}: <purpose>` header block"]
@@ -349,6 +362,11 @@ typedef struct Thing {
 
 int do_thing(Thing* t);
 
+// put_thing: stores the planted field
+static inline void put_thing(Thing* t) {
+    t->a = 1;
+}
+
 // 0x80010000 do_thing: returns the planted field
 // basis: x4 abcdef123456
 // callers: func_80010040
@@ -364,12 +382,16 @@ int do_thing(Thing* t) {
 void func_80010040(void) {
     do_thing(0);
 }
+
+static inline int peek_thing(Thing* t) {
+    return t->b;
+}
 """
 SHARED_LINE = "// Shared file: included by src/P/tu.c, between do_thing and func_80010040."
 SHARED_TU = '#include "../shared/P/s.c"\n'
 HEADER_H = "// prog P | system test | range -\nint do_thing(void* t);\n"
 TREE = {
-    "config/symbols.P.txt": "// planted\ndo_thing = 0x80010000;\nfunc_80010040 = 0x80010040;\n",
+    "config/symbols.P.txt": "// planted\ndo_thing = 0x80010000;\nfunc_80010040 = 0x80010040;\ndo_thing2 = 0x80010080;\n",
     "config/symbols/basis.tsv": "# prog\tvram\tname\tbasis-kind\tbasis-ref\ttier\n"
                                 "P\t0x80010000\tdo_thing\tx4\texact abcdef123456 planted/ref\tgate\n",
     "config/oracle.strnames.tsv": "# planted\n# unit\tvram\tname\nP\t0x80010040\tfunc_80010040\n",
@@ -387,13 +409,16 @@ def selftest():
         ("DC1s", None, ["src/shared/P/s.c:1 DC1"]),
         ("DC1", mut("0x80010000-0x80010100", "0x80010100-0x80010000"), ["src/b.c:1 DC1"]),
         ("DC2", mut("// A planted file", "// Built in /tmp/x: a planted file"), ["src/b.c:2 DC2"]),
-        ("DC3", mut("returns the planted field", "returns field"), ["src/b.c:17 DC3"]),
-        ("DC4", mut("basis: x4 abcdef123456", "basis: x4 abcdef999999"), ["src/b.c:17 DC4"]),
-        ("DC5", mut("callers: func_80010040", "callers: nosuch_fn"), ["src/b.c:17 DC5"]),
-        ("DC6", mut("// str 0x80010050", "// st 0x80010050"), ["src/b.c:25 DC6"]),
+        ("DC3", mut("returns the planted field", "returns field"), ["src/b.c:22 DC3"]),
+        ("DC4", mut("basis: x4 abcdef123456", "basis: x4 abcdef999999"), ["src/b.c:22 DC4"]),
+        ("DC5", mut("callers: func_80010040", "callers: nosuch_fn"), ["src/b.c:22 DC5"]),
+        ("DC6", mut("// str 0x80010050", "// st 0x80010050"), ["src/b.c:30 DC6"]),
         ("DC7", mut("// unreferenced", "// a field"), ["src/b.c:8 DC7"]),
-        ("DC7r", mut("(+0x0, int), the", "(0x0) the"), ["src/b.c:17 DC7"]),
-        ("DC8", mut("keeps the register order", "keeps order"), ["src/b.c:18 DC8"]),
+        ("DC7r", mut("(+0x0, int), the", "(0x0) the"), ["src/b.c:22 DC7"]),
+        ("DC3i", mut("// put_thing: stores the planted field", "// put_thing: stores it"), ["src/b.c:14 DC3"]),
+        ("DC3s", mut("static inline void put_thing", "void put_thing"), ["src/b.c:14 DC3"]),
+        ("DC3a", mut("static inline int peek_thing", "static inline int do_thing2"), ["src/b.c:34 DC3"]),
+        ("DC8", mut("keeps the register order", "keeps order"), ["src/b.c:23 DC8"]),
     ]
     rc = 0
     try:

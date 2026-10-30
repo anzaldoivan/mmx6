@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void* func_8002C458();
 extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
@@ -30,9 +30,9 @@ void func_800EA2A8(void* self) {
             S_FACE(self) = 0;
         }
         if (S_FACE(self) == 0) {
-            func_800179A4(self, 6);
+            set_animation(self, 6);
         } else {
-            func_800179A4(self, 0x18);
+            set_animation(self, 0x18);
         }
         S_STATE(self)++;
         S_TIMER(self) = 0;
@@ -52,9 +52,9 @@ void func_800EA2A8(void* self) {
                 S_FACE(self) = 0;
             }
             if (S_FACE(self) == 0) {
-                func_800179A4(self, 8);
+                set_animation(self, 8);
             } else {
-                func_800179A4(self, 0x1A);
+                set_animation(self, 0x1A);
             }
             S_TIMER(self) = 0;
             S_STATE(self) = 3;
@@ -65,9 +65,9 @@ void func_800EA2A8(void* self) {
                 S_FACE(self) = 0;
             }
             if (S_FACE(self) == 0) {
-                func_800179A4(self, 7);
+                set_animation(self, 7);
             } else {
-                func_800179A4(self, 0x19);
+                set_animation(self, 0x19);
             }
             S_STATE(self)++;
         }
@@ -87,9 +87,9 @@ void func_800EA2A8(void* self) {
                 S_FACE(self) = 0;
             }
             if (S_FACE(self) == 0) {
-                func_800179A4(self, 8);
+                set_animation(self, 8);
             } else {
-                func_800179A4(self, 0x1A);
+                set_animation(self, 0x1A);
             }
             S_TIMER(self) = 0;
             S_STATE(self) = 3;
@@ -105,9 +105,9 @@ void func_800EA2A8(void* self) {
                 S_FACE(self) = 0;
             }
             if (S_FACE(self) == 0) {
-                func_800179A4(self, 6);
+                set_animation(self, 6);
             } else {
-                func_800179A4(self, 0x18);
+                set_animation(self, 0x18);
             }
             S_STATE(self)++;
             S_TIMER(self) = 0;

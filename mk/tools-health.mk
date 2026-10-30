@@ -2,9 +2,9 @@
 # `make fleet`). One rung per phase tool: a rung runs the tool's --self-test, then its real run; later tasks append
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
-TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-harness th-types th-declsync th-propagate th-carve th-remap \
+TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-types th-declsync th-propagate th-carve th-remap \
 	th-walls th-draw th-validate th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau th-journal th-cards \
-	th-verbatim th-harvest th-scaffold th-ledger
+	th-verbatim th-harvest th-scaffold th-ledger th-harness
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -55,12 +55,12 @@ th-report: th-census
 
 # The differential harness (tools/mmx6/harness.py; needs the corpus, bound2 and census outputs): planted
 # disagreement per pair + NOT-RUN control, then the sampled pairs P1 P2 P4-P8 (build/harness/runs.log; last line
-# `HARNESS <d> disagreements in <p> pairs`, rc 0 iff d = 0).
+# `HARNESS <d> disagreements in <p> pairs`, rc 0 iff d = 0); one process, P2 compiled once (T19). Last rung (T19).
 th-harness: th-corpus th-optscan th-bound2 th-census th-draw
-	$(PYTHON) tools/mmx6/harness.py --self-test && $(PYTHON) tools/mmx6/harness.py --sampled
+	$(PYTHON) tools/mmx6/harness.py --self-test --sampled
 
 th-harness-full: th-corpus th-optscan th-bound2 th-census th-draw
-	$(PYTHON) tools/mmx6/harness.py --self-test && $(PYTHON) tools/mmx6/harness.py --full
+	$(PYTHON) tools/mmx6/harness.py --self-test --full
 
 # One home for types (tools/mmx6/typecheck.py; text only, no deps): planted dup/raw-cast/outside/unkeyable controls,
 # then `--all` (last line `TYPES <d> definitions <s> shapes of <f> files; duplicates <n>; raw casts <m>`, rc 0 iff none).

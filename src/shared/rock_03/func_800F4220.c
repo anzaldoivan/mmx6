@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void* func_8002C458();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern s8 D_800CCEDF;
@@ -24,7 +24,7 @@ void func_800F4220(u8* arg0) {
                 obj[0] = b;
             }
             *(s32*)(arg0 + 0x24) = 0xFFFF0000;
-            func_800179A4(arg0, 0);
+            set_animation(arg0, 0);
             {
                 // !FAKE: depin: dropping it breaks the match (43/46)
                 register s32 t asm("$2") = arg0[6] + 1;

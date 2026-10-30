@@ -61,10 +61,10 @@ INCLUDE_ASM("asm/rock_35/nonmatchings/FA000", func_800FCC94);
 INCLUDE_ASM("asm/rock_35/nonmatchings/FA000", func_800FCD50);
 
 #define func_800F1678 func_800FCDC4
-#define D_800CCED0 D_800CCED0
+#define g_playthrough_state g_playthrough_state
 #include "../shared/rock_05/func_800F1678.c"
 #undef func_800F1678
-#undef D_800CCED0
+#undef g_playthrough_state
 
 INCLUDE_ASM("asm/rock_35/nonmatchings/FA000", func_800FCE28);
 

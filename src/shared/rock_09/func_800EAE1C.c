@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void func_800EB284();
 extern s16 D_800970AA;
 
@@ -21,6 +21,6 @@ void func_800EAE1C(void* arg0) {
     body:
         func_800EB284(arg0);
         UB(arg0, 6)++;
-        func_800179A4(arg0, 1);
+        set_animation(arg0, 1);
     }
 }

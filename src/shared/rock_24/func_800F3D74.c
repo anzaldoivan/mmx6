@@ -4,13 +4,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04(void*);
 s32 func_8002A47C(s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
 M2C_UNK func_80030ECC(void*, s16);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
@@ -36,7 +36,7 @@ void func_800F3D74(void* arg0) {
         M2C_FIELD(arg0, u8*, 4)++;
         return;
     }
-    if ((func_80031474(arg0) < 0) ||
+    if ((check_enemy_hits(arg0) < 0) ||
         (((s32(*)(void*))func_80030ECC)(arg0) != 0)) {
         func_80049E50(arg0);
         M2C_FIELD(arg0, u8*, 4)++;
@@ -57,7 +57,7 @@ void func_800F3D74(void* arg0) {
             b = func_8002A47C(M2C_FIELD(q, s8*, 1));
             base = D_1F800020;
             M2C_FIELD(arg0, u8**, 0x3C) = base + ((s32*)base)[b + 1];
-            func_800179A4(arg0, 0x20);
+            set_animation(arg0, 0x20);
             {
                 // !FAKE: depin: dropping it breaks the match (190/194)
                 register void* t0 asm("$2") = D_800F76C0;

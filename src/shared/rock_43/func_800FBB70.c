@@ -4,13 +4,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04(void*);
 void* func_8002C458();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(void*);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern s32 D_800FDE30;
 extern s32 D_800FE208;
@@ -24,7 +24,7 @@ void func_800FBB70(struct X4_MainObj* self) {
         self->state++;
         return;
     }
-    if (func_80031474(self) < 0) {
+    if (check_enemy_hits(self) < 0) {
         func_80049E50(self);
         self->state++;
         return;
@@ -49,7 +49,7 @@ void func_800FBB70(struct X4_MainObj* self) {
         break;
     case 1:
         if (++M2C_FIELD(self, s32*, 0x90) == 4) {
-            func_800179A4(self, 0xD);
+            set_animation(self, 0xD);
             {
                 // !FAKE: depin: dropping it breaks the match (110/114)
                 register void* a asm("$2") = &D_800FE208;

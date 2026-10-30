@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_8004E78C(M2C_UNK);
 extern struct X4_PlayerObj g_Player;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_8004E0A8(u8* arg0, u8 arg1, s32 arg2) {
     u8 n;
@@ -22,7 +22,7 @@ void func_8004E0A8(u8* arg0, u8 arg1, s32 arg2) {
         u8* pl0 = (u8*)&g_Player;
         u8* e0;
         n = arg2;
-        e0 = (u8*)&D_800CCED0;
+        e0 = (u8*)&g_playthrough_state;
         hi = pl0[0x5C] & 0x80;
         x = (s8)pl0[2];
         b = (pl0[0x5C] & 0x7F) < ((s8*)(e0 - -x))[0x5B];
@@ -39,7 +39,7 @@ void func_8004E0A8(u8* arg0, u8 arg1, s32 arg2) {
         arg0[4] = 3;
     }
     pl = (u8*)&g_Player;
-    e = (u8*)&D_800CCED0;
+    e = (u8*)&g_playthrough_state;
     {
         s32 y = (s8)pl[2];
         if ((pl[0x5C] & 0x7F) >= ((s8*)(e - -y))[0x5B]) {
@@ -58,9 +58,9 @@ void func_8004E0A8(u8* arg0, u8 arg1, s32 arg2) {
                 v = v + n * 2;
                 if (v >= 0x20) {
                     v = 0x20;
-                    func_80016C48(0, 0x18, 0);
+                    play_sound(0, 0x18, 0);
                 } else {
-                    func_80016C48(0, 0x17, 0);
+                    play_sound(0, 0x17, 0);
                 }
                 *p = v | 0x80;
                 return;

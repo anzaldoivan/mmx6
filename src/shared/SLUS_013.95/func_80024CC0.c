@@ -2,8 +2,8 @@
 #include "mmx6/x4.h"
 
 extern s16 D_80071DCC[][3];
-extern struct X4_DrawInfo* D_8009B7A0;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_DrawInfo* g_cur_draw_info;
+extern struct X4_EngineObj g_playthrough_state;
 
 #define SP_1C (*(u8**)SP(0x01C))
 #define SP_3C (*(u8**)SP(0x03C))
@@ -57,7 +57,7 @@ void func_80024CC0(s32 arg0, u8 arg1) {
             x = D_80071DCC[arg0][0] + (s8)src[2];
             y = D_80071DCC[arg0][1] + (s8)src[3];
             if ((u32)(arg0 - 0xE) < 2) {
-                e = (s8*)&D_800CCED0;
+                e = (s8*)&g_playthrough_state;
                 y += ((e[0x8C] - 0x20) >> 1) << 1;
             }
             {
@@ -88,7 +88,7 @@ void func_80024CC0(s32 arg0, u8 arg1) {
             count--;
         } while (count != 0);
     }
-    ot = &D_8009B7A0->ordering_table.unk5[0];
+    ot = &g_cur_draw_info->ordering_table.unk5[0];
     PW(p, -0x10) = (PW(p, -0x10) & 0xFF000000) | (*ot & 0xFFFFFF);
     *ot = (*ot & 0xFF000000) | ((u32)TPAGE_NEXT & 0xFFFFFF);
     PRIM_NEXT = p;

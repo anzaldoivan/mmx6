@@ -7,13 +7,13 @@
 #define S16(p, o) (*(s16*)((u8*)(p) + (o)))
 #define FP(p, o) (*(void**)((u8*)(p) + (o)))
 
-void func_80025FD8();
+void set_boss_level();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 void func_800EF164();
 
 extern u8 D_800E9860[];
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern void* D_800F70E0;
 
 void func_800ED124(void* arg0) {
@@ -27,15 +27,15 @@ void func_800ED124(void* arg0) {
     }
     v = *(s8*)D_800F70E0;
     if (v == 0) {
-        D_800CCED0.enable_boss = 1;
-        D_800CCED0.unk25 = 1;
-        FP(&D_800CCED0, 0x20) = arg0;
-        F8(&D_800CCED0, 0x8C) = 0x30;
-        func_80025FD8();
+        g_playthrough_state.enable_boss = 1;
+        g_playthrough_state.unk25 = 1;
+        FP(&g_playthrough_state, 0x20) = arg0;
+        F8(&g_playthrough_state, 0x8C) = 0x30;
+        set_boss_level();
         {
-            u8 c = F8(&D_800CCED0, 0x8C);
-            add = tbl[F8(&D_800CCED0, 0x8F)];
-            F8(&D_800CCED0, 0x8C) = c + add;
+            u8 c = F8(&g_playthrough_state, 0x8C);
+            add = tbl[F8(&g_playthrough_state, 0x8F)];
+            F8(&g_playthrough_state, 0x8C) = c + add;
         }
         F16(arg0, 0xA) = background_objects[0].unk26 + 0xF0;
         {

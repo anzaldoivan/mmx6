@@ -9,7 +9,7 @@
 #define FU16(p, o) (*(u16*)((u8*)(p) + (o)))
 #define F32(p, o) (*(s32*)((u8*)(p) + (o)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 M2C_UNK move_object(s32);
 M2C_UNK func_8002F288(M2C_UNK*);
@@ -69,7 +69,7 @@ void func_800F2BDC(struct X4_MainObj* self) {
     if ((self->collision_flags & ~SP_CUR_MAIN_OBJ->ext.main_19.unk82) ||
         r < 0x38 || near) {
         if (SP_CUR_MAIN_OBJ->ext.main_19.animation_index < 2) {
-            func_800179A4(self, 0xB);
+            set_animation(self, 0xB);
             {
                 // !FAKE: depin: dropping it breaks the match (159/165)
                 register s32 six asm("$2") = 6;
@@ -82,7 +82,7 @@ void func_800F2BDC(struct X4_MainObj* self) {
                 SP_CUR_MAIN_OBJ->ext.main_19.unk80 ^= 1;
             }
         } else {
-            func_800179A4(self, 0xA);
+            set_animation(self, 0xA);
             {
                 s32 six = 6;
                 // !FAKE: depin: dropping it breaks the match (156/165)

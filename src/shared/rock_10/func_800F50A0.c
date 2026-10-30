@@ -5,7 +5,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object(s32);
 extern M2C_UNK D_8007433C;
 extern struct X4_PlayerObj g_Player;
@@ -56,7 +56,7 @@ block7:
     }
 end:
     if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
-        func_800179A4(arg0, 6);
+        set_animation(arg0, 6);
         {
             // !FAKE: depin: dropping it breaks the match (83/90)
             register void* p asm("$2") = &D_8007433C;

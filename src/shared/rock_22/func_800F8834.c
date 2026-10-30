@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 M2C_UNK move_object(s32);
 
@@ -18,10 +18,10 @@ void func_800F8834(void* arg0) {
         if (flags & 1) {
             if (flags & 4) {
                 F_S32(arg0, 0x24) = -0x40000;
-                ((void (*)(void*, s32))func_800179A4)(arg0, 0x25);
+                ((void (*)(void*, s32))set_animation)(arg0, 0x25);
             } else {
                 F_S32(arg0, 0x24) = 0x40000;
-                ((void (*)(void*, s32))func_800179A4)(arg0, 0x21);
+                ((void (*)(void*, s32))set_animation)(arg0, 0x21);
             }
             F_U8(arg0, 0x15) = 0x40;
             F_S32(arg0, 0x20) = 0;
@@ -32,10 +32,10 @@ void func_800F8834(void* arg0) {
         if (flags & 2) {
             if (flags & 4) {
                 F_S32(arg0, 0x24) = -0x40000;
-                ((void (*)(void*, s32))func_800179A4)(arg0, 0x25);
+                ((void (*)(void*, s32))set_animation)(arg0, 0x25);
             } else {
                 F_S32(arg0, 0x24) = 0x40000;
-                ((void (*)(void*, s32))func_800179A4)(arg0, 0x21);
+                ((void (*)(void*, s32))set_animation)(arg0, 0x21);
             }
             F_U8(arg0, 0x15) = 0;
             F_S32(arg0, 0x20) = 0;
@@ -51,7 +51,7 @@ void func_800F8834(void* arg0) {
                 F_U8(arg0, 0x15) = 0;
                 F_S32(arg0, 0x20) = -0x40000;
             }
-            ((void (*)(void*, s32))func_800179A4)(arg0, 0x27);
+            ((void (*)(void*, s32))set_animation)(arg0, 0x27);
             F_S32(arg0, 0x24) = 0;
             F_U8(arg0, 0x6)++;
         }
@@ -66,7 +66,7 @@ void func_800F8834(void* arg0) {
                 F_S32(arg0, 0x20) = -0x40000;
             }
             F_S32(arg0, 0x24) = 0;
-            ((void (*)(void*, s32))func_800179A4)(arg0, 0x20);
+            ((void (*)(void*, s32))set_animation)(arg0, 0x20);
             F_U8(arg0, 0x6)++;
         }
     }

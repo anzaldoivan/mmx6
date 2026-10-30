@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 extern struct X4_BackgroundObj background_objects[3];
-extern u8 D_800B91C0[];
+extern u8 g_bg_sprite_prims[];
 
 void func_800269F4(u8 arg0);
 void func_80026E20(s32 arg0);
@@ -30,7 +30,7 @@ void func_80026D44(void) {
     bg = background_objects;
     func_800273E4();
     i = 0;
-    SP_PRIM_PTR = (SP_BUF << 14) + D_800B91C0;
+    SP_PRIM_PTR = (SP_BUF << 14) + g_bg_sprite_prims;
     do {
         if (bg->unk3 != 0) {
             func_80026E20(i);

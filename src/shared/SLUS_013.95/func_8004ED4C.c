@@ -3,11 +3,11 @@
 #include "mmx6/x4.h"
 
 extern struct X4_PlayerObj g_Player;
-extern struct X4_EngineObj D_800CCED0;
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+extern struct X4_EngineObj g_playthrough_state;
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 void func_8004FE58(s32, s8);
 
-#define ENG ((u8*)&D_800CCED0)
+#define ENG ((u8*)&g_playthrough_state)
 #define ENG5B (((struct X4_EngineObj*)(ENG - -g_Player.unk2))->sub_tanks[-1])
 
 void func_8004ED4C(u8* arg0, u8 arg1, u8 a2) {
@@ -49,7 +49,7 @@ void func_8004ED4C(u8* arg0, u8 arg1, u8 a2) {
                 }
                 if ((c = v < 0x20, c) == 0) {
                     v = 0x20;
-                    func_80016C48(0, 0x18, 0);
+                    play_sound(0, 0x18, 0);
                 }
                 *p = v | 0x80;
                 return;

@@ -10,7 +10,7 @@
 void func_80012FA0(void* arg0);
 void func_80013008(void);
 void func_80013128(void);
-M2C_UNK func_80013300(M2C_UNK, M2C_UNK*);
+M2C_UNK create_task(M2C_UNK, M2C_UNK*);
 void load_rock_dat_file_table(void);
 void func_800163A4(void);
 void load_rock_bin_file_table(void);
@@ -22,11 +22,11 @@ void func_8001CB3C(void);
 
 extern X4_RECT D_8006D87C;
 extern s32 D_8008EC0C;
-extern u16 D_80090D6A;
+extern u16 g_wide_mode;
 extern u16 D_80090E70;
 extern s16 D_8009741A;
-extern u16 D_8009B79C;
-extern struct X4_DrawInfo* D_8009B7A0;
+extern u16 g_screen_width;
+extern struct X4_DrawInfo* g_cur_draw_info;
 extern u8 D_800C458C[];
 extern u8 D_800CF870[];
 extern u8 D_800CF908[];
@@ -42,13 +42,13 @@ void func_80012658(void) {
     void* a;
     void* b;
 
-    D_80090D6A = 0;
-    D_8009B79C = 0x140;
+    g_wide_mode = 0;
+    g_screen_width = 0x140;
     ResetCallback();
     StopCallback();
     ResetGraph(0);
     InitGeom();
-    SetGeomOffset(D_8009B79C >> 1, 0x78);
+    SetGeomOffset(g_screen_width >> 1, 0x78);
     SetGeomScreen(0x200);
     InitCARD(0);
     StartCARD();
@@ -63,20 +63,20 @@ void func_80012658(void) {
     ChangeClearPAD(0);
     ClearImage(&D_8006D87C, 0, 0, 0);
     DrawSync(0);
-    SetDefDrawEnv(p, 0, 0, D_8009B79C, 0xF0);
-    SetDefDispEnv(a, 0, 0xF0, D_8009B79C, 0xF0);
-    SetDefDrawEnv(p + 0xF0, 0, 0xF0, D_8009B79C, 0xF0);
+    SetDefDrawEnv(p, 0, 0, g_screen_width, 0xF0);
+    SetDefDispEnv(a, 0, 0xF0, g_screen_width, 0xF0);
+    SetDefDrawEnv(p + 0xF0, 0, 0xF0, g_screen_width, 0xF0);
     b = p + 0xDC;
-    SetDefDispEnv(b, 0, 0, D_8009B79C, 0xF0);
+    SetDefDispEnv(b, 0, 0, g_screen_width, 0xF0);
     r[0] = 0;
     r[1] = 0;
     r[3] = 0xF0;
-    r[2] = D_8009B79C;
+    r[2] = g_screen_width;
     SetDrawArea(D_800CF948, r);
     r[0] = 0;
     r[1] = 0xF0;
     r[3] = 0xF0;
-    r[2] = D_8009B79C;
+    r[2] = g_screen_width;
     SetDrawArea(D_800CF948 + 0xC, r);
     t[0] = 0;
     t[1] = 0;
@@ -87,7 +87,7 @@ void func_80012658(void) {
     func_80012FA0(a);
     func_80012FA0(b);
     func_80013128();
-    D_8009B7A0 = a;
+    g_cur_draw_info = a;
     SCRATCH0 = 0;
     D_80090E70 = 0xD37;
     load_rock_dat_file_table();
@@ -95,5 +95,5 @@ void func_80012658(void) {
     func_80013008();
     D_8008EC0C = 0;
     D_8009741A = 0x3C;
-    func_80013300(0, (M2C_UNK*)func_8001CB3C);
+    create_task(0, (M2C_UNK*)func_8001CB3C);
 }

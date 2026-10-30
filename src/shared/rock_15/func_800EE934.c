@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_800ED484(void*);
 void func_800EF0B0(void* arg0, s32 arg1);
 void func_800EF2E8(struct X4_MainObj* self);
@@ -18,7 +18,7 @@ void func_800EE934(struct X4_MainObj* self) {
             break;
         }
         func_800EF2E8(self);
-        func_800179A4(self, 3);
+        set_animation(self, 3);
         break;
     }
 }

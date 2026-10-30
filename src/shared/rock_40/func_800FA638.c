@@ -4,7 +4,7 @@
 
 M2C_UNK func_80017A04();
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 void func_800FE2FC(void* arg0);
 extern M2C_UNK D_8007433C;
@@ -23,7 +23,7 @@ void func_800FA638(void* arg0) {
     (*(void (**)(void*))((s8*)&D_800FF668 + 0x5EC +
                          (M2C_FIELD(arg0, s8*, 5) << 2)))(arg0);
     func_800FE2FC(arg0);
-    r = func_80031474(arg0);
+    r = check_enemy_hits(arg0);
     if (r < 0) {
         // !FAKE: shared kill block inside the switch arm, as retail's one copy
         goto block_kill;

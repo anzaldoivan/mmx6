@@ -5,13 +5,13 @@
 #define SCRATCH_9C (*(s32**)0x1F80009C)
 #define SCRATCH_20 (*(s32**)0x1F800020)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8002A47C(s32);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern struct X4_PlayerObj g_Player;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s32 D_800F4330;
 
 void func_800EF3FC(struct X4_MainObj* self) {
@@ -20,10 +20,10 @@ void func_800EF3FC(struct X4_MainObj* self) {
 
     func_8003D308(0x14, g_Player.unk15);
     func_80029478(0, 0, 0);
-    func_80016C48(2, 3, self);
+    play_sound(2, 3, self);
     self->unk40 = 0x440;
     self->unk42 &= 0x7FFF;
-    if (D_800CCED0.stage == 0xC) {
+    if (g_playthrough_state.stage == 0xC) {
         s32* p = SCRATCH_9C;
         s32 o = p[1];
         self->unk42 = 0x794C;
@@ -37,7 +37,7 @@ void func_800EF3FC(struct X4_MainObj* self) {
             (u8*)SCRATCH_20 + SCRATCH_20[func_8002A47C(self->id) + 1];
     }
     self->animation_table = &D_800F4330;
-    func_800179A4(self, 0);
+    set_animation(self, 0);
     {
         // !FAKE: depin: dropping it breaks the match (85/88)
         register s32 c7f asm("$2") = 0x7F;

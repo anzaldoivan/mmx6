@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-void func_800186A8(void);
+void stop_cd_audio(void);
 int func_800617A4(X4_CdlLOC* p);
 s32 func_800647F4();
 s8 func_80064874(M2C_UNK, u8*);
@@ -33,7 +33,7 @@ void func_800185B4(void) {
                         if (D_800E2E50 != 0) {
                             D_800E2E18 = 5;
                         } else {
-                            func_800186A8();
+                            stop_cd_audio();
                         }
                     }
                 }

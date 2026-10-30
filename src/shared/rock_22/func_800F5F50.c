@@ -6,7 +6,7 @@
 
 M2C_UNK func_80017A04();
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_800757DC;
@@ -30,7 +30,7 @@ void func_800F5F50(void* self) {
         func_80017A04(self);
     }
     func_80030ECC(self);
-    r = func_80031474(self);
+    r = check_enemy_hits(self);
     if (F(s8, 2) == 0) {
         if (F(u8, 0x8D) == 7) {
             struct X4_PlayerObj* pl = &g_Player;

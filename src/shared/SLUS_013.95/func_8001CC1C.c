@@ -5,7 +5,7 @@
 
 M2C_UNK func_800139A0(s8);
 void func_800139A0_2p(s32, void*); /* link-only second name */
-void* func_8002C530();
+void* alloc_sprite_slot();
 extern u8 D_80071088;
 
 void func_8001CC1C(void* arg0) {
@@ -19,7 +19,7 @@ void func_8001CC1C(void* arg0) {
 
     if (--M2C_FIELD(arg0, s16*, 4) == 0) {
         c80 = 0x80;
-        obj = func_8002C530();
+        obj = alloc_sprite_slot();
         one1 = 1;
         if (obj != 0) {
             k = 0x15;
@@ -42,7 +42,7 @@ void func_8001CC1C(void* arg0) {
             M2C_FIELD(obj, s32*, 0x3C) = t;
         }
         one = 1;
-        obj = func_8002C530();
+        obj = alloc_sprite_slot();
         if (obj != 0) {
             k = 0x15;
             obj[1] = k;

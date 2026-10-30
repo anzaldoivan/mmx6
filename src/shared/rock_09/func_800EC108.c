@@ -6,7 +6,7 @@
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 s32 func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
 void func_8004E654(struct X4_BaseObj* arg0, s8 arg1);
@@ -32,7 +32,7 @@ void func_800EC108(void* arg0) {
     }
     for (i = 0; i < 2 - M2C_FIELD(arg0, s32*, 0x88); i++) {
         M2C_FIELD(arg0, s32*, 0x54) = ((s32*)(D_800F4BF0 + 0x13D0))[i];
-        r = func_80031474(arg0);
+        r = check_enemy_hits(arg0);
         if (r < 0) {
             if (i == 0 && M2C_FIELD(arg0, s32*, 0x88) == 0) {
                 func_800ECAA0((struct X4_MainObj*)arg0);

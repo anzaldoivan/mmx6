@@ -34,8 +34,8 @@ func_800EAFFC = 0x800EAFFC; // type:func size:0x118
 func_800EB114 = 0x800EB114; // type:func size:0x1D4
 // basis: post-return 0x800eb2e0; no branch of 0x800eaa2c crosses it (1.6 T1 merge check)
 func_800EB2E8 = 0x800EB2E8; // type:func size:0x1E0
-// basis: post-return 0x800eb4c0; no branch of 0x800eaa2c crosses it (1.6 T1 merge check)
-func_800EB4C8 = 0x800EB4C8; // type:func size:0x3C
+// basis: post-return 0x800eb4c0; no branch of 0x800eaa2c crosses it (1.6 T1 merge check); name: community refs/leads/tweaks/BossHealth.tsv:1294 word 0x800EB80C match; code:src/rock_07/E9860.c:38 via=D_800F868C
+update_nightmare_pressure = 0x800EB4C8; // type:func size:0x3C
 // basis: post-return 0x800eb4fc; no branch of 0x800eaa2c crosses it (1.6 T1 merge check)
 func_800EB504 = 0x800EB504; // type:func size:0x3C
 // basis: post-return 0x800eb538; no branch of 0x800eaa2c crosses it (1.6 T1 merge check)
@@ -52,8 +52,8 @@ func_800EB770 = 0x800EB770; // type:func size:0x20
 func_800EB790 = 0x800EB790; // type:func size:0x3C
 // basis: post-return 0x800eb7c4; no branch of 0x800eaa2c crosses it (1.6 T1 merge check)
 func_800EB7CC = 0x800EB7CC; // type:func size:0x40
-// basis: post-return 0x800eb804; no branch of 0x800eaa2c crosses it (1.6 T1 merge check)
-func_800EB80C = 0x800EB80C; // type:func size:0x70
+// basis: post-return 0x800eb804; no branch of 0x800eaa2c crosses it (1.6 T1 merge check); name: community tweaks-index.tsv:182
+init_nightmare_pressure = 0x800EB80C; // type:func size:0x70
 // basis: post-return 0x800eb874; no branch of 0x800eaa2c crosses it (1.6 T1 merge check)
 func_800EB87C = 0x800EB87C; // type:func size:0x94
 // basis: post-return 0x800eb908; no branch of 0x800eaa2c crosses it (1.6 T1 merge check)

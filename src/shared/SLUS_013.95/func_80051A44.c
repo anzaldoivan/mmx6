@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80018060(M2C_UNK, M2C_UNK);
+M2C_UNK play_bgm_xa_track(M2C_UNK, M2C_UNK);
 M2C_UNK func_80018774(M2C_UNK);
 extern u8 D_800CD40C;
 
@@ -17,7 +17,7 @@ void func_80051A44(s8* arg0) {
             }
         }
     } else if (D_800CD40C == 0) {
-        ((void (*)(M2C_UNK, M2C_UNK))func_80018060)(0x1C, 0x7F);
+        ((void (*)(M2C_UNK, M2C_UNK))play_bgm_xa_track)(0x1C, 0x7F);
         {
             s32 t = (u8)arg0[5] + 1;
             arg0[6] = 0;

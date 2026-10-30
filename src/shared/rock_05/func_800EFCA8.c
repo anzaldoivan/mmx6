@@ -6,7 +6,7 @@
 #define S16(p, o) (*(s16*)((u8*)(p) + (o)))
 #define F32(p, o) (*(s32*)((u8*)(p) + (o)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 M2C_UNK move_object(void*);
 extern u8 D_800E9860[];
@@ -35,7 +35,7 @@ void func_800EFCA8(void* arg0) {
     }
     t = S16(arg0, 0x7C);
     if (t == 3) {
-        ((void (*)(void*, s32))func_800179A4)(
+        ((void (*)(void*, s32))set_animation)(
             arg0, 0); /* void fn-ptr cast at the unused result (C0103) */
         S16(arg0, 0x7C) = 0x32;
         if (S8(arg0, 0x5C) < D_800CCF5C / 8) {

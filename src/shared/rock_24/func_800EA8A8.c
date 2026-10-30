@@ -4,7 +4,7 @@
 #define F(expr, type, offset) (*(type*)((u8*)(expr) + (offset)))
 #define SPAD_4C (*(u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 void func_800EB76C(void*, s32);
 void func_800EB8B8(void*);
@@ -42,7 +42,7 @@ void func_800EA8A8(void* self) {
     F(self, u8, 0x14) = byte;
     F(self, s32, 0x18) = d;
     F(self, s32, 0x1C) = c;
-    ((void (*)(void*, s32, s32, u8))func_800179A4)(self, 0, c, byte);
+    ((void (*)(void*, s32, s32, u8))set_animation)(self, 0, c, byte);
     F(self, u8, 0x3) = 0;
     F(self, s32, 0x68) = 0;
     F(self, void*, 0x50) = &D_800F669C;

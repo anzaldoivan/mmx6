@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230();
@@ -31,7 +31,7 @@ void func_800EE78C(void* arg0) {
     }
     if ((UB(arg0, 0x70) & 2) && W(arg0, 0x20) < 0) {
     hit:
-        func_80016C48(2, 0x11, arg0);
+        play_sound(2, 0x11, arg0);
         func_800477E4(3, &D_800F6CE0, arg0);
         {
             // !FAKE: depin: dropping it breaks the match (81/83)
@@ -49,7 +49,7 @@ void func_800EE78C(void* arg0) {
         W(arg0, 0x24) = 0x21000;
         W(arg0, 0x2C) = 0x1080;
         func_8002943C(8, 2, 2);
-        func_80016C48(2, 0x11, arg0);
+        play_sound(2, 0x11, arg0);
     }
     func_8002F288(arg0);
 }

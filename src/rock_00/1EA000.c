@@ -146,13 +146,13 @@ INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EC678);
 
 #include "../shared/rock_00/func_801ED36C.c"
 
-#include "../shared/rock_00/func_801ED524.c"
+#include "../shared/rock_00/init_shuriken_buster.c"
 
 #include "../shared/rock_00/func_801ED898.c"
 
 #include "../shared/rock_00/func_801EDA64.c"
 
-#include "../shared/rock_00/func_801EDCB0.c"
+#include "../shared/rock_00/update_shadow_armor_attack.c"
 
 #define func_80041AB8 func_801EE05C
 #define D_80075FD8 D_801F37E4

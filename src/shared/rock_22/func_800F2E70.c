@@ -10,7 +10,7 @@
 
 M2C_UNK func_80017A04();
 void* func_8002C458();
-s32 func_8002D2D4();
+s32 random_byte();
 void set_velocity_from_angle(void*, s32);
 extern s16 D_800FC6D8[];
 
@@ -21,7 +21,7 @@ void func_800F2E70(u8* arg0) {
     if (F8(arg0, 0x46) < 0) {
         F8(arg0, 5) = 2;
         F8(arg0, 6) = 0;
-        F8(SPAD, 0x80) = func_8002D2D4() & 1;
+        F8(SPAD, 0x80) = random_byte() & 1;
         return;
     }
     if (F8(arg0, 0x45) != 0) {

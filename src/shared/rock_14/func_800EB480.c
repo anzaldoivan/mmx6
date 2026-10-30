@@ -5,7 +5,7 @@
 
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void func_800EB6C8(struct X4_MainObj*);
 extern struct X4_PlayerObj g_Player;
 extern u8 D_800ED700[];
@@ -28,9 +28,9 @@ void func_800EB480(struct X4_BaseObj* self) {
             a += 0x800;
             tbl = D_800ED748;
             SPAD[0x8C] = tbl[a >> 8];
-            func_800179A4(self, SPAD[0x8C]);
+            set_animation(self, SPAD[0x8C]);
         } else {
-            func_800179A4(self, SPAD[0x8C]);
+            set_animation(self, SPAD[0x8C]);
         }
         self->unk6++;
     }

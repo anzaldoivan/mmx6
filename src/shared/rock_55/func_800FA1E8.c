@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_80097424;
 extern s8 D_800CCF08;
@@ -20,7 +20,7 @@ void func_800FA1E8(u8* arg0) {
             *(s16*)(arg0 + 0xA) = 9;
         }
         *(s16*)(arg0 + 4) = 0;
-        func_80016C48(0, 5, 0);
+        play_sound(0, 5, 0);
         arg0[1]++;
     }
 }

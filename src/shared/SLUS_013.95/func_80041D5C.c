@@ -6,7 +6,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
-s32 func_8002D2D4();
+s32 random_byte();
 void func_80042A9C(struct X4_MainObj* self, s32);
 void func_80042C18(struct X4_MainObj* self);
 extern struct X4_PlayerObj g_Player;
@@ -22,7 +22,7 @@ void func_80041D5C(struct X4_MainObj* self) {
             return;
         }
         func_80042C18(self);
-        ang = func_8002D2D4() * 0x10;
+        ang = random_byte() * 0x10;
         {
             struct X4_PlayerObj* p = &g_Player;
             M2C_FIELD(self, u16*, 0x84) = p->x_pos.i.hi;

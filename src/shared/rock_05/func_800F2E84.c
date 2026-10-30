@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_80030ECC(void*);
 extern void (*D_800F4458[])(struct X4_MainObj*);
 
@@ -15,6 +15,6 @@ void func_800F2E84(struct X4_MainObj* self) {
     D_800F4458[self->unk5](self);
     if (s0[4] == 2) {
         self->on_screen = 0;
-        func_8002C9B0(self);
+        clear_object_slot(self);
     }
 }

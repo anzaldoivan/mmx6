@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8002C9B0(); /* extern */
+M2C_UNK clear_object_slot(); /* extern */
 extern s8 D_800970A5;
 extern u16 D_800CF856;
 
@@ -15,7 +15,7 @@ void func_8004AE1C(u8* p, s32 arg1) {
     s32 off;
 
     if (D_800970A5 != F8(5) || D_800CF856 != 0x1F) {
-        func_8002C9B0(p, arg1);
+        clear_object_slot(p, arg1);
         return;
     }
     if (F8(4) == 0) {

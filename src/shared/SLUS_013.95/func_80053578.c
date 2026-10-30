@@ -1,18 +1,18 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_EngineObj D_800CCED0;
-void* func_8002C3F8();
+extern struct X4_EngineObj g_playthrough_state;
+void* alloc_class3_slot();
 
 void func_80053578(u8* arg0) {
     u8* temp_v0;
 
-    if (((u32)((u8)D_800CCED0.stage - 1) < 8U) &&
-        ((D_800CCED0.unk60 >> (D_800CCED0.stage - 1)) & 1)) {
-        D_800CCED0.unkF = 1;
+    if (((u32)((u8)g_playthrough_state.stage - 1) < 8U) &&
+        ((g_playthrough_state.unk60 >> (g_playthrough_state.stage - 1)) & 1)) {
+        g_playthrough_state.unkF = 1;
         return;
     }
-    temp_v0 = ((u8 * (*)()) func_8002C3F8)();
+    temp_v0 = ((u8 * (*)()) alloc_class3_slot)();
     if (temp_v0 != 0) {
         temp_v0[0] = 1;
         temp_v0[1] = 4;

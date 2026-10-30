@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 void func_80012D9C(s32);
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
 extern s8 D_800CCEF6;
 
@@ -20,7 +20,7 @@ void func_8004755C(Probe800473EC* arg0) {
         q -= (u16)arg0->unk16;
         arg0->unk16 = q;
         UNK20(arg0) = arg0->unk1C;
-        func_80016C48(2, 0x23, 0);
+        play_sound(2, 0x23, 0);
         func_80012D9C(5);
         {
             // !FAKE: depin: dropping it breaks the match (68/70)
@@ -37,7 +37,7 @@ void func_8004755C(Probe800473EC* arg0) {
     if (--arg0->unk16 == 0) {
         func_80029478(0x3C, 2, 2);
         arg0->unk5 = 4;
-        func_80016C48(2, 0x23, 0);
+        play_sound(2, 0x23, 0);
         func_80012D9C(5);
         {
             s32 t = arg0->unk1C;

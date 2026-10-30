@@ -10,7 +10,7 @@ M2C_UNK move_object(s32);
 s32 func_8002D654(s8*, u8*);
 M2C_UNK func_8002EE10(void*);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049D90(void*);
 M2C_UNK func_80049E50(void*);
 extern struct X4_PlayerObj g_Player;
@@ -22,7 +22,7 @@ void func_800F42AC(void* arg0) {
     func_80017A04();
     move_object(arg0);
     func_80030ECC(arg0);
-    if (func_80031474(arg0) < 0) {
+    if (check_enemy_hits(arg0) < 0) {
         func_80049E50(arg0);
         v = 2;
         // !FAKE: shared state store block with the 0x70 arm

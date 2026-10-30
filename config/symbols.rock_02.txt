@@ -4,5 +4,11 @@
 D_800E9860 = 0x800E9860;
 // basis: first code word after header (+0x330); spans the returns at 0x800e9bd0 (its branches target past those returns)
 func_800E9B90 = 0x800E9B90; // type:func size:0x90
+// basis: name: community refs/leads/tweaks/BossHealth.tsv:234 word 0x800EFF4C match; code:src/shared/rock_02/update_d1000.c:19 via=D_800FB198
+update_d1000 = 0x800EFED0; // type:func
+// basis: name: community tweaks-index.tsv:279
+init_high_max_intro = 0x800F1724; // type:func
+// basis: name: community refs/leads/tweaks/BossHealth.tsv:284 word 0x800F21B0 match; code:src/rock_02/E9860.c:523 via=func_800F5170
+update_high_max_intro = 0x800F5170; // type:func
 // basis: data trailing words after the last function's jr ra; no jr ra in [0x800f9f68, 0x800fbc80), 1862 words, 795 pointer-valued
 D_800F9F68 = 0x800F9F68; // type:s32 size:0x1D18

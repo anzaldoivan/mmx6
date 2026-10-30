@@ -5,10 +5,10 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 struct X4_VisualObj* func_8002C398(void);
-s32 func_8002D2D4();
+s32 random_byte();
 
 extern s32 D_8007429C;
 extern M2C_UNK D_8007433C;
@@ -32,7 +32,7 @@ extern M2C_UNK D_800F6F80;
 #define SPAWN_CHILDREN()                                                       \
     {                                                                          \
         U16(0xA) -= 0x20;                                                      \
-        func_80016C48(2, 0x73, self);                                          \
+        play_sound(2, 0x73, self);                                             \
         for (i = 0; i < 8; i++) {                                              \
             c = func_8002C398();                                               \
             if (c != NULL) {                                                   \
@@ -92,12 +92,12 @@ void func_800F0D08(void* self) {
         U8(0x60) = 6;
         U8(0x5C) = 0x10;
         U8(0x7) = 0;
-        ((void (*)(void*, s32))func_800179A4)(self, 0);
+        ((void (*)(void*, s32))set_animation)(self, 0);
         U8(0x16) = 4;
         U8(0x5) = 0;
     } else if ((U8(0x2) & 0xF) == 1) {
         SPAWN_CHILDREN();
-        ((void (*)(void*, s32))func_800179A4)(self, 0);
+        ((void (*)(void*, s32))set_animation)(self, 0);
         U8(0x60) = 6;
         U8(0x5C) = 0x10;
         U8(0x16) = 4;
@@ -105,15 +105,15 @@ void func_800F0D08(void* self) {
     } else if ((U8(0x2) & 0xF) == 2) {
         SPAWN_CHILDREN();
         U8(0x3) = 1;
-        ((void (*)(void*, s32))func_800179A4)(self, 0);
+        ((void (*)(void*, s32))set_animation)(self, 0);
         U8(0x60) = 6;
         U8(0x5C) = 0x30;
         U8(0x16) = 3;
         U8(0x5) = 6;
         U8(0x75) = 1;
-        U16(0x90) = ((u32)func_8002D2D4() % 19 & 0xFF) * 10 + 0x78;
+        U16(0x90) = ((u32)random_byte() % 19 & 0xFF) * 10 + 0x78;
     } else if ((U8(0x2) & 0xF) == 3) {
-        func_80016C48(2, 0x75, self);
+        play_sound(2, 0x75, self);
         U8(0x60) = 2;
         dx = g_Player.x_pos.i.hi - S16(0xA);
         dy = g_Player.y_pos.i.hi - S16(0xE);
@@ -127,9 +127,9 @@ void func_800F0D08(void* self) {
         PTR(0x54) = &D_800F6F48;
         U8(0x16) = 3;
         U8(0x5) = 5;
-        ((void (*)(void*, s32))func_800179A4)(self, 0xC);
+        ((void (*)(void*, s32))set_animation)(self, 0xC);
     } else if ((U8(0x2) & 0xF) == 4) {
-        ((void (*)(void*, s32))func_800179A4)(self, 0);
+        ((void (*)(void*, s32))set_animation)(self, 0);
         U8(0x16) = 6;
         U8(0x5) = 7;
         U16(0x8C) = 0x5A;
@@ -138,13 +138,13 @@ void func_800F0D08(void* self) {
     } else if ((U8(0x2) & 0xF) == 5) {
         U16(0xA) -= 0x10;
         U16(0xE) += 8;
-        ((void (*)(void*, s32))func_800179A4)(self, 1);
+        ((void (*)(void*, s32))set_animation)(self, 1);
         U8(0x16) = 5;
         U8(0x5) = 7;
         U16(0x8C) = 0x5A;
     } else if ((U8(0x2) & 0xF) == 6) {
         U8(0x60) = 0xA;
-        ((void (*)(void*, s32))func_800179A4)(self, 2);
+        ((void (*)(void*, s32))set_animation)(self, 2);
         U8(0x5) = 7;
         U8(0x16) = 5;
         PTR(0x50) = &D_800F6F68;
@@ -155,7 +155,7 @@ void func_800F0D08(void* self) {
         U8(0x60) = 0xA;
         U16(0xA) -= 0x108;
         U16(0xE) += 8;
-        ((void (*)(void*, s32))func_800179A4)(self, 3);
+        ((void (*)(void*, s32))set_animation)(self, 3);
         U8(0x16) = 6;
         U8(0x5) = 7;
         PTR(0x50) = &D_800F6F6C;
@@ -163,19 +163,19 @@ void func_800F0D08(void* self) {
     } else if ((U8(0x2) & 0xF) == 8) {
         U16(0xA) -= 0xA0;
         U16(0xE) += 8;
-        ((void (*)(void*, s32))func_800179A4)(self, 6);
+        ((void (*)(void*, s32))set_animation)(self, 6);
         U8(0x16) = 5;
         U8(0x5) = 7;
         U16(0x8C) = 0x18;
     } else if ((U8(0x2) & 0xF) == 9) {
         U8(0x16) = 6;
-        ((void (*)(void*, s32))func_800179A4)(self, 7);
+        ((void (*)(void*, s32))set_animation)(self, 7);
         U8(0x5) = 8;
         U16(0x8C) = 0xA0;
     } else if ((U8(0x2) & 0xF) == 10) {
         U8(0x16) = 5;
         U8(0x60) = 0xA;
-        ((void (*)(void*, s32))func_800179A4)(self, 8);
+        ((void (*)(void*, s32))set_animation)(self, 8);
         U8(0x5) = 8;
         U8(0x6) = 2;
         PTR(0x50) = &D_800F6F80;
@@ -185,14 +185,14 @@ void func_800F0D08(void* self) {
         U8(0x60) = 0xC;
         U16(0xA) -= 0x10;
         U16(0xE) += 0x10;
-        ((void (*)(void*, s32))func_800179A4)(self, 9);
+        ((void (*)(void*, s32))set_animation)(self, 9);
         U8(0x5) = 9;
     } else if ((U8(0x2) & 0xF) == 12) {
         U8(0x60) = 0xC;
         U8(0x16) = 5;
         U16(0xA) -= 0x10;
         U16(0xE) += 0x10;
-        ((void (*)(void*, s32))func_800179A4)(self, 9);
+        ((void (*)(void*, s32))set_animation)(self, 9);
         U8(0x15) = 0x40;
         U8(0x5) = 9;
     } else if ((U8(0x2) & 0xF) == 13) {

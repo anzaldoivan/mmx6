@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-s32 func_8002D2D4();
+s32 random_byte();
 extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800F729C[];
 
@@ -31,7 +31,7 @@ void func_800EB0A0(void* arg0) {
             }
         } else if (b - background_objects[0].y_pos.i.hi < 0x78) {
         y_near:
-            UH(arg0, 0x7C) = D_800F729C[func_8002D2D4() & 7];
+            UH(arg0, 0x7C) = D_800F729C[random_byte() & 7];
             UB(arg0, 6) = UB(arg0, 6) + 1;
         }
     }

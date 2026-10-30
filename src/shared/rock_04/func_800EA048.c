@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void* func_8002C458();
 extern struct X4_PlayerObj g_Player;
 extern s32 D_800F6720;
@@ -39,7 +39,7 @@ void func_800EA048(void* self) {
     S_TIMER(self)++;
     switch (S_STATE(self)) {
     case 0:
-        ((void (*)(void*, s32))func_800179A4)(self, 3);
+        ((void (*)(void*, s32))set_animation)(self, 3);
         S_TIMER(self) = 0;
         S_STATE(self)++;
         break;
@@ -47,14 +47,14 @@ void func_800EA048(void* self) {
         if (ABS(g_Player.x_pos.i.hi - S_X(self)) < 0xB5) {
             goto attack;
         } else if (S_TIMER(self) % 200 == 0) {
-            ((void (*)(void*, s32))func_800179A4)(self, 4);
+            ((void (*)(void*, s32))set_animation)(self, 4);
             S_STATE(self)++;
         }
         break;
     case 2:
         if (ABS(g_Player.x_pos.i.hi - S_X(self)) < 0xB5) {
         attack:
-            func_800179A4(self, 5);
+            set_animation(self, 5);
             S_TIMER(self) = 0;
             S_STATE(self) = 3;
         } else if (S_46(self) == 0) {

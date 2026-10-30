@@ -16,7 +16,7 @@ Where a symbol name comes from, what proves it, and which tool records the proof
    verbatim.
 2. Tier `bytes` with scope `engine` (exact signature, body still assembly) takes it once the function is banked in C.
 3. Scope `object` (an mmx4 enemy, weapon, effect or the like): rename the role in X6 terms. The role comes from
-   dispatch-table identity, three oracle datapoints, or a string. A function called from several objects gets a
+   dispatch-table identity, three runtime datapoints (emulator frames), or a string. A function called from several objects gets a
    neutral name for its behaviour. Without any of these it stays `func_`.
 4. The mmx4 name stays as an alias (`config/x4/names.tsv`, `docs/x4-names.md`). These rows are leads only:
    a `slot` row, a near match, a row without a corroborator. A lead is never a symbol on its own.
@@ -39,10 +39,27 @@ Where a symbol name comes from, what proves it, and which tool records the proof
 ## config/symbols/basis.tsv
 - TAB-separated, one `#` header line: `prog vram name basis-kind basis-ref tier`, sorted by (prog, vram, basis-kind).
 - Kinds: `x4` (an mmx4 partnership, basis-ref = the names.tsv basis plus `; corroborator ...`), `string`,
-  `xref`, `oracle`, `debug`, `community`.
+  `xref`, `oracle`, `debug`, `community`, `sdk`, `code`.
 - Only `--promote` writes `x4` rows, and it rewrites them every run. Never copy one in by hand. Hand rows of the
   other kinds are written by people and kept verbatim by `--promote`.
 - The rename tool (a later task) writes each symbol's `// basis:` line in `config/symbols.<prog>.txt` from this file.
+
+## Standard v2 (Changes 2026-10-30)
+- Runtime evidence (emulator frames) is never required. When it is given, it is a full basis on its own.
+- Basis kind `code`: a tracked C line plus a named anchor, `code:<path>:<line> via=<anchor>[; ...]`
+  (path under src/ or include/, the anchor a whole word on that line). `namesqueue.py check` verifies every
+  code ref. It supports engine words only, unless a game-word source also exists.
+- A name has two parts. Identification: an X6 basis that tells this symbol apart from its nearest alternative.
+  Words: engine words, or game words. Game words need a recorded source (US text, US manual, the Tweaks workbook,
+  a wiki), never model memory.
+- No word may be more specific than its support. An uncertain row stays a placeholder or takes engine words.
+  It never takes a hedged name.
+- Review: each batch has a refuter. It checks every row with game words or an outside lead, plus 1 in 5 of the
+  engine-word rows. Each checked row gets `ok`, `fix`, `reject` or `unsure`. The developer reviews the game-word rows
+  and every row that did not get `ok`.
+- Tweaks workbook (acediez): a row whose address or cited instruction words match our bytes is enough on its own to
+  identify the X6 symbol. The community-tier cap is lifted for it, and the queue gives it
+  `consistent-with-bytes`. Its wording is a game-word source. A workbook row that does not match stays a lead.
 
 ## Upstream (`x4names.py --upstream`)
 - `config/x4/upstream.tsv`: for each hand basis row whose X6 function has a single mmx4 partner under a different

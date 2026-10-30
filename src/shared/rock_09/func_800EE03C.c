@@ -5,7 +5,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20 (*(s32**)0x1F800020)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 extern u32* D_80095098;
 extern s32 D_800F62B0;
@@ -28,6 +28,6 @@ void func_800EE03C(s8* self) {
     M2C_FIELD(self, void**, 0x68) = &D_800F62D8;
     M2C_FIELD(self, s32*, 0x54) = 0;
     M2C_FIELD(self, s8*, 0x75) = 0;
-    ((void (*)(void*, s32))func_800179A4)(self, 0);
+    ((void (*)(void*, s32))set_animation)(self, 0);
     M2C_FIELD(self, s8*, 0x4)++;
 }

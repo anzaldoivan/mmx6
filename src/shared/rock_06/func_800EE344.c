@@ -4,11 +4,11 @@
 #define NULL ((void*)0)
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*); /* extern */
-M2C_UNK func_8001750C(M2C_UNK, M2C_UNK);        /* extern */
-s32 func_8002A47C(s32);                         /* extern */
-void* func_8002C32C();                          /* extern */
-struct X4_VisualObj* func_8002C398(void);       /* extern */
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
+M2C_UNK silence_sound(M2C_UNK, M2C_UNK);     /* extern */
+s32 func_8002A47C(s32);                      /* extern */
+void* func_8002C32C();                       /* extern */
+struct X4_VisualObj* func_8002C398(void);    /* extern */
 
 void func_800EE344(void* arg0) {
     s32 m;
@@ -62,7 +62,7 @@ void func_800EE344(void* arg0) {
                     M2C_FIELD(o, void**, 0x50) = arg0;
                     M2C_FIELD(o, u8*, 0x15) = M2C_FIELD(arg0, u8*, 0x15);
                 }
-                func_80016C48(2, 8, 0);
+                play_sound(2, 8, 0);
             }
         }
         break;
@@ -110,7 +110,7 @@ void func_800EE344(void* arg0) {
                     M2C_FIELD(arg0, u8*, 0x7F) |= 1 << i;
                 }
                 M2C_FIELD(arg0, u8*, 0x7E) = 0x10;
-                func_80016C48(2, 6, 0);
+                play_sound(2, 6, 0);
                 M2C_FIELD(arg0, u8*, 0x94) = 0;
                 M2C_FIELD(arg0, u16*, 0xA6) = 0;
                 break;
@@ -118,7 +118,7 @@ void func_800EE344(void* arg0) {
         }
         M2C_FIELD(arg0, u8*, 0x94) = 0;
         M2C_FIELD(arg0, u16*, 0xA6) = 0;
-        func_8001750C(2, 8);
+        silence_sound(2, 8);
         break;
     }
 }

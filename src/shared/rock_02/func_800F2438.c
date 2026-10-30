@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20 (*(s8**)0x1F800020)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 s32 func_8002A47C(s32);
 void* func_8002C458();
@@ -47,7 +47,7 @@ void func_800F2438(void* arg0) {
                 SPAD20 + M2C_FIELD(func_8002A47C(0x37) * 4 + SPAD20, s32*, 4);
             M2C_FIELD(child, u16*, 0x40) = M2C_FIELD(arg0, u16*, 0x40);
             M2C_FIELD(child, void**, 0x7C) = arg0;
-            func_80016C48(2, 0x1C, arg0);
+            play_sound(2, 0x1C, arg0);
         }
     } else if (M2C_FIELD(arg0, s8*, 0x45) == 1) {
         M2C_FIELD(arg0, s16*, 0x7C) = 0;

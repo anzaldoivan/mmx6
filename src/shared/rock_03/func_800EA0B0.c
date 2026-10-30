@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 void* func_8002C458();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
@@ -66,7 +66,7 @@ void func_800EA0B0(u8* arg0) {
         break;
     case 16:
         if (B(P50(arg0), 0x45) == 1) {
-            func_800179A4(arg0, 0xC);
+            set_animation(arg0, 0xC);
         }
         break;
     case 17:

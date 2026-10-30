@@ -361,10 +361,10 @@ INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800EC810);
 #undef g_Player
 
 #define func_800ECC38 func_800ECB58
-#define D_80093C98 D_80093C98
+#define g_projectiles g_projectiles
 #include "../shared/rock_03/func_800ECC38.c"
 #undef func_800ECC38
-#undef D_80093C98
+#undef g_projectiles
 
 INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800ECCF4);
 

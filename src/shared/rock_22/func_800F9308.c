@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8003D330();
 extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_800CCF5C;
@@ -12,7 +12,7 @@ extern u8 D_800FD598;
 
 void func_800F9308(void* arg0) {
     if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
-        func_80016C48(0, 0xE, 0);
+        play_sound(0, 0xE, 0);
         M2C_FIELD(arg0, s16*, 0x7C) = 2;
     }
     if (++M2C_FIELD(arg0, s8*, 0x5C) == D_800CCF5C) {

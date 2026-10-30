@@ -7,7 +7,7 @@
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 
 extern s16 D_800970AA;
@@ -21,7 +21,7 @@ void func_800EC2D0(void* self) {
     s32 r;
 
     parent = M2C_FIELD(self, void**, 0x7C);
-    r = func_80031474(self);
+    r = check_enemy_hits(self);
     D_800F4014[M2C_FIELD(self, s8*, 5)](self);
     if (M2C_FIELD(self, s8*, 5) == 1) {
         if (func_80030ECC(self) != 0) {

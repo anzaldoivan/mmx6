@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
+M2C_UNK load_palette(M2C_UNK, M2C_UNK*, M2C_UNK);
 void func_8003CF54(struct X4_PlayerObj*, s32);
 extern u8 D_800CCF2F;
 
@@ -32,32 +32,32 @@ void func_8003C4EC(struct X4_PlayerObj* self) {
                 load = 0;
             }
             if (load != 0) {
-                func_8002B3D4(1, (s32*)(PAL_BUF + ((self->weapon << 7) - 0x20)),
-                              1);
+                load_palette(1, (s32*)(PAL_BUF + ((self->weapon << 7) - 0x20)),
+                             1);
             }
-            func_8002B3D4(0, (s32*)(PAL_BUF + (self->weapon << 7)), 1);
-            func_8002B3D4(0x13,
-                          (s32*)(PAL_BUF_B + ((self->weapon << 7) | 0x20)), 1);
+            load_palette(0, (s32*)(PAL_BUF + (self->weapon << 7)), 1);
+            load_palette(0x13, (s32*)(PAL_BUF_B + ((self->weapon << 7) | 0x20)),
+                         1);
         }
         flags = PLAYER_FLAGS_EC(self);
         if (flags & 0x80) {
-            func_8002B3D4(0x14, (s32*)(PAL_BUF + 0x9E0), 1);
+            load_palette(0x14, (s32*)(PAL_BUF + 0x9E0), 1);
             return;
         }
         if (flags & 0x100) {
-            func_8002B3D4(0x14, (s32*)(PAL_BUF + 0x9C0), 1);
+            load_palette(0x14, (s32*)(PAL_BUF + 0x9C0), 1);
             return;
         }
         if (flags & 0x40000) {
-            func_8002B3D4(0x14, (s32*)(PAL_BUF + 0x9A0), 1);
+            load_palette(0x14, (s32*)(PAL_BUF + 0x9A0), 1);
         }
     } else {
         if (D_800CCF2F & 0x20) {
-            func_8002B3D4(0, (s32*)(PAL_BUF + 0x1A0), 1);
-            func_8002B3D4(0xD, (s32*)(PAL_BUF_B + 0x9A0), 3);
+            load_palette(0, (s32*)(PAL_BUF + 0x1A0), 1);
+            load_palette(0xD, (s32*)(PAL_BUF_B + 0x9A0), 3);
             return;
         }
-        func_8002B3D4(0, (s32*)PAL_BUF, 1);
+        load_palette(0, (s32*)PAL_BUF, 1);
     }
 }
 #undef PAL_BUF

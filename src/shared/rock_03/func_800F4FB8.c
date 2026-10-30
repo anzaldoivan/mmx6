@@ -1,14 +1,14 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 
 void func_800F4FB8(u8* arg0) {
     // !FAKE: depin: dropping it breaks the match (20/36)
     register s32 v asm("$2");
 
     if (*(s16*)(arg0 + 0x7C) == 0x5A) {
-        ((void (*)(s32, s32, void*))func_80016C48)(2, 0x29, arg0);
+        ((void (*)(s32, s32, void*))play_sound)(2, 0x29, arg0);
     }
     if (++*(s16*)(arg0 + 0x7C) == 0x104) {
         *(s16*)(arg0 + 0x7E) = 0;

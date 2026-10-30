@@ -1,6 +1,6 @@
 #include "common.h"
 
-void* func_8002C530();
+void* alloc_sprite_slot();
 
 void func_800EA470(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     u8 id = arg0;
@@ -10,7 +10,7 @@ void func_800EA470(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     u8 n = arg4;
     u8* obj;
 
-    obj = func_8002C530();
+    obj = alloc_sprite_slot();
     if (obj != 0) {
         obj[0] = 1;
         obj[1] = 0x2F;

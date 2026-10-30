@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define A990_SP64 (*(u8**)(0x1F800064))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 
 #define F(type, off) M2C_FIELD(arg0, type*, off)
 
@@ -17,13 +17,13 @@ void func_800EA990(void* arg0) {
     switch (temp_s1) {
     case 0:
         F(u8, 0x16) = 0x20;
-        ((void (*)(void*, s32))func_800179A4)(arg0, 1);
+        ((void (*)(void*, s32))set_animation)(arg0, 1);
         F(u8, 0x3) = 1;
         F(u8, 0x5) = 0;
         break;
     case 1:
         F(u8, 0x16) = 0x20;
-        ((void (*)(void*, s32))func_800179A4)(arg0, 2);
+        ((void (*)(void*, s32))set_animation)(arg0, 2);
         F(u8, 0x3) = 0;
         F(u8, 0x5) = temp_s1;
         break;

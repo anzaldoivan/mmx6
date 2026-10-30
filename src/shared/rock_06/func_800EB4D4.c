@@ -9,7 +9,7 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(void*);
 M2C_UNK func_8002EE10(void*);
 s32 func_80030ECC();
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049D90(void*);
 
 void func_800EB4D4(void* arg0) {
@@ -21,7 +21,7 @@ void func_800EB4D4(void* arg0) {
         st = 2;
         goto store;
     }
-    if (func_80031474(arg0) < 0) {
+    if (check_enemy_hits(arg0) < 0) {
         st = 2;
         goto store;
     }

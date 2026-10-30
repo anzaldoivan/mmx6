@@ -3,12 +3,12 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 
 void func_800F1ED8(void* arg0) {
     s8 n;
 
-    func_800179A4(arg0, 1);
+    set_animation(arg0, 1);
     n = M2C_FIELD(arg0, s8*, 0x9A);
     if (n < 2) {
         M2C_FIELD(arg0, s32*, 0x20) = 0x30000;

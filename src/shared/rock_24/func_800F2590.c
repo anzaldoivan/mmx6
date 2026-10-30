@@ -5,15 +5,15 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04(void*);
 s32 func_8002A47C(s32);
 void* func_8002C458();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
 M2C_UNK func_80030ECC(void*, s16);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern s32 D_8007573C[];
 extern M2C_UNK g_Player;
@@ -50,7 +50,7 @@ void func_800F2590(void* arg0) {
         M2C_FIELD(arg0, u8*, 4)++;
         return;
     }
-    M2C_FIELD(arg0, s8*, 7) = func_80031474(arg0);
+    M2C_FIELD(arg0, s8*, 7) = check_enemy_hits(arg0);
     if (M2C_FIELD(arg0, s8*, 7) < 0) {
         D_800F77E8 = 0;
         M2C_FIELD(arg0, s32*, 0x20) = 0;
@@ -169,7 +169,7 @@ block_skip:
             b = func_8002A47C(M2C_FIELD(q, s8*, 1));
             base = D_1F800020;
             M2C_FIELD(arg0, u8**, 0x3C) = base + ((s32*)base)[b];
-            ((void (*)(void*, s32))func_800179A4)(arg0, 0x17);
+            ((void (*)(void*, s32))set_animation)(arg0, 0x17);
             M2C_FIELD(arg0, s32*, 0x8C) = 0;
             D_800F77E8 = 1;
             M2C_FIELD(arg0, s16*, 0x8A) = 0xB4;
@@ -185,7 +185,7 @@ block_skip:
         break;
     case 10:
         if (--M2C_FIELD(arg0, s32*, 0x8C) == 0) {
-            ((void (*)(s32, s32, s32))func_80016C48)(2, 0x8B, (s32)arg0);
+            ((void (*)(s32, s32, s32))play_sound)(2, 0x8B, (s32)arg0);
             ((void (*)(void*))func_80049E50)(arg0);
             for (i = 0; i < 6; i++) {
                 child = func_8002C458();

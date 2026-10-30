@@ -328,8 +328,8 @@ func_800F43B8 = 0x800F43B8; // type:func size:0x1A8
 func_800F4560 = 0x800F4560; // type:func size:0x230
 // basis: post-return 0x800f4788
 func_800F4790 = 0x800F4790; // type:func size:0x260
-// basis: post-return 0x800f49e8
-func_800F49F0 = 0x800F49F0; // type:func size:0x60
+// basis: post-return 0x800f49e8; name: community refs/leads/tweaks/BossHealth.tsv:2303 word 0x800EF400 match; code:src/rock_24/E9860.c:510 via=D_800F75F0
+update_gate = 0x800F49F0; // type:func size:0x60
 // basis: post-return 0x800f4a48
 func_800F4A50 = 0x800F4A50; // type:func size:0x8
 // basis: post-return 0x800f4a50

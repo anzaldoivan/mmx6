@@ -3,7 +3,7 @@
 
 M2C_UNK func_8003AFF4(s32);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
-s32 func_8003E344(void* self);
+s32 check_giga_attack(void* self);
 void func_8003E614(void* arg0);
 M2C_UNK func_8003F864(void*, M2C_UNK);
 extern s8 D_80073E00[];
@@ -19,7 +19,7 @@ s32 func_8003E06C(void* arg0) {
     if (B(0x2) != 0) {
         return 0;
     }
-    if (func_8003E344(arg0) != 0) {
+    if (check_giga_attack(arg0) != 0) {
         return 1;
     }
     func_8003E614(arg0);

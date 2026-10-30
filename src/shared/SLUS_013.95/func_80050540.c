@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 s32 func_8002B2F8(s32);
 extern s32 D_80090C90[];
 extern s8 D_80090D56;
@@ -39,7 +39,7 @@ void func_80050540(void* arg0, void* arg1, void* arg2) {
             return;
         }
         M2C_FIELD(arg0, s8*, 5) = 2;
-        func_80016C48(0, 0x10, arg0);
+        play_sound(0, 0x10, arg0);
     }
     background_objects[0].unk34 &= 0xF;
 }

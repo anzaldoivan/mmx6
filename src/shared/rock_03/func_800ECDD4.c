@@ -5,8 +5,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern s32 D_800741FC[];
 extern M2C_UNK D_8007433C;
 extern struct X4_PlayerObj g_Player;
@@ -33,8 +33,8 @@ void func_800ECDD4(void* arg0) {
     if (sel == 0) {
         u8 dir0;
         s32 x0;
-        func_800179A4(arg0, 7);
-        func_80016C48(2, 0x3E, arg0);
+        set_animation(arg0, 7);
+        play_sound(2, 0x3E, arg0);
         dir0 = M2C_FIELD(arg0, u8*, 0x15);
         x0 = 0xFFFD0000;
         if (dir0 != 0) {
@@ -62,8 +62,8 @@ void func_800ECDD4(void* arg0) {
         s32 nx1;
         s32 px;
         s32 m;
-        func_800179A4(arg0, 7);
-        func_80016C48(2, 0x3E, arg0);
+        set_animation(arg0, 7);
+        play_sound(2, 0x3E, arg0);
         pl = &g_Player;
         px = M2C_FIELD(pl, s16*, 0xA);
         angle = ratan2(M2C_FIELD(pl, s16*, 0xE) - M2C_FIELD(arg0, s16*, 0xE),
@@ -101,7 +101,7 @@ void func_800ECDD4(void* arg0) {
         u8 dir2;
         s32 x2;
         s32 nx2;
-        func_800179A4(arg0, 6);
+        set_animation(arg0, 6);
         M2C_FIELD(arg0, s32*, 0x20) = 0;
         nx2 = 0xFFFE8000;
         M2C_FIELD(arg0, s32*, 0x24) = nx2;

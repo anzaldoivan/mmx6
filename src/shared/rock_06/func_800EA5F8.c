@@ -3,11 +3,11 @@
 #include "mmx6/x4.h"
 extern u8 D_800F3680[];
 extern u8 D_800F368C[];
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 
 void func_800EA5F8(struct X4_VisualObj* arg0) {
     arg0->state = 1;
     arg0->on_screen = 1;
     arg0->unk16 = VISUAL_SATURN_LAYER(D_800F368C[arg0->unk2]);
-    func_800179A4(arg0, D_800F3680[arg0->unk2]);
+    set_animation(arg0, D_800F3680[arg0->unk2]);
 }

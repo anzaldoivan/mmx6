@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_8004E78C(M2C_UNK);
 extern struct X4_PlayerObj g_Player;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_8004DCB8(u8* arg0) {
     u8* p = arg0 + 0x80;
@@ -25,7 +25,7 @@ void func_8004DCB8(u8* arg0) {
             register s32 x asm("$4");
 
             pl = (u8*)&g_Player;
-            e = (u8*)&D_800CCED0;
+            e = (u8*)&g_playthrough_state;
             tbl = (s8*)(e + 0x5B);
             arg0[0x84] = 2;
             sign = pl[0x5C] & 0x80;
@@ -36,7 +36,7 @@ void func_8004DCB8(u8* arg0) {
             } else {
                 pl[0x5C] = sign | (pl[0x5C] + 1);
             }
-            func_80016C48(0, 0xD, 0);
+            play_sound(0, 0xD, 0);
             p = 0;
             if ((u8)(q[3] = arg0[0x83] - 1) == 0) {
                 arg0[6] = 1;

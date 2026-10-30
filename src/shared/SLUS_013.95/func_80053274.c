@@ -2,18 +2,18 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80021760(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002B6B0();
 extern struct X4_PlayerObj g_Player;
 extern s8 D_800970A5;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_80053274(void* arg0) {
     u8* p = arg0;
     u8* e;
 
     if ((((s8*)p)[2] & 0xF0) || D_800970A5 == 0x14) {
-        e = (u8*)&D_800CCED0;
+        e = (u8*)&g_playthrough_state;
         e[0x1C] = 1;
         if (*(u16*)(p + 0x14) != 0) {
             ((void (*)())func_8002B6B0)();
@@ -32,7 +32,7 @@ void func_80053274(void* arg0) {
         e[0x17] = 1;
         e[0x14] = 1;
         e[0x15] = 1;
-        func_80021760(p[2] & 0xF, 0xFF, 0);
+        open_text_box(p[2] & 0xF, 0xFF, 0);
         p[5]++;
     }
 }

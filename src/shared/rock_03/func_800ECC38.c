@@ -3,10 +3,10 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 void* func_8002C458();
-extern u8 D_80093C98[];
+extern u8 g_projectiles[];
 
 void func_800ECC38(void* arg0) {
     s8* p;
@@ -22,7 +22,7 @@ void func_800ECC38(void* arg0) {
     if ((s16)t >= 0xA1) {
         goto fail;
     }
-    p = (s8*)D_80093C98;
+    p = (s8*)g_projectiles;
     end = p + 0x1400;
     n = 0;
     for (; p < end; p += 0xA0) {
@@ -32,7 +32,7 @@ void func_800ECC38(void* arg0) {
     }
     if (n >= 8) {
     fail:
-        func_800179A4(arg0, 4);
+        set_animation(arg0, 4);
         t = M2C_FIELD(arg0, u8*, 0x6) + 1;
         M2C_FIELD(arg0, u8*, 0x6) = t;
     } else if ((s16)(M2C_FIELD(arg0, s16*, 0x7C) % 20) == 0) {

@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 
 void func_800F90B0(u8* arg0) {
     s8* p;
@@ -16,5 +16,5 @@ void func_800F90B0(u8* arg0) {
         p[7] = 0;
     }
     arg0[3] = 0;
-    func_8002C9B0(arg0, p);
+    clear_object_slot(arg0, p);
 }

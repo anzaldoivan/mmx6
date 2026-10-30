@@ -8,10 +8,10 @@ M2C_UNK func_80017A04();
 M2C_UNK func_8002CA54();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 void func_8002CCB0(struct X4_BaseObj*, s32, s32);
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_8002F288(M2C_UNK*);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
 void func_8004E654(struct X4_BaseObj* arg0, s8 arg1);
@@ -25,17 +25,17 @@ void func_800EF340(void* arg0) {
     s8 old;
 
     old = FLD(arg0, s8, 0x5C);
-    if (func_80031474(arg0) < 0) {
+    if (check_enemy_hits(arg0) < 0) {
         s8 t = FLD(arg0, s8, 0x2);
         if (t == 1) {
-            if (func_8002D2D4() & 1) {
+            if (random_byte() & 1) {
                 func_800477E4(2, &D_800F5D40, arg0);
             } else {
                 func_800477E4(2, &D_800F5D44, arg0);
             }
             func_80049E50(arg0);
         } else if (t == 2 || t == 0) {
-            if (func_8002D2D4() & 1) {
+            if (random_byte() & 1) {
                 func_800477E4(2, &D_800F5D38, arg0);
             } else {
                 func_800477E4(2, &D_800F5D3C, arg0);

@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_8003D330();
 
 void func_800EB62C(struct X4_MainObj* arg0) {
@@ -17,6 +17,6 @@ void func_800EB62C(struct X4_MainObj* arg0) {
         }
     } else {
         func_8003D330();
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
     }
 }

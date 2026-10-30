@@ -86,5 +86,9 @@ func_800EAE94 = 0x800EAE94; // type:func size:0x20C
 func_800EB0A0 = 0x800EB0A0; // type:func size:0xD0
 // basis: post-return 0x800eb168
 func_800EB170 = 0x800EB170; // type:func size:0x158
+// basis: name: community tweaks-index.tsv:162
+init_yammark_projectile = 0x800F3BE4; // type:func
+// basis: name: community refs/leads/tweaks/BossHealth.tsv:1346 word 0x800EF810 match; code:src/rock_03/E9860.c:507 via=func_800F40C8
+update_commander_yammark = 0x800F40C8; // type:func
 // basis: data trailing words after the last function's jr ra; no jr ra in [0x800f5ec4, 0x800f84d0), 2435 words, 659 pointer-valued
 D_800F5EC4 = 0x800F5EC4; // type:s32 size:0x260C

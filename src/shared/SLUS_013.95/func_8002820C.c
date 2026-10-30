@@ -4,7 +4,7 @@
 #define M2C_UNK s32
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CCEDF;
 
 void func_8002820C(struct X4_BackgroundObj* arg0) {
@@ -31,7 +31,7 @@ void func_8002820C(struct X4_BackgroundObj* arg0) {
         lim = (s16)(arg0->y_pos.i.hi + 0x100);
         if (lim <= g_Player.y_pos.i.hi - 8) {
             u8 hp = g_Player.hp;
-            u8* e = (u8*)&D_800CCED0;
+            u8* e = (u8*)&g_playthrough_state;
             g_Player.hp = -0x80;
             *(s32*)(e + 0x98) += hp & 0x7F;
         }

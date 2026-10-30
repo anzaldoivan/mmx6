@@ -4,8 +4,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_800179D0(void*, M2C_UNK, s8);
+M2C_UNK set_animation(void*, M2C_UNK);
+M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 M2C_UNK func_800F1A90(void* self, u8 arg1);
 M2C_UNK func_800F4534(void*, M2C_UNK);
 extern s32 D_80097420;
@@ -34,7 +34,7 @@ void func_800EF5B8(void* arg0) {
     py = D_800FD518;
     ang = ratan2(F(s16, 0xE) - py, px - F(s16, 0xA)) & 0xFFF;
     F(s16, 0x88) = ang;
-    ((void (*)(void*, s32, s32))func_800179D0)(arg0, a[ang >> 8],
+    ((void (*)(void*, s32, s32))set_animation_frame)(arg0, a[ang >> 8],
                                                D_80097420 & 1);
     t = F(u8, 0x2) & 0xF;
     switch (t) {
@@ -53,7 +53,7 @@ void func_800EF5B8(void* arg0) {
     }
     F(s16, 0x7E) += 0x1E;
     if (D_800FD51B == 2) {
-        func_800179A4(arg0, b[F(s16, 0x88) >> 8]);
+        set_animation(arg0, b[F(s16, 0x88) >> 8]);
         func_800F1A90(arg0, 0x10);
         func_800F4534(arg0, 0x10);
         func_800F4534(arg0, 0x11);

@@ -43,7 +43,7 @@ s32 func_80017008(u8 arg0) {
     if (arg0 == 2) {
         slot = D_800E155C[3] & 0x1F;
         ((void (*)(s8, s32, s32, s32))SsSepPlay)(row, slot, 1,
-                                                     D_8006E358[flag]);
+                                                 D_8006E358[flag]);
         D_800E25F8[col] = slot | (pri << 5);
     } else {
         SsSeqPlay(row, 1, D_8006E358[flag]);

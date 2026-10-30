@@ -158,6 +158,7 @@
 {"k":"func","addr":"0x800ea740","name":"FUN_800ea740","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
 {"k":"func","addr":"0x800efc60","name":"FUN_800efc60","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
 {"k":"func","addr":"0x800efef8","name":"FUN_800efef8","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_10","type":"/undefined4","storage":"Stack[-0x10]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_c","type":"/undefined4","storage":"Stack[-0xc]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
+{"k":"func","addr":"0x800f1c60","name":"update_ground_scaravich","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: community refs/leads/tweaks/BossHealth.tsv:1774 word 0x800F2B78 match; code:src/rock_08/E9860.c:376 via=D_800F5F34"}
 {"k":"func","addr":"0x800f2d7c","name":"FUN_800f2d7c","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
 {"k":"func","addr":"0x800f32a8","name":"FUN_800f32a8","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
 {"k":"data","addr":"0x20000000","type":"/byte[4]","len":4}
@@ -677,6 +678,7 @@
 {"k":"comment","addr":"0x800ee240","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ef11c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800efd8c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800f1c60","type":"plate","text":"name: community refs/leads/tweaks/BossHealth.tsv:1774 word 0x800F2B78 match; code:src/rock_08/E9860.c:376 via=D_800F5F34"}
 {"k":"comment","addr":"0x800f1d54","type":"plate","text":"x4: slash_beast_death_blink [gate/object] sozud/mmx4@6a6b455 src/main/mains/main_54_slash_beast.c:slash_beast_death_blink\nx4: slash_beast_death_blink [gate/object] sozud/mmx4@807a01b src/main/mains/main_54_slash_beast.c:slash_beast_death_blink"}
 {"k":"comment","addr":"0x800f2f04","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f32d0","type":"pre","text":"Possible PsyQ macro: setLineF2()"}
@@ -1361,3 +1363,4 @@
 {"k":"label","addr":"0x800ef600","name":"caseD_d","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800ef600","name":"caseD_e","primary":false,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800ef600","name":"caseD_f","primary":false,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800f1c60","name":"update_ground_scaravich","primary":true,"src":"USER_DEFINED","func":true}

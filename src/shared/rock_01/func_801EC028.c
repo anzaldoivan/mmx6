@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 s32 func_801EA34C(void* arg0);
 void func_801EB5F8(void*);
@@ -27,11 +27,11 @@ s32 func_801EC028(void* arg0) {
     v = F_S8(arg0, 0x86);
     if (v == 6) {
         func_8003BA04(arg0, 0x60);
-        func_80016C48(1, 7, arg0);
+        play_sound(1, 7, arg0);
         v = 0x36;
     } else {
         func_8003BA04(arg0, 0x5B);
-        func_80016C48(1, 8, arg0);
+        play_sound(1, 8, arg0);
         v = 0x32;
     }
     F_S8(arg0, 5) = v;

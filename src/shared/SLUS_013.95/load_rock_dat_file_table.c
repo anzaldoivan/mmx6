@@ -8,10 +8,10 @@
 int func_800617A4(X4_CdlLOC* p);
 
 extern u8 D_80010004[];
-extern u8 D_8006CD42[][22];
-extern s32 D_800E0398[][2];
+extern u8 rock_dat_cd_file_names[][22];
+extern s32 rock_dat_file_table[][2];
 
-// 0x800147D0 load_rock_dat_file_table: reads the ROCK_X6.DAT file table (0xF3 entries) into D_800E0398, plus 4 files.
+// 0x800147D0 load_rock_dat_file_table: reads the ROCK_X6.DAT file table (0xF3 entries) into rock_dat_file_table, plus 4 files.
 // basis: string strings.tsv:3:SLUS_013.95:0x80010004
 // callers: none known
 // str 0x80010004 "\\ROCK_X6.DAT;1" = "CD path of the data archive"
@@ -32,14 +32,14 @@ void load_rock_dat_file_table(void) {
     while (CdControl(9, 0, 0) == 0) {
     }
     for (i = 0; i < 0xF3; i++) {
-        D_800E0398[i][0] = base + src[i][0];
-        D_800E0398[i][1] = src[i][1];
+        rock_dat_file_table[i][0] = base + src[i][0];
+        rock_dat_file_table[i][1] = src[i][1];
     }
     for (i = 0xF3; i < 0xF7; i++) {
-        while (CdSearchFile(file, D_8006CD42[i]) == 0) {
+        while (CdSearchFile(file, rock_dat_cd_file_names[i]) == 0) {
         }
-        D_800E0398[i][0] = func_800617A4((X4_CdlLOC*)file);
-        D_800E0398[i][1] = file[1];
+        rock_dat_file_table[i][0] = func_800617A4((X4_CdlLOC*)file);
+        rock_dat_file_table[i][1] = file[1];
         while (CdControl(9, 0, 0) == 0) {
         }
     }

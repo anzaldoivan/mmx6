@@ -3,7 +3,7 @@
 s32 func_80016548(s32 arg0, s32* arg1);
 extern void func_8001AE44(s32, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
-// ! upstream returns s32; X6 siblings (func_8001A6CC.c, func_8001A9B0.c) declare it void
+// ! upstream returns s32; X6 siblings (play_str_movie.c, func_8001A9B0.c) declare it void
 void func_8001B6D0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5,
                    s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
     s32 local;

@@ -2,12 +2,12 @@
 #include "mmx6/x4.h"
 
 extern u8 D_8008EAFC;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F366C[];
 
 void func_800EEEFC(u8* arg0) {
     if (D_8008EAFC == 0) {
-        u8* e = (u8*)&D_800CCED0;
+        u8* e = (u8*)&g_playthrough_state;
         e[0x28] = 0x5F;
         if (arg0[0x5F] & 0x10) {
             u8* t = D_800F366C + 4;

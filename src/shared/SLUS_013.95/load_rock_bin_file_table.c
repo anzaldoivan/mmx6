@@ -1,5 +1,5 @@
 // prog SLUS_013.95 | system boot | range 0x80016780-0x80016854
-// Shared file: included by src/SLUS_013.95/120A0.c, between func_80016704 and func_80016858.
+// Shared file: included by src/SLUS_013.95/120A0.c, between func_80016704 and read_rock_bin_member.
 #include "common.h"
 #include "psyq/libcd.h"
 #define M2C_UNK s32
@@ -8,10 +8,10 @@
 int func_800617A4(X4_CdlLOC* p);
 
 extern u8 D_80010014[];
-extern u8 D_800E0B58[];
-#define D_800E0B58 (*(s32(*)[][2]) & D_800E0B58)
+extern u8 rock_bin_file_table[];
+#define rock_bin_file_table (*(s32(*)[][2]) & rock_bin_file_table)
 
-// 0x80016780 load_rock_bin_file_table: reads the ROCK_X6.BIN file table (0x3B entries) into D_800E0B58.
+// 0x80016780 load_rock_bin_file_table: reads the ROCK_X6.BIN file table (0x3B entries) into rock_bin_file_table.
 // basis: string strings.tsv:4:SLUS_013.95:0x80010014
 // callers: none known
 // str 0x80010014 "\\ROCK_X6.BIN;1" = "CD path of the overlay archive"
@@ -32,8 +32,8 @@ void load_rock_bin_file_table(void) {
     while (CdControl(9, 0, 0) == 0) {
     }
     for (i = 0; i < 0x3B; i++) {
-        D_800E0B58[i][0] = base + src[i][0];
-        D_800E0B58[i][1] = src[i][1];
+        rock_bin_file_table[i][0] = base + src[i][0];
+        rock_bin_file_table[i][1] = src[i][1];
     }
 }
-#undef D_800E0B58
+#undef rock_bin_file_table

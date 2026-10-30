@@ -3,8 +3,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_8002C9B0();
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK clear_object_slot();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
@@ -22,7 +22,7 @@ void func_800F4F44(void* arg0) {
     t = M2C_FIELD(p, s8*, 4);
     if (t == 2) {
         M2C_FIELD(arg0, s8*, 4) = t;
-        func_80016C48(2, 0x14, arg0);
+        play_sound(2, 0x14, arg0);
         return;
     }
     if (M2C_FIELD(p, s8*, 5) == 8 && M2C_FIELD(p, s8*, 6) > 0) {
@@ -34,7 +34,7 @@ void func_800F4F44(void* arg0) {
                 M2C_FIELD(p, u8*, 0x8A) &= 0xF;
             }
             M2C_FIELD(arg0, s8*, 4) = 2;
-            func_80016C48(2, 0x14, arg0);
+            play_sound(2, 0x14, arg0);
             return;
         }
     }
@@ -52,8 +52,8 @@ void func_800F4F44(void* arg0) {
             if ((M2C_FIELD(g, s8*, 0x5C) & 0x7F) < 2) {
                 M2C_FIELD(g, s8*, 0x5C) = 1;
                 func_8003D308(0x14, M2C_FIELD(g, u8*, 0x15));
-                func_80016C48(2, 0x14, arg0);
-                func_8002C9B0(arg0);
+                play_sound(2, 0x14, arg0);
+                clear_object_slot(arg0);
                 return;
             }
         }
@@ -66,7 +66,7 @@ void func_800F4F44(void* arg0) {
         } else {
             if (M2C_FIELD(arg0, s8*, 2) == 1 || M2C_FIELD(arg0, s8*, 2) == 6 ||
                 M2C_FIELD(arg0, s8*, 2) == 7) {
-                func_80016C48(2, 0x14, arg0);
+                play_sound(2, 0x14, arg0);
             }
             if (M2C_FIELD(arg0, s8*, 2) != 9 && M2C_FIELD(arg0, s8*, 2) != 10) {
                 M2C_FIELD(arg0, s8*, 4) = 2;

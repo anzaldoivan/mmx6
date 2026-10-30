@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK player_spawn_visual(M2C_UNK, M2C_UNK, s8, M2C_UNK);
 void func_801EEB7C(struct X4_WeaponObj* arg0);
@@ -58,7 +58,7 @@ void func_801ECE0C(struct X4_WeaponObj* arg0) {
     arg0->unk28.val = 0;
     arg0->y_vel.val = 0;
     arg0->unk2C = 0;
-    func_800179A4(arg0, 0x15);
+    set_animation(arg0, 0x15);
     arg0->state++;
     func_8002CCB0(arg0, 0xC, 8);
     player_spawn_visual(0x21, 2, 0, 0);

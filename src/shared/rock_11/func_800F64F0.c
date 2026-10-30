@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void func_800FA4C8(struct X4_MainObj* self);
 s32 func_800FA4F8(void* arg0, s16 arg1, s32 arg2);
 extern struct X4_PlayerObj g_Player;
@@ -22,7 +22,7 @@ void func_800F64F0(struct X4_MainObj* self) {
         a = self->y_pos.i.hi;
         b = g_Player.y_pos.i.hi;
         if (F8(self, 0x89) >= (a - b >= 0 ? a - b : b - a)) {
-            ((void (*)(void*, s32))func_800179A4)(self, 2);
+            ((void (*)(void*, s32))set_animation)(self, 2);
             self->unk6++;
             return;
         }

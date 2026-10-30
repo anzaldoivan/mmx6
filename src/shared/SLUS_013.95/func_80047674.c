@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_80047674(u8* arg0) {
     u8* eng;
@@ -10,7 +10,7 @@ void func_80047674(u8* arg0) {
     s32 sum;
     s32 add;
 
-    eng = (u8*)&D_800CCED0;
+    eng = (u8*)&g_playthrough_state;
     eng[0x27] = 1;
     sum = *(s32*)(arg0 + 0x1C);
     add = *(s32*)(arg0 + 0x18);

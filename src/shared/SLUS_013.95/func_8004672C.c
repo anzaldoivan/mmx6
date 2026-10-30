@@ -5,7 +5,7 @@
 extern u8 D_80076254[][4];
 extern u8 D_80076270[8];
 extern u8 D_80076278[8];
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 
 void func_8004672C(struct X4_WeaponObj* self) {
     s8 index;
@@ -36,5 +36,5 @@ void func_8004672C(struct X4_WeaponObj* self) {
         self->unk50 = &D_80076254[event];
         return;
     }
-    func_8002C9B0(OBJECT_HEADER(self));
+    clear_object_slot(OBJECT_HEADER(self));
 }

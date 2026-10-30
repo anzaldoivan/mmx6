@@ -102,7 +102,7 @@ INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FD56C);
 
 INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FD86C);
 
-INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FDA98);
+INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", update_high_max_hidden_area);
 
 #define func_80041AB8 func_800FDAF4
 #define D_80075FD8 D_80101FD4

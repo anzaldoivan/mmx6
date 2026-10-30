@@ -3,13 +3,13 @@
 #define M2C_UNK s32
 
 M2C_UNK func_800139F4(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
-extern u8 D_8006D5F7;
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
+extern u8 g_temp_options;
 extern u16 D_8006D600[];
-extern u8 D_8007360C[];
+extern u8 option_values[];
 extern u16 D_80073610[];
 extern u16 D_80073620[];
-extern u16 D_800C456C[];
+extern u16 g_pad1_buttons[];
 
 #define ENG_B(o) ((u8)D_80097420[o])
 #define ENG_SB(o) (D_80097420[o])
@@ -25,26 +25,26 @@ void func_800EA0E8(u8* arg0) {
     if (ENG_SB(4) != 0) {
         return;
     }
-    if (D_800C456C[2] & 0x800) {
+    if (g_pad1_buttons[2] & 0x800) {
         goto hit;
     }
-    if ((D_800C456C[2] & 0x40) && ENG_B(7) == 0xB) {
+    if ((g_pad1_buttons[2] & 0x40) && ENG_B(7) == 0xB) {
     hit:
-        func_80016C48(0, 0x22, 0);
+        play_sound(0, 0x22, 0);
         ((void (*)(s32))func_800139F4)(8);
         arg0[1]++;
         return;
     }
-    if (D_800C456C[2] & 0x1000) {
-        func_80016C48(0, 0xC, 0);
+    if (g_pad1_buttons[2] & 0x1000) {
+        play_sound(0, 0xC, 0);
         if (ENG_B(7) == 0) {
             D_80097420[7] = 0xB;
         } else {
             D_80097420[7] = D_80097420[7] - 1;
         }
     }
-    if (D_800C456C[2] & 0x4000) {
-        func_80016C48(0, 0xC, 0);
+    if (g_pad1_buttons[2] & 0x4000) {
+        play_sound(0, 0xC, 0);
         if (ENG_B(7) == 0xB) {
             D_80097420[7] = 0;
         } else {
@@ -79,10 +79,10 @@ void func_800EA0E8(u8* arg0) {
         if (sel == 0xFF) {
             return;
         }
-        key = D_800C456C[2];
+        key = g_pad1_buttons[2];
         for (i = 0; i < 8; i++) {
             if (key == D_80073620[i]) {
-                func_80016C48(0, 0x22, 0);
+                play_sound(0, 0x22, 0);
                 old = D_8006D600[sel];
                 D_8006D600[sel] = D_80073620[i];
                 for (k = 0; D_8006D600[k] != 0; k++) {
@@ -93,9 +93,9 @@ void func_800EA0E8(u8* arg0) {
                 return;
             }
         }
-    } else if (ENG_B(7) < 0xB && (D_800C456C[2] & 0x40)) {
-        func_80016C48(0, 0x22, 0);
-        D_8006D5F7 ^= D_8007360C[ENG_B(7) - 7];
+    } else if (ENG_B(7) < 0xB && (g_pad1_buttons[2] & 0x40)) {
+        play_sound(0, 0x22, 0);
+        g_temp_options ^= option_values[ENG_B(7) - 7];
     }
 }
 

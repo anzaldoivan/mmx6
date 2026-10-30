@@ -5,7 +5,7 @@
 #define SB(p, o) M2C_FIELD(p, s8*, o)
 #define B(p, o) M2C_FIELD(p, u8*, o)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 
 void func_800EC700(void* arg0) {
     s32 cur;
@@ -34,7 +34,7 @@ void func_800EC700(void* arg0) {
     // !FAKE: shared compare block reached from cases 1-3
     block_11:
         if (cur == want) {
-            func_800179A4(arg0, 4);
+            set_animation(arg0, 4);
             {
                 // !FAKE: retail increments the byte in the first return register
                 register s32 n asm("$2") = B(arg0, 6) + 1;
@@ -44,7 +44,7 @@ void func_800EC700(void* arg0) {
         break;
     case 4:
         if (SB(arg0, 2) == 0x22) {
-            func_800179A4(arg0, 2);
+            set_animation(arg0, 2);
             SB(arg0, 6) = temp_s0;
         }
         break;

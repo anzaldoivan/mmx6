@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 extern struct X4_PlayerObj g_Player;
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 
 void func_80043F8C(s8* arg0) {
     struct X4_PlayerObj* parent;
@@ -35,5 +35,5 @@ void func_80043F8C(s8* arg0) {
             }
         }
     }
-    func_8002C9B0(arg0, p);
+    clear_object_slot(arg0, p);
 }

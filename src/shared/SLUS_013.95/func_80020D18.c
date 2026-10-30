@@ -2,13 +2,13 @@
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_AbcObj D_8008EAF0;
-void func_80021760(u16, u8, u8);
-void func_80021BF4(struct X4_AbcObj*);
+void open_text_box(u16, u8, u8);
+void update_text_box(struct X4_AbcObj*);
 
 void func_80020D18(void) {
     if (D_8008EAF0.unkC != 0) {
-        func_80021BF4(&D_8008EAF0);
+        update_text_box(&D_8008EAF0);
     } else if (D_8008EAF0.unk10 != 0) {
-        func_80021760((u16)(D_8008EAF0.unk10 & ~0x8000), 0xFF, 0);
+        open_text_box((u16)(D_8008EAF0.unk10 & ~0x8000), 0xFF, 0);
     }
 }

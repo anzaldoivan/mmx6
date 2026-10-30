@@ -2,7 +2,7 @@
 #include "psyq/libgte.h"
 #include "mmx6/x4.h"
 
-s32 func_8002D2D4();
+s32 random_byte();
 void func_800F14D4(void*, s32);
 extern s32 D_800755FC;
 extern s32 D_800F6ABC;
@@ -29,7 +29,7 @@ void func_800F217C(struct X4_MainObj* self) {
     self->collision_data = &D_800755FC;
     func_800F14D4(self, 0x16);
     self->unk15 = ((struct X4_MainObj*)D_800F6C08)->unk15;
-    angle = (func_8002D2D4() % 3) * -0x1C7;
+    angle = (random_byte() % 3) * -0x1C7;
     self->x_speed = rcos(angle) * 0x10;
     self->y_speed = -rsin(angle) * 0x10;
     if (self->unk15 == 0) {

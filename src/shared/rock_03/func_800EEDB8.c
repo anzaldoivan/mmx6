@@ -7,7 +7,7 @@ extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_ObjectHeader D_80097420;
 #define EEDB8_FLAGS (*(s32*)&D_80097420)
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s16 D_800F782C[][16];
 #define EEDB8_TBL ((u16*)D_800F782C)
 
@@ -36,7 +36,7 @@ void func_800EEDB8(u8* arg0) {
         g_Player.x_pos.i.hi = EEDB8_TBL[F16(arg0, 0x7E) * 16];
         g_Player.unk68 = *(void**)(arg0 + 0x88);
         func_8003AD18(&g_Player);
-        q = (u8*)&D_800CCED0;
+        q = (u8*)&g_playthrough_state;
         q[0x10] = 0;
         q[0x11] = 0;
         q[0x12] = 0;

@@ -6,8 +6,8 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object();
 void func_800FBAAC(void*, M2C_UNK);
 void func_800FF9AC(struct X4_AnimatedObj*);
@@ -40,7 +40,7 @@ void func_800FA924(struct X4_AnimatedObj* arg0) {
         6) {
         if (ABS(OFS_Y - (arg0->y_pos.i.hi - background_objects[0].y_pos.i.hi)) <
             6) {
-            func_80016C48(2, 0x55, arg0);
+            play_sound(2, 0x55, arg0);
             func_80012D9C(6);
             arg0->x_pos.i.hi = background_objects[0].x_pos.i.hi + OFS_X;
             arg0->y_pos.i.hi = background_objects[0].y_pos.i.hi + OFS_Y;
@@ -49,12 +49,12 @@ void func_800FA924(struct X4_AnimatedObj* arg0) {
             if ((s8)cnt >= 8) {
                 func_800FBAAC(arg0, 0);
                 func_800FF9AC(arg0);
-                func_800179A4(arg0, 0x14);
+                set_animation(arg0, 0x14);
                 arg0->unk7 = 0;
                 st = U6 + 1;
             } else {
                 if ((s8)cnt == 3) {
-                    func_800179A4(arg0, 0);
+                    set_animation(arg0, 0);
                 }
                 st = U6 - 1;
             }

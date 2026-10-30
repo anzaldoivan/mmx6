@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void func_8001750C(u8, u8);   /* extern */
+void silence_sound(u8, u8);   /* extern */
 M2C_UNK func_8002D5D0(void*); /* extern */
 s32 func_8002FE30(void*);     /* extern */
 M2C_UNK func_8003CD9C();      /* extern */
@@ -13,7 +13,7 @@ static inline s32 func_80038788_turn(void* arg0) {
     s32 bad;
     u16 flags;
 
-    func_8001750C(1, 5);
+    silence_sound(1, 5);
     func_8003CD9C(arg0);
     flags = M2C_FIELD(arg0, u16*, 0x7C);
     res = 0;

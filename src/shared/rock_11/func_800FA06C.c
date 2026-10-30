@@ -1,6 +1,6 @@
 #include "common.h"
 
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 extern u16 D_800FDA7E;
 
 #define SB(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -13,7 +13,7 @@ extern u16 D_800FDA7E;
 void func_800FA06C(void* arg0, u8 arg1) {
     void* obj;
 
-    obj = func_8002BBF4();
+    obj = enemy_slot_alloc();
     if (obj != 0) {
         UB(obj, 0) = 0x41;
         UB(obj, 1) = 0x3A;

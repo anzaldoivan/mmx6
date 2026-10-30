@@ -7,8 +7,8 @@
 #define H(p, o) M2C_FIELD(p, s16*, o)
 #define W(p, o) M2C_FIELD(p, s32*, o)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object(void*);
 extern s16 D_8009721E;
 
@@ -41,8 +41,8 @@ void func_800F2C38(void* arg0) {
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
     if (ABS(H(arg0, 0x84) - H(arg0, 0xA)) < 7 &&
         ABS(H(arg0, 0x86) - H(arg0, 0xE)) < 7) {
-        func_80016C48(2, 0x26, arg0);
-        ((void (*)(void*, s32))func_800179A4)(arg0, 0x11);
+        play_sound(2, 0x26, arg0);
+        ((void (*)(void*, s32))set_animation)(arg0, 0x11);
         if (H(arg0, 0xA) >= D_8009721E + 0xB0) {
             B(arg0, 0x15) = 0;
         } else {

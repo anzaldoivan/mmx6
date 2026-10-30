@@ -3,9 +3,9 @@
 #include "mmx6/x4.h"
 
 void func_80013BD0(s32, s32);
-M2C_UNK func_8002B838();
-void* func_8002C530();
-struct X4_QuadObj* func_8002C7F0(void);
+M2C_UNK reset_level();
+void* alloc_sprite_slot();
+struct X4_QuadObj* alloc_class6_slot(void);
 void func_800ED50C(u8 arg0, s8 arg1, s16 arg2, s16 arg3);
 extern u8 D_80097427;
 extern M2C_UNK* D_800B91B8;
@@ -16,7 +16,7 @@ void func_800EA9D0(u8* arg0) {
     struct X4_QuadObj* q;
     s8* obj;
 
-    ((void (*)())func_8002B838)();
+    ((void (*)())reset_level)();
     {
         s32 b;
 
@@ -30,13 +30,13 @@ void func_800EA9D0(u8* arg0) {
     D_800E2F90.unk6 = 0;
     func_800ED50C(0x24, 0, 0x130, 0x30);
     k = 0x10;
-    q = func_8002C7F0();
+    q = alloc_class6_slot();
     if (q != 0) {
         q->active = 1;
         q->id = k;
         q->unk2 = k;
     }
-    obj = func_8002C530();
+    obj = alloc_sprite_slot();
     if (obj != 0) {
         obj[0] = 1;
         *(s16*)(obj + 0xA) = 0xE0;

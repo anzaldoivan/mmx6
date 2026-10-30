@@ -1,7 +1,7 @@
 #include "common.h"
 
-extern s8 D_8008EF48[];
-extern u8 D_80093C98[];
+extern s8 g_enemies[];
+extern u8 g_projectiles[];
 
 void func_8002B79C(void) {
     s8 z;
@@ -12,7 +12,7 @@ void func_8002B79C(void) {
 
     z = 0;
     for (i = 0; i < 0x30; i++) {
-        p = &D_8008EF48[i * 0x9C];
+        p = &g_enemies[i * 0x9C];
         if (p[1] != 0x2F) {
             q = p;
             k = 0x9C;
@@ -22,7 +22,7 @@ void func_8002B79C(void) {
         }
     }
     for (i = 0; i < 0x20; i++) {
-        q = (s8*)D_80093C98 + i * 0xA0;
+        q = (s8*)g_projectiles + i * 0xA0;
         k = 0xA0;
         while (k--) {
             *q++ = z;

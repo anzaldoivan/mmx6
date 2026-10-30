@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_800139F4(M2C_UNK);
-void func_800186A8();
+void stop_cd_audio();
 void func_8002048C(void);
 void func_800206C0(void);
 void func_800207D4(void);
@@ -17,7 +17,7 @@ void func_800FA120(s8* arg0) {
     if ((D_800C4570 & 0x800) && D_80097424 == 0 && arg0[1] >= 2 &&
         arg0[1] != 9) {
         func_800139F4(8);
-        func_800186A8();
+        stop_cd_audio();
         arg0[1] = 9;
     }
     D_800FA5F8[arg0[1]](arg0);

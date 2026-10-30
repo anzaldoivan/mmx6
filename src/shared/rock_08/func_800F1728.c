@@ -6,7 +6,7 @@
 M2C_UNK func_80017A04();
 M2C_UNK move_object(void*);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 extern s16 D_800F6AF8;
 extern s16 D_800F6AFA;
 
@@ -22,7 +22,7 @@ void func_800F1728(void* arg0) {
     parent = FLD(arg0, void*, 0x7C);
     func_80017A04();
     move_object(arg0);
-    FLD(arg0, s32, 0x8C) = func_80031474(arg0);
+    FLD(arg0, s32, 0x8C) = check_enemy_hits(arg0);
     if (FLD(arg0, s32, 0x8C) < 0) {
         FLD(arg0, u8, 0x5) = 2;
         FLD(arg0, s16, 0x90) = 0x1E;

@@ -5,13 +5,13 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD9C (*(s32**)0x1F80009C)
 
-void func_80025FD8();
+void set_boss_level();
 void* func_8002C458();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern s32 D_800755FC;
 extern u8 D_800970B4;
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800FA004[];
 extern s32 D_800FE830;
 extern s32 D_800FE838;
@@ -48,7 +48,7 @@ void func_800FA2F0(struct X4_MainObj* self) {
     D_800FEEBC = background_objects[0].unk2A + 0x10;
     D_800FEEBE = background_objects[0].unk26 + 0x150;
     D_800FEEC0 = background_objects[0].unk26 + 0x50;
-    if (D_800CCED0.stage == 0xC) {
+    if (g_playthrough_state.stage == 0xC) {
         self->sprite_frames = (u8*)SPAD9C + SPAD9C[0];
         self->unk42 = 0x7948;
     }
@@ -75,15 +75,15 @@ void func_800FA2F0(struct X4_MainObj* self) {
     self->hp = 0;
     self->x_pos.i.hi = xv;
     self->y_pos.i.hi = yv;
-    D_800CCED0.unk25 = 0;
-    D_800CCED0.boss_ptr = self;
-    M2C_FIELD(&D_800CCED0, u8*, 0x8C) = 0x38;
-    func_80025FD8();
+    g_playthrough_state.unk25 = 0;
+    g_playthrough_state.boss_ptr = self;
+    M2C_FIELD(&g_playthrough_state, u8*, 0x8C) = 0x38;
+    set_boss_level();
     {
         // !FAKE: depin: dropping it breaks the match (149/151)
-        register s32 e asm("$2") = M2C_FIELD(&D_800CCED0, u8*, 0x8C);
-        M2C_FIELD(&D_800CCED0, u8*, 0x8C) =
-            e + tbl[M2C_FIELD(&D_800CCED0, u8*, 0x8F)];
+        register s32 e asm("$2") = M2C_FIELD(&g_playthrough_state, u8*, 0x8C);
+        M2C_FIELD(&g_playthrough_state, u8*, 0x8C) =
+            e + tbl[M2C_FIELD(&g_playthrough_state, u8*, 0x8F)];
     }
     M2C_FIELD(self, u8*, 0x87) = 0;
     M2C_FIELD(self, u8*, 0x86) = 0;

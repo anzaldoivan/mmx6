@@ -5,7 +5,7 @@
 s8 func_8001C1AC(u8);
 s32 func_8001C5EC(u8);
 s32 memcard_format(s32 device_num);
-M2C_UNK func_8002B838();
+M2C_UNK reset_level();
 extern u8 D_80097427;
 extern struct X4_MiscObj D_800E2F90;
 extern s8 D_800E30EA;
@@ -44,7 +44,7 @@ void func_800EB964(u8* arg0) {
     }
     sel = (u8)func_8001C1AC(D_800E2F90.unk6);
     if (sel != 0 && sel != 2) {
-        ((void (*)())func_8002B838)();
+        ((void (*)())reset_level)();
         D_80097427 = 0;
         arg0[1] = 0x15;
         arg0[2] = 0;
@@ -72,7 +72,7 @@ void func_800EB964(u8* arg0) {
         D_800E30EA = 0;
         arg0[3] = 0xF;
     } else {
-        ((void (*)())func_8002B838)();
+        ((void (*)())reset_level)();
         D_800E2F90.x_pos.bytes[0] = 4;
         arg0[1] = 0x15;
         arg0[2] = 0;

@@ -2,13 +2,13 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
-#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
+#define set_animation ((void (*)(void*, s32))set_animation)
 M2C_UNK func_80017B04(M2C_UNK*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
-s32 func_8002D2D4();
+s32 random_byte();
 void set_velocity_from_angle(void*, s32);
 void func_8003CF24(s32, s32, s32);
 extern s32 D_80077A08;
@@ -65,7 +65,7 @@ void func_801F01A8(struct X4_WeaponObj* arg0) {
         arg0->unk16 = 0x11;
         arg0->unk3C = temp_a0 + var_a1;
     }
-    switch (func_8002D2D4() % 3) {
+    switch (random_byte() % 3) {
     case 0:
         set_velocity_from_angle(arg0, 1);
         break;
@@ -76,18 +76,18 @@ void func_801F01A8(struct X4_WeaponObj* arg0) {
         set_velocity_from_angle(arg0, 0x1F);
         break;
     }
-    mul = (func_8002D2D4() % 3) + 3;
+    mul = (random_byte() % 3) + 3;
     arg0->x_vel.val *= mul;
     arg0->y_vel.val *= mul;
     if (arg0->unk15 == 0) {
         arg0->x_vel.val = -arg0->x_vel.val;
     }
-    func_800179A4(arg0, 0);
-    func_80016C48(1, 0x18, arg0);
+    set_animation(arg0, 0);
+    play_sound(1, 0x18, arg0);
     arg0->unk5 = 1;
     arg0->state++;
     func_8002CCB0(arg0, 0x40, 0x40);
 }
 #undef g_Player
-#undef func_800179A4
+#undef set_animation
 #undef func_8002CCB0

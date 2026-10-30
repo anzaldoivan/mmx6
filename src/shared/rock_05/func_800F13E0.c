@@ -2,14 +2,14 @@
 
 #define SCRATCH_4C (*(u8**)0x1F80004C)
 
-void* func_8002C3F8();
+void* alloc_class3_slot();
 
 void func_800F13E0(u8* arg0) {
     u8* o;
 
     if (--*(s16*)(arg0 + 0x7C) == 0) {
         arg0[5] = 2;
-        o = func_8002C3F8();
+        o = alloc_class3_slot();
         if (o != 0) {
             o[0] = 1;
             o[1] = 0x1A;

@@ -3,12 +3,12 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SCRATCH_4C (*(u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 
 void func_800E9E24(u8* arg0) {
     u16 temp_a0;
 
-    func_800179A4(arg0, 4);
+    set_animation(arg0, 4);
     temp_a0 = M2C_FIELD(arg0, u16*, 0x7E);
     M2C_FIELD(arg0, u16*, 0x7E) = 0;
     M2C_FIELD(arg0, u8*, 0x5C) = 0xC;

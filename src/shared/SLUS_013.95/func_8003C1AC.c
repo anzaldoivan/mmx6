@@ -12,10 +12,10 @@ M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
 void func_8003D598(void*);
 extern u16 D_80073CFC[];
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_8003C1AC(void* arg0) {
-    s8* e = (s8*)&D_800CCED0;
+    s8* e = (s8*)&g_playthrough_state;
     u8 t;
     if (M2C_FIELD(e, s8*, 0xC) == 0xC) {
         if (M2C_FIELD(e, s8*, 0xD) == 0) {
@@ -25,7 +25,7 @@ void func_8003C1AC(void* arg0) {
         }
     }
     {
-        s8* f = (s8*)&D_800CCED0;
+        s8* f = (s8*)&g_playthrough_state;
         t = M2C_FIELD(f, u8*, 0x5E);
         M2C_FIELD(arg0, u8*, 0xE7) = t;
         M2C_FIELD(arg0, s32*, 0xEC) =

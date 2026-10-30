@@ -1,21 +1,119 @@
 // splat symbol_addrs for SLUS_013.95. splat parses `key:value` tokens in a trailing comment as attributes, so each
 // symbol's `basis: <src>` sits on the comment line above it.
+// basis: name: community tweaks-index.tsv:38
+set_resolution = 0x80012890; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_80013300.c:12 via=OpenTh
+create_task = 0x80013300; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_80013360.c:10 via=ChangeTh
+task_yield = 0x80013360; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_800133F4.c:14 via=CloseTh
+end_task_slot = 0x800133F4; // type:func
+// basis: name: community tweaks-index.tsv:375
+load_player_files = 0x80013BF0; // type:func
+// basis: name: community tweaks-index.tsv:40
+init_loading_screen = 0x8001466C; // type:func
 // basis: name: string strings.tsv:3:SLUS_013.95:0x80010004
 load_rock_dat_file_table = 0x800147D0; // type:func
+// basis: name: oracle assets.tsv:261:vab:2
+load_vab_record = 0x80015A0C; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_80016178.c:62 via=rock_dat_file_table
+pump_file_loads = 0x80016178; // type:func
+// basis: name: community tweaks-index.tsv:33
+read_dat_file = 0x8001642C; // type:func
 // basis: name: string strings.tsv:4:SLUS_013.95:0x80010014
 load_rock_bin_file_table = 0x80016780; // type:func
+// basis: name: oracle assets.tsv:3:iso/ROCK_X6.BIN
+read_rock_bin_member = 0x80016858; // type:func
+// basis: name: community tweaks-index.tsv:324
+play_sound = 0x80016C48; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_8001750C.c:16 via=SsUtKeyOffV
+silence_sound = 0x8001750C; // type:func
+// basis: name: community tweaks-index.tsv:191
+set_animation = 0x800179A4; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_800179D0.c:8 via=arg1
+set_animation_frame = 0x800179D0; // type:func
+// basis: name: oracle assets.tsv:257:dat:245
+play_bgm_xa_track = 0x80018060; // type:func
+// basis: name: oracle assets.tsv:258:dat:246
+play_demo_xa_track = 0x80018178; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_8001854C.c:14 via=D_8007093C
+play_stage_bgm = 0x8001854C; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_800186A8.c:30 via=SsSetSerialAttr
+stop_cd_audio = 0x800186A8; // type:func
+// basis: name: oracle assets.tsv:256:dat:244
+play_str_movie = 0x8001A6CC; // type:func
 // basis: name: string strings.tsv:5:SLUS_013.95:0x80010098
 memcard_read_save_file = 0x8001C384; // type:func
 // basis: name: string strings.tsv:6:SLUS_013.95:0x800100AC
 memcard_list_files = 0x8001C4C0; // type:func
 // basis: name: string strings.tsv:6:SLUS_013.95:0x800100AC
 memcard_format = 0x8001C6C0; // type:func
+// basis: name: community tweaks-index.tsv:331
+init_title_screen = 0x8001DEB8; // type:func
+// basis: name: community tweaks-index.tsv:268
+tick_title_demo_timer = 0x8001DF5C; // type:func
+// basis: name: community tweaks-index.tsv:302
+init_new_game = 0x8001E088; // type:func
+// basis: name: community tweaks-index.tsv:308
+exit_stage_by_clear = 0x8001E32C; // type:func
 // basis: name: x4 exact 00a3e13855ef sozud/mmx4@6a6b455 src/main/object_update.c:update_layer_objects; corroborator callee src/main/object_update:update_layer_objects SLUS_013.95:0x800208EC
 update_layer_objects = 0x800208EC; // type:func
+// basis: name: community tweaks-index.tsv:362
+open_text_box = 0x80021760; // type:func
+// basis: name: community tweaks-index.tsv:363
+update_text_box = 0x80021BF4; // type:func
+// basis: name: community tweaks-index.tsv:374
+get_player_mugshot = 0x800228AC; // type:func
+// basis: name: community tweaks-index.tsv:173
+set_boss_level = 0x80025FD8; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_80029B8C.c:17 via=checkpoint
+init_checkpoint_positions = 0x80029B8C; // type:func
+// basis: name: community tweaks-index.tsv:292
+init_options_menu = 0x8002A588; // type:func
+// basis: name: community tweaks-index.tsv:381
+load_palette = 0x8002B3D4; // type:func
+// basis: name: community tweaks-index.tsv:371
+reset_level = 0x8002B838; // type:func
+// basis: name: objects objects.tsv:338 proven 7 frames; role tweaks-index.tsv:134
+enemy_slot_alloc = 0x8002BBF4; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_8002C3F8.c:12 via=D_8009B7B0; objects.tsv:341
+alloc_class3_slot = 0x8002C3F8; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_8002C4C4.c:11 via=D_800C1220; objects.tsv:342
+alloc_class4_slot = 0x8002C4C4; // type:func
+// basis: name: community tweaks-index.tsv:379
+alloc_sprite_slot = 0x8002C530; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_8002C7F0.c:11 via=D_8009C9B0; objects.tsv:344
+alloc_class6_slot = 0x8002C7F0; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_8002C950.c:11 via=D_800C4778; objects.tsv:345
+alloc_class7_slot = 0x8002C950; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_8002C9B0.c:6 via=arg0
+clear_object_slot = 0x8002C9B0; // type:func
 // basis: name: x4 exact 6534750cb678 sozud/mmx4@6a6b455 src/main/object_motion.c:move_object; corroborator caller src/main/mains/main_19_surface_hopper:surface_hopper_fly
 move_object = 0x8002D2B0; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_8002D2D4.c:10 via=D_80090E70
+random_byte = 0x8002D2D4; // type:func
 // basis: name: x4 exact e92a2af1038e sozud/mmx4@6a6b455 src/main/object_motion.c:set_velocity_from_angle; corroborator callee src/main/object_motion:set_velocity_from_angle SLUS_013.95:0x8002D3B4
 set_velocity_from_angle = 0x8002D3B4; // type:func
+// basis: name: community tweaks-index.tsv:277
+check_attack_hit = 0x8002D868; // type:func
+// basis: name: community tweaks-index.tsv:258
+check_box_collision = 0x8002E1A0; // type:func
+// basis: name: community tweaks-index.tsv:204
+scale_damage = 0x80030DC0; // type:func
+// basis: name: community tweaks-index.tsv:275
+check_enemy_hits = 0x80031474; // type:func
+// basis: name: community tweaks-index.tsv:203
+setup_pause_menu = 0x80032DF0; // type:func
+// basis: name: community tweaks-index.tsv:310
+exit_stage_from_menu = 0x800346EC; // type:func
+// basis: name: community tweaks-index.tsv:231
+handle_jump_rise = 0x80035620; // type:func
+// basis: name: community tweaks-index.tsv:193
+perform_ceiling_jump = 0x8003649C; // type:func
+// basis: name: community tweaks-index.tsv:188
+handle_slide_down = 0x80036EB0; // type:func
+// basis: name: community tweaks-index.tsv:195
+end_ceiling_dash = 0x8003737C; // type:func
 // basis: name: x4 exact 78487e2d128b sozud/mmx4@6a6b455 src/main/player.c:player_ladder_climb_on_top; corroborator callee src/main/player:player_ladder_climb_on_top SLUS_013.95:0x80017A04
 player_ladder_climb_on_top = 0x80037548; // type:func
 // basis: name: x4 exact 26cbae375ca4 sozud/mmx4@6a6b455 src/main/player.c:player_ladder_step_off_bottom; corroborator callee src/main/player:player_ladder_step_off_bottom SLUS_013.95:0x80017A04
@@ -26,8 +124,16 @@ player_ladder_let_go = 0x800377FC; // type:func
 player_hurt = 0x80037838; // type:func
 // basis: name: x4 exact 8c272e77d29e sozud/mmx4@6a6b455 src/main/player.c:player_script_vanish; corroborator callee src/main/player:player_script_vanish SLUS_013.95:0x80017A04
 player_script_vanish = 0x80037F70; // type:func
+// basis: name: community tweaks-index.tsv:216
+select_air_dash = 0x8003906C; // type:func
 // basis: name: x4 exact 67a670686326 sozud/mmx4@6a6b455 src/main/player_check.c:player_check_dash_jump_walk; corroborator callee src/main/player_check:player_check_dash_jump_walk SLUS_013.95:0x80039BC4
 player_check_dash_jump_walk = 0x80039BC4; // type:func
+// basis: name: community tweaks-index.tsv:243
+check_dash_input = 0x80039EB0; // type:func
+// basis: name: community tweaks-index.tsv:192
+check_ceiling_jump = 0x8003A870; // type:func
+// basis: name: community tweaks-index.tsv:248
+end_dash = 0x8003B114; // type:func
 // basis: name: x4 exact 0d5bb8e12551 sozud/mmx4@6a6b455 src/main/player_enter.c:player_enter_wall_cling; corroborator callee src/main/player_enter:player_enter_wall_cling SLUS_013.95:0x8003B3B8
 player_enter_wall_cling = 0x8003B3B8; // type:func
 // basis: name: x4 exact 2d72789ebd19 sozud/mmx4@6a6b455 src/main/player_enter.c:player_enter_ladder_climb_on_top; corroborator callee src/main/player_enter:player_enter_ladder_climb_on_top SLUS_013.95:0x8003CD9C
@@ -36,18 +142,76 @@ player_enter_ladder_climb_on_top = 0x8003B708; // type:func
 player_enter_ladder_step_off_bottom = 0x8003B774; // type:func
 // basis: name: x4 exact 5698b541d539 sozud/mmx4@6a6b455 src/main/player_common.c:player_spawn_dash_spark; corroborator callee src/main/player_common:player_spawn_dash_spark SLUS_013.95:0x8003C6A4
 player_spawn_dash_spark = 0x8003C6A4; // type:func
+// basis: name: community tweaks-index.tsv:260
+read_player_input = 0x8003CD44; // type:func
 // basis: name: x4 exact e08fdf21be18 sozud/mmx4@6a6b455 src/main/player_common.c:player_update_flash; corroborator callee src/main/player_common:player_update_flash SLUS_013.95:0x8003CE38
 player_update_flash = 0x8003CE38; // type:func
+// basis: name: community tweaks-index.tsv:328
+check_low_health = 0x8003D014; // type:func
+// basis: name: community tweaks-index.tsv:186
+spawn_dust = 0x8003D2BC; // type:func
 // basis: name: x4 exact 797fb806be5b sozud/mmx4@6a6b455 src/main/player_common.c:player_spawn_weapon; corroborator caller src/main/player_weapon:player_fire_weapon
 player_spawn_weapon = 0x8003D3F8; // type:func
 // basis: name: x4 exact bcd7efacb341 sozud/mmx4@6a6b455 src/main/player_common.c:player_spawn_visual; corroborator callee src/main/player_common:player_spawn_visual SLUS_013.95:0x8003D510
 player_spawn_visual = 0x8003D510; // type:func
+// basis: name: community tweaks-index.tsv:321
+map_buttons = 0x8003D7AC; // type:func
+// basis: name: community tweaks-index.tsv:221
+switch_weapon = 0x8003DBDC; // type:func
+// basis: name: community tweaks-index.tsv:202
+check_giga_attack = 0x8003E344; // type:func
+// basis: name: community tweaks-index.tsv:208
+get_weapon_energy_cost = 0x8003EB0C; // type:func
+// basis: name: community tweaks-index.tsv:207
+charge_special_weapon = 0x8003EEE4; // type:func
+// basis: name: community tweaks-index.tsv:244
+start_hover = 0x8003F200; // type:func
+// basis: name: community tweaks-index.tsv:246
+start_falcon_dash = 0x8003F28C; // type:func
 // basis: name: x4 exact b7ee5de16676 sozud/mmx4@6a6b455 src/main/player_weapon.c:player_set_animation_shooting; corroborator caller src/main/player_enter:player_enter_wall_cling
 player_set_animation_shooting = 0x8003F4C4; // type:func
+// basis: name: community tweaks-index.tsv:209
+use_weapon_energy = 0x8003F740; // type:func
 // basis: name: x4 exact 8c58cd89382c sozud/mmx4@6a6b455 src/main/player_weapon.c:player_fire_weapon; corroborator callee src/main/player_weapon:player_fire_weapon SLUS_013.95:0x8003D3F8
 player_fire_weapon = 0x8003FA60; // type:func
+// basis: name: community tweaks-index.tsv:327
+fire_charged_shot = 0x8003FA8C; // type:func
+// basis: name: community tweaks-index.tsv:197
+start_saber = 0x8003FD6C; // type:func
 // basis: name: x4 exact 0f5c026ba0d7 sozud/mmx4@6a6b455 src/main/enemy_reaction.c:spike_crawler_hit_flash; corroborator callee src/main/enemy_reaction:spike_crawler_hit_flash SLUS_013.95:0x80040304
 spike_crawler_hit_flash = 0x80040304; // type:func
+// basis: name: community tweaks-index.tsv:349
+init_orb = 0x8004228C; // type:func
+// basis: name: community tweaks-index.tsv:351
+register_orb = 0x80042D3C; // type:func
+// basis: name: community tweaks-index.tsv:223
+init_yammar_option = 0x80043638; // type:func
+// basis: name: community tweaks-index.tsv:228
+update_guard_shell = 0x8004548C; // type:func
+// basis: name: community tweaks-index.tsv:257
+clamp_player_to_ceiling = 0x80046E14; // type:func
+// basis: name: community tweaks-index.tsv:253
+move_ceiling = 0x80047460; // type:func
+// basis: name: community tweaks-index.tsv:214
+init_buster_shot_visual = 0x80049270; // type:func
+// basis: name: community tweaks-index.tsv:190
+update_dust = 0x80049564; // type:func
+// basis: name: community tweaks-index.tsv:271
+drop_item = 0x8004E680; // type:func
+// basis: name: community tweaks-index.tsv:285
+rescue_reploid = 0x8004EECC; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/rescue_reploid.c:37 via=func_8004FF00
+set_reploid_status = 0x8004FF00; // type:func
+// basis: name: code code:src/shared/SLUS_013.95/func_80018F98.c:16 via=func_8004FF4C
+get_reploid_status = 0x8004FF4C; // type:func
+// basis: name: community tweaks-index.tsv:219
+init_capsule = 0x80051158; // type:func
+// basis: name: community tweaks-index.tsv:220
+apply_capsule_part = 0x80051ED4; // type:func
+// basis: name: code code:src/shared/rock_11/func_800F23D8.c:22 via=func_800533F4
+is_text_box_seen = 0x800533F4; // type:func
+// basis: name: code code:src/shared/rock_11/func_800F23D8.c:24 via=func_80053440
+set_text_box_seen = 0x80053440; // type:func
 // basis: name: sdk 2MBYTE/2MBYTE+0x0
 __main = 0x80054AD0; // type:func
 // basis: exe header pc0 (retail bytes, phase 1.3 T2); name: sdk 2MBYTE/2MBYTE+0x8
@@ -782,6 +946,40 @@ _padCmdParaMode = 0x8006CB88; // type:func
 _padSetRC2wait = 0x8006CC30; // type:func
 // basis: name: sdk LIBPAD/PDRESRES+0x14ec
 _padChkRC2wait = 0x8006CC50; // type:func
+// basis: name: oracle assets.tsv:6:iso/STR/CAPLOGO.STR
+rock_dat_cd_file_names = 0x8006CD42;
+// basis: name: community tweaks-index.tsv:299
+g_temp_options = 0x8006D5F7;
+// basis: name: community tweaks-index.tsv:265
+default_options = 0x8006D5F8;
+// basis: name: community tweaks-index.tsv:355
+speaker_colors = 0x8006E468;
+// basis: name: code code:src/shared/SLUS_013.95/func_8001854C.c:14 via=D_8007093C
+g_stage_bgm_tracks = 0x8007093C;
+// basis: name: oracle assets.tsv:256:dat:244
+str_movie_table = 0x80070CA4;
+// basis: name: code code:src/shared/SLUS_013.95/func_8001E6E4.c:11 via=D_8007112C
+g_playthrough_state_handlers = 0x8007112C;
+// basis: name: community tweaks-index.tsv:172
+boss_level_by_rank = 0x80071D80;
+// basis: name: community tweaks-index.tsv:296
+option_values = 0x8007360C;
+// basis: name: community tweaks-index.tsv:297
+option_labels = 0x80073630;
+// basis: name: community tweaks-index.tsv:298
+option_cursors = 0x80073658;
+// basis: name: code code:src/shared/SLUS_013.95/func_80034DCC.c:60 via=D_80073ABC
+g_player_state_handlers = 0x80073ABC;
+// basis: name: community tweaks-index.tsv:218
+capsule_parts = 0x80078E08;
+// basis: name: code code:src/shared/SLUS_013.95/func_80027D6C.c:28 via=D_8008EC10
+g_tilemap_layer_stride = 0x8008EC10;
+// basis: name: community tweaks-index.tsv:134
+g_enemies = 0x8008EF48;
+// basis: name: community tweaks-index.tsv:36
+g_wide_mode = 0x80090D6A;
+// basis: name: community tweaks-index.tsv:136
+g_projectiles = 0x80093C98;
 // basis: name: x4 slot 7/0 sozud/mmx4@6a6b455 g_Player
 g_Player = 0x800970A0;
 // basis: name: x4 slot 3/0 sozud/mmx4@6a6b455 background_objects
@@ -816,3 +1014,27 @@ D_80071570 = 0x80071570;
 D_80071D78 = 0x80071D78;
 // basis: placeholder (T2.c2 leads): data object start: array base addiu %lo(D_80073D50) in code (splat dlabel)
 D_80073D50 = 0x80073D50;
+// basis: name: community tweaks-index.tsv:37
+g_screen_width = 0x8009B79C;
+// basis: name: code code:src/shared/SLUS_013.95/func_800120A0.c:47 via=D_8009B7A0
+g_cur_draw_info = 0x8009B7A0;
+// basis: name: code code:src/shared/SLUS_013.95/func_8002649C.c:29 via=D_800B91C0
+g_bg_sprite_prims = 0x800B91C0;
+// basis: name: code code:src/shared/SLUS_013.95/func_80012A34.c:47 via=D_800C456C
+g_pad1_buttons = 0x800C456C;
+// basis: name: code code:src/shared/SLUS_013.95/func_800120A0.c:47 via=D_800C4578
+g_draw_info_buffers = 0x800C4578;
+// basis: name: code code:src/shared/SLUS_013.95/func_80012A34.c:84 via=D_800C4758
+g_pad2_buttons = 0x800C4758;
+// basis: name: community tweaks-index.tsv:49
+g_playthrough_state = 0x800CCED0;
+// basis: name: code code:src/shared/SLUS_013.95/func_80027D6C.c:25 via=D_800CD338
+g_tilemap_width = 0x800CD338;
+// basis: name: code code:src/shared/SLUS_013.95/func_80027D6C.c:25 via=D_800CD339
+g_tilemap_height = 0x800CD339;
+// basis: name: community tweaks-index.tsv:380
+g_displayed_sprites = 0x800CD410;
+// basis: name: oracle assets.tsv:4:iso/ROCK_X6.DAT
+rock_dat_file_table = 0x800E0398;
+// basis: name: oracle assets.tsv:3:iso/ROCK_X6.BIN
+rock_bin_file_table = 0x800E0B58;

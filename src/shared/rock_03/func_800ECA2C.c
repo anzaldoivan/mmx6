@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_80017A04();
-extern u8 D_80093C98[];
+extern u8 g_projectiles[];
 extern struct X4_PlayerObj g_Player;
 
 void func_800ECA2C(struct X4_AnimatedObj* self) {
@@ -35,7 +35,7 @@ void func_800ECA2C(struct X4_AnimatedObj* self) {
                 }
                 self->unk5 = v;
                 n = 0;
-                for (p = D_80093C98; p < D_80093C98 + 0x1400; p += 0xA0) {
+                for (p = g_projectiles; p < g_projectiles + 0x1400; p += 0xA0) {
                     if (*(s8*)p != 0 && (*(s32*)p & 0xFFFF00) == 0x21B00) {
                         n++;
                     }
@@ -54,7 +54,7 @@ void func_800ECA2C(struct X4_AnimatedObj* self) {
                 }
                 self->unk5 = v;
                 n = 0;
-                for (p = D_80093C98; p < D_80093C98 + 0x1400; p += 0xA0) {
+                for (p = g_projectiles; p < g_projectiles + 0x1400; p += 0xA0) {
                     if (*(s8*)p != 0 && (*(s32*)p & 0xFFFF00) == 0x21B00) {
                         n++;
                     }

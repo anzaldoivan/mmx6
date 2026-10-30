@@ -3,8 +3,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern s32 D_800F6AB8;
 extern s32 D_800F6ABC;
 
@@ -28,7 +28,7 @@ void func_800EB110(void* self) {
         if (M2C_FIELD(self, u8*, 0x15) == 0) {
             M2C_FIELD(self, s16*, 0xA) = M2C_FIELD(parent, s16*, 0xA) - 0x29;
             M2C_FIELD(self, s16*, 0xE) = M2C_FIELD(parent, s16*, 0xE) + 6;
-            func_800179A4(self, 0xF);
+            set_animation(self, 0xF);
             {
                 // !FAKE: depin: dropping it breaks the match (37/99)
                 register s32 a asm("$2") = (s32)&D_800F6AB8;
@@ -37,7 +37,7 @@ void func_800EB110(void* self) {
         } else {
             M2C_FIELD(self, s16*, 0xA) = M2C_FIELD(parent, s16*, 0xA) + 0x24;
             M2C_FIELD(self, s16*, 0xE) = M2C_FIELD(parent, s16*, 0xE) - 0x11;
-            func_800179A4(self, 0x1E);
+            set_animation(self, 0x1E);
             {
                 // !FAKE: depin: dropping it breaks the match (48/99)
                 register s32 a asm("$2") = (s32)&D_800F6ABC;
@@ -48,7 +48,7 @@ void func_800EB110(void* self) {
         if (M2C_FIELD(self, u8*, 0x15) == 0) {
             M2C_FIELD(self, s16*, 0xA) = M2C_FIELD(parent, s16*, 0xA) - 0x24;
             M2C_FIELD(self, s16*, 0xE) = M2C_FIELD(parent, s16*, 0xE) - 0x11;
-            func_800179A4(self, 0x1E);
+            set_animation(self, 0x1E);
             {
                 // !FAKE: depin: dropping it breaks the match (62/99)
                 register s32 a asm("$2") = (s32)&D_800F6ABC;
@@ -57,7 +57,7 @@ void func_800EB110(void* self) {
         } else {
             M2C_FIELD(self, s16*, 0xA) = M2C_FIELD(parent, s16*, 0xA) + 0x29;
             M2C_FIELD(self, s16*, 0xE) = M2C_FIELD(parent, s16*, 0xE) + 6;
-            func_800179A4(self, 0xF);
+            set_animation(self, 0xF);
             {
                 // !FAKE: depin: dropping it breaks the match (38/99)
                 register s32 a asm("$2") = (s32)&D_800F6AB8;
@@ -71,7 +71,7 @@ void func_800EB110(void* self) {
     M2C_FIELD(self, s32*, 0x2C) = 0;
     M2C_FIELD(self, u8*, 0x5C) = 1;
     M2C_FIELD(self, u8*, 0x60) = 4;
-    func_80016C48(2, 0x10, self);
+    play_sound(2, 0x10, self);
     M2C_FIELD(self, u8*, 0x6) = 0;
     M2C_FIELD(self, u8*, 0x5) = 0;
     M2C_FIELD(self, u8*, 0x4)++;

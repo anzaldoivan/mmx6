@@ -2,10 +2,10 @@
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_Unk_unk68 D_800F5F04;
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 
 void func_800EC4C8(struct X4_MainObj* self) {
-    func_800179A4(self, 1);
+    set_animation(self, 1);
     self->x_speed = 0;
     self->ext.main_32.unk80 = 5;
     self->hurt_box = (const u8*)&D_800F5F04;

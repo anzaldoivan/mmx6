@@ -3,7 +3,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern M2C_UNK D_800743DC;
 extern M2C_UNK g_Player;
 extern M2C_UNK D_800F3698;
@@ -50,8 +50,8 @@ void func_800EAD08(void* arg0) {
         m = -0x10;
         self->x_pos.u.hi = (self->x_pos.u.hi & m) + 8;
         self->y_pos.u.hi = (self->y_pos.u.hi & m) + 0x14;
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
     } else {
-        func_800179A4(arg0, 1);
+        set_animation(arg0, 1);
     }
 }

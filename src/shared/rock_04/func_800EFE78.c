@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 extern s32 D_80097420;
 
 void func_800EFE78(struct X4_BaseObj* self) {
@@ -22,6 +22,6 @@ void func_800EFE78(struct X4_BaseObj* self) {
     c = *(u16*)((u8*)self + 0x7C) - 1;
     *(u16*)((u8*)self + 0x7C) = c;
     if ((c << 16) == 0) {
-        func_8002C9B0();
+        clear_object_slot();
     }
 }

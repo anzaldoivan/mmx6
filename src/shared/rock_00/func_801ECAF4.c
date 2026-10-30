@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 void func_80017A04(struct X4_AnimatedObj*);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void* func_8002C32C();
 extern struct X4_BackgroundObj background_objects[3];
 
@@ -27,7 +27,7 @@ void func_801ECAF4(u8* arg0) {
             dx2 = -0x40;
             dx1 = -0x40;
             i = 4;
-            func_80016C48(one, 0x25, obj);
+            play_sound(one, 0x25, obj);
             do {
                 obj = func_8002C32C();
                 if (obj != 0) {

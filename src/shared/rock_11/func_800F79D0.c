@@ -4,27 +4,27 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_8002D2D4();
+M2C_UNK set_animation(void*, M2C_UNK);
+s32 random_byte();
 
 void func_800F79D0(void* arg0) {
     s32 v;
     s32 t;
 
-    func_800179A4(arg0, (((u32)func_8002D2D4() % 3) & 0xFF) + 0x18);
-    if (func_8002D2D4() & 1) {
+    set_animation(arg0, (((u32)random_byte() % 3) & 0xFF) + 0x18);
+    if (random_byte() & 1) {
         M2C_FIELD(arg0, u8*, 0x15) = 0;
     } else {
         M2C_FIELD(arg0, u8*, 0x15) = 0x40;
     }
-    if (func_8002D2D4() & 1) {
+    if (random_byte() & 1) {
         M2C_FIELD(arg0, u16*, 0x5A) =
-            M2C_FIELD(arg0, u16*, 0x5A) + (func_8002D2D4() & 0x3F);
+            M2C_FIELD(arg0, u16*, 0x5A) + (random_byte() & 0x3F);
     } else {
         M2C_FIELD(arg0, u16*, 0x5A) =
-            M2C_FIELD(arg0, u16*, 0x5A) - (func_8002D2D4() & 0x3F);
+            M2C_FIELD(arg0, u16*, 0x5A) - (random_byte() & 0x3F);
     }
-    switch (func_8002D2D4() & 3) {
+    switch (random_byte() & 3) {
     case 0:
         v = rcos(M2C_FIELD(arg0, s16*, 0x5A));
         t = v * 16;

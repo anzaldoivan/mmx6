@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 extern void (*D_800F70D0[])(void*, void*);
 
 void func_800F2014(struct X4_AnimatedObj* arg0) {
@@ -47,6 +47,6 @@ void func_800F2014(struct X4_AnimatedObj* arg0) {
         }
     }
     if (p->state == 2 || arg0->state == 0xA) {
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
     }
 }

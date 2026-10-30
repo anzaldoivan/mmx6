@@ -4,12 +4,12 @@
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
 #define M2C_UNK s32
-void func_800179A4(void*, M2C_UNK);
+void set_animation(void*, M2C_UNK);
 
 void func_800FC87C(void* arg0) {
     s8 t;
 
-    func_800179A4(arg0, 4);
+    set_animation(arg0, 4);
     t = M2C_FIELD(arg0, s8*, 0x88);
     if (t == 1) {
         M2C_FIELD(arg0, s16*, 0x7C) =

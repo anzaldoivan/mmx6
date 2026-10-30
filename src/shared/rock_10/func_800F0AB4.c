@@ -9,7 +9,7 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(s32);
 M2C_UNK func_8002EE10();
 M2C_UNK func_80030ECC();
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049D90(void*);
 M2C_UNK func_80049E50(void*);
 
@@ -17,7 +17,7 @@ void func_800F0AB4(void* arg0) {
     ((M2C_UNK(*)())func_80017A04)();
     move_object((s32)arg0);
     if (func_80030ECC(arg0) == 0) {
-        if (func_80031474(arg0) < 0) {
+        if (check_enemy_hits(arg0) < 0) {
             ((void (*)(void*))func_80049E50)(arg0);
             M2C_FIELD(arg0, u8*, 4) = 2;
         } else {

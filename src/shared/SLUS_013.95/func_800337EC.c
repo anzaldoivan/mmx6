@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2); /* extern */
+s32 play_sound(s32 a0, s32 a1, void* arg2); /* extern */
 M2C_UNK func_80026028();
 extern u16 D_800C4570;
 
@@ -46,7 +46,7 @@ void func_800337EC(u8* arg0) {
                 self[6] = 0;
             }
         }
-            func_80016C48(0, 0x22, 0);
+            play_sound(0, 0x22, 0);
             break;
         case 0x1000:
             i = 0x17;
@@ -116,6 +116,6 @@ void func_800337EC(u8* arg0) {
         }
     }
     if (((s8*)self)[0x14] != old) {
-        func_80016C48(0, 0xC, 0);
+        play_sound(0, 0xC, 0);
     }
 }

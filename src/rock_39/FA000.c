@@ -331,10 +331,10 @@ INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FEE1C);
 #include "../shared/rock_39/func_800FF034.c"
 
 #define func_800F94C4 func_800FF06C
-#define D_800CCED0 D_800CCED0
+#define g_playthrough_state g_playthrough_state
 #include "../shared/rock_10/func_800F94C4.c"
 #undef func_800F94C4
-#undef D_800CCED0
+#undef g_playthrough_state
 
 #define func_800F5F04 func_800FBAAC
 #define func_800F955C func_800FF104
@@ -349,10 +349,10 @@ INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FEE1C);
 INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FF1BC);
 
 #define func_800F9668 func_800FF210
-#define D_800CCED0 D_800CCED0
+#define g_playthrough_state g_playthrough_state
 #include "../shared/rock_10/func_800F9668.c"
 #undef func_800F9668
-#undef D_800CCED0
+#undef g_playthrough_state
 
 #define func_800F4BA8 func_800FF284
 #include "../shared/rock_04/func_800F4BA8.c"

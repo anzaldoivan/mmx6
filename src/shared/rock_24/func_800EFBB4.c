@@ -5,8 +5,8 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20_800EFBB4 (*(s32**)0x1F800020)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04(void*);
 s32 func_8002A47C(s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
@@ -16,7 +16,7 @@ extern s8 D_800CCEF4;
 
 void func_800EFBB4(void* arg0) {
     if (M2C_FIELD(arg0, s8*, 0x45) == 1) {
-        func_80016C48(2, 0x89, (s32)arg0);
+        play_sound(2, 0x89, (s32)arg0);
     }
     if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
         M2C_FIELD(arg0, s16*, 0x40) = 0x140;
@@ -26,7 +26,7 @@ void func_800EFBB4(void* arg0) {
         M2C_FIELD(arg0, u8**, 0x3C) =
             (u8*)SPAD20_800EFBB4 +
             SPAD20_800EFBB4[func_8002A47C(M2C_FIELD(arg0, s8*, 1))];
-        func_800179A4(arg0, 3);
+        set_animation(arg0, 3);
         func_80040488(0);
         D_800CCEF4 = 1;
         {

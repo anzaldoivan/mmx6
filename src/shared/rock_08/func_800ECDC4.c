@@ -9,7 +9,7 @@ M2C_UNK move_object(void*);
 #define move_object ((void (*)(void*))move_object)
 M2C_UNK func_8002EE10(void*);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049D90(void*);
 M2C_UNK func_80049E50(void*);
 
@@ -27,7 +27,7 @@ void func_800ECDC4(struct X4_PlayerObj* self) {
         self->state = 2;
         return;
     }
-    if (self->unk2 != 0 && func_80031474(self) < 0) {
+    if (self->unk2 != 0 && check_enemy_hits(self) < 0) {
         func_80049E50(self);
         self->state = 2;
         return;

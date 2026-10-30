@@ -11,14 +11,14 @@ void player_update_flash(struct X4_PlayerObj* self);
 void func_8003EC78(struct X4_PlayerObj* arg0);
 void func_8003F048(void* arg0);
 extern void (*D_80073ACC[])(struct X4_PlayerObj*);
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 #define PB(o) (*(s8*)((u8*)p + (o)))
 #define PU(o) (*(u8*)((u8*)p + (o)))
 
 void func_80034FBC(struct X4_PlayerObj* p) {
     s32 d = PU(0xD0);
-    s32 f = (u8)D_800CCED0.unkF;
+    s32 f = (u8)g_playthrough_state.unkF;
     s32 d4 = PU(0xD4);
     s32 t = PU(0x71);
 
@@ -28,7 +28,7 @@ void func_80034FBC(struct X4_PlayerObj* p) {
     PB(0xDD) = 0;
     PU(0xD3) = d | f | d4;
     PU(0x89) = PU(0x70) | t;
-    if (D_800CCED0.unk10 == 0) {
+    if (g_playthrough_state.unk10 == 0) {
         if (PU(0xE5) != 0) {
             PU(0xE5)--;
         }
@@ -60,7 +60,7 @@ void func_80034FBC(struct X4_PlayerObj* p) {
         PB(0x72) = 0;
         PB(0x4A) = 0;
     }
-    if (D_800CCED0.unk10 != 2) {
+    if (g_playthrough_state.unk10 != 2) {
         func_8003EC78(p);
         player_update_flash(p);
         func_8003C3C8(p);

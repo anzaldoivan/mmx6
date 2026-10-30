@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void func_800EFBFC(void*, u8, s16, s16);
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s16 D_800F0EF0[];
 
 #define DIGIT(c, n)                                                            \
@@ -12,14 +12,14 @@ extern s16 D_800F0EF0[];
                   self->y_pos.i.hi + D_800F0EF0[(n) * 2 + 1])
 
 void func_800EF1F8(struct X4_BaseObj* self) {
-    u8* e = (u8*)&D_800CCED0;
+    u8* e = (u8*)&g_playthrough_state;
     s32 v;
     s32 th;
     s32 h;
     s32 t;
     s32 o;
 
-    v = ((s16*)&D_800CCED0)[M2C_FIELD(e, s8*, 0x38) + 0xD2 / 2] -
+    v = ((s16*)&g_playthrough_state)[M2C_FIELD(e, s8*, 0x38) + 0xD2 / 2] -
         M2C_FIELD(e, s16*, 0xD6);
     if (v >= 9999) {
         DIGIT(0x48, 0);

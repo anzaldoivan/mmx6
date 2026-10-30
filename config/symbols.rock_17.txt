@@ -28,8 +28,8 @@ func_800E9D04 = 0x800E9D04; // type:func size:0x34
 func_800E9D38 = 0x800E9D38; // type:func size:0x90
 // basis: post-return 0x800e9dc0
 func_800E9DC8 = 0x800E9DC8; // type:func size:0x64
-// basis: post-return 0x800e9e24
-func_800E9E2C = 0x800E9E2C; // type:func size:0x5C
+// basis: post-return 0x800e9e24; name: community tweaks-index.tsv:329
+tick_boss_intro = 0x800E9E2C; // type:func size:0x5C
 // basis: post-return 0x800e9e80
 func_800E9E88 = 0x800E9E88; // type:func size:0x34
 // basis: post-return 0x800e9eb4

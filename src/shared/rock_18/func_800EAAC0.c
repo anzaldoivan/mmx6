@@ -7,8 +7,8 @@ s32 memcard_read_save_file(s32, u8, s32);
 s32 memcard_list_files(u8, void*, void*);
 s32 func_8001C5EC(u8);
 s32 func_8001C8C4(void*);
-M2C_UNK func_8002B838();
-void* func_8002C530();
+M2C_UNK reset_level();
+void* alloc_sprite_slot();
 void func_800EC114(void);
 void func_800ED3F4(s32, s32, s32, s32);
 void func_800ED478(u8 arg0, s8 arg1, s16 arg2, s16 arg3, u8 arg4);
@@ -88,14 +88,14 @@ void func_800EAAC0(u8* arg0) {
             if (memcard_read_save_file(*(s32*)&D_800E2F90, (u8)D_800E2F90.unk6,
                                        0x2000) == 0) {
                 func_8001C8C4((void*)D_800E2F90.y_pos.val);
-                func_8002B838();
+                reset_level();
                 AB_H(self, 4) = 1;
                 func_800ED6D4(self);
                 func_800ED3F4(0x9F, 0, 0x130, 0x1B);
                 for (i = 0; i < 8; i++) {
                     func_800ED478(i - 0x60, 0, 0xB0, i * 16 + 0x30, i);
                 }
-                obj = func_8002C530();
+                obj = alloc_sprite_slot();
                 if (obj != 0) {
                     AB_B(obj, 0) = 1;
                     AB_H(obj, 0xA) = 0xE0;
@@ -103,7 +103,7 @@ void func_800EAAC0(u8* arg0) {
                     AB_B(obj, 1) = 0x2E;
                     AB_SB(obj, 2) = -0x10;
                 }
-                obj = func_8002C530();
+                obj = alloc_sprite_slot();
                 if (obj != 0) {
                     AB_B(obj, 0) = 1;
                     AB_B(obj, 1) = 0x2D;

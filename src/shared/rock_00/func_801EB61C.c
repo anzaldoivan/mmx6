@@ -9,7 +9,7 @@ void func_80017A04(struct X4_AnimatedObj*);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 M2C_UNK func_8003D10C(void*);
 M2C_UNK func_801EBF28();
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_801EB61C(void* arg0) {
     if (M2C_FIELD(arg0, s8*, 0x8F) != 0) {
@@ -22,7 +22,8 @@ void func_801EB61C(void* arg0) {
     }
     if (M2C_FIELD(arg0, u8*, 0x17) == 6) {
         struct X4_EngineObj* e =
-            (struct X4_EngineObj*)((s8*)&D_800CCED0 - -M2C_FIELD(arg0, s8*, 2));
+            (struct X4_EngineObj*)((s8*)&g_playthrough_state -
+                                   -M2C_FIELD(arg0, s8*, 2));
         if (M2C_FIELD(arg0, s8*, 0x5C) >= (s8)(M2C_FIELD(e, s8*, 0x5B) / 3)) {
             func_8003BA04(arg0, 5);
             return;

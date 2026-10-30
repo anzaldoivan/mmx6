@@ -4,8 +4,8 @@
 
 #define SCRATCH_4C (*(u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_8002D2D4();
+M2C_UNK set_animation(void*, M2C_UNK);
+s32 random_byte();
 extern s8 D_800CCF5C;
 #define D_800CCF5C (*(u8*)&D_800CCF5C)
 
@@ -17,7 +17,7 @@ void func_800EFE14(struct X4_MainObj* self) {
     register s32 c asm("$2");
     u8 m;
 
-    r = func_8002D2D4() & 0xF;
+    r = random_byte() & 0xF;
     m = SCRATCH_4C[0x8B];
     if (m == 2) {
         if ((s8)D_800CCF5C / 2 < self->hp) {
@@ -49,8 +49,8 @@ void func_800EFE14(struct X4_MainObj* self) {
         } while (0);
         if (self->hp < (s8)D_800CCF5C / 2) {
         chk:
-            if (SCRATCH_4C[0x89] == 1 && (func_8002D2D4() & 3)) {
-                func_800179A4(self, 0);
+            if (SCRATCH_4C[0x89] == 1 && (random_byte() & 3)) {
+                set_animation(self, 0);
                 {
                     // !FAKE: depin: dropping it breaks the match (103/106)
                     register s32 a asm("$2") = 0x5A;

@@ -2,11 +2,11 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 
 void func_800EC858(struct X4_MainObj* arg0) {
     arg0->unk15 = ((struct X4_MainObj*)arg0->attack_box)->unk15;
-    func_800179A4(arg0, 0xD);
+    set_animation(arg0, 0xD);
     {
         // !FAKE: depin: dropping it breaks the match (14/20)
         register s32 t asm("$2") = arg0->unk42;

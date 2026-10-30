@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern M2C_UNK D_800743DC;
 extern M2C_UNK g_Player;
 extern u8 D_800CCF38;
@@ -45,7 +45,7 @@ void func_800EAFFC(void* arg0) {
     M2C_FIELD(arg0, void**, 0x68) = &D_800FAADC;
     M2C_FIELD(arg0, void**, 0x54) = &D_800FAAE4;
     M2C_FIELD(arg0, void**, 0x50) = &D_800FAAE0;
-    func_800179A4(arg0, 0);
+    set_animation(arg0, 0);
     {
         // !FAKE: depin: dropping it breaks the match (64/68)
         register s32 one asm("$2") = 1;

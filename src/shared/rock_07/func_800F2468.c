@@ -4,8 +4,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object(void*);
 void func_800F6880(void* arg0, u8 arg1, s16 arg2, s16 arg3);
 extern s16 D_800970AA;
@@ -42,7 +42,7 @@ void func_800F2468(void* arg0) {
         }
     }
 set:
-    ((void (*)(void*, s32, u16))func_800179A4)(arg0, 0x27, x);
+    ((void (*)(void*, s32, u16))set_animation)(arg0, 0x27, x);
     self->input.buttons.held = 0x5A;
     self->attacking = 0;
     self->unk68 = (void*)&D_800F907C;
@@ -63,6 +63,6 @@ body:
     }
     if (--M2C_FIELD(self, s16*, 0x7C) == 0) {
         self->input.buttons.held = 0x32;
-        func_80016C48(2, 0x5F, arg0);
+        play_sound(2, 0x5F, arg0);
     }
 }

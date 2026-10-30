@@ -4,10 +4,10 @@
 void func_80024CC0(s32 arg0, u8 arg1);
 void func_800253AC(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4, u32 arg5,
                    u32 arg6);
-s32 func_8003EB0C(void* arg0, s32 arg1);
+s32 get_weapon_energy_cost(void* arg0, s32 arg1);
 extern u8 D_80071DC4[];
 extern s8 D_800970A2;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 #define FB(p, o) (*(s8*)((u8*)(p) + (o)))
 #define FH(p, o) (*(s16*)((u8*)(p) + (o)))
@@ -22,7 +22,7 @@ void func_800249D4(void* arg0) {
 
     i = FB(arg0, 0x93);
     if (i == 0) {
-        struct X4_EngineObj* e = &D_800CCED0;
+        struct X4_EngineObj* e = &g_playthrough_state;
         x = (s8) * ((u8*)&e->controlled_player + 1);
         d = x / 10;
         func_80024CC0(3, d + 0x3B);
@@ -33,7 +33,7 @@ void func_800249D4(void* arg0) {
             t = (s16*)((u8*)arg0 + 0xA8);
             x = *(s16*)((u8*)t + k);
         }
-        x = (s16)(x / func_8003EB0C(arg0, i));
+        x = (s16)(x / get_weapon_energy_cost(arg0, i));
         func_80024CC0(0xB, x / 100 + 0x3B);
         func_80024CC0(0xC, (s16)(x % 100) / 10 + 0x3B);
         func_80024CC0(0xD, x % 10 + 0x3B);
@@ -49,7 +49,7 @@ void func_800249D4(void* arg0) {
         func_80024CC0(2, x);
     }
     {
-        u8* p = (u8*)&D_800CCED0;
+        u8* p = (u8*)&g_playthrough_state;
         s32 j = D_800970A2;
         x = (*(s8*)(p - -j + 0x5B) - 0x20) / 2 + 0x88;
     }

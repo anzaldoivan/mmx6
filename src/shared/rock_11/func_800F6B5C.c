@@ -6,7 +6,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK move_object(void*);
-s32 func_8002D2D4();
+s32 random_byte();
 extern struct X4_PlayerObj g_Player;
 extern u8 D_800CCF38;
 
@@ -37,7 +37,7 @@ void func_800F6B5C(void* arg0) {
         } else {
             M2C_FIELD(arg0, u8*, 0x15) = 0;
         }
-        M2C_FIELD(arg0, u16*, 0x7C) = ((u32)func_8002D2D4() % 40 & 0xFF) + 0x32;
+        M2C_FIELD(arg0, u16*, 0x7C) = ((u32)random_byte() % 40 & 0xFF) + 0x32;
         M2C_FIELD(arg0, u8*, 0x5)++;
     }
 }

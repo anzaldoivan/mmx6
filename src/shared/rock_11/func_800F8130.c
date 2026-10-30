@@ -4,24 +4,24 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_8002D2D4();
+M2C_UNK set_animation(void*, M2C_UNK);
+s32 random_byte();
 
 void func_800F8130(void* self) {
     // !FAKE: depin: dropping it breaks the match (43/50)
     register s32 ang asm("$16");
     s32 spd;
 
-    func_800179A4(self, 0x12);
+    set_animation(self, 0x12);
     M2C_FIELD(self, u8*, 0x3) = 1;
     if (M2C_FIELD(self, u8*, 0x15) == 0) {
-        ang = func_8002D2D4() * 4 + 0x400;
+        ang = random_byte() * 4 + 0x400;
     } else {
-        ang = func_8002D2D4() * 4;
+        ang = random_byte() * 4;
     }
     do {
         // !FAKE: depin: dropping it breaks the match (48/50)
-        register s32 m asm("$2") = func_8002D2D4() & 0x1F;
+        register s32 m asm("$2") = random_byte() & 0x1F;
         spd = m + 0x20;
     } while (0);
     M2C_FIELD(self, s16*, 0xA) += (rcos(ang) * spd) >> 12;

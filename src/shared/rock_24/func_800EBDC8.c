@@ -13,7 +13,7 @@ M2C_UNK func_8002F288(M2C_UNK*);
 #define func_8002F288 ((M2C_UNK(*)(void*))func_8002F288)
 M2C_UNK func_80030ECC(void*, s16);
 #define func_80030ECC ((s32(*)(void*))func_80030ECC)
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern s16 D_800970AE;
 
@@ -35,7 +35,7 @@ void func_800EBDC8(struct X4_MainObj* self) {
     }
     func_80017A04(self);
     move_object(self);
-    r = func_80031474(self);
+    r = check_enemy_hits(self);
     if (self->unk2 == 0) {
         flags = FLAGS;
         self->on_screen = 1;

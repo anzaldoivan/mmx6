@@ -4,11 +4,11 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 void* func_8002C458();
 M2C_UNK move_object(s32);
-s32 func_8002D2D4();
+s32 random_byte();
 extern u16 D_800FD59A;
 
 #define SPAWN_HEAD(kind)                                                       \
@@ -45,7 +45,7 @@ void func_800F69A0(struct X4_MainObj* arg0) {
             c->unk15 = arg0->unk15;
             c->unk7C = (void*)arg0;
         }
-        n = (u8)((u32)func_8002D2D4() % 3) + 1;
+        n = (u8)((u32)random_byte() % 3) + 1;
         for (i = 0; i < n; i++) {
             c = func_8002C458();
             if (c != 0) {
@@ -55,9 +55,9 @@ void func_800F69A0(struct X4_MainObj* arg0) {
                 c->unk7C = (void*)arg0;
             }
         }
-        func_80016C48(2, 0x6F, arg0);
+        play_sound(2, 0x6F, arg0);
         M2C_FIELD(arg0, u8*, 0x93) = 0xB4;
-        arg0->unk7C = (u8)((u32)func_8002D2D4() % 6) + 2;
+        arg0->unk7C = (u8)((u32)random_byte() % 6) + 2;
         arg0->unk6++;
         break;
     case 1:

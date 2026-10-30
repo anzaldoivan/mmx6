@@ -1,14 +1,14 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_MiscObj D_800CD410[];
+extern struct X4_MiscObj g_displayed_sprites[];
 extern u8 D_800CF7B0[];
 extern u8 D_800CF810[];
 
 s8* func_8002C5F0(s8* p, s32 back) {
     if (back == 0) {
         if (p == 0) {
-            p = (s8*)D_800CD410;
+            p = (s8*)g_displayed_sprites;
         } else {
             p += 0x60;
         }
@@ -28,12 +28,12 @@ s8* func_8002C5F0(s8* p, s32 back) {
         if (p == 0) {
             p = (s8*)D_800CF7B0;
         } else {
-            if (p == (s8*)D_800CD410) {
+            if (p == (s8*)g_displayed_sprites) {
                 return 0;
             }
             p -= 0x60;
         }
-        for (; p >= (s8*)D_800CD410; p -= 0x60) {
+        for (; p >= (s8*)g_displayed_sprites; p -= 0x60) {
             if (*p == 0) {
                 s8* q = p;
                 s32 k = 0x5F;

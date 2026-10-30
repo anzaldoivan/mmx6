@@ -9,7 +9,7 @@ extern s16 D_800F48EE;
 extern s16 D_800F48F0;
 
 void func_800EA11C(u8* self) {
-    extern u8 D_800CCED0[];
+    extern u8 g_playthrough_state[];
     s8* e;
     s32 t;
 
@@ -21,7 +21,7 @@ void func_800EA11C(u8* self) {
     t = D_800F48EC - 1;
     D_800F48EC = t;
     if ((t << 16) == 0) {
-        e = (s8*)D_800CCED0;
+        e = (s8*)g_playthrough_state;
         if (++e[0x28] >= D_800F48F0) {
             self[2]++;
             e[0x28] = D_800F48F0;

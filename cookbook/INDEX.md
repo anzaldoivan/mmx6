@@ -277,3 +277,10 @@ C0274 | Batch rename: name asm-only starts, rebuild the ledger, make boundaries 
 C0275 | Ghidra round-trip src diff: importer must set the row's source when analysis already holds the name | ghidra,roundtrip,import,source,psx_ldr | 2026-10-26 | 2.3/T4 | mmx6 T4
 C0276 | Header adoption across shared-include TUs: adopt per (TU component, library), check by .o compare | header,include,prototype,conflicting-types,object-compare | 2026-10-26 | 2.3/T4 | mmx6 T4.c2
 C0277 | Cross-unit masked twin: assign only a unique hit, count the ambiguous ones | twins,masked,protodiff,proto,census | 2026-10-26 | 2.3/T5 | mmx6 T5.c1
+C0278 | git add a moved source before make badges / debt --update (they skip untracked files) | rename,badges,debt,git | 2026-10-30 | 2.3/T8 | T8.c1 log
+C0279 | Fix a community-sheet code address to an overlay member by matching its instruction word | overlay,member,tweaks,workbook,stage,objects,names | 2026-10-30 | 2.3/T9 | mmx6 T9 boss-id narrowing
+C0280 | Overlay-local data names do not link in a rename batch. Rebuild ledger and debt after | rename,overlay,link,provide,ledger,debt | 2026-10-30 | 2.3/T10 | mmx6 T10.c2
+C0281 | make format splits a long INCLUDE_ASM line and carve then drops its asm | clang-format,include_asm,carve,format | 2026-10-30 | 2.3/T10 | mmx6 T10.c2
+C0282 | Tie a boss update function to its stage: type-id link, state-table reach, health word | names,boss,objects,basis,code,via,overlay | 2026-10-30 | 2.3/T18 | mmx6 T18 v2 re-judge
+C0283 | Share one expensive gather between a checker's self-test and its run | self-test,harness,cache,health,fleet | 2026-10-30 | 2.3/T19 | mmx6 T19.c1
+C0284 | Judge a community RAM-map row: code corroborator, superseded sweep, struct-head cast test | names,community,ram,data,struct,basis,code | 2026-10-30 | 2.3/T11 | mmx6 T11 B8

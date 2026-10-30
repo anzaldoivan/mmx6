@@ -2,9 +2,9 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK move_object(void*);
 extern s32 D_8007798C;
 extern struct X4_PlayerObj g_Player;
@@ -40,12 +40,12 @@ void func_801EDFC8(u8* arg0) {
             if (SB(arg0, 2) != 0) {
                 H(arg0, 0xE) =
                     background_objects[SB(arg0, 0x14)].y_pos.u.hi - 0x120;
-                func_800179A4(arg0, 0xC);
+                set_animation(arg0, 0xC);
             } else {
                 H(arg0, 0xE) =
                     background_objects[SB(arg0, 0x14)].y_pos.u.hi - 0x80;
                 W(arg0, 0x50) = (s32)&D_801EE3DC;
-                func_800179A4(arg0, 0xB);
+                set_animation(arg0, 0xB);
             }
             W(arg0, 0x24) = 0xFFF80000;
             B(arg0, 0x64) = B(arg0, 0x45);
@@ -71,10 +71,10 @@ void func_801EDFC8(u8* arg0) {
         if (H(arg0, 0xE) >=
             background_objects[SB(arg0, 0x14)].y_pos.i.hi + 0x190) {
         block_16:
-            func_8002C9B0(arg0);
+            clear_object_slot(arg0);
         }
     } else if (H(arg0, 0xE) >=
                background_objects[SB(arg0, 0x14)].y_pos.i.hi + 0x170) {
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
     }
 }

@@ -2,9 +2,9 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
-#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
+#define set_animation ((void (*)(void*, s32))set_animation)
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
 s32 func_801EE34C();
@@ -41,9 +41,9 @@ void func_801F129C(struct X4_WeaponObj* arg0) {
     kind = arg0->unk2;
     arg0->unk64 = 1;
     if (kind == 0) {
-        func_80016C48(1, 0x1B, arg0);
+        play_sound(1, 0x1B, arg0);
         func_801EE34C(arg0, player, arg0->id);
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
     } else if (kind == 1) {
         parent = (struct X4_WeaponObj*)arg0->owner;
         arg0->x_pos.i.hi = parent->x_pos.i.hi;
@@ -52,7 +52,7 @@ void func_801F129C(struct X4_WeaponObj* arg0) {
         arg0->unk50 = D_801F3A4C;
         arg0->unk68 = (struct X4_Unk_unk68*)&D_801F3A50;
         arg0->unk5 = parent->unk5 + 1;
-        func_800179A4(arg0, 1);
+        set_animation(arg0, 1);
     } else if (kind == 2) {
         parent = (struct X4_WeaponObj*)arg0->owner;
         arg0->x_pos.i.hi = parent->x_pos.i.hi;
@@ -61,11 +61,11 @@ void func_801F129C(struct X4_WeaponObj* arg0) {
         arg0->unk50 = parent->unk50;
         arg0->unk68 = parent->unk68;
         arg0->unk5 = parent->unk5 + 1;
-        func_800179A4(arg0, 3);
+        set_animation(arg0, 3);
     }
     func_8002CCB0(arg0, 0x20, 0x20);
     arg0->state++;
 }
 #undef g_Player
-#undef func_800179A4
+#undef set_animation
 #undef func_8002CCB0

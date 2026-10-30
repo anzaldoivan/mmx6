@@ -3,13 +3,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 
 void func_800F4050(void* arg0) {
     func_80017A04();
     if (M2C_FIELD(arg0, s8*, 0x45) == 1) {
-        func_800179A4(arg0, 2);
+        set_animation(arg0, 2);
         {
             // !FAKE: pin the constant to the first return register as retail does
             register s32 k asm("$2") = 4;

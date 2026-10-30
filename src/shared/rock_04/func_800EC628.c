@@ -4,7 +4,7 @@
 
 #define FX(p, type, off) (*(type*)((u8*)(p) + (off)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK move_object(void*);
 M2C_UNK func_8002F288(M2C_UNK*);
 u8 func_80030234(struct X4_PlayerObj*, s16, s16);
@@ -49,7 +49,7 @@ void func_800EC628(void* arg0) {
             FX(arg0, s32, 0x24) = 0;
             FX(arg0, u16, 0xE) = (FX(arg0, u16, 0xE) & 0xFFF0) | 8;
             if (FX(arg0, s8, 0x3) != 0) {
-                func_80016C48(2, 0x11, arg0);
+                play_sound(2, 0x11, arg0);
             }
         }
     }

@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-extern M2C_UNK func_8002C9B0();
+extern M2C_UNK clear_object_slot();
 extern s16 D_800F9868;
 extern s16 D_800F986A;
 
@@ -14,5 +14,5 @@ void func_800F7024(u8* arg0) {
     } else if (kind == 0x50 && arg0[0x96] == 1) {
         D_800F986A--;
     }
-    ((M2C_UNK(*)())func_8002C9B0)(arg0, kind);
+    ((M2C_UNK(*)())clear_object_slot)(arg0, kind);
 }

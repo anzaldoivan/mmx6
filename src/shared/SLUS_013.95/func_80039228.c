@@ -8,13 +8,13 @@ void func_8002ABA8();
 void func_8003963C(void* arg0);
 void func_8003A980(void* arg0);
 void func_8003C4EC(struct X4_PlayerObj* self);
-s32 func_8003EB0C(void* arg0, s32 arg1);
+s32 get_weapon_energy_cost(void* arg0, s32 arg1);
 M2C_UNK func_8003F3DC(void*); /* extern */
 extern s8 D_800970FC;
 extern s8 D_8009711A;
 extern s32 D_80097420;
 extern s32 D_800C1220[];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CCEEC;
 
 #define ENG_98 M2C_FIELD(e, s32*, 0x98)
@@ -38,14 +38,14 @@ top:
     }
     if ((M2C_FIELD(arg0, u8*, 0x70) & 0xC) == 0xC) {
         {
-            void* e = &D_800CCED0;
+            void* e = &g_playthrough_state;
             ENG_98 += M2C_FIELD(arg0, u8*, 0x5C) & 0x7F;
         }
         M2C_FIELD(arg0, s8*, 0x5C) = -0x80;
     }
     if ((M2C_FIELD(arg0, u8*, 0x70) & 3) == 3) {
         {
-            void* e = &D_800CCED0;
+            void* e = &g_playthrough_state;
             ENG_98 += M2C_FIELD(arg0, u8*, 0x5C) & 0x7F;
         }
         M2C_FIELD(arg0, s8*, 0x5C) = -0x80;
@@ -69,7 +69,7 @@ top:
             b = M2C_FIELD(arg0, u8*, 0x5C) &= 0x7F;
             if (M2C_FIELD(arg0, s8*, 0xE6) >= b) {
                 {
-                    void* e = &D_800CCED0;
+                    void* e = &g_playthrough_state;
                     ENG_98 += b;
                 }
             }
@@ -90,7 +90,7 @@ top:
                 M2C_FIELD(arg0, s8*, 0x63) = 4;
             }
             {
-                void* e = &D_800CCED0;
+                void* e = &g_playthrough_state;
                 ENG_98 += M2C_FIELD(arg0, s8*, 0xE6);
             }
         } else {
@@ -100,7 +100,7 @@ top:
     if (M2C_FIELD(arg0, s8*, 0x79) != 0 && M2C_FIELD(arg0, s8*, 0x61) == 0 &&
         M2C_FIELD(arg0, s8*, 0x7A) != 1) {
         {
-            void* e = &D_800CCED0;
+            void* e = &g_playthrough_state;
             ENG_98 += (u8)D_800970FC & 0x7F;
         }
         M2C_FIELD(arg0, s8*, 0x5C) = -0x80;
@@ -141,7 +141,7 @@ top:
             M2C_FIELD(arg0, s16*, 0xA8) = M2C_FIELD(arg0, s16*, 0x14A);
         }
     } else {
-        M2C_FIELD(arg0, s16*, 0xB2) += func_8003EB0C(arg0, 5) / 2;
+        M2C_FIELD(arg0, s16*, 0xB2) += get_weapon_energy_cost(arg0, 5) / 2;
         if (M2C_FIELD(arg0, s16*, 0xB2) >= M2C_FIELD(arg0, s16*, 0x14A)) {
             M2C_FIELD(arg0, s16*, 0xB2) = M2C_FIELD(arg0, s16*, 0x14A);
         }

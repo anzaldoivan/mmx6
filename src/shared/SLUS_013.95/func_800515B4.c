@@ -4,12 +4,12 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 void func_80031F4C(struct X4_PlayerObj*);
 M2C_UNK func_8003208C();
 s32 func_80032B34(struct X4_PlayerObj*);
 s8 func_80032BE8(struct X4_PlayerObj* arg0);
-void func_80051158(struct X4_MainObj* self);
+void init_capsule(struct X4_MainObj* self);
 M2C_UNK func_80051890();
 extern s32 D_80075B9C;
 extern s32 D_80078DFC;
@@ -25,7 +25,7 @@ void func_800515B4(struct X4_MainObj* self) {
     self->unk1C.val = self->y_pos.val;
     if (self->unk2 != 0x10) {
         if (self->state == 0) {
-            func_80051158(self);
+            init_capsule(self);
             return;
         }
         func_80051890(self);
@@ -33,7 +33,7 @@ void func_800515B4(struct X4_MainObj* self) {
     }
     link = M2C_FIELD(self, s8**, 0x7C);
     if (link[0] == 0) {
-        ((M2C_UNK(*)())func_8002C9B0)(self);
+        ((M2C_UNK(*)())clear_object_slot)(self);
         return;
     }
     st = M2C_FIELD(self, u8*, 4);

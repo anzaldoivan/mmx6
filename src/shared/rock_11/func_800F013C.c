@@ -4,9 +4,9 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_800179D0(void*, M2C_UNK, s8);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
+M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 extern struct X4_PlayerObj g_Player;
 extern s32 D_800FCBA4;
 extern s32 D_800FCBA8;
@@ -39,7 +39,7 @@ void func_800F013C(void* arg0) {
     case 0:
         F(u8, 0x60) = 4;
         F(u8, 0x16) = 4;
-        ((void (*)(void*, s32, s32))func_800179D0)(arg0, 0x20, 0xA);
+        ((void (*)(void*, s32, s32))set_animation_frame)(arg0, 0x20, 0xA);
         F(s8, 0x14) = -1;
         F(s16, 0x88) = 0;
         F(s16, 0xA) = 0xA0;
@@ -52,7 +52,7 @@ void func_800F013C(void* arg0) {
             F(u8, 0x5) = 0;
             F(s16, 0x8E) = py;
         }
-        ((void (*)(s32, s32, void*))func_80016C48)(2, 0x30, arg0);
+        ((void (*)(s32, s32, void*))play_sound)(2, 0x30, arg0);
         break;
     case 0x10:
         F(u8, 0x60) = 6;
@@ -69,8 +69,8 @@ void func_800F013C(void* arg0) {
         F(u8, 0x5) = 2;
         break;
     case 0x30:
-        ((void (*)(s32, s32, void*))func_80016C48)(2, 0x3A, arg0);
-        ((void (*)(void*, s32))func_800179A4)(arg0, 0x3E);
+        ((void (*)(s32, s32, void*))play_sound)(2, 0x3A, arg0);
+        ((void (*)(void*, s32))set_animation)(arg0, 0x3E);
         x = F(u16, 0xA);
         F(u8, 0x16) = 0x22;
         F(u16, 0x8C) = x;

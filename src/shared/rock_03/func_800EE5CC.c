@@ -4,7 +4,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK); /* extern */
+M2C_UNK set_animation(void*, M2C_UNK); /* extern */
 extern struct X4_PlayerObj g_Player;
 extern M2C_UNK D_800F77B0;
 extern M2C_UNK D_800F77B4;
@@ -34,15 +34,15 @@ void func_800EE5CC(void* arg0) {
     M2C_FIELD(arg0, void**, 0x50) = &D_800F77B4;
     switch (M2C_FIELD(arg0, s8*, 0x2)) {
     case 0:
-        ((void (*)(void*, s32))func_800179A4)(arg0, 0);
+        ((void (*)(void*, s32))set_animation)(arg0, 0);
         M2C_FIELD(arg0, u8*, 0x5) = 1;
         break;
     case 1:
-        ((void (*)(void*, s32))func_800179A4)(arg0, 0);
+        ((void (*)(void*, s32))set_animation)(arg0, 0);
         M2C_FIELD(arg0, u8*, 0x5) = 1;
         break;
     case 2:
-        ((void (*)(void*, s32))func_800179A4)(arg0, 0);
+        ((void (*)(void*, s32))set_animation)(arg0, 0);
         M2C_FIELD(arg0, u8*, 0x5) = 1;
         break;
     case 3:

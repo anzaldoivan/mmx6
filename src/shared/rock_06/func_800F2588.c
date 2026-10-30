@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);    /* extern */
+M2C_UNK set_animation(void*, M2C_UNK);    /* extern */
 struct X4_VisualObj* func_8002C398(void); /* extern */
 void func_800F04E8(void* arg0);
 void func_800F071C(void* arg0);
@@ -14,7 +14,7 @@ void func_800F2588(void* arg0) {
 
     if (M2C_FIELD(arg0, s8*, 2) == 0) {
         M2C_FIELD(arg0, u8*, 6) = 1;
-        ((void (*)(void*, s32))func_800179A4)(arg0, 0xC);
+        ((void (*)(void*, s32))set_animation)(arg0, 0xC);
         if (M2C_FIELD(arg0, u8*, 0x8D) == 0) {
             u8* p = (u8*)&g_Player;
             M2C_FIELD(p, u8*, 0xD8) = 0x34;
@@ -39,7 +39,7 @@ void func_800F2588(void* arg0) {
         M2C_FIELD(o, void**, 0x50) = arg0;
         M2C_FIELD(o, u8*, 0x15) = M2C_FIELD(arg0, u8*, 0x15);
     }
-    ((void (*)(void*, s32))func_800179A4)(arg0, 0xE);
+    ((void (*)(void*, s32))set_animation)(arg0, 0xE);
     if (M2C_FIELD(arg0, u8*, 0x8D) == 0) {
         u8* p = (u8*)&g_Player;
         M2C_FIELD(p, u8*, 0xD8) = 0x40;

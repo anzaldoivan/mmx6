@@ -7,7 +7,7 @@ void func_80037A60(void* arg0);        /* extern */
 void func_8003AD18(void* arg0);        /* extern */
 M2C_UNK func_8003AFF4(s32);            /* extern */
 M2C_UNK func_8003BA04(void*, M2C_UNK); /* extern */
-void func_8003D014(void* arg0);        /* extern */
+void check_low_health(void* arg0);     /* extern */
 void func_8003D394(void* arg0);        /* extern */
 extern u8 D_800CCF2F;
 
@@ -55,7 +55,7 @@ void func_80035BDC(void* arg0) {
             M2C_FIELD(arg0, u8*, 0x61) = 0;
             return;
         }
-        func_8003D014(arg0);
+        check_low_health(arg0);
         M2C_FIELD(arg0, s8*, 0xA4) = -1;
     }
 }

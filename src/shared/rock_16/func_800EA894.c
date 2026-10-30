@@ -2,12 +2,12 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void func_80027BA0(s32, s32, s32, void*);
 void func_800F0DDC();
 extern struct X4_BackgroundObj background_objects[3];
-extern u16 D_800C456C[];
-extern struct X4_EngineObj D_800CCED0;
+extern u16 g_pad1_buttons[];
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F0BAC[];
 extern u8 D_800F0BC4[][6][8];
 extern s16 D_800F0DA4[][3];
@@ -16,18 +16,18 @@ extern u8 D_800F1CB7;
 extern s8 D_800F1CB8[];
 extern u8 D_800F1CC4[];
 
-#define ENG_SEL (D_800CCED0.character_state.bytes[1])
-#define ENG_26 (D_800CCED0.character_state.bytes[0])
-#define ENG_66 ((u8)D_800CCED0.character_state.bytes[0x40])
+#define ENG_SEL (g_playthrough_state.character_state.bytes[1])
+#define ENG_26 (g_playthrough_state.character_state.bytes[0])
+#define ENG_66 ((u8)g_playthrough_state.character_state.bytes[0x40])
 
 void func_800EA894(struct X4_EngineObj* arg0) {
     s8 old;
     s16 idx;
 
     old = ENG_SEL;
-    switch (D_800C456C[0] & 0xF000) {
+    switch (g_pad1_buttons[0] & 0xF000) {
     case 0x1000:
-        if (old != 8 && ((D_800C456C[0] ^ D_800C456C[2]) & 0x1000)) {
+        if (old != 8 && ((g_pad1_buttons[0] ^ g_pad1_buttons[2]) & 0x1000)) {
             if (arg0->unk8 != 0) {
                 arg0->unk8--;
             } else {
@@ -41,7 +41,7 @@ void func_800EA894(struct X4_EngineObj* arg0) {
                         arg0->unk8 = m;
                     }
                 }
-                func_80016C48(5, 0, 0);
+                play_sound(5, 0, 0);
                 if (ENG_SEL >= 4) {
                     ENG_SEL -= 4;
                 } else {
@@ -51,7 +51,7 @@ void func_800EA894(struct X4_EngineObj* arg0) {
         }
         break;
     case 0x4000:
-        if (old != 8 && ((D_800C456C[0] ^ D_800C456C[2]) & 0x4000)) {
+        if (old != 8 && ((g_pad1_buttons[0] ^ g_pad1_buttons[2]) & 0x4000)) {
             if (arg0->unk8 != 0) {
                 arg0->unk8--;
             } else {
@@ -65,7 +65,7 @@ void func_800EA894(struct X4_EngineObj* arg0) {
                         arg0->unk8 = m;
                     }
                 }
-                func_80016C48(5, 0, 0);
+                play_sound(5, 0, 0);
                 if (ENG_SEL < 4) {
                     ENG_SEL += 4;
                 } else {
@@ -75,7 +75,7 @@ void func_800EA894(struct X4_EngineObj* arg0) {
         }
         break;
     case 0x2000:
-        if ((D_800C456C[0] ^ D_800C456C[2]) & 0x2000) {
+        if ((g_pad1_buttons[0] ^ g_pad1_buttons[2]) & 0x2000) {
             if (arg0->unk8 != 0) {
                 arg0->unk8--;
             } else {
@@ -89,7 +89,7 @@ void func_800EA894(struct X4_EngineObj* arg0) {
                         arg0->unk8 = m;
                     }
                 }
-                func_80016C48(5, 0, 0);
+                play_sound(5, 0, 0);
                 if (ENG_SEL == 8) {
                     ENG_SEL = 2;
                 } else if (ENG_66 >= 3 && ENG_SEL == 1) {
@@ -103,7 +103,7 @@ void func_800EA894(struct X4_EngineObj* arg0) {
         }
         break;
     case 0x8000:
-        if ((D_800C456C[0] ^ D_800C456C[2]) & 0x8000) {
+        if ((g_pad1_buttons[0] ^ g_pad1_buttons[2]) & 0x8000) {
             if (arg0->unk8 != 0) {
                 arg0->unk8--;
             } else {
@@ -117,7 +117,7 @@ void func_800EA894(struct X4_EngineObj* arg0) {
                         arg0->unk8 = m;
                     }
                 }
-                func_80016C48(5, 0, 0);
+                play_sound(5, 0, 0);
                 if (ENG_SEL == 8) {
                     ENG_SEL = 1;
                 } else if (ENG_66 >= 3 && ENG_SEL == 2) {
@@ -136,7 +136,7 @@ void func_800EA894(struct X4_EngineObj* arg0) {
         break;
     }
 
-    if (D_800C456C[2] & 0x840) {
+    if (g_pad1_buttons[2] & 0x840) {
         if (ENG_SEL == 8) {
             u8 t = ((u8*)arg0)[0x66];
             if (t == 3) {
@@ -151,23 +151,23 @@ void func_800EA894(struct X4_EngineObj* arg0) {
         }
         if (arg0->stage != 0) {
             arg0->substage = D_800F1CB7;
-            func_80016C48(5, 1, 0);
+            play_sound(5, 1, 0);
             arg0->unk2++;
             ENG_26 = 1;
             arg0->unk8 = 0;
             D_800F1CC4[0] = 1;
             D_800F1CC4[1] = 1;
         }
-    } else if (D_800C456C[2] & 4) {
-        func_80016C48(5, 0, 0);
+    } else if (g_pad1_buttons[2] & 4) {
+        play_sound(5, 0, 0);
         D_800F1CC4[0] = 2;
         D_800F1CC4[1] = 1;
         arg0->unk8 = 0;
         arg0->unkA = 0;
         arg0->unk1 = 5;
         arg0->unk2 = 0;
-    } else if (D_800C456C[2] & 8) {
-        func_80016C48(5, 0, 0);
+    } else if (g_pad1_buttons[2] & 8) {
+        play_sound(5, 0, 0);
         D_800F1CC4[0] = 1;
         D_800F1CC4[1] = 2;
         arg0->unk8 = 0;

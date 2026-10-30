@@ -5,11 +5,11 @@
 #define OH(p, o) (*(s16*)((u8*)(p) + (o)))
 #define OW(p, o) (*(s32*)((u8*)(p) + (o)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-s32 func_800179A4(void*, s32);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+s32 set_animation(void*, s32);
 M2C_UNK func_80017A04();
 M2C_UNK move_object(void*);
-s32 func_8002D2D4();
+s32 random_byte();
 extern u8 D_800CCF5F;
 extern s16 D_800F6AF8;
 
@@ -27,12 +27,12 @@ void func_800F0AB0(void* self) {
             if (v != 4) {
                 if (v != 5) {
                     OUB(self, 0x89) = D_800CCF5F + 1;
-                    if (!(func_8002D2D4() & 1)) {
-                        func_80016C48(2, 0x27, self);
+                    if (!(random_byte() & 1)) {
+                        play_sound(2, 0x27, self);
                     } else {
-                        func_80016C48(2, 0x28, self);
+                        play_sound(2, 0x28, self);
                     }
-                    func_800179A4(self, 3);
+                    set_animation(self, 3);
                     t = OUB(self, 6) + 1;
                     OUB(self, 6) = t;
                 }
@@ -44,12 +44,12 @@ void func_800F0AB0(void* self) {
             if (v != 4) {
                 if (v != 5) {
                     OUB(self, 0x89) = D_800CCF5F + 1;
-                    if (!(func_8002D2D4() & 1)) {
-                        func_80016C48(2, 0x27, self);
+                    if (!(random_byte() & 1)) {
+                        play_sound(2, 0x27, self);
                     } else {
-                        func_80016C48(2, 0x28, self);
+                        play_sound(2, 0x28, self);
                     }
-                    func_800179A4(self, 3);
+                    set_animation(self, 3);
                     t = OUB(self, 6) + 1;
                     OUB(self, 6) = t;
                 }

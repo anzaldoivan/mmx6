@@ -4,8 +4,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
@@ -25,8 +25,8 @@ void func_800FAADC(struct X4_MainObj* self) {
         func_8002D230(self);
     } else if ((u16)(self->unk7C - 0x32) < 0x10) {
         if (t == 0x32) {
-            func_800179A4(self, 2);
-            func_80016C48(2, 0x99, self);
+            set_animation(self, 2);
+            play_sound(2, 0x99, self);
             M2C_FIELD(self, u16*, 0x88) = M2C_FIELD(self, u16*, 0xA);
         }
         {
@@ -48,7 +48,7 @@ void func_800FAADC(struct X4_MainObj* self) {
     } else if (t < 0x7E) {
     } else if ((u16)(self->unk7C - 0x7E) < 0x10) {
         if (t == 0x7E) {
-            func_80016C48(2, 0x99, self);
+            play_sound(2, 0x99, self);
             if (D_800970AA > (D_800FE284 + D_800FE286) / 2) {
                 self->unk15 = 0x40;
                 M2C_FIELD(self, u16*, 0x88) = (u16)D_800FE284 + 0x20;
@@ -74,7 +74,7 @@ void func_800FAADC(struct X4_MainObj* self) {
         func_8002D230(self);
     } else if (t < 0xC0) {
         if (t == 0x8E) {
-            func_800179A4(self, 0);
+            set_animation(self, 0);
             {
                 // !FAKE: depin: dropping it breaks the match (134/136)
                 register s32 c asm("$2") = M2C_FIELD(self, u16*, 0x88);
@@ -87,7 +87,7 @@ void func_800FAADC(struct X4_MainObj* self) {
         func_8002D230(self);
     } else {
         M2C_FIELD(self, s16*, 0x8A) = 0;
-        func_800179A4(self, 7);
+        set_animation(self, 7);
         self->unk7C = 0x3C;
         self->unk7E = 0;
         self->unk6++;

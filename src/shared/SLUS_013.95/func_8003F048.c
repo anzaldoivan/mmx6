@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void func_8003DBDC(void* self);
+void switch_weapon(void* self);
 void func_8003DD6C(void* self);
 M2C_UNK func_8003DF58(void*);
 M2C_UNK func_8003F0BC(void*);
@@ -12,7 +12,7 @@ void func_8003F048(void* arg0) {
     s8 temp_s0;
 
     if (M2C_FIELD(arg0, s8*, 2) != 0) {
-        func_8003DBDC(arg0);
+        switch_weapon(arg0);
         return;
     }
     temp_s0 = M2C_FIELD(arg0, s8*, 0x93);

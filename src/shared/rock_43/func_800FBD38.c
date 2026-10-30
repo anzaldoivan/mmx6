@@ -4,9 +4,9 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_8002D2D4();
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
+s32 random_byte();
 extern s32 D_8007429C;
 extern s32 D_800FE210;
 extern s32 D_800FE214;
@@ -50,7 +50,7 @@ void func_800FBD38(struct X4_MainObj* self) {
         M2C_FIELD(self, u16*, 0xA) = M2C_FIELD(PARENT, u16*, 0xA) + 0x40;
     }
     M2C_FIELD(self, u16*, 0xE) = M2C_FIELD(PARENT, u16*, 0xE) - 0x4C;
-    if (func_8002D2D4() & 1) {
+    if (random_byte() & 1) {
         if (self->unk15 == 0) {
             self->x_speed = 0xFFFE0000;
         } else {
@@ -68,9 +68,9 @@ void func_800FBD38(struct X4_MainObj* self) {
     self->gravity = 0;
     self->hp = 1;
     self->contact_damage = 0xA;
-    func_800179A4(self, 0xF);
-    func_80016C48(2, 0x92, self);
-    func_80016C48(2, 0x96, self);
+    set_animation(self, 0xF);
+    play_sound(2, 0x92, self);
+    play_sound(2, 0x96, self);
     M2C_FIELD(self, s32*, 0x8C) = 0;
     self->unk5 = 0;
     self->state++;

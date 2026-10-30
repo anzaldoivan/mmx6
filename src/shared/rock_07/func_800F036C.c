@@ -7,7 +7,7 @@ M2C_UNK func_80017A04();
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 extern s8 D_80097244;
 extern s32 D_800F8DD8;
@@ -20,7 +20,7 @@ void func_800F036C(void* arg0) {
     M2C_FIELD(arg0, s32*, 0x1C) = M2C_FIELD(arg0, s32*, 0xC);
     M2C_FIELD(arg0, u8*, 0) |= 0x10;
     func_80017A04(arg0);
-    if (func_80031474(arg0) < 0) {
+    if (check_enemy_hits(arg0) < 0) {
         M2C_FIELD(arg0, u8*, 3) = 0;
         rect[0] = M2C_FIELD(arg0, u16*, 0xA) - 0x10;
         rect[1] = M2C_FIELD(arg0, u16*, 0xE) + 0x1F0;

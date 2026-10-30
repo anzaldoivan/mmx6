@@ -5,7 +5,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void func_800F6C70(void*, s16, s16, s16);
 extern struct X4_PlayerObj g_Player;
 
@@ -26,7 +26,7 @@ void func_800F3180(void* arg0) {
         y += 0x34;
         do {
             ang = ratan2(y - g_Player.y_pos.i.hi, g_Player.x_pos.i.hi - x);
-            func_80016C48(2, 0x63, arg0);
+            play_sound(2, 0x63, arg0);
         } while (0);
         {
             // !FAKE: depin: dropping it breaks the match (66/68)

@@ -3,9 +3,9 @@
 
 extern struct X4_PlayerObj g_Player;
 extern s32 D_80097420;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 
 void func_80034574(struct X4_PlayerObj* arg0) {
     s32 hp;
@@ -14,8 +14,8 @@ void func_80034574(struct X4_PlayerObj* arg0) {
 
     if (!(D_80097420 & 1)) {
         struct X4_PlayerObj* pl = &g_Player;
-        s8* e = (s8*)&D_800CCED0;
-        max = ((s8*)&D_800CCED0 + pl->unk2)[0x5B];
+        s8* e = (s8*)&g_playthrough_state;
+        max = ((s8*)&g_playthrough_state + pl->unk2)[0x5B];
         hp = pl->hp & 0x7F;
         if (hp != max) {
             v = hp + 1;
@@ -24,7 +24,7 @@ void func_80034574(struct X4_PlayerObj* arg0) {
             }
             pl->hp = v;
             if (!(D_80097420 & 3)) {
-                func_80016C48(0, 0x17, 0);
+                play_sound(0, 0x17, 0);
             }
         } else {
             arg0->unk5 = 8;

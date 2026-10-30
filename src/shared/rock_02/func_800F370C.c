@@ -4,7 +4,7 @@
 #define SPAD20 (*(s32*)0x1F800020)
 #define SPAD4C (*(u8**)0x1F80004C)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 s32 func_8002A47C(s32);
 void* func_8002C458();
@@ -14,7 +14,7 @@ void func_800F370C(void* arg0) {
 
     func_80017A04(arg0);
     if (M2C_FIELD(arg0, s8*, 0x45) == 1) {
-        func_80016C48(2, 0x7E, arg0);
+        play_sound(2, 0x7E, arg0);
         if (!(SPAD4C[0x8A] & 1)) {
             child = func_8002C458();
             if (child != 0) {

@@ -7,7 +7,7 @@
 #define B(p, o) M2C_FIELD(p, u8*, o)
 #define H(p, o) M2C_FIELD(p, s16*, o)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F5A1C(void* arg0) {
@@ -15,7 +15,7 @@ void func_800F5A1C(void* arg0) {
     struct X4_BackgroundObj* bg;
 
     if (SB(arg0, 0x45) == 1) {
-        func_800179A4(arg0, 4);
+        set_animation(arg0, 4);
         {
             // !FAKE: depin: dropping it breaks the match (33/35)
             register s32 f asm("$2") = B(arg0, 0x15);

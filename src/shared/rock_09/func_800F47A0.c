@@ -1,6 +1,6 @@
 #include "common.h"
 #define M2C_UNK s32
-void* func_8002C3F8();
+void* alloc_class3_slot();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 
 #define F8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -13,7 +13,7 @@ void func_800F47A0(void* arg0) {
     s32 t;
 
     if (--*(s16*)((u8*)arg0 + 0x7C) == 0) {
-        obj = func_8002C3F8();
+        obj = alloc_class3_slot();
         if (obj != 0) {
             F8(obj, 0) = 1;
             F8(obj, 1) = 0x1A;

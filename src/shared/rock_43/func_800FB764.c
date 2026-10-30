@@ -5,8 +5,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern M2C_UNK D_8007433C;
 extern struct X4_PlayerObj g_Player;
 extern s32 D_800FDE30;
@@ -85,8 +85,8 @@ void func_800FB764(struct X4_MainObj* self) {
     self->gravity = 0;
     self->hp = 1;
     self->contact_damage = 0x10;
-    func_800179A4(self, 0xC);
-    func_80016C48(2, 0x8F, self);
+    set_animation(self, 0xC);
+    play_sound(2, 0x8F, self);
     M2C_FIELD(self, s32*, 0x8C) = 0;
     self->unk5 = 0;
     self->state++;

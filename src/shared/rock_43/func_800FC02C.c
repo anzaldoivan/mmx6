@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern s32 D_800FDE30;
 
 #define PARENT (*(u8**)((u8*)&D_800FDE30 + 0x468))
@@ -45,7 +45,7 @@ void func_800FC02C(void* arg0) {
     B(arg0, 0x5C) = 0;
     B(arg0, 0x60) = 0;
     W(arg0, 0x8C) = 0;
-    func_800179A4(arg0, 0x10);
+    set_animation(arg0, 0x10);
     t = B(arg0, 4);
     B(arg0, 5) = 0;
     B(arg0, 4) = t + 1;

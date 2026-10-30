@@ -3,13 +3,13 @@
 
 void func_8001A330(u8, s32, s32, s32, s32, s32);
 extern s8 D_800970A2;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_800190FC(void) {
     s32 v;
 
-    if (D_800CCED0.stage != 0) {
-        v = *(s16*)((u8*)&D_800CCED0 + D_800970A2 * 2 + 0xD2);
+    if (g_playthrough_state.stage != 0) {
+        v = *(s16*)((u8*)&g_playthrough_state + D_800970A2 * 2 + 0xD2);
         if (v >= 10000) {
             v = 9999;
         }

@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void player_set_animation_shooting(struct X4_PlayerObj* self, s32 animation);
 
 void player_enter_wall_cling(void* arg0) {
@@ -11,7 +11,7 @@ void player_enter_wall_cling(void* arg0) {
     register s32 t asm("$3");
 
     player_set_animation_shooting(arg0, 0xD);
-    func_80016C48(1, 4, arg0);
+    play_sound(1, 4, arg0);
     t = M2C_FIELD(arg0, u8*, 0x89);
     {
         // !FAKE: the -1 constant lives in the first return register

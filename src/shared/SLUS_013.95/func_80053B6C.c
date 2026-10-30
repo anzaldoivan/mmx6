@@ -2,9 +2,9 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
-struct X4_QuadObj* func_8002C7F0(void);
-s32 func_8002D2D4();
+s32 play_sound(s32 a0, s32 a1, void* arg2);
+struct X4_QuadObj* alloc_class6_slot(void);
+s32 random_byte();
 s32 func_8002D30C();
 void func_80049F98();
 extern u16 D_80090E70;
@@ -24,18 +24,18 @@ void func_80053B6C(struct X4_EffectObj* self) {
         func_80049F98(self, 1, 0x60, 0x60, 2);
     }
     if (!(func_8002D30C() & 1)) {
-        q = func_8002C7F0();
+        q = alloc_class6_slot();
         if (q != 0) {
             q->active = 1;
             q->id = 4;
-            func_8002D2D4();
+            random_byte();
             q->x_pos.u.lo = D_80090E70 & 0xFFF;
             q->x_pos.u.hi = self->x_pos.u.hi;
             q->y_pos.u.hi = self->y_pos.u.hi;
         }
     }
-    if (!(func_8002D2D4() & 3)) {
-        q2 = func_8002C7F0();
+    if (!(random_byte() & 3)) {
+        q2 = alloc_class6_slot();
         if (q2 != 0) {
             q2->active = 1;
             q2->id = 6;
@@ -54,7 +54,7 @@ void func_80053B6C(struct X4_EffectObj* self) {
         } while (0);
         self->unk7 = 1;
         D_800CCEF4 = 0;
-        func_80016C48(0, 5, 0);
+        play_sound(0, 5, 0);
         D_800C4560 = 1;
     }
 }

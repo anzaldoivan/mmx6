@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2); /* extern */
+s32 play_sound(s32 a0, s32 a1, void* arg2); /* extern */
 extern struct X4_PlayerObj g_Player;
 extern u16 D_800C4570;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800CCF35;
 
 void func_80033500(u8* arg0) {
@@ -31,7 +31,7 @@ void func_80033500(u8* arg0) {
         *(s32*)(arg0 + 0x34) = 0;
         switch (old) {
         case 10:
-            e = (u8*)&D_800CCED0;
+            e = (u8*)&g_playthrough_state;
             {
                 // !FAKE: depin: dropping it breaks the match (177/187)
                 register s32 x asm("$3") = g_Player.unk2;
@@ -45,7 +45,7 @@ void func_80033500(u8* arg0) {
             }
             break;
         case 11:
-            e = (u8*)&D_800CCED0;
+            e = (u8*)&g_playthrough_state;
             {
                 // !FAKE: depin: dropping it breaks the match (177/187)
                 register s32 x asm("$3") = g_Player.unk2;
@@ -128,6 +128,6 @@ void func_80033500(u8* arg0) {
         break;
     }
     if (((s8*)arg0)[0x14] != old) {
-        func_80016C48(0, 0xC, 0);
+        play_sound(0, 0xC, 0);
     }
 }

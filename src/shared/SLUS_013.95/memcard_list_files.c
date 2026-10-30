@@ -11,6 +11,7 @@ char* strcpy(char* dst, char* src);
 void* nextfile(void* dir);
 void* firstfile(char* name, void* dir);
 
+// func_8001C4C0_name: builds the card path for a file name
 static inline void func_8001C4C0_name(char* path, char* name) {
     *(struct X4_MemcardPath*)path = D_800100AC;
     memset(path + 6, 0, 0x1A);

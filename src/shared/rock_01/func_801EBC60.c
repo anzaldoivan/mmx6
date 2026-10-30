@@ -3,8 +3,8 @@
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-s32 func_8002D2D4();
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+s32 random_byte();
 s32 func_80039C40(void*);
 s32 func_80039C9C(void*);
 s32 func_80039CFC(void*);
@@ -15,7 +15,7 @@ M2C_UNK func_8003AE8C(void*);
 void func_8003B870(struct X4_PlayerObj* self);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 M2C_UNK func_8003CFE0(void*, M2C_UNK);
-s32 func_801EA680(u8* arg0);
+s32 start_rekkoha(u8* arg0);
 void func_801EAE7C(void* arg0);
 s32 func_801ECCD4(void*);
 extern s8 D_800CCEDF;
@@ -23,7 +23,7 @@ extern s8 D_800CCEDF;
 static inline s32 func_801EBC60_h1(void* arg0) {
     if (M2C_FIELD(arg0, s8*, 0xD3) == 0) {
         M2C_FIELD(arg0, u8*, 0xDD) = 1;
-        if (func_801EA680(arg0) != 0) {
+        if (start_rekkoha(arg0) != 0) {
             return 1;
         }
         M2C_FIELD(arg0, u8*, 0xDD) = 0;
@@ -36,8 +36,8 @@ static inline s32 func_801EBC60_h2(void* arg0) {
         return 0;
     }
     func_8003BA04(arg0, 0x58);
-    func_80016C48(1, 7, arg0);
-    if (func_8002D2D4() & 4) {
+    play_sound(1, 7, arg0);
+    if (random_byte() & 4) {
         func_8003CFE0(arg0, 3);
     }
     M2C_FIELD(arg0, u8*, 0x84) = 0;

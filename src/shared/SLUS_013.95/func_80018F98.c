@@ -3,7 +3,7 @@
 extern u8 D_800CCEDC;
 #define D_800CCEDC (*(s8*)&D_800CCEDC)
 void func_8001A330(u8, s32, s32, s32, s32, s32);
-s32 func_8004FF4C(s32);
+s32 get_reploid_status(s32);
 
 void func_80018F98(void) {
     s32 i;
@@ -13,7 +13,7 @@ void func_80018F98(void) {
         n = 0;
         i = 0;
         do {
-            if (func_8004FF4C(i) == 2) {
+            if (get_reploid_status(i) == 2) {
                 n += 1;
             }
             i += 1;

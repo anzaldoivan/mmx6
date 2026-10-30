@@ -4,7 +4,7 @@
 
 #define SPAD20_800F43B8 (*(s32*)0x1F800020)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void func_80027BA0(s32, s32, s32, void*);
 s32 func_8002A47C(s32);
 extern u8 D_800F7518[];
@@ -37,7 +37,7 @@ void func_800F43B8(struct X4_MainObj* arg0) {
         (const u8*)(SPAD20_800F43B8 +
                     *(s32*)(func_8002A47C(D_800F7800->id) * 4 +
                             SPAD20_800F43B8 + 4));
-    func_800179A4(arg0, 0x21);
+    set_animation(arg0, 0x21);
     i = arg0->unk2 - 0xF;
     arg0->x_pos.u.hi = D_800F7768[i * 2];
     arg0->y_pos.u.hi = D_800F7768[i * 2 + 1];

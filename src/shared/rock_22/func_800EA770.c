@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 M2C_UNK func_8003D308(M2C_UNK, u8);
 
 extern struct X4_PlayerObj g_Player;
@@ -29,7 +29,7 @@ void func_800EA770(struct X4_PlayerObj* self) {
         bg[1].unk4C = 1;
         i = 0;
         do {
-            obj = func_8002BBF4();
+            obj = enemy_slot_alloc();
             n = i + 1;
             if (obj != 0) {
                 obj->active = 0x41;
@@ -52,7 +52,7 @@ void func_800EA770(struct X4_PlayerObj* self) {
         bg[1].unk4C = 1;
         i = 0;
         do {
-            obj = func_8002BBF4();
+            obj = enemy_slot_alloc();
             n = i + 1;
             if (obj != 0) {
                 obj->active = 0x41;
@@ -74,7 +74,7 @@ void func_800EA770(struct X4_PlayerObj* self) {
         bg[1].unk4C = 1;
         i = 0;
         do {
-            obj = func_8002BBF4();
+            obj = enemy_slot_alloc();
             n = i + 1;
             if (obj != 0) {
                 obj->active = 0x41;

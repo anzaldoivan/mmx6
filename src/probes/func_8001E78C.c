@@ -2,10 +2,10 @@
 #include "common.h"
 
 extern u8 D_800CCEDC;
-void func_8001854C(void);
+void play_stage_bgm(void);
 
 void func_8001E78C(void) {
     if ((u32)(D_800CCEDC - 9) >= 2) {
-        func_8001854C();
+        play_stage_bgm();
     }
 }

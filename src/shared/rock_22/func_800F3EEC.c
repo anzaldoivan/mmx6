@@ -2,11 +2,11 @@
 #include "common.h"
 #include "mmx6/x4.h"
 extern u8 D_800FC6D4[];
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 
 void func_800F3EEC(struct X4_MainObj* self) {
     self->unk6 = 1;
     self->unk7C = 0;
-    func_800179A4(
+    set_animation(
         self, D_800FC6D4[SP_CUR_MAIN_OBJ->ext.main_19.animation_index >> 1]);
 }

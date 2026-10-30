@@ -3,9 +3,9 @@
 #define M2C_UNK s32
 
 M2C_UNK SsSetSerialAttr(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK SsSetMVol(M2C_UNK, M2C_UNK);          /* extern */
-M2C_UNK SsStart();                          /* extern */
-M2C_UNK SsSetSerialVol(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
+M2C_UNK SsSetMVol(M2C_UNK, M2C_UNK);                /* extern */
+M2C_UNK SsStart();                                  /* extern */
+M2C_UNK SsSetSerialVol(M2C_UNK, M2C_UNK, M2C_UNK);  /* extern */
 
 void func_80017488(void) {
     SsStart();

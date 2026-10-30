@@ -12,7 +12,7 @@ extern s16 D_80090D5C;
 extern s32 D_80097420;
 extern s16 D_80097430;
 extern u8 D_800C4560;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s16 D_800CF854;
 
 void func_800F0744(void* arg0) {
@@ -43,10 +43,10 @@ void func_800F0744(void* arg0) {
         D_800C4560 |= 1;
         if ((u16)c == 0) {
             func_8002B2F8(0);
-            D_800CCED0.enable_boss = 1;
-            D_800CCED0.unk25 = 1;
-            D_800CCED0.boss_ptr = arg0;
-            M2C_FIELD(&D_800CCED0, u8*, 0x8C) = 0x7F;
+            g_playthrough_state.enable_boss = 1;
+            g_playthrough_state.unk25 = 1;
+            g_playthrough_state.boss_ptr = arg0;
+            M2C_FIELD(&g_playthrough_state, u8*, 0x8C) = 0x7F;
             M2C_FIELD(arg0, s16*, 0x7C) = 2;
             M2C_FIELD(arg0, u8*, 6)++;
         }

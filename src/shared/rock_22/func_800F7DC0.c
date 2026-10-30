@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_8002D2D4();
+s32 random_byte();
 extern s16 D_800970AE;
 
 #define F6(p) (*(u8*)((u8*)(p) + 0x6))
@@ -13,7 +13,7 @@ extern s16 D_800970AE;
 void func_800F7DC0(void* arg0) {
     s32 r;
 
-    r = func_8002D2D4() & 3;
+    r = random_byte() & 3;
     if (F7(arg0) >= 2) {
         if (F7C(arg0) == 0) {
             if (r == 0) {

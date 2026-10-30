@@ -5,8 +5,8 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 
 extern M2C_UNK D_800741FC;
@@ -38,9 +38,9 @@ void func_800EA770(struct X4_PlayerObj* self) {
         register s32 t asm("$2");
 
         func_8002943C(8, 2, 2);
-        func_80016C48(2, 0x1D, self);
+        play_sound(2, 0x1D, self);
         func_80012D9C(5);
-        func_800179A4(self, 5);
+        set_animation(self, 5);
         dir = self->unk15;
         vx = -0x28000;
         if (dir != 0) {
@@ -70,8 +70,8 @@ void func_800EA770(struct X4_PlayerObj* self) {
         s16 x;
         u8 dir;
 
-        func_80016C48(2, 0x1C, self);
-        func_800179A4(self, 6);
+        play_sound(2, 0x1C, self);
+        set_animation(self, 6);
         dir = self->unk15;
         vx = -0x30000;
         if (dir != 0) {
@@ -100,8 +100,8 @@ void func_800EA770(struct X4_PlayerObj* self) {
     } else {
         s16 x;
 
-        func_80016C48(2, 0x1B, self);
-        func_800179A4(self, 6);
+        play_sound(2, 0x1B, self);
+        set_animation(self, 6);
         self->x_vel.val = 0;
         self->unk28 = 0;
         self->y_vel.val = 0;

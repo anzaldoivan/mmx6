@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void* func_8002C3F8();
+void* alloc_class3_slot();
 M2C_UNK func_8003D308(M2C_UNK, u8);
 extern s8 D_800970A5;
 extern struct X4_BackgroundObj background_objects[3];
@@ -18,7 +18,7 @@ void func_800F90D4(void* arg0) {
         background_objects[0].unk47 = 2;
         D_800FD598 = background_objects[0].unk48;
         func_8003D308(0x1D, 0x40);
-        temp_v0 = func_8002C3F8();
+        temp_v0 = alloc_class3_slot();
         if (temp_v0 != 0) {
             M2C_FIELD(temp_v0, s8*, 0) = 1;
             M2C_FIELD(temp_v0, s8*, 1) = 0x18;

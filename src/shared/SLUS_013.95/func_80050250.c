@@ -3,16 +3,16 @@
 #include "mmx6/x4.h"
 
 void func_80012D9C(s32);
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 void func_8002B79C();
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 void func_80031DA8(struct X4_MainObj*);
 s32 func_80050C88(void*);
 void func_80051104(struct X4_ItemObj* arg0);
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CCEF6;
 extern s8 D_800CCEF8;
 
@@ -53,13 +53,13 @@ void func_80050250(struct X4_ItemObj* arg0, s32 arg1, u8* arg2) {
     if (func_80050C88(arg0) == 0) {
         return;
     }
-    if (D_800CCED0.gameplay_locked == 0) {
+    if (g_playthrough_state.gameplay_locked == 0) {
         if (arg0->unk2 == 0x19 || arg0->unk2 == 0x27) {
-            func_80016C48(5, 1, 0);
+            play_sound(5, 1, 0);
             func_80012D9C(4);
         }
     }
-    D_800CCED0.gameplay_locked = 1;
+    g_playthrough_state.gameplay_locked = 1;
     arg2[0xD4] = 1;
     if (arg0->unk2 == 0x19) {
         if ((s16)background_objects[1].unk42 >= -0x4F) {
@@ -74,7 +74,7 @@ void func_80050250(struct X4_ItemObj* arg0, s32 arg1, u8* arg2) {
             }
             return;
         }
-        func_80016C48(5, 3, p);
+        play_sound(5, 3, p);
         background_objects[1].unk3 = 0;
     } else if (arg0->unk2 == 0x27) {
         if (I84++ < 0x70) {
@@ -88,13 +88,13 @@ void func_80050250(struct X4_ItemObj* arg0, s32 arg1, u8* arg2) {
             return;
         }
         background_objects[1].unk3 = 0;
-        func_80016C48(5, 3, p);
+        play_sound(5, 3, p);
     }
     if (arg0->unk7C.timer == 0) {
         func_8002B79C();
     }
     if (arg0->unk2 == 7) {
-        p = func_8002BBF4();
+        p = enemy_slot_alloc();
         p[0] = 0x41;
         p[1] = 0x19;
         p[2] = 4;

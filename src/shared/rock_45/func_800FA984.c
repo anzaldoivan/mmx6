@@ -5,8 +5,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern s32 D_80075AFC;
 extern struct X4_PlayerObj g_Player;
 extern s32 D_800FCA84;
@@ -44,7 +44,7 @@ void func_800FA984(void* arg0) {
     M2C_FIELD(arg0, void**, 0x54) = &D_800FCE28;
     M2C_FIELD(arg0, void**, 0x58) = &D_80075AFC;
     M2C_FIELD(arg0, u8*, 0x15) = t15;
-    ((void (*)(void*, s32, s32, s32))func_800179A4)(arg0, 0xD, t3c, t15);
+    ((void (*)(void*, s32, s32, s32))set_animation)(arg0, 0xD, t3c, t15);
     if (M2C_FIELD(arg0, u8*, 0x15) == 0) {
         M2C_FIELD(arg0, s16*, 0xA) = M2C_FIELD(PARENT, s16*, 0xA) - 0x10;
     } else {
@@ -97,7 +97,7 @@ void func_800FA984(void* arg0) {
         u8 c = M2C_FIELD(q, u8*, 0x7) + 1;
         M2C_FIELD(q, u8*, 0x7) = c;
     }
-    func_80016C48(2, 0x43, arg0);
+    play_sound(2, 0x43, arg0);
     M2C_FIELD(arg0, u8*, 0x6) = 0;
     M2C_FIELD(arg0, u8*, 0x4)++;
     M2C_FIELD(arg0, u8*, 0x5) = M2C_FIELD(arg0, u8*, 0x2);

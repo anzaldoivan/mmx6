@@ -6,10 +6,10 @@ extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_80077AB0;
 extern s16 D_801F3B20[];
-M2C_UNK func_800179A4(void*, M2C_UNK);
-#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+M2C_UNK set_animation(void*, M2C_UNK);
+#define set_animation ((void (*)(void*, s32))set_animation)
 void func_80017A04(struct X4_AnimatedObj*);
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 void func_8003CF24(s32, s32, s32);
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 
@@ -19,7 +19,7 @@ void func_801F2E0C(u8* arg0) {
     s32 i;
 
     if (M2C_FIELD(player, s8*, 5) != 0x4A) {
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
         return;
     }
     if (M2C_FIELD(arg0, s8*, 4) == 0) {
@@ -34,14 +34,14 @@ void func_801F2E0C(u8* arg0) {
         func_8003CF24(0x54, 0x1A, 1);
         if (M2C_FIELD(player, s32*, 0x24) != 0) {
             if (M2C_FIELD(player, s32*, 0x24) > 0) {
-                func_800179A4(arg0, 3);
+                set_animation(arg0, 3);
                 M2C_FIELD(arg0, s8*, 5) = 0;
             } else {
-                func_800179A4(arg0, 4);
+                set_animation(arg0, 4);
                 M2C_FIELD(arg0, s8*, 5) = 1;
             }
         } else {
-            func_800179A4(arg0, 5);
+            set_animation(arg0, 5);
             M2C_FIELD(arg0, s8*, 5) = 2;
             if (M2C_FIELD(player, u8*, 0x15) != 0) {
                 M2C_FIELD(arg0, s8*, 5) = 3;
@@ -70,8 +70,8 @@ void func_801F2E0C(u8* arg0) {
     }
     func_80017A04((struct X4_AnimatedObj*)arg0);
     if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
     }
 }
 #undef g_Player
-#undef func_800179A4
+#undef set_animation

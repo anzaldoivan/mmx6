@@ -2,9 +2,9 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(void*);
@@ -61,7 +61,7 @@ void func_801EDCC8(u8* arg0) {
         }
         H(arg0, 0xE) = UH(pl, 0xE) - 6;
         W(arg0, 0x24) = 0;
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
         W(arg0, 0x84) = H(arg0, 0xA);
         B(arg0, 4)++;
         // !FAKE: shared tail call block placed last, as retail lays it out
@@ -115,7 +115,7 @@ void func_801EDCC8(u8* arg0) {
         }
     inc:
         B(arg0, 4)++;
-        func_800179A4(arg0, 1);
+        set_animation(arg0, 1);
         W(arg0, 0x68) = 0;
         W(arg0, 0x50) = 0;
         return;
@@ -129,7 +129,7 @@ void func_801EDCC8(u8* arg0) {
         goto tail;
     }
 dead:
-    func_8002C9B0(arg0);
+    clear_object_slot(arg0);
     return;
 tail:
     func_8002CCB0(arg0, 0x10, 0x10);

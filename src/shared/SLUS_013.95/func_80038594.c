@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-void func_8001750C(u8, u8);
+void silence_sound(u8, u8);
 M2C_UNK func_8002D5D0(void*);
 s32 func_8002FE30(void*);
 M2C_UNK func_8003CD9C();
@@ -12,7 +12,7 @@ M2C_UNK func_8003CD9C();
     {                                                                          \
         u16 f;                                                                 \
         s32 r;                                                                 \
-        func_8001750C(1, 5);                                                   \
+        silence_sound(1, 5);                                                   \
         func_8003CD9C(arg0);                                                   \
         f = FLD(0x7C, u16);                                                    \
         s = 0;                                                                 \

@@ -6,7 +6,7 @@ M2C_UNK func_80017A04();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 void func_8002CCB0(struct X4_BaseObj*, s32, s32);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80031DA8();
 void func_80031F4C(struct X4_PlayerObj*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
@@ -20,7 +20,7 @@ void func_800EDC3C(struct X4_PlayerObj* self) {
     s8 kind;
 
     hp = self->hp;
-    if (func_80031474(self) < 0) {
+    if (check_enemy_hits(self) < 0) {
         kind = self->unk2;
         if (kind == 3 || kind == 6) {
             func_800477E4(6, &D_800F5AA4, self);

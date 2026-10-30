@@ -139,6 +139,7 @@ The check is `python3 tools/mmx6/gamestr.py check`.
 | purple guard robot | - | - | - | purple_guard_robot | docs/leads/objects.tsv:34 |
 | Nightmare press | - | - | - | nightmare_press | docs/leads/objects.tsv:59 |
 | hidden area teleport | - | - | - | hidden_area_teleport | docs/leads/objects.tsv:102 |
+| hidden area (Nightmare Zero, High Max and Dynamo rooms, stage index 0x1300-0x1601) | - | - | - | hidden_area | refs/leads/tweaks/BossHealth.tsv:2571,2761,2840, docs/leads/objects.tsv:160,165 |
 | surface hopper | - | surface_hopper | - | surface_hopper | docs/leads/objects.tsv:120 |
 | intro boss (D-1000) | - | - | - | d1000 | docs/leads/objects.tsv:146, developer 2026-10-26 |
 | enemy slot | - | - | - | enemy_slot | docs/leads/objects.tsv:338 |
@@ -234,9 +235,14 @@ The check is `python3 tools/mmx6/gamestr.py check`.
 | overlay archive | - | - | - | rock_bin | docs/leads/assets.tsv:3 |
 | disc archive | - | - | DAT archive | rock_dat | docs/leads/assets.tsv:4 |
 | Capcom logo video | - | - | - | caplogo | docs/leads/assets.tsv:6 |
-| XA music | - | - | - | xa_bgm | docs/leads/assets.tsv:9 |
-| XA voice | - | - | - | xa_demo | docs/leads/assets.tsv:10 |
 | disc padding file | - | - | - | znull | docs/leads/assets.tsv:11 |
+| BGM XA track (XA music) | - | - | - | bgm_xa | docs/leads/assets.tsv:9, docs/leads/assets.tsv:257 |
+| demo XA track (XA voice) | - | - | - | demo_xa | docs/leads/assets.tsv:10, docs/leads/assets.tsv:258 |
+| STR movie | - | - | - | str_movie | docs/leads/assets.tsv:256 |
+| VAB sound bank record | - | - | - | vab_record | docs/leads/assets.tsv:261 |
+| archive CD path table | - | - | - | rock_dat_cd_file_names | docs/leads/assets.tsv:6 |
+| disc archive file table | - | - | - | rock_dat_file_table | docs/leads/assets.tsv:4 |
+| overlay archive file table | - | - | - | rock_bin_file_table | docs/leads/assets.tsv:3 |
 | PsyQ startup object (2MBYTE) | - | - | - | 2mbyte | config/psyq/names.tsv:2 |
 | PsyQ kernel and BIOS call library (LIBAPI) | - | - | - | libapi | config/psyq/names.tsv:390 |
 | PsyQ C runtime library (LIBC) | - | - | - | libc | config/psyq/names.tsv:382 |
@@ -258,3 +264,126 @@ The check is `python3 tools/mmx6/gamestr.py check`.
 | MDEC reset | - | - | - | MDEC_rest | docs/leads/strings.tsv:107 |
 | MDEC input sync | - | - | - | MDEC_in_sync | docs/leads/strings.tsv:108 |
 | MDEC output sync | - | - | - | MDEC_out_sync | docs/leads/strings.tsv:109 |
+| reads a DAT file by index | - | - | - | read_dat_file | docs/leads/tweaks-index.tsv:33 |
+| wide/normal display mode flag | - | - | - | g_wide_mode | docs/leads/tweaks-index.tsv:36 |
+| current horizontal resolution | - | - | - | g_screen_width | docs/leads/tweaks-index.tsv:37 |
+| switches screen resolution | - | - | - | set_resolution | docs/leads/tweaks-index.tsv:38 |
+| loading screen per-call step | - | - | - | init_loading_screen | docs/leads/tweaks-index.tsv:40 |
+| game progress struct, also the save image | - | - | - | g_playthrough_state | docs/leads/tweaks-index.tsv:49 |
+| enemy/boss object array, stride 0x9C | - | - | - | g_enemies | docs/leads/tweaks-index.tsv:134 |
+| projectile object array | - | - | - | g_projectiles | docs/leads/tweaks-index.tsv:136 |
+| Yammark projectile setup, difficulty branch, speed | - | - | - | init_yammark_projectile | docs/leads/tweaks-index.tsv:162 |
+| Wolfang ice spikes, level gate | - | - | - | init_wolfang_ice_spike | docs/leads/tweaks-index.tsv:168 |
+| boss level by player rank, 8 entries | - | - | - | boss_level_by_rank | docs/leads/tweaks-index.tsv:172 |
+| sets current boss level from rank | - | - | - | set_boss_level | docs/leads/tweaks-index.tsv:173 |
+| Nightmare Pressure sub-boss start | - | - | - | init_nightmare_pressure | docs/leads/tweaks-index.tsv:182 |
+| Illumina sub-boss start | - | - | - | init_illumina | docs/leads/tweaks-index.tsv:183 |
+| dust animation start | - | - | - | spawn_dust | docs/leads/tweaks-index.tsv:186 |
+| sliding-down state routine | - | - | - | handle_slide_down | docs/leads/tweaks-index.tsv:188 |
+| dust animation control, stops on wall let-go/kick | - | - | - | update_dust | docs/leads/tweaks-index.tsv:190 |
+| ceiling jump input (Shadow legs, Zero Hyoroga) | - | - | - | check_ceiling_jump | docs/leads/tweaks-index.tsv:192 |
+| ceiling jump execution, duration per character | - | - | - | perform_ceiling_jump | docs/leads/tweaks-index.tsv:193 |
+| Hyoroga attack from ceiling | - | - | - | attack_hyoroga_from_ceiling | docs/leads/tweaks-index.tsv:194 |
+| end of ceiling dash | - | - | - | end_ceiling_dash | docs/leads/tweaks-index.tsv:195 |
+| X saber start | - | - | - | start_saber | docs/leads/tweaks-index.tsv:197 |
+| Shadow armor attack execution, sfx ids | - | - | - | update_shadow_armor_attack | docs/leads/tweaks-index.tsv:198 |
+| giga attack input, armor checks, execution | - | - | - | check_giga_attack | docs/leads/tweaks-index.tsv:202 |
+| pause menu display | - | - | - | setup_pause_menu | docs/leads/tweaks-index.tsv:203 |
+| damage taken scaled by armor and difficulty | - | - | - | scale_damage | docs/leads/tweaks-index.tsv:204 |
+| charging special weapons by armor | - | - | - | charge_special_weapon | docs/leads/tweaks-index.tsv:207 |
+| energy cost by armor and parts | - | - | - | get_weapon_energy_cost | docs/leads/tweaks-index.tsv:208 |
+| energy deduction on shot | - | - | - | use_weapon_energy | docs/leads/tweaks-index.tsv:209 |
+| buster shot sfx by shot type | - | - | - | init_buster_shot_visual | docs/leads/tweaks-index.tsv:214 |
+| Shadow armor shuriken buster | - | - | - | init_shuriken_buster | docs/leads/tweaks-index.tsv:215 |
+| air dash picked by armor | - | - | - | select_air_dash | docs/leads/tweaks-index.tsv:216 |
+| armor part given by each stage capsule | - | - | - | capsule_parts | docs/leads/tweaks-index.tsv:218 |
+| capsule appearance checks parts | - | - | - | init_capsule | docs/leads/tweaks-index.tsv:219 |
+| capsule applies part, mugshot, saber palette | - | - | - | apply_capsule_part | docs/leads/tweaks-index.tsv:220 |
+| weapon menu-select input | - | - | - | switch_weapon | docs/leads/tweaks-index.tsv:221 |
+| Yammar Option fireflies, ammo | - | - | - | init_yammar_option | docs/leads/tweaks-index.tsv:223 |
+| Rekkoha input (Zero) | - | - | - | start_rekkoha | docs/leads/tweaks-index.tsv:226 |
+| Guard Shell activation and ammo use | - | - | - | update_guard_shell | docs/leads/tweaks-index.tsv:228 |
+| jump rising state | - | - | - | handle_jump_rise | docs/leads/tweaks-index.tsv:231 |
+| dash input incl. double tap | - | - | - | check_dash_input | docs/leads/tweaks-index.tsv:243 |
+| Blade hover boots execution | - | - | - | start_hover | docs/leads/tweaks-index.tsv:244 |
+| Falcon dash start | - | - | - | start_falcon_dash | docs/leads/tweaks-index.tsv:246 |
+| Mach Dash end | - | - | - | end_dash | docs/leads/tweaks-index.tsv:248 |
+| ceiling movement step | - | - | - | move_ceiling | docs/leads/tweaks-index.tsv:253 |
+| player/ceiling position compare | - | - | - | clamp_player_to_ceiling | docs/leads/tweaks-index.tsv:257 |
+| general box collision check | - | - | - | check_box_collision | docs/leads/tweaks-index.tsv:258 |
+| in-game input reading | - | - | - | read_player_input | docs/leads/tweaks-index.tsv:260 |
+| default difficulty and speed | - | - | - | default_options | docs/leads/tweaks-index.tsv:265 |
+| title screen demo timer | - | - | - | tick_title_demo_timer | docs/leads/tweaks-index.tsv:268 |
+| item drop, off on Xtreme | - | - | - | drop_item | docs/leads/tweaks-index.tsv:271 |
+| attack slots tested against enemies | - | - | - | check_enemy_hits | docs/leads/tweaks-index.tsv:275 |
+| player attack hit detection | - | - | - | check_attack_hit | docs/leads/tweaks-index.tsv:277 |
+| High Max intro-stage behaviour | - | - | - | init_high_max_intro | docs/leads/tweaks-index.tsv:279 |
+| rescued reploid reward | - | - | - | rescue_reploid | docs/leads/tweaks-index.tsv:285 |
+| options list display and toggles | - | - | - | init_options_menu | docs/leads/tweaks-index.tsv:292 |
+| options menu values | - | - | - | option_values | docs/leads/tweaks-index.tsv:296 |
+| options menu label tiles and positions | - | - | - | option_labels | docs/leads/tweaks-index.tsv:297 |
+| options menu cursor/switch positions | - | - | - | option_cursors | docs/leads/tweaks-index.tsv:298 |
+| temp options and level in menus | - | - | - | g_temp_options | docs/leads/tweaks-index.tsv:299 |
+| new game status init | - | - | - | init_new_game | docs/leads/tweaks-index.tsv:302 |
+| scene triggers after stage clear | - | - | - | exit_stage_by_clear | docs/leads/tweaks-index.tsv:308 |
+| scene triggers on exit stage | - | - | - | exit_stage_from_menu | docs/leads/tweaks-index.tsv:310 |
+| read input subroutine | - | - | - | map_buttons | docs/leads/tweaks-index.tsv:321 |
+| VAB play #1 | - | - | - | play_sound | docs/leads/tweaks-index.tsv:324 |
+| X charged shot sound | - | - | - | fire_charged_shot | docs/leads/tweaks-index.tsv:327 |
+| low health voice site | - | - | - | check_low_health | docs/leads/tweaks-index.tsv:328 |
+| boss intro sound step | - | - | - | tick_boss_intro | docs/leads/tweaks-index.tsv:329 |
+| title screen voice | - | - | - | init_title_screen | docs/leads/tweaks-index.tsv:331 |
+| end of Mission Report, Gate check | - | - | - | build_mission_report_list | docs/leads/tweaks-index.tsv:344 |
+| enemy orb drop and value | - | - | - | init_orb | docs/leads/tweaks-index.tsv:349 |
+| orb registered until Nightmare reset | - | - | - | register_orb | docs/leads/tweaks-index.tsv:351 |
+| font colour index by speaker | - | - | - | speaker_colors | docs/leads/tweaks-index.tsv:355 |
+| text box first page | - | - | - | open_text_box | docs/leads/tweaks-index.tsv:362 |
+| text box following pages | - | - | - | update_text_box | docs/leads/tweaks-index.tsv:363 |
+| generic reset at level start | - | - | - | reset_level | docs/leads/tweaks-index.tsv:371 |
+| player mugshot selection | - | - | - | get_player_mugshot | docs/leads/tweaks-index.tsv:374 |
+| player file selection on loading screen | - | - | - | load_player_files | docs/leads/tweaks-index.tsv:375 |
+| free slot in displayed sprites table | - | - | - | alloc_sprite_slot | docs/leads/tweaks-index.tsv:379 |
+| displayed sprites table, stride 0x60 | - | - | - | g_displayed_sprites | docs/leads/tweaks-index.tsv:380 |
+| on-the-fly palette load | - | - | - | load_palette | docs/leads/tweaks-index.tsv:381 |
+| free-slot allocator of object class N (3, 4, 6, 7), one pool per class | - | find_free_effect_obj (class 3) | - | alloc_class<N>_slot | docs/leads/objects.tsv:341-345 |
+| D-1000 boss update | - | - | - | update_d1000 | refs/leads/tweaks/BossHealth.tsv:233 |
+| High Max (Intro Stage) update | - | - | - | update_high_max_intro | refs/leads/tweaks/BossHealth.tsv:284 |
+| Commander Yammark update | - | - | - | update_commander_yammark | refs/leads/tweaks/BossHealth.tsv:1346 |
+| Blizzard Wolfang update | - | - | - | update_blizzard_wolfang | refs/leads/tweaks/BossHealth.tsv:1574 |
+| Nightmare Snake update | - | - | - | update_nightmare_snake | refs/leads/tweaks/BossHealth.tsv:366 |
+| Nightmare Pressure update | - | - | - | update_nightmare_pressure | refs/leads/tweaks/BossHealth.tsv:1294 |
+| Ground Scaravich update | - | - | - | update_ground_scaravich | refs/leads/tweaks/BossHealth.tsv:1774 |
+| Sigma, first form, update | - | - | - | update_sigma_1 | refs/leads/tweaks/BossHealth.tsv:2403 |
+| High Max (Secret Lab 2-1) update | - | - | - | update_high_max_secret_lab2_1 | refs/leads/tweaks/BossHealth.tsv:2224 |
+| Gate boss update | - | - | - | update_gate | refs/leads/tweaks/BossHealth.tsv:2303 |
+| Commander Yammark (Boss Rush) update | - | - | - | update_commander_yammark_boss_rush | refs/leads/tweaks/BossHealth.tsv:2986 |
+| Blizzard Wolfang (Boss Rush) update | - | - | - | update_blizzard_wolfang_boss_rush | refs/leads/tweaks/BossHealth.tsv:3214 |
+| Ground Scaravich (Boss Rush) update | - | - | - | update_ground_scaravich_boss_rush | refs/leads/tweaks/BossHealth.tsv:3414 |
+| Nightmare Zero (Hidden Area) update | - | - | - | update_nightmare_zero | refs/leads/tweaks/BossHealth.tsv:2571 |
+| High Max (Hidden Areas) update | - | - | - | update_high_max_hidden_area | refs/leads/tweaks/BossHealth.tsv:2761 |
+| create a task | - | - | - | create_task | docs/leads/ram.tsv:28 |
+| task yield for frames | - | - | - | task_yield | docs/leads/ram.tsv:30 |
+| end a task, second form | - | - | - | end_task_slot | docs/leads/ram.tsv:32 |
+| gather and load files | - | - | - | pump_file_loads | docs/leads/ram.tsv:18 |
+| silence sound | - | - | - | silence_sound | docs/leads/ram.tsv:21 |
+| set an animation frame | - | - | - | set_animation_frame | docs/leads/ram.tsv:89 |
+| pick music for the current stage | - | - | - | play_stage_bgm | docs/leads/ram.tsv:168 |
+| stop music | - | - | - | stop_cd_audio | docs/leads/ram.tsv:15 |
+| spawn setup | - | - | - | init_checkpoint_positions | docs/leads/ram.tsv:81 |
+| object removal call target | - | - | - | clear_object_slot | docs/leads/ram.tsv:148 |
+| random number | - | - | - | random_byte | docs/leads/ram.tsv:86 |
+| write a rescue-unit status | - | - | - | set_reploid_status | docs/leads/ram.tsv:77 |
+| read a rescue-unit status | - | - | - | get_reploid_status | docs/leads/ram.tsv:75 |
+| test a dialogue-seen flag | - | - | - | is_text_box_seen | docs/leads/ram.tsv:76 |
+| set a dialogue-seen flag | - | - | - | set_text_box_seen | docs/leads/ram.tsv:78 |
+| per-stage music cue table | - | - | - | g_stage_bgm_tracks | docs/leads/ram.tsv:166 |
+| screen handler table | - | - | - | g_playthrough_state_handlers | docs/leads/ram.tsv:112 |
+| player top-level state jump table | - | - | - | g_player_state_handlers | docs/leads/ram.tsv:122 |
+| stage layout size | - | - | - | g_tilemap_layer_stride | docs/leads/ram.tsv:73 |
+| draw list pointer | - | - | - | g_cur_draw_info | docs/leads/ram.tsv:62 |
+| rectangle list | - | - | - | g_bg_sprite_prims | docs/leads/ram.tsv:64 |
+| pad 1 buttons down | - | - | - | g_pad1_buttons | docs/leads/ram.tsv:33 |
+| drawing settings | - | - | - | g_draw_info_buffers | docs/leads/ram.tsv:63 |
+| pad 2 buttons down | - | - | - | g_pad2_buttons | docs/leads/ram.tsv:36 |
+| stage layout width | - | - | - | g_tilemap_width | docs/leads/ram.tsv:71 |
+| stage layout height | - | - | - | g_tilemap_height | docs/leads/ram.tsv:72 |

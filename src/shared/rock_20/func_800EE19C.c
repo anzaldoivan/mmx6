@@ -4,12 +4,12 @@
 extern u16 D_8006D600[];
 extern s32 D_80070CC4[];
 extern s8 D_800CC869;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern struct X4_MiscObj D_800E2F90;
 
 #define DST (*(u8**)((u8*)&D_800E2F90 + 0xC))
 #define MISC ((u8*)&D_800E2F90)
-#define ENG ((u8*)&D_800CCED0)
+#define ENG ((u8*)&g_playthrough_state)
 
 void func_800EE19C(void) {
     u8* dst;

@@ -8,7 +8,7 @@ M2C_UNK func_8002CD6C(void*);
 extern void (*D_80071220[])(s8*, u8);
 extern s8 D_800950A0[];
 extern M2C_UNK g_Player;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_8002012C(void) {
     s8* p;
@@ -21,7 +21,8 @@ void func_8002012C(void) {
             flags = p[0];
             if (p[0] != 0) {
                 s8* pl2 = (s8*)&g_Player;
-                if (pl2[0xCC] != 0 || (D_800CCED0.unk11 != 0 && !(flags & 8))) {
+                if (pl2[0xCC] != 0 ||
+                    (g_playthrough_state.unk11 != 0 && !(flags & 8))) {
                     if (p[3] != 0) {
                         ((void (*)(void*, u8))func_8002CD6C)(p, flags);
                     }

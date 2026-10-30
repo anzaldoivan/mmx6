@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 extern M2C_UNK g_Player;
 
 void func_801EF8B0(s8* arg0) {
@@ -19,11 +19,11 @@ void func_801EF8B0(s8* arg0) {
             p = (u8*)&g_Player;
             p[0x98]--;
             p[0x99]--;
-            func_8002C9B0(arg0);
+            clear_object_slot(arg0);
         }
     } else if (t == 0x34) {
         q = *(u8**)(arg0 + 0x7C);
         (*(s16*)(q + 0x8A))--;
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
     }
 }

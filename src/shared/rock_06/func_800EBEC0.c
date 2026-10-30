@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*); /* extern */
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK func_8002B6B0();
 M2C_UNK func_8003C4EC(void*);
 M2C_UNK func_8003CDF0(void*);
@@ -10,7 +10,7 @@ M2C_UNK func_8003CE30(void*);
 M2C_UNK func_8003F3DC(void*);
 extern M2C_UNK g_Player;
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))
 #define FU8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -29,7 +29,7 @@ void func_800EBEC0(u8* arg0) {
         background_objects[1].unk44 = 0;
         background_objects[2].unk44 = 0;
         two = 2;
-        q = (u8*)&D_800CCED0;
+        q = (u8*)&g_playthrough_state;
         q[0x10] = two;
         q[0x11] = two;
         q[0x12] = two;
@@ -53,6 +53,6 @@ void func_800EBEC0(u8* arg0) {
         FU16(arg0, 0x80) = a;
         FU16(arg0, 0x82) = a;
         arg0[6]++;
-        func_80016C48(1, 1, arg0);
+        play_sound(1, 1, arg0);
     }
 }

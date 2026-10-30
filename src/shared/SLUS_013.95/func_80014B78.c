@@ -20,7 +20,7 @@ extern s32 D_800E0374;
 extern u8 D_800E0379;
 extern s32 D_800E037C;
 extern u32 D_800E0380;
-extern u8 D_800E0B58[];
+extern u8 rock_bin_file_table[];
 extern M2C_UNK* D_800E0D30;
 extern s32 D_800E0D34;
 
@@ -57,9 +57,9 @@ s32 func_80014B78(void) {
         } while (func_80016570() & 0x40);
         {
             // !FAKE: depin: dropping it breaks the match (69/118)
-            register s32 b asm("$5") = *(s32*)(off + D_800E0B58);
+            register s32 b asm("$5") = *(s32*)(off + rock_bin_file_table);
             // !FAKE: depin: dropping it breaks the match (72/118)
-            register s32 a asm("$4") = *(s32*)(D_800E0B58 + off + 4);
+            register s32 a asm("$4") = *(s32*)(rock_bin_file_table + off + 4);
             D_800E01C0 = 0;
             D_800E01AC = (u8*)s2;
             D_800E01B4 = b;

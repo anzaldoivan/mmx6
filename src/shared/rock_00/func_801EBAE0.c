@@ -7,13 +7,13 @@ void func_80017A04(struct X4_AnimatedObj*);
 void* func_8002C32C();
 s32 func_80039C40(void*);
 s32 func_80039C9C(void*);
-M2C_UNK func_8003B114(s32);
+M2C_UNK end_dash(s32);
 
 void func_801EBAE0(u8* arg0) {
     u8* obj;
 
     if (((s8*)arg0)[0xD3] != 0) {
-        ((void (*)())func_8003B114)();
+        ((void (*)())end_dash)();
         return;
     }
     if (M2C_FIELD(arg0, s16*, 0x14C) == 2) {
@@ -34,7 +34,7 @@ void func_801EBAE0(u8* arg0) {
     }
     if (((s8*)arg0)[0x46] == 0) {
     call:
-        func_8003B114((s32)arg0);
+        end_dash((s32)arg0);
         return;
     }
     if (((s8*)arg0)[0x93] == 0 && (arg0[0x45] & 0x40) &&

@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_80017A04();
 void func_8003AD18(void* arg0);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
@@ -19,7 +19,7 @@ void func_8003809C(void* arg0) {
     } else {
         if (*(s8*)(p + 0x45) & 0x80) {
             p[0x45] = 0;
-            ((void (*)(s32, s32, void*))func_80016C48)(0, 0x21, 0);
+            ((void (*)(s32, s32, void*))play_sound)(0, 0x21, 0);
         }
         if (*(s8*)(p + 0x46) == 0) {
             ((void (*)())func_8003D330)();

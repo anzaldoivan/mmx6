@@ -54,7 +54,9 @@ INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FE6A4);
 #undef func_800F3FB0
 #undef D_800F7DEC
 
-INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FE988);
+// clang-format off
+INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", update_commander_yammark_boss_rush);
+// clang-format on
 
 #include "../shared/rock_33/func_800FEA04.c"
 

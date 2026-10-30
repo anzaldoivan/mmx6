@@ -4,7 +4,7 @@
 
 void func_80017B04(u8*, s16, s16);
 #define func_80017B04 func_80017B04
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 extern s8 D_800970A2;
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
@@ -59,5 +59,5 @@ void func_8004AF94(struct X4_VisualObj* arg0) {
         arg0->unk49 = 1;
         func_80017B04(arg0, 0x140, 0x40);
     }
-    ((M2C_UNK(*)())func_8002C9B0)(arg0);
+    ((M2C_UNK(*)())clear_object_slot)(arg0);
 }

@@ -4,5 +4,7 @@
 D_800E9860 = 0x800E9860; // type:s32 size:0x8
 // basis: first code word after header (+0x8)
 func_800E9868 = 0x800E9868; // type:func size:0x164
+// basis: name: community refs/leads/tweaks/BossHealth.tsv:2404 word 0x800ED124 match; code:src/rock_15/E9860.c:326 via=D_800F666C
+update_sigma_1 = 0x800EDE18; // type:func
 // basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T5.c3; was D_800F54E8)
 func_800F54E8 = 0x800F54E8;

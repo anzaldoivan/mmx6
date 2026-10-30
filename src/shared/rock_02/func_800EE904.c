@@ -5,7 +5,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20 (*(s32*)0x1F800020)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(s32);
@@ -13,7 +13,7 @@ M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_800EE904(void* arg0) {
     struct X4_BackgroundObj* bg;
@@ -41,7 +41,7 @@ void func_800EE904(void* arg0) {
         // !FAKE: depin: dropping it breaks the match (59/145)
         register s32 off asm("$6") = *(s32*)(idx * 4 + base + 4);
         M2C_FIELD(arg0, s32*, 0x3C) = base + off;
-        ((void (*)(void*, s32, s32))func_800179A4)(arg0, 0xB, off);
+        ((void (*)(void*, s32, s32))set_animation)(arg0, 0xB, off);
     }
     bg = background_objects;
     if (bg->unk1E + 0xC8 < M2C_FIELD(arg0, s16*, 0xA)) {
@@ -72,8 +72,8 @@ void func_800EE904(void* arg0) {
         background_objects[0].unk4C = 1;
     }
     M2C_FIELD(arg0, s16*, 0xE) = background_objects[0].y_pos.i.hi + 0xA0;
-    D_800CCED0.enable_boss = 0;
-    D_800CCED0.boss_ptr = 0;
+    g_playthrough_state.enable_boss = 0;
+    g_playthrough_state.boss_ptr = 0;
     func_8002CCB0(arg0, 0xA0, 0xA0);
 }
 #undef g_Player

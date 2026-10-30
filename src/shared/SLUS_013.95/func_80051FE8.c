@@ -1,8 +1,8 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+M2C_UNK set_animation(void*, M2C_UNK);
+#define set_animation ((void (*)(void*, s32))set_animation)
 
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))
 #define FU8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -24,21 +24,21 @@ void func_80051FE8(void* arg0, void* arg1) {
     switch (F8(arg0, 1)) {
     case 35:
         FU8(arg0, 0x16) = 3;
-        func_800179A4(arg0, F8(arg0, 2));
+        set_animation(arg0, F8(arg0, 2));
         break;
     case 36:
         FU8(arg0, 0x16) = one;
-        func_800179A4(arg0, 7);
+        set_animation(arg0, 7);
         break;
     case 37:
         v = F8(arg0, 2);
         FU8(arg0, 0x16) = 0;
         if (v == 0) {
-            func_800179A4(arg0, 8);
+            set_animation(arg0, 8);
         } else if (v == 3) {
-            func_800179A4(arg0, 0xE);
+            set_animation(arg0, 0xE);
         } else {
-            func_800179A4(arg0, 9);
+            set_animation(arg0, 9);
         }
         break;
     }
@@ -46,4 +46,4 @@ void func_80051FE8(void* arg0, void* arg1) {
     FU8(arg0, 4) = FU8(arg0, 4) + 1;
 }
 
-#undef func_800179A4
+#undef set_animation

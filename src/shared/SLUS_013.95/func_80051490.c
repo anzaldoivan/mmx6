@@ -1,9 +1,9 @@
 #include "common.h"
 #define M2C_UNK s32
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 void func_80051FE8(void* arg0, void* arg1);
 extern s8 D_80097182;
@@ -32,10 +32,10 @@ void func_80051490(void* arg0) {
         } else if (t == 3) {
             P16(0xE) = P16(0xE) + 8;
         }
-        func_80016C48(0, 0x25, 0);
+        play_sound(0, 0x25, 0);
     } else {
         if (P8(0x46) == 0) {
-            ((void (*)())func_8002C9B0)(arg0, a1);
+            ((void (*)())clear_object_slot)(arg0, a1);
             return;
         }
         ((void (*)())func_80017A04)(arg0, a1);

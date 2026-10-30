@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void func_800F4588(void* arg0, s32 arg1);
 extern s16 D_800971EC;
 extern s16 D_800FD516;
@@ -22,7 +22,7 @@ void func_800F116C(void* arg0) {
 
     parent = F(void*, 0x5C);
     if (D_800971EC != 0) {
-        func_80016C48(2, 0x32, arg0);
+        play_sound(2, 0x32, arg0);
     }
     SH(0x16) = PF(0xA) - 2;
     SH(0x1A) = PF(0xE) - 0xE;

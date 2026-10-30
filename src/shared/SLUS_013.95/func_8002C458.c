@@ -1,13 +1,13 @@
 #include "common.h"
 
-extern u8 D_80093C98[];
+extern u8 g_projectiles[];
 
 s8* func_8002C458(void) {
     s8* p;
     s8* q;
     s32 i;
 
-    for (p = D_80093C98; p < D_80093C98 + 0x1400; p += 0xA0) {
+    for (p = g_projectiles; p < g_projectiles + 0x1400; p += 0xA0) {
         if (*p == 0) {
             q = p;
             i = 0x9F;

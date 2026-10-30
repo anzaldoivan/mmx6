@@ -10,7 +10,7 @@
 
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CF0C(void*);
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern void* D_800F70E0;
 
 void func_800EE044(void* arg0) {
@@ -30,8 +30,8 @@ void func_800EE044(void* arg0) {
         F32(arg0, 0x8C) = 0;
         F32(arg0, 0x90) = 0;
         F32(arg0, 0x94) = 0;
-        D_800CCED0.enable_boss = 0;
-        F32(&D_800CCED0, 0x20) = 0;
+        g_playthrough_state.enable_boss = 0;
+        F32(&g_playthrough_state, 0x20) = 0;
         func_8002CF0C(arg0);
         F8(arg0, 0) = 0x41;
         F8(arg0, 1) = 0x3E;

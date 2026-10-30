@@ -1,8 +1,8 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+M2C_UNK set_animation(void*, M2C_UNK);
+#define set_animation ((void (*)(void*, s32))set_animation)
 extern s32 D_80077B34[];
 extern u8 D_80077B5C[];
 extern u16 D_80077B64[];
@@ -66,9 +66,9 @@ void func_80048030(u8* arg0) {
             }
             D_800C4560 |= 1;
         }
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
     } else {
-        func_800179A4(arg0, idx - 1);
+        set_animation(arg0, idx - 1);
     }
 }
-#undef func_800179A4
+#undef set_animation

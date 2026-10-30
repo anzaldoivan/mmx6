@@ -5,18 +5,18 @@
 
 void func_80017A04(struct X4_AnimatedObj*);
 void* func_8002C32C();
-M2C_UNK func_8003B114(s32);
+M2C_UNK end_dash(s32);
 void func_801EC6D0(void*, s32);
 
 void func_801EB9EC(u8* arg0) {
     u8* obj;
 
     if (((s8*)arg0)[0xD3] != 0) {
-        ((M2C_UNK(*)())func_8003B114)();
+        ((M2C_UNK(*)())end_dash)();
         return;
     }
     if (M2C_FIELD(arg0, s16*, 0x14C) == 2) {
-        func_8003B114((s32)arg0);
+        end_dash((s32)arg0);
         return;
     }
     func_80017A04((struct X4_AnimatedObj*)arg0);
@@ -36,6 +36,6 @@ void func_801EB9EC(u8* arg0) {
         }
     }
     if (((s8*)arg0)[0x46] == 0) {
-        func_8003B114((s32)arg0);
+        end_dash((s32)arg0);
     }
 }

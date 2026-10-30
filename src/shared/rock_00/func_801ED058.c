@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_8002D2D4();
+M2C_UNK set_animation(void*, M2C_UNK);
+s32 random_byte();
 extern s32 D_80077A80;
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_801F37CC;
@@ -41,14 +41,14 @@ void func_801ED058(u8* arg0) {
     if (SB(arg0, 2) == 0) {
         W(arg0, 0x24) = 0xFFF40000;
         H(arg0, 0xE) = background_objects[0].y_pos.i.hi - 0x20;
-        func_800179A4(arg0, 2);
+        set_animation(arg0, 2);
     } else {
         W(arg0, 0x24) = 0xC0000;
         H(arg0, 0xE) = background_objects[0].y_pos.i.hi + 0x110;
-        func_800179A4(arg0, 1);
+        set_animation(arg0, 1);
     }
     W(arg0, 0x2C) = 0;
-    r = func_8002D2D4();
+    r = random_byte();
     x = background_objects[0].x_pos.u.hi + 8;
     B(arg0, 5) = 0;
     B(arg0, 4)++;

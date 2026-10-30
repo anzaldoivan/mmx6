@@ -6,7 +6,7 @@
 #define SPAD (*(u8**)0x1F80004C)
 #define SPAD_SLOT ((u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void func_800EAA5C(void*, s32, void*);
 void func_800EABD0(struct X4_MainObj* self);
 extern M2C_UNK D_800743DC;
@@ -54,7 +54,7 @@ void func_800E98F4(struct X4_MainObj* self) {
     __builtin_memcpy(*sp + 0x80, &D_800EF334, 4);
     kind = self->unk2;
     if (kind == 0) {
-        func_800179A4(self, 0);
+        set_animation(self, 0);
         {
             s32 two = 2;
             // !FAKE: depin: dropping it breaks the match (58/107)
@@ -63,7 +63,7 @@ void func_800E98F4(struct X4_MainObj* self) {
             self->y_pos.u.hi = h - 0x20;
         }
     } else if (kind == 1) {
-        func_800179A4(self, 0xE);
+        set_animation(self, 0xE);
         {
             s32 two = 2;
             // !FAKE: depin: dropping it breaks the match (70/107)
@@ -72,7 +72,7 @@ void func_800E98F4(struct X4_MainObj* self) {
             self->y_pos.u.hi = h + 0x20;
         }
     } else if (kind == 2) {
-        func_800179A4(self, 7);
+        set_animation(self, 7);
         M2C_FIELD(SPAD, u8*, 0x86) = 3;
         p = SPAD;
         M2C_FIELD(p, u16*, 0x84) = self->y_pos.u.hi;

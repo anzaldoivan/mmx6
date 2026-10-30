@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 s32 func_80039FFC(void*);              /* extern */
-s32 func_8003A870(void*);              /* extern */
+s32 check_ceiling_jump(void*);         /* extern */
 M2C_UNK func_8003AF1C(void*);          /* extern */
 M2C_UNK func_8003B218(void*);          /* extern */
 void func_8003C7D8(void* arg0);        /* extern */
@@ -29,7 +29,7 @@ void func_800358D4(void* arg0) {
          ((func_801EC86C(arg0) == 0) && (func_801EA560(arg0) == 0) &&
           (func_801EBE04(arg0) == 0) &&
           ((func_801EA254(arg0) != 0) || (func_801EBEDC(arg0) == 0)))) &&
-        (func_8003A870(arg0) == 0)) {
+        (check_ceiling_jump(arg0) == 0)) {
         if (M2C_FIELD(arg0, u16*, 0x80) & 0x80) {
             func_8003AF1C(arg0);
             return;

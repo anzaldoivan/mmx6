@@ -5,7 +5,7 @@
 void func_8003C4EC(struct X4_PlayerObj* self);
 void func_8003CF54(struct X4_PlayerObj*, s32);
 s32 func_8003ED98(struct X4_PlayerObj* p);
-void func_8003EEE4(void* arg0);
+void charge_special_weapon(void* arg0);
 M2C_UNK func_8003F480();
 s32 func_8003FF90(struct X4_PlayerObj*, s32);
 void func_8003FFF4(struct X4_PlayerObj*);
@@ -51,7 +51,7 @@ void func_8003EC78(struct X4_PlayerObj* p) {
             b[0xA1] = 0x29;
         }
     } else if (!(*(s32*)(b + 0xEC) & 0x80000)) {
-        func_8003EEE4(p);
+        charge_special_weapon(p);
         func_8003FFF4(p);
         if (func_8003FF90(p, 0) == 0) {
             func_8003FF90(p, 1);

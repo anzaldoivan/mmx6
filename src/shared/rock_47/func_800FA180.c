@@ -3,11 +3,11 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_800139A0(s8);
-struct X4_QuadObj* func_8002C7F0(void);
+struct X4_QuadObj* alloc_class6_slot(void);
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800FA180(struct X4_BackgroundObj* arg0) {
-    u8* q = (u8*)func_8002C7F0();
+    u8* q = (u8*)alloc_class6_slot();
     if (q != 0) {
         q[0] = 1;
         q[1] = 0xA;

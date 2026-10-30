@@ -1,10 +1,10 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 #define E_C9                                                                   \
     ({                                                                         \
-        u8* e = (u8*)&D_800CCED0;                                              \
+        u8* e = (u8*)&g_playthrough_state;                                     \
         e[0xC9];                                                               \
     })
 

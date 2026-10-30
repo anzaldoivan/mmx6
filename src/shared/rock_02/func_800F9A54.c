@@ -5,7 +5,7 @@
 #define SPAD20_800F9A54 (*(s32*)0x1F800020)
 
 s32 func_8002A47C(s32);
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 #define M2C_UNK s32
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
@@ -19,7 +19,7 @@ void func_800F9A54(void* arg0) {
     if (g_Player.hp < 2) {
         g_Player.hp = 2;
     }
-    obj = func_8002BBF4();
+    obj = enemy_slot_alloc();
     M2C_FIELD(obj, u8*, 0x0) = 0x41;
     M2C_FIELD(obj, u8*, 0x1) = 0x37;
     M2C_FIELD(obj, u8*, 0x2) = 0;

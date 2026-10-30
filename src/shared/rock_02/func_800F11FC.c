@@ -4,7 +4,7 @@
 #define NULL ((void*)0)
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void* func_8002C3F8();
+void* alloc_class3_slot();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 
 void func_800F11FC(void* arg0) {
@@ -12,7 +12,7 @@ void func_800F11FC(void* arg0) {
     s8 temp_v1;
 
     if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
-        temp_v0 = func_8002C3F8();
+        temp_v0 = alloc_class3_slot();
         if (temp_v0 != NULL) {
             M2C_FIELD(temp_v0, s8*, 0) = 1;
             M2C_FIELD(temp_v0, s8*, 1) = 0x1A;

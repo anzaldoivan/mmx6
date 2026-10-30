@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void func_800ECC44(void*, s32);
 void func_800ECCD8(void*, s32);
 extern M2C_UNK D_8007433C;
@@ -42,7 +42,7 @@ void func_800E9E08(void* arg0) {
         M2C_FIELD(p, s32*, 0x68) = 0;
         M2C_FIELD(p, s32*, 0x50) = 0;
         M2C_FIELD(p, s32*, 0x54) = 0;
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
         M2C_FIELD(p, u8*, 0x8C) = 0;
         M2C_FIELD(p, u8*, 0x8D) = 0;
         M2C_FIELD(p, u8*, 0x8E) = 0;
@@ -73,7 +73,7 @@ void func_800E9E08(void* arg0) {
         M2C_FIELD(p, u8*, 0x67) = 0;
         M2C_FIELD(p, u8*, 0x14) = b;
         if (kind == 0x10) {
-            ((void (*)(void*, s32))func_800179A4)(p, 5);
+            ((void (*)(void*, s32))set_animation)(p, 5);
             M2C_FIELD(p, void**, 0x58) = &D_800743DC;
             switch (M2C_FIELD(p, s8*, 0x2)) {
             case 0x11:
@@ -89,7 +89,7 @@ void func_800E9E08(void* arg0) {
             }
             v = 3;
         } else {
-            ((void (*)(void*, s32))func_800179A4)(p, 1);
+            ((void (*)(void*, s32))set_animation)(p, 1);
             M2C_FIELD(p, void**, 0x58) = &D_8007433C;
             switch (M2C_FIELD(p, s8*, 0x2)) {
             case 0x21:

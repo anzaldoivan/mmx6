@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void* func_8002C530();
+void* alloc_sprite_slot();
 M2C_UNK move_object(s32);
 M2C_UNK func_80030ECC();
 void func_800F20BC(void* arg0);
@@ -32,7 +32,7 @@ void func_800F01DC(void* arg0) {
     if (func_800F2158(arg0) == 0) {
         M2C_FIELD(arg0, u8*, 0x5) = 0;
         M2C_FIELD(arg0, u8*, 0x4)++;
-        m7 = func_8002C530();
+        m7 = alloc_sprite_slot();
         if (m7 != 0) {
             do {
                 M2C_FIELD(m7, u8*, 0x0) = 0x41;
@@ -61,7 +61,7 @@ void func_800F01DC(void* arg0) {
             M2C_FIELD(m7, u8*, 0x15) = D_800FBFF4[(s16)i][1];
             M2C_FIELD(m7, u8*, 0x0) = 0x51;
         }
-        m8 = func_8002C530();
+        m8 = alloc_sprite_slot();
         if (m8 != 0) {
             do {
                 M2C_FIELD(m8, u8*, 0x0) = 0x41;
@@ -85,7 +85,7 @@ void func_800F01DC(void* arg0) {
             M2C_FIELD(m8, u16*, 0x56) = M2C_FIELD(arg0, u16*, 0x88);
             M2C_FIELD(m8, u8*, 0x0) = 0x51;
         }
-        m9 = func_8002C530();
+        m9 = alloc_sprite_slot();
         if (m9 != 0) {
             do {
                 M2C_FIELD(m9, u8*, 0x0) = 0x41;
@@ -130,7 +130,7 @@ void func_800F01DC(void* arg0) {
     M2C_FIELD(parent, u8*, 0x89) = 2;
     M2C_FIELD(arg0, u8*, 0x5) = 0;
     M2C_FIELD(arg0, u8*, 0x4)++;
-    m1 = func_8002C530();
+    m1 = alloc_sprite_slot();
     if (m1 != 0) {
         do {
             M2C_FIELD(m1, u8*, 0x0) = 0x41;
@@ -158,7 +158,7 @@ void func_800F01DC(void* arg0) {
         M2C_FIELD(m1, u8*, 0x15) = D_800FBFF4[(s16)i][1];
         M2C_FIELD(m1, u8*, 0x0) = 0x51;
     }
-    m2 = func_8002C530();
+    m2 = alloc_sprite_slot();
     if (m2 != 0) {
         do {
             M2C_FIELD(m2, u8*, 0x0) = 0x41;
@@ -181,7 +181,7 @@ void func_800F01DC(void* arg0) {
         M2C_FIELD(m2, u16*, 0x56) = M2C_FIELD(arg0, u16*, 0x88);
         M2C_FIELD(m2, u8*, 0x0) = 0x51;
     }
-    m3 = func_8002C530();
+    m3 = alloc_sprite_slot();
     if (m3 != 0) {
         do {
             M2C_FIELD(m3, u8*, 0x0) = 0x41;
@@ -221,7 +221,7 @@ main:
             M2C_FIELD(arg0, s16*, 0xE) = 0;
         }
     }
-    m4 = func_8002C530();
+    m4 = alloc_sprite_slot();
     if (m4 != 0) {
         do {
             M2C_FIELD(m4, u8*, 0x0) = 0x41;
@@ -248,7 +248,7 @@ main:
             D_800FBFF4[(s16)i][0] + M2C_FIELD(m4, u8*, 0x56);
         M2C_FIELD(m4, u8*, 0x15) = D_800FBFF4[(s16)i][1];
     }
-    m5 = func_8002C530();
+    m5 = alloc_sprite_slot();
     if (m5 != 0) {
         do {
             M2C_FIELD(m5, u8*, 0x0) = 0x41;
@@ -270,7 +270,7 @@ main:
         M2C_FIELD(m5, u16*, 0x54) = M2C_FIELD(arg0, u16*, 0x84);
         M2C_FIELD(m5, u16*, 0x56) = M2C_FIELD(arg0, u16*, 0x88);
     }
-    m6 = func_8002C530();
+    m6 = alloc_sprite_slot();
     if (m6 != 0) {
         do {
             M2C_FIELD(m6, u8*, 0x0) = 0x41;

@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object(void*);
 s32 func_800FA630(void*, s16, s16);
 
@@ -14,14 +14,14 @@ void func_800F754C(void* self) {
     if (F_S8(0x7) == 0) {
         if (func_800FA630(self, F_S16(0xA), F_S16(0xE) - 0x10) != 0 ||
             (F_U8(0x70) & 4)) {
-            func_800179A4(self, 0xC);
+            set_animation(self, 0xC);
             F_S32(0x50) = 0;
             F_S16(0xE) -= 0x12;
             F_U8(0x6)++;
             return;
         }
         if (F_S32(0x84) == 1) {
-            func_800179A4(self, 0xC);
+            set_animation(self, 0xC);
             F_S32(0x50) = 0;
             F_S16(0xE) -= 0x12;
             F_U8(0x6)++;
@@ -29,7 +29,7 @@ void func_800F754C(void* self) {
         }
     } else if (func_800FA630(self, F_S16(0xA), F_S16(0xE) + 0x10) != 0 ||
                (F_U8(0x70) & 8) || F_S32(0x84) == 1) {
-        func_800179A4(self, 0xC);
+        set_animation(self, 0xC);
         F_S32(0x50) = 0;
         F_S16(0xE) += 0x12;
         F_U8(0x6)++;

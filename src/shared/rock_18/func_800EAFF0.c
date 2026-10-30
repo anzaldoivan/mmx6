@@ -3,13 +3,13 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_800139F4(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8001C5EC(u8);
 void func_800EC114(void);
 void func_800ECE54(void);
 extern u8 D_80097427;
-extern u16 D_800C456C[];
-extern struct X4_EngineObj D_800CCED0;
+extern u16 g_pad1_buttons[];
+extern struct X4_EngineObj g_playthrough_state;
 extern struct X4_MiscObj D_800E2F90;
 extern void* D_800F1744;
 
@@ -50,18 +50,18 @@ void func_800EAFF0(u8* arg0) {
     if (f != 0) {
         return;
     }
-    if (D_800C456C[2] & 0xA000) {
-        func_80016C48(0, 0xC, 0);
-        D_800CCED0.unkA ^= 1;
+    if (g_pad1_buttons[2] & 0xA000) {
+        play_sound(0, 0xC, 0);
+        g_playthrough_state.unkA ^= 1;
     }
-    if (D_800C456C[2] & 0x40) {
-        func_80016C48(0, 0x22, 0);
+    if (g_pad1_buttons[2] & 0x40) {
+        play_sound(0, 0x22, 0);
         p = D_800F1744;
         n = 0x5F;
         do {
             *p++ = 0;
         } while (n--);
-        if (D_800CCED0.unkA == 0) {
+        if (g_playthrough_state.unkA == 0) {
             AB_B(self, 1)++;
             func_800ECE54();
             func_800139F4(8);

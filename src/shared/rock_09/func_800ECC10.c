@@ -9,7 +9,7 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
 M2C_UNK func_8002EE10(void*);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 
 void func_800ECC10(void* arg0) {
@@ -17,7 +17,7 @@ void func_800ECC10(void* arg0) {
 
     ((M2C_UNK(*)())func_80017A04)();
     func_8002D230(arg0);
-    if (func_80031474(arg0) < 0) {
+    if (check_enemy_hits(arg0) < 0) {
         func_80049E50(arg0);
         goto block_9;
     }

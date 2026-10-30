@@ -2,8 +2,8 @@
 #include "mmx6/x4.h"
 
 extern struct X4_PlayerObj g_Player;
-s32 func_8003EB0C(void* arg0, s32 arg1);
-void func_8003F740(void*, s32);
+s32 get_weapon_energy_cost(void* arg0, s32 arg1);
+void use_weapon_energy(void*, s32);
 
 #define SB(o) (*(s8*)((u8*)self + (o)))
 #define UB(o) (*(u8*)((u8*)self + (o)))
@@ -54,16 +54,17 @@ void func_80043890(struct X4_MainObj* self) {
             do {
                 if (!((UB(0x8D) >> i) & 1)) {
                     if (player->unk2 != 0) {
-                        if (ENERGY(player, 3) >= func_8003EB0C(player, 3)) {
+                        if (ENERGY(player, 3) >=
+                            get_weapon_energy_cost(player, 3)) {
                             arg = player->weapon;
                             goto give;
                         }
                     } else {
                         if (ENERGY(player, player->weapon) >=
-                            func_8003EB0C(player, player->weapon)) {
+                            get_weapon_energy_cost(player, player->weapon)) {
                             arg = self->id;
                         give:
-                            func_8003F740(player, arg);
+                            use_weapon_energy(player, arg);
                             {
                                 // !FAKE: depin: dropping it breaks the match (186/192)
                                 register s32 m asm("$3") = UB(0x8D);
@@ -89,8 +90,8 @@ void func_80043890(struct X4_MainObj* self) {
             }
             if (player->shot_type == 0xA) {
                 if (ENERGY(player, player->weapon) >=
-                    func_8003EB0C(player, player->weapon)) {
-                    func_8003F740(player, self->id);
+                    get_weapon_energy_cost(player, player->weapon)) {
+                    use_weapon_energy(player, self->id);
                     {
                         // !FAKE: depin: dropping it breaks the match (88/192)
                         register s32 s asm("$3") = 7;

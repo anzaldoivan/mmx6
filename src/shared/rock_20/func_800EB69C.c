@@ -2,9 +2,9 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8001C5EC(u8);
-void* func_8002C530();
+void* alloc_sprite_slot();
 extern u8 D_80097427;
 extern u16 D_800C4570;
 extern struct X4_MiscObj D_800E2F90;
@@ -39,9 +39,9 @@ void func_800EB69C(u8* arg0) {
         return;
     }
     if (D_800C4570 & 0x40) {
-        func_80016C48(0, 0x22, 0);
+        play_sound(0, 0x22, 0);
         arg0[3] = 7;
-        obj = func_8002C530();
+        obj = alloc_sprite_slot();
         if (obj != 0) {
             obj[0] = 1;
             obj[1] = 0x2D;

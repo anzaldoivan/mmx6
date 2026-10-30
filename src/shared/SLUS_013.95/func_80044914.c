@@ -2,11 +2,11 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+M2C_UNK set_animation(void*, M2C_UNK);
+#define set_animation ((void (*)(void*, s32))set_animation)
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 #define func_8002CCB0 func_8002CCB0
-s32 func_8002D2D4();
+s32 random_byte();
 void func_8003CF24(s32, s32, s32);
 M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
                             M2C_UNK arg3);
@@ -38,11 +38,11 @@ void func_80044914(struct X4_WeaponObj* arg0) {
     player = &g_Player;
     a = player->x_pos.i.hi - BG.x_pos.i.hi;
     b = player->y_pos.i.hi - BG.y_pos.i.hi;
-    if (func_8002D2D4() & 4) {
+    if (random_byte() & 4) {
         if (arg0->unk15 != 0) {
-            a = (a * (func_8002D2D4() % 11)) / 10;
+            a = (a * (random_byte() % 11)) / 10;
         } else {
-            a = 0x140 - ((0x140 - a) * (func_8002D2D4() % 11)) / 10;
+            a = 0x140 - ((0x140 - a) * (random_byte() % 11)) / 10;
         }
         arg0->x_pos.i.hi = a + BG.x_pos.i.hi;
         arg0->y_pos.i.hi = BG.y_pos.i.hi - 0x20;
@@ -52,7 +52,7 @@ void func_80044914(struct X4_WeaponObj* arg0) {
         } else {
             arg0->x_pos.i.hi = BG.x_pos.i.hi + 0x164;
         }
-        b = (b * (func_8002D2D4() % 11)) / 10;
+        b = (b * (random_byte() % 11)) / 10;
         arg0->y_pos.i.hi = b + BG.y_pos.i.hi;
     }
     arg0->bg_offset = player->bg_offset;
@@ -70,12 +70,12 @@ void func_80044914(struct X4_WeaponObj* arg0) {
     p = SCRATCH_1C + *(s32*)(SCRATCH_1C + 0x78);
     arg0->animation_table = (u32**)D_80077A0C;
     arg0->unk3C = p;
-    func_800179A4(arg0, 4);
+    set_animation(arg0, 4);
     player_spawn_visual(1, 0x1B, 3, 0);
     func_8003CF24(0x12, 1, 1);
     arg0->state++;
     func_8002CCB0(arg0, 0x30, 0x40);
 }
-#undef func_800179A4
+#undef set_animation
 #undef func_8002CCB0
 #undef player_spawn_visual

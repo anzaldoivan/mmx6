@@ -2,14 +2,14 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8001C5EC(u8);
-M2C_UNK func_8002B838();
-void* func_8002C530();
+M2C_UNK reset_level();
+void* alloc_sprite_slot();
 void func_800EC114(void);
 extern struct X4_EngineObj D_80097420;
 extern u8 D_80097427;
-extern u16 D_800C456C[];
+extern u16 g_pad1_buttons[];
 extern s8 D_800CD3F9;
 extern struct X4_MiscObj D_800E2F90;
 extern void* D_800F1744;
@@ -46,7 +46,7 @@ void func_800EAD9C(u8* arg0) {
     if (f != 0) {
         return;
     }
-    if (D_800C456C[2] & 0x1000) {
+    if (g_pad1_buttons[2] & 0x1000) {
         u8* e = (u8*)&D_80097420;
         if (e[7] == 0) {
             for (i = 0; i < 7; i++) {
@@ -63,7 +63,7 @@ void func_800EAD9C(u8* arg0) {
         }
         func_800EC114();
     }
-    if (D_800C456C[2] & 0x4000) {
+    if (g_pad1_buttons[2] & 0x4000) {
         u8* e = (u8*)&D_80097420;
         if (e[7] == 7) {
             for (i = 0; i < 7; i++) {
@@ -80,16 +80,16 @@ void func_800EAD9C(u8* arg0) {
         }
         func_800EC114();
     }
-    if (D_800C456C[2] & 0x10) {
-        func_80016C48(0, 0x22, 0);
-        func_8002B838();
+    if (g_pad1_buttons[2] & 0x10) {
+        play_sound(0, 0x22, 0);
+        reset_level();
         D_800CD3F9 = 4;
         return;
     }
-    if ((D_800C456C[2] & 0x40) && *(u8*)D_800E2F90.y_pos.val != 0xFF) {
-        func_80016C48(0, 0x22, 0);
+    if ((g_pad1_buttons[2] & 0x40) && *(u8*)D_800E2F90.y_pos.val != 0xFF) {
+        play_sound(0, 0x22, 0);
         D_800E2F90.unk7 = D_80097427;
-        obj = func_8002C530();
+        obj = alloc_sprite_slot();
         if (obj != 0) {
             AB_B(obj, 0) = 1;
             AB_B(obj, 1) = 0x2D;

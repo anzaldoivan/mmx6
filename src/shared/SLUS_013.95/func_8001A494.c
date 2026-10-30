@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_8001A494(s8* arg0) {
     s8 q;
@@ -10,7 +10,7 @@ void func_8001A494(s8* arg0) {
     q = arg0[2] / 3;
     {
         s32 k = 0xD0;
-        v = ((s8*)&D_800CCED0 - -q)[k];
+        v = ((s8*)&g_playthrough_state - -q)[k];
     }
     if (q != 0) {
         v = -v;

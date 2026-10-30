@@ -4,7 +4,7 @@
 
 #define SPAD (*(u8**)0x1F80004C)
 
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_8002F288(M2C_UNK*);
 void func_8002F418(struct X4_PlayerObj* arg0);
 extern M2C_UNK D_800743DC;
@@ -47,7 +47,7 @@ void func_800F2410(struct X4_MainObj* self) {
         break;
     }
     self->unk16 = 6;
-    SPAD[0x80] = func_8002D2D4() & 1;
+    SPAD[0x80] = random_byte() & 1;
     SPAD[0x81] = self->unk2;
     self->hurt_box = (void*)D_800FC634[self->unk2 >> 1];
     self->attack_box = (void*)D_800FC63C[self->unk2 >> 1];

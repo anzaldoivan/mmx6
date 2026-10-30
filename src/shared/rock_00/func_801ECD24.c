@@ -2,12 +2,12 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
-M2C_UNK func_8003B114(s32);
+M2C_UNK end_dash(s32);
 void func_80017A04(struct X4_AnimatedObj*);
 
 void func_801ECD24(struct X4_WeaponObj* arg0) {
     func_80017A04(ANIMATED_OBJECT(arg0));
     if (arg0->animation_step.fields.relative_step == 0) {
-        func_8003B114(arg0);
+        end_dash(arg0);
     }
 }

@@ -1,11 +1,11 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern u16 D_8008EC10;
-extern u16 D_80090D6A;
+extern u16 g_tilemap_layer_stride;
+extern u16 g_wide_mode;
 extern u16 D_800A21B8[3][32][64];
-extern u8 D_800CD338;
-extern u8 D_800CD339;
+extern u8 g_tilemap_width;
+extern u8 g_tilemap_height;
 
 void func_80027780(s32 arg0, s32 arg1, s32 arg2) {
     u32 n;
@@ -29,13 +29,13 @@ void func_80027780(s32 arg0, s32 arg1, s32 arg2) {
         px = rx & 0xF;
         py = ry & 0xF;
         n = 0x21;
-        if (D_80090D6A == 0) {
+        if (g_wide_mode == 0) {
             n = 0x15;
         }
-        if (col >= D_800CD338 || row >= D_800CD339) {
+        if (col >= g_tilemap_width || row >= g_tilemap_height) {
             t = 0;
         } else {
-            t = *(SP_BG_TILEMAP + arg0 * D_8008EC10 + D_800CD338 * row + col);
+            t = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
         }
         tile = t;
         tm = &SP_BG_TILEMAP;
@@ -48,11 +48,11 @@ void func_80027780(s32 arg0, s32 arg1, s32 arg2) {
             if (px == 16) {
                 px = 0;
                 col++;
-                if (col >= D_800CD338 || row >= D_800CD339) {
+                if (col >= g_tilemap_width || row >= g_tilemap_height) {
                     t = 0;
                     t2 = t;
                 } else {
-                    t = *(*tm + arg0 * D_8008EC10 + D_800CD338 * row + col);
+                    t = *(*tm + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
                     t2 = t;
                 }
                 tile = t2;

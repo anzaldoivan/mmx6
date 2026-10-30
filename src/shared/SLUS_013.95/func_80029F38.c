@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern struct X4_StageObjectRecord* D_8007349C[][2];
 extern s16 D_800733B8[];
 extern u32* D_80095098;
@@ -20,7 +20,7 @@ void func_80029F38(s16 arg0, s16 arg1, s16 arg2, s16 arg3, u8 arg4) {
     s32 off;
     u32 type;
 
-    rec = D_8007349C[D_800CCED0.stage][D_800CCED0.substage];
+    rec = D_8007349C[g_playthrough_state.stage][g_playthrough_state.substage];
     left = background_objects[0].x_pos.i.hi - 0x30;
     right = background_objects[0].x_pos.i.hi + 0x170;
     top = background_objects[0].y_pos.i.hi - 0x30;

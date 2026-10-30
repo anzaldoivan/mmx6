@@ -3,11 +3,11 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern s16 D_800970AA;
 
 void func_800FC920(void* arg0) {
-    ((void (*)(void*, M2C_UNK))func_800179A4)(arg0, 3);
+    ((void (*)(void*, M2C_UNK))set_animation)(arg0, 3);
     {
         s32 g = D_800970AA;
         if (M2C_FIELD(arg0, s16*, 0xA) < g) {

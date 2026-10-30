@@ -5,16 +5,16 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20_800EF590 (*(s32**)0x1F800020)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*, s16);
 #define func_80030ECC (*(M2C_UNK(*)(void*)) & func_80030ECC)
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 extern s32 D_8007573C[];
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern void (*D_800F75FC[])(void*);
 extern s32 D_800F77D8;
 extern s32 D_800F77DC;
@@ -32,7 +32,7 @@ void func_800EF590(void* self) {
 
     D_800F7804 = 0;
     hp = F(s8, 0x5C);
-    r = func_80031474(self);
+    r = check_enemy_hits(self);
     D_800F7806 = 0;
     if (r > 0) {
         D_800F7806 = hp - F(u8, 0x5C);
@@ -47,7 +47,7 @@ void func_800EF590(void* self) {
                     (((func_8002A47C(F(s8, 1)) + 8) / 4 + 0x1E0) << 6);
                 F(u8*, 0x3C) = (u8*)SPAD20_800EF590 +
                                SPAD20_800EF590[func_8002A47C(F(s8, 1))];
-                func_800179A4(self, 7);
+                set_animation(self, 7);
                 F(s8, 0x4) = 2;
                 F(s8, 0x5C) = 0;
                 F(s32, 0x20) = 0;
@@ -87,13 +87,13 @@ void func_800EF590(void* self) {
         }
     }
     if (D_800F77E8 & (s16)D_800F7808++ & 1) {
-        D_800CCED0.unk10 = 1;
-        D_800CCED0.unk11 = 1;
-        D_800CCED0.unk13 = 1;
+        g_playthrough_state.unk10 = 1;
+        g_playthrough_state.unk11 = 1;
+        g_playthrough_state.unk13 = 1;
     } else {
-        D_800CCED0.unk10 = 0;
-        D_800CCED0.unk11 = 0;
-        D_800CCED0.unk13 = 0;
+        g_playthrough_state.unk10 = 0;
+        g_playthrough_state.unk11 = 0;
+        g_playthrough_state.unk13 = 0;
     }
     D_800F75FC[F(s8, 0x5)](self);
 }

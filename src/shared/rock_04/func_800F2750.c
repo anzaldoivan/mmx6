@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern s32 D_800741FC[];
 extern M2C_UNK D_8007433C;
 extern s32 D_800F769C;
@@ -38,7 +38,7 @@ void func_800F2750(struct X4_MainObj* self) {
     self->x_accel = 0;
     self->gravity = 0;
     if (kind == 0) {
-        ((void (*)(void*, s32))func_800179A4)(self, 0x1B);
+        ((void (*)(void*, s32))set_animation)(self, 0x1B);
         self->collision_data = D_800741FC;
         self->hurt_box = 0;
         self->attack_box = 0;

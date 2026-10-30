@@ -3,10 +3,10 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*); /* extern */
-M2C_UNK func_80017A04();                        /* extern */
-s32 func_8002A47C(s32);                         /* extern */
-void* func_8002C32C();                          /* extern */
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
+M2C_UNK func_80017A04();                     /* extern */
+s32 func_8002A47C(s32);                      /* extern */
+void* func_8002C32C();                       /* extern */
 extern s8 D_800970FC;
 
 void func_800F071C(void* arg0) {
@@ -20,7 +20,7 @@ void func_800F071C(void* arg0) {
 
     if ((M2C_FIELD(arg0, u16*, 0x88) & 7) == 4) {
         if (M2C_FIELD(arg0, u16*, 0x8A) & 0x80) {
-            func_80016C48(2, 0x25, 0);
+            play_sound(2, 0x25, 0);
             f = 1;
         } else {
             goto clear;
@@ -89,7 +89,7 @@ void func_800F071C(void* arg0) {
                         bits >>= 1;
                     } while (i < 3);
                     M2C_FIELD(arg0, u8*, 0x7E) = 0x10;
-                    func_80016C48(2, 6, 0);
+                    play_sound(2, 6, 0);
                 }
             }
         }

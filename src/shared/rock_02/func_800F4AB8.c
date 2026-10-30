@@ -2,7 +2,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 extern void (*D_800FBA70[])(void*);
 
 void func_800F4AB8(void* arg0) {
@@ -11,7 +11,7 @@ void func_800F4AB8(void* arg0) {
     s8 k;
 
     parent = M2C_FIELD(arg0, void**, 0x7C);
-    r = func_80031474(arg0);
+    r = check_enemy_hits(arg0);
     if (M2C_FIELD(parent, s8*, 6) == 5) {
         k = M2C_FIELD(parent, s8*, 5);
         if (k != 0xD && M2C_FIELD(arg0, s8*, 6) < 7) {

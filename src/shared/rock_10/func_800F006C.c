@@ -8,7 +8,7 @@ s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002F288(void*);
 M2C_UNK func_80030ECC();
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
 void func_8004E654(void*, s32);
@@ -56,9 +56,9 @@ void func_800F006C(void* self) {
         F(void*, 0x54) = &D_800FC2C8;
         F(void*, 0x68) = &D_800FC2CC;
     }
-    r = func_80031474(self);
+    r = check_enemy_hits(self);
     if (r < 0 || (q = &D_800743DC, p = D_800FCFF8, F(void*, 0x54) = p,
-                  F(void*, 0x58) = q, r = func_80031474(self), r < 0)) {
+                  F(void*, 0x58) = q, r = check_enemy_hits(self), r < 0)) {
         if (r != -0x38) {
             func_8004E654(self, 0x14);
         }

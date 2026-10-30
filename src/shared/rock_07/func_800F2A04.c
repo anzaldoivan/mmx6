@@ -3,8 +3,8 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179D0(void*, M2C_UNK, s8);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 M2C_UNK move_object(void*);
 void func_800F6880(void* arg0, u8 arg1, s16 arg2, s16 arg3);
 extern s16 D_800970AA;
@@ -16,9 +16,9 @@ void func_800F2A04(void* arg0) {
 
     n = --M2C_FIELD(arg0, u16*, 0x7E);
     if (n == 0) {
-        func_80016C48(2, 0x5E, arg0);
+        play_sound(2, 0x5E, arg0);
         func_80012D9C(5);
-        func_800179D0(arg0, 0x21, 4);
+        set_animation_frame(arg0, 0x21, 4);
         M2C_FIELD(arg0, u8*, 0x60) = 4;
         M2C_FIELD(arg0, s32*, 0x20) = 0;
         M2C_FIELD(arg0, s32*, 0x24) = 0x40000;
@@ -37,7 +37,7 @@ void func_800F2A04(void* arg0) {
         return;
     }
     if (n == 0x1B || n == 0x57) {
-        func_80016C48(2, 0x5F, arg0);
+        play_sound(2, 0x5F, arg0);
     }
     {
         ((void (*)(void*))move_object)(arg0);

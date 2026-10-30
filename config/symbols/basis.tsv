@@ -404,3 +404,140 @@ SLUS_013.95	0x80069174	MDEC_rest	string	strings.tsv:107:SLUS_013.95:0x80012050	c
 SLUS_013.95	0x80069380	MDEC_in_sync	string	strings.tsv:108:SLUS_013.95:0x8001206C	consistent-with-bytes
 SLUS_013.95	0x80069414	MDEC_out_sync	string	strings.tsv:109:SLUS_013.95:0x8001207C	consistent-with-bytes
 rock_20	0x800EE4C0	memcard_write_save_file	string	strings.tsv:403:rock_20:0x800E987C	consistent-with-bytes
+SLUS_013.95	0x80015A0C	load_vab_record	oracle	assets.tsv:261:vab:2	consistent-with-bytes
+SLUS_013.95	0x80016858	read_rock_bin_member	oracle	assets.tsv:3:iso/ROCK_X6.BIN	consistent-with-bytes
+SLUS_013.95	0x80018060	play_bgm_xa_track	oracle	assets.tsv:257:dat:245	consistent-with-bytes
+SLUS_013.95	0x80018178	play_demo_xa_track	oracle	assets.tsv:258:dat:246	consistent-with-bytes
+SLUS_013.95	0x8001A6CC	play_str_movie	oracle	assets.tsv:256:dat:244	consistent-with-bytes
+SLUS_013.95	0x8006CD42	rock_dat_cd_file_names	oracle	assets.tsv:6:iso/STR/CAPLOGO.STR	consistent-with-bytes
+SLUS_013.95	0x80070CA4	str_movie_table	oracle	assets.tsv:256:dat:244	consistent-with-bytes
+SLUS_013.95	0x800E0398	rock_dat_file_table	oracle	assets.tsv:4:iso/ROCK_X6.DAT	consistent-with-bytes
+SLUS_013.95	0x800E0B58	rock_bin_file_table	oracle	assets.tsv:3:iso/ROCK_X6.BIN	consistent-with-bytes
+SLUS_013.95	0x8002BBF4	enemy_slot_alloc	xref	objects.tsv:338	consistent-with-bytes
+SLUS_013.95	0x80012890	set_resolution	community	tweaks-index.tsv:38; corroborator width 0x140/0x200 then SetDefDrawEnv/SetDefDispEnv/ClearOTagR when mode changes	consistent-with-bytes
+SLUS_013.95	0x80013BF0	load_player_files	community	tweaks-index.tsv:375; corroborator DAT file 0x55 (Zero) or 0x56-0x59 by armor via func_80014F70, ROCK member 0/1...	consistent-with-bytes
+SLUS_013.95	0x8001466C	init_loading_screen	community	tweaks-index.tsv:40; corroborator calls func_80012890(0) then func_800144DC for 10 slots, double-buffer pointer...	consistent-with-bytes
+SLUS_013.95	0x8001642C	read_dat_file	community	tweaks-index.tsv:33; corroborator CdControlB sync then rock_dat_file_table[arg0] -> func_80014E60(lba,size)	consistent-with-bytes
+SLUS_013.95	0x80016C48	play_sound	community	tweaks-index.tsv:324; corroborator returns -1/-2 for missing bank or id, per-bank tables D_80097778, reads D_800...	consistent-with-bytes
+SLUS_013.95	0x800179A4	set_animation	community	tweaks-index.tsv:191; corroborator stores index at +0x17 and frame ptr from (+0x30)[arg1]	consistent-with-bytes
+SLUS_013.95	0x8001DEB8	init_title_screen	community	tweaks-index.tsv:331; corroborator spawns sprite object 0x13 (func_8002C530), sets timer +4 = 0x258, func_800139...	consistent-with-bytes
+SLUS_013.95	0x8001DF5C	tick_title_demo_timer	community	tweaks-index.tsv:268; corroborator decrements +4, at 0 calls func_800139F4(8) and advances mode	consistent-with-bytes
+SLUS_013.95	0x8001E088	init_new_game	community	tweaks-index.tsv:302; corroborator lives +0x39=2, options from D_8006D5F7, difficulty from D_8006D5F8	consistent-with-bytes
+SLUS_013.95	0x8001E32C	exit_stage_by_clear	community	tweaks-index.tsv:308; corroborator records stage D_800E3141, exit kind D_800E3140 0/1, mode 0xB, tests +0x43B	consistent-with-bytes
+SLUS_013.95	0x80021760	open_text_box	community	tweaks-index.tsv:362; corroborator starts message arg0 in D_8008EAF0 (defers +0x10|0x8000 when busy), calls func...	consistent-with-bytes
+SLUS_013.95	0x80021BF4	update_text_box	community	tweaks-index.tsv:363; corroborator asm only, func_80020D18 calls it each frame while D_8008EAF0 is active	consistent-with-bytes
+SLUS_013.95	0x800228AC	get_player_mugshot	community	tweaks-index.tsv:374; corroborator returns 0-5 by X armor, 1 or 6 for Zero by +0x5F bit 0x20	consistent-with-bytes
+SLUS_013.95	0x80025FD8	set_boss_level	community	tweaks-index.tsv:173; corroborator stage 0xC -> level 3, else D_80071D80[rank] into D_800CCED0+0x8F	consistent-with-bytes
+SLUS_013.95	0x8002A588	init_options_menu	community	tweaks-index.tsv:292; corroborator spawns menu objects (func_8002C590) per D_80073630 label to 0xFF plus a curso...	consistent-with-bytes
+SLUS_013.95	0x8002B3D4	load_palette	community	tweaks-index.tsv:381; corroborator memcpy into scratch +arg0*32, sets D_800C4560 |= 1	consistent-with-bytes
+SLUS_013.95	0x8002B838	reset_level	community	tweaks-index.tsv:371; corroborator clears g_Player 0x154, D_800950A0/D_8008EF48/D_80093C98 slots and text box	consistent-with-bytes
+SLUS_013.95	0x8002C530	alloc_sprite_slot	community	tweaks-index.tsv:379; corroborator scans D_800CD410 0x60-byte slots (0x2400), clears and returns the first free	consistent-with-bytes
+SLUS_013.95	0x8002D868	check_attack_hit	community	tweaks-index.tsv:277; corroborator compares attack box +0x50 of arg0 with hurt box +0x54 of arg1, skips if arg1+...	consistent-with-bytes
+SLUS_013.95	0x8002E1A0	check_box_collision	community	tweaks-index.tsv:258; corroborator compares +0x68 boxes of two objects, mirrored by facing +0x15==0x40	consistent-with-bytes
+SLUS_013.95	0x80030DC0	scale_damage	community	tweaks-index.tsv:204; corroborator difficulty +0x68: x3/4 or +1/4, halved for armor 1-4 or part bit 0x200	consistent-with-bytes
+SLUS_013.95	0x80031474	check_enemy_hits	community	tweaks-index.tsv:275; corroborator loops D_800950A0 slots: func_8002D868 hit test then func_800315CC	consistent-with-bytes
+SLUS_013.95	0x80032DF0	setup_pause_menu	community	tweaks-index.tsv:203; corroborator func_800139A0(0x20), state 2, fills entries by character and parts via D_8007...	consistent-with-bytes
+SLUS_013.95	0x800346EC	exit_stage_from_menu	community	tweaks-index.tsv:310; corroborator exit kind D_800E3140=2, clears +0x10..+0x17, D_800CCED0.state=0xB	consistent-with-bytes
+SLUS_013.95	0x80035620	handle_jump_rise	community	tweaks-index.tsv:231; corroborator zeroes y speed +0x24 when jump button 0x80 released, sound 1/1	consistent-with-bytes
+SLUS_013.95	0x8003649C	perform_ceiling_jump	community	tweaks-index.tsv:193; corroborator duration +7 = 0x78 (Zero) or -0x4C (X), sound 1/4, anim 0x53	consistent-with-bytes
+SLUS_013.95	0x80036EB0	handle_slide_down	community	tweaks-index.tsv:188; corroborator character branch (+2), landing check func_8003AFF4, wall tests func_8003A33C/...	consistent-with-bytes
+SLUS_013.95	0x8003737C	end_ceiling_dash	community	tweaks-index.tsv:195; corroborator on anim end or held direction: anim 0x14, state 7	consistent-with-bytes
+SLUS_013.95	0x8003906C	select_air_dash	community	tweaks-index.tsv:216; corroborator armor 1 -> func_8003F28C, 3 -> func_8003F32C, else func_8003F200, Zero func_8...	consistent-with-bytes
+SLUS_013.95	0x80039EB0	check_dash_input	community	tweaks-index.tsv:243; corroborator returns 1 on double_tap_dash or button 0x100, facing from held L/R, x_vel fro...	consistent-with-bytes
+SLUS_013.95	0x8003A870	check_ceiling_jump	community	tweaks-index.tsv:192; corroborator X needs part +0xE7==2, Zero +0xC9&2, on press: state 0x1F, anim 0xA, sound 1/1	consistent-with-bytes
+SLUS_013.95	0x8003B114	end_dash	community	tweaks-index.tsv:248; corroborator generic dash end: ground -> state 2, air -> anim 0xB state 7, no Mach-specifi...	consistent-with-bytes
+SLUS_013.95	0x8003CD44	read_player_input	community	tweaks-index.tsv:260; corroborator fills g_Player held/previous/pressed from func_8003D7AC(D_800C456C[0..2])	consistent-with-bytes
+SLUS_013.95	0x8003D014	check_low_health	community	tweaks-index.tsv:328; corroborator if +0x8D==0 and hp +0x5C < max/3 sets +0x8D=0x78 (func_8003CFE0 voices need +...	consistent-with-bytes
+SLUS_013.95	0x8003D2BC	spawn_dust	community	tweaks-index.tsv:186; corroborator allocates visual object (func_8002C398), active 0x21 id 0, copies bg_offset	consistent-with-bytes
+SLUS_013.95	0x8003D7AC	map_buttons	community	tweaks-index.tsv:321; corroborator maps 16 bits through D_8006D600 into a new button mask	consistent-with-bytes
+SLUS_013.95	0x8003DBDC	switch_weapon	community	tweaks-index.tsv:221; corroborator buttons 0x600: both -> weapon +0x93 = 0 and sound 0xC, else steps via D_80073ED0	consistent-with-bytes
+SLUS_013.95	0x8003E344	check_giga_attack	community	tweaks-index.tsv:202; corroborator X only, needs full gauge (+0xA8 == +0x14A), button 0x40, armor +0xE7 1-4	consistent-with-bytes
+SLUS_013.95	0x8003EB0C	get_weapon_energy_cost	community	tweaks-index.tsv:208; corroborator cost D_80073D74[id]*6 (X) or D_80073DF4[id]*k (Zero), cut by part bit 0x20 or...	consistent-with-bytes
+SLUS_013.95	0x8003EEE4	charge_special_weapon	community	tweaks-index.tsv:207; corroborator gated by armor +0xE7 in {1,3,4} and button 0x10, works on energy +0xA8, calls...	consistent-with-bytes
+SLUS_013.95	0x8003F200	start_hover	community	tweaks-index.tsv:244; corroborator armor +0xE7==4 and button 0x80: state 0x21, timer +0xD9=0xB4, anim 0x15	consistent-with-bytes
+SLUS_013.95	0x8003F28C	start_falcon_dash	community	tweaks-index.tsv:246; corroborator sound 1/5, state 0x23, anim 0xA9, spawns weapon 0x17 and visual 0x12	consistent-with-bytes
+SLUS_013.95	0x8003F740	use_weapon_energy	community	tweaks-index.tsv:209; corroborator subtracts func_8003EB0C cost from energy +0xA8[+0x93] unless D_800971E4==3	consistent-with-bytes
+SLUS_013.95	0x8003FA8C	fire_charged_shot	community	tweaks-index.tsv:327; corroborator spawns visual 0x21/2 with kind +0x96, kinds 0x12-0x14 randomly voice 6 via fu...	consistent-with-bytes
+SLUS_013.95	0x8003FD6C	start_saber	community	tweaks-index.tsv:197; corroborator state 0x2D ground / 0x2E air, anim 0xB7-0xBA chosen by part +0xE7	consistent-with-bytes
+SLUS_013.95	0x8004228C	init_orb	community	tweaks-index.tsv:349; corroborator kind 0x31/0x32/other -> anim 7/8/6 and value +0x8A 4/0xC8/8	consistent-with-bytes
+SLUS_013.95	0x80042D3C	register_orb	community	tweaks-index.tsv:351; corroborator sets bit id&7 in D_800CCED0+0x178 per stage (D_80075FE8)	consistent-with-bytes
+SLUS_013.95	0x80043638	init_yammar_option	community	tweaks-index.tsv:223; corroborator spawns child weapon objects (func_8002BEC4) ids 1-3, calls func_8003EB0C/func...	consistent-with-bytes
+SLUS_013.95	0x8004548C	update_guard_shell	community	tweaks-index.tsv:228; corroborator timer +0x8E, when energy >= func_8003EB0C cost, charges via func_8003F740 (Ze...	consistent-with-bytes
+SLUS_013.95	0x80046E14	clamp_player_to_ceiling	community	tweaks-index.tsv:257; corroborator only on stage 4 cp 2 or stage >=0x13 cp 0, compares background_objects[1] y w...	consistent-with-bytes
+SLUS_013.95	0x80047460	move_ceiling	community	tweaks-index.tsv:253; corroborator timer +0x14 flips direction state +5 (2/3), sound 2/0x22 via func_80016C48	consistent-with-bytes
+SLUS_013.95	0x80049270	init_buster_shot_visual	community	tweaks-index.tsv:214; corroborator maps shot kind to D_80077C0C row: frames, anim, sound id for func_80016C48	consistent-with-bytes
+SLUS_013.95	0x80049564	update_dust	community	tweaks-index.tsv:190; corroborator visual routine, hides itself on player states 0x2F and 0x4C	consistent-with-bytes
+SLUS_013.95	0x8004E680	drop_item	community	tweaks-index.tsv:271; corroborator skipped when D_800CCF38 >= 2, roll vs D_80078860, spawns object id 0x2F type...	consistent-with-bytes
+SLUS_013.95	0x8004EECC	rescue_reploid	community	tweaks-index.tsv:285; corroborator on contact: lives D_800CCED0+0x39 +1 (cap 9, sound 0x15), reward from D_80078BE8	consistent-with-bytes
+SLUS_013.95	0x80051158	init_capsule	community	tweaks-index.tsv:219; corroborator decides appearance from D_80078E08[type] vs part bits +0x5F and character	consistent-with-bytes
+SLUS_013.95	0x80051ED4	apply_capsule_part	community	tweaks-index.tsv:220; corroborator ORs D_80078E08[id] into D_800CCED0+0x69, id 8 with Zero sets +0x5F bit 0x20	consistent-with-bytes
+SLUS_013.95	0x8006D5F7	g_temp_options	community	tweaks-index.tsv:299; corroborator func_8001E088 copies it to option bits +0xC9	consistent-with-bytes
+SLUS_013.95	0x8006D5F8	default_options	community	tweaks-index.tsv:265; corroborator func_8001E088 copies D_8006D5F8 to difficulty +0x68	consistent-with-bytes
+SLUS_013.95	0x8006E468	speaker_colors	community	tweaks-index.tsv:355; corroborator read by func_80022838	consistent-with-bytes
+SLUS_013.95	0x80071D80	boss_level_by_rank	community	tweaks-index.tsv:172; corroborator func_80025FD8 indexes it by rank and stores the result as boss level +0x8F	consistent-with-bytes
+SLUS_013.95	0x8007360C	option_values	community	tweaks-index.tsv:296; corroborator read by func_8002A76C/func_80046C0C	consistent-with-bytes
+SLUS_013.95	0x80073630	option_labels	community	tweaks-index.tsv:297; corroborator func_8002A588 walks it to 0xFF spawning labels	consistent-with-bytes
+SLUS_013.95	0x80073658	option_cursors	community	tweaks-index.tsv:298; corroborator func_8002A588 stores it as the cursor object data +0x50	consistent-with-bytes
+SLUS_013.95	0x80078E08	capsule_parts	community	tweaks-index.tsv:218; corroborator func_80051ED4 ORs D_80078E08[id] into D_800CCED0+0x69	consistent-with-bytes
+SLUS_013.95	0x8008EF48	g_enemies	community	tweaks-index.tsv:134; corroborator func_8002B838 clears 0x30 slots of 0x9C bytes	consistent-with-bytes
+SLUS_013.95	0x80090D6A	g_wide_mode	community	tweaks-index.tsv:36; corroborator func_80012890 compares it to arg, 0 -> width 0x140, else 0x200	consistent-with-bytes
+SLUS_013.95	0x80093C98	g_projectiles	community	tweaks-index.tsv:136; corroborator func_8002B838 clears 0x20 slots of 0xA0 bytes (workbook says stride 0x9C)	consistent-with-bytes
+SLUS_013.95	0x8009B79C	g_screen_width	community	tweaks-index.tsv:37; corroborator set 0x140/0x200 in func_80012890 and passed as width to SetDefDrawEnv/SetDefD...	consistent-with-bytes
+SLUS_013.95	0x800CCED0	g_playthrough_state	community	tweaks-index.tsv:49; corroborator func_80025FD8 reads +0xC stage and +0x8D rank, extern X4_EngineObj in ~300 C...	consistent-with-bytes
+SLUS_013.95	0x800CD410	g_displayed_sprites	community	tweaks-index.tsv:380; corroborator func_8002C530 walks it in 0x60 steps	consistent-with-bytes
+rock_00	0x801ED524	init_shuriken_buster	community	tweaks-index.tsv:215; corroborator X4_WeaponObj setup: active 1, anim table D_80077A8C, sound 1/8	consistent-with-bytes
+rock_00	0x801EDCB0	update_shadow_armor_attack	community	tweaks-index.tsv:198; corroborator X4_WeaponObj routine, ends on player hp 0, sounds 1/0x12 and 1/9 via func_800...	consistent-with-bytes
+rock_01	0x801EA680	start_rekkoha	community	tweaks-index.tsv:226; corroborator needs skill bit +0xC9&0x80, button 0x40, energy >= cost of weapon 5, anim 0x68	consistent-with-bytes
+rock_01	0x801ECAF0	attack_hyoroga_from_ceiling	community	tweaks-index.tsv:194; corroborator spawns 3 visual objects (func_8002C32C) on anim flag 0x40, anim 0x54 at end	consistent-with-bytes
+rock_02	0x800F1724	init_high_max_intro	community	tweaks-index.tsv:279; corroborator variant +2 picks collision/anim setup, variant 0 sets D_800CCEF6=1, also read...	consistent-with-bytes
+rock_03	0x800F3BE4	init_yammark_projectile	community	tweaks-index.tsv:162; corroborator copies parent (+0x7C) position, aims with ratan2/rcos/rsin, reads difficulty...	consistent-with-bytes
+rock_04	0x800F14B0	init_wolfang_ice_spike	community	tweaks-index.tsv:168; corroborator contact damage 4, collision D_8007519C, boss-rush stage 0xC branch	consistent-with-bytes
+rock_07	0x800EB80C	init_nightmare_pressure	community	tweaks-index.tsv:182; corroborator on D_800970A5==0x14: boss_ptr=self, bar 0x30, calls func_80025FD8	consistent-with-bytes
+rock_11	0x800F2390	init_illumina	community	tweaks-index.tsv:183; corroborator on D_800970A5==0x14: boss ptr +0x20=self, bar size +0x8C=0x40	consistent-with-bytes
+rock_17	0x800E9E2C	tick_boss_intro	community	tweaks-index.tsv:329; corroborator copies 8 bytes from D_800E9860+4 (= workbook sound table 0x800E9864), timer +...	consistent-with-bytes
+rock_20	0x800EE6F4	build_mission_report_list	community	tweaks-index.tsv:344; corroborator reads MR fields D_800CCED0+0x26/+0x27, D_80097169, offset 0x43B, calls func_8...	consistent-with-bytes
+SLUS_013.95	0x80013300	create_task	code	code:src/shared/SLUS_013.95/create_task.c:15 via=OpenTh	consistent-with-bytes
+SLUS_013.95	0x80013360	task_yield	code	code:src/shared/SLUS_013.95/task_yield.c:13 via=ChangeTh	consistent-with-bytes
+SLUS_013.95	0x800133F4	end_task_slot	code	code:src/shared/SLUS_013.95/end_task_slot.c:17 via=CloseTh	consistent-with-bytes
+SLUS_013.95	0x80016178	pump_file_loads	code	code:src/shared/SLUS_013.95/pump_file_loads.c:65 via=rock_dat_file_table	consistent-with-bytes
+SLUS_013.95	0x8001750C	silence_sound	code	code:src/shared/SLUS_013.95/silence_sound.c:19 via=SsUtKeyOffV	consistent-with-bytes
+SLUS_013.95	0x800179D0	set_animation_frame	code	code:src/shared/SLUS_013.95/set_animation_frame.c:11 via=arg1	consistent-with-bytes
+SLUS_013.95	0x8001854C	play_stage_bgm	code	code:src/shared/SLUS_013.95/play_stage_bgm.c:17 via=g_stage_bgm_tracks	consistent-with-bytes
+SLUS_013.95	0x800186A8	stop_cd_audio	code	code:src/shared/SLUS_013.95/stop_cd_audio.c:33 via=SsSetSerialAttr	consistent-with-bytes
+SLUS_013.95	0x80029B8C	init_checkpoint_positions	code	code:src/shared/SLUS_013.95/init_checkpoint_positions.c:20 via=checkpoint	consistent-with-bytes
+SLUS_013.95	0x8002C3F8	alloc_class3_slot	code	code:src/shared/SLUS_013.95/alloc_class3_slot.c:15 via=D_8009B7B0	consistent-with-bytes
+SLUS_013.95	0x8002C4C4	alloc_class4_slot	code	code:src/shared/SLUS_013.95/alloc_class4_slot.c:14 via=D_800C1220	consistent-with-bytes
+SLUS_013.95	0x8002C7F0	alloc_class6_slot	code	code:src/shared/SLUS_013.95/alloc_class6_slot.c:14 via=D_8009C9B0	consistent-with-bytes
+SLUS_013.95	0x8002C950	alloc_class7_slot	code	code:src/shared/SLUS_013.95/alloc_class7_slot.c:14 via=D_800C4778	consistent-with-bytes
+SLUS_013.95	0x8002C9B0	clear_object_slot	code	code:src/shared/SLUS_013.95/clear_object_slot.c:9 via=arg0	consistent-with-bytes
+SLUS_013.95	0x8002D2D4	random_byte	code	code:src/shared/SLUS_013.95/random_byte.c:13 via=D_80090E70	consistent-with-bytes
+SLUS_013.95	0x8004FF00	set_reploid_status	code	code:src/shared/SLUS_013.95/rescue_reploid.c:37 via=set_reploid_status	consistent-with-bytes
+SLUS_013.95	0x8004FF4C	get_reploid_status	code	code:src/shared/SLUS_013.95/func_80018F98.c:16 via=get_reploid_status	consistent-with-bytes
+SLUS_013.95	0x800533F4	is_text_box_seen	code	code:src/shared/rock_11/func_800F23D8.c:22 via=is_text_box_seen	consistent-with-bytes
+SLUS_013.95	0x80053440	set_text_box_seen	code	code:src/shared/rock_11/func_800F23D8.c:24 via=set_text_box_seen	consistent-with-bytes
+SLUS_013.95	0x8007093C	g_stage_bgm_tracks	code	code:src/shared/SLUS_013.95/play_stage_bgm.c:17 via=g_stage_bgm_tracks	consistent-with-bytes
+SLUS_013.95	0x8007112C	g_playthrough_state_handlers	code	code:src/shared/SLUS_013.95/func_8001E6E4.c:11 via=g_playthrough_state_handlers	consistent-with-bytes
+SLUS_013.95	0x80073ABC	g_player_state_handlers	code	code:src/shared/SLUS_013.95/func_80034DCC.c:60 via=g_player_state_handlers	consistent-with-bytes
+SLUS_013.95	0x8008EC10	g_tilemap_layer_stride	code	code:src/shared/SLUS_013.95/func_80027D6C.c:28 via=g_tilemap_layer_stride	consistent-with-bytes
+SLUS_013.95	0x8009B7A0	g_cur_draw_info	code	code:src/shared/SLUS_013.95/func_800120A0.c:47 via=g_cur_draw_info	consistent-with-bytes
+SLUS_013.95	0x800B91C0	g_bg_sprite_prims	code	code:src/shared/SLUS_013.95/func_8002649C.c:29 via=g_bg_sprite_prims	consistent-with-bytes
+SLUS_013.95	0x800C456C	g_pad1_buttons	code	code:src/shared/SLUS_013.95/func_80012A34.c:47 via=g_pad1_buttons	consistent-with-bytes
+SLUS_013.95	0x800C4578	g_draw_info_buffers	code	code:src/shared/SLUS_013.95/func_800120A0.c:47 via=g_draw_info_buffers	consistent-with-bytes
+SLUS_013.95	0x800C4758	g_pad2_buttons	code	code:src/shared/SLUS_013.95/func_80012A34.c:84 via=g_pad2_buttons	consistent-with-bytes
+SLUS_013.95	0x800CD338	g_tilemap_width	code	code:src/shared/SLUS_013.95/func_80027D6C.c:25 via=g_tilemap_width	consistent-with-bytes
+SLUS_013.95	0x800CD339	g_tilemap_height	code	code:src/shared/SLUS_013.95/func_80027D6C.c:25 via=g_tilemap_height	consistent-with-bytes
+rock_02	0x800EFED0	update_d1000	community	refs/leads/tweaks/BossHealth.tsv:234 word 0x800EFF4C match; code:src/shared/rock_02/update_d1000.c:19 via=D_800FB198	consistent-with-bytes
+rock_02	0x800F5170	update_high_max_intro	community	refs/leads/tweaks/BossHealth.tsv:284 word 0x800F21B0 match; code:src/rock_02/E9860.c:523 via=update_high_max_intro	consistent-with-bytes
+rock_03	0x800F40C8	update_commander_yammark	community	refs/leads/tweaks/BossHealth.tsv:1346 word 0x800EF810 match; code:src/rock_03/E9860.c:507 via=update_commander_yammark	consistent-with-bytes
+rock_04	0x800F2E8C	update_blizzard_wolfang	community	refs/leads/tweaks/BossHealth.tsv:1574 word 0x800F232C match; code:src/rock_04/E9860.c:307 via=update_blizzard_wolfang	consistent-with-bytes
+rock_05	0x800EC534	update_nightmare_snake	community	refs/leads/tweaks/BossHealth.tsv:366 word 0x800ED610 match; code:src/rock_05/E9860.c:103 via=D_800F3F1C	consistent-with-bytes
+rock_07	0x800EB4C8	update_nightmare_pressure	community	refs/leads/tweaks/BossHealth.tsv:1294 word 0x800EB80C match; code:src/rock_07/E9860.c:41 via=D_800F868C	consistent-with-bytes
+rock_08	0x800F1C60	update_ground_scaravich	community	refs/leads/tweaks/BossHealth.tsv:1774 word 0x800F2B78 match; code:src/rock_08/E9860.c:379 via=D_800F5F34	consistent-with-bytes
+rock_15	0x800EDE18	update_sigma_1	community	refs/leads/tweaks/BossHealth.tsv:2404 word 0x800ED124 match; code:src/rock_15/E9860.c:329 via=D_800F666C	consistent-with-bytes
+rock_23	0x800F3E78	update_high_max_secret_lab2_1	community	refs/leads/tweaks/BossHealth.tsv:2224 word 0x800F0EB8 match; code:src/rock_23/E9860.c:529 via=update_high_max_secret_lab2_1	consistent-with-bytes
+rock_24	0x800F49F0	update_gate	community	refs/leads/tweaks/BossHealth.tsv:2303 word 0x800EF400 match; code:src/rock_24/E9860.c:513 via=D_800F75F0	consistent-with-bytes
+rock_33	0x800FE988	update_commander_yammark_boss_rush	community	refs/leads/tweaks/BossHealth.tsv:2986 word 0x800FA0D0 match; code:src/rock_33/FA000.c:58 via=update_commander_yammark_boss_rush	consistent-with-bytes
+rock_34	0x800FB9E4	update_blizzard_wolfang_boss_rush	community	refs/leads/tweaks/BossHealth.tsv:3214 word 0x800FAE84 match; code:src/rock_34/FA000.c:56 via=update_blizzard_wolfang_boss_rush	consistent-with-bytes
+rock_37	0x800FBCC8	update_ground_scaravich_boss_rush	community	refs/leads/tweaks/BossHealth.tsv:3414 word 0x800FCBE0 match; code:src/rock_37/FA000.c:47 via=D_800FD8C4	consistent-with-bytes
+rock_43	0x800FC128	update_nightmare_zero	community	refs/leads/tweaks/BossHealth.tsv:2571 word 0x800FA000 match (data, Values table); code:src/rock_43/FA000.c:49 via=D_800FE134	consistent-with-bytes
+rock_44	0x800FDA98	update_high_max_hidden_area	community	refs/leads/tweaks/BossHealth.tsv:2761 word 0x800FAAD8 match; code:src/rock_44/FA000.c:105 via=update_high_max_hidden_area	consistent-with-bytes

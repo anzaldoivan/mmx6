@@ -2,14 +2,14 @@
 
 #define FLD(p, type, off) (*(type*)((u8*)(p) + (off)))
 
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 
 void func_800EFEF8(void* arg0, s32 arg1) {
     u8* p;
     u8 n;
 
     n = arg1;
-    p = func_8002BBF4();
+    p = enemy_slot_alloc();
     if (p != 0) {
         p[0] = 0x41;
         p[1] = 0x25;

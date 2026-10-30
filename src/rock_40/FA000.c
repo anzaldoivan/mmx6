@@ -381,10 +381,10 @@ INCLUDE_ASM("asm/rock_40/nonmatchings/FA000", func_800FE67C);
 #undef func_800FA630
 
 #define func_800FA664 func_800FEB90
-#define D_80093C98 D_80093C98
+#define g_projectiles g_projectiles
 #include "../shared/rock_11/func_800FA664.c"
 #undef func_800FA664
-#undef D_80093C98
+#undef g_projectiles
 
 #define func_800F54B8 func_800FEC58
 #include "../shared/rock_04/func_800F54B8.c"

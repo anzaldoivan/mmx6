@@ -3,8 +3,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 
 void func_800EB750(void* self) {
     void* parent = M2C_FIELD(self, void**, 0x7C);
@@ -21,14 +21,14 @@ void func_800EB750(void* self) {
     M2C_FIELD(self, s32*, 0x50) = 0;
     M2C_FIELD(self, s32*, 0x54) = 0;
     M2C_FIELD(self, s32*, 0x58) = 0;
-    func_800179A4(self, 0xC);
+    set_animation(self, 0xC);
     M2C_FIELD(self, s32*, 0x20) = 0;
     M2C_FIELD(self, s32*, 0x24) = 0;
     M2C_FIELD(self, s32*, 0x28) = 0;
     M2C_FIELD(self, s32*, 0x2C) = 0;
     M2C_FIELD(self, u8*, 0x5C) = 1;
     M2C_FIELD(self, u8*, 0x60) = 4;
-    func_80016C48(2, 0x10, self);
+    play_sound(2, 0x10, self);
     M2C_FIELD(self, u8*, 0x6) = 0;
     M2C_FIELD(self, u8*, 0x5) = 0;
     M2C_FIELD(self, u8*, 0x4)++;

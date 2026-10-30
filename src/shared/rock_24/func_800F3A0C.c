@@ -4,8 +4,8 @@
 #include "mmx6/x4.h"
 #define SPAD20 (*(s32*)0x1F800020)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 extern s32 D_8007573C[];
 extern M2C_UNK g_Player;
@@ -45,7 +45,7 @@ void func_800F3A0C(struct X4_MainObj* arg0) {
     arg0->sprite_frames =
         (const u8*)(SPAD20 +
                     *(s32*)(func_8002A47C(D_800F7800->id) * 4 + SPAD20));
-    ((void (*)(void*, s32))func_800179A4)(arg0, 0xD);
+    ((void (*)(void*, s32))set_animation)(arg0, 0xD);
     q = *(struct X4_MainObj**)((u8*)arg0 + 0x7C);
     arg0->x_pos.i.hi = q->x_pos.i.hi;
     arg0->y_pos.i.hi = q->y_pos.i.hi;
@@ -63,7 +63,7 @@ void func_800F3A0C(struct X4_MainObj* arg0) {
     arg0->hp = 1;
     arg0->contact_damage = 4;
     arg0->ext.raw[3] = 0;
-    ((void (*)(s32, s32, void*))func_80016C48)(2, 0x8C, arg0);
+    ((void (*)(s32, s32, void*))play_sound)(2, 0x8C, arg0);
     arg0->unk5 = 0;
     {
         // !FAKE: depin: dropping it breaks the match (121/124)

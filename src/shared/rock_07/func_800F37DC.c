@@ -7,7 +7,7 @@ M2C_UNK func_80017A04();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC();
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern void (*D_800F97B0[])(void*);
 
@@ -31,7 +31,8 @@ void func_800F37DC(void* arg0) {
         M2C_FIELD(arg0, s8*, 3) = 0;
         return;
     }
-    if ((M2C_FIELD(arg0, s8*, 2) & 0xF0) != 0x30 && func_80031474(arg0) < 0) {
+    if ((M2C_FIELD(arg0, s8*, 2) & 0xF0) != 0x30 &&
+        check_enemy_hits(arg0) < 0) {
         goto kill;
     }
     if (func_80030ECC(arg0) != 0) {

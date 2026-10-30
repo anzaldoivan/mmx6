@@ -1,16 +1,16 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s8* D_80071CB8[][2];
 
-#define ENG_B(off) (*((u8*)&D_800CCED0 + (off)))
-#define ENG_SB(off) (*((s8*)&D_800CCED0 + (off)))
+#define ENG_B(off) (*((u8*)&g_playthrough_state + (off)))
+#define ENG_SB(off) (*((s8*)&g_playthrough_state + (off)))
 
 s32 func_80021AF0(s32 arg0) {
     s8 v;
 
-    if (arg0 == 2 && D_800CCED0.stage >= 0x13) {
+    if (arg0 == 2 && g_playthrough_state.stage >= 0x13) {
         v = 0x16;
         if (ENG_B(0x43B) != 0) {
             v = 0x15;
@@ -20,7 +20,8 @@ s32 func_80021AF0(s32 arg0) {
         }
         return v & 0xFF;
     }
-    v = D_80071CB8[D_800CCED0.stage][D_800CCED0.substage][arg0];
+    v = D_80071CB8[g_playthrough_state.stage][g_playthrough_state.substage]
+                  [arg0];
     if (v == -1) {
         if (ENG_SB(0x38) == 0) {
             if (ENG_B(0x5E) == 0) {

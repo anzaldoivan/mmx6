@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 extern s8 D_800FD51D;
 
 void func_800F4BB8(void* arg0) {
@@ -18,7 +18,7 @@ void func_800F4BB8(void* arg0) {
         sub = M2C_FIELD(arg0, u8*, 0x2) & 0xF;
         switch (sub) {
         case 0:
-            func_80016C48(2, 0x32, arg0);
+            play_sound(2, 0x32, arg0);
             M2C_FIELD(arg0, u8*, 0x0) = 0x11;
             M2C_FIELD(arg0, s16*, 0x34) = 0x1F;
             M2C_FIELD(arg0, s8*, 0x37) = -1;

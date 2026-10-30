@@ -7,8 +7,8 @@
 #define FU16(p, o) (*(u16*)((u8*)(p) + (o)))
 #define F32(p, o) (*(s32*)((u8*)(p) + (o)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_8002D2D4();
+M2C_UNK set_animation(void*, M2C_UNK);
+s32 random_byte();
 s32 func_800F2FB8(void*, u8, s32);
 extern s32 D_800FC62C[];
 extern u8 D_800FC6C4[];
@@ -25,14 +25,14 @@ void func_800F26C0(struct X4_BaseObj* self) {
             self->unk15 = 0;
             SPAD[0x82] = 2;
         }
-        F16(SPAD, 0x84) = (func_8002D2D4() & 1) ? 0x50 : 0x20;
+        F16(SPAD, 0x84) = (random_byte() & 1) ? 0x50 : 0x20;
         if (func_800F2FB8(self, SPAD[0x80], 0) != 0) {
             SPAD[0x80] ^= 1;
         }
         anim = D_800FC6C4[SPAD[0x80]];
         F16(SPAD, 0x8A) = 0x15;
     } else {
-        F16(SPAD, 0x84) = (func_8002D2D4() & 1) ? 0x40 : 0x20;
+        F16(SPAD, 0x84) = (random_byte() & 1) ? 0x40 : 0x20;
         if (func_800F2FB8(self, SPAD[0x80], 1) != 0) {
             SPAD[0x80] ^= 1;
         }
@@ -47,7 +47,7 @@ void func_800F26C0(struct X4_BaseObj* self) {
 
         v = D_800FC62C[(s8)self->unk2 >> 1];
         F32(self, 0x68) = v;
-        ((void (*)(void*, s32, s32))func_800179A4)(self, anim, v);
+        ((void (*)(void*, s32, s32))set_animation)(self, anim, v);
     }
     self->unk6 = 1;
     F16(SPAD, 0x86) = F16(self, 0xA);

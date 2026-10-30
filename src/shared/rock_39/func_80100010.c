@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_8002D2D4();
+s32 random_byte();
 extern u16 D_80097202;
 #define D_80097202 (*(u16*)&D_80097202)
 
@@ -23,12 +23,12 @@ void func_80100010(u8* arg0) {
         *(s16*)(arg0 + 0x88) = g - d;
     }
     *(u16*)(arg0 + 0x8A) = temp_a0;
-    if (func_8002D2D4(temp_a0) & 1) {
+    if (random_byte(temp_a0) & 1) {
         *(s32*)(arg0 + 0x84) = 0;
     } else {
         *(s32*)(arg0 + 0x84) = 0xF;
     }
-    if (!(func_8002D2D4() & 1)) {
+    if (!(random_byte() & 1)) {
         *(s32*)(arg0 + 0x84) |= 0xF0;
     }
     arg0[7] = 0;

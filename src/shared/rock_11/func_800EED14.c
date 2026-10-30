@@ -4,12 +4,12 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
 void func_800F4664(s16 arg0, s16 arg1);
@@ -42,14 +42,14 @@ void func_800EED14(void* arg0) {
             D_800FD51C = 0;
             for (i = 0; i < D_800FD51F / 2 + 1; i++) {
                 y = i << 5;
-                x = 0x10 - (func_8002D2D4() & 0x1F);
-                dy = 0x10 - (func_8002D2D4() & 0x1F);
+                x = 0x10 - (random_byte() & 0x1F);
+                dy = 0x10 - (random_byte() & 0x1F);
                 t = dy + 8;
                 tx = background_objects[0].x_pos.u.hi + 0x10;
                 func_800F4664(x + tx,
                               background_objects[0].y_pos.i.hi + (y + t));
-                x = 0x10 - (func_8002D2D4() & 0x1F);
-                dy = 0x10 - (func_8002D2D4() & 0x1F);
+                x = 0x10 - (random_byte() & 0x1F);
+                dy = 0x10 - (random_byte() & 0x1F);
                 t = dy + 8;
                 tx = background_objects[0].x_pos.u.hi + 0x130;
                 func_800F4664(x + tx,
@@ -92,7 +92,7 @@ void func_800EED14(void* arg0) {
     }
     ((void (*)(void*))func_80017A04)(arg0);
     D_800FCAF4[M2C_FIELD(arg0, s8*, 5)](arg0);
-    if (func_80031474(arg0) < 0) {
+    if (check_enemy_hits(arg0) < 0) {
         switch (M2C_FIELD(arg0, s8*, 2) & 0xF0) {
         case 0x10:
             D_800FD522 -= 1;
@@ -107,7 +107,7 @@ void func_800EED14(void* arg0) {
             M2C_FIELD(arg0, s8*, 4) = 3;
             return;
         case 0x30:
-            ((void (*)(void*, s32))func_800179A4)(arg0, 0x41);
+            ((void (*)(void*, s32))set_animation)(arg0, 0x41);
             M2C_FIELD(arg0, s32*, 0x54) = 0;
             ((void (*)(void*))func_80049E50)(arg0);
             ((void (*)(s32, void*, void*))func_800477E4)(4, &D_800FC9A0, arg0);

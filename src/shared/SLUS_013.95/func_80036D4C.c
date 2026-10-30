@@ -5,7 +5,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80017A04();        /* extern */
-s32 func_8003906C(void*);       /* extern */
+s32 select_air_dash(void*);     /* extern */
 s32 func_80039984(void*);       /* extern */
 s32 func_8003A2CC(void*);       /* extern */
 s32 func_8003A488(void*);       /* extern */
@@ -36,7 +36,7 @@ void func_80036D4C(void* arg0) {
     }
     if ((var_v0 == 0) && (func_8003A488(arg0) == 0) &&
         (func_80039984(arg0) == 0) && (func_8003A2CC(arg0) == 0) &&
-        (func_8003906C(arg0) == 0)) {
+        (select_air_dash(arg0) == 0)) {
         func_80017A04(arg0);
         func_8003D18C(arg0);
         func_8003D394(arg0);

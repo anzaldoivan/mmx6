@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 extern M2C_UNK g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 
@@ -15,7 +15,7 @@ void func_800E995C(void* arg0) {
         struct X4_PlayerObj* pl = &g_Player;
 
         M2C_FIELD(pl, s32*, 0xF4) -= 0x8000;
-        ((M2C_UNK(*)())func_8002C9B0)();
+        ((M2C_UNK(*)())clear_object_slot)();
         return;
     }
     bg->x_pos.val += 0x8000;

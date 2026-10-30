@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #define SPAD20_800F0D58 (*(s32*)0x1F800020)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 
 void func_800F0D58(s8* arg0) {
@@ -13,7 +13,7 @@ void func_800F0D58(s8* arg0) {
         t = func_8002A47C(arg0[1]);
         *(s32*)(arg0 + 0x3C) =
             SPAD20_800F0D58 + *(s32*)(t * 4 + SPAD20_800F0D58 + 4);
-        ((void (*)(void*, s32))func_800179A4)(arg0, 7);
+        ((void (*)(void*, s32))set_animation)(arg0, 7);
         arg0[6]++;
     }
 }

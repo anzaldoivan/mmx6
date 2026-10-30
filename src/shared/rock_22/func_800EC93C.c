@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void* func_8002C458();
 extern struct X4_PlayerObj g_Player;
 extern s32 D_800FB7A0;
@@ -37,7 +37,7 @@ void func_800EC93C(void* self) {
             goto spawn;
         }
         if ((s16)(EC93C_S16(self, 0x7C) % 200) == 0) {
-            ((void (*)(void*, s32))func_800179A4)(self, 1);
+            ((void (*)(void*, s32))set_animation)(self, 1);
             EC93C_S8(self, 6)++;
         }
         break;
@@ -55,7 +55,7 @@ void func_800EC93C(void* self) {
                 M2C_FIELD(p, u8*, 2) = 0;
                 M2C_FIELD(p, void**, 0x7C) = self;
             }
-            ((void (*)(void*, s32))func_800179A4)(self, 2);
+            ((void (*)(void*, s32))set_animation)(self, 2);
             EC93C_S16(self, 0x7C) = 0;
             EC93C_U8(self, 6) = 3;
             break;
@@ -69,7 +69,7 @@ void func_800EC93C(void* self) {
             break;
         }
     case 0:
-        ((void (*)(void*, s32))func_800179A4)(self, 0);
+        ((void (*)(void*, s32))set_animation)(self, 0);
         EC93C_S16(self, 0x7C) = 0;
         EC93C_S8(self, 6)++;
         break;

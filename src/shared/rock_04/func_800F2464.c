@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_80049D90(void*);
 void func_800F51F0(struct X4_AnimatedObj* arg0, u8 arg1);
 extern s16 D_800970AA;
@@ -16,7 +16,7 @@ void func_800F2464(void* arg0) {
     s32 d;
 
     a = M2C_FIELD(M2C_FIELD(arg0, s8**, 0x80), s8*, 5);
-    if (M2C_FIELD(arg0, s8*, 0x84) != a && a == 3 && (func_8002D2D4() & 1)) {
+    if (M2C_FIELD(arg0, s8*, 0x84) != a && a == 3 && (random_byte() & 1)) {
         if (M2C_FIELD(arg0, s8*, 2) == 0x12) {
             goto block_10;
         }

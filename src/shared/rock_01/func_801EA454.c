@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 void func_8003C4EC(struct X4_PlayerObj* self);
 M2C_UNK func_8003CFE0(void*, M2C_UNK);
@@ -31,7 +31,7 @@ s32 func_801EA454(void* arg0) {
     FLD(s8, 0xCB) = 0;
     FLD(s8, 0x8C) = 0;
     func_8003BA04(arg0, 0x65);
-    func_80016C48(1, 0x19, arg0);
+    play_sound(1, 0x19, arg0);
     func_8003CFE0(arg0, 9);
     FLD(s8, 0x61) = 0;
     FLD(s8, 0xA4) = 0;

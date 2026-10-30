@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-void* func_8002BBF4();
-s32 func_8002D2D4();
+void* enemy_slot_alloc();
+s32 random_byte();
 extern s16 D_800970AA;
 extern s8 D_800CCEED;
 
@@ -34,12 +34,12 @@ void func_800EE8D8(void* arg0) {
     switch (SB(arg0, 2)) {
     case 0:
         if (D_800CCEED <= 0 && H(arg0, 0x7E) != 0) {
-            obj = func_8002BBF4();
+            obj = enemy_slot_alloc();
             if (obj != NULL && (s16)(H(arg0, 0x7E) % 7) == 0) {
                 SPAWN_HEAD(obj, 4)
                 UH(obj, 0xA) = UH(arg0, 0xA);
                 UH(obj, 0xE) =
-                    UH(arg0, 0xE) + ((func_8002D2D4() & 0x1F) - 0x10);
+                    UH(arg0, 0xE) + ((random_byte() & 0x1F) - 0x10);
             }
             H(arg0, 0x7E)--;
         } else {
@@ -48,12 +48,12 @@ void func_800EE8D8(void* arg0) {
         break;
     case 1:
         if (H(arg0, 0x7E) != 0) {
-            obj = func_8002BBF4();
+            obj = enemy_slot_alloc();
             if (obj != NULL && (s16)(H(arg0, 0x7E) % 7) == 0) {
                 SPAWN_HEAD(obj, 5)
                 UH(obj, 0xA) = UH(arg0, 0xA);
                 UH(obj, 0xE) =
-                    UH(arg0, 0xE) + ((func_8002D2D4() & 0x1F) - 0x10);
+                    UH(arg0, 0xE) + ((random_byte() & 0x1F) - 0x10);
             }
             H(arg0, 0x7E)--;
         } else {
@@ -62,10 +62,10 @@ void func_800EE8D8(void* arg0) {
         break;
     case 2:
         if (H(arg0, 0x7E) != 0) {
-            obj = func_8002BBF4();
+            obj = enemy_slot_alloc();
             if (obj != NULL && (s16)(H(arg0, 0x7E) % 10) == 0) {
                 SPAWN_HEAD(obj, 6)
-                UH(obj, 0xA) = UH(arg0, 0xA) + ((func_8002D2D4() & 0xF) - 8);
+                UH(obj, 0xA) = UH(arg0, 0xA) + ((random_byte() & 0xF) - 8);
                 UH(obj, 0xE) = UH(arg0, 0xE);
             }
             H(arg0, 0x7E)--;
@@ -90,10 +90,10 @@ void func_800EE8D8(void* arg0) {
             H(arg0, 0x7E)--;
             break;
         }
-        obj = func_8002BBF4();
+        obj = enemy_slot_alloc();
         if (obj != NULL && (s16)(H(arg0, 0x7E) % 31) == 0) {
             SPAWN_HEAD(obj, 7)
-            UH(obj, 0xA) = UH(arg0, 0xA) + ((func_8002D2D4() & 0xF) - 8);
+            UH(obj, 0xA) = UH(arg0, 0xA) + ((random_byte() & 0xF) - 8);
             UH(obj, 0xE) = UH(arg0, 0xE);
         }
         if (UB(arg0, 0x81)++ >= 3) {

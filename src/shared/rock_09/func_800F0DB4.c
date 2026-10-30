@@ -6,8 +6,8 @@
 M2C_UNK func_80017A04();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
-s32 func_8002D2D4();
-extern struct X4_EngineObj D_800CCED0;
+s32 random_byte();
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F6924[];
 
 void func_800F0DB4(void* arg0) {
@@ -16,8 +16,8 @@ void func_800F0DB4(void* arg0) {
     s32 v;
     u8* e;
 
-    r = func_8002D2D4() & 0xF;
-    e = (u8*)&D_800CCED0;
+    r = random_byte() & 0xF;
+    e = (u8*)&g_playthrough_state;
     M2C_FIELD(arg0, u8*, 0x87) = 0;
     if (M2C_FIELD(e, u8*, 0x68) == 2) {
         if (M2C_FIELD(e, s8*, 0x8C) / 2 < M2C_FIELD(arg0, s8*, 0x5C)) {

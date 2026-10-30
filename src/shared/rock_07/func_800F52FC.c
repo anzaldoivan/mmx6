@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 
@@ -20,7 +20,7 @@ void func_800F52FC(u8* self) {
         if (*(s16*)(self + 0x86) < background_objects[0].unk2A + 0x30) {
             *(s16*)(self + 0x86) = background_objects[0].unk2A + 0x30;
         }
-        func_80016C48(2, 0x5B, self);
+        play_sound(2, 0x5B, self);
         self[6]++;
     }
 }

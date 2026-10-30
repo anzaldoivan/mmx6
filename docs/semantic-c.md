@@ -76,6 +76,8 @@ The check refuses a shared file without the line, or whose TU is missing or does
 Each function definition has a block of `//` lines directly above it.
 DC3: the first line gives the address first, then the name and its purpose in our own words.
 The address is the symbol's address, and the purpose has at least three words.
+A `static inline` helper with no symbol address (none in `config/symbols.<P>.txt`, no `func_` name) is exempt from DC3 to DC6.
+It may carry a short header `// <name>: <purpose>` with no address, checked for the name and a three-word purpose, or none.
 
 DC4: a `basis:` line names the basis kind and a ref found in that row of `config/symbols/basis.tsv`.
 A placeholder name writes `basis: none` until it is renamed.

@@ -2,7 +2,7 @@
 
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 
 #define SPAD4C (*(u8**)0x1F80004C)
 
@@ -12,7 +12,7 @@ void func_800F7B2C(u8* arg0) {
         arg0[6] = 0;
         return;
     }
-    func_800179A4(arg0, 7);
+    set_animation(arg0, 7);
     *(u16*)(arg0 + 0x7C) = 0;
     {
         // !FAKE: depin: dropping it breaks the match (25/28)

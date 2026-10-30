@@ -5,7 +5,7 @@
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049EBC(void*, M2C_UNK, M2C_UNK, M2C_UNK);
 void func_8004E654(void*, s8);
@@ -31,7 +31,7 @@ void func_800EB5E4(void* arg0) {
     if (over) {
         M2C_FIELD(arg0, s32*, 0x20) = lim;
     }
-    if (func_80031474(arg0) < 0) {
+    if (check_enemy_hits(arg0) < 0) {
         for (i = 0; i < 5; i++) {
             func_80049EBC(arg0, 1, 0x10, 0x10);
         }

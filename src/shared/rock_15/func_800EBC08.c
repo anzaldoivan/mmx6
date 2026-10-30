@@ -3,8 +3,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void* func_8002C530();
-s32 func_8002D2D4();
+void* alloc_sprite_slot();
+s32 random_byte();
 
 extern struct X4_PlayerObj g_Player;
 
@@ -45,12 +45,12 @@ void func_800EBC08(u8* self) {
     if (self[0x8E] != 0) {
         self[0x8E]--;
     } else if (self[0x91] != 0) {
-        obj = func_8002C530();
+        obj = alloc_sprite_slot();
         if (obj != 0) {
             obj[0] = 0x21;
             obj[1] = 0x19;
             obj[2] = 0;
-            obj[0x15] = func_8002D2D4() & 0x40;
+            obj[0x15] = random_byte() & 0x40;
             obj[0x54] = 0;
             if (self[0x15] == 0) {
                 M2C_FIELD(obj, s16*, 0xA) = M2C_FIELD(self, s16*, 0xA) + 0x10;

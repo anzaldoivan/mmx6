@@ -6,15 +6,15 @@
 #define SPAD20 (*(s32**)0x1F800020)
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 s32 func_8002A47C(s32);
-void* func_8002BBF4();
-s32 func_8002D2D4();
-extern s8 D_8008EF48[];
+void* enemy_slot_alloc();
+s32 random_byte();
+extern s8 g_enemies[];
 extern u32* D_80095098;
 extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AE;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s16 D_800F6E08[];
 extern u16 D_800F6E0C[];
 
@@ -34,18 +34,18 @@ void func_800EFFD8(struct X4_BaseObj* self) {
     s32 q;
     s32 y;
 
-    if (D_800CCED0.checkpoint < 3) {
+    if (g_playthrough_state.checkpoint < 3) {
         n6 = 0;
         n45 = 0;
         flags = (s8*)self + 0x16;
-        base = D_8008EF48;
+        base = g_enemies;
         for (i = 0; i < 0x30; i++) {
             ent = base + i * 0x9C;
             if (ent[0] != 0 && ent[1] == 0x11) {
                 if (ent[2] == 6 && ent[7] >= 7) {
                     n6 = (n6 + 1) & 0xFF;
                     if (self->unk5 == 0) {
-                        func_80016C48(5, 9, 0);
+                        play_sound(5, 9, 0);
                         func_80012D9C(5);
                         self->unk5 = 1;
                     }
@@ -53,7 +53,7 @@ void func_800EFFD8(struct X4_BaseObj* self) {
                     n45 = (n45 + 1) & 0xFF;
                     if (self->unk6 == 0) {
                         if (self->unk7 == 0) {
-                            func_80016C48(5, 8, 0);
+                            play_sound(5, 8, 0);
                             self->unk6 = 1;
                             self->unk7 = -0x10;
                         }
@@ -61,12 +61,12 @@ void func_800EFFD8(struct X4_BaseObj* self) {
                 }
             }
         }
-        if (D_800CCED0.checkpoint > 0) {
+        if (g_playthrough_state.checkpoint > 0) {
             if (D_800970AE > 0x270) {
-                func_80016C48(5, 3, 0);
+                play_sound(5, 3, 0);
             }
             if (n6 == 0 && self->unk5 == 0) {
-                func_80016C48(5, 3, 0);
+                play_sound(5, 3, 0);
                 self->unk5 = 0;
             }
         }
@@ -74,11 +74,11 @@ void func_800EFFD8(struct X4_BaseObj* self) {
             self->unk7--;
         }
         if (n6 == 0 && self->unk6 == 0) {
-            func_80016C48(5, 3, 0);
+            play_sound(5, 3, 0);
             self->unk5 = 0;
         } else if (n45 == 0 && self->unk5 == 0) {
             if (self->unk7 == 0) {
-                func_80016C48(5, 3, 0);
+                play_sound(5, 3, 0);
                 self->unk6 = 0;
             }
         }
@@ -103,7 +103,7 @@ void func_800EFFD8(struct X4_BaseObj* self) {
                 if (i == 15 && g_Player.y_pos.i.hi < 0x3D0) {
                     break;
                 }
-                obj = func_8002BBF4();
+                obj = enemy_slot_alloc();
                 if (obj != NULL) {
                     obj->active = 0x41;
                     obj->id = 0x11;
@@ -116,20 +116,20 @@ void func_800EFFD8(struct X4_BaseObj* self) {
                     obj->unk3C = (u8*)SPAD20 + SPAD20[func_8002A47C(obj->id)];
                     obj->x_pos.i.hi = M2C_FIELD(&D_800F6E08[i * 4], u16*, 2);
                     if (obj->unk2 == 2) {
-                        func_80016C48(5, 9, 0);
+                        play_sound(5, 9, 0);
                         ((void (*)(s32))func_80012D9C)(5);
                         M2C_FIELD(obj, s16*, 0x7E) = 0xB4;
-                        q = func_8002D2D4();
+                        q = random_byte();
                         obj->y_pos.i.hi =
                             D_800F6E0C[i * 4] + (r = (q & 0x1F) - 0x10);
                     } else if (obj->unk2 != 3) {
                         func_80012D9C(5);
-                        func_80016C48(5, 8, 0);
+                        play_sound(5, 8, 0);
                         M2C_FIELD(obj, s16*, 0x7E) = 0x168;
                         if (M2C_FIELD(self, s16*, 0x14) < 0x1E0) {
                             M2C_FIELD(self, s16*, 0x14) = 0x1E0;
                         }
-                        q = func_8002D2D4();
+                        q = random_byte();
                         y = D_800F6E0C[i * 4];
                         r = (q & 0x1F) - 0x10;
                         obj->y_pos.i.hi = y + r;

@@ -1,7 +1,7 @@
 /* Adapted from sozud/mmx4 @807a01b src/main/quads/quad_07_ready_line.c:ready_line_sweep, AGPL-3.0; proven shared with X6 by exact signature 5aa466ee5359 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
-void* func_8002C530();
+void* alloc_sprite_slot();
 extern u16 D_800782B0[8];
 
 void func_8004C844(struct X4_QuadObj* arg0) {
@@ -35,7 +35,7 @@ void func_8004C844(struct X4_QuadObj* arg0) {
         // spawn "READY" text and shadow when blue line reaches center of screen
         if ((arg0->x_pos.i.hi >= 0 && arg0->x_pos.i.hi <= 2) &&
             (temp_s1->ext.unk_effect.unk15 == 0)) {
-            misc_obj = func_8002C530();
+            misc_obj = alloc_sprite_slot();
             if (misc_obj != NULL) {
                 misc_obj->active = 1;
                 misc_obj->id = 0x12;
@@ -43,7 +43,7 @@ void func_8004C844(struct X4_QuadObj* arg0) {
                 temp_s1->ext.unk_effect.unk15 = 0;
                 misc_obj->ext.ready_text.owner = arg0->link.owner;
             }
-            misc_obj = func_8002C530();
+            misc_obj = alloc_sprite_slot();
             if (misc_obj != NULL) {
                 misc_obj->active = 1;
                 misc_obj->id = 0x12;

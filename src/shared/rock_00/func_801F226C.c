@@ -2,9 +2,9 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
-#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
+#define set_animation ((void (*)(void*, s32))set_animation)
 s32 func_801EE34C();
 extern s32 D_80077A64[];
 extern M2C_UNK g_Player;
@@ -36,10 +36,10 @@ void func_801F226C(struct X4_WeaponObj* arg0) {
     arg0->on_screen = 1;
     arg0->unk64 = 1;
     if (sub == 0) {
-        func_80016C48(1, 0x24, arg0);
+        play_sound(1, 0x24, arg0);
         arg0->x_vel.val = 0x6C000;
         func_801EE34C(arg0, player, arg0->id);
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
         arg0->state++;
         return;
     }
@@ -49,16 +49,16 @@ void func_801F226C(struct X4_WeaponObj* arg0) {
     arg0->state = 2;
     arg0->on_screen = 1;
     if (sub == 1) {
-        func_800179A4(arg0, 4);
+        set_animation(arg0, 4);
         return;
     }
     if (sub == 2) {
-        func_800179A4(arg0, 5);
+        set_animation(arg0, 5);
         arg0->y_pos.i.hi -= 8;
     } else {
-        func_800179A4(arg0, 6);
+        set_animation(arg0, 6);
         arg0->y_pos.i.hi += 8;
     }
 }
 #undef g_Player
-#undef func_800179A4
+#undef set_animation

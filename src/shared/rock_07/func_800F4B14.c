@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_8002D230(void*);
 extern struct X4_PlayerObj g_Player;
 
@@ -12,7 +12,7 @@ void func_800F4B14(struct X4_MainObj* self) {
     s32 grav;
     s32 n;
 
-    func_800179A4(self, 0x1C);
+    set_animation(self, 0x1C);
     n = 0x500000;
     d450 = 450;
     d30 = 30;

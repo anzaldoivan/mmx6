@@ -3,12 +3,12 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20 (*(s32*)0x1F800020)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8002A47C(s32);
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 void* func_8002C458();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
@@ -29,7 +29,7 @@ void func_800EDFD4(void* arg0) {
         func_8004A768(0x20, x - 0x64, 0x190, x + 0x64, 0x1A0, 8);
     }
     if (M2C_FIELD(arg0, s16*, 0x7C) == 0x78) {
-        p = func_8002BBF4();
+        p = enemy_slot_alloc();
         if (p != 0) {
             u8 t;
             M2C_FIELD(p, u8*, 0) = M2C_FIELD(arg0, u8*, 0);
@@ -44,7 +44,7 @@ void func_800EDFD4(void* arg0) {
             v = *(s32*)(func_8002A47C(M2C_FIELD(arg0, s8*, 1)) * 4 + SPAD20 +
                         4);
             M2C_FIELD(arg0, s32*, 0x3C) = SPAD20 + v;
-            func_800179A4(arg0, 9);
+            set_animation(arg0, 9);
             {
                 // !FAKE: depin: dropping it breaks the match (106/109)
                 register s32 n asm("$2") = M2C_FIELD(arg0, u8*, 7) + 1;
@@ -59,7 +59,7 @@ void func_800EDFD4(void* arg0) {
                 M2C_FIELD(p, void**, 0x7C) = arg0;
                 M2C_FIELD(p, u8*, 0) = t;
             }
-            func_80016C48(2, 4, arg0);
+            play_sound(2, 4, arg0);
             M2C_FIELD(arg0, s32*, 0x24) = 0x10000;
             M2C_FIELD(arg0, u8*, 6) = M2C_FIELD(arg0, u8*, 6) + 1;
         }

@@ -4,10 +4,10 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 void* func_8002C458();
-s32 func_8002D2D4();
+s32 random_byte();
 extern u8 D_800CCF38;
 
 void func_800F4194(void* arg0) {
@@ -17,7 +17,7 @@ void func_800F4194(void* arg0) {
 
     ((void (*)())func_80017A04)();
     if (M2C_FIELD(arg0, u8*, 0x8D)++ >= 0x3D) {
-        r = func_8002D2D4() & 0x2D;
+        r = random_byte() & 0x2D;
         if (D_800CCF38 >= 2) {
             for (i = 0; i < 6; i++) {
                 child = func_8002C458();
@@ -80,8 +80,8 @@ void func_800F4194(void* arg0) {
         M2C_FIELD(arg0, s16*, 0x90) = 0;
         M2C_FIELD(arg0, u8*, 0x47) = 0xE;
         M2C_FIELD(arg0, u8*, 0) |= 0x10;
-        func_80016C48(2, 0x14, arg0);
-        func_80016C48(2, 0x7C, arg0);
+        play_sound(2, 0x14, arg0);
+        play_sound(2, 0x7C, arg0);
         M2C_FIELD(arg0, u8*, 6)++;
     }
 }

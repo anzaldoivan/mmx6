@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 M2C_UNK move_object(void*);
 void func_800F2B4C();
@@ -29,7 +29,7 @@ void func_800F272C(void* arg0) {
     do {
         W(arg0, 0x20) = v;
     } while (0);
-    func_800179A4(arg0, 2);
+    set_animation(arg0, 2);
     H(arg0, 0x7C) = 0xB4;
     {
         // !FAKE: byte increment temp lands in the first return register

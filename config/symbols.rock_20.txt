@@ -54,6 +54,8 @@ func_800EC1F4 = 0x800EC1F4; // type:func size:0x184
 func_800EC378 = 0x800EC378; // type:func size:0x12C
 // basis: name: string strings.tsv:403:rock_20:0x800E987C
 memcard_write_save_file = 0x800EE4C0; // type:func
+// basis: name: community tweaks-index.tsv:344
+build_mission_report_list = 0x800EE6F4; // type:func
 // basis: post-return 0x800ee954; first of the split of 0x800ee95c (1.6 T1 merge check)
 func_800EE95C = 0x800EE95C; // type:func size:0x20
 // basis: post-return 0x800ee974; no branch of 0x800ee95c crosses it (1.6 T1 merge check)

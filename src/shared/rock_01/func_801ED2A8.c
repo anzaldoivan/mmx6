@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 extern struct X4_PlayerObj g_Player;
 M2C_UNK func_80017A04();
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_801ED3DC();
 void func_801ED6F0(u8* self, u8* parent);
 
@@ -46,7 +46,7 @@ void func_801ED2A8(void* arg0) {
         goto update;
     }
 release:
-    func_8002C9B0(arg0);
+    clear_object_slot(arg0);
     return;
 init:
     func_801ED3DC(arg0, p);

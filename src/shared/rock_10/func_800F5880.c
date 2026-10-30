@@ -4,11 +4,11 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void func_80025FD8();
+void set_boss_level();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 void func_800F74D8(void* arg0, s16 arg1, s16 arg2, u8 arg3);
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800E9E28[];
 
 void func_800F5880(struct X4_AnimatedObj* arg0) {
@@ -21,12 +21,12 @@ void func_800F5880(struct X4_AnimatedObj* arg0) {
         func_8003D308(0x14, 0x40);
     }
     if (*M2C_FIELD(arg0, s8**, 0x80) == 0) {
-        D_800CCED0.enable_boss = 1;
-        D_800CCED0.unk25 = 0;
-        D_800CCED0.boss_ptr = (struct X4_MainObj*)arg0;
-        func_80025FD8();
-        M2C_FIELD(&D_800CCED0, u8*, 0x8C) =
-            sp10[M2C_FIELD(&D_800CCED0, u8*, 0x8F)] + 0x20;
+        g_playthrough_state.enable_boss = 1;
+        g_playthrough_state.unk25 = 0;
+        g_playthrough_state.boss_ptr = (struct X4_MainObj*)arg0;
+        set_boss_level();
+        M2C_FIELD(&g_playthrough_state, u8*, 0x8C) =
+            sp10[M2C_FIELD(&g_playthrough_state, u8*, 0x8F)] + 0x20;
         x = (u16)background_objects[0].x_pos.i.hi + 0xF0;
         arg0->x_pos.i.hi = x;
         y = (u16)background_objects[0].y_pos.i.hi + 0x90;

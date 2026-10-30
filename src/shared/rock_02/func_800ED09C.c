@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_8002CA14();
 M2C_UNK func_8002CA54();
 
@@ -19,7 +19,7 @@ void func_800ED09C(void* arg0) {
     SPAD[0x87] = 0;
     SPAD[0x88] = 0;
     if (M2C_FIELD(arg0, s8*, 2) & 0x80) {
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
     } else if (M2C_FIELD(arg0, s8*, 4) == 2) {
         func_8002CA14(arg0);
     } else {

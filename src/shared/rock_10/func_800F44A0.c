@@ -4,9 +4,9 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SCRATCH_9C (*(s32**)0x1F80009C)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*); /* extern */
-M2C_UNK func_800179A4(void*, M2C_UNK);          /* extern */
-#define SET_ANIM(o, n) ((void (*)(void*, s32))func_800179A4)((o), (n))
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
+M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
+#define SET_ANIM(o, n) ((void (*)(void*, s32))set_animation)((o), (n))
 extern M2C_UNK D_8007433C;
 extern u8 D_800970B4;
 extern s8 D_800CCEDC;
@@ -118,7 +118,7 @@ void func_800F44A0(void* arg0) {
         M2C_FIELD(arg0, u8*, 0x6) = 0;
         M2C_FIELD(arg0, u8*, 0x7) = 0;
     } else if (kind == 0x20) {
-        func_80016C48(2, 0x65, arg0);
+        play_sound(2, 0x65, arg0);
         parent = M2C_FIELD(arg0, void**, 0x80);
         st = M2C_FIELD(parent, s8*, 4);
         if (st != 1) {

@@ -4,16 +4,16 @@
 
 void func_80025F34();
 void func_800280F4(void);
-void func_80029B8C(void);
+void init_checkpoint_positions(void);
 s32 func_8002B2F8(s32);
-M2C_UNK func_8002B838();
+M2C_UNK reset_level();
 void func_8002C2B8();
-struct X4_QuadObj* func_8002C7F0(void);
+struct X4_QuadObj* alloc_class6_slot(void);
 void func_800E9ED4(void);
 extern s8 D_80090D56;
 extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_8009742C;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CF850;
 extern u8 D_800EA510[];
 extern u8 D_800FA72C[];
@@ -25,9 +25,9 @@ void func_800FA004(u8* arg0) {
     u8* dst;
     u8* src;
 
-    func_8002B838();
+    reset_level();
     func_8002C2B8();
-    func_80029B8C();
+    init_checkpoint_positions();
     func_800280F4();
     func_80025F34();
     {
@@ -48,7 +48,7 @@ void func_800FA004(u8* arg0) {
     }
     background_objects[0].unk3 = 0;
     background_objects[1].unk3 = 0;
-    q = func_8002C7F0();
+    q = alloc_class6_slot();
     if (q != 0) {
         q->active = 1;
         q->id = 0xA;
@@ -57,13 +57,13 @@ void func_800FA004(u8* arg0) {
     }
     arg0[1]++;
     for (i = 0; i < 4; i++) {
-        if ((s8)(s32)D_800CCED0.controlled_player == 0) {
+        if ((s8)(s32)g_playthrough_state.controlled_player == 0) {
             D_800EA510[i] = func_800FA728[i];
         } else {
             D_800EA510[i] = D_800FA72C[i];
         }
     }
-    if ((s8)(s32)D_800CCED0.controlled_player == 0) {
+    if ((s8)(s32)g_playthrough_state.controlled_player == 0) {
         background_objects[2].y_pos.val = 0;
     } else {
         background_objects[2].y_pos.i.hi = 0x200;

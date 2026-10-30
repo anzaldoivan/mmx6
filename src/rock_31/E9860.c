@@ -115,10 +115,10 @@ INCLUDE_ASM("asm/rock_31/nonmatchings/E9860", func_800EC9E0);
 #undef D_800E987C
 
 #define func_800F22B8 func_800ECCC8
-#define D_8008EF48 D_8008EF48
+#define g_enemies g_enemies
 #include "../shared/rock_22/func_800F22B8.c"
 #undef func_800F22B8
-#undef D_8008EF48
+#undef g_enemies
 
 #include "../shared/rock_31/func_800ECD84.c"
 

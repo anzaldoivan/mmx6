@@ -5,7 +5,7 @@
 
 void func_80017A04(struct X4_AnimatedObj*);
 void* func_8002C32C();
-M2C_UNK func_8003B114(s32);
+M2C_UNK end_dash(s32);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 M2C_UNK player_spawn_weapon(M2C_UNK, s8, M2C_UNK, void*);
 
@@ -16,7 +16,7 @@ void func_801EB02C(u8* arg0) {
     register s32 one asm("$2");
 
     if (M2C_FIELD(arg0, s16*, 0x14C) == 2) {
-        func_8003B114((s32)arg0);
+        end_dash((s32)arg0);
         return;
     }
     if (((s8*)arg0)[6] == 0) {
@@ -58,6 +58,6 @@ void func_801EB02C(u8* arg0) {
             arg0[6] = 0;
             return;
         }
-        func_8003B114((s32)arg0);
+        end_dash((s32)arg0);
     }
 }

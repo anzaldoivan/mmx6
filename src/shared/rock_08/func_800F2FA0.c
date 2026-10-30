@@ -4,7 +4,7 @@
 
 #define FX(p, type, off) (*(type*)((u8*)(p) + (off)))
 
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 M2C_UNK func_80017A04();
 void func_800F32A8(struct X4_AnimatedObj* self);
 extern M2C_UNK D_8007433C;
@@ -22,7 +22,7 @@ void func_800F2FA0(void* arg0) {
             FX(arg0, u16, 0x80) = 0x3B;
         }
         func_800F32A8(arg0);
-        ((void (*)(void*, s32))func_800179A4)(arg0, 0);
+        ((void (*)(void*, s32))set_animation)(arg0, 0);
         FX(arg0, s8, 0x5) = 3;
         FX(arg0, s8, 0x6) = 0;
         FX(arg0, void*, 0x50) = &D_800F5DE8;

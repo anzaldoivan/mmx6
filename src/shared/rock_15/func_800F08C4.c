@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002D2D4();
+s32 random_byte();
 s32 func_8002D30C();
 void func_8004A768();
 extern struct X4_BackgroundObj background_objects[3];
@@ -39,6 +39,6 @@ void func_800F08C4(void* arg0) {
     }
     x += func_8002D30C() % 80;
     y += func_8002D30C() % 60;
-    func_8004A768(D_800F6F10[(func_8002D2D4() & 3) * 4], (s16)(x - 0x20),
+    func_8004A768(D_800F6F10[(random_byte() & 3) * 4], (s16)(x - 0x20),
                   (s16)(y - 0x20), (s16)(x + 0x20), (s16)(y + 0x20), 4);
 }

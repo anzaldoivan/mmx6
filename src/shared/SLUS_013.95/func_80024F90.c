@@ -8,7 +8,7 @@ extern s16 D_80071E40[][2];
 extern M2C_UNK g_Player;
 extern s8 D_800970A2;
 extern s32 D_80097420;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CCF5C;
 
 #define FB(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -28,7 +28,7 @@ void func_80024F90(void* arg0, s32 arg1) {
         lvl = b & 0x7F;
     }
     if (arg1 == 0) {
-        u8* e = (u8*)&D_800CCED0;
+        u8* e = (u8*)&g_playthrough_state;
         s32 j = D_800970A2;
         max = *(s8*)(e - -j + 0x5B);
     } else {

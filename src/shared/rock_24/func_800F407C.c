@@ -4,8 +4,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 extern s32 D_8007573C[];
 extern void* D_800F7800;
@@ -45,7 +45,7 @@ void func_800F407C(void* arg0) {
     b = func_8002A47C(M2C_FIELD(q, s8*, 1));
     base = D_1F800020;
     M2C_FIELD(arg0, u8**, 0x3C) = base + ((s32*)base)[b];
-    func_800179A4(arg0, 5);
+    set_animation(arg0, 5);
     st = M2C_FIELD(D_800F7800, u8*, 0x15);
     M2C_FIELD(arg0, u8*, 0x15) = st;
     if (st == 0) {
@@ -65,7 +65,7 @@ void func_800F407C(void* arg0) {
     M2C_FIELD(arg0, s32*, 0x2C) = 0;
     M2C_FIELD(arg0, u8*, 0x5C) = 1;
     M2C_FIELD(arg0, u8*, 0x60) = 8;
-    func_80016C48(2, 0x8D, arg0);
+    play_sound(2, 0x8D, arg0);
     M2C_FIELD(arg0, s32*, 0x8C) = 0;
     M2C_FIELD(arg0, u8*, 5) = 0;
     M2C_FIELD(arg0, u8*, 4)++;

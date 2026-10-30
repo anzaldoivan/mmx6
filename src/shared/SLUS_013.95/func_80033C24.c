@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2); /* extern */
+s32 play_sound(s32 a0, s32 a1, void* arg2); /* extern */
 extern struct X4_PlayerObj g_Player;
 extern s32 D_80097420;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_80033C24(u8* arg0) {
     s32 flag;
@@ -36,7 +36,7 @@ void func_80033C24(u8* arg0) {
                 goto dec;
             }
             {
-                u8* e = (u8*)&D_800CCED0;
+                u8* e = (u8*)&g_playthrough_state;
                 // !FAKE: depin: dropping it breaks the match (42/119)
                 register s32 t asm("$5");
                 v = e[0x65] & 0x7F;
@@ -49,7 +49,7 @@ void func_80033C24(u8* arg0) {
                 }
             }
         } else {
-            u8* h = (u8*)&D_800CCED0;
+            u8* h = (u8*)&g_playthrough_state;
             if (h[0x65] & 0x7F) {
                 i = 0;
                 do {
@@ -69,7 +69,7 @@ void func_80033C24(u8* arg0) {
                 } while (i < 9);
                 if (flag) {
                 dec: {
-                    u8* e = (u8*)&D_800CCED0;
+                    u8* e = (u8*)&g_playthrough_state;
                     v = e[0x65];
                     w = v & 0x7F;
                     if (w != 0) {
@@ -78,12 +78,12 @@ void func_80033C24(u8* arg0) {
                     v = D_80097420 & 3;
                     e[0x65] = w;
                     if (!v) {
-                        func_80016C48(0, 0x17, 0);
+                        play_sound(0, 0x17, 0);
                     }
                 }
                 } else {
                     // !FAKE: depin: dropping it breaks the match (117/119)
-                    register u8* e asm("$4") = (u8*)&D_800CCED0;
+                    register u8* e asm("$4") = (u8*)&g_playthrough_state;
                     // !FAKE: depin: dropping it breaks the match (43/119)
                     register s32 t asm("$5");
                     v = e[0x65] & 0x7F;

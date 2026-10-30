@@ -5,9 +5,9 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SCRATCH_4C (*(u8**)0x1F80004C)
 
-void func_80025FD8();
+void set_boss_level();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_800EF6D0(void* arg0) {
     u8 v;
@@ -19,11 +19,11 @@ void func_800EF6D0(void* arg0) {
         func_8003D308(0x14, 0x40);
     }
     if (*M2C_FIELD(SCRATCH_4C, s8**, 0x80) == 0) {
-        e = (u8*)&D_800CCED0;
+        e = (u8*)&g_playthrough_state;
         M2C_FIELD(e, s8*, 0x24) = 1;
         M2C_FIELD(e, s8*, 0x25) = 0;
         M2C_FIELD(e, void**, 0x20) = arg0;
-        func_80025FD8();
+        set_boss_level();
         {
             // !FAKE: depin: dropping it breaks the match (61/65)
             register s32 k asm("$3") = 0x30;
@@ -35,7 +35,7 @@ void func_800EF6D0(void* arg0) {
         } else if (t == 3) {
             M2C_FIELD(e, u8*, 0x8C) = 0x38;
         }
-        q = (u8*)&D_800CCED0;
+        q = (u8*)&g_playthrough_state;
         {
             // !FAKE: depin: dropping it breaks the match (62/65)
             register u8* w asm("$4") = SCRATCH_4C;

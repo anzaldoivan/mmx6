@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_80030CCC(void*, s16, s16);
 
 void func_800EA840(struct X4_BaseObj* self) {
@@ -14,7 +14,7 @@ void func_800EA840(struct X4_BaseObj* self) {
         return;
     }
     if (!(M2C_FIELD(self, u8*, 0x70) & 8)) {
-        func_800179A4(self, 3);
+        set_animation(self, 3);
         self->unk5 = 2;
         M2C_FIELD(self, s32*, 0x2C) = 0x4200;
         self->unk6 = 0;
@@ -47,7 +47,7 @@ void func_800EA840(struct X4_BaseObj* self) {
     if (!(M2C_FIELD(self, u8*, 0x70) & 3)) {
         s32 v;
 
-        func_800179A4(self, 2);
+        set_animation(self, 2);
         self->unk5 = 5;
         self->unk6 = 0;
         M2C_FIELD(self, s32*, 0x24) = 0x38000;

@@ -6,7 +6,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object();
 void func_800EABA4(struct X4_MainObj*);
 extern struct X4_PlayerObj g_Player;
@@ -31,9 +31,9 @@ void func_800EA84C(void* arg0) {
     move_object(arg0);
     v = M2C_FIELD(arg0, s32*, 0x24);
     if (v > 0) {
-        func_800179A4(arg0, 1);
+        set_animation(arg0, 1);
     } else {
-        func_800179A4(arg0, 2);
+        set_animation(arg0, 2);
     }
     func_800EABA4(arg0);
     M2C_FIELD(SPAD, s32*, 0x84) = angle;

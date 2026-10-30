@@ -498,13 +498,13 @@ INCLUDE_ASM("asm/rock_03/nonmatchings/E9860", func_800F1B54);
 
 INCLUDE_ASM("asm/rock_03/nonmatchings/E9860", func_800F3AD8);
 
-#include "../shared/rock_03/func_800F3BE4.c"
+#include "../shared/rock_03/init_yammark_projectile.c"
 
 #include "../shared/rock_03/func_800F3DE4.c"
 
 #include "../shared/rock_03/func_800F3FB0.c"
 
-INCLUDE_ASM("asm/rock_03/nonmatchings/E9860", func_800F40C8);
+INCLUDE_ASM("asm/rock_03/nonmatchings/E9860", update_commander_yammark);
 
 #include "../shared/rock_03/func_800F4144.c"
 

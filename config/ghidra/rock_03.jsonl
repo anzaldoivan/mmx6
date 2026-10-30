@@ -164,6 +164,8 @@
 {"k":"func","addr":"0x800ec474","name":"FUN_800ec474","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
 {"k":"func","addr":"0x800ef4d4","name":"FUN_800ef4d4","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
 {"k":"func","addr":"0x800ef76c","name":"FUN_800ef76c","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_10","type":"/undefined4","storage":"Stack[-0x10]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_c","type":"/undefined4","storage":"Stack[-0xc]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
+{"k":"func","addr":"0x800f3be4","name":"init_yammark_projectile","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: community tweaks-index.tsv:162"}
+{"k":"func","addr":"0x800f40c8","name":"update_commander_yammark","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: community refs/leads/tweaks/BossHealth.tsv:1346 word 0x800EF810 match; code:src/rock_03/E9860.c:507 via=func_800F40C8"}
 {"k":"func","addr":"0x800f5358","name":"FUN_800f5358","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
 {"k":"data","addr":"0x20000000","type":"/byte[4]","len":4}
 {"k":"data","addr":"0x20000004","type":"/byte[4]","len":4}
@@ -750,6 +752,8 @@
 {"k":"comment","addr":"0x800ee5ac","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ef2e4","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ef600","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800f3be4","type":"plate","text":"name: community tweaks-index.tsv:162"}
+{"k":"comment","addr":"0x800f40c8","type":"plate","text":"name: community refs/leads/tweaks/BossHealth.tsv:1346 word 0x800EF810 match; code:src/rock_03/E9860.c:507 via=func_800F40C8"}
 {"k":"comment","addr":"0x800f57bc","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f58c8","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f5a98","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
@@ -1134,6 +1138,7 @@
 {"k":"bookmark","addr":"0x800f4080","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800f4080)"}
 {"k":"bookmark","addr":"0x800f4088","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800f4088)"}
 {"k":"bookmark","addr":"0x800f40ac","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800f40ac)"}
+{"k":"bookmark","addr":"0x800f412c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002f288 (flow from 800f412c)"}
 {"k":"bookmark","addr":"0x800f41b8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003d308 (flow from 800f41b8)"}
 {"k":"bookmark","addr":"0x800f41c4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c3f8 (flow from 800f41c4)"}
 {"k":"bookmark","addr":"0x800f4258","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003d308 (flow from 800f4258)"}
@@ -1207,6 +1212,7 @@
 {"k":"bookmark","addr":"0x800f554c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800f554c)"}
 {"k":"bookmark","addr":"0x800f5590","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c3f8 (flow from 800f5590)"}
 {"k":"bookmark","addr":"0x800f564c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800f564c)"}
+{"k":"bookmark","addr":"0x800f569c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002f288 (flow from 800f569c)"}
 {"k":"bookmark","addr":"0x800f56e0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800f56e0)"}
 {"k":"bookmark","addr":"0x800f5758","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 800f5758)"}
 {"k":"bookmark","addr":"0x800f5768","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80030ecc (flow from 800f5768)"}
@@ -1533,3 +1539,5 @@
 {"k":"label","addr":"0x800f36e0","name":"caseD_4","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800f3754","name":"default","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800f3a7c","name":"default","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800f3be4","name":"init_yammark_projectile","primary":true,"src":"USER_DEFINED","func":true}
+{"k":"label","addr":"0x800f40c8","name":"update_commander_yammark","primary":true,"src":"USER_DEFINED","func":true}

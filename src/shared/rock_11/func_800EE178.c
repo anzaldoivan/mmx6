@@ -7,7 +7,7 @@
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
 s32 func_8002A47C(s32);
 s32 func_8002B2F8(s32);
-s32 func_8002D2D4();
+s32 random_byte();
 void func_800478F0(s32, void*, void*, u16, s32, s32);
 void func_800F4664(s16 arg0, s16 arg1);
 extern u32* D_80095098;
@@ -32,14 +32,14 @@ void func_800EE178(void* self) {
     do {
         row = i << 5;
         func_800F4664(background_objects[0].x_pos.u.hi + 0xF8 +
-                          (func_8002D2D4() & 0x1F),
+                          (random_byte() & 0x1F),
                       (s16)(background_objects[0].y_pos.i.hi - 0x10) +
-                          (row + (s16)((func_8002D2D4() & 0x1F) + 8)));
+                          (row + (s16)((random_byte() & 0x1F) + 8)));
         i++;
         func_800F4664(background_objects[0].x_pos.u.hi + 0x118 +
-                          (func_8002D2D4() & 0x1F),
+                          (random_byte() & 0x1F),
                       (s16)(background_objects[0].y_pos.i.hi - 0x10) +
-                          (row + (s16)((func_8002D2D4() & 0x1F) + 8)));
+                          (row + (s16)((random_byte() & 0x1F) + 8)));
     } while (i < 8);
     x = F(s16, 0xA);
     y = F(s16, 0xE);

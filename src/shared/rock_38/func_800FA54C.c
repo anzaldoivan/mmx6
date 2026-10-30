@@ -4,10 +4,10 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 
 extern M2C_UNK D_8007433C;
 extern s32 D_800755FC;
@@ -33,22 +33,22 @@ void func_800FA54C(struct X4_MainObj* self) {
     if (self->unk5 == 9) {
         self->hurt_box = &D_800FE840;
         self->collision_data = &D_8007433C;
-        r = func_80031474(self);
+        r = check_enemy_hits(self);
     } else if (D_800FEED0 == 3) {
         self->hurt_box = &D_800FE840;
         if (TIMER == 0) {
             self->collision_data = &D_800755FC;
         }
-        r = func_80031474(self);
+        r = check_enemy_hits(self);
     } else if ((t = self->unk17) == 0x1E || t == 0x1C || t == 0x1D ||
                t == 0xD || t == 0x10) {
         self->hurt_box = &D_800FE840;
         self->collision_data = &D_8007433C;
-        r = func_80031474(self);
+        r = check_enemy_hits(self);
     } else {
         self->hurt_box = &D_800FE838;
         self->collision_data = &D_8007433C;
-        r = func_80031474(self);
+        r = check_enemy_hits(self);
         if (r == 0) {
             if (TIMER != 0) {
                 self->collision_data = &D_8007433C;
@@ -56,14 +56,14 @@ void func_800FA54C(struct X4_MainObj* self) {
                 self->collision_data = &D_800755FC;
             }
             self->hurt_box = &D_800FE83C;
-            r = func_80031474(self);
+            r = check_enemy_hits(self);
         } else {
             TIMER = 1;
         }
     }
     if (r < 0) {
-        func_80016C48(2, 0x14, self);
-        func_80016C48(2, 0x20, self);
+        play_sound(2, 0x14, self);
+        play_sound(2, 0x20, self);
         self->state = 2;
         self->x_speed = 0;
         self->y_speed = 0;
@@ -98,9 +98,9 @@ void func_800FA54C(struct X4_MainObj* self) {
         self->collision_data = &D_8007433C;
     }
     if (r == 3 || r == 0xC || r == 0x22) {
-        func_80016C48(2, 0x14, self);
-        func_80016C48(2, 0x21, self);
-        func_80016C48(2, 0x78, self);
+        play_sound(2, 0x14, self);
+        play_sound(2, 0x21, self);
+        play_sound(2, 0x78, self);
         D_800FEEC8 = 1;
         self->unk5 = 9;
         self->unk6 = 0;

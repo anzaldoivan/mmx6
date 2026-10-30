@@ -2,9 +2,9 @@
 #include "psyq/libgpu.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8002B838();
+M2C_UNK reset_level();
 void func_8002C2B8();
-void func_80029B8C(void);
+void init_checkpoint_positions(void);
 void func_800280F4(void);
 M2C_UNK func_80025F34();
 
@@ -32,9 +32,9 @@ void func_800ECA28(u8* arg0) {
     arg0[0x24] = 0;
     *(s16*)(arg0 + 8) = 0;
     *(s16*)(arg0 + 0xA) = 0;
-    func_8002B838(p);
+    reset_level(p);
     func_8002C2B8();
-    func_80029B8C();
+    init_checkpoint_positions();
     func_800280F4();
     func_80025F34();
     D_800F1CB6 = 0;

@@ -4,12 +4,12 @@
 #define SP64 (*(u8**)(0x1F800064))
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 
 void func_800EAE0C(u8* arg0) {
     func_80017A04();
     if (--*(s16*)(SP64 + 0x54) == 0) {
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
         return;
     }
     if (!(*(u16*)(SP64 + 0x54) & 1)) {

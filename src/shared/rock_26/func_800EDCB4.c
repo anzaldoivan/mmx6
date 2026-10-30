@@ -5,10 +5,10 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20 (*(s32*)0x1F800020)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
-M2C_UNK func_8002C9B0();
-s32 func_8002D2D4();
+M2C_UNK clear_object_slot();
+s32 random_byte();
 extern s8 D_800CD30A;
 extern u32* D_80095098;
 extern struct X4_PlayerObj g_Player;
@@ -18,7 +18,7 @@ extern s32 D_8007497C;
 
 #define START(self)                                                            \
     {                                                                          \
-        M2C_FIELD(self, s16*, 0x7C) = (func_8002D2D4() % 3 + 1) * 100 + 200;   \
+        M2C_FIELD(self, s16*, 0x7C) = (random_byte() % 3 + 1) * 100 + 200;   \
         M2C_FIELD(self, u8*, 5) = 1;                                           \
         M2C_FIELD(self, u8*, 3) = 0;                                           \
         flag = 1;                                                              \
@@ -30,7 +30,7 @@ void func_800EDCB4(void* self) {
     s32 b;
 
     if (D_800CD30A != 7) {
-        func_8002C9B0(self);
+        clear_object_slot(self);
         return;
     }
     M2C_FIELD(self, u8*, 0) = 0x41;
@@ -75,7 +75,7 @@ void func_800EDCB4(void* self) {
         }
         break;
     case 10:
-        ((void (*)(void*, s32))func_800179A4)(self, 0);
+        ((void (*)(void*, s32))set_animation)(self, 0);
         flag = 1;
         M2C_FIELD(self, s16*, 0x7C) = 0x28;
         M2C_FIELD(self, s32*, 0x54) = 0;
@@ -85,7 +85,7 @@ void func_800EDCB4(void* self) {
         break;
     case 11:
         M2C_FIELD(self, s16*, 0x7C) = 0x28;
-        ((void (*)(void*, s32))func_800179A4)(self, 2);
+        ((void (*)(void*, s32))set_animation)(self, 2);
         flag = 1;
         M2C_FIELD(self, s32*, 0x54) = 0;
         M2C_FIELD(self, s32*, 0x50) = 0;

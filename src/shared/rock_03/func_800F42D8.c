@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_80017A04();
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
 extern s32 D_800F7950;
@@ -31,7 +31,7 @@ void func_800F42D8(void* arg0) {
         D_800F7E0C = 0;
         if (n > 0) {
             do {
-                p = func_8002BBF4();
+                p = enemy_slot_alloc();
                 if (p != 0) {
                     u8 b;
                     UB(p, 0x0) = UB(arg0, 0x0);

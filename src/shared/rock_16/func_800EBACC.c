@@ -1,6 +1,6 @@
 #include "common.h"
 
-void* func_8002C530();
+void* alloc_sprite_slot();
 extern s8 D_800F0F2C[];
 extern s8 D_800F0F34[];
 extern u8 D_800F1CA9;
@@ -19,14 +19,14 @@ void func_800EBACC(u8* arg0) {
         b = D_800F0F2C[*(s16*)(arg0 + 0xA) * 2 + 1];
     }
     if (*(s16*)(arg0 + 8) == 0) {
-        obj = func_8002C530();
+        obj = alloc_sprite_slot();
         if (obj != 0) {
             obj[0] = 1;
             obj[1] = 0xC;
             obj[2] = a | 0x40;
         }
         if (b != -1) {
-            obj = func_8002C530();
+            obj = alloc_sprite_slot();
             if (obj != 0) {
                 obj[0] = 1;
                 obj[1] = 0xC;

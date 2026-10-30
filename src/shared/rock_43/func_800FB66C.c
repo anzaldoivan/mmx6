@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern s32 D_800FDE30;
 
 #define PARENT (*(struct X4_MainObj**)((u8*)&D_800FDE30 + 0x468))
@@ -40,7 +40,7 @@ void func_800FB66C(struct X4_MainObj* self) {
     self->y_speed = 0;
     self->x_accel = 0;
     self->gravity = 0;
-    ((void (*)(void*, s32))func_800179A4)(self, 0xB);
+    ((void (*)(void*, s32))set_animation)(self, 0xB);
     self->hp = 0;
     self->contact_damage = 0;
     self->unk5 = 0;

@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230();
 
@@ -21,7 +21,7 @@ void func_800F96E0(void* arg0) {
     }
     if (t == 0x40 && (F8(arg0, 0x70) & 2)) {
     block_5:
-        func_80016C48(2, 0x4E, arg0);
+        play_sound(2, 0x4E, arg0);
         func_80012D9C(5);
         func_8002943C(0x14, 6, 2);
         {

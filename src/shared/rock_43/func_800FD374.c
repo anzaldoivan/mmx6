@@ -2,14 +2,14 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
 
 void func_800FD374(void* arg0) {
-    func_80016C48(2, 0x94, arg0);
-    func_800179A4(arg0, 8);
+    play_sound(2, 0x94, arg0);
+    set_animation(arg0, 8);
     M2C_FIELD(arg0, s16*, 0x7C) = -0x28;
     M2C_FIELD(arg0, s32*, 0x20) = 0;
     M2C_FIELD(arg0, s32*, 0x24) = 0;

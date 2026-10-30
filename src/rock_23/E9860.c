@@ -283,10 +283,10 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800ED8F0);
 #include "../shared/rock_23/func_800EDA58.c"
 
 #define func_800EC728 func_800EDA60
-#define D_8008EF48 D_8008EF48
+#define g_enemies g_enemies
 #include "../shared/rock_11/func_800EC728.c"
 #undef func_800EC728
-#undef D_8008EF48
+#undef g_enemies
 
 #define func_800EC7A0 func_800EDAD8
 #include "../shared/rock_11/func_800EC7A0.c"
@@ -526,7 +526,7 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F394C);
 
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F3C4C);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F3E78);
+INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", update_high_max_secret_lab2_1);
 
 #define func_80041AB8 func_800F3ED4
 #define D_80075FD8 D_800F99A8

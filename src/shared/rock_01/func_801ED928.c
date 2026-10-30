@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(void*);
@@ -44,7 +44,7 @@ void func_801ED928(struct X4_WeaponObj* arg0) {
         set_velocity_from_angle(arg0, ((arg0->unk2 * 2) + 0x16) & 0xFE);
         arg0->x_vel.val *= 5;
         arg0->y_vel.val *= 5;
-        ((void (*)(void*, s32))func_800179A4)(arg0, 3);
+        ((void (*)(void*, s32))set_animation)(arg0, 3);
         arg0->state++;
     } else if (arg0->state == 1 && func_8002CBFC(arg0, 0x20, 0x20) == 0 &&
                arg0->unk98 == 0) {
@@ -55,13 +55,13 @@ void func_801ED928(struct X4_WeaponObj* arg0) {
             func_8002EE10(arg0);
         }
         if (arg0->unk70 != 0) {
-            func_80016C48(1, 0x15, player);
+            play_sound(1, 0x15, player);
             func_800477E4(6, &D_801EE6F0, arg0);
             arg0->state++;
             return;
         }
     } else {
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
         return;
     }
     func_8002CCB0(arg0, 0x20, 0x20);

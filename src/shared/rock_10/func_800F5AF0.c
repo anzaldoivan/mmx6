@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object(s32);
 extern struct X4_BackgroundObj background_objects[3];
 
@@ -60,19 +60,19 @@ void func_800F5AF0(struct X4_AnimatedObj* arg0) {
             arg0->y_pos.i.hi = background_objects[0].y_pos.i.hi + oy;
             switch (arg0->unk2) {
             case 0x30:
-                ((void (*)(void*, s32))func_800179A4)(arg0, 0x23);
+                ((void (*)(void*, s32))set_animation)(arg0, 0x23);
                 arg0->unk15 = 0;
                 break;
             case 0x31:
-                ((void (*)(void*, s32))func_800179A4)(arg0, 0x23);
+                ((void (*)(void*, s32))set_animation)(arg0, 0x23);
                 arg0->unk15 = 0x40;
                 break;
             case 0x32:
-                ((void (*)(void*, s32))func_800179A4)(arg0, 0x24);
+                ((void (*)(void*, s32))set_animation)(arg0, 0x24);
                 arg0->unk15 = 0x40;
                 break;
             case 0x33:
-                ((void (*)(void*, s32))func_800179A4)(arg0, 0x24);
+                ((void (*)(void*, s32))set_animation)(arg0, 0x24);
                 arg0->unk15 = 0;
                 break;
             }

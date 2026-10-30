@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
 
@@ -20,7 +20,7 @@ void func_800ECED4(void* arg0) {
     }
     ((void (*)(void*))func_8002D230)(arg0);
     if (F(u8, 0x70) & 2) {
-        func_80016C48(2, 0x18, arg0);
+        play_sound(2, 0x18, arg0);
         func_80012D9C(3);
         F(s32, 0x20) = 0x10000;
         F(s32, 0x28) = -0x1000;

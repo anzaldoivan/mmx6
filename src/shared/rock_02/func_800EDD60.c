@@ -5,7 +5,7 @@
 
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 extern M2C_UNK D_8007433C;
 extern s32 D_80074B5C;
 extern s8 D_8009711A;
@@ -16,7 +16,7 @@ void func_800EDD60(void* arg0) {
     s32 r;
     u8 t;
 
-    r = func_80031474(arg0);
+    r = check_enemy_hits(arg0);
     if (r < 0) {
         M2C_FIELD(arg0, s8*, 4) = 2;
         M2C_FIELD(arg0, s8*, 5) = 0;

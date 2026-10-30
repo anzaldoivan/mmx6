@@ -3,14 +3,14 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_800139A0(M2C_UNK);
-M2C_UNK func_8002B838();
+M2C_UNK reset_level();
 void func_800EA3F0(s32, s32, s32, s32);
 void func_800EA470(s32, s32, s32, s32, s32);
 extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_80097427;
 
 void func_800E98B0(u8* arg0) {
-    func_8002B838();
+    reset_level();
     func_800EA3F0(0x10, 0, 0x150, 0x20);
     func_800EA470(0x11, 0, 0xD0, 0x40, 0);
     func_800EA3F0(0xF0, 0, 0x1B8, 0x40);

@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 
 #define BDA0_SP64 (*(u8**)(0x1F800064))
 #define BDA0_UB(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -13,7 +13,7 @@ void func_800EBDA0(u8* arg0) {
     BDA0_UB(arg0, 0x15) = 0;
     BDA0_UH(BDA0_SP64, 0x56) = 0;
     BDA0_UB(arg0, 0x16) = 6;
-    func_800179A4(arg0, 1);
+    set_animation(arg0, 1);
     BDA0_UB(arg0, 3) = 0;
     BDA0_UB(arg0, 5) = 0;
     BDA0_W(arg0, 0x20) = 0;

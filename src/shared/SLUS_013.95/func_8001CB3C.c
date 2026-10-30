@@ -11,7 +11,7 @@ M2C_UNK func_80013DE8();
 void func_8001344C();
 void func_8001D0E4(void);
 extern s32 D_8008EC0C;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern M2C_UNK D_800CD3F8;
 
 void func_8001CB3C(void) {
@@ -30,8 +30,8 @@ void func_8001CB3C(void) {
         *p++ = z;
     } while (i-- != 0);
     D_8008EC0C = 0;
-    D_800CCED0.stage = 0xE;
-    D_800CCED0.substage = 0;
+    g_playthrough_state.stage = 0xE;
+    g_playthrough_state.substage = 0;
     func_80013DE8();
     M2C_FIELD(&D_800CD3F8, s8*, 0) = 0;
     M2C_FIELD(&D_800CD3F8, s8*, 1) = 0;

@@ -403,3 +403,141 @@ SLUS_013.95	0x80069174	func_80069174	MDEC_rest	string strings.tsv:107:SLUS_013.9
 SLUS_013.95	0x80069380	func_80069380	MDEC_in_sync	string strings.tsv:108:SLUS_013.95:0x8001206C
 SLUS_013.95	0x80069414	func_80069414	MDEC_out_sync	string strings.tsv:109:SLUS_013.95:0x8001207C
 rock_20	0x800EE4C0	func_800EE4C0	memcard_write_save_file	string strings.tsv:403:rock_20:0x800E987C
+SLUS_013.95	0x80015A0C	func_80015A0C	load_vab_record	oracle assets.tsv:261:vab:2
+SLUS_013.95	0x80016858	func_80016858	read_rock_bin_member	oracle assets.tsv:3:iso/ROCK_X6.BIN
+SLUS_013.95	0x80018060	func_80018060	play_bgm_xa_track	oracle assets.tsv:257:dat:245
+SLUS_013.95	0x80018178	func_80018178	play_demo_xa_track	oracle assets.tsv:258:dat:246
+SLUS_013.95	0x8001A6CC	func_8001A6CC	play_str_movie	oracle assets.tsv:256:dat:244
+SLUS_013.95	0x8006CD42	D_8006CD42	rock_dat_cd_file_names	oracle assets.tsv:6:iso/STR/CAPLOGO.STR
+SLUS_013.95	0x80070CA4	D_80070CA4	str_movie_table	oracle assets.tsv:256:dat:244
+SLUS_013.95	0x800E0398	D_800E0398	rock_dat_file_table	oracle assets.tsv:4:iso/ROCK_X6.DAT
+SLUS_013.95	0x800E0B58	D_800E0B58	rock_bin_file_table	oracle assets.tsv:3:iso/ROCK_X6.BIN
+SLUS_013.95	0x8002BBF4	func_8002BBF4	enemy_slot_alloc	objects objects.tsv:338 proven 7 frames; role tweaks-index.tsv:134
+SLUS_013.95	0x8001642C	func_8001642C	read_dat_file	community tweaks-index.tsv:33
+SLUS_013.95	0x80090D6A	D_80090D6A	g_wide_mode	community tweaks-index.tsv:36
+SLUS_013.95	0x8009B79C	D_8009B79C	g_screen_width	community tweaks-index.tsv:37
+SLUS_013.95	0x80012890	func_80012890	set_resolution	community tweaks-index.tsv:38
+SLUS_013.95	0x8001466C	func_8001466C	init_loading_screen	community tweaks-index.tsv:40
+SLUS_013.95	0x800CCED0	D_800CCED0	g_playthrough_state	community tweaks-index.tsv:49
+SLUS_013.95	0x8008EF48	D_8008EF48	g_enemies	community tweaks-index.tsv:134
+SLUS_013.95	0x80093C98	D_80093C98	g_projectiles	community tweaks-index.tsv:136
+rock_03	0x800F3BE4	func_800F3BE4	init_yammark_projectile	community tweaks-index.tsv:162
+rock_04	0x800F14B0	func_800F14B0	init_wolfang_ice_spike	community tweaks-index.tsv:168
+SLUS_013.95	0x80071D80	D_80071D80	boss_level_by_rank	community tweaks-index.tsv:172
+SLUS_013.95	0x80025FD8	func_80025FD8	set_boss_level	community tweaks-index.tsv:173
+rock_07	0x800EB80C	func_800EB80C	init_nightmare_pressure	community tweaks-index.tsv:182
+rock_11	0x800F2390	func_800F2390	init_illumina	community tweaks-index.tsv:183
+SLUS_013.95	0x8003D2BC	func_8003D2BC	spawn_dust	community tweaks-index.tsv:186
+SLUS_013.95	0x80036EB0	func_80036EB0	handle_slide_down	community tweaks-index.tsv:188
+SLUS_013.95	0x80049564	func_80049564	update_dust	community tweaks-index.tsv:190
+SLUS_013.95	0x800179A4	func_800179A4	set_animation	community tweaks-index.tsv:191
+SLUS_013.95	0x8003A870	func_8003A870	check_ceiling_jump	community tweaks-index.tsv:192
+SLUS_013.95	0x8003649C	func_8003649C	perform_ceiling_jump	community tweaks-index.tsv:193
+rock_01	0x801ECAF0	func_801ECAF0	attack_hyoroga_from_ceiling	community tweaks-index.tsv:194
+SLUS_013.95	0x8003737C	func_8003737C	end_ceiling_dash	community tweaks-index.tsv:195
+SLUS_013.95	0x8003FD6C	func_8003FD6C	start_saber	community tweaks-index.tsv:197
+rock_00	0x801EDCB0	func_801EDCB0	update_shadow_armor_attack	community tweaks-index.tsv:198
+SLUS_013.95	0x8003E344	func_8003E344	check_giga_attack	community tweaks-index.tsv:202
+SLUS_013.95	0x80032DF0	func_80032DF0	setup_pause_menu	community tweaks-index.tsv:203
+SLUS_013.95	0x80030DC0	func_80030DC0	scale_damage	community tweaks-index.tsv:204
+SLUS_013.95	0x8003EEE4	func_8003EEE4	charge_special_weapon	community tweaks-index.tsv:207
+SLUS_013.95	0x8003EB0C	func_8003EB0C	get_weapon_energy_cost	community tweaks-index.tsv:208
+SLUS_013.95	0x8003F740	func_8003F740	use_weapon_energy	community tweaks-index.tsv:209
+SLUS_013.95	0x80049270	func_80049270	init_buster_shot_visual	community tweaks-index.tsv:214
+rock_00	0x801ED524	func_801ED524	init_shuriken_buster	community tweaks-index.tsv:215
+SLUS_013.95	0x8003906C	func_8003906C	select_air_dash	community tweaks-index.tsv:216
+SLUS_013.95	0x80078E08	D_80078E08	capsule_parts	community tweaks-index.tsv:218
+SLUS_013.95	0x80051158	func_80051158	init_capsule	community tweaks-index.tsv:219
+SLUS_013.95	0x80051ED4	func_80051ED4	apply_capsule_part	community tweaks-index.tsv:220
+SLUS_013.95	0x8003DBDC	func_8003DBDC	switch_weapon	community tweaks-index.tsv:221
+SLUS_013.95	0x80043638	func_80043638	init_yammar_option	community tweaks-index.tsv:223
+rock_01	0x801EA680	func_801EA680	start_rekkoha	community tweaks-index.tsv:226
+SLUS_013.95	0x8004548C	func_8004548C	update_guard_shell	community tweaks-index.tsv:228
+SLUS_013.95	0x80035620	func_80035620	handle_jump_rise	community tweaks-index.tsv:231
+SLUS_013.95	0x80039EB0	func_80039EB0	check_dash_input	community tweaks-index.tsv:243
+SLUS_013.95	0x8003F200	func_8003F200	start_hover	community tweaks-index.tsv:244
+SLUS_013.95	0x8003F28C	func_8003F28C	start_falcon_dash	community tweaks-index.tsv:246
+SLUS_013.95	0x8003B114	func_8003B114	end_dash	community tweaks-index.tsv:248
+SLUS_013.95	0x80047460	func_80047460	move_ceiling	community tweaks-index.tsv:253
+SLUS_013.95	0x80046E14	func_80046E14	clamp_player_to_ceiling	community tweaks-index.tsv:257
+SLUS_013.95	0x8002E1A0	func_8002E1A0	check_box_collision	community tweaks-index.tsv:258
+SLUS_013.95	0x8003CD44	func_8003CD44	read_player_input	community tweaks-index.tsv:260
+SLUS_013.95	0x8006D5F8	D_8006D5F8	default_options	community tweaks-index.tsv:265
+SLUS_013.95	0x8001DF5C	func_8001DF5C	tick_title_demo_timer	community tweaks-index.tsv:268
+SLUS_013.95	0x8004E680	func_8004E680	drop_item	community tweaks-index.tsv:271
+SLUS_013.95	0x80031474	func_80031474	check_enemy_hits	community tweaks-index.tsv:275
+SLUS_013.95	0x8002D868	func_8002D868	check_attack_hit	community tweaks-index.tsv:277
+rock_02	0x800F1724	func_800F1724	init_high_max_intro	community tweaks-index.tsv:279
+SLUS_013.95	0x8004EECC	func_8004EECC	rescue_reploid	community tweaks-index.tsv:285
+SLUS_013.95	0x8002A588	func_8002A588	init_options_menu	community tweaks-index.tsv:292
+SLUS_013.95	0x8007360C	D_8007360C	option_values	community tweaks-index.tsv:296
+SLUS_013.95	0x80073630	D_80073630	option_labels	community tweaks-index.tsv:297
+SLUS_013.95	0x80073658	D_80073658	option_cursors	community tweaks-index.tsv:298
+SLUS_013.95	0x8006D5F7	D_8006D5F7	g_temp_options	community tweaks-index.tsv:299
+SLUS_013.95	0x8001E088	func_8001E088	init_new_game	community tweaks-index.tsv:302
+SLUS_013.95	0x8001E32C	func_8001E32C	exit_stage_by_clear	community tweaks-index.tsv:308
+SLUS_013.95	0x800346EC	func_800346EC	exit_stage_from_menu	community tweaks-index.tsv:310
+SLUS_013.95	0x8003D7AC	func_8003D7AC	map_buttons	community tweaks-index.tsv:321
+SLUS_013.95	0x80016C48	func_80016C48	play_sound	community tweaks-index.tsv:324
+SLUS_013.95	0x8003FA8C	func_8003FA8C	fire_charged_shot	community tweaks-index.tsv:327
+SLUS_013.95	0x8003D014	func_8003D014	check_low_health	community tweaks-index.tsv:328
+rock_17	0x800E9E2C	func_800E9E2C	tick_boss_intro	community tweaks-index.tsv:329
+SLUS_013.95	0x8001DEB8	func_8001DEB8	init_title_screen	community tweaks-index.tsv:331
+rock_20	0x800EE6F4	func_800EE6F4	build_mission_report_list	community tweaks-index.tsv:344
+SLUS_013.95	0x8004228C	func_8004228C	init_orb	community tweaks-index.tsv:349
+SLUS_013.95	0x80042D3C	func_80042D3C	register_orb	community tweaks-index.tsv:351
+SLUS_013.95	0x8006E468	D_8006E468	speaker_colors	community tweaks-index.tsv:355
+SLUS_013.95	0x80021760	func_80021760	open_text_box	community tweaks-index.tsv:362
+SLUS_013.95	0x80021BF4	func_80021BF4	update_text_box	community tweaks-index.tsv:363
+SLUS_013.95	0x8002B838	func_8002B838	reset_level	community tweaks-index.tsv:371
+SLUS_013.95	0x800228AC	func_800228AC	get_player_mugshot	community tweaks-index.tsv:374
+SLUS_013.95	0x80013BF0	func_80013BF0	load_player_files	community tweaks-index.tsv:375
+SLUS_013.95	0x8002C530	func_8002C530	alloc_sprite_slot	community tweaks-index.tsv:379
+SLUS_013.95	0x800CD410	D_800CD410	g_displayed_sprites	community tweaks-index.tsv:380
+SLUS_013.95	0x8002B3D4	func_8002B3D4	load_palette	community tweaks-index.tsv:381
+SLUS_013.95	0x8002C3F8	func_8002C3F8	alloc_class3_slot	code code:src/shared/SLUS_013.95/func_8002C3F8.c:12 via=D_8009B7B0; objects.tsv:341
+SLUS_013.95	0x8002C4C4	func_8002C4C4	alloc_class4_slot	code code:src/shared/SLUS_013.95/func_8002C4C4.c:11 via=D_800C1220; objects.tsv:342
+SLUS_013.95	0x8002C7F0	func_8002C7F0	alloc_class6_slot	code code:src/shared/SLUS_013.95/func_8002C7F0.c:11 via=D_8009C9B0; objects.tsv:344
+SLUS_013.95	0x8002C950	func_8002C950	alloc_class7_slot	code code:src/shared/SLUS_013.95/func_8002C950.c:11 via=D_800C4778; objects.tsv:345
+rock_02	0x800EFED0	func_800EFED0	update_d_1000	community refs/leads/tweaks/BossHealth.tsv:234 word 0x800EFF4C match; code:src/shared/rock_02/func_800EFED0.c:16 via=D_800FB198
+rock_02	0x800F5170	func_800F5170	update_high_max_intro	community refs/leads/tweaks/BossHealth.tsv:284 word 0x800F21B0 match; code:src/rock_02/E9860.c:523 via=func_800F5170
+rock_03	0x800F40C8	func_800F40C8	update_commander_yammark	community refs/leads/tweaks/BossHealth.tsv:1346 word 0x800EF810 match; code:src/rock_03/E9860.c:507 via=func_800F40C8
+rock_04	0x800F2E8C	func_800F2E8C	update_blizzard_wolfang	community refs/leads/tweaks/BossHealth.tsv:1574 word 0x800F232C match; code:src/rock_04/E9860.c:307 via=func_800F2E8C
+rock_05	0x800EC534	func_800EC534	update_nightmare_snake	community refs/leads/tweaks/BossHealth.tsv:366 word 0x800ED610 match; code:src/rock_05/E9860.c:100 via=D_800F3F1C
+rock_07	0x800EB4C8	func_800EB4C8	update_nightmare_pressure	community refs/leads/tweaks/BossHealth.tsv:1294 word 0x800EB80C match; code:src/rock_07/E9860.c:38 via=D_800F868C
+rock_08	0x800F1C60	func_800F1C60	update_ground_scaravich	community refs/leads/tweaks/BossHealth.tsv:1774 word 0x800F2B78 match; code:src/rock_08/E9860.c:376 via=D_800F5F34
+rock_15	0x800EDE18	func_800EDE18	update_sigma_1	community refs/leads/tweaks/BossHealth.tsv:2404 word 0x800ED124 match; code:src/rock_15/E9860.c:326 via=D_800F666C
+rock_23	0x800F3E78	func_800F3E78	update_high_max_secret_lab2_1	community refs/leads/tweaks/BossHealth.tsv:2224 word 0x800F0EB8 match; code:src/rock_23/E9860.c:529 via=func_800F3E78
+rock_24	0x800F49F0	func_800F49F0	update_gate	community refs/leads/tweaks/BossHealth.tsv:2303 word 0x800EF400 match; code:src/rock_24/E9860.c:510 via=D_800F75F0
+rock_33	0x800FE988	func_800FE988	update_commander_yammark_boss_rush	community refs/leads/tweaks/BossHealth.tsv:2986 word 0x800FA0D0 match; code:src/rock_33/FA000.c:57 via=func_800FE988
+rock_34	0x800FB9E4	func_800FB9E4	update_blizzard_wolfang_boss_rush	community refs/leads/tweaks/BossHealth.tsv:3214 word 0x800FAE84 match; code:src/rock_34/FA000.c:55 via=func_800FB9E4
+rock_37	0x800FBCC8	func_800FBCC8	update_ground_scaravich_boss_rush	community refs/leads/tweaks/BossHealth.tsv:3414 word 0x800FCBE0 match; code:src/rock_37/FA000.c:44 via=D_800FD8C4
+rock_43	0x800FC128	func_800FC128	update_nightmare_zero	community refs/leads/tweaks/BossHealth.tsv:2571 word 0x800FA000 match (data, Values table); code:src/rock_43/FA000.c:46 via=D_800FE134
+rock_44	0x800FDA98	func_800FDA98	update_high_max_hidden_area	community refs/leads/tweaks/BossHealth.tsv:2761 word 0x800FAAD8 match; code:src/rock_44/FA000.c:105 via=func_800FDA98
+SLUS_013.95	0x80013300	func_80013300	create_task	code code:src/shared/SLUS_013.95/func_80013300.c:12 via=OpenTh
+SLUS_013.95	0x80013360	func_80013360	task_yield	code code:src/shared/SLUS_013.95/func_80013360.c:10 via=ChangeTh
+SLUS_013.95	0x800133F4	func_800133F4	end_task_slot	code code:src/shared/SLUS_013.95/func_800133F4.c:14 via=CloseTh
+SLUS_013.95	0x80016178	func_80016178	pump_file_loads	code code:src/shared/SLUS_013.95/func_80016178.c:62 via=rock_dat_file_table
+SLUS_013.95	0x8001750C	func_8001750C	silence_sound	code code:src/shared/SLUS_013.95/func_8001750C.c:16 via=SsUtKeyOffV
+SLUS_013.95	0x800179D0	func_800179D0	set_animation_frame	code code:src/shared/SLUS_013.95/func_800179D0.c:8 via=arg1
+SLUS_013.95	0x8001854C	func_8001854C	play_stage_bgm	code code:src/shared/SLUS_013.95/func_8001854C.c:14 via=D_8007093C
+SLUS_013.95	0x800186A8	func_800186A8	stop_cd_audio	code code:src/shared/SLUS_013.95/func_800186A8.c:30 via=SsSetSerialAttr
+SLUS_013.95	0x80029B8C	func_80029B8C	init_checkpoint_positions	code code:src/shared/SLUS_013.95/func_80029B8C.c:17 via=checkpoint
+SLUS_013.95	0x8002C9B0	func_8002C9B0	clear_object_slot	code code:src/shared/SLUS_013.95/func_8002C9B0.c:6 via=arg0
+SLUS_013.95	0x8002D2D4	func_8002D2D4	random_byte	code code:src/shared/SLUS_013.95/func_8002D2D4.c:10 via=D_80090E70
+SLUS_013.95	0x8004FF00	func_8004FF00	set_reploid_status	code code:src/shared/SLUS_013.95/rescue_reploid.c:37 via=func_8004FF00
+SLUS_013.95	0x8004FF4C	func_8004FF4C	get_reploid_status	code code:src/shared/SLUS_013.95/func_80018F98.c:16 via=func_8004FF4C
+SLUS_013.95	0x800533F4	func_800533F4	is_text_box_seen	code code:src/shared/rock_11/func_800F23D8.c:22 via=func_800533F4
+SLUS_013.95	0x80053440	func_80053440	set_text_box_seen	code code:src/shared/rock_11/func_800F23D8.c:24 via=func_80053440
+SLUS_013.95	0x8007093C	D_8007093C	g_stage_bgm_tracks	code code:src/shared/SLUS_013.95/func_8001854C.c:14 via=D_8007093C
+SLUS_013.95	0x8007112C	D_8007112C	g_playthrough_state_handlers	code code:src/shared/SLUS_013.95/func_8001E6E4.c:11 via=D_8007112C
+SLUS_013.95	0x80073ABC	D_80073ABC	g_player_state_handlers	code code:src/shared/SLUS_013.95/func_80034DCC.c:60 via=D_80073ABC
+SLUS_013.95	0x8008EC10	D_8008EC10	g_tilemap_layer_stride	code code:src/shared/SLUS_013.95/func_80027D6C.c:28 via=D_8008EC10
+SLUS_013.95	0x8009B7A0	D_8009B7A0	g_cur_draw_info	code code:src/shared/SLUS_013.95/func_800120A0.c:47 via=D_8009B7A0
+SLUS_013.95	0x800B91C0	D_800B91C0	g_bg_sprite_prims	code code:src/shared/SLUS_013.95/func_8002649C.c:29 via=D_800B91C0
+SLUS_013.95	0x800C456C	D_800C456C	g_pad1_buttons	code code:src/shared/SLUS_013.95/func_80012A34.c:47 via=D_800C456C
+SLUS_013.95	0x800C4578	D_800C4578	g_draw_info_buffers	code code:src/shared/SLUS_013.95/func_800120A0.c:47 via=D_800C4578
+SLUS_013.95	0x800C4758	D_800C4758	g_pad2_buttons	code code:src/shared/SLUS_013.95/func_80012A34.c:84 via=D_800C4758
+SLUS_013.95	0x800CD338	D_800CD338	g_tilemap_width	code code:src/shared/SLUS_013.95/func_80027D6C.c:25 via=D_800CD338
+SLUS_013.95	0x800CD339	D_800CD339	g_tilemap_height	code code:src/shared/SLUS_013.95/func_80027D6C.c:25 via=D_800CD339
+rock_02	0x800EFED0	update_d_1000	update_d1000	community refs/leads/tweaks/BossHealth.tsv:234 word 0x800EFF4C match; code:src/shared/rock_02/update_d1000.c:19 via=D_800FB198

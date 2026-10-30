@@ -5,8 +5,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern struct X4_PlayerObj g_Player;
 
 void func_800F3A2C(void* arg0) {
@@ -15,8 +15,8 @@ void func_800F3A2C(void* arg0) {
     s32 ang;
 
     if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
-        func_80016C48(2, 0x13, arg0);
-        func_800179A4(arg0, 0xA);
+        play_sound(2, 0x13, arg0);
+        set_animation(arg0, 0xA);
         {
             // !FAKE: depin: dropping it breaks the match (57/63)
             register struct X4_PlayerObj* pl asm("$2") = &g_Player;

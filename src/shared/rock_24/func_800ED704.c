@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern M2C_UNK D_800743DC;
 extern u8 D_800970B4;
 extern s32 D_800F6BA4;
@@ -43,7 +43,7 @@ void func_800ED704(void* self) {
     F(u8, 0x5C) = 0x10;
     F(u8, 0x60) = 4;
     F(u16, 0xE) = t;
-    func_800179A4(self, 9);
+    set_animation(self, 9);
     F(u8, 0x5) = 2;
     F(u8, 0x6) = 0;
     F(u8, 0x4) = F(u8, 0x4) + 1;

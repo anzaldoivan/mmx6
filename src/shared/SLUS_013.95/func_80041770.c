@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002D2D4();
+s32 random_byte();
 extern s16 D_800115B0[16][2];
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
@@ -78,7 +78,7 @@ void func_80041770(void* arg0) {
     M2C_FIELD(arg0, s16*, 0x2A) = cy - q;
     M2C_FIELD(arg0, s16*, 0x32) = cy + q;
     if ((D_80097420 + M2C_FIELD(arg0, s8*, 2)) & 1) {
-        M2C_FIELD(arg0, s16*, 0x34) = (func_8002D2D4() & 1) + 0x1A;
+        M2C_FIELD(arg0, s16*, 0x34) = (random_byte() & 1) + 0x1A;
     } else {
         M2C_FIELD(arg0, s16*, 0x34) = 0x1C;
     }

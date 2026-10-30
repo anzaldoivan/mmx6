@@ -3,12 +3,12 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 
 void func_800F513C(struct X4_AnimatedObj* arg0, u8 arg1) {
     struct X4_AnimatedObj* obj;
 
-    obj = func_8002BBF4();
+    obj = enemy_slot_alloc();
     if (obj != 0) {
         obj->active = 0x41;
         obj->id = 0x36;

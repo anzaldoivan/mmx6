@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
+M2C_UNK load_palette(M2C_UNK, M2C_UNK*, M2C_UNK);
 M2C_UNK func_8002B54C(M2C_UNK*, M2C_UNK*, M2C_UNK, u16);
 extern struct X4_BackgroundObj background_objects[3];
 extern M2C_UNK D_800FAA08;
@@ -14,7 +14,7 @@ void func_800FA64C(void* arg0) {
     D_800FCE08 += 1;
     ((void (*)(M2C_UNK*, M2C_UNK*, M2C_UNK, s32))func_8002B54C)(
         &D_800FBC08, &D_800FAA08, 0x900, D_800FCE08);
-    func_8002B3D4(0x60, &D_800FBC08, 0x90);
+    load_palette(0x60, &D_800FBC08, 0x90);
     if (D_800FCE08 >= 0x20) {
         s8* bg = (s8*)background_objects;
 

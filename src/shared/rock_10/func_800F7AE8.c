@@ -3,7 +3,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 extern void (*D_800FCDFC[])(void*);
 
 void func_800F7AE8(void* arg0) {
@@ -32,6 +32,6 @@ void func_800F7AE8(void* arg0) {
     } else {
         M2C_FIELD(arg0, u8*, 3) = 1;
     }
-    func_80031474(arg0);
+    check_enemy_hits(arg0);
     func_80030ECC(arg0);
 }

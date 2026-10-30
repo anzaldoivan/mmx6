@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179D0(void*, M2C_UNK, s8);
+M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 extern u8 D_801EF620[];
 extern u8 D_801F49F4[];
 
@@ -57,5 +57,5 @@ add:
 store:
     FLD(self, u8**, 0x3C) = q;
 end:
-    ((M2C_UNK(*)())func_800179D0)(self, arg1, a2r);
+    ((M2C_UNK(*)())set_animation_frame)(self, arg1, a2r);
 }

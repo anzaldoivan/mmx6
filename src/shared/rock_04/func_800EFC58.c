@@ -5,7 +5,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern struct X4_PlayerObj g_Player;
 extern s32 D_800F6D94;
 extern s32 D_800F6DA0;
@@ -17,9 +17,9 @@ void func_800EFC58(void* arg0) {
 
     if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
         if (M2C_FIELD(arg0, s8*, 0x2) == 0xB) {
-            func_800179A4(arg0, 3);
+            set_animation(arg0, 3);
         } else {
-            func_800179A4(arg0, 1);
+            set_animation(arg0, 1);
         }
         p = &g_Player;
         ang = ratan2(p->y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE),

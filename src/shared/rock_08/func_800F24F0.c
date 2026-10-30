@@ -7,7 +7,7 @@
 #define H(p, o) M2C_FIELD(p, s16*, o)
 #define UH(p, o) M2C_FIELD(p, u16*, o)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 extern s16 D_800F6AF0;
 
@@ -26,7 +26,7 @@ void func_800F24F0(void* arg0) {
         register void* a asm("$4") = arg0;
         if (SB(arg0, 0x89) != 0) {
             SB(arg0, 0x89)--;
-            func_800179A4(a, 2);
+            set_animation(a, 2);
             {
                 // !FAKE: depin: dropping it breaks the match (30/33)
                 register s32 c asm("$2") = B(arg0, 0x6) - 1;

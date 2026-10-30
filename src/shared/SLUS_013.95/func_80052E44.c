@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 
 s32 func_80014B78(void);
-void func_80016858(s32, s32);
-M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
+void read_rock_bin_member(s32, s32);
+M2C_UNK load_palette(M2C_UNK, M2C_UNK*, M2C_UNK);
 void* func_8002BCCC(void*, s32);
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 extern u8 D_800CD30B;
 
 #define SCRATCH_30 (*(s32**)0x1F800030)
@@ -28,7 +28,7 @@ void func_80052E44(u8* arg0) {
             a0 = 0x2C;
             break;
         }
-        func_80016858(a0, 0x800FA000);
+        read_rock_bin_member(a0, 0x800FA000);
         {
             s32 t = arg0[4] + 1;
             arg0[4] = t;
@@ -51,8 +51,8 @@ void func_80052E44(u8* arg0) {
                 p[1] = 0x3F;
                 a1 = SCRATCH_30 + 0x60;
             }
-            func_8002B3D4(0x58, a1, 8);
-            ((M2C_UNK(*)())func_8002C9B0)(arg0);
+            load_palette(0x58, a1, 8);
+            ((M2C_UNK(*)())clear_object_slot)(arg0);
         }
     }
 }

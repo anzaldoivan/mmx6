@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void* func_8002C458();
 extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
@@ -28,9 +28,9 @@ void func_800EA970(void* self) {
             DIR(self) = 0;
         }
         if (DIR(self) == 0) {
-            ((void (*)(void*, s32))func_800179A4)(self, 9);
+            ((void (*)(void*, s32))set_animation)(self, 9);
         } else {
-            ((void (*)(void*, s32))func_800179A4)(self, 0x1B);
+            ((void (*)(void*, s32))set_animation)(self, 0x1B);
         }
         TIMER(self) = 0;
         STATE(self)++;
@@ -43,9 +43,9 @@ void func_800EA970(void* self) {
                 DIR(self) = 0;
             }
             if (DIR(self) == 0) {
-                ((void (*)(void*, s32))func_800179A4)(self, 0xB);
+                ((void (*)(void*, s32))set_animation)(self, 0xB);
             } else {
-                ((void (*)(void*, s32))func_800179A4)(self, 0x1D);
+                ((void (*)(void*, s32))set_animation)(self, 0x1D);
             }
             TIMER(self) = 0;
             STATE(self) = 3;
@@ -56,9 +56,9 @@ void func_800EA970(void* self) {
                 DIR(self) = 0;
             }
             if (DIR(self) == 0) {
-                ((void (*)(void*, s32))func_800179A4)(self, 0xA);
+                ((void (*)(void*, s32))set_animation)(self, 0xA);
             } else {
-                ((void (*)(void*, s32))func_800179A4)(self, 0x1C);
+                ((void (*)(void*, s32))set_animation)(self, 0x1C);
             }
             STATE(self)++;
         }
@@ -71,9 +71,9 @@ void func_800EA970(void* self) {
                 DIR(self) = 0;
             }
             if (DIR(self) == 0) {
-                ((void (*)(void*, s32))func_800179A4)(self, 0xB);
+                ((void (*)(void*, s32))set_animation)(self, 0xB);
             } else {
-                ((void (*)(void*, s32))func_800179A4)(self, 0x1D);
+                ((void (*)(void*, s32))set_animation)(self, 0x1D);
             }
             TIMER(self) = 0;
             STATE(self) = 3;

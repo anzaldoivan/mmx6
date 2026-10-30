@@ -8,7 +8,7 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(s32);
 s32 func_8002D654(s8*, u8*);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern M2C_UNK g_Player;
 
@@ -16,7 +16,7 @@ void func_800EDBB4(void* arg0) {
     ((M2C_UNK(*)())func_80017A04)();
     move_object((s32)arg0);
     if (func_80030ECC(arg0) == 0) {
-        if (func_80031474(arg0) < 0) {
+        if (check_enemy_hits(arg0) < 0) {
         block_2:
             func_80049E50(arg0);
         } else if (func_8002D654((s8*)arg0, (u8*)&g_Player) == 0) {

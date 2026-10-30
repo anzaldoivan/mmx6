@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 extern struct X4_PlayerObj g_Player;
 #define SCRATCH_1C (*(u8**)0x1F80001C)
@@ -11,7 +11,7 @@ void func_8004B3A0(struct X4_VisualObj* arg0) {
     u8* sp;
 
     if (g_Player.unk5 != 0x23) {
-        ((M2C_UNK(*)())func_8002C9B0)();
+        ((M2C_UNK(*)())clear_object_slot)();
         return;
     }
     if (arg0->state == 0) {

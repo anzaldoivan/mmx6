@@ -1,9 +1,9 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-s32 func_8002D2D4();
+s32 random_byte();
 
 #define UB(p, o) (*(u8*)((u8*)(p) + (o)))
 #define H(p, o) (*(s16*)((u8*)(p) + (o)))
@@ -16,7 +16,7 @@ void func_800F2324(void* arg0) {
         return;
     }
     W(arg0, 0x68) = 0;
-    if (!(func_8002D2D4() & 1)) {
+    if (!(random_byte() & 1)) {
         W(arg0, 0x20) = 0xFFFA0000;
         UB(arg0, 0x15) = 0;
     } else {
@@ -24,7 +24,7 @@ void func_800F2324(void* arg0) {
         UB(arg0, 0x15) = 0x40;
     }
     W(arg0, 0x24) = 0;
-    func_800179A4(arg0, 2);
+    set_animation(arg0, 2);
     {
         // !FAKE: depin: dropping it breaks the match (32/35)
         register s32 c asm("$2") = UB(arg0, 6) + 1;

@@ -13,7 +13,7 @@ void func_80021500(void);
 void func_8002163C(void);
 void func_80025FB0();
 void func_8002B29C(void);
-s32 func_8002D2D4();
+s32 random_byte();
 
 void func_8001D60C(struct X4_EngineObj* arg0) {
     if (D_80097424 == 0) {
@@ -28,7 +28,7 @@ void func_8001D60C(struct X4_EngineObj* arg0) {
             arg0->unk1 = t;
         }
     } else {
-        func_8002D2D4();
+        random_byte();
         func_80021500();
     }
     if ((u8)g_Player.pad4B[0xE4 - 0x4B] != 0) {

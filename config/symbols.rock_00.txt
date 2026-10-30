@@ -20,5 +20,9 @@ player_hover_back_stop = 0x801EC2D0; // type:func
 player_hover_set_direction = 0x801EC478; // type:func
 // basis: name: x4 exact a538f84cd138 sozud/mmx4@6a6b455 src/main/player_special.c:player_nova_strike_windup; corroborator callee src/main/player_special:player_nova_strike_windup rock_00:0x801EC4C0
 player_nova_strike_windup = 0x801EC4C0; // type:func
+// basis: name: community tweaks-index.tsv:215
+init_shuriken_buster = 0x801ED524; // type:func
+// basis: name: community tweaks-index.tsv:198
+update_shadow_armor_attack = 0x801EDCB0; // type:func
 // basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T5.c3; was D_801F3698)
 func_801F3698 = 0x801F3698;

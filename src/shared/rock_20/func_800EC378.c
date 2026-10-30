@@ -3,27 +3,27 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_800139F4(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002B838();
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK reset_level();
 extern struct X4_EngineObj D_80097420;
 extern u8 D_80097427;
-extern u16 D_800C456C[];
+extern u16 g_pad1_buttons[];
 
 void func_800EC378(u8* arg0) {
     s32 one;
     u8 t;
 
     one = 1;
-    if (D_800C456C[2] & 0x1000) {
-        func_80016C48(0, 0xC, 0);
+    if (g_pad1_buttons[2] & 0x1000) {
+        play_sound(0, 0xC, 0);
         t = D_80097420.unk7;
         if (t == 0) {
             D_80097420.unk7 = one;
         } else {
             D_80097420.unk7 = t - 1;
         }
-    } else if (D_800C456C[2] & 0x4000) {
-        func_80016C48(0, 0xC, 0);
+    } else if (g_pad1_buttons[2] & 0x4000) {
+        play_sound(0, 0xC, 0);
         t = D_80097420.unk7;
         if (t == one) {
             D_80097420.unk7 = 0;
@@ -31,9 +31,9 @@ void func_800EC378(u8* arg0) {
             D_80097420.unk7 = t + 1;
         }
     }
-    if (D_800C456C[2] & 0x40) {
-        func_80016C48(0, 0x22, 0);
-        ((void (*)())func_8002B838)();
+    if (g_pad1_buttons[2] & 0x40) {
+        play_sound(0, 0x22, 0);
+        ((void (*)())reset_level)();
         switch (D_80097427) {
         case 0:
             func_800139F4(8);

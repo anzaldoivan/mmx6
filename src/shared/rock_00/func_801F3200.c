@@ -8,10 +8,10 @@ extern s32 D_80077AD8;
 extern s32 D_80097420;
 extern s32 D_801F3B08[];
 extern s16 D_801F3B40[];
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void func_80017A04(struct X4_AnimatedObj*);
 M2C_UNK func_80017B04(M2C_UNK*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 void func_8003CF24(s32, s32, s32);
 #define SCRATCH_14 (*(u8**)0x1F800014)
 #define SCRATCH_1C (*(u8**)0x1F80001C)
@@ -28,13 +28,13 @@ void func_801F3200(struct X4_WeaponObj* arg0) {
     player = &g_Player;
     t = player->unk5;
     if ((t ^ 0x4C) != 0) {
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
         return;
     }
     if (arg0->state != 0) {
         func_80017A04((struct X4_AnimatedObj*)arg0);
         if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
-            func_8002C9B0(arg0);
+            clear_object_slot(arg0);
             return;
         }
     } else {
@@ -52,7 +52,7 @@ void func_801F3200(struct X4_WeaponObj* arg0) {
         arg0->unk64 = 1;
         M2C_FIELD(arg0, s8*, 0x9C) = 1;
         arg0->unk3C = temp_v1 + temp_a2;
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
         arg0->previous_animation_index = 0xFF;
         arg0->unk49 = 1;
         func_8003CF24(0x55, 0x1B, 1);

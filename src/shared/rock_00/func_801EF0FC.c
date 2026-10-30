@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_8002D2D4();
+s32 random_byte();
 void func_801EFB5C(void*, u8, u8);
 extern u8 D_801F3998[];
 extern u8 D_801F39AC[];
@@ -8,9 +8,9 @@ extern u8 D_801F39AC[];
 void func_801EF0FC(u8* arg0) {
     if (arg0[0x8D] < 3) {
         if (arg0[0x8D] == 0) {
-            arg0[0x8E] = func_8002D2D4() % 6;
-            arg0[0x8F] = func_8002D2D4() % 6;
-            arg0[0x90] = func_8002D2D4() & 1;
+            arg0[0x8E] = random_byte() % 6;
+            arg0[0x8F] = random_byte() % 6;
+            arg0[0x90] = random_byte() & 1;
         }
         if (arg0[0x15] == 0x40) {
             func_801EFB5C(

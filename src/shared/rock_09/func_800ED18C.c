@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #define SPAD28 (*(s32*)0x1F800028)
 
-M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
+M2C_UNK load_palette(M2C_UNK, M2C_UNK*, M2C_UNK);
 extern u8 D_800C4560;
 extern s16 D_800F6BC4[16];
 
@@ -64,6 +64,6 @@ void func_800ED18C(s32 arg0, s32 arg1, u8* arg2) {
             }
             D_800F6BC4[j] = v;
         }
-        func_8002B3D4(p[i] + 0x60, (M2C_UNK*)D_800F6BC4, 1);
+        load_palette(p[i] + 0x60, (M2C_UNK*)D_800F6BC4, 1);
     }
 }

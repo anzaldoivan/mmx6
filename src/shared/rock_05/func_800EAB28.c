@@ -5,11 +5,11 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SCRATCH_20 (*(s32**)0x1F800020)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 void* func_8002BCCC(void*, s32);
 void* func_8002C458();
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern M2C_UNK D_8007433C;
 extern s32 D_800748DC;
@@ -17,7 +17,7 @@ extern u32* D_80095098;
 extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AE;
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CCEED;
 extern s32 D_800F3DD8;
 extern s32 D_800F3DDC;
@@ -55,7 +55,7 @@ void func_800EAB28(void* self) {
     if (t >= 4) {
         if (t == 4) {
             if (D_800CCEED >= 3) {
-                func_8002C9B0(self);
+                clear_object_slot(self);
                 return;
             }
             M2C_FIELD(self, u16*, 0x40) =
@@ -102,7 +102,7 @@ void func_800EAB28(void* self) {
         } else if (t == 8) {
             o = &g_Player;
             if (D_800CCEED == 5) {
-                func_8002C9B0(self);
+                clear_object_slot(self);
                 return;
             }
             flag = 0;
@@ -128,7 +128,7 @@ void func_800EAB28(void* self) {
             func_8003D308(0x14, g_Player.unk15);
         } else if (t == 9) {
             if (D_800CCEED == 4) {
-                func_8002C9B0(self);
+                clear_object_slot(self);
                 return;
             }
             background_objects[0].unk28 = background_objects[0].unk2A = 0x870;
@@ -225,13 +225,13 @@ void func_800EAB28(void* self) {
         M2C_FIELD(self, void**, 0x50) = &D_800F3DDC;
         M2C_FIELD(self, void**, 0x58) = &D_8007433C;
         M2C_FIELD(self, u8*, 3) = 0;
-        D_800CCED0.character_state.bytes[0] = 0;
+        g_playthrough_state.character_state.bytes[0] = 0;
     } else {
         M2C_FIELD(self, void**, 0x68) = 0;
         M2C_FIELD(self, void**, 0x50) = 0;
         M2C_FIELD(self, void**, 0x54) = &D_800F3DE4[t];
         M2C_FIELD(self, void**, 0x58) = &D_800748DC;
-        ((void (*)(void*, s32))func_800179A4)(self, t);
+        ((void (*)(void*, s32))set_animation)(self, t);
         M2C_FIELD(self, u8*, 5) = 1;
     }
     M2C_FIELD(self, s16*, 0x7C) = 0;

@@ -2,12 +2,12 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
-#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
+#define set_animation ((void (*)(void*, s32))set_animation)
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
-s32 func_8002D2D4();
+s32 random_byte();
 s32 func_801EE34C();
 extern s32 D_80077A28[];
 extern M2C_UNK g_Player;
@@ -39,12 +39,12 @@ void func_801F15B0(struct X4_WeaponObj* arg0) {
     arg0->unk16 = 2;
     player = &g_Player;
     if (arg0->unk2 == 0) {
-        func_80016C48(1, 0x1B, arg0);
+        play_sound(1, 0x1B, arg0);
         arg0->unk15 = player->unk15;
         F_90(arg0).lo = player->x_pos.i.hi - BG.x_pos.i.hi;
         F_90(arg0).hi = player->y_pos.i.hi - BG.y_pos.i.hi;
         func_801EE34C(arg0, player, arg0->id);
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
         F_S8(player, 0xA6) = 3;
     } else if (arg0->unk2 == 1) {
         parent = (struct X4_WeaponObj*)arg0->owner;
@@ -56,22 +56,22 @@ void func_801F15B0(struct X4_WeaponObj* arg0) {
         arg0->y_vel.val = 0x40000;
         arg0->unk50 = D_801F3A4C;
         arg0->unk5 = parent->unk5 + 1;
-        func_800179A4(arg0, 1);
+        set_animation(arg0, 1);
     } else if (arg0->unk2 == 0x10) {
-        func_80016C48(1, 0x1C, arg0);
+        play_sound(1, 0x1C, arg0);
         parent = (struct X4_WeaponObj*)arg0->owner;
         arg0->unk15 = parent->unk15;
         arg0->unk5 = 3;
         arg0->unk50 = D_801F3A4C;
         arg0->unk16 = 0x12;
-        func_800179A4(arg0, 5);
+        set_animation(arg0, 5);
         a = F_90(parent).lo;
         b = F_90(parent).hi;
-        if (func_8002D2D4() & 4) {
+        if (random_byte() & 4) {
             if (arg0->unk15 != 0) {
-                a = (a * (func_8002D2D4() % 11)) / 10;
+                a = (a * (random_byte() % 11)) / 10;
             } else {
-                a = 0x140 - ((0x140 - a) * (func_8002D2D4() % 11)) / 10;
+                a = 0x140 - ((0x140 - a) * (random_byte() % 11)) / 10;
             }
             arg0->x_pos.i.hi = a + BG.x_pos.i.hi;
             arg0->y_pos.i.hi = BG.y_pos.i.hi - 0x20;
@@ -81,7 +81,7 @@ void func_801F15B0(struct X4_WeaponObj* arg0) {
             } else {
                 arg0->x_pos.i.hi = BG.x_pos.i.hi + 0x164;
             }
-            b = (b * (func_8002D2D4() % 11)) / 10;
+            b = (b * (random_byte() % 11)) / 10;
             arg0->y_pos.i.hi = b + BG.y_pos.i.hi;
         }
         arg0->x_vel.val = 0x54D9E;
@@ -94,5 +94,5 @@ void func_801F15B0(struct X4_WeaponObj* arg0) {
     arg0->state++;
 }
 #undef g_Player
-#undef func_800179A4
+#undef set_animation
 #undef func_8002CCB0

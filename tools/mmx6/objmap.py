@@ -15,6 +15,8 @@ Names: refs/leads/tweaks/ObjectTempTable_1.tsv r3 (temp#1 ids; not on `jr ra` st
   `jal`s, an x4 mains/ function), ObjectOriginTable.tsv record comments (WB_ORIGIN). Runtime: --captures = tools/mmx6/redux/objects.lua jsonl; a row is `proven`
   with >= 3 distinct frames for (table, id, fn) while one of the row's stages is loaded (the last set-* record)
   (origin: type -> obj inside the allocator's array).
+Boss ids (2.3/T9): BOSS narrows a workbook name to the stage rows whose member carries that boss's BossHealth.tsv
+  routine word, fixes the 0x800FA000 member, and writes the stage evidence (PlaythroughTable.tsv index) into `note`.
 Keys only: no table bytes are written. Stdlib only.
 """
 import argparse
@@ -45,6 +47,30 @@ WB_SRC = {**{k: "ObjectTempTable_1.tsv:r3c39" for k in range(0x30, 0x38)},
 # ObjectOriginTable.tsv comments on a type-0 record (rec.id = temp#1 index), stage = the list holding the record
 WB_ORIGIN = {(0x1C, "st4.0"): ("hidden_area_teleport", "ObjectOriginTable.tsv:r6 (rec 0x800F2B0C in D_8007349C[4][0])"),
              (0x04, "st1.0"): ("butterfly", "ObjectOriginTable.tsv:r25 (rec 0x800F6610 in D_8007349C[1][0])")}
+# 2.3/T9 stage evidence: stage index = PlaythroughTable.tsv 0x800CCEDC (hi byte stage, lo byte sub; our stN.s is
+# decimal: the capture logs title = 14 = 0x0E, cutscene = 11, intro = 0)
+STAGE_IX = {"st0.0": "Intro stage", "st1.0": "Commander Yammark", "st2.0": "Blizzard Wolfang", "st3.0": "Blaze Heatnix",
+            "st4.0": "Metal Shark Player", "st4.1": "Metal Shark Player B", "st5.0": "Ground Scaravich",
+            "st12.0": "Secret Lab 3 A (Boss Rush)", "st12.1": "Secret Lab 3 B (Sigma)", "st17.0": "Secret Lab 2 A",
+            "st18.0": "Secret Lab 2 B", "st19.0": "0x1300-0x1601, Maverick-named (hidden areas)"}
+# boss-id narrowing: (temp#1 id, first stage of the row) -> (name, member whose bytes carry the workbook's boss
+# routine word at its vram, BossHealth.tsv line); a workbook name on a row with no entry here keeps its lead as is
+BOSS = {(0x30, "st0.0"): ("intro_boss", "rock_02", "234 D-1000 routine 0x800EFF4C = D_800FB198[0] (state 0 of this "
+                          "handler), :35 HP li 0x20 @0x800EFFC8; developer 2026-10-26: D-1000"),
+        (0x31, "st1.0"): ("commander_yammark", "rock_03", "1346 Commander Yammark @0x800EF810"),
+        (0x31, "st12.0"): ("commander_yammark", "rock_33", "2986 Commander Yammark (Boss Rush) @0x800FA0D0"),
+        (0x32, "st5.0"): ("ground_scaravich", "rock_08", "1774 Ground Scaravich @0x800F2B78"),
+        (0x32, "st12.0"): ("ground_scaravich", "rock_37", "3414 Ground Scaravich (Boss Rush) @0x800FCBE0"),
+        (0x36, "st2.0"): ("blizzard_wolfang", "rock_04", "1574 Blizzard Wolfang @0x800F232C"),
+        (0x36, "st12.0"): ("blizzard_wolfang", "rock_34", "3214 Blizzard Wolfang (Boss Rush) @0x800FAE84"),
+        (0x35, "st19.0"): ("nightmare_zero", "rock_43", "2571 Nightmare Zero (Hidden Area) @0x800FA000"),
+        (0x37, "st0.0"): ("high_max_intro", "rock_02", "284 High Max (Intro Stage) @0x800F21B0"),
+        (0x37, "st17.0"): ("high_max_secret_lab2", "rock_23", "2224 High Max (Secret Lab 2-1) @0x800F0EB8; not the intro"),
+        (0x37, "st19.0"): ("high_max_hidden_area", "rock_44", "2761 High Max (Hidden Areas) @0x800FAAD8; not the intro"),
+        (0x3B, "st18.0"): ("gate", "rock_24", "2303 Gate (the boss, not a door) @0x800EF400"),
+        (0x3D, "st12.1"): ("sigma_1", "rock_15", "2404 Sigma @0x800ED124"),
+        (0x10, "st4.1"): ("nightmare_press", "rock_07", "1294 Nightmare Pressure @0x800EB80C"),
+        (0x19, "st3.0"): ("nightmare_snake", "rock_05", "366 Nightmare Snake @0x800ED610")}
 HEADER = "table\ttype_id\tfunction\tprog_vram\tentity_name\tname_source\tdatapoints\tdatapoint_log\ttier\tnote"
 
 
@@ -181,8 +207,18 @@ def main():
         named += ent != "-"
         proven += tier == "proven"
         note = ("empty stub (jr ra); " if stub else "") + f"stages {','.join(stages)}"
-        if prog == "ovl_800FA000":
+        boss = BOSS.get((k, stages[0])) if tname == "temp#1" and not stub else None
+        if prog == "ovl_800FA000" and not boss:
             note += "; target in the 0x800FA000 overlay (member not fixed by this stage)"
+        if boss:
+            if boss[0] != ent:
+                src = f"refs/leads/tweaks/BossHealth.tsv:{boss[2].split()[0]}; narrowed from {src}"
+            ent = boss[0]
+            if prog == "ovl_800FA000":
+                prog = boss[1]
+            st = "; ".join(f"{s} = {STAGE_IX[s]}" for s in stages if s in STAGE_IX)
+            note += (f"; stage evidence: {st} (PlaythroughTable.tsv 0x800CCEDC); member {boss[1]} carries "
+                     f"BossHealth.tsv:{boss[2]}")
         out.append("\t".join([tname, f"0x{k:02X}", fname or f"func_{v:08X}", f"{prog}:0x{v:08X}", ent, src,
                               str(dp), log if dp else "-", tier, note]))
     for typ in range(8):

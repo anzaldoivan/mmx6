@@ -3,7 +3,7 @@
 
 M2C_UNK func_80017A04();
 M2C_UNK func_80030ECC();
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 extern void (*D_800FCE10[])(void*);
 
 #define G(type, off) (*(type*)((u8*)self + (off)))
@@ -25,7 +25,7 @@ void func_800F7BF0(void* self) {
     func_80017A04(self);
     D_800FCE10[G(s8, 5)](self);
     G(u8, 0x88) = 0;
-    if (func_80031474(self) != 0) {
+    if (check_enemy_hits(self) != 0) {
         G(u8, 0x88) = s;
     }
     func_80030ECC(self);

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-struct X4_QuadObj* func_8002C7F0(void);
+struct X4_QuadObj* alloc_class6_slot(void);
 extern s8 D_800CCEFC;
 extern s8 D_800F1CCA[];
 
@@ -17,7 +17,7 @@ void func_800ED30C(struct X4_EngineObj* arg0) {
         arg0->unk8 = 0;
         arg0->unk2++;
         do {
-            q = func_8002C7F0();
+            q = alloc_class6_slot();
             if (q != 0) {
                 q->active = 3;
                 q->id = 1;

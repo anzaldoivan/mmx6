@@ -1,12 +1,12 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern u16 D_8008EC10;
-extern u16 D_80090D6A;
+extern u16 g_tilemap_layer_stride;
+extern u16 g_wide_mode;
 extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800A21B8[3][32][64];
-extern u8 D_800CD338;
-extern u8 D_800CD339;
+extern u8 g_tilemap_width;
+extern u8 g_tilemap_height;
 
 void func_800269F4(u8 arg0) {
     s32 px0;
@@ -44,7 +44,7 @@ void func_800269F4(u8 arg0) {
         y = (bg->y_pos.i.hi + parent->y_pos.i.hi) / 16;
     }
     n = 0x22;
-    if (D_80090D6A == 0) {
+    if (g_wide_mode == 0) {
         n = 0x16;
     }
     col0 = col = x / 16;
@@ -56,10 +56,10 @@ void func_800269F4(u8 arg0) {
     for (j = 0; j < 0x11; j++) {
         px = px0;
         rx = rx0;
-        if (col >= D_800CD338 || row >= D_800CD339) {
+        if (col >= g_tilemap_width || row >= g_tilemap_height) {
             t = 0;
         } else {
-            t = *(*tm + arg0 * D_8008EC10 + D_800CD338 * row + col);
+            t = *(*tm + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
         }
         tile = t;
         for (i = 0; i < n; i++) {
@@ -71,10 +71,10 @@ void func_800269F4(u8 arg0) {
             if (px == 16) {
                 col++;
                 px = 0;
-                if (col >= D_800CD338 || row >= D_800CD339) {
+                if (col >= g_tilemap_width || row >= g_tilemap_height) {
                     t = 0;
                 } else {
-                    t = *(*tm + arg0 * D_8008EC10 + D_800CD338 * row + col);
+                    t = *(*tm + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
                 }
                 tile = t;
             }

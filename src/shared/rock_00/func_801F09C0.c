@@ -4,7 +4,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 extern M2C_UNK g_Player;
 
 void func_801F09C0(void* arg0) {
@@ -26,5 +26,5 @@ void func_801F09C0(void* arg0) {
             M2C_FIELD(p, u8*, 7) -= 1;
         }
     }
-    ((M2C_UNK(*)())func_8002C9B0)(arg0, arg0);
+    ((M2C_UNK(*)())clear_object_slot)(arg0, arg0);
 }

@@ -1,6 +1,6 @@
 #include "common.h"
 
-void* func_8002C530();
+void* alloc_sprite_slot();
 extern s8 D_80073D30[][8];
 
 void func_8003DB44(s8 arg0) {
@@ -19,7 +19,7 @@ void func_8003DB44(s8 arg0) {
     b = 0x11;
     do {
         v = *tbl;
-        obj = func_8002C530();
+        obj = alloc_sprite_slot();
         if (obj != 0) {
             obj[0] = a;
             obj[1] = b;

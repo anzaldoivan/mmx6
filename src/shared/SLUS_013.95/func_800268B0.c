@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern u16 D_80090D6A;
+extern u16 g_wide_mode;
 extern struct X4_BackgroundObj background_objects[3];
 void func_80027D6C(u32, s32, s32);
 
@@ -14,7 +14,7 @@ void func_800268B0(s32 arg0) {
     s32 x;
 
     count = 0x40;
-    if (D_80090D6A == 0) {
+    if (g_wide_mode == 0) {
         count = 0x20;
     }
     for (i = 0; i < 3; i++) {

@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern u8 D_800F4BF0[];
 extern struct X4_Unk_unk68 D_800F5F04;
 
@@ -12,7 +12,7 @@ void func_800EC6C4(void* arg0) {
     // !FAKE: depin: dropping it breaks the match (18/27)
     register s32 v asm("$4");
 
-    func_800179A4(arg0, 3);
+    set_animation(arg0, 3);
     tbl = (s32)(D_800F4BF0 + 0x1324);
     v = *(s32*)((M2C_FIELD(arg0, u8*, 0x15) >> 4 & 4) + tbl);
     {

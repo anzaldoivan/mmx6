@@ -2,9 +2,9 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
-#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
+#define set_animation ((void (*)(void*, s32))set_animation)
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
 void func_8003CF24(s32, s32, s32);
@@ -54,12 +54,12 @@ void func_801F2F7C(struct X4_WeaponObj* arg0) {
     arg0->unk28.val = 0;
     arg0->y_vel.val = 0;
     arg0->unk2C = 0;
-    func_800179A4(arg0, 0);
+    set_animation(arg0, 0);
     func_801EE34C(arg0, &g_Player, arg0->id);
     arg0->state++;
     func_8002CCB0(arg0, 0x20, 0x14);
-    func_80016C48(1, 0xA, arg0);
+    play_sound(1, 0xA, arg0);
 }
 #undef g_Player
-#undef func_800179A4
+#undef set_animation
 #undef func_8002CCB0

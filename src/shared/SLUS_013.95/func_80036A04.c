@@ -9,7 +9,7 @@ s32 player_check_dash_jump_walk(struct X4_PlayerObj* self);
 s32 func_80039C9C(void*);
 s32 func_8003A3DC(void*);
 s32 func_8003A628(void*);
-s32 func_8003A870(void*);
+s32 check_ceiling_jump(void*);
 void func_8003ADB4(void* arg0);
 s32 func_8003F13C(void*);
 M2C_UNK func_8003F508(void*, M2C_UNK);
@@ -20,7 +20,7 @@ s32 func_801EC86C(void*);
 
 void func_80036A04(void* arg0) {
     if ((func_8003A628(arg0) == 0) && (func_8003A3DC(arg0) == 0) &&
-        (func_8003A870(arg0) == 0) && (func_8003F13C(arg0) == 0) &&
+        (check_ceiling_jump(arg0) == 0) && (func_8003F13C(arg0) == 0) &&
         ((M2C_FIELD(arg0, s8*, 2) == 0) ||
          ((func_801EC86C(arg0) == 0) && (func_801EBE04(arg0) == 0))) &&
         (player_check_dash_jump_walk(arg0) == 0) &&

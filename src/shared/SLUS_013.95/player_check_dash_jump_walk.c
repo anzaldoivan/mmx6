@@ -2,12 +2,12 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
-s32 func_80039EB0(struct X4_PlayerObj*);
+s32 check_dash_input(struct X4_PlayerObj*);
 M2C_UNK func_8003AF1C(void*);
 void func_8003A9C4(struct X4_PlayerObj*);
 
 s32 player_check_dash_jump_walk(struct X4_PlayerObj* self) {
-    if (func_80039EB0(self) != 0) {
+    if (check_dash_input(self) != 0) {
         func_8003A9C4(self);
         return 1;
     }

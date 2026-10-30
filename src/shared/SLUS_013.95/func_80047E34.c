@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 M2C_UNK move_object(void*);
 void set_velocity_from_angle(void*, s32);
@@ -55,7 +55,7 @@ void func_80047E34(u8* arg0) {
         anim = 6;
         F32(arg0, 0x24) = vy + (vy / 2) * D_80077B20[U8(arg0, 2) & 3];
     }
-    func_800179A4(arg0, anim);
+    set_animation(arg0, anim);
     move_object(arg0);
     U8(arg0, 4) = U8(arg0, 4) + 1;
     func_8002CCB0(arg0, 0x80000, 0x80000);

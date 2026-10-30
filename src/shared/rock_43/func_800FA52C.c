@@ -4,12 +4,12 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04(void*);
-M2C_UNK func_80021760(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s32 D_800FDE30;
 
 void func_800FA52C(struct X4_MainObj* self) {
@@ -30,7 +30,7 @@ void func_800FA52C(struct X4_MainObj* self) {
         func_8002D230(self);
         func_8002CCB0(self, 0x40, 0x40);
     } else {
-        func_800179A4(self, 0);
+        set_animation(self, 0);
         {
             // !FAKE: depin: dropping it breaks the match (36/73)
             register s32 c asm("$2") = M2C_FIELD(self, u16*, 0x88);
@@ -39,8 +39,8 @@ void func_800FA52C(struct X4_MainObj* self) {
         {
             s32 k = self->unk7C;
             if (k == 0x6E) {
-                u8* e = (u8*)&D_800CCED0;
-                func_80021760(0, 0xFF, M2C_FIELD(e, s8*, 0x2E));
+                u8* e = (u8*)&g_playthrough_state;
+                open_text_box(0, 0xFF, M2C_FIELD(e, s8*, 0x2E));
                 M2C_FIELD(e, s8*, 0x2E) = 1;
                 self->unk7C = 0;
                 self->unk6++;

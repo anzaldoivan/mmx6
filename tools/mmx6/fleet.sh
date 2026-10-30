@@ -5,14 +5,21 @@
 # Before it `C MATCHED <c> of <F> functions (<e> empty-body; banked <c-e>)` (F, e from build/corpus/functions.jsonl).
 # Last line, always: `FLEET <ok> of <n>`; rc 0 only if ok = n, n = k, extract and health rc 0, the corpus is
 # present and its c + c-empty = c.
+# `fleet.sh --quick` (`make fleet-quick`): the same, but health is cut to boundcheck.py + `make -s th-corpus th-ledger
+# th-cookbook`; last line `FLEET <ok> of <n> (quick)`. Quick is never the gate (contract.sh matches `^FLEET .* of N$`).
 set -u
+quick=; [ "${1:-}" = "--quick" ] && quick=1
 cd "$(dirname "$0")/../.."
 MK=(${MAKE:-make} --no-print-directory)
 
 rm -rf build asm expected
 "${MK[@]}" extract; rc_extract=$?
 "${MK[@]}" -j8 -k split build
-"${MK[@]}" health; rc_health=$?
+if [ -n "$quick" ]; then
+  ${PYTHON:-python3} tools/mmx6/boundcheck.py && "${MK[@]}" -s th-corpus th-ledger th-cookbook; rc_health=$?
+else
+  "${MK[@]}" health; rc_health=$?
+fi
 
 ok=0 n=0
 for y in config/*.yaml; do
@@ -45,5 +52,5 @@ else
   echo "fleet: no $CORPUS (corpus.py --all)"; rc=1
   echo "C MATCHED $c"
 fi
-echo "FLEET $ok of $n"
+echo "FLEET $ok of $n${quick:+ (quick)}"
 exit "$rc"

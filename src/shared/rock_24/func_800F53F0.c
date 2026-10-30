@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 extern M2C_UNK D_800F77EC;
 
@@ -18,6 +18,6 @@ void func_800F53F0(void* arg0) {
         }
     } else {
         D_800F77EC -= 1;
-        ((void (*)())func_8002C9B0)();
+        ((void (*)())clear_object_slot)();
     }
 }

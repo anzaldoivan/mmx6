@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20_800EFE48 (*(s32**)0x1F800020)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 extern u32* D_80095098;
 extern u8 D_800970B4;
@@ -71,7 +71,7 @@ void func_800EFE48(void* self) {
         D_800FCFF8 = &D_800FC2BC;
         D_800FCFFC = &D_800FC2B8;
     }
-    func_800179A4(self, 0);
+    set_animation(self, 0);
     {
         // !FAKE: depin: dropping it breaks the match (134/137)
         register s32 t asm("$2") = F(u8, 2) & 0xF;

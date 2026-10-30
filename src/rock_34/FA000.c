@@ -52,7 +52,9 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FB62C);
 
 INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FB81C);
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FB9E4);
+// clang-format off
+INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", update_blizzard_wolfang_boss_rush);
+// clang-format on
 
 #define func_80041AB8 func_800FBA40
 #define D_80075FD8 D_800FEC48
@@ -323,10 +325,10 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FD3F0);
 #include "../shared/rock_34/func_800FD468.c"
 
 #define func_800F4948 func_800FD4A0
-#define D_800CCED0 D_800CCED0
+#define g_playthrough_state g_playthrough_state
 #include "../shared/rock_04/func_800F4948.c"
 #undef func_800F4948
-#undef D_800CCED0
+#undef g_playthrough_state
 
 #define func_800F49E4 func_800FD53C
 #include "../shared/rock_04/func_800F49E4.c"
@@ -337,10 +339,10 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FD3F0);
 #undef func_800F4AB4
 
 #define func_800F4B2C func_800FD684
-#define D_800CCED0 D_800CCED0
+#define g_playthrough_state g_playthrough_state
 #include "../shared/rock_04/func_800F4B2C.c"
 #undef func_800F4B2C
-#undef D_800CCED0
+#undef g_playthrough_state
 
 #define func_800F4BA8 func_800FD700
 #include "../shared/rock_04/func_800F4BA8.c"

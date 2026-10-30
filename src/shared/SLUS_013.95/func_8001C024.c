@@ -3,9 +3,9 @@
 #define M2C_UNK s32
 
 s32 OpenEvent(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK EnableEvent(s32);                            /* extern */
-M2C_UNK EnterCriticalSection();                               /* extern */
-M2C_UNK ExitCriticalSection();                               /* extern */
+M2C_UNK EnableEvent(s32);                          /* extern */
+M2C_UNK EnterCriticalSection();                    /* extern */
+M2C_UNK ExitCriticalSection();                     /* extern */
 extern s32 D_800E2F70;
 extern s32 D_800E2F74;
 extern s32 D_800E2F78;

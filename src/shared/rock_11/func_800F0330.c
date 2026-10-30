@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179D0(void*, M2C_UNK, s8);
+M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 void func_800F40F4(u8* arg0, u8 arg1, s16 arg2, s16 arg3);
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_800FCB9C;
@@ -26,7 +26,7 @@ void func_800F0330(void* arg0) {
         0x38;
     F(s16, 0xA) = x;
     F(s16, 0xE) = y;
-    ((void (*)(void*, s32, s16))func_800179D0)(arg0, 0x20, F(s16, 0x88) / 3);
+    ((void (*)(void*, s32, s16))set_animation_frame)(arg0, 0x20, F(s16, 0x88) / 3);
     j = F(s16, 0x88);
     for (i = 0; i < 5; i++) {
         j -= 2;

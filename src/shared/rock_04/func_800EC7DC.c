@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void* func_8002BFD0(void*, s32);
-s32 func_8002D2D4();
+s32 random_byte();
 extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_800CCF38;
@@ -23,7 +23,7 @@ void func_800EC7DC(struct X4_PlayerObj* arg0) {
     if (D_800CCF38 >= 2) {
         m = 0x40;
     }
-    idx = (u32)func_8002D2D4() % 6;
+    idx = (u32)random_byte() % 6;
     if (arg0->x_pos.i.hi < 0x14C0) {
         if ((M2C_FIELD(arg0, u8*, 0x84) % m) == 0 && arg0->unk7 < 0x12) {
             y = idx * 0x30 + 0x1398;

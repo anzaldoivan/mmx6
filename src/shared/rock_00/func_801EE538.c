@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 void func_801EE638(void* arg0);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-s32 func_8002D2D4();
+s32 random_byte();
 
 void func_801EE538(struct X4_WeaponObj* arg0) {
     arg0->unk50 = 0;
@@ -13,7 +13,7 @@ void func_801EE538(struct X4_WeaponObj* arg0) {
         return;
     }
     arg0->x_vel.val = -arg0->x_vel.val;
-    if (func_8002D2D4() & 1) {
+    if (random_byte() & 1) {
         arg0->y_vel.val = 0x40CCB;
     } else {
         arg0->y_vel.val = -0x40CCB;

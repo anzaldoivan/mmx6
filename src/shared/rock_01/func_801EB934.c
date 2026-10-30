@@ -1,9 +1,9 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
-s32 func_8002D2D4();
+s32 random_byte();
 s32 func_8003A5D8();
 M2C_UNK func_8003B7B4(void*);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
@@ -21,8 +21,8 @@ static inline s32 try_fall_801EB934(s8* p) {
         return 0;
     }
     func_8003BA04(p, 0x5D);
-    func_80016C48(1, 7, p);
-    if (func_8002D2D4() & 4) {
+    play_sound(1, 7, p);
+    if (random_byte() & 4) {
         func_8003CFE0(p, 8);
     }
     p[0x84] = 0;

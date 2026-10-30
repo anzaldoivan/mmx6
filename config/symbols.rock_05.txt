@@ -80,8 +80,8 @@ func_800EBF1C = 0x800EBF1C; // type:func size:0x22C
 func_800EC148 = 0x800EC148; // type:func size:0x188
 // basis: post-return 0x800ec2c8
 func_800EC2D0 = 0x800EC2D0; // type:func size:0x264
-// basis: post-return 0x800ec52c
-func_800EC534 = 0x800EC534; // type:func size:0x4C
+// basis: post-return 0x800ec52c; name: community refs/leads/tweaks/BossHealth.tsv:366 word 0x800ED610 match; code:src/rock_05/E9860.c:100 via=D_800F3F1C
+update_nightmare_snake = 0x800EC534; // type:func size:0x4C
 // basis: post-return 0x800ec578
 func_800EC580 = 0x800EC580; // type:func size:0xB0
 // basis: post-return 0x800ec628

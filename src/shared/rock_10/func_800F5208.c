@@ -2,9 +2,9 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_8002D2D4();
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
+s32 random_byte();
 extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern M2C_UNK D_800FC734;
@@ -32,12 +32,12 @@ void func_800F5208(struct X4_AnimatedObj* self) {
                                (x - background_objects[0].x_pos.i.hi);
         }
         self->y_pos.i.hi = background_objects[0].y_pos.i.hi + 0x30;
-        if (func_8002D2D4() & 1) {
+        if (random_byte() & 1) {
             self->y_pos.i.hi = background_objects[0].y_pos.i.hi + 0x30;
         } else {
             self->y_pos.i.hi = background_objects[0].y_pos.i.hi + 0xA0;
         }
-        func_800179A4(self, 0xE);
+        set_animation(self, 0xE);
         {
             // !FAKE: depin: dropping it breaks the match (88/92)
             register s32* a asm("$2") = &D_800FC734;
@@ -49,6 +49,6 @@ void func_800F5208(struct X4_AnimatedObj* self) {
         self->unk7 = 3;
         self->unk6++;
     } else if (mode == 2) {
-        func_80016C48(2, 0x59, self);
+        play_sound(2, 0x59, self);
     }
 }

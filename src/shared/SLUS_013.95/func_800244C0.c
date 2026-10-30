@@ -8,7 +8,7 @@ void func_80024CC0(s32 arg0, u8 arg1);
 void func_80024F90(void* arg0, s32 arg1);
 extern M2C_UNK g_Player;
 extern s32 D_80097420;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 #define B8(p, o) (*(s8*)((u8*)(p) + (o)))
 #define U8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -16,7 +16,7 @@ extern struct X4_EngineObj D_800CCED0;
 
 void func_800244C0(void) {
     u8* p = (u8*)&g_Player;
-    struct X4_EngineObj* e = &D_800CCED0;
+    struct X4_EngineObj* e = &g_playthrough_state;
     s32 v;
     s32 q;
     s32 a0;
@@ -39,7 +39,7 @@ void func_800244C0(void) {
             }
         }
         if (e->enable_boss != 0) {
-            struct X4_EngineObj* e2 = &D_800CCED0;
+            struct X4_EngineObj* e2 = &g_playthrough_state;
             s16 n = U8(e2, 0x8F) + 1;
             v = n;
             q = v / 10;

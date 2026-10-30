@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 
 void func_80017A04(struct X4_AnimatedObj*);
-M2C_UNK func_8003B114(s32);
+M2C_UNK end_dash(s32);
 
 void func_801EBE28(s8* arg0) {
     s32 var_a0;
@@ -17,6 +17,6 @@ void func_801EBE28(s8* arg0) {
         var_a0 = 1;
     }
     if (var_a0 != 0) {
-        func_8003B114((s32)arg0);
+        end_dash((s32)arg0);
     }
 }

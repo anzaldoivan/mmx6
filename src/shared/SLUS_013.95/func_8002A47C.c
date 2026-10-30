@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 extern u8* D_800733C4[][2];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 s32 func_8002A47C(s32 arg0) {
     u8 id;
@@ -12,7 +12,8 @@ s32 func_8002A47C(s32 arg0) {
     id = arg0;
     i = 0;
     while (1) {
-        c = D_800733C4[D_800CCED0.stage][D_800CCED0.substage][i];
+        c = D_800733C4[g_playthrough_state.stage][g_playthrough_state.substage]
+                      [i];
         if (c == 0xFF || c == id) {
             return i;
         }

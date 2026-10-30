@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
+M2C_UNK load_palette(M2C_UNK, M2C_UNK*, M2C_UNK);
 M2C_UNK func_8002D230();
 extern s8 D_800CCEEE;
 extern u16 D_800E4450[];
@@ -42,7 +42,7 @@ void func_80048380(void* arg0) {
         F16(arg0, 0x42) = 0x7801;
         if (F8(arg0, 2) != 0) {
             F32(arg0, 0x20) = 0xFFF00000;
-            func_8002B3D4(0x10, (s32*)D_800E4450, 1);
+            load_palette(0x10, (s32*)D_800E4450, 1);
         } else {
             F32(arg0, 0x20) = 0x100000;
         }

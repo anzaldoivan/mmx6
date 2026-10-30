@@ -5,7 +5,7 @@
 M2C_UNK func_800133A0();
 void func_800139F4(s32);
 void func_80016B3C();
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 void func_8001D218();
 void func_8001D25C(void);
 void func_8001F5A0(void*, s32);
@@ -27,7 +27,7 @@ void func_8001FD10(u8* arg0) {
     if (*(s32*)(arg0 + 0x34) == 0) {
         func_8001F5A0(g + 7, 1);
         if (D_800C4570 & 0x40) {
-            func_80016C48(0, 0x22, 0);
+            play_sound(0, 0x22, 0);
             if (g[7] == 0) {
                 func_800139F4(0x20);
                 v = 2;
@@ -41,7 +41,7 @@ void func_8001FD10(u8* arg0) {
     } else {
         func_8001F5A0(g + 7, 1);
         if (D_800C4570 & 0x40) {
-            func_80016C48(0, 0x22, 0);
+            play_sound(0, 0x22, 0);
             *(s32*)(arg0 + 0x34) = 0;
             if (g[7] == 0) {
                 arg0[7] = 0;

@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_8002CB50();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002F288(M2C_UNK*);
@@ -60,7 +60,7 @@ void func_800EBF18(s8* arg0) {
     if (arg0[2] == 0xA) {
         if (s2[7] == 4) {
             func_800477E4(2, &D_800F6B8C, arg0);
-            func_8002C9B0(arg0);
+            clear_object_slot(arg0);
             return;
         }
         if (arg0[0x72] & 4) {

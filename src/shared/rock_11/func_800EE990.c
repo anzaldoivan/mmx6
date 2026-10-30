@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_80012D9C(M2C_UNK);
-s32 func_8002D2D4();
+s32 random_byte();
 void func_800F1FBC();
 void func_800F3EC4(void* arg0, u8 arg1, s16 arg2, s16 arg3);
 void func_800F4664(s16 arg0, s16 arg1);
@@ -15,20 +15,20 @@ void func_800EE990(u8* self) {
     s32 y;
 
     if (D_80097420 & 3) {
-        x = (s16)(func_8002D2D4() % 150);
-        y = (s16)(func_8002D2D4() % 120);
-        if (func_8002D2D4() & 1) {
+        x = (s16)(random_byte() % 150);
+        y = (s16)(random_byte() % 120);
+        if (random_byte() & 1) {
             x = (s16)-x;
         }
-        if (func_8002D2D4() & 1) {
+        if (random_byte() & 1) {
             y = (s16)-y;
         }
         func_800F4664(x + (background_objects[0].x_pos.u.hi + 0x96),
                       y + (background_objects[0].y_pos.u.hi + 0x78));
     }
     if (D_80097420 & 7) {
-        x = (s16)(func_8002D2D4() % 150);
-        if (func_8002D2D4() & 1) {
+        x = (s16)(random_byte() % 150);
+        if (random_byte() & 1) {
             x = (s16)-x;
         }
         func_800F3EC4(self, 0x60, x + (background_objects[0].x_pos.u.hi + 0x96),

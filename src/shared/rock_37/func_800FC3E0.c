@@ -4,7 +4,7 @@
 #define OUB(p, o) (*(u8*)((u8*)(p) + (o)))
 #define OH(p, o) (*(u16*)((u8*)(p) + (o)))
 
-void func_800179A4(void*, M2C_UNK);
+void set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 extern u8 D_800CCF5F;
 
@@ -23,7 +23,7 @@ void func_800FC3E0(void* arg0) {
         } else {
             OUB(arg0, 0x89) = 2;
         }
-        func_800179A4(arg0, 2);
+        set_animation(arg0, 2);
         t = OUB(arg0, 6) + 1;
         OUB(arg0, 6) = t;
     }

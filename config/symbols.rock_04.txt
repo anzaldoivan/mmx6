@@ -4,5 +4,9 @@
 D_800E9860 = 0x800E9860;
 // basis: first code word after header (+0x2d0)
 func_800E9B30 = 0x800E9B30; // type:func size:0x154
+// basis: name: community tweaks-index.tsv:168
+init_wolfang_ice_spike = 0x800F14B0; // type:func
+// basis: name: community refs/leads/tweaks/BossHealth.tsv:1574 word 0x800F232C match; code:src/rock_04/E9860.c:307 via=func_800F2E8C
+update_blizzard_wolfang = 0x800F2E8C; // type:func
 // basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T5.c3; was D_800F5B50)
 func_800F5B50 = 0x800F5B50;

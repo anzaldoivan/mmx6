@@ -3,9 +3,9 @@
 
 void func_80025F34();
 void func_800280F4(void);
-void func_80029B8C(void);
+void init_checkpoint_positions(void);
 s32 func_8002B2F8(s32);
-M2C_UNK func_8002B838();
+M2C_UNK reset_level();
 void func_8002C2B8();
 extern s8 D_80090D56;
 extern s8 D_8009742C;
@@ -18,9 +18,9 @@ extern u8 func_800FA468[];
 void func_800FA0E8(u8* arg0) {
     s32 i;
 
-    func_8002B838();
+    reset_level();
     func_8002C2B8();
-    func_80029B8C();
+    init_checkpoint_positions();
     func_800280F4();
     func_80025F34();
     {

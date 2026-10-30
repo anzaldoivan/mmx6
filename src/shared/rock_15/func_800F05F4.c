@@ -2,12 +2,12 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80021760(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
 extern s16 D_80090D5C;
 extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_80097430;
 extern s32 D_800C1220[];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s16 D_800CF854;
 
 void func_800F05F4(u8* arg0) {
@@ -42,8 +42,8 @@ void func_800F05F4(u8* arg0) {
             *(s16*)(arg0 + 0x7C) = 0x78;
             *(s16*)(arg0 + 0x7E) = 0;
             arg0[6]++;
-            r = (u8*)&D_800CCED0;
-            ((void (*)(s32, s32, s32))func_80021760)(1, 0xFF, r[0x2F]);
+            r = (u8*)&g_playthrough_state;
+            ((void (*)(s32, s32, s32))open_text_box)(1, 0xFF, r[0x2F]);
             r[0x2F] = 1;
         }
     }

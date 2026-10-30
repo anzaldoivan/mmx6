@@ -4,7 +4,7 @@
 extern u16 D_8006D600[];
 extern s32 D_80070CC4[];
 extern s8 D_800CC869;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 #define B(p, o) (*(u8*)((u8*)(p) + (o)))
 #define H(p, o) (*(u16*)((u8*)(p) + (o)))
@@ -14,7 +14,7 @@ void func_8001BD40(void) {
     u8 i;
     u8 j;
     u8* a = (u8*)D_80070CC4;
-    u8* e = (u8*)&D_800CCED0;
+    u8* e = (u8*)&g_playthrough_state;
 
     B(a, 0) = 1;
     B(a, 1) = B(e, 0x66);

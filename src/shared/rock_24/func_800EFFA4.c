@@ -4,7 +4,7 @@
 #define F(expr, type, offset) (*(type*)((u8*)(expr) + (offset)))
 #define SPAD_20 (*(u8**)0x1F800020)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 extern s16 D_800970AA;
 
@@ -30,7 +30,7 @@ void func_800EFFA4(void* self) {
     a = func_8002A47C(F(self, s8, 0x1));
     base = SPAD_20;
     F(self, u8*, 0x3C) = base + *(s32*)(base + a * 4);
-    func_800179A4(self, 3);
+    set_animation(self, 3);
     {
         // !FAKE: byte counter read into the first return register
         register s32 t asm("$2") = F(self, u8, 0x6);

@@ -14,7 +14,7 @@ INCLUDE_ASM("asm/rock_01/nonmatchings/1EA000", D_801EA000);
 
 #include "../shared/rock_01/func_801EA560.c"
 
-#include "../shared/rock_01/func_801EA680.c"
+#include "../shared/rock_01/start_rekkoha.c"
 
 #include "../shared/rock_01/func_801EA7A4.c"
 
@@ -80,7 +80,7 @@ INCLUDE_ASM("asm/rock_01/nonmatchings/1EA000", func_801EB5F8);
 
 #include "../shared/rock_01/func_801ECA50.c"
 
-#include "../shared/rock_01/func_801ECAF0.c"
+#include "../shared/rock_01/attack_hyoroga_from_ceiling.c"
 
 #include "../shared/rock_01/func_801ECBE8.c"
 

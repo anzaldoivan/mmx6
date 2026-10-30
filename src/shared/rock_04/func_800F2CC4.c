@@ -5,7 +5,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
 extern s32 D_800F76A0;
@@ -33,7 +33,7 @@ void func_800F2CC4(void* arg0) {
         return;
     }
     if (M2C_FIELD(arg0, s8*, 0x45) != 0) {
-        func_80016C48(2, 0x16, arg0);
+        play_sound(2, 0x16, arg0);
         M2C_FIELD(arg0, void**, 0x54) = &D_800F76A0;
         M2C_FIELD(arg0, void**, 0x50) = D_800F76A4;
         M2C_FIELD(arg0, void**, 0x68) = D_800F76A8;

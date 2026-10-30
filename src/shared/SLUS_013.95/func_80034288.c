@@ -2,11 +2,11 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 
 extern struct X4_PlayerObj g_Player;
 extern u16 D_800C4570;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_80034288(struct X4_PlayerObj* self) {
     s8 old;
@@ -22,14 +22,15 @@ void func_80034288(struct X4_PlayerObj* self) {
         self->unk5 = 0;
         break;
     case 0x40: {
-        s8* e = (s8*)&D_800CCED0;
+        s8* e = (s8*)&g_playthrough_state;
         if (e[0x464] != 0) {
             return;
         }
         switch (((u8*)self)[0x2D]) {
         case 4: {
             struct X4_PlayerObj* pl = &g_Player;
-            if ((pl->hp & 0x7F) < ((s8*)&D_800CCED0 + pl->unk2)[0x5B]) {
+            if ((pl->hp & 0x7F) <
+                ((s8*)&g_playthrough_state + pl->unk2)[0x5B]) {
                 self->unk5 = 9;
             }
             break;
@@ -52,10 +53,10 @@ void func_80034288(struct X4_PlayerObj* self) {
         }
         default: {
             {
-                s8* e2 = (s8*)&D_800CCED0;
+                s8* e2 = (s8*)&g_playthrough_state;
                 e2[0x464] = 1;
             }
-            func_80016C48(0, 0x22, 0);
+            play_sound(0, 0x22, 0);
             if (((u8*)self)[0x2D] == 6) {
                 u8* pl = (u8*)&g_Player;
                 *(s16*)(pl + 0x148) = 0x1E0;
@@ -120,6 +121,6 @@ void func_80034288(struct X4_PlayerObj* self) {
         break;
     }
     if (self->bg_offset != old) {
-        func_80016C48(0, 0xC, 0);
+        play_sound(0, 0xC, 0);
     }
 }

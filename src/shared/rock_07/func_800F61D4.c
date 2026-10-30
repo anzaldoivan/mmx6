@@ -1,14 +1,14 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern s32 D_800F90C0;
 extern s32 D_800F90C4;
 
 #define F(T, p, o) (*(T*)((u8*)(p) + (o)))
 
 void func_800F61D4(void* arg0) {
-    func_800179A4(arg0, 0x13);
+    set_animation(arg0, 0x13);
     {
         // !FAKE: depin: dropping it breaks the match (15/19)
         register s32* a asm("$2") = &D_800F90C0;

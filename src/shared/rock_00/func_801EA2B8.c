@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 M2C_UNK player_spawn_weapon(M2C_UNK, s8, M2C_UNK, void*);
 struct X4_VisualObj* func_8002C398(void);
@@ -32,7 +32,7 @@ void func_801EA2B8(u8* arg0) {
     u8* obj;
 
     if (--arg0[0xE1] == 0) {
-        arg0[0xE1] = (func_8002D2D4() % 3) + 3;
+        arg0[0xE1] = (random_byte() % 3) + 3;
         player_spawn_weapon(1, 0x31, D_801F4DD8, 0);
         D_801F4DD8 ^= 1;
     }

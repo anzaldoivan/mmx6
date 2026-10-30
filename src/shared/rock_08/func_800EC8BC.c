@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 M2C_UNK func_80017A04();
 
 extern s8 D_800970A2;
@@ -27,18 +27,18 @@ void func_800EC8BC(struct X4_PlayerObj* self) {
         if (p[0x5C] < 3) {
             if (self->unk2 == 0xE) {
             f:
-                ((void (*)(void*, s32))func_800179A4)(self, 0xF);
+                ((void (*)(void*, s32))set_animation)(self, 0xF);
                 M2C_FIELD(self, u8*, 0x86) = 0;
             } else {
             e:
-                func_800179A4(self, 0xE);
+                set_animation(self, 0xE);
                 M2C_FIELD(self, u8*, 0x86) = 0;
             }
         } else {
             if (self->unk2 == 0xE) {
-                func_800179A4(self, 0xA);
+                set_animation(self, 0xA);
             } else {
-                func_800179A4(self, 9);
+                set_animation(self, 9);
             }
             M2C_FIELD(self, u8*, 0x86) = 1;
         }

@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void func_80017A04(struct X4_AnimatedObj*);
 s32 func_8002CBFC(struct X4_BaseObj*, s32, s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
@@ -22,7 +22,7 @@ void func_801F0870(void* arg0) {
         if ((M2C_FIELD(arg0, u8*, 0x70) != 0) ||
             (((void (*)(void*))func_8002EE10)(arg0),
              ((t = M2C_FIELD(arg0, u8*, 0x70)) != 0))) {
-            ((void (*)(void*, s32))func_800179A4)(arg0, 1);
+            ((void (*)(void*, s32))set_animation)(arg0, 1);
             M2C_FIELD(arg0, s32*, 0x50) = 0;
             M2C_FIELD(arg0, s32*, 0x68) = 0;
             M2C_FIELD(arg0, u8*, 4) = M2C_FIELD(arg0, u8*, 4) + 1;

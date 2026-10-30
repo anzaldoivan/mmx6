@@ -2,8 +2,8 @@
 
 #define M2C_UNK s32
 
-M2C_UNK func_8002C9B0(); /* extern */
+M2C_UNK clear_object_slot(); /* extern */
 
 void func_80048248(void) {
-    func_8002C9B0();
+    clear_object_slot();
 }

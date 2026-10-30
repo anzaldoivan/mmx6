@@ -1,6 +1,6 @@
 #include "common.h"
 #include "mmx6/x4.h"
-struct X4_EffectObj* func_8002C3F8(void);
+struct X4_EffectObj* alloc_class3_slot(void);
 extern struct X4_BackgroundObj background_objects[3];
 
 #define F8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -16,7 +16,7 @@ void func_800EA1CC(void* arg0) {
     register s32 w asm("$2");
 
     if (--F16(arg0, 0x7C) == 0) {
-        obj = func_8002C3F8();
+        obj = alloc_class3_slot();
         if (obj != 0) {
             F8(obj, 0) = 1;
             F8(obj, 1) = 0x1A;

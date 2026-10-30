@@ -4,9 +4,9 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 extern M2C_UNK D_8007433C;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_800FA864(void* arg0) {
     void* e;
@@ -17,11 +17,11 @@ void func_800FA864(void* arg0) {
         M2C_FIELD(arg0, u16*, 0xE) += 2;
     }
     if (M2C_FIELD(arg0, s32*, 0x84) != 0) {
-        struct X4_EngineObj* g = &D_800CCED0;
+        struct X4_EngineObj* g = &g_playthrough_state;
         u8 n = M2C_FIELD(g, u8*, 0x33);
         if (M2C_FIELD(g, s8*, 0x33) < 3) {
             M2C_FIELD(g, u8*, 0x33) = n + 1;
-            e = func_8002BBF4(n);
+            e = enemy_slot_alloc(n);
             if (e != 0) {
                 M2C_FIELD(e, u8*, 0) = 0x41;
                 M2C_FIELD(e, u8*, 1) = 0xF;

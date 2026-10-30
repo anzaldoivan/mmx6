@@ -3,7 +3,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void func_8003E9E8();
-void func_8003F740(void*, s32);
+void use_weapon_energy(void*, s32);
 void func_8003F954(void*);
 extern u8 D_80073EFC[][2];
 extern void (*D_80073F74[])(void*);
@@ -110,7 +110,7 @@ void func_8003E614(void* arg0) {
                     }
                 }
                 if (var_a0 != 0) {
-                    func_8003F740(arg0, var_s0);
+                    use_weapon_energy(arg0, var_s0);
                 }
                 if ((M2C_FIELD(arg0, s8*, 0x93) == 0) &&
                     (M2C_FIELD(arg0, s8*, 0xA4) == 0)) {

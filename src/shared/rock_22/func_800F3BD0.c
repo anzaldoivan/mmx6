@@ -3,13 +3,13 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 extern u8 D_800FC6A4[4];
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 M2C_UNK func_80017A04();
 
 void func_800F3BD0(struct X4_MainObj* self) {
     if (self->unk6 == 0) {
         self->unk6 = 1;
-        func_800179A4(self,
+        set_animation(self,
                       D_800FC6A4[SP_CUR_MAIN_OBJ->ext.main_19.animation_index]);
         return;
     }
@@ -17,7 +17,7 @@ void func_800F3BD0(struct X4_MainObj* self) {
     if (self->animation_step.fields.relative_step < 0) {
         self->unk5 = 2;
         self->unk6 = 0;
-        SP_CUR_MAIN_OBJ->ext.main_19.unk80 = func_8002D2D4() & 1;
+        SP_CUR_MAIN_OBJ->ext.main_19.unk80 = random_byte() & 1;
     }
 
     func_80017A04(ANIMATED_OBJECT(self));

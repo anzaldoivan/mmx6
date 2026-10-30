@@ -6,7 +6,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD4C (*(u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
@@ -20,7 +20,7 @@ void func_800F2BE4(void* arg0) {
     M2C_FIELD(arg0, s32*, 0x54) = 0;
     M2C_FIELD(arg0, s32*, 0x50) = 0;
     if (g_Player.unk5 == 0x14) {
-        func_800179A4(arg0, 2);
+        set_animation(arg0, 2);
         M2C_FIELD(arg0, u8*, 0x15) = 0;
         if (background_objects[0].unk1E + 0x50 < g_Player.x_pos.i.hi) {
             func_8003D308(0x1D, 0);

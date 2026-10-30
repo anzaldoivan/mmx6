@@ -4,8 +4,8 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void func_80012D9C(s32);
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
-s32 func_8002D2D4();
+s32 play_sound(s32 a0, s32 a1, void* arg2);
+s32 random_byte();
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 M2C_UNK func_8003CCBC();
 M2C_UNK func_8003CDBC();
@@ -22,8 +22,8 @@ void func_8003963C(void* arg0) {
     ((void (*)())func_8003CCBC)();
     M2C_FIELD(arg0, u8*, 0x5C) = M2C_FIELD(arg0, u8*, 0x5C) & 0x7F;
     func_80012D9C(1);
-    func_80016C48(3, (func_8002D2D4() & 1) ^ 1, arg0);
-    func_80016C48(3, 0x11, arg0);
+    play_sound(3, (random_byte() & 1) ^ 1, arg0);
+    play_sound(3, 0x11, arg0);
     if (M2C_FIELD(arg0, s8*, 5) != 0x11) {
         s32 one = 1;
         M2C_FIELD(arg0, s8*, 0xA4) = one;

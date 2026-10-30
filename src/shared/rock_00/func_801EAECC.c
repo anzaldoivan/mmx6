@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 M2C_UNK player_spawn_visual(M2C_UNK, M2C_UNK, s8, M2C_UNK);
 
@@ -24,7 +24,7 @@ void func_801EAECC(u8* arg0) {
             return;
         }
     }
-    func_80016C48(1, 5, arg0);
+    play_sound(1, 5, arg0);
     flags = M2C_FIELD(arg0, u16*, 0x7C);
     if (flags & 4) {
         func_8003BA04(arg0, 0xBE);

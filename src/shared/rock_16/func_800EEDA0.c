@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179D0(void*, M2C_UNK, s8);
+M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 M2C_UNK func_8002CB50();
 s32 func_800EC1FC(s32);
 extern struct X4_BackgroundObj background_objects[3];
@@ -14,11 +14,11 @@ void func_800EEDA0(void* arg0) {
 
     t = *(s8*)((u8*)arg0 + 2);
     if (t >= 0x18) {
-        func_800179D0(arg0, 0, t);
+        set_animation_frame(arg0, 0, t);
     } else if (func_800EC1FC(t) != 0) {
-        func_800179D0(arg0, 1, *(s8*)((u8*)arg0 + 2));
+        set_animation_frame(arg0, 1, *(s8*)((u8*)arg0 + 2));
     } else {
-        func_800179D0(arg0, 0, *(s8*)((u8*)arg0 + 2));
+        set_animation_frame(arg0, 0, *(s8*)((u8*)arg0 + 2));
     }
     v = D_800F12A8[*(s8*)((u8*)arg0 + 2)][0];
     *(u16*)((u8*)arg0 + 0xA) = v;

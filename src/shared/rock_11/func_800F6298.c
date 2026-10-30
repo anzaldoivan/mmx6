@@ -4,10 +4,10 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_800FA72C(M2C_UNK, void*);
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s8* D_800FDA74;
 extern u32 D_800FDA84;
 
@@ -24,7 +24,7 @@ void func_800F6298(void* arg0) {
             func_8002CCB0(arg0, 0x60, 0x60);
         }
     } else {
-        eng = &D_800CCED0;
+        eng = &g_playthrough_state;
         M2C_FIELD(arg0, s32*, 0x80) = 0;
         M2C_FIELD(arg0, s32*, 0x84) = 0;
         M2C_FIELD(arg0, s32*, 0x88) = 0;
@@ -44,6 +44,6 @@ void func_800F6298(void* arg0) {
             M2C_FIELD(eng, u8*, eng->checkpoint + 0x2C) = 1;
             eng->checkpoint += 8;
         }
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
     }
 }

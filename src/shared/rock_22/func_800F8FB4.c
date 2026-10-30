@@ -4,10 +4,10 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_800F8FB4(void* arg0) {
     void* temp_v1;
@@ -24,11 +24,11 @@ void func_800F8FB4(void* arg0) {
         }
     } else {
         s32 y;
-        D_800CCED0.unkF = 0x10;
-        D_800CCED0.enable_boss = 0;
-        D_800CCED0.boss_ptr = 0;
+        g_playthrough_state.unkF = 0x10;
+        g_playthrough_state.enable_boss = 0;
+        g_playthrough_state.boss_ptr = 0;
         y = background_objects[0].y_pos.u.hi;
         background_objects[0].unk2A = y;
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
     }
 }

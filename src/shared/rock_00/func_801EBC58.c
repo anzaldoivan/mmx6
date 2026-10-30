@@ -4,7 +4,7 @@
 
 void func_80017A04(struct X4_AnimatedObj*);
 struct X4_VisualObj* func_8002C398(void);
-M2C_UNK func_8003B114(s32);
+M2C_UNK end_dash(s32);
 
 void func_801EBC58(struct X4_MainObj* self) {
     struct X4_VisualObj* v;
@@ -21,6 +21,6 @@ void func_801EBC58(struct X4_MainObj* self) {
         self->unk6++;
     }
     if (self->animation_step.fields.relative_step == 0) {
-        func_8003B114((s32)self);
+        end_dash((s32)self);
     }
 }

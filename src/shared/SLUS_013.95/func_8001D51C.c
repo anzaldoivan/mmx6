@@ -11,24 +11,24 @@ void func_800280F4(void);
 void func_8002927C(void);
 void func_8002935C(void);
 M2C_UNK func_800293CC();
-void func_80029B8C(void);
+void init_checkpoint_positions(void);
 void func_8002A33C(void);
 void func_8002A3E8(void);
-void func_8002B838(void);
+void reset_level(void);
 void func_8002C2B8();
-void* func_8002C530();
+void* alloc_sprite_slot();
 void func_8003BD24(void);
 
 void func_8001D51C(u8* arg0) {
     u32 i;
     u8* obj;
 
-    func_8002B838();
+    reset_level();
     func_8002C2B8();
     func_80017E24();
     func_80021434();
     func_800280F4();
-    func_80029B8C();
+    init_checkpoint_positions();
     func_8002927C();
     func_8002935C();
     func_800293CC();
@@ -38,7 +38,7 @@ void func_8001D51C(u8* arg0) {
     func_80025F34();
     func_8001E730();
     for (i = 2; i < 5; i++) {
-        obj = func_8002C530();
+        obj = alloc_sprite_slot();
         if (obj != 0) {
             obj[0] = 1;
             obj[1] = 0x12;

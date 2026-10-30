@@ -2,9 +2,9 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002C9B0();
-s32 func_8003EB0C(void* arg0, s32 arg1);
-void func_8003F740(void*, s32);
+M2C_UNK clear_object_slot();
+s32 get_weapon_energy_cost(void* arg0, s32 arg1);
+void use_weapon_energy(void*, s32);
 extern struct X4_PlayerObj g_Player;
 
 void func_80045810(u8* arg0) {
@@ -34,15 +34,15 @@ void func_80045810(u8* arg0) {
                 idx = *(s8*)(p + 0x93);
             }
             v = *(s16*)((u8*)&g_Player + (idx << 1) + 0xA8);
-            if (v >= func_8003EB0C(p, idx)) {
+            if (v >= get_weapon_energy_cost(p, idx)) {
                 if (*(s8*)(p + 2) != 0) {
                     *(s8*)(p + 0x93) = 4;
-                    func_8003F740(p, 4);
+                    use_weapon_energy(p, 4);
                 } else {
-                    func_8003F740(p, *(s8*)(arg0 + 1));
+                    use_weapon_energy(p, *(s8*)(arg0 + 1));
                 }
             }
         }
     }
-    func_8002C9B0(arg0);
+    clear_object_slot(arg0);
 }

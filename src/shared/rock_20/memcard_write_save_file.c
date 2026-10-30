@@ -1,5 +1,5 @@
 // prog rock_20 | system memcard | range 0x800EE4C0-0x800EE6F0
-// Shared file: included by src/rock_20/E9860.c, between func_800EE19C and func_800EE6F4.
+// Shared file: included by src/rock_20/E9860.c, between func_800EE19C and build_mission_report_list.
 #include "common.h"
 #include "psyq/libapi.h"
 #include "psyq/libetc.h"

@@ -4,9 +4,9 @@
 #define FLD(p, type, off) (*(type*)((u8*)(p) + (off)))
 
 M2C_UNK func_80017A04();
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 extern u8 D_800F6288[];
 
 void func_800F12D4(void* arg0) {
@@ -15,7 +15,7 @@ void func_800F12D4(void* arg0) {
     s32 r;
 
     parent = FLD(arg0, void*, 0x7C);
-    FLD(arg0, s32, 0x8C) = func_80031474(arg0);
+    FLD(arg0, s32, 0x8C) = check_enemy_hits(arg0);
     if (FLD(arg0, s32, 0x8C) < 0) {
         FLD(arg0, u8, 0x5) = 2;
         FLD(arg0, s16, 0x90) = 0x3C;
@@ -48,7 +48,7 @@ void func_800F12D4(void* arg0) {
     if (t == 1) {
         func_80017A04(arg0);
     } else if (t == 2) {
-        r = func_8002D2D4();
+        r = random_byte();
         FLD(arg0, u8, 0x6) = 0;
         FLD(arg0, u8, 0x5) = (u32)r % 3 + 3;
     }

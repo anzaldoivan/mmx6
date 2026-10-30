@@ -5,13 +5,13 @@ void func_800F02A0(u8, s8, s32, s16);
 void func_800F0784(s32);
 extern s16 D_800F48F0;
 
-#define ENG ((u8*)D_800CCED0)
+#define ENG ((u8*)g_playthrough_state)
 #define S_2 (((u8*)arg0)[0x2])
 #define S_3 (((u8*)arg0)[0x3])
 #define S_60 (((u8*)arg0)[0x60])
 
 void func_800E98E0(void* arg0) {
-    extern u8 D_800CCED0[];
+    extern u8 g_playthrough_state[];
     u8* e = ENG;
 
     switch ((s8)e[0x27]) {

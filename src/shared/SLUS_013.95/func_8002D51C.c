@@ -2,8 +2,8 @@
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_BackgroundObj background_objects[3];
-extern u8 D_800CD338;
-extern u16 D_8008EC10;
+extern u8 g_tilemap_width;
+extern u16 g_tilemap_layer_stride;
 
 s16 func_8002D51C(s16 arg0, s16 arg1, s16 arg2) {
     struct X4_BackgroundObj* temp_v1 = &background_objects[arg0];
@@ -12,7 +12,7 @@ s16 func_8002D51C(s16 arg0, s16 arg1, s16 arg2) {
 
     var_x = (temp_v1->x_pos.i.hi + arg1) / 256;
     var_y = (temp_v1->y_pos.i.hi + arg2) / 256;
-    temp = var_x + (arg0 * D_8008EC10 + D_800CD338 * var_y);
+    temp = var_x + (arg0 * g_tilemap_layer_stride + g_tilemap_width * var_y);
 
     return SP_BG_TILEMAP[temp];
 }

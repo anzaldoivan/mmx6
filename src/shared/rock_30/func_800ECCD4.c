@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
 extern u8 D_8008EAFC;
 extern s32 g_Player;
 extern s8 D_800CCEF6;
@@ -22,7 +22,7 @@ void func_800ECCD4(u8* arg0) {
     }
     pl = PL;
     if (F_S16(pl, 0x14C) != 0) {
-        func_80016C48(5, 4, 0);
+        play_sound(5, 4, 0);
     }
     if (F_S8(pl, 0x5C) != 0 && F_S8(pl, 0xE0) == 0) {
         if (++*(u16*)(arg0 + 0x16) >= 0xB4) {

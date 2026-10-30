@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK); /* extern */
+M2C_UNK set_animation(void*, M2C_UNK); /* extern */
 M2C_UNK func_800F82C0();
 
 void func_800F6EE0(void* arg0) {
@@ -19,7 +19,7 @@ void func_800F6EE0(void* arg0) {
     {
         // !FAKE: depin: dropping it breaks the match (21/24)
         register s32 temp_b asm("$2");
-        func_800179A4(arg0, 0x13);
+        set_animation(arg0, 0x13);
         temp_b = M2C_FIELD(arg0, u8*, 6);
         M2C_FIELD(arg0, u8*, 6) = temp_b + 1;
     }

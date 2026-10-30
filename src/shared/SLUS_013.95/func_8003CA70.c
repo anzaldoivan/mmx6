@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 s32 func_8002A47C(s32);
 struct X4_VisualObj* func_8002C398(void);
 u8 func_80030234(struct X4_PlayerObj*, s16, s16);
@@ -48,6 +48,6 @@ s32 func_8003CA70(void* arg0, s16 arg1) {
             obj->y_pos.i.hi = arg1 - 8;
             obj->x_pos.i.hi = x;
         }
-        func_80016C48(5, 5, self);
+        play_sound(5, 5, self);
     }
 }

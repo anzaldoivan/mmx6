@@ -3,11 +3,11 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2); /* extern */
-s32 func_8003040C(void*);                      /* extern */
-s32 func_800397F8(void*, s32);                 /* extern */
-M2C_UNK func_8003BA04(void*, M2C_UNK);         /* extern */
-M2C_UNK func_8003CD9C();                       /* extern */
+s32 play_sound(s32 a0, s32 a1, void* arg2); /* extern */
+s32 func_8003040C(void*);                   /* extern */
+s32 func_800397F8(void*, s32);              /* extern */
+M2C_UNK func_8003BA04(void*, M2C_UNK);      /* extern */
+M2C_UNK func_8003CD9C();                    /* extern */
 
 #define PICK(a, v)                                                             \
     switch (v) {                                                               \
@@ -51,7 +51,7 @@ s32 func_80039984(void* arg0) {
         if (M2C_FIELD(arg0, s8*, 0x8E) != 0 && M2C_FIELD(arg0, s8*, 2) == 0) {
             func_8003BA04(arg0, 0x90);
         } else {
-            func_80016C48(0, 0x26, arg0);
+            play_sound(0, 0x26, arg0);
             M2C_FIELD(arg0, s8*, 0x8E) = 0;
             func_8003BA04(arg0, 0xA0);
         }
@@ -74,7 +74,7 @@ s32 func_80039984(void* arg0) {
             PICK(a, v);
             func_8003BA04(arg0, a | 0x94);
         } else {
-            func_80016C48(0, 0x26, arg0);
+            play_sound(0, 0x26, arg0);
             PICK(a, v);
             func_8003BA04(arg0, a + 0xA3);
             M2C_FIELD(arg0, s8*, 0x8E) = 0;

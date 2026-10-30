@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179D0(void*, M2C_UNK, s8);
+M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 extern s32 D_80097420;
 
@@ -12,15 +12,15 @@ extern s32 D_80097420;
 void func_800F36F8(void* arg0) {
     switch (F(u8, 0x2) & 0xF) {
     case 1:
-        ((void (*)(void*, s32, s32))func_800179D0)(arg0, 0x25, D_80097420 & 1);
+        ((void (*)(void*, s32, s32))set_animation_frame)(arg0, 0x25, D_80097420 & 1);
         F(s16, 0xA) += 6;
         break;
     case 2:
-        ((void (*)(void*, s32, s32))func_800179D0)(arg0, 0x21, D_80097420 & 1);
+        ((void (*)(void*, s32, s32))set_animation_frame)(arg0, 0x21, D_80097420 & 1);
         F(s16, 0xE) -= 6;
         break;
     case 3:
-        ((void (*)(void*, s32, s32))func_800179D0)(arg0, 0x22, D_80097420 & 1);
+        ((void (*)(void*, s32, s32))set_animation_frame)(arg0, 0x22, D_80097420 & 1);
         F(s16, 0xA) -= 6;
         F(s16, 0xE) += 6;
         break;

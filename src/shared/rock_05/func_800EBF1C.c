@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_800743DC;
 extern struct X4_PlayerObj g_Player;
@@ -32,19 +32,19 @@ void func_800EBF1C(void* arg0) {
     BF_PTR(arg0, 0x50) = 0;
     BF_U8(arg0, 0x4)++;
     if (t == 0) {
-        func_800179A4(arg0, 0xA);
+        set_animation(arg0, 0xA);
         BF_U8(arg0, 0x5) = 0;
         BF_U8(arg0, 0x15) = 0x40;
     } else if (t == 1) {
-        func_800179A4(arg0, 0xA);
+        set_animation(arg0, 0xA);
         BF_U8(arg0, 0x5) = 0;
         BF_U8(arg0, 0x15) = 0;
     } else if (t == 2) {
-        func_800179A4(arg0, 0xB);
+        set_animation(arg0, 0xB);
         BF_U8(arg0, 0x5) = 0;
         BF_U8(arg0, 0x15) = 0;
     } else if (t == 3) {
-        func_800179A4(arg0, 0xC);
+        set_animation(arg0, 0xC);
         BF_U8(arg0, 0x5) = 0;
         BF_U8(arg0, 0x15) = 0;
     } else if (t == 4) {
@@ -58,7 +58,7 @@ void func_800EBF1C(void* arg0) {
         BF_PTR(arg0, 0x54) = &D_800F3FF8;
         BF_PTR(arg0, 0x68) = &D_800F3FFC;
         BF_PTR(arg0, 0x58) = &D_800743DC;
-        func_800179A4(arg0, 9);
+        set_animation(arg0, 9);
         BF_U8(arg0, 0x5) = 1;
     } else if (t == 5) {
         BF_U8(arg0, 0x60) = 4;
@@ -71,7 +71,7 @@ void func_800EBF1C(void* arg0) {
         BF_PTR(arg0, 0x54) = &D_800F3FF8;
         BF_PTR(arg0, 0x68) = &D_800F3FFC;
         BF_PTR(arg0, 0x58) = &D_8007433C;
-        func_800179A4(arg0, 9);
+        set_animation(arg0, 9);
         BF_U8(arg0, 0x5) = 1;
     } else if (t == 6) {
         BF_U8(arg0, 0x60) = 0x7F;

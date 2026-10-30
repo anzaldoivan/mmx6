@@ -3,7 +3,7 @@
 
 M2C_UNK func_8003CD9C();
 M2C_UNK func_8003BA04(void*, M2C_UNK);
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_8003CFE0(void*, M2C_UNK);
 void func_801EACAC(u8* arg0);
 
@@ -21,7 +21,7 @@ s32 func_801EBEDC(u8* arg0) {
     arg0[0xCB] = 0;
     func_8003CD9C(arg0);
     func_8003BA04(arg0, 0x6E);
-    if (func_8002D2D4() & 4) {
+    if (random_byte() & 4) {
         func_8003CFE0(arg0, 9);
     }
     *(s32*)(arg0 + 0x20) = 0;

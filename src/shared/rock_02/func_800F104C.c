@@ -5,14 +5,14 @@
 #define SPAD20 (*(s32*)0x1F800020)
 
 s32 func_8002A47C(s32);
-void* func_8002C530();
+void* alloc_sprite_slot();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 
 void func_800F104C(void* arg0) {
     void* s1;
 
     if (*M2C_FIELD(arg0, s8**, 0x80) == 0) {
-        s1 = func_8002C530();
+        s1 = alloc_sprite_slot();
         if (s1 != 0) {
             M2C_FIELD(s1, u8*, 0) = 0x41;
             M2C_FIELD(s1, u8*, 1) = 0x10;

@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-s32 func_8002D2D4();
+s32 random_byte();
 s32 func_8002D30C();
 M2C_UNK func_8004A0C0(s8, s16, s16, s32);
 extern u8 D_800E4470[];
@@ -15,14 +15,14 @@ void func_80049F98(struct X4_BaseObj* self, s8 arg1, u8 arg2, u8 arg3,
     s32 a3;
     s32 t;
 
-    arg2 &= func_8002D2D4();
-    if (func_8002D2D4() & 1) {
+    arg2 &= random_byte();
+    if (random_byte() & 1) {
         x = self->x_pos.u.hi + arg2;
     } else {
         x = self->x_pos.u.hi - arg2;
     }
-    arg3 &= func_8002D2D4();
-    if (func_8002D2D4() & 1) {
+    arg3 &= random_byte();
+    if (random_byte() & 1) {
         y = self->y_pos.u.hi + arg3;
     } else {
         y = self->y_pos.u.hi - arg3;

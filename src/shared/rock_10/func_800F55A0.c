@@ -5,8 +5,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object(s32);
 extern M2C_UNK D_8007433C;
 extern struct X4_BackgroundObj background_objects[3];
@@ -32,18 +32,18 @@ void func_800F55A0(struct X4_AnimatedObj* arg0) {
     }
     if (arg0->y_vel.val > 0) {
         if (arg0->x_vel.val != 0) {
-            func_800179A4(arg0, 0x25);
+            set_animation(arg0, 0x25);
         } else {
-            func_800179A4(arg0, 0x27);
+            set_animation(arg0, 0x27);
         }
     } else if (arg0->y_vel.val < 0) {
         if (arg0->x_vel.val != 0) {
-            func_800179A4(arg0, 0x26);
+            set_animation(arg0, 0x26);
         } else {
-            func_800179A4(arg0, 0x28);
+            set_animation(arg0, 0x28);
         }
     } else {
-        func_800179A4(arg0, 0x25);
+        set_animation(arg0, 0x25);
     }
     if (arg0->unk17 == 0x27 || arg0->unk17 == 0x28) {
         if (arg0->x_pos.i.hi - background_objects[0].x_pos.i.hi < 0xA0) {
@@ -65,15 +65,15 @@ void func_800F55A0(struct X4_AnimatedObj* arg0) {
             arg0->y_pos.i.hi = background_objects[0].y_pos.i.hi + OFS_Y;
             M2C_FIELD(arg0, s16*, 0x7E)++;
             if (M2C_FIELD(arg0, s16*, 0x7E) >= 4) {
-                ((void (*)(void*, s32))func_800179A4)(arg0, 6);
+                ((void (*)(void*, s32))set_animation)(arg0, 6);
                 M2C_FIELD(arg0, void**, 0x58) = &D_8007433C;
                 M2C_FIELD(arg0, u8*, 0x8E) = 1;
                 arg0->unk7 = 0;
                 arg0->unk6++;
                 return;
             }
-            func_800179A4(arg0, 0x11);
-            func_80016C48(2, 0x5A, arg0);
+            set_animation(arg0, 0x11);
+            play_sound(2, 0x5A, arg0);
             M2C_FIELD(arg0, s32*, 0x50) = 0;
             M2C_FIELD(arg0, s32*, 0x54) = 0;
             arg0->unk6 = 4;

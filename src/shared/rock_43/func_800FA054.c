@@ -5,14 +5,14 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20 (*(s32**)0x1F800020)
 
-void func_80025FD8();
+void set_boss_level();
 s32 func_8002A47C(s32);
 struct X4_VisualObj* func_8002C398(void);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern s32 D_800750FC;
 extern u8 D_800970B4;
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800FA000[];
 extern s32 D_800FDE30;
 extern s32 D_800FDE34;
@@ -69,12 +69,13 @@ void func_800FA054(struct X4_MainObj* self) {
     self->y_pos.i.hi = D_800FE28C;
     self->hp = 0;
     self->contact_damage = 0xA;
-    D_800CCED0.unk25 = 0;
-    D_800CCED0.boss_ptr = self;
-    M2C_FIELD(&D_800CCED0, u8*, 0x8C) = 0x30;
-    func_80025FD8(0);
+    g_playthrough_state.unk25 = 0;
+    g_playthrough_state.boss_ptr = self;
+    M2C_FIELD(&g_playthrough_state, u8*, 0x8C) = 0x30;
+    set_boss_level(0);
     k = 0x794C;
-    M2C_FIELD(&D_800CCED0, u8*, 0x8C) += tbl[M2C_FIELD(&D_800CCED0, u8*, 0x8F)];
+    M2C_FIELD(&g_playthrough_state, u8*, 0x8C) +=
+        tbl[M2C_FIELD(&g_playthrough_state, u8*, 0x8F)];
     M2C_FIELD(self, u8*, 0x87) = 0;
     M2C_FIELD(self, u8*, 0x86) = 0;
     M2C_FIELD(self, u8*, 0x84) = 0;

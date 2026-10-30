@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 extern s32 D_800F6734;
 extern void* D_800F70E4;
@@ -29,7 +29,7 @@ void func_800ED948(void* arg0) {
         }
         base = SPAD20_800ED948;
         M2C_FIELD(arg0, s32*, 0x3C) = base + M2C_FIELD(idx * 4 + base, s32*, 4);
-        func_800179A4(arg0, 0x11);
+        set_animation(arg0, 0x11);
         {
             // !FAKE: depin: dropping it breaks the match (63/70)
             register s32* a asm("$2") = &D_800F6734;

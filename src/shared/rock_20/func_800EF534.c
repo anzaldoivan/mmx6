@@ -3,12 +3,12 @@
 #include "mmx6/x4.h"
 
 void func_800F0784(s32);
-M2C_UNK func_80021760(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
 extern u8 D_80097169;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F366C[];
 
-#define ENG37 ((u8*)&D_800CCED0)
+#define ENG37 ((u8*)&g_playthrough_state)
 
 void func_800EF534(u8* arg0) {
     u8* e = ENG37;
@@ -31,7 +31,7 @@ void func_800EF534(u8* arg0) {
                     s32 i;
                     e[0x28] = 1;
                     i = *(s8*)(e + 0x26) - 1;
-                    func_80021760(t[i], 0xFF, 0);
+                    open_text_box(t[i], 0xFF, 0);
                 }
                 v = arg0[2] + 1;
                 arg0[2] = v;

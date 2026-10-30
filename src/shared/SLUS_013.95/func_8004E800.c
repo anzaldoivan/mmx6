@@ -5,11 +5,11 @@
 #define SPAD20_8004E800 (*(s32**)0x1F800020)
 #define F(type, off) M2C_FIELD(arg0, type*, off)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 void func_8002F288(struct X4_PlayerObj*);
 M2C_UNK func_8004FE8C();
-s32 func_8004FF4C(s32);
+s32 get_reploid_status(s32);
 extern M2C_UNK D_800743DC;
 extern s32 D_80078910;
 extern s32 D_8007891C;
@@ -21,7 +21,7 @@ void func_8004E800(void* arg0) {
     // !FAKE: depin: dropping it breaks the match (41/158)
     register s32 t asm("$5");
 
-    if (F(u8, 2) != 0x80 && (u32)(func_8004FF4C(F(u8, 2)) - 2) < 3) {
+    if (F(u8, 2) != 0x80 && (u32)(get_reploid_status(F(u8, 2)) - 2) < 3) {
         F(u8, 4) = 8;
         return;
     }
@@ -54,26 +54,26 @@ void func_8004E800(void* arg0) {
         if (F(u8, 0x70) & 8) {
             F(u8, 0x7E) = 0;
             if (F(u8, 0x82) == 0) {
-                func_800179A4(arg0, 0);
+                set_animation(arg0, 0);
             } else {
-                func_800179A4(arg0, 0xB);
+                set_animation(arg0, 0xB);
             }
         } else {
             F(u8, 0x7E) = 1;
             F(u16, 0x7C) = F(u16, 0xE);
             if (F(u8, 0x82) == 0) {
-                func_800179A4(arg0, 5);
+                set_animation(arg0, 5);
             } else {
-                func_800179A4(arg0, 0xE);
+                set_animation(arg0, 0xE);
             }
         }
     } else {
         F(void*, 0x68) = &D_8007891C;
         func_8002F288(arg0);
         if (F(u8, 0x82) == 0) {
-            func_800179A4(arg0, 0x17);
+            set_animation(arg0, 0x17);
         } else {
-            func_800179A4(arg0, 0x1E);
+            set_animation(arg0, 0x1E);
         }
     }
     F(u8, 4) = 1;

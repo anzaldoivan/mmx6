@@ -10,15 +10,15 @@ M2C_UNK func_80025FB0();
 M2C_UNK func_80026028();
 void func_8002ACA8(); /* extern; was M2C_UNK (W15 regate of 2ACA8) */
 s8* func_8002C590(void);
-struct X4_QuadObj* func_8002C7F0(void);
-M2C_UNK func_8002C9B0();
+struct X4_QuadObj* alloc_class6_slot(void);
+M2C_UNK clear_object_slot();
 
 extern u16 D_800739DC[][6];
 extern struct X4_PlayerObj g_Player;
 extern s8 D_80097424;
 extern u8 D_800C4560;
-extern u16 D_800C456C[];
-extern struct X4_EngineObj D_800CCED0;
+extern u16 g_pad1_buttons[];
+extern struct X4_EngineObj g_playthrough_state;
 extern struct X4_QuadObj* D_800E4440[];
 
 void func_80033E00(struct X4_PlayerObj* self) {
@@ -49,7 +49,7 @@ void func_80033E00(struct X4_PlayerObj* self) {
             }
         }
         for (i = 0; i < 4; i++) {
-            D_800E4440[i] = q = func_8002C7F0();
+            D_800E4440[i] = q = alloc_class6_slot();
             if (q != 0) {
                 q->active = 1;
                 D_800E4440[i]->id = 0xB;
@@ -87,42 +87,42 @@ void func_80033E00(struct X4_PlayerObj* self) {
         func_80025FB0();
         break;
     case 4: {
-        s8* e = (s8*)&D_800CCED0;
+        s8* e = (s8*)&g_playthrough_state;
         u8 t = e[0xD1];
         s8 c = e[0xD1];
-        if (D_800C456C[2] & 0x1000) {
+        if (g_pad1_buttons[2] & 0x1000) {
             if (c >= -15) {
                 e[0xD1] = t - 1;
             }
         }
-        if (D_800C456C[2] & 0x4000) {
-            s8* e = (s8*)&D_800CCED0;
+        if (g_pad1_buttons[2] & 0x4000) {
+            s8* e = (s8*)&g_playthrough_state;
             if (e[0xD1] < 16) {
                 e[0xD1]++;
             }
         }
-        if (D_800C456C[2] & 0x8000) {
-            s8* e = (s8*)&D_800CCED0;
+        if (g_pad1_buttons[2] & 0x8000) {
+            s8* e = (s8*)&g_playthrough_state;
             if (e[0xD0] >= -15) {
                 e[0xD0]--;
             }
         }
-        if (D_800C456C[2] & 0x2000) {
-            s8* e = (s8*)&D_800CCED0;
+        if (g_pad1_buttons[2] & 0x2000) {
+            s8* e = (s8*)&g_playthrough_state;
             if (e[0xD0] < 16) {
                 e[0xD0]++;
             }
         }
-        if (D_800C456C[2] & 0x40) {
+        if (g_pad1_buttons[2] & 0x40) {
             self->unk6++;
         }
-        if (D_800C456C[2] & 0x10) {
-            s8* e = (s8*)&D_800CCED0;
+        if (g_pad1_buttons[2] & 0x10) {
+            s8* e = (s8*)&g_playthrough_state;
             e[0xD0] = 0;
             e[0xD1] = 0;
         }
         {
-            s8* e = (s8*)&D_800CCED0;
+            s8* e = (s8*)&g_playthrough_state;
             func_800122A4(e[0xD0], e[0xD1]);
         }
         func_800210E8();
@@ -131,7 +131,7 @@ void func_80033E00(struct X4_PlayerObj* self) {
         break;
     }
     case 5:
-        if (D_800C456C[0] == 0) {
+        if (g_pad1_buttons[0] == 0) {
             self->unk6++;
         }
         func_800210E8();
@@ -141,11 +141,11 @@ void func_80033E00(struct X4_PlayerObj* self) {
     case 6:
         for (i = 0; i < 4; i++) {
             if (D_800E4440[i] != 0) {
-                func_8002C9B0(D_800E4440[i]);
+                clear_object_slot(D_800E4440[i]);
             }
         }
         {
-            s8* e = (s8*)&D_800CCED0;
+            s8* e = (s8*)&g_playthrough_state;
             e[1] = 0;
         }
         self->state = 0;

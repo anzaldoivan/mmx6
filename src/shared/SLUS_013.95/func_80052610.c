@@ -5,7 +5,7 @@
 extern u8** D_8007A01C[];
 extern u8* D_80079F64[];
 extern u8 D_800C4560;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800E4480;
 M2C_UNK func_8002C9D4();
 
@@ -24,13 +24,15 @@ void func_80052610(u8* arg0) {
 
     i = F_U8(2);
     F_U8(0) = 9;
-    F_PTR(0x1C) = D_8007A01C[D_800CCED0.stage * 2 + D_800CCED0.substage][i];
+    F_PTR(0x1C) = D_8007A01C[g_playthrough_state.stage * 2 +
+                             g_playthrough_state.substage][i];
     if (F_PTR(0x1C) == 0) {
         func_8002C9D4(arg0);
         return;
     }
     i = (u8)(i - 1);
-    p = D_80079F64[D_800CCED0.stage * 2 + D_800CCED0.substage];
+    p = D_80079F64[g_playthrough_state.stage * 2 +
+                   g_playthrough_state.substage];
     while (i != 0xFF) {
         i = (u8)(i - 1);
         p += 2;
@@ -46,7 +48,7 @@ void func_80052610(u8* arg0) {
     }
     D_800C4560 |= 1;
     F_U8(4)++;
-    if (D_800CCED0.stage == 8 && D_800CCED0.checkpoint == 0) {
+    if (g_playthrough_state.stage == 8 && g_playthrough_state.checkpoint == 0) {
         D_800E4480 = 1;
     } else {
         D_800E4480 = 0;

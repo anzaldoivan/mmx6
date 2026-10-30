@@ -4,8 +4,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object(void*);
 extern struct X4_BackgroundObj background_objects[3];
 
@@ -31,8 +31,8 @@ void func_800F20C8(void* arg0) {
             return;
         }
     }
-    func_80016C48(2, 0x23, arg0);
-    func_800179A4(arg0, 7);
+    play_sound(2, 0x23, arg0);
+    set_animation(arg0, 7);
     M2C_FIELD(arg0, s16*, 0x7C) = 0;
     {
         // !FAKE: inherited from src/shared/rock_02/func_800F33C0.c

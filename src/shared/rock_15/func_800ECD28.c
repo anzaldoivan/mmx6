@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_8002CB50();
 M2C_UNK move_object(s32);
 extern s32 D_80097420;
@@ -16,7 +16,7 @@ M2C_UNK func_800ECD28(u8* arg0) {
         *(s32*)(arg0 + 0x20) = 0;
         *(s32*)(arg0 + 0x24) = 0;
         arg0[0x54] = 0;
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
         return;
     }
     temp_v1 = arg0[0x54];

@@ -5,13 +5,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(void*);
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern s32 D_800FDE30;
 extern s32 D_800FE1F8;
@@ -24,7 +24,7 @@ void func_800FB438(struct X4_MainObj* self) {
         self->state++;
         return;
     }
-    if (func_80031474(self) < 0) {
+    if (check_enemy_hits(self) < 0) {
         func_80049E50(self);
         self->state++;
         return;
@@ -43,7 +43,7 @@ void func_800FB438(struct X4_MainObj* self) {
             } else {
                 s16 t;
                 s16 a;
-                t = func_8002D2D4() % 3 - 1;
+                t = random_byte() % 3 - 1;
                 if (self->unk15 == 0) {
                     a = t * 128 + 0x800;
                 } else {
@@ -57,7 +57,7 @@ void func_800FB438(struct X4_MainObj* self) {
         break;
     case 1:
         if (++M2C_FIELD(self, s32*, 0x8C) == 0xC) {
-            func_800179A4(self, 0xA);
+            set_animation(self, 0xA);
             {
                 // !FAKE: depin: dropping it breaks the match (137/141)
                 register void* a asm("$2") = &D_800FE1F8;

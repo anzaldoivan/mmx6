@@ -28,7 +28,7 @@ INCLUDE_ASM("asm/rock_17/nonmatchings/E9860", D_800E9860);
 
 #include "../shared/rock_17/func_800E9DC8.c"
 
-#include "../shared/rock_17/func_800E9E2C.c"
+#include "../shared/rock_17/tick_boss_intro.c"
 
 #define func_800E9D04 func_800E9E88
 #include "../shared/rock_17/func_800E9D04.c"

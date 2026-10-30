@@ -3,7 +3,7 @@
 extern u16 D_800C4570;
 extern s32 D_800EA760[];
 
-s32 func_80016C48(s32, s32, void*);
+s32 play_sound(s32, s32, void*);
 
 void func_800E9864(u8* arg0) {
     s32 i = (s32)arg0;
@@ -32,7 +32,7 @@ void func_800E9864(u8* arg0) {
 count:
     if (D_800C4570 & 0x4000) {
         if (++D_800EA760[i] == 0xB) {
-            func_80016C48(5, 1, 0);
+            play_sound(5, 1, 0);
         }
     }
     return;

@@ -2,9 +2,9 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002B838();
-void* func_8002C530();
-struct X4_QuadObj* func_8002C7F0(void);
+M2C_UNK reset_level();
+void* alloc_sprite_slot();
+struct X4_QuadObj* alloc_class6_slot(void);
 void func_800ED50C(u8 arg0, s8 arg1, s16 arg2, s16 arg3);
 
 #define AB_B(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -16,16 +16,16 @@ void func_800ED87C(void* arg0) {
     void* obj;
     s32 k;
 
-    func_8002B838();
+    reset_level();
     func_800ED50C(0x25, 0, 0x130, 0x30);
     k = 0x10;
-    q = func_8002C7F0();
+    q = alloc_class6_slot();
     if (q != 0) {
         q->active = 1;
         q->id = k;
         q->unk2 = k;
     }
-    obj = func_8002C530();
+    obj = alloc_sprite_slot();
     if (obj != 0) {
         AB_B(obj, 0) = 1;
         AB_H(obj, 0xA) = 0xE0;

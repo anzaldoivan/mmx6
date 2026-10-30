@@ -1,8 +1,8 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_800FC734;
 extern M2C_UNK D_800FC738;
@@ -12,8 +12,8 @@ void func_800F86F8(u8* arg0) {
 
     temp_s1 = *(s8*)(arg0 + 0x45);
     if (temp_s1 == 1) {
-        func_80016C48(2, 0x52, arg0);
-        func_800179A4(arg0, 8);
+        play_sound(2, 0x52, arg0);
+        set_animation(arg0, 8);
         {
             // !FAKE: depin: dropping it breaks the match (36/39)
             register void* p asm("$2") = &D_8007433C;
@@ -31,6 +31,6 @@ void func_800F86F8(u8* arg0) {
             arg0[6] = 8;
         }
     } else if (temp_s1 == 2) {
-        func_80016C48(2, 0x59, arg0);
+        play_sound(2, 0x59, arg0);
     }
 }

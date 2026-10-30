@@ -7,7 +7,7 @@
 M2C_UNK func_80017A04();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern M2C_UNK D_800F7684;
 
@@ -20,7 +20,7 @@ void func_800F31A4(struct X4_BaseObj* self) {
     func_80017A04(self);
     (*(void (**)(struct X4_BaseObj*))((self->unk5 << 2) + (s32)&D_800F7684))(
         self);
-    if (func_80031474(self) < 0) {
+    if (check_enemy_hits(self) < 0) {
         func_80049E50(self);
         self->on_screen = 0;
         self->state = 5;

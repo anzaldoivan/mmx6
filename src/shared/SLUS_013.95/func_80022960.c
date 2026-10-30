@@ -6,10 +6,10 @@
 #define SCR_PTR(off) (*(u8**)(0x1F800000 + (off)))
 #define ONS(p) (((s8*)(p))[3])
 
-extern s8 D_8008EF48[];
+extern s8 g_enemies[];
 extern u8 D_800911A8[];
 extern u8 D_80091298[];
-extern u8 D_80093C98[];
+extern u8 g_projectiles[];
 extern s8 D_800950A0[];
 extern u8 D_800964A0[];
 extern M2C_UNK g_Player;
@@ -22,7 +22,7 @@ extern u8 D_800A51B8[];
 extern s32 D_800C1220[];
 extern u8 D_800C4858[];
 extern struct X4_RideArmorObj D_800CD340;
-extern struct X4_MiscObj D_800CD410[];
+extern struct X4_MiscObj g_displayed_sprites[];
 extern u8 D_800E3420[];
 extern u8 D_800E3C20[];
 extern u8 D_800E4020[];
@@ -97,7 +97,7 @@ void func_80022960(void) {
             func_800232D4(p);
         }
     }
-    for (p = (u8*)D_8008EF48; p < (u8*)D_8008EF48 + 0x1D40; p += 0x9C) {
+    for (p = (u8*)g_enemies; p < (u8*)g_enemies + 0x1D40; p += 0x9C) {
         if (ONS(p) != 0) {
             func_800232D4(p);
         }
@@ -107,7 +107,7 @@ void func_80022960(void) {
             func_800232D4(p);
         }
     }
-    for (p = D_80093C98; p < D_80093C98 + 0x1400; p += 0xA0) {
+    for (p = g_projectiles; p < g_projectiles + 0x1400; p += 0xA0) {
         if (ONS(p) != 0) {
             func_800232D4(p);
         }
@@ -122,7 +122,8 @@ void func_80022960(void) {
             func_800232D4(p);
         }
     }
-    for (p = (u8*)D_800CD410; p < (u8*)D_800CD410 + 0x2400; p += 0x60) {
+    for (p = (u8*)g_displayed_sprites; p < (u8*)g_displayed_sprites + 0x2400;
+         p += 0x60) {
         if (ONS(p) == 1) {
             func_800232D4(p);
         }

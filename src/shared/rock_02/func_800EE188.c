@@ -5,7 +5,7 @@
 M2C_UNK func_80017A04();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
-s32 func_8002D2D4();
+s32 random_byte();
 extern s16 D_800970AA;
 extern u8 D_800CCF5C;
 #define D_800CCF5C (*(s8*)&D_800CCF5C)
@@ -13,7 +13,7 @@ extern u8 D_800CCF5C;
 void func_800EE188(void* arg0) {
     u32 r;
 
-    r = func_8002D2D4() & 0xF;
+    r = random_byte() & 0xF;
     if (D_800970AA > M2C_FIELD(arg0, s16*, 0xA)) {
         M2C_FIELD(arg0, u8*, 0x15) = 0x40;
     } else {

@@ -72,7 +72,7 @@ INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800ED45C);
 
 #include "../shared/rock_20/memcard_write_save_file.c"
 
-#include "../shared/rock_20/func_800EE6F4.c"
+#include "../shared/rock_20/build_mission_report_list.c"
 
 #include "../shared/rock_20/func_800EE878.c"
 
@@ -490,10 +490,10 @@ INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800F33B8);
 INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800F340C);
 
 #define func_800F0770 func_800F3510
-#define D_8007360C D_8007360C
+#define option_values option_values
 #include "../shared/rock_18/func_800F0770.c"
 #undef func_800F0770
-#undef D_8007360C
+#undef option_values
 
 #define func_80041AB8 func_800F3560
 #define D_80075FD8 D_800F426C

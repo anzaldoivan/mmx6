@@ -5,15 +5,15 @@
 
 M2C_UNK func_80025F34(); /* extern */
 M2C_UNK func_800280F4(); /* extern */
-M2C_UNK func_80029B8C(); /* extern */
-M2C_UNK func_8002B838(); /* extern */
+M2C_UNK init_checkpoint_positions(); /* extern */
+M2C_UNK reset_level();   /* extern */
 M2C_UNK func_8002C2B8(); /* extern */
 extern s8 D_800EAACC;
 
 void func_800E9B0C(void* arg0) {
-    func_8002B838();
+    reset_level();
     func_8002C2B8();
-    func_80029B8C();
+    init_checkpoint_positions();
     func_800280F4();
     func_80025F34();
     D_800EAACC = 1;

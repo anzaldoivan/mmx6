@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);                              /* extern */
+M2C_UNK set_animation(void*, M2C_UNK);                              /* extern */
 s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2); /* extern */
 extern u8 D_80011674[8][4];
 extern s32 D_80078CC0;
@@ -32,7 +32,7 @@ void func_8004F2EC(void* arg0) {
     idx = M2C_FIELD(arg0, u8*, 0x88) >> 4;
     if (state == 0) {
         M2C_FIELD(arg0, u8*, 0x16) = 1;
-        ((void (*)(void*, s32))func_800179A4)(arg0, 3);
+        ((void (*)(void*, s32))set_animation)(arg0, 3);
         if (M2C_FIELD(arg0, u8*, 0x15) == 0) {
             M2C_FIELD(arg0, s16*, 0xA) += (s8)tbl[idx][0];
             M2C_FIELD(arg0, s16*, 0xE) += (s8)tbl[idx][1];
@@ -42,7 +42,7 @@ void func_8004F2EC(void* arg0) {
         }
     } else if (state == 1) {
         M2C_FIELD(arg0, u8*, 0x16) = state;
-        ((void (*)(void*, s32))func_800179A4)(arg0, 4);
+        ((void (*)(void*, s32))set_animation)(arg0, 4);
         if (M2C_FIELD(arg0, u8*, 0x15) == 0) {
             M2C_FIELD(arg0, s32*, 0x20) = -0x40000;
             a = M2C_FIELD(arg0, s16*, 0xA) + (s8)tbl[idx][0] - 0x14;
@@ -61,7 +61,7 @@ void func_8004F2EC(void* arg0) {
         }
         M2C_FIELD(arg0, s16*, 0x88) = 6;
     } else {
-        ((void (*)(void*, s32))func_800179A4)(arg0, 0x1B);
+        ((void (*)(void*, s32))set_animation)(arg0, 0x1B);
         M2C_FIELD(arg0, void**, 0x68) = &D_80078CC0;
         M2C_FIELD(arg0, void**, 0x50) = &D_80078CC4;
         M2C_FIELD(arg0, void**, 0x54) = &D_80078CC8;

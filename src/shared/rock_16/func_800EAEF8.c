@@ -2,7 +2,7 @@
 
 #define FX(p, type, off) (*(type*)((u8*)(p) + (off)))
 
-void* func_8002C530();
+void* alloc_sprite_slot();
 extern s8 D_800F0F00[];
 extern s8 D_800F0F08[];
 extern u8 D_800F1CA9;
@@ -34,14 +34,14 @@ void func_800EAEF8(void* arg0) {
     do {
     } while (0);
     if (FX(arg0, s16, 0x8) == 0) {
-        o = func_8002C530(p);
+        o = alloc_sprite_slot(p);
         if (o != 0) {
             o[0] = 1;
             o[1] = 0xC;
             o[2] = a | 0x20;
         }
         if (b != -1) {
-            o = func_8002C530();
+            o = alloc_sprite_slot();
             if (o != 0) {
                 o[0] = 1;
                 o[1] = 0xC;

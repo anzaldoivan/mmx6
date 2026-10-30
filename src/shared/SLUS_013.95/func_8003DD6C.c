@@ -1,6 +1,6 @@
 #include "common.h"
 #define M2C_UNK s32
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_8003F480();
 extern s8 D_800CCEEC;
 extern s8 D_80073ED8[];
@@ -51,7 +51,7 @@ void func_8003DD6C(void* self) {
         if (B(0x93) != 0) {
             UB(0x93) = 0;
             func_8003F480(self);
-            func_80016C48(0, 0xC, 0);
+            play_sound(0, 0xC, 0);
         }
     } else if (m != 0) {
         i = D_80073EF0[B(0x93)];
@@ -78,7 +78,7 @@ void func_8003DD6C(void* self) {
         if (B(0x93) != i) {
             B(0x93) = i;
             func_8003F480(self);
-            func_80016C48(0, 0xC, 0);
+            play_sound(0, 0xC, 0);
         }
     }
 }

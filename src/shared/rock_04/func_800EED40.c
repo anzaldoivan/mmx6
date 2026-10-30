@@ -2,14 +2,14 @@
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 extern struct X4_PlayerObj g_Player;
 extern void (*D_800F6CE8[])(void*);
 
 void func_800EED40(struct X4_PlayerObj* arg0) {
     if (g_Player.x_pos.i.hi >= 0x1241) {
         if (g_Player.y_pos.i.hi >= 0x4F1) {
-            func_8002C9B0();
+            clear_object_slot();
         }
     }
     D_800F6CE8[arg0->state](arg0);

@@ -2,7 +2,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void func_8001FE74(void);
-void* func_8002C530();
+void* alloc_sprite_slot();
 
 u8 func_8001F65C(u8* arg0, s32 arg1) {
     u8* p;
@@ -14,7 +14,7 @@ u8 func_8001F65C(u8* arg0, s32 arg1) {
     i = 0;
     b = arg1;
     if (*p != 0) {
-        obj = func_8002C530();
+        obj = alloc_sprite_slot();
         if (obj != 0) {
             obj[0] = 1;
             obj[1] = 0x20;
@@ -26,7 +26,7 @@ u8 func_8001F65C(u8* arg0, s32 arg1) {
         p++;
     }
     while (*p != 0xFF) {
-        obj = func_8002C530();
+        obj = alloc_sprite_slot();
         if (obj != 0) {
             obj[0] = 1;
             obj[1] = 0x1F;

@@ -2,12 +2,12 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
-s32 func_80016C48(s32, s32, void*);
+s32 play_sound(s32, s32, void*);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 
 void func_8003D850(struct X4_PlayerObj* self) {
     func_8003BA04(self, 1);
-    ((s32(*)())func_80016C48)(1, 0xD, self);
+    ((s32(*)())play_sound)(1, 0xD, self);
     self->x_vel.val = 0;
     self->unk28 = 0;
     self->y_vel.val = FIXED(-8);

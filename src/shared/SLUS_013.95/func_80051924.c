@@ -3,8 +3,8 @@
 #include "mmx6/x4.h"
 
 extern struct X4_PlayerObj g_Player;
-extern struct X4_EngineObj D_800CCED0;
-M2C_UNK func_800179A4(void*, M2C_UNK);
+extern struct X4_EngineObj g_playthrough_state;
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 
 void func_80051924(struct X4_PlayerObj* arg0) {
@@ -29,7 +29,7 @@ void func_80051924(struct X4_PlayerObj* arg0) {
                 return;
             }
         }
-        func_800179A4(arg0, 0xA);
+        set_animation(arg0, 0xA);
         dx = p->x_pos.val;
         dx -= arg0->x_pos.val;
         if (dx > 0) {
@@ -40,10 +40,10 @@ void func_80051924(struct X4_PlayerObj* arg0) {
             func_8003D308(0x14, 0x40);
             arg0->unk15 = 0;
         }
-        D_800CCED0.unk16 = 1;
-        D_800CCED0.unk12 = 1;
-        D_800CCED0.unk13 = 1;
-        D_800CCED0.unk17 = 1;
+        g_playthrough_state.unk16 = 1;
+        g_playthrough_state.unk12 = 1;
+        g_playthrough_state.unk13 = 1;
+        g_playthrough_state.unk17 = 1;
         arg0->unk6 = 0;
         arg0->unk5++;
     }

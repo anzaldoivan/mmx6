@@ -4,5 +4,7 @@
 D_800FA000 = 0x800FA000; // type:s32
 // basis: first code word after header (+0x4)
 func_800FA004 = 0x800FA004; // type:func size:0x264
+// basis: name: community refs/leads/tweaks/BossHealth.tsv:3414 word 0x800FCBE0 match; code:src/rock_37/FA000.c:44 via=D_800FD8C4
+update_ground_scaravich_boss_rush = 0x800FBCC8; // type:func
 // basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T5.c3; was D_800FD778)
 func_800FD778 = 0x800FD778;

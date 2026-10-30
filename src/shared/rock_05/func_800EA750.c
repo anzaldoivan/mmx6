@@ -7,7 +7,7 @@ M2C_UNK func_8002CA14();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002F288(M2C_UNK*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80031DA8();
 M2C_UNK func_80031F4C();
 M2C_UNK func_8003208C();
@@ -31,7 +31,7 @@ void func_800EA750(s8* arg0) {
     *(u16*)(arg0 + 0x42) &= 0x7FFF;
     temp_s1 = arg0[0x5C];
     D_800F3DCC[arg0[5]](arg0);
-    if (func_80031474(arg0) < 0) {
+    if (check_enemy_hits(arg0) < 0) {
         func_80049E50(arg0);
         *(s16*)(arg0 + 0x7C) = 0;
         arg0[4] = 2;

@@ -6,7 +6,7 @@ M2C_UNK func_80017A04();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 extern void (*D_800F3CF8[])(s8*);
 
 #define SCRATCH_4C (*(u8**)0x1F80004C)
@@ -25,7 +25,7 @@ void func_800E98C0(s8* arg0) {
         *(s32*)(arg0 + 0x54) = 0;
         *(s32*)(arg0 + 0x50) = (s32)(SCRATCH_4C + 0x80);
     }
-    r = func_80031474(arg0);
+    r = check_enemy_hits(arg0);
     if (r > 0 && (r == 2 || r == 0x37)) {
         SCRATCH_4C[0x84] = 1;
     }

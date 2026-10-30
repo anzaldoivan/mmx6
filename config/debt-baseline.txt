@@ -33,7 +33,7 @@ raise protected 1 2026-10-25 2.0 no-rom: gamestr check + badges --check
 1877 address
 70 cast
 6607 field
-4986 placeholder
-34455 placeholder-use
+4895 placeholder
+25786 placeholder-use
 15714 extern
-4744 filename
+4653 filename

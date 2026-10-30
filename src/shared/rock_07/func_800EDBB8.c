@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 void func_80029F38();
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 extern s8 D_8008EAB0;
 extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
@@ -55,6 +55,6 @@ void func_800EDBB8(s32 arg0) {
         func_80029F38(background_objects[0].x_pos.i.hi - 0x30,
                       background_objects[0].x_pos.i.hi + 0x170, 0x380, 0x4D0,
                       0);
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
     }
 }

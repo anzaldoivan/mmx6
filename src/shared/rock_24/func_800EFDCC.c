@@ -5,8 +5,8 @@
 M2C_UNK func_80017A04(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
-s32 func_8002D2D4();
-extern struct X4_EngineObj D_800CCED0;
+s32 random_byte();
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800E98BC[];
 extern u8 D_800F7528[];
 extern s32 D_800F77E4;
@@ -14,7 +14,7 @@ extern M2C_UNK D_800F77EC;
 extern s32 D_800F77F0;
 extern s32 D_800F77F4;
 
-#define ENG ((u8*)&D_800CCED0)
+#define ENG ((u8*)&g_playthrough_state)
 
 void func_800EFDCC(u8* arg0) {
     u8 sp10[4];
@@ -25,8 +25,8 @@ void func_800EFDCC(u8* arg0) {
     u8* eng2;
 
     __builtin_memcpy(sp10, D_800E98BC, 4);
-    r = func_8002D2D4() & 0xF;
-    eng = (u8*)&D_800CCED0;
+    r = random_byte() & 0xF;
+    eng = (u8*)&g_playthrough_state;
     arg0[0x87] = 0;
     if (D_800F77EC < sp10[eng[0x8F]] && D_800F77F0 == 0 && D_800F77F4 == 0) {
         if (((s8)eng[0x8C] / 2) < (s8)arg0[0x5C]) {
@@ -45,7 +45,8 @@ void func_800EFDCC(u8* arg0) {
             }
         }
         D_800F77E4 = 0;
-    } else if (eng2 = (u8*)&D_800CCED0, ((s8)eng2[0x8C] / 2) < (s8)arg0[0x5C]) {
+    } else if (eng2 = (u8*)&g_playthrough_state,
+               ((s8)eng2[0x8C] / 2) < (s8)arg0[0x5C]) {
         if (D_800F77E4 < 4) {
             goto three;
         }

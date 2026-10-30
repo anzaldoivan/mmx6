@@ -3,7 +3,7 @@
 
 M2C_UNK func_80017A04();
 M2C_UNK func_80030ECC();
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_80074E7C;
 extern s8 D_8009711A;
@@ -24,7 +24,7 @@ void func_800F48B4(void* self) {
         D_800FD000++;
     }
     G(u8, 0x8D) = 0;
-    r = func_80031474(self);
+    r = check_enemy_hits(self);
     if (r < 0) {
         D_8009711A = 1;
         G(s8, 4) = 2;

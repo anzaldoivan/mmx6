@@ -3,7 +3,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD4C (*(u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002D380(void*, void*);
 extern M2C_UNK g_Player;
 extern u8 D_800F3484[];
@@ -33,10 +33,10 @@ void func_800ED164(void* arg0) {
         if ((s8)SPAD4C[0x85] >= 10) {
             M2C_FIELD(arg0, u8*, 0x15) = 0;
         }
-        func_800179A4(arg0, 4);
+        set_animation(arg0, 4);
         break;
     case 8:
-        func_800179A4(arg0, 2);
+        set_animation(arg0, 2);
         break;
     case 18:
     case 20:
@@ -48,17 +48,17 @@ void func_800ED164(void* arg0) {
         if ((s8)SPAD4C[0x85] >= 0x1A) {
             M2C_FIELD(arg0, u8*, 0x15) = 0x40;
         }
-        func_800179A4(arg0, 5);
+        set_animation(arg0, 5);
         break;
     case 24:
-        func_800179A4(arg0, 3);
+        set_animation(arg0, 3);
         break;
     case 0:
-        ((void (*)(void*, s32))func_800179A4)(arg0, 1);
+        ((void (*)(void*, s32))set_animation)(arg0, 1);
         M2C_FIELD(arg0, u8*, 0x15) = 0x40;
         break;
     case 16:
-        func_800179A4(arg0, 1);
+        set_animation(arg0, 1);
         M2C_FIELD(arg0, u8*, 0x15) = 0;
         break;
     }

@@ -3,14 +3,14 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void func_80012890(s32 arg0); /* extern */
-M2C_UNK func_80013BF0();      /* extern */
-void func_8002B838(void);     /* extern */
+void set_resolution(s32 arg0); /* extern */
+M2C_UNK load_player_files();   /* extern */
+void reset_level(void);        /* extern */
 
 void func_8001E880(void* arg0) {
-    func_80012890(0);
-    func_8002B838();
-    func_80013BF0();
+    set_resolution(0);
+    reset_level();
+    load_player_files();
     M2C_FIELD(arg0, s8*, 0) = 8;
     M2C_FIELD(arg0, s8*, 1) = 0;
     M2C_FIELD(arg0, s8*, 2) = 0;

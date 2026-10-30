@@ -1,5 +1,5 @@
 #include "common.h"
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 
 void func_800EE7C8(u8* arg0) {
     u8* p;
@@ -13,10 +13,10 @@ void func_800EE7C8(u8* arg0) {
     *(s32*)(arg0 + 0x3C) = *(s32*)(p + 0x3C);
     *(s32*)(arg0 + 0x30) = *(s32*)(p + 0x30);
     if (*(s8*)(arg0 + 2) == 0) {
-        func_800179A4(arg0, 3);
+        set_animation(arg0, 3);
         arg0[5] = 0;
     } else {
-        ((void (*)(void*, s32))func_800179A4)(arg0, 4);
+        ((void (*)(void*, s32))set_animation)(arg0, 4);
         arg0[5] = 2;
     }
     arg0[4]++;

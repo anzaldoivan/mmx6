@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 extern s16 D_800970AA;
 extern s16 D_800F6AF2;
 
@@ -27,7 +27,7 @@ void func_800F341C(u8* arg0) {
     } else {
         arg0[0x15] = 0;
     }
-    func_80016C48(2, 0x35, arg0);
+    play_sound(2, 0x35, arg0);
     D_800F6AF2 = 0;
     arg0[6] = arg0[6] + 1;
 }

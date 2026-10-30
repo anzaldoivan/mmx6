@@ -8,8 +8,8 @@ extern s32 D_800EFB54;
 extern s32 D_800EFAE0[];
 extern s32 D_800EFAE8[];
 extern s32 D_800EFAF0[];
-M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_8002D2D4();
+M2C_UNK set_animation(void*, M2C_UNK);
+s32 random_byte();
 
 #define FLD(p, type, off) (*(type*)((u8*)(p) + (off)))
 
@@ -32,7 +32,7 @@ void func_800EC8B0(void* arg0) {
     FLD(arg0, u8, 0x70) = 0;
     FLD(arg0, u8, 0x15) = 0;
     FLD(arg0, u8, 0x16) = 6;
-    FLD(arg0, u8, 0x80) = func_8002D2D4() & 1;
+    FLD(arg0, u8, 0x80) = random_byte() & 1;
     FLD(arg0, s32*, 0x68) = &D_800EFAE0[FLD(arg0, u8, 0x80)];
     FLD(arg0, u8, 0x81) = 0;
     FLD(arg0, s32*, 0x54) = &D_800EFAF0[FLD(arg0, u8, 0x80)];
@@ -69,7 +69,7 @@ void func_800EC8B0(void* arg0) {
         FLD(arg0, s32, 0x24) = 0xFFFC0000;
         FLD(arg0, s32, 0x54) = 0;
         FLD(arg0, s32, 0x50) = 0;
-        ((void (*)(void*, s32))func_800179A4)(arg0, FLD(arg0, u8, 0x80));
+        ((void (*)(void*, s32))set_animation)(arg0, FLD(arg0, u8, 0x80));
         FLD(arg0, u8, 0x5) = 4;
         FLD(arg0, s32, 0x68) = 0;
         FLD(arg0, s16, 0x7C) = 0x32;
@@ -78,7 +78,7 @@ void func_800EC8B0(void* arg0) {
         FLD(arg0, u8, 0x3) = 1;
         FLD(arg0, s32, 0x20) = 0x80000;
         FLD(arg0, s32, 0x24) = 0xFFFC0000;
-        ((void (*)(void*, s32))func_800179A4)(arg0, FLD(arg0, u8, 0x80));
+        ((void (*)(void*, s32))set_animation)(arg0, FLD(arg0, u8, 0x80));
         FLD(arg0, u8, 0x5) = 4;
         FLD(arg0, s32, 0x68) = 0;
         FLD(arg0, s16, 0x7C) = 0x32;
@@ -86,7 +86,7 @@ void func_800EC8B0(void* arg0) {
     case 6:
         FLD(arg0, u8, 0x3) = 1;
         FLD(arg0, s32, 0x24) = 0xFFF70000;
-        ((void (*)(void*, s32))func_800179A4)(arg0, FLD(arg0, u8, 0x80) + 2);
+        ((void (*)(void*, s32))set_animation)(arg0, FLD(arg0, u8, 0x80) + 2);
         FLD(arg0, u8, 0x5) = 1;
         break;
     case 7:
@@ -100,7 +100,7 @@ void func_800EC8B0(void* arg0) {
         }
         FLD(arg0, s32, 0x24) = 0x21000;
         FLD(arg0, s32, 0x2C) = 0x1080;
-        ((void (*)(void*, s32))func_800179A4)(arg0, FLD(arg0, u8, 0x80));
+        ((void (*)(void*, s32))set_animation)(arg0, FLD(arg0, u8, 0x80));
         FLD(arg0, u8, 0x5) = 2;
         FLD(arg0, s16, 0x7C) = 0x14;
         break;

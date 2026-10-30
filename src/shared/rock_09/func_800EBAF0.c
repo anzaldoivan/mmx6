@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern u8 D_800970B4;
 
 #define B(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -38,7 +38,7 @@ void func_800EBAF0(u8* arg0) {
     W(arg0, 0x2C) = 0;
     UB(arg0, 0x5C) = 0;
     UB(arg0, 0x60) = 0;
-    ((void (*)(void*, s32))func_800179A4)(arg0, 1);
+    ((void (*)(void*, s32))set_animation)(arg0, 1);
     B(arg0, 5) = 0;
     B(arg0, 6) = 0;
     UB(arg0, 4) = UB(arg0, 4) + 1;

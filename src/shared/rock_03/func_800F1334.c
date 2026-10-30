@@ -2,7 +2,7 @@
 #include "psyq/libgte.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern s16 D_800F7DC0;
 extern s16 D_800F7DC2;
 extern s16 D_800F7DCA;
@@ -37,13 +37,13 @@ void func_800F1334(void* arg0) {
         W(arg0, 0x24) = -rsin(ang) * 32;
     }
     if (W(arg0, 0x20) != 0) {
-        ((void (*)(void*, s32))func_800179A4)(arg0, 2);
+        ((void (*)(void*, s32))set_animation)(arg0, 2);
     } else {
         s32 v = W(arg0, 0x24);
         if (v > 0) {
-            ((void (*)(void*, s32))func_800179A4)(arg0, 3);
+            ((void (*)(void*, s32))set_animation)(arg0, 3);
         } else if (v < 0) {
-            ((void (*)(void*, s32))func_800179A4)(arg0, 4);
+            ((void (*)(void*, s32))set_animation)(arg0, 4);
         }
     }
     UB(arg0, 6)++;

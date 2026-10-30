@@ -7,7 +7,7 @@ M2C_UNK func_80017A04(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(void*);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 extern s32 D_800FDE30;
 extern s32 D_800FE294;
 
@@ -16,7 +16,7 @@ void func_800FD7E4(void* arg0) {
         M2C_FIELD(arg0, u8*, 4) += 1;
         return;
     }
-    func_80031474(arg0);
+    check_enemy_hits(arg0);
     func_80030ECC(arg0);
     switch (M2C_FIELD(arg0, s8*, 5)) {
     case 0:

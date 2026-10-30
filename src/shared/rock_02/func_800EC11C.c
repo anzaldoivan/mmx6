@@ -3,8 +3,8 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD4C (*(u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_8002D2D4();
+M2C_UNK set_animation(void*, M2C_UNK);
+s32 random_byte();
 extern M2C_UNK D_800743DC;
 extern u8 D_800970B4;
 extern M2C_UNK D_800FADC4;
@@ -34,15 +34,15 @@ void func_800EC11C(void* arg0) {
     M2C_FIELD(arg0, u8*, 0x4) = 1;
     M2C_FIELD(arg0, u8*, 0x6) = 0;
     M2C_FIELD(arg0, u8*, 0x14) = t;
-    SPAD4C[0x81] = func_8002D2D4() & 3;
+    SPAD4C[0x81] = random_byte() & 3;
     SPAD4C[0x89] = 0;
     if (M2C_FIELD(arg0, s8*, 2) & 0x80) {
-        ((void (*)(void*, s32))func_800179A4)(arg0, 0);
+        ((void (*)(void*, s32))set_animation)(arg0, 0);
         M2C_FIELD(arg0, u8*, 0x5) = 2;
         M2C_FIELD(arg0, u8*, 0x67) = 1;
     } else {
         M2C_FIELD(arg0, u8*, 0x15) = 0;
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
         M2C_FIELD(arg0, u8*, 0x67) = 0;
         M2C_FIELD(arg0, u8*, 0x5) = 3;
     }
@@ -50,7 +50,7 @@ void func_800EC11C(void* arg0) {
         M2C_FIELD(arg0, u8*, 0x4) = 3;
     }
     if (M2C_FIELD(arg0, s8*, 2) == 3) {
-        func_800179A4(arg0, 1);
+        set_animation(arg0, 1);
         SPAD4C[0x8A] = M2C_FIELD(arg0, u8*, 0x6);
         SPAD4C[0x8B] = M2C_FIELD(arg0, u8*, 0x7C);
         *(u16*)(SPAD4C + 0x8E) = M2C_FIELD(arg0, u16*, 0xE);

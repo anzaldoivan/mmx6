@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_8002D2D4();
+s32 random_byte();
 extern u8 D_800F6FB0[];
 extern u8 D_800F7030[];
 
@@ -18,7 +18,7 @@ void func_800F4F24(void* arg0) {
     if (--H(arg0, 0x7C) == 0) {
         H(arg0, 0x88) = 0x28;
         UB(arg0, 6) = 0;
-        r = func_8002D2D4() & 0xF;
+        r = random_byte() & 0xF;
         kind = SB(arg0, 0x8A);
         UB(arg0, 0x8B) = r;
         UB(arg0, 0x8C) = 0;

@@ -6,7 +6,7 @@
 
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 s32 func_8002DCF4(void*, void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 
 extern struct X4_PlayerObj g_Player;
 extern struct X4_RideArmorObj D_800CD340;
@@ -32,7 +32,7 @@ void func_800F3CA0(void* arg0) {
         FLD_F3CA0(arg0, u8, 0x5C) = 0x7F;
         FLD_F3CA0(arg0, s32, 0x18) = FLD_F3CA0(arg0, s32, 0x8);
         FLD_F3CA0(arg0, s32, 0x1C) = FLD_F3CA0(arg0, s32, 0xC);
-        q = func_80031474(arg0);
+        q = check_enemy_hits(arg0);
         FLD_F3CA0(arg0, u16, 0x42) &= 0x7FFF;
     } while (0);
     r = q;

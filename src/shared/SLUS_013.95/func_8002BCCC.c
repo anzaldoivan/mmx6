@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s8 D_8008EF48[];
+extern s8 g_enemies[];
 extern s32 D_800C1220[];
 
 #define CLEAR_OBJ(p, BODY)                                                     \
@@ -16,7 +16,7 @@ extern s32 D_800C1220[];
         *(s32*)((p) + 0x50) = 0;                                               \
         *(s32*)((p) + 0x54) = 0;                                               \
         *(s32*)((p) + 0x68) = 0;                                               \
-        idx = (u32)((p) - D_8008EF48) / 0x9C;                                  \
+        idx = (u32)((p) - g_enemies) / 0x9C;                                   \
         m = idx / 32;                                                          \
         for (k = 0; k < 0x50; k++) {                                           \
             BODY                                                               \
@@ -28,11 +28,11 @@ void* func_8002BCCC(void* arg0, s32 arg1) {
 
     if (arg1 == 0) {
         if (p == 0) {
-            p = D_8008EF48;
+            p = g_enemies;
         } else {
             p += 0x9C;
         }
-        for (; p < D_8008EF48 + 0x30 * 0x9C; p += 0x9C) {
+        for (; p < g_enemies + 0x30 * 0x9C; p += 0x9C) {
             if (*p == 0) {
                 CLEAR_OBJ(p, {
                     s32 off = k * 0xA4 + 0x98;
@@ -43,14 +43,14 @@ void* func_8002BCCC(void* arg0, s32 arg1) {
         }
     } else {
         if (p == 0) {
-            p = D_8008EF48 + 0x2F * 0x9C;
+            p = g_enemies + 0x2F * 0x9C;
         } else {
-            if (p == D_8008EF48) {
+            if (p == g_enemies) {
                 return 0;
             }
             p -= 0x9C;
         }
-        for (; p >= D_8008EF48; p -= 0x9C) {
+        for (; p >= g_enemies; p -= 0x9C) {
             if (*p == 0) {
                 CLEAR_OBJ(p, {
                     s32 off = 0x98 + m * 4;

@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 void func_8004B50C(struct X4_VisualObj*);
 #define M2C_UNK s32
-M2C_UNK func_800179A4(void* arg0, M2C_UNK arg1);
+M2C_UNK set_animation(void* arg0, M2C_UNK arg1);
 
 void func_8004B4BC(struct X4_VisualObj* arg0) {
     arg0->state = 1;
@@ -13,6 +13,6 @@ void func_8004B4BC(struct X4_VisualObj* arg0) {
         func_8004B50C(arg0);
     } else {
         arg0->unk16 = VISUAL_SATURN_LAYER(2);
-        func_800179A4(arg0, 0x25);
+        set_animation(arg0, 0x25);
     }
 }

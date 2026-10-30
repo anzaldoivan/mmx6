@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-struct X4_MiscObj* func_8002C530(void);
+struct X4_MiscObj* alloc_sprite_slot(void);
 extern struct X4_ObjectHeader D_80097420;
 extern u8 D_800FA900[];
 
@@ -23,7 +23,7 @@ extern u8 D_800FA900[];
     } while (0)
 
 #define SPAWN_A(m, k16, a, b, c, off)                                          \
-    m = func_8002C530();                                                       \
+    m = alloc_sprite_slot();                                                   \
     if (m != 0) {                                                              \
         SPAWN_HEAD(m, 1);                                                      \
         t = F(self, u16, a);                                                   \
@@ -42,7 +42,7 @@ extern u8 D_800FA900[];
     }
 
 #define SPAWN_B(m)                                                             \
-    m = func_8002C530();                                                       \
+    m = alloc_sprite_slot();                                                   \
     if (m != 0) {                                                              \
         SPAWN_HEAD(m, 0);                                                      \
         F(m, u16, 0xA) = F(self, u16, 0x92);                                   \

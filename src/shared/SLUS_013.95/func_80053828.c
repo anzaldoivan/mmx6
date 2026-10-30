@@ -2,12 +2,12 @@
 #include "common.h"
 #include "mmx6/x4.h"
 extern void (*D_8007ACE8[])(struct X4_EffectObj*);
-s32 func_80016C48(s32, s32, void*);
+s32 play_sound(s32, s32, void*);
 
 void func_80053828(struct X4_EffectObj* self) {
     D_8007ACE8[self->unk5](self);
     if (self->ext.effect_24.unk1A == 0) {
-        func_80016C48(0, SATURN_SOUND(0x13, 0x15), 0);
+        play_sound(0, SATURN_SOUND(0x13, 0x15), 0);
         self->ext.effect_24.unk1A = 0x3C;
     } else {
         self->ext.effect_24.unk1A--;

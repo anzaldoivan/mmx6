@@ -3,9 +3,9 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-s32 func_8004FF4C(s32);
+s32 get_reploid_status(s32);
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_800EFE10(struct X4_AnimatedObj* self) {
     s32 count;
@@ -15,8 +15,8 @@ void func_800EFE10(struct X4_AnimatedObj* self) {
     count = 0;
     i = 0;
     do {
-        if (func_8004FF4C(D_800CCED0.character_state.bytes[5] * 0x10 + i) ==
-            2) {
+        if (get_reploid_status(g_playthrough_state.character_state.bytes[5] * 0x10 +
+                          i) == 2) {
             count++;
         }
         i++;

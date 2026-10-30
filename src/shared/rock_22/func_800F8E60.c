@@ -3,13 +3,13 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002C9B0();            /* extern */
+M2C_UNK clear_object_slot();            /* extern */
 M2C_UNK func_8003D308(M2C_UNK, u8); /* extern */
 extern u8 D_800970B5;
 
 void func_800F8E60(void* arg0) {
     if (M2C_FIELD(arg0, s8*, 4) == 3) {
-        func_8002C9B0();
+        clear_object_slot();
         return;
     }
     func_8003D308(0x14, D_800970B5);

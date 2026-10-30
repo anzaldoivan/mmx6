@@ -45,7 +45,7 @@ extern u8 D_800F48F8;
     }
 
 void func_800EA1F0(void* self) {
-    extern u8 D_800CCED0[];
+    extern u8 g_playthrough_state[];
     s16* pos;
     s32* e;
     s32* f;
@@ -125,7 +125,7 @@ void func_800EA1F0(void* self) {
                 func_800F02A0(0x24, 1, 0xC8, 0x9A);
                 D_800F48F8 = req;
             }
-            switch (D_800CCED0[0x69] ^ D_800CCED0[0xC8]) {
+            switch (g_playthrough_state[0x69] ^ g_playthrough_state[0xC8]) {
             case 0x1:
                 LINE(D_800F3844[1], D_800F3844[2], D_800F3920);
                 break;

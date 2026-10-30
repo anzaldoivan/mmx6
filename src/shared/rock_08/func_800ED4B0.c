@@ -5,7 +5,7 @@ void func_8003AD18(void* arg0);
 extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s16 D_800F5910[][16];
 
 #define F16(p, o) (*(s16*)((u8*)(p) + (o)))
@@ -31,10 +31,10 @@ void func_800ED4B0(u8* arg0) {
         background_objects[1].unk44 = 1;
         background_objects[2].unk44 = 1;
         g_Player.x_pos.i.hi =
-            D_800F5910[D_800CCED0.character_state.bytes[9]][0];
+            D_800F5910[g_playthrough_state.character_state.bytes[9]][0];
         g_Player.unk68 = *(void**)(arg0 + 0x84);
         func_8003AD18(&g_Player);
-        q = (u8*)&D_800CCED0;
+        q = (u8*)&g_playthrough_state;
         q[0x10] = 0;
         q[0x11] = 0;
         q[0x12] = 0;

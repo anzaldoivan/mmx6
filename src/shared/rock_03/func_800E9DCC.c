@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002CBFC(s32, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 extern s32 D_8007429C;
@@ -20,7 +20,7 @@ void func_800E9DCC(struct X4_MainObj* self) {
     self->collision_data = &D_8007429C;
     self->unk16 = 5;
     self->air_state = 1;
-    func_800179A4(self, 0xA);
+    set_animation(self, 0xA);
     {
         // !FAKE: depin: dropping it breaks the match (69/74)
         register void* r asm("$2") = &D_800F7154;

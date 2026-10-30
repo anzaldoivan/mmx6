@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80021760(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(s32);
 extern u16 D_8009721A;
 #define D_8009721A (*(s16*)&D_8009721A)
@@ -16,7 +16,7 @@ void func_800F6548(u8* arg0) {
     if (y) {
         // !FAKE: depin: dropping it breaks the match (20/23)
         register s32 c asm("$2");
-        func_80021760(6, 0xFF, 0);
+        open_text_box(6, 0xFF, 0);
         c = arg0[6];
         arg0[3] = 0;
         arg0[6] = c + 1;

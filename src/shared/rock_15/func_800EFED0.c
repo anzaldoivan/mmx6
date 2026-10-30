@@ -2,12 +2,12 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8001750C(M2C_UNK, M2C_UNK);
+M2C_UNK silence_sound(M2C_UNK, M2C_UNK);
 M2C_UNK func_80017A04();
-void func_800186A8();
+void stop_cd_audio();
 s32 func_8002D30C();
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_8004A0C0(M2C_UNK, s16, s16, s32);
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_800759BC;
@@ -33,11 +33,11 @@ void func_800EFED0(void* arg0) {
         M2C_FIELD(arg0, void**, 0x58) = p;
     }
     D_800F6E24[M2C_FIELD(arg0, s8*, 5)](arg0);
-    v = func_80031474(arg0);
+    v = check_enemy_hits(arg0);
     if (v < 0) {
         i = 7;
-        func_800186A8();
-        func_8001750C(0xFF, 0);
+        stop_cd_audio();
+        silence_sound(0xFF, 0);
         D_8009711A = 1;
         do {
             x = M2C_FIELD(arg0, s16*, 0xA) + func_8002D30C() % 32;

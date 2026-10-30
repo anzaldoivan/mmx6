@@ -7,8 +7,8 @@ extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3964;
 extern s32 D_801F3968[];
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 void func_8003CF24(s32, s32, s32);
 M2C_UNK player_spawn_visual(M2C_UNK, M2C_UNK, s8, M2C_UNK);
@@ -41,8 +41,8 @@ void func_801EEE40(struct X4_WeaponObj* arg0) {
             arg0->unk68 = 0;
             M2C_FIELD(arg0, u8*, 0x9D) = 1;
             func_801EE34C(arg0, &g_Player, 2);
-            func_800179A4(arg0, 0);
-            func_80016C48(1, 0x14, arg0);
+            set_animation(arg0, 0);
+            play_sound(1, 0x14, arg0);
             M2C_FIELD(arg0, u8*, 0x8D) = 0;
             arg0->state = 1;
             arg0->unk5 = 0;
@@ -52,7 +52,7 @@ void func_801EEE40(struct X4_WeaponObj* arg0) {
         func_8002CCB0(arg0, 0x10, 0x10);
     } else if (temp_v1 == 0x34) {
         func_8002CCB0(arg0, 0x10, 0x10);
-        func_800179A4(arg0, arg0->unk2 + 3);
+        set_animation(arg0, arg0->unk2 + 3);
         {
             // !FAKE: depin: dropping it breaks the match (91/96)
             register s32* t50 asm("$2") = &D_801F3964;

@@ -3,8 +3,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern struct X4_PlayerObj g_Player;
 extern u8 D_800F7BA0[][6];
 extern s16 D_800F7E10;
@@ -19,7 +19,7 @@ void func_800F174C(void* arg0) {
     u8 idx;
 
     if (H(arg0, 0x7C) == 0x5A) {
-        func_80016C48(2, 0x2A, arg0);
+        play_sound(2, 0x2A, arg0);
     }
     if (!(H(arg0, 0x7C) & 7)) {
         if (g_Player.x_pos.i.hi > H(arg0, 0xA)) {
@@ -39,7 +39,7 @@ void func_800F174C(void* arg0) {
         H(arg0, 0x8E) = 0;
     }
     if (++H(arg0, 0x7C) == 0x1F4 || D_800F7E10 == 0) {
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
         idx = UB(arg0, 0x87)++;
         W(arg0, 0x20) = 0;
         W(arg0, 0x24) = 0;

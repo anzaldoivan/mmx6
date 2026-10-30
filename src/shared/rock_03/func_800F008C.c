@@ -1,9 +1,9 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
-void* func_8002BBF4();
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
+void* enemy_slot_alloc();
 void* func_8002C458();
 extern s16 D_800F7DCA;
 extern s16 D_800F7DCC;
@@ -62,7 +62,7 @@ void func_800F008C(void* arg0) {
         D_800F7E0E = 0;
         D_800F7E0C = *D_800F7DF0 - D_800F7E10;
         for (i = 0; i < D_800F7E0C; i++) {
-            p = func_8002BBF4();
+            p = enemy_slot_alloc();
             if (p != 0) {
                 UB(p, 0x0) = UB(arg0, 0x0);
                 UB(p, 0x1) = UB(arg0, 0x1);
@@ -72,8 +72,8 @@ void func_800F008C(void* arg0) {
             }
         }
         if (D_800F7E0C != 0) {
-            func_800179A4(arg0, 5);
-            func_80016C48(2, 0x22, arg0);
+            set_animation(arg0, 5);
+            play_sound(2, 0x22, arg0);
             q = func_8002C458();
             if (q != 0) {
                 UB(q, 0x0) = UB(arg0, 0x0);

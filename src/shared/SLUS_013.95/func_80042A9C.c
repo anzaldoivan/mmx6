@@ -1,14 +1,14 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-void* func_8002C530(); /* extern */
+void* alloc_sprite_slot(); /* extern */
 
 void func_80042A9C(struct X4_MainObj* self, s32 arg1) {
     u8 kind;
     struct X4_MainObj* obj;
 
     kind = arg1;
-    obj = func_8002C530();
+    obj = alloc_sprite_slot();
     if (obj != 0) {
         obj->active = 0x41;
         obj->id = 0xB;

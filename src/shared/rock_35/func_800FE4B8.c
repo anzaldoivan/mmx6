@@ -7,13 +7,13 @@ M2C_UNK func_80017A04();                        /* extern */
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);     /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK move_object(void*);                     /* extern */
-s32 func_80031474(void*);                       /* extern */
+s32 check_enemy_hits(void*);                    /* extern */
 M2C_UNK func_80049E50(void*);                   /* extern */
 
 void func_800FE4B8(void* arg0) {
     ((M2C_UNK(*)())func_80017A04)();
     move_object(arg0);
-    if (func_80031474(arg0) < 0) {
+    if (check_enemy_hits(arg0) < 0) {
         func_80049E50(arg0);
         goto block_5;
     }

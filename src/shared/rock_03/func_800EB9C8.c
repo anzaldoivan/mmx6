@@ -4,8 +4,8 @@
 
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_8002D2D4();
+M2C_UNK set_animation(void*, M2C_UNK);
+s32 random_byte();
 void func_800EBC20(struct X4_MainObj* self);
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_800F7180;
@@ -19,8 +19,8 @@ void func_800EB9C8(u8* arg0) {
         *(u16*)(SPAD + 0x8A) = *(u16*)(arg0 + 0xA);
         *(u16*)(SPAD + 0x8C) = *(u16*)(arg0 + 0xE);
         SPAD[0x88] = 3;
-        func_800179A4(arg0, 4);
-        i = func_8002D2D4() & 0xF;
+        set_animation(arg0, 4);
+        i = random_byte() & 0xF;
         *(u16*)(arg0 + 0xA) =
             background_objects[0].x_pos.i.hi + D_800F72AC[i * 2];
         *(u16*)(arg0 + 0xE) =

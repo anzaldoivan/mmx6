@@ -2,12 +2,12 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+M2C_UNK set_animation(void*, M2C_UNK);
+#define set_animation ((void (*)(void*, s32))set_animation)
 void func_80017A04(struct X4_AnimatedObj*);
 M2C_UNK func_80017B04(M2C_UNK*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002C9B0();
-#define func_8002C9B0 ((void (*)())func_8002C9B0)
+M2C_UNK clear_object_slot();
+#define clear_object_slot ((void (*)())clear_object_slot)
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
 void move_object(struct X4_MovingObj*);
@@ -33,7 +33,7 @@ void func_801F33F0(struct X4_WeaponObj* arg0) {
     player = &g_Player;
     t = player->unk5 == 0x4D;
     if (!t) {
-        func_8002C9B0();
+        clear_object_slot();
         return;
     }
     if (arg0->state == 0) {
@@ -49,7 +49,7 @@ void func_801F33F0(struct X4_WeaponObj* arg0) {
         arg0->animation_table = (u32**)&D_80077ADC;
         arg0->unk64 = 1;
         arg0->unk3C = temp_v1 + temp_a2;
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
         F_U8(arg0, 0x48) = 0xFF;
         arg0->unk49 = 1;
         func_8003CF24(0x56, 0x1B, 1);
@@ -75,13 +75,13 @@ void func_801F33F0(struct X4_WeaponObj* arg0) {
     }
     func_8002CCB0(arg0, 0x20, 0x30);
     if (arg0->on_screen == 0) {
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
         F_U8(player, 0xE1)++;
     }
 }
 #undef g_Player
-#undef func_800179A4
-#undef func_8002C9B0
+#undef set_animation
+#undef clear_object_slot
 #undef func_8002CCB0
 #undef SCRATCH_14
 #undef SCRATCH_1C

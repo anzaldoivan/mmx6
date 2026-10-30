@@ -2,9 +2,9 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object(void*);
-s32 func_8002D2D4();
+s32 random_byte();
 void func_800F513C(struct X4_AnimatedObj* arg0, u8 arg1);
 void func_800F5360(void*, s32);
 extern struct X4_PlayerObj g_Player;
@@ -22,7 +22,7 @@ void func_800F1CF0(void* arg0) {
         register s32 f asm("$2") = UB(arg0, 0x15);
         if (f == 0) {
             if (g_Player.x_pos.i.hi >= SH(arg0, 0xA) || (UB(arg0, 0x70) & 2)) {
-                func_800179A4(arg0, 0x17);
+                set_animation(arg0, 0x17);
                 {
                     // !FAKE: depin: dropping it breaks the match (24/112)
                     register s32 k asm("$2") = 0xFFFA0000;
@@ -38,12 +38,12 @@ void func_800F1CF0(void* arg0) {
             }
             if (SH(arg0, 0x84) >= SH(arg0, 0xA)) {
                 SH(arg0, 0x84) =
-                    UH(arg0, 0xA) - ((func_8002D2D4() & 0x1F) | 0x20);
+                    UH(arg0, 0xA) - ((random_byte() & 0x1F) | 0x20);
                 func_800F513C(arg0, 0x10);
             }
         } else {
             if (g_Player.x_pos.i.hi <= SH(arg0, 0xA) || (UB(arg0, 0x70) & 1)) {
-                func_800179A4(arg0, 0x17);
+                set_animation(arg0, 0x17);
                 {
                     // !FAKE: depin: dropping it breaks the match (25/112)
                     register s32 k asm("$2") = 0x60000;
@@ -59,7 +59,7 @@ void func_800F1CF0(void* arg0) {
             }
             if (SH(arg0, 0xA) >= SH(arg0, 0x84)) {
                 SH(arg0, 0x84) =
-                    UH(arg0, 0xA) + ((func_8002D2D4() & 0x1F) | 0x20);
+                    UH(arg0, 0xA) + ((random_byte() & 0x1F) | 0x20);
                 func_800F513C(arg0, 0x10);
             }
         }

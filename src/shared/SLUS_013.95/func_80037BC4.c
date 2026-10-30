@@ -8,10 +8,10 @@ M2C_UNK func_8003AF1C(void*);
 void func_8003B870(struct X4_PlayerObj* self);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 M2C_UNK func_8003CCBC();
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_80037BC4(void* arg0) {
-    struct X4_EngineObj* e = &D_800CCED0;
+    struct X4_EngineObj* e = &g_playthrough_state;
 
     if (e->unkF != 0) {
         ((void (*)())func_8003B870)();

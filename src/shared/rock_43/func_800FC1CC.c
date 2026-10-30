@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void* func_8002C3F8();
+void* alloc_class3_slot();
 void* func_8002C458();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern s8 D_800970A5;
@@ -16,7 +16,7 @@ void func_800FC1CC(void* arg0) {
         D_8009723F = 2;
         func_8003D308(0x1D, 0x40);
         M2C_FIELD(arg0, s16*, 0x7C) = 0x28;
-        p = func_8002C3F8();
+        p = alloc_class3_slot();
         if (p != 0) {
             M2C_FIELD(p, u8*, 0) = 1;
             M2C_FIELD(p, u8*, 1) = 0x18;

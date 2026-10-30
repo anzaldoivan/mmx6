@@ -5,7 +5,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK move_object(void*);
-s32 func_8002D2D4();
+s32 random_byte();
 
 void func_800F77A8(void* self) {
     void* t;
@@ -16,8 +16,8 @@ void func_800F77A8(void* self) {
 
     t = M2C_FIELD(self, void**, 0x50);
     if (--M2C_FIELD(self, s16*, 0x56) == 0) {
-        M2C_FIELD(self, u16*, 0x56) = (func_8002D2D4() & 7) + 5;
-        M2C_FIELD(self, s16*, 0x58) = (u8)((u32)func_8002D2D4() % 3);
+        M2C_FIELD(self, u16*, 0x56) = (random_byte() & 7) + 5;
+        M2C_FIELD(self, s16*, 0x58) = (u8)((u32)random_byte() % 3);
     }
     v = M2C_FIELD(t, s16*, 0xA);
     w = M2C_FIELD(t, s16*, 0xE);

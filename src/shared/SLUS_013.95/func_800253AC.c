@@ -3,7 +3,7 @@
 
 u32 func_80025248(u16);
 extern u16 D_80071E48[][4];
-extern struct X4_DrawInfo* D_8009B7A0;
+extern struct X4_DrawInfo* g_cur_draw_info;
 
 #define PRIM_NEXT (*(u8**)SP(0x110))
 #define PB(p, o) (*(u8*)((p) + (o)))
@@ -68,7 +68,7 @@ void func_800253AC(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4, u32 arg5,
     BLEND(0xC, 0x1C);
     BLEND(0xD, 0x1D);
     BLEND(0xE, 0x1E);
-    ot = &D_8009B7A0->ordering_table.unk5[0];
+    ot = &g_cur_draw_info->ordering_table.unk5[0];
     PW(p, 0) = (PW(p, 0) & 0xFF000000) | (*ot & 0xFFFFFF);
     *ot = (*ot & 0xFF000000) | ((u32)p & 0xFFFFFF);
     PRIM_NEXT += 0x24;

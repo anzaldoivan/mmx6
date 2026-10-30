@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 #define SPAD28 (*(s32*)0x1F800028)
 
-M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
+M2C_UNK load_palette(M2C_UNK, M2C_UNK*, M2C_UNK);
 M2C_UNK func_8002B410(M2C_UNK*, M2C_UNK*, M2C_UNK, s32, s32);
 extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_800CD40C;
@@ -32,13 +32,13 @@ void func_800E9864(u8* arg0) {
         D_800F2242 = 0x60;
         D_800F2244 = 0x60;
         func_8002B410(&D_800ED440, &D_800ED240, 0x10, 0x60, 0x60);
-        func_8002B3D4(0x60, &D_800ED440, 1);
+        load_palette(0x60, &D_800ED440, 1);
         func_8002B410(&D_800EE840, &D_800ED640, 0x100, D_800F2242, 0x60);
-        func_8002B3D4(0x70, &D_800EE840, 0x10);
+        load_palette(0x70, &D_800EE840, 0x10);
         func_8002B410(&D_800F0C40, &D_800EFA40, 0x100, D_800F2244, 0x60);
-        func_8002B3D4(0x80, &D_800F0C40, 0x10);
+        load_palette(0x80, &D_800F0C40, 0x10);
         func_8002B410(&D_800F2040, &D_800F1E40, 0x10, D_800F2240, 0x60);
-        func_8002B3D4(0x61, &D_800F2040, 1);
+        load_palette(0x61, &D_800F2040, 1);
         background_objects[0].x_pos.u.hi = 0;
         background_objects[0].y_pos.u.hi = 0;
         background_objects[0].unk4C = 1;

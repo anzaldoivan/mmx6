@@ -5,14 +5,14 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_80012D9C(M2C_UNK);                   /* extern */
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);   /* extern */
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);      /* extern */
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
 void func_800F1DA8(void*, s32, s32);              /* extern */
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F2DC0(void* arg0) {
     if (M2C_FIELD(arg0, s8*, 7) == 0) {
-        func_80016C48(2, 0x76, arg0);
+        play_sound(2, 0x76, arg0);
         ((void (*)(s32))func_80012D9C)(6);
         if (M2C_FIELD(arg0, s16*, 0x7C) != 0) {
             M2C_FIELD(arg0, s16*, 0xA) = background_objects[0].unk26 + 0x40;

@@ -4,8 +4,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-s32 func_8002D2D4();
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+s32 random_byte();
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F5378(struct X4_AnimatedObj* arg0) {
@@ -18,14 +18,14 @@ void func_800F5378(struct X4_AnimatedObj* arg0) {
 
     if (M2C_FIELD(arg0, s8*, 0x45) == 2) {
         if (M2C_FIELD(arg0, s16*, 0x7E) == 0) {
-            func_80016C48(2, 0x59, arg0);
+            play_sound(2, 0x59, arg0);
         } else {
-            func_80016C48(2, 0x5A, arg0);
+            play_sound(2, 0x5A, arg0);
         }
     }
     if (M2C_FIELD(arg0, s8*, 0x45) == 1) {
         arg0->unk16 = 4;
-        r = func_8002D2D4() & 3;
+        r = random_byte() & 3;
         switch (r) {
         case 0:
             arg0->unk15 = 0;
@@ -48,7 +48,7 @@ void func_800F5378(struct X4_AnimatedObj* arg0) {
             arg0->y_pos.i.hi = background_objects[0].y_pos.i.hi + 0x90;
             break;
         }
-        m = (u8)((u32)func_8002D2D4() % 3);
+        m = (u8)((u32)random_byte() % 3);
         n = (u8)(r + 1);
         n = (n + m) & 3;
         switch (n) {

@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 M2C_UNK func_8002D230();
 
@@ -34,6 +34,6 @@ void func_800EE580(struct X4_MainObj* self) {
         }
     }
     if (self->on_screen != 0 && !(D_80097420 & 0x1F)) {
-        func_80016C48(2, 0xD, self);
+        play_sound(2, 0xD, self);
     }
 }

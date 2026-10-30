@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 void func_8003C964(void* arg0);
 M2C_UNK func_8003CD9C();
 M2C_UNK func_8003CFE0(void*, M2C_UNK);
@@ -11,7 +11,7 @@ void player_set_animation_shooting(struct X4_PlayerObj* self, s32 animation);
 
 void func_8003B440(void* arg0) {
     player_set_animation_shooting(arg0, 0xE);
-    func_80016C48(1, 3, arg0);
+    play_sound(1, 3, arg0);
     func_8003CFE0(arg0, 2);
     {
         s32 one = 1;

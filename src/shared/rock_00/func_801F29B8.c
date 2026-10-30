@@ -4,7 +4,7 @@
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
-M2C_UNK func_8002C9B0(void*);
+M2C_UNK clear_object_slot(void*);
 void func_801F29B8(struct X4_WeaponObj* arg0) {
     struct X4_WeaponObj* owner;
 
@@ -20,6 +20,6 @@ void func_801F29B8(struct X4_WeaponObj* arg0) {
             owner->unk7--;
         }
     }
-    ((void (*)())func_8002C9B0)(OBJECT_HEADER(arg0));
+    ((void (*)())clear_object_slot)(OBJECT_HEADER(arg0));
 }
 #undef g_Player

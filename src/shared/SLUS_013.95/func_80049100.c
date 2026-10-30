@@ -2,9 +2,9 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 s32 func_8002CB50(struct X4_BaseObj*);
 void func_80049748(struct X4_BaseObj* arg0, struct X4_BaseObj* arg1);
 extern u32* D_8007789C[];
@@ -18,7 +18,7 @@ void func_80049100(struct X4_VisualObj* arg0) {
     s32 off;
 
     if (g_Player.unk5 == 0x14) {
-        ((void (*)())func_8002C9B0)();
+        ((void (*)())clear_object_slot)();
         return;
     }
     if (arg0->state == 0) {
@@ -32,7 +32,7 @@ void func_80049100(struct X4_VisualObj* arg0) {
         arg0->unk16 = 3;
         arg0->unk3C = p += off;
         ((void (*)())func_80049748)(arg0, &g_Player, p, off);
-        ((void (*)())func_800179A4)(arg0, 2);
+        ((void (*)())set_animation)(arg0, 2);
         arg0->state++;
     } else {
         ((void (*)())func_80017A04)(arg0);
@@ -51,7 +51,7 @@ void func_80049100(struct X4_VisualObj* arg0) {
             var_v1 = 1;
         }
         if (var_v1 != 0) {
-            ((void (*)())func_8002C9B0)(arg0);
+            ((void (*)())clear_object_slot)(arg0);
             return;
         }
     }

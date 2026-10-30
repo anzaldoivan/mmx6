@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
-s32 func_8002D2D4();
+s32 random_byte();
 void func_800F4664(s16 arg0, s16 arg1);
 extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_800FC9C0[];
@@ -25,13 +25,13 @@ void func_800EFAE4(void* self) {
     D_800FD51C = 0;
     for (; i < D_800FD51F / 2 + 1;) {
         row = i << 5;
-        x = 0x10 - (func_8002D2D4() & 0x1F);
-        y = (s16)(0x10 - (func_8002D2D4() & 0x1F)) + 8;
+        x = 0x10 - (random_byte() & 0x1F);
+        y = (s16)(0x10 - (random_byte() & 0x1F)) + 8;
         func_800F4664(x + (s16)(background_objects[0].x_pos.u.hi + 0x10),
                       background_objects[0].y_pos.i.hi + (row + y));
         i++;
-        x = 0x10 - (func_8002D2D4() & 0x1F);
-        y = (s16)(0x10 - (func_8002D2D4() & 0x1F)) + 8;
+        x = 0x10 - (random_byte() & 0x1F);
+        y = (s16)(0x10 - (random_byte() & 0x1F)) + 8;
         func_800F4664(x + (s16)(background_objects[0].x_pos.u.hi + 0x130),
                       background_objects[0].y_pos.i.hi + (row + y));
     }

@@ -4,17 +4,17 @@
 void func_8001D218();
 void func_80025F34();
 s32 func_800280F4();
-void func_80029B8C(void);
+void init_checkpoint_positions(void);
 void func_800F02A0(u8, s8, s32, s16);
 void func_800F0784(s32);
 extern u8 D_80097427;
-extern struct X4_EngineObj D_800CCED0;
-#define ENG ((u8*)&D_800CCED0)
+extern struct X4_EngineObj g_playthrough_state;
+#define ENG ((u8*)&g_playthrough_state)
 
 void func_800EAE98(u8* arg0) {
     u8* eng;
     func_8001D218();
-    func_80029B8C();
+    init_checkpoint_positions();
     eng = ENG;
     func_800280F4();
     func_80025F34();

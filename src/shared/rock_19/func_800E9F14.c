@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern u8 D_800EA1B0[];
 extern u16 D_800EA1D0[][2];
 extern u8 D_800EA1F0[];
@@ -28,7 +28,7 @@ void func_800E9F14(void* arg0) {
     F(s32, 0x3C) = (s32)p + off;
     F(u16, 0xA) = D_800EA1D0[idx][0];
     F(u16, 0xE) = D_800EA1D0[idx][1];
-    func_800179A4(arg0, D_800EA1F0[idx]);
+    set_animation(arg0, D_800EA1F0[idx]);
     {
         // !FAKE: test value in the first return register
         register s32 t asm("$2") = F(u8, 0x2);

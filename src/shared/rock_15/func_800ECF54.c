@@ -4,9 +4,9 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80017A04();
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 void func_800EF080(void* arg0);
 extern M2C_UNK D_8007433C;
@@ -25,7 +25,7 @@ void func_800ECF54(void* arg0) {
         (*(void (**)(void*))((s8*)D_800F6680 + i))(arg0);
     }
     func_800EF080(arg0);
-    r = func_80031474(arg0);
+    r = check_enemy_hits(arg0);
     if (r < 0) {
         if (M2C_FIELD(arg0, s8*, 2) == 0) {
             D_8009711A = 1;
@@ -47,7 +47,7 @@ void func_800ECF54(void* arg0) {
         }
         if (r == 5 || r == 0xE || r == 0x24 ||
             ((D_800CCF5C - M2C_FIELD(arg0, s8*, 0x5C)) % 6 == 0 &&
-             !(func_8002D2D4() & 3))) {
+             !(random_byte() & 3))) {
             M2C_FIELD(arg0, void**, 0x58) = &D_8007433C;
             M2C_FIELD(arg0, s16*, 0x86) = 0x2710;
             M2C_FIELD(arg0, s8*, 5) = 3;

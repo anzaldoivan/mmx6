@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 extern s32 D_8009718C;
 extern s32 D_801F3794;
@@ -39,7 +39,7 @@ void func_801ECF64(u8* arg0) {
     W(arg0, 0x28) = 0;
     W(arg0, 0x24) = 0;
     W(arg0, 0x2C) = 0;
-    func_800179A4(arg0, SB(arg0, 2) + 0x1A);
+    set_animation(arg0, SB(arg0, 2) + 0x1A);
     B(arg0, 4)++;
     func_8002CCB0(arg0, 0x20, 0x14);
 }

@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void func_8003B114(s32 arg0);          /* extern */
+void end_dash(s32 arg0);               /* extern */
 M2C_UNK func_8003BA04(void*, M2C_UNK); /* extern */
 
 void func_800379AC(void* arg0) {
@@ -21,7 +21,7 @@ void func_800379AC(void* arg0) {
     }
     if (v == 0) {
         M2C_FIELD(arg0, u8*, 0xA4) = 0;
-        func_8003B114((s32)arg0);
+        end_dash((s32)arg0);
     } else {
         if (v == -1) {
             func_8003BA04(arg0, 0x25);

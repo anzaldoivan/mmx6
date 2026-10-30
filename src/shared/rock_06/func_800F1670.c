@@ -4,11 +4,11 @@
 #define NULL ((void*)0)
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*); /* extern */
-M2C_UNK func_800179A4(void*, M2C_UNK);          /* extern */
-M2C_UNK func_80017A04();                        /* extern */
-s32 func_8002A47C(s32);                         /* extern */
-void* func_8002C32C();                          /* extern */
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
+M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
+M2C_UNK func_80017A04();                     /* extern */
+s32 func_8002A47C(s32);                      /* extern */
+void* func_8002C32C();                       /* extern */
 extern M2C_UNK g_Player;
 extern s8 D_800970FC;
 
@@ -36,7 +36,7 @@ static inline void F1670_spawn(void* self, s32 kind) {
 
 #define CRY(self, anim, voice)                                                 \
     {                                                                          \
-        ((void (*)(void*, s32))func_800179A4)(self, anim);                     \
+        ((void (*)(void*, s32))set_animation)(self, anim);                     \
         if (M2C_FIELD(self, u8*, 0x8D) == 0) {                                 \
             void* pl = &g_Player;                                              \
             M2C_FIELD(pl, u8*, 0xD8) = voice;                                  \
@@ -64,11 +64,11 @@ void func_800F1670(void* arg0) {
             F1670_spawn(arg0, 0);
         }
         M2C_FIELD(arg0, u8*, 0x87) = 0;
-        func_80016C48(2, 7, 0);
+        play_sound(2, 7, 0);
     }
     if ((M2C_FIELD(arg0, u16*, 0x88) & 7) == 4) {
         if (M2C_FIELD(arg0, u16*, 0x8A) & 0x80) {
-            func_80016C48(2, 0x25, 0);
+            play_sound(2, 0x25, 0);
             hit = 1;
         } else {
             goto clear;

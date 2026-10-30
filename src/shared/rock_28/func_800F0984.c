@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_8002C9B0();
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK clear_object_slot();
 s32 func_80030234();
 void func_800F04C0();
 void func_800F0754(void);
@@ -36,18 +36,18 @@ void func_800F0984(struct X4_PlayerObj* self) {
     }
     if (pl->unk5 == 0x14) {
         if (self->bg_offset != 0) {
-            func_80016C48(5, 3, 0);
+            play_sound(5, 3, 0);
             self->bg_offset = 0;
         }
         return;
     }
     if (D_80097202 >= 0xAC0) {
-        func_80016C48(5, 3, 0);
-        ((M2C_UNK(*)())func_8002C9B0)(self);
+        play_sound(5, 3, 0);
+        ((M2C_UNK(*)())clear_object_slot)(self);
         return;
     }
     if (self->bg_offset == 0 || *(s16*)((u8*)pl + 0x14C) != 0) {
-        func_80016C48(5, 6, 0);
+        play_sound(5, 6, 0);
         self->bg_offset = 1;
     }
     func_800F0754();

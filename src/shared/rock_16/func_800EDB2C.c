@@ -3,11 +3,11 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_8002CB50();
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u16 D_800F111C[][2];
 
-#define SEL (D_800CCED0.character_state.bytes[1])
-#define E66 ((u8)D_800CCED0.character_state.bytes[0x40])
+#define SEL (g_playthrough_state.character_state.bytes[1])
+#define E66 ((u8)g_playthrough_state.character_state.bytes[0x40])
 
 static inline s32 chr_idx_800EDB2C(s32 x) {
     if (x == 8) {

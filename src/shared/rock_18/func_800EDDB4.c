@@ -5,7 +5,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void func_800EFBFC(void*, u8, s16, s16);
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s16 D_800F0E98[];
 
 #define DIGIT(c, n)                                                            \
@@ -28,10 +28,10 @@ void func_800EDDB4(struct X4_BaseObj* self) {
     s32 minutes;
     s32 seconds;
 
-    if ((u32)((u8)D_800CCED0.character_state.bytes[0] - 1) < 8U) {
-        time = ((s32*)&D_800CCED0)[0x43C / 4];
+    if ((u32)((u8)g_playthrough_state.character_state.bytes[0] - 1) < 8U) {
+        time = ((s32*)&g_playthrough_state)[0x43C / 4];
     } else {
-        time = ((s32*)&D_800CCED0)[0x90 / 4];
+        time = ((s32*)&g_playthrough_state)[0x90 / 4];
     }
     DIGIT(0x49, 4);
     DIGIT(0x4A, 10);

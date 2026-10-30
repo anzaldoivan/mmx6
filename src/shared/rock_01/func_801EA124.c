@@ -1,8 +1,8 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-s32 func_8002D2D4();
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+s32 random_byte();
 s32 func_8002FE30(void*);
 s32 func_8003A814(void*, s32);
 M2C_UNK func_8003AF1C(void*);
@@ -19,8 +19,8 @@ s32 func_801EA124(void* arg0) {
         return 0;
     }
     func_8003BA04(p, func_8003A814(p, func_8002FE30(p) & 0xFF) + 0x6B);
-    func_80016C48(1, 8, p);
-    if (func_8002D2D4() & 4) {
+    play_sound(1, 8, p);
+    if (random_byte() & 4) {
         func_8003CFE0(p, 8);
     }
     ((void (*)(void*))func_8003CD9C)(p);

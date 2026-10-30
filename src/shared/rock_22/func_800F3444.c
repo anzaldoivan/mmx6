@@ -11,10 +11,10 @@
 s32 func_8002CAB4(struct X4_BaseObj*);
 M2C_UNK func_8002CB50();
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
-void func_8004E680(struct X4_BaseObj* arg0, s8 arg1, s16 arg2, s16 arg3);
+void drop_item(struct X4_BaseObj* arg0, s8 arg1, s16 arg2, s16 arg3);
 extern s32 D_800FC5F8;
 extern void (*D_800FC6E4[])(u8*);
 
@@ -28,7 +28,7 @@ void func_800F3444(u8* arg0) {
     M2C_FIELD(arg0, s32*, 0x1C) = M2C_FIELD(arg0, s32*, 0xC);
     D_800FC6E4[M2C_FIELD(arg0, s8*, 0x5)](arg0);
     func_80030ECC(arg0);
-    r = func_80031474(arg0);
+    r = check_enemy_hits(arg0);
     if (r < 0) {
         func_80049E50(arg0);
         func_800477E4(8, &D_800FC5F8, arg0);
@@ -53,7 +53,7 @@ void func_800F3444(u8* arg0) {
             x += 0x10;
             break;
         }
-        func_8004E680((struct X4_BaseObj*)arg0, 0x12, x + 0x10, y);
+        drop_item((struct X4_BaseObj*)arg0, 0x12, x + 0x10, y);
         goto end;
     }
     if (r != 0) {

@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 struct X4_VisualObj* func_8002C398(void);
-s32 func_8002D2D4();
+s32 random_byte();
 
 extern s32 D_80077D58[];
 extern s32 D_80077D78[];
@@ -31,16 +31,16 @@ void func_8004A998(u8 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
             U8(0x0) = 0x21;
             U8(0x1) = 9;
             U8(0x2) = 0;
-            t = func_8002D2D4();
-            u = func_8002D2D4();
+            t = random_byte();
+            u = random_byte();
             t <<= 8;
             t += u;
             t += 1;
             rx = t & 0xFFFF;
             do {
-                t = func_8002D2D4();
+                t = random_byte();
             } while (0);
-            u = func_8002D2D4();
+            u = random_byte();
             t <<= 8;
             t += u;
             t += 1;
@@ -66,20 +66,20 @@ void func_8004A998(u8 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
             S16(0xC) = 0;
             switch ((s32)(kind & 0xF)) {
             case 1:
-                S32(0x20) = D_80077D78[func_8002D2D4() & 7] * 4;
-                S32(0x24) = D_80077D58[func_8002D2D4() & 3] * 4;
+                S32(0x20) = D_80077D78[random_byte() & 7] * 4;
+                S32(0x24) = D_80077D58[random_byte() & 3] * 4;
                 break;
             case 2:
-                S32(0x20) = -(D_80077D78[func_8002D2D4() & 7] * 4);
-                S32(0x24) = D_80077D58[func_8002D2D4() & 3] * 4;
+                S32(0x20) = -(D_80077D78[random_byte() & 7] * 4);
+                S32(0x24) = D_80077D58[random_byte() & 3] * 4;
                 break;
             case 4:
-                S32(0x20) = -(D_80077D78[func_8002D2D4() & 7] * 4);
-                S32(0x24) = -(D_80077D58[func_8002D2D4() & 3] * 4);
+                S32(0x20) = -(D_80077D78[random_byte() & 7] * 4);
+                S32(0x24) = -(D_80077D58[random_byte() & 3] * 4);
                 break;
             case 8:
-                S32(0x20) = D_80077D78[func_8002D2D4() & 7] * 4;
-                S32(0x24) = -(D_80077D58[func_8002D2D4() & 3] * 4);
+                S32(0x20) = D_80077D78[random_byte() & 7] * 4;
+                S32(0x24) = -(D_80077D58[random_byte() & 3] * 4);
                 break;
             default:
                 S32(0x20) = 0;

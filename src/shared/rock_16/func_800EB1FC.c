@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 
 void func_8001D218();
-M2C_UNK func_8002B838();
+M2C_UNK reset_level();
 s32 func_80042F50(s32, s32);
 void func_80042F7C(s8 arg0, s8* arg1, s8* arg2);
 
@@ -48,7 +48,7 @@ void func_800EB1FC(s8* self) {
         }
         self[0x464] = 0;
         func_8001D218();
-        func_8002B838();
+        reset_level();
         if ((u8)(self[0xC] - 1) < 8) {
             for (i = 0; i < 3; i++) {
                 v = D_800F0F14[i + (self[0xC] - 1) * 3];

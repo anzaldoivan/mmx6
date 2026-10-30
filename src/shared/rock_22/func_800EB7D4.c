@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 extern u16 D_800FB700[];
@@ -28,7 +28,7 @@ void func_800EB7D4(struct X4_MainObj* arg0) {
         arg0->unk7C = 0;
         arg0->unk7E = 0xA;
         arg0->unk6++;
-        func_80016C48(5, 1, arg0);
+        play_sound(5, 1, arg0);
         func_80012D9C(4);
     }
 }

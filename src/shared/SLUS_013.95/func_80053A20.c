@@ -3,8 +3,8 @@
 
 extern u16 D_80090E70;
 s32 func_80013AA4(s8 arg0);
-struct X4_QuadObj* func_8002C7F0(void);
-s32 func_8002D2D4();
+struct X4_QuadObj* alloc_class6_slot(void);
+s32 random_byte();
 s32 func_8002D30C();
 void func_80049F98();
 
@@ -23,11 +23,11 @@ void func_80053A20(struct X4_BaseObj* self) {
             func_80049F98(self, 1, 0x60, 0x60, 2);
         }
         if (!(func_8002D30C() & 1)) {
-            q = func_8002C7F0();
+            q = alloc_class6_slot();
             if (q != 0) {
                 q->active = 1;
                 q->id = 4;
-                func_8002D2D4();
+                random_byte();
                 q->x_pos.u.lo = D_80090E70 & 0xFFF;
                 q->x_pos.u.hi = self->x_pos.u.hi;
                 q->y_pos.u.hi = self->y_pos.u.hi;
@@ -35,7 +35,7 @@ void func_80053A20(struct X4_BaseObj* self) {
         }
     } else {
         for (i = 0; i < 16; i++) {
-            struct X4_QuadObj* p = func_8002C7F0();
+            struct X4_QuadObj* p = alloc_class6_slot();
             if (p != 0) {
                 p->active = 1;
                 p->id = 6;

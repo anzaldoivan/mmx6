@@ -8,7 +8,7 @@ struct X4_VisualObj* func_8002C398(void);
 s32 func_8002D30C();
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 void func_8004E654(struct X4_BaseObj* arg0, s8 arg1);
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern M2C_UNK D_800F55DC;
 
 void func_800EAEF8(void* arg0) {
@@ -47,11 +47,11 @@ void func_800EAEF8(void* arg0) {
             FX(arg0, u8, 0x3) = 0;
             FX(arg0, u8, 0x4) = 3;
             func_8004E654(arg0, 0x15);
-            e = &D_800CCED0;
+            e = &g_playthrough_state;
             if (e->stage == 5) {
                 y = FX(arg0, s16, 0xE);
                 if (y == 0x150 || y == 0x240 || y == 0x420 || y == 0x510) {
-                    f = &D_800CCED0;
+                    f = &g_playthrough_state;
                     FX(f, u8, 0x2F)++;
                 }
             }

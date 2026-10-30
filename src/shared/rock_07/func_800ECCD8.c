@@ -3,14 +3,14 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void* func_8002C4C4();
+void* alloc_class4_slot();
 
 void func_800ECCD8(void* arg0, s32 arg1) {
     void* e;
     u8 b = arg1;
     s32 y;
 
-    e = func_8002C4C4();
+    e = alloc_class4_slot();
     if (e != 0) {
         M2C_FIELD(e, u8*, 0) = 0x41;
         M2C_FIELD(e, u8*, 1) = 0xA;

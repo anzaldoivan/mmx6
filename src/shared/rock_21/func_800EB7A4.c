@@ -4,10 +4,10 @@
 #include "mmx6/x4.h"
 
 void func_80017E24(void);
-M2C_UNK func_80018060(M2C_UNK, M2C_UNK);
+M2C_UNK play_bgm_xa_track(M2C_UNK, M2C_UNK);
 void func_80025F34();
 void func_800280F4(void);
-void func_80029B8C(void);
+void init_checkpoint_positions(void);
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800EB7A4(u8* arg0) {
@@ -22,7 +22,7 @@ void func_800EB7A4(u8* arg0) {
         i++;
     } while (i < 0x10);
     ((void (*)())func_80017E24)(base);
-    func_80029B8C();
+    init_checkpoint_positions();
     func_800280F4();
     func_80025F34();
     background_objects[0].unk3 = 0;
@@ -30,7 +30,7 @@ void func_800EB7A4(u8* arg0) {
     background_objects[2].unk3 = 0;
     *(s16*)(arg0 + 4) = 0;
     arg0[2] = 0;
-    func_80018060(7, 0x73);
+    play_bgm_xa_track(7, 0x73);
     ((void (*)(M2C_UNK))SetDispMask)(1);
     arg0[1] = arg0[1] + 1;
 }

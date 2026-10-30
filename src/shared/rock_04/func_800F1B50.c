@@ -7,7 +7,7 @@
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK move_object(void*);
 extern struct X4_BackgroundObj background_objects[3];
 
@@ -58,7 +58,7 @@ void func_800F1B50(void* arg0) {
         }
         if (t == 0x40 && (M2C_FIELD(arg0, u8*, 0x70) & 1)) {
         hit:
-            func_80016C48(2, 0x12, arg0);
+            play_sound(2, 0x12, arg0);
             func_80012D9C(8);
             {
                 // !FAKE: depin: dropping it breaks the match (101/104)

@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK); /* extern */
+M2C_UNK set_animation(void*, M2C_UNK); /* extern */
 extern struct X4_MainObj* D_800F7DEC;
 
 void func_800F5B90(struct X4_MainObj* arg0) {
@@ -21,7 +21,7 @@ void func_800F5B90(struct X4_MainObj* arg0) {
     arg0->attack_box = 0;
     arg0->hurt_box = 0;
     arg0->collision_data = 0;
-    ((void (*)(void*, s32))func_800179A4)(arg0, 0xF);
+    ((void (*)(void*, s32))set_animation)(arg0, 0xF);
     arg0->unk15 = D_800F7DEC->unk15;
     arg0->x_pos.u.hi = D_800F7DEC->x_pos.u.hi;
     e = D_800F7DEC->y_pos.u.hi;

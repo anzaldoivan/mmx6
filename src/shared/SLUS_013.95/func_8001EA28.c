@@ -15,7 +15,7 @@ void func_800139F4(s32);
 void func_80020C40(void);
 void func_80025FB0();
 void func_8002B29C(void);
-s32 func_8002D2D4();
+s32 random_byte();
 
 void func_8001EA28(void* arg0) {
     s8* p;
@@ -35,7 +35,7 @@ void func_8001EA28(void* arg0) {
         M2C_FIELD(arg0, u8*, 1) = M2C_FIELD(arg0, u8*, 1) + 1;
         func_800139F4(8);
     }
-    func_8002D2D4();
+    random_byte();
     func_80020C40();
     if (M2C_FIELD(&g_Player, u8*, 0xE4) != 0) {
         func_8002B29C();

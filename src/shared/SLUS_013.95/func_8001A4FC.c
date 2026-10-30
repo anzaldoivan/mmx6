@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_8001A4FC(u8* arg0) {
     // !FAKE: row base in the first return register
@@ -12,7 +12,7 @@ void func_8001A4FC(u8* arg0) {
     register s32 v asm("$3");
 
     i = (s8)((s8)arg0[2] / 3);
-    b = (s8*)&D_800CCED0;
+    b = (s8*)&g_playthrough_state;
     b -= -i;
     v = b[0xD0];
     if (v < 0) {

@@ -2,13 +2,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void* func_8002C530();
+void* alloc_sprite_slot();
 extern s32 D_80075B9C;
 
 void func_800ECF20(void* arg0) {
     void* temp_v0;
 
-    temp_v0 = func_8002C530();
+    temp_v0 = alloc_sprite_slot();
     if (temp_v0 != 0) {
         M2C_FIELD(temp_v0, u8*, 0) = 0x41;
         M2C_FIELD(temp_v0, u8*, 1) = 9;

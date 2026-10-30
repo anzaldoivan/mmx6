@@ -5,7 +5,7 @@
 #define B(p, o) M2C_FIELD(p, u8*, o)
 #define SB(p, o) M2C_FIELD(p, s8*, o)
 
-s32 func_8002D2D4();
+s32 random_byte();
 extern s8 D_800CCF5C;
 extern u8 D_800F87B0[];
 extern u8 D_800F87F8[];
@@ -20,7 +20,7 @@ M2C_UNK func_800EA860(void* arg0) {
 
     B(arg0, 0x6) = 0;
     if (SB(arg0, 0x8C) == 0 && (s8)D_800CCF5C / 2 >= SB(arg0, 0x5C)) {
-        n = func_8002D2D4() & 7;
+        n = random_byte() & 7;
         B(arg0, 0x8D) = n;
         B(arg0, 0x8E) = 0;
         B(arg0, 0x8C) = 1;
@@ -40,7 +40,7 @@ M2C_UNK func_800EA860(void* arg0) {
                 B(arg0, 0x92) = 0;
                 B(arg0, 0x8D) = 8;
             } else {
-                B(arg0, 0x8D) = func_8002D2D4() & 7;
+                B(arg0, 0x8D) = random_byte() & 7;
             }
             t = D_800F87B0;
             B(arg0, 0x8E) = 0;
@@ -58,7 +58,7 @@ M2C_UNK func_800EA860(void* arg0) {
                 B(arg0, 0x92) = 0;
                 B(arg0, 0x8D) = 8;
             } else {
-                B(arg0, 0x8D) = func_8002D2D4() & 7;
+                B(arg0, 0x8D) = random_byte() & 7;
             }
             t = D_800F87F8;
             B(arg0, 0x8E) = 0;

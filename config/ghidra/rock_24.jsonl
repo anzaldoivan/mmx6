@@ -165,6 +165,7 @@
 {"k":"func","addr":"0x800ec41c","name":"FUN_800ec41c","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
 {"k":"func","addr":"0x800ece50","name":"FUN_800ece50","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
 {"k":"func","addr":"0x800ed454","name":"general_dust_end","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"post-return 0x800ed44c; no branch of 0x800ece50 crosses it (1.6 T1 merge check); name: x4 exact 76d90a83ca68 sozud/mmx4@6a6b455 src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04"}
+{"k":"func","addr":"0x800f49f0","name":"update_gate","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"post-return 0x800f49e8; name: community refs/leads/tweaks/BossHealth.tsv:2303 word 0x800EF400 match; code:src/rock_24/E9860.c:510 via=D_800F75F0"}
 {"k":"func","addr":"0x800f4ff4","name":"FUN_800f4ff4","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
 {"k":"data","addr":"0x20000000","type":"/byte[4]","len":4}
 {"k":"data","addr":"0x20000004","type":"/byte[4]","len":4}
@@ -798,6 +799,7 @@
 {"k":"comment","addr":"0x800ed454","type":"plate","text":"post-return 0x800ed44c; no branch of 0x800ece50 crosses it (1.6 T1 merge check); name: x4 exact 76d90a83ca68 sozud/mmx4@6a6b455 src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04"}
 {"k":"comment","addr":"0x800ed4e4","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ef3e0","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800f49f0","type":"plate","text":"post-return 0x800f49e8; name: community refs/leads/tweaks/BossHealth.tsv:2303 word 0x800EF400 match; code:src/rock_24/E9860.c:510 via=D_800F75F0"}
 {"k":"comment","addr":"0x800f53c8","type":"plate","text":"x4: final_cutscene_despawn [gate/object] sozud/mmx4@6a6b455 src/main/misc/misc_53_final_cutscene.c:final_cutscene_despawn\nx4: final_cutscene_despawn [gate/object] sozud/mmx4@807a01b src/main/misc/misc_53_final_cutscene.c:final_cutscene_despawn"}
 {"k":"comment","addr":"0x800f55f4","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f5684","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
@@ -1255,6 +1257,7 @@
 {"k":"bookmark","addr":"0x800f4774","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800f4774)"}
 {"k":"bookmark","addr":"0x800f4824","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002a47c (flow from 800f4824)"}
 {"k":"bookmark","addr":"0x800f496c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f496c)"}
+{"k":"bookmark","addr":"0x800f4a38","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002f288 (flow from 800f4a38)"}
 {"k":"bookmark","addr":"0x800f4ac4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003d308 (flow from 800f4ac4)"}
 {"k":"bookmark","addr":"0x800f4ad0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c3f8 (flow from 800f4ad0)"}
 {"k":"bookmark","addr":"0x800f4b5c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80021760 (flow from 800f4b5c)"}
@@ -1684,3 +1687,4 @@
 {"k":"label","addr":"0x800f35c8","name":"caseD_4","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800f35e0","name":"caseD_5","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800f361c","name":"default","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800f49f0","name":"update_gate","primary":true,"src":"USER_DEFINED","func":true}

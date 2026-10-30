@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 #define SPAD20 (*(s32*)0x1F800020)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 extern s32 D_8007573C[];
 extern void* D_800F7800;
@@ -34,7 +34,7 @@ void func_800F3BFC(struct X4_MainObj* arg0) {
     arg0->sprite_frames =
         (const u8*)(SPAD20 +
                     *(s32*)(func_8002A47C(D_800F7800->id) * 4 + SPAD20 + 4));
-    ((void (*)(void*, s32))func_800179A4)(arg0, 0x1F);
+    ((void (*)(void*, s32))set_animation)(arg0, 0x1F);
     q = *(struct X4_MainObj**)((u8*)arg0 + 0x7C);
     arg0->unk15 = q->unk15;
     arg0->x_pos.i.hi = q->x_pos.i.hi;

@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
-#define func_80016C48 ((void (*)(s32, s32, void*))func_80016C48)
-M2C_UNK func_800179A4(void*, M2C_UNK);
-#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+s32 play_sound(s32 a0, s32 a1, void* arg2);
+#define play_sound ((void (*)(s32, s32, void*))play_sound)
+M2C_UNK set_animation(void*, M2C_UNK);
+#define set_animation ((void (*)(void*, s32))set_animation)
 void func_80017B04(u8*, s16, s16);
 #define func_80017B04 func_80017B04
 s8* func_8002BEC4(s8* p, s32 dir);
@@ -30,7 +30,7 @@ void func_800451B8(struct X4_WeaponObj* arg0) {
 
     player = &g_Player;
     if (arg0->unk2 == 0) {
-        func_80016C48(1, 0x1D, arg0);
+        play_sound(1, 0x1D, arg0);
         kind = 3;
         {
             // !FAKE: depin: dropping it breaks the match (179/181)
@@ -100,14 +100,14 @@ void func_800451B8(struct X4_WeaponObj* arg0) {
     }
     arg0->y_pos.i.hi = player->y_pos.i.hi + (s8)D_80076194[arg0->unk2 - 1][1];
     if (arg0->unk2 < 3) {
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
     } else {
-        func_800179A4(arg0, 1);
+        set_animation(arg0, 1);
     }
     arg0->unk5 = 1;
     arg0->state++;
 }
-#undef func_80016C48
-#undef func_800179A4
+#undef play_sound
+#undef set_animation
 #undef func_80017B04
 #undef player_spawn_visual

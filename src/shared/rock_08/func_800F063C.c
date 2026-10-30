@@ -4,10 +4,10 @@
 
 #define FLD(p, type, off) (*(type*)((u8*)(p) + (off)))
 
-void* func_8002BBF4();
-M2C_UNK func_8002C9B0();
+void* enemy_slot_alloc();
+M2C_UNK clear_object_slot();
 void func_8002CCB0(struct X4_BaseObj*, s32, s32);
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s32 D_800F6AF4;
 
 void func_800F063C(void* arg0) {
@@ -31,18 +31,18 @@ void func_800F063C(void* arg0) {
         FLD(arg0, s32, 0x8C) = 0;
         FLD(arg0, s32, 0x90) = 0;
         FLD(arg0, s32, 0x94) = 0;
-        D_800CCED0.enable_boss = 0;
-        D_800CCED0.boss_ptr = 0;
-        if (D_800CCED0.stage != 0xC) {
+        g_playthrough_state.enable_boss = 0;
+        g_playthrough_state.boss_ptr = 0;
+        if (g_playthrough_state.stage != 0xC) {
             if ((u32)D_800F6AF4 < 0x1519) {
-                p = func_8002BBF4();
+                p = enemy_slot_alloc();
                 if (p != 0) {
                     p[0] = 0x41;
                     p[1] = 0xF;
                     p[2] = 0x10;
                 }
             } else {
-                p = func_8002BBF4();
+                p = enemy_slot_alloc();
                 if (p != 0) {
                     p[0] = 0x41;
                     p[1] = 0xF;
@@ -50,10 +50,11 @@ void func_800F063C(void* arg0) {
                 }
             }
         } else {
-            D_800CCED0.unkF = -0x80;
-            D_800CCED0.character_state.bytes[D_800CCED0.checkpoint + 6] = 1;
-            D_800CCED0.checkpoint += 8;
+            g_playthrough_state.unkF = -0x80;
+            g_playthrough_state.character_state
+                .bytes[g_playthrough_state.checkpoint + 6] = 1;
+            g_playthrough_state.checkpoint += 8;
         }
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
     }
 }

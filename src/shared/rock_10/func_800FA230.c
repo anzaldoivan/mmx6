@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_8002D2D4();
+s32 random_byte();
 
 #define M2C_UNK s32
 M2C_UNK move_object(s32);
@@ -9,7 +9,7 @@ void func_800FA230(void* arg0) {
     u8* temp_s1;
 
     temp_s1 = *(u8**)(self + 0x7C);
-    if (func_8002D2D4() & 1) {
+    if (random_byte() & 1) {
         temp_s1[7] = 1;
         if (self[0x15] == 0) {
             self[0x15] = 0x40;

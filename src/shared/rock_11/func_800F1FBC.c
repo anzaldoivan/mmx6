@@ -5,7 +5,7 @@
 #define SPAD20_800F1FBC (*(s32**)0x1F800020)
 
 s32 func_8002A47C(s32);
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 extern u32* D_80095098;
 extern s16 D_800FD526;
 
@@ -13,7 +13,7 @@ void func_800F1FBC(void) {
     void* obj;
 
     if ((u16)D_800FD526 < 0x1519U) {
-        obj = func_8002BBF4();
+        obj = enemy_slot_alloc();
         if (obj != 0) {
             M2C_FIELD(obj, u8*, 0) = 0x41;
             M2C_FIELD(obj, u8*, 1) = 0x1C;

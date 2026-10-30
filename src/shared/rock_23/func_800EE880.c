@@ -7,13 +7,13 @@
 #endif
 
 M2C_UNK func_800139F4(M2C_UNK);
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_80027BA0(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK*);
 
 extern s16 D_800970AA;
 extern u8 D_80097244;
 extern s32 D_80097420;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F91B4[][4];
 extern M2C_UNK D_800F9214;
 extern M2C_UNK D_800F921C;
@@ -39,7 +39,7 @@ extern M2C_UNK D_800F92B4;
 extern M2C_UNK D_800F92BC;
 
 #define SPAWN(x, y, p)                                                         \
-    if (!(func_8002D2D4() & 1)) {                                              \
+    if (!(random_byte() & 1)) {                                              \
         func_80027BA0(0, (x), (y), &(p));                                      \
     }
 
@@ -54,21 +54,21 @@ void func_800EE880(void* arg0) {
     }
     if (M2C_FIELD(arg0, s16*, 0x80) >= 0x1D) {
         if (M2C_FIELD(arg0, s8*, 2) == 1) {
-            if (D_800CCED0.character_state.bytes[0xB] == 0) {
-                D_800CCED0.character_state.bytes[0xA] =
-                    (u32)func_8002D2D4() % 12;
-                D_800CCED0.character_state.bytes[0xB] = 1;
+            if (g_playthrough_state.character_state.bytes[0xB] == 0) {
+                g_playthrough_state.character_state.bytes[0xA] =
+                    (u32)random_byte() % 12;
+                g_playthrough_state.character_state.bytes[0xB] = 1;
             }
         } else if (M2C_FIELD(arg0, s8*, 2) == 3) {
-            if (D_800CCED0.character_state.bytes[0xB] == 1) {
-                D_800CCED0.character_state.bytes[0xA] =
-                    (u32)func_8002D2D4() % 12;
-                D_800CCED0.character_state.bytes[0xB] = 2;
+            if (g_playthrough_state.character_state.bytes[0xB] == 1) {
+                g_playthrough_state.character_state.bytes[0xA] =
+                    (u32)random_byte() % 12;
+                g_playthrough_state.character_state.bytes[0xB] = 2;
             }
         }
         func_800139F4(8);
         M2C_FIELD(arg0, u8*, 7) += 1;
-        switch (D_800F91B4[D_800CCED0.character_state.bytes[0xA]]
+        switch (D_800F91B4[g_playthrough_state.character_state.bytes[0xA]]
                           [M2C_FIELD(arg0, s8*, 2) - 1]) {
         case 0:
             SPAWN(0x200, 0x6B0, D_800F925C);

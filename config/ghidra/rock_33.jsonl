@@ -155,6 +155,7 @@
 {"k":"func","addr":"0x20000258","name":"gte_ApplyMatrixSV","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
 {"k":"func","addr":"0x2000025c","name":"gte_CompMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/MATRIX *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/MATRIX *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
 {"k":"func","addr":"0x20000260","name":"gte_ApplyRotMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/VECTOR *","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x800fe988","name":"update_commander_yammark_boss_rush","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: community refs/leads/tweaks/BossHealth.tsv:2986 word 0x800FA0D0 match; code:src/rock_33/FA000.c:57 via=func_800FE988"}
 {"k":"func","addr":"0x800ffc18","name":"FUN_800ffc18","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
 {"k":"data","addr":"0x20000000","type":"/byte[4]","len":4}
 {"k":"data","addr":"0x20000004","type":"/byte[4]","len":4}
@@ -457,6 +458,7 @@
 {"k":"data","addr":"0x80100be8","type":"/undefined *","len":4}
 {"k":"data","addr":"0x80100bec","type":"/undefined *","len":4}
 {"k":"data","addr":"0x80100bf0","type":"/undefined *","len":4}
+{"k":"comment","addr":"0x800fe988","type":"plate","text":"name: community refs/leads/tweaks/BossHealth.tsv:2986 word 0x800FA0D0 match; code:src/rock_33/FA000.c:57 via=func_800FE988"}
 {"k":"comment","addr":"0x8010007c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x80100188","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x80100358","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
@@ -586,6 +588,7 @@
 {"k":"bookmark","addr":"0x800fe940","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 800fe940)"}
 {"k":"bookmark","addr":"0x800fe948","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002d230 (flow from 800fe948)"}
 {"k":"bookmark","addr":"0x800fe96c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800fe96c)"}
+{"k":"bookmark","addr":"0x800fe9ec","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002f288 (flow from 800fe9ec)"}
 {"k":"bookmark","addr":"0x800fea78","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003d308 (flow from 800fea78)"}
 {"k":"bookmark","addr":"0x800fea84","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c3f8 (flow from 800fea84)"}
 {"k":"bookmark","addr":"0x800feb18","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003d308 (flow from 800feb18)"}
@@ -659,6 +662,7 @@
 {"k":"bookmark","addr":"0x800ffe0c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800ffe0c)"}
 {"k":"bookmark","addr":"0x800ffe50","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c3f8 (flow from 800ffe50)"}
 {"k":"bookmark","addr":"0x800fff0c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800fff0c)"}
+{"k":"bookmark","addr":"0x800fff5c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002f288 (flow from 800fff5c)"}
 {"k":"bookmark","addr":"0x800fffa0","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800fffa0)"}
 {"k":"bookmark","addr":"0x80100000","type":"Analysis","cat":"Found Code","text":"Found code from operand reference"}
 {"k":"bookmark","addr":"0x80100018","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80031474 (flow from 80100018)"}
@@ -910,3 +914,4 @@
 {"k":"label","addr":"0x800fdfa0","name":"caseD_4","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800fe014","name":"default","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800fe33c","name":"default","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800fe988","name":"update_commander_yammark_boss_rush","primary":true,"src":"USER_DEFINED","func":true}

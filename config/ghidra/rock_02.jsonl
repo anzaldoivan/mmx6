@@ -166,7 +166,10 @@
 {"k":"func","addr":"0x800ec784","name":"FUN_800ec784","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
 {"k":"func","addr":"0x800ec848","name":"FUN_800ec848","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
 {"k":"func","addr":"0x800ec9c8","name":"FUN_800ec9c8","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
+{"k":"func","addr":"0x800efed0","name":"update_d1000","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: community refs/leads/tweaks/BossHealth.tsv:234 word 0x800EFF4C match; code:src/shared/rock_02/func_800EFED0.c:16 via=D_800FB198\nname: community refs/leads/tweaks/BossHealth.tsv:234 word 0x800EFF4C match; code:src/shared/rock_02/update_d1000.c:19 via=D_800FB198"}
 {"k":"func","addr":"0x800f0c0c","name":"FUN_800f0c0c","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
+{"k":"func","addr":"0x800f1724","name":"init_high_max_intro","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: community tweaks-index.tsv:279"}
+{"k":"func","addr":"0x800f5170","name":"update_high_max_intro","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: community refs/leads/tweaks/BossHealth.tsv:284 word 0x800F21B0 match; code:src/rock_02/E9860.c:523 via=func_800F5170"}
 {"k":"func","addr":"0x800f60f0","name":"FUN_800f60f0","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
 {"k":"func","addr":"0x800f82c0","name":"FUN_800f82c0","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
 {"k":"func","addr":"0x800f85c4","name":"FUN_800f85c4","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_10","type":"/undefined4","storage":"Stack[-0x10]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_c","type":"/undefined4","storage":"Stack[-0xc]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
@@ -992,6 +995,7 @@
 {"k":"comment","addr":"0x800edc6c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800edce0","type":"plate","text":"x4: sentry_flash_animate [gate/object] sozud/mmx4@6a6b455 src/main/misc/misc_25_sentry_flash.c:sentry_flash_animate\nx4: sentry_flash_animate [gate/object] sozud/mmx4@807a01b src/main/misc/misc_25_sentry_flash.c:sentry_flash_animate"}
 {"k":"comment","addr":"0x800edd40","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800efed0","type":"plate","text":"name: community refs/leads/tweaks/BossHealth.tsv:234 word 0x800EFF4C match; code:src/shared/rock_02/func_800EFED0.c:16 via=D_800FB198\nname: community refs/leads/tweaks/BossHealth.tsv:234 word 0x800EFF4C match; code:src/shared/rock_02/update_d1000.c:19 via=D_800FB198"}
 {"k":"comment","addr":"0x800f13c8","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f13e8","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f1408","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
@@ -999,6 +1003,8 @@
 {"k":"comment","addr":"0x800f1574","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f165c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f1704","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800f1724","type":"plate","text":"name: community tweaks-index.tsv:279"}
+{"k":"comment","addr":"0x800f5170","type":"plate","text":"name: community refs/leads/tweaks/BossHealth.tsv:284 word 0x800F21B0 match; code:src/rock_02/E9860.c:523 via=func_800F5170"}
 {"k":"comment","addr":"0x800f8b44","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f8e08","type":"pre","text":"Possible PsyQ macro: setPolyF4()"}
 {"k":"comment","addr":"0x800f96f8","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
@@ -1266,6 +1272,7 @@
 {"k":"bookmark","addr":"0x800efd9c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800efd9c)"}
 {"k":"bookmark","addr":"0x800efe50","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002a47c (flow from 800efe50)"}
 {"k":"bookmark","addr":"0x800efe78","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800efe78)"}
+{"k":"bookmark","addr":"0x800eff34","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002f288 (flow from 800eff34)"}
 {"k":"bookmark","addr":"0x800f0000","type":"Analysis","cat":"Found Code","text":"Found code from operand reference"}
 {"k":"bookmark","addr":"0x800f0004","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80025fd8 (flow from 800f0004)"}
 {"k":"bookmark","addr":"0x800f0014","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003d308 (flow from 800f0014)"}
@@ -1489,6 +1496,7 @@
 {"k":"bookmark","addr":"0x800f50bc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c9b0 (flow from 800f50bc)"}
 {"k":"bookmark","addr":"0x800f50d4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002cbfc (flow from 800f50d4)"}
 {"k":"bookmark","addr":"0x800f5100","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800f5100)"}
+{"k":"bookmark","addr":"0x800f51b4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002f288 (flow from 800f51b4)"}
 {"k":"bookmark","addr":"0x800f5218","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800179a4 (flow from 800f5218)"}
 {"k":"bookmark","addr":"0x800f5228","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003d308 (flow from 800f5228)"}
 {"k":"bookmark","addr":"0x800f5264","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002ccb0 (flow from 800f5264)"}
@@ -2147,3 +2155,6 @@
 {"k":"label","addr":"0x800ef398","name":"caseD_4","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800ef3c4","name":"caseD_5","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800ef3e8","name":"default","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800efed0","name":"update_d1000","primary":true,"src":"USER_DEFINED","func":true}
+{"k":"label","addr":"0x800f1724","name":"init_high_max_intro","primary":true,"src":"USER_DEFINED","func":true}
+{"k":"label","addr":"0x800f5170","name":"update_high_max_intro","primary":true,"src":"USER_DEFINED","func":true}

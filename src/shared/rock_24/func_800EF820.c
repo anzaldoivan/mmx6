@@ -10,7 +10,7 @@
 #define PTR(o) M2C_FIELD(arg0, void**, o)
 #define SCRATCH_PTR (*(u8**)0x1F800020)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern s16 D_800970AA;
@@ -45,7 +45,7 @@ void func_800EF820(void* arg0) {
             p = SCRATCH_PTR;
             t = *(s32*)(p + t * 4);
             PTR(0x3C) = p + t;
-            ((void (*)(void*, s32, s32))func_800179A4)(arg0, 0, t);
+            ((void (*)(void*, s32, s32))set_animation)(arg0, 0, t);
             U8(6)++;
         }
     }

@@ -7,7 +7,7 @@
 M2C_UNK func_80017A04();
 M2C_UNK func_8003D330();
 extern s8 D_80097170;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_800EC9FC(void* arg0) {
     s32 i;
@@ -19,12 +19,12 @@ void func_800EC9FC(void* arg0) {
         D_80097170 < 0) {
         ((void (*)())func_8003D330)();
         if (M2C_FIELD(arg0, s8*, 2) != 0xA) {
-            D_800CCED0.checkpoint = M2C_FIELD(arg0, u8*, 2) & 0xF;
-            D_800CCED0.unkF = -0x40;
+            g_playthrough_state.checkpoint = M2C_FIELD(arg0, u8*, 2) & 0xF;
+            g_playthrough_state.unkF = -0x40;
         } else {
-            D_800CCED0.unkF = 0x40;
+            g_playthrough_state.unkF = 0x40;
             i = 0xF;
-            p = &D_800CCED0.character_state.bytes[0xF];
+            p = &g_playthrough_state.character_state.bytes[0xF];
             do {
                 *p = 0;
                 i--;

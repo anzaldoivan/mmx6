@@ -4,17 +4,17 @@
 
 void func_80025F34();
 s32 func_800280F4();
-void func_80029B8C(void);
-M2C_UNK func_8002B838();
+void init_checkpoint_positions(void);
+M2C_UNK reset_level();
 void func_8002C2B8();
 extern struct X4_PlayerObj g_Player;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800E3140;
 extern u8 D_800E3141;
 extern u8 D_800F366C[];
 
 void func_800EEA1C(u8* arg0) {
-    struct X4_EngineObj* e = &D_800CCED0;
+    struct X4_EngineObj* e = &g_playthrough_state;
     u8 a = D_800E3141;
     u8 b = D_800E3140;
 
@@ -22,10 +22,10 @@ void func_800EEA1C(u8* arg0) {
     e->character_state.bytes[1] = b;
     *(u8*)(D_800F366C + 0x128A) = *(u8*)&e->controlled_player;
     do {
-        func_8002B838(arg0, a, b);
+        reset_level(arg0, a, b);
     } while (0);
     func_8002C2B8();
-    func_80029B8C();
+    init_checkpoint_positions();
     func_800280F4();
     func_80025F34();
     e->character_state.bytes[2] = 0;

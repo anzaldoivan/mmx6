@@ -5,17 +5,17 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20 (*(s32**)0x1F800020)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_80027BA0(s32, s32, s32, void*);
 s32 func_8002A47C(s32);
-M2C_UNK func_8002C9B0();
-s32 func_8002D2D4();
+M2C_UNK clear_object_slot();
+s32 random_byte();
 extern s32 D_8007465C;
 extern u32* D_80095098;
 extern u8 D_800970B4;
 extern s8 D_80097244;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s32 D_800EFBA0;
 extern s32 D_800EFBA8;
 extern s32 D_800EFBB0;
@@ -24,7 +24,7 @@ extern s32 D_800EFC04[];
 extern s32 D_800EFC14;
 
 void func_800ED41C(struct X4_MainObj* self) {
-    struct X4_EngineObj* e = &D_800CCED0;
+    struct X4_EngineObj* e = &g_playthrough_state;
     s32* p;
     s32 i;
     s8 t;
@@ -32,7 +32,7 @@ void func_800ED41C(struct X4_MainObj* self) {
     s32 v;
 
     if (M2C_FIELD(e, s8*, 0x43A) != 3) {
-        func_8002C9B0();
+        clear_object_slot();
         return;
     }
     self->hp = 8;
@@ -66,17 +66,17 @@ void func_800ED41C(struct X4_MainObj* self) {
     self->attack_box = &D_800EFBA8;
     self->ext.main_0.background_relative = 2;
     self->ext.main_0.flags[0] = 0;
-    r = func_8002D2D4();
+    r = random_byte();
     t = self->unk2;
     self->ext.main_0.index = (r % 3) * 10 + 0x14;
     if (t == 0) {
         self->on_screen = 1;
         self->x_speed = 0;
         self->y_speed = -0x30000;
-        ((void (*)(void*, s32))func_800179A4)(self, 0);
+        ((void (*)(void*, s32))set_animation)(self, 0);
         self->unk5 = 1;
         self->terrain_box = NULL;
-        func_80016C48(2, 0x50, self);
+        play_sound(2, 0x50, self);
     } else if (t == 1) {
         if (e->stage == 2) {
             func_80027BA0(0, 0x1390, 0x210, D_800EFC04);

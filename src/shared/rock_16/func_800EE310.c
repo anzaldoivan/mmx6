@@ -1,8 +1,8 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-M2C_UNK func_800179D0(void*, M2C_UNK, s8);
+M2C_UNK set_animation(void*, M2C_UNK);
+M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 extern s8 D_800CCEF8;
 extern s8 D_800CCF01;
 extern u8 D_800F124C[];
@@ -29,17 +29,17 @@ void func_800EE310(void* arg0) {
     if (v == 0) {
         E310_S16(0xA) = 0x5B0;
         E310_S16(0xE) = 0x6C;
-        ((void (*)(void*, s32))func_800179A4)(arg0, 0);
+        ((void (*)(void*, s32))set_animation)(arg0, 0);
         E310_U8(4) = 1;
     } else if (v == 1) {
         E310_S16(0xA) = 0x5B0;
         E310_S16(0xE) = 0x7C;
-        ((void (*)(void*, s32, s8))func_800179D0)(arg0, 1, D_800CCF01);
+        ((void (*)(void*, s32, s8))set_animation_frame)(arg0, 1, D_800CCF01);
         E310_U8(4) = 2;
     } else {
         E310_S16(0xA) = 0x5B0;
         E310_S16(0xE) = 0x7C;
-        ((void (*)(void*, s32))func_800179A4)(arg0, D_800CCEF8 + 2);
+        ((void (*)(void*, s32))set_animation)(arg0, D_800CCEF8 + 2);
         E310_U8(4) = 3;
     }
     E310_U8(3) = 1;

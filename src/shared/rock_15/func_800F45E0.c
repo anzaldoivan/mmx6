@@ -2,7 +2,7 @@
 #include "psyq/libgte.h"
 #include "mmx6/x4.h"
 
-s32 func_8002D2D4();
+s32 random_byte();
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_800F6F34;
 
@@ -13,7 +13,7 @@ void func_800F45E0(void* arg0) {
     u8 r;
 
     F(void*, 0x68) = &D_800F6F34;
-    r = (u32)func_8002D2D4() % 5;
+    r = (u32)random_byte() % 5;
     angle = ratan2((s16)(background_objects[0].unk2A + 0x70) - F(s16, 0xE),
                    (s16)(background_objects[0].unk26 + (r << 5) + 0x10) -
                        F(s16, 0xA));

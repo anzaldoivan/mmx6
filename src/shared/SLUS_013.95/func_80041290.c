@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 extern u8 D_800760C4[];
@@ -17,7 +17,7 @@ void func_80041290(struct X4_MainObj* self) {
     self->collision_data = 0;
     self->unk16 = 3;
     self->air_state = 1;
-    func_800179A4(self, 5);
+    set_animation(self, 5);
     self->terrain_box = 0;
     self->attack_box = D_800760C4;
     self->hurt_box = 0;

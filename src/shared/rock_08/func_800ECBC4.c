@@ -6,7 +6,7 @@
 #define OH(p, o) (*(s16*)((u8*)(p) + (o)))
 #define OW(p, o) (*(s32*)((u8*)(p) + (o)))
 
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 M2C_UNK func_80017A04();
 M2C_UNK func_8002D230(s32);
 extern struct X4_PlayerObj g_Player;
@@ -30,7 +30,7 @@ void func_800ECBC4(struct X4_MainObj* self) {
 ready:
     OH(self, 0x82) = g_Player.x_pos.i.hi;
     OH(self, 0x84) = g_Player.y_pos.i.hi;
-    func_800179A4(self, 0x11);
+    set_animation(self, 0x11);
     {
         u16 x = g_Player.x_pos.i.hi;
         u16 y;

@@ -4,13 +4,13 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();                 /* extern */
-s32 func_80039EB0(struct X4_PlayerObj*); /* extern */
-void func_8003B114(s32 arg0);            /* extern */
-M2C_UNK func_8003B298(void*);            /* extern */
-M2C_UNK func_8003BA04(void*, M2C_UNK);   /* extern */
-M2C_UNK func_8003F700(void*);            /* extern */
-s32 func_801ECA50(void*);                /* extern */
+M2C_UNK func_80017A04();                    /* extern */
+s32 check_dash_input(struct X4_PlayerObj*); /* extern */
+void end_dash(s32 arg0);                    /* extern */
+M2C_UNK func_8003B298(void*);               /* extern */
+M2C_UNK func_8003BA04(void*, M2C_UNK);      /* extern */
+M2C_UNK func_8003F700(void*);               /* extern */
+s32 func_801ECA50(void*);                   /* extern */
 
 void func_800365D4(void* arg0) {
     if (M2C_FIELD(arg0, u16*, 0x7C) & 1) {
@@ -19,7 +19,7 @@ void func_800365D4(void* arg0) {
     if (M2C_FIELD(arg0, u16*, 0x7C) & 2) {
         M2C_FIELD(arg0, u8*, 0x15) = 0;
     }
-    if (func_80039EB0(arg0) != 0) {
+    if (check_dash_input(arg0) != 0) {
         func_8003B298(arg0);
         func_8003BA04(arg0, 0x55);
         {
@@ -55,6 +55,6 @@ void func_800365D4(void* arg0) {
         }
     }
     if ((M2C_FIELD(arg0, s8*, 7) == 0) && (M2C_FIELD(arg0, s8*, 0x46) == 0)) {
-        func_8003B114((s32)arg0);
+        end_dash((s32)arg0);
     }
 }

@@ -6,8 +6,8 @@
 #define SPAD20 (*(s32*)0x1F800020)
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 s32 func_8002A47C(s32);
 void* func_8002C458();
@@ -25,7 +25,7 @@ extern void* D_800FBC78;
         s32 base = SPAD20;                                                     \
         register s32 off asm("$6") = *(s32*)(idx * 4 + base + 4);              \
         M2C_FIELD(obj, s32*, 0x3C) = base + off;                               \
-        ((void (*)(void*, s32, s32))func_800179A4)(obj, id, off);              \
+        ((void (*)(void*, s32, s32))set_animation)(obj, id, off);              \
     }
 
 #define SET_ANIM(obj, id) SET_ANIM2(obj, id, D_800FBC78)
@@ -42,7 +42,7 @@ void func_800EF804(void* arg0) {
     switch (M2C_FIELD(arg0, s8*, 5)) {
     case 0:
         if (M2C_FIELD(arg0, u8*, 0x70) & 8) {
-            func_80016C48(2, 0, arg0);
+            play_sound(2, 0, arg0);
             func_80012D9C(5);
             {
                 s32 t = M2C_FIELD(arg0, u16*, 0xE);

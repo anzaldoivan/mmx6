@@ -96,7 +96,10 @@ INCLUDE_ASM("asm/rock_05/nonmatchings/E9860", func_800EA5C8);
 
 #include "../shared/rock_05/func_800EC2D0.c"
 
-#define func_80048DC8 func_800EC534
+// 0x800EC534 update_nightmare_snake: per-frame state dispatch of the Nightmare Snake boss.
+// basis: community refs/leads/tweaks/BossHealth.tsv:366 (word 0x800ED610, reached from D_800F3F1C)
+// callers: none known (object type table)
+#define func_80048DC8 update_nightmare_snake
 #define D_80077BC0 D_800F3F1C
 #include "../shared/SLUS_013.95/func_80048DC8.c"
 #undef func_80048DC8

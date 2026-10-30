@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern u8 D_80076194[][2];
 extern void (*D_800761A8[])();
 extern struct X4_PlayerObj g_Player;
@@ -26,9 +26,9 @@ void func_800456D4(struct X4_WeaponObj* arg0) {
         arg0->y_pos.i.hi = player->y_pos.i.hi + (s8)D_80076194[idx - 1][1];
         if (F_S8(arg0->owner, 0x8D) != 0) {
             if (idx < 3) {
-                ((void (*)(void*, s32))func_800179A4)(arg0, 4);
+                ((void (*)(void*, s32))set_animation)(arg0, 4);
             } else {
-                ((void (*)(void*, s32))func_800179A4)(arg0, 5);
+                ((void (*)(void*, s32))set_animation)(arg0, 5);
             }
             arg0->unk50 = 0;
             arg0->state = 2;

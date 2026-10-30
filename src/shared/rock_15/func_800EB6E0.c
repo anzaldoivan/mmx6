@@ -7,7 +7,7 @@
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 void func_800EC428(struct X4_MainObj* self);
 extern M2C_UNK D_800F618C;
@@ -23,7 +23,7 @@ void func_800EB6E0(void* arg0) {
     M2C_FIELD(arg0, s32*, 0x1C) = M2C_FIELD(arg0, s32*, 0xC);
     D_800F61A8[M2C_FIELD(arg0, s8*, 5)](arg0);
     func_800EC428(arg0);
-    r = func_80031474(arg0);
+    r = check_enemy_hits(arg0);
     func_80030ECC(arg0);
     c = 0xC;
     if (r < 0 || (f = M2C_FIELD(arg0, u8*, 0x70), (f & 0xC) == c) ||

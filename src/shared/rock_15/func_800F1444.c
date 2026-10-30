@@ -4,11 +4,11 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049D90();
 M2C_UNK func_80049E50(void*);
 void func_8004E654(struct X4_BaseObj* arg0, s8 arg1);
@@ -28,7 +28,7 @@ void func_800F1444(void* arg0) {
     if (M2C_FIELD(arg0, s8*, 4) != 1) {
         return;
     }
-    r = func_80031474(arg0);
+    r = check_enemy_hits(arg0);
     v = M2C_FIELD(arg0, s8*, 2);
     if (v < 3) {
         if (v < 2 && M2C_FIELD(p, s8*, 0x8B) != 0) {
@@ -60,9 +60,9 @@ void func_800F1444(void* arg0) {
             M2C_FIELD(arg0, void**, 0x58) = &D_8007433C;
             M2C_FIELD(arg0, s8*, 0x92) = 0x20;
             if (M2C_FIELD(arg0, s8*, 0x67) == 0) {
-                func_800179A4(arg0, 9);
+                set_animation(arg0, 9);
             } else {
-                func_800179A4(arg0, 0xA);
+                set_animation(arg0, 0xA);
             }
             if (D_800970A8 > M2C_FIELD(arg0, s32*, 8)) {
                 M2C_FIELD(arg0, u8*, 0x15) = 0x40;

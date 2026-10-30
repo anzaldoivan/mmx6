@@ -5,11 +5,11 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define F(type, off) M2C_FIELD(arg0, type*, off)
 
-void func_80025FD8();
+void set_boss_level();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern s32 D_8007573C[];
 extern u8 D_800970B4;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800E98B8[];
 extern s32 D_800F6F2C;
 extern s32 D_800F6F30[];
@@ -74,11 +74,12 @@ void func_800EF400(void* arg0) {
     F(s32, 0x2C) = 0;
     F(u8, 0x5C) = 0;
     F(u8, 0x14) = bg;
-    D_800CCED0.unk25 = 0;
-    M2C_FIELD(&D_800CCED0, void**, 0x20) = arg0;
-    M2C_FIELD(&D_800CCED0, u8*, 0x8C) = 0x30;
-    func_80025FD8();
-    M2C_FIELD(&D_800CCED0, u8*, 0x8C) += tbl[M2C_FIELD(&D_800CCED0, u8*, 0x8F)];
+    g_playthrough_state.unk25 = 0;
+    M2C_FIELD(&g_playthrough_state, void**, 0x20) = arg0;
+    M2C_FIELD(&g_playthrough_state, u8*, 0x8C) = 0x30;
+    set_boss_level();
+    M2C_FIELD(&g_playthrough_state, u8*, 0x8C) +=
+        tbl[M2C_FIELD(&g_playthrough_state, u8*, 0x8F)];
     F(u8, 0x87) = 0;
     F(u8, 0x86) = 0;
     F(u8, 0x84) = 0;

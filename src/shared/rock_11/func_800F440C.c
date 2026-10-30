@@ -5,13 +5,13 @@
 #define SPAD20_800F440C (*(s32**)0x1F800020)
 
 s32 func_8002A47C(s32);
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 extern u32* D_80095098;
 
 void func_800F440C(s8 arg0, u8 arg1, s16 arg2, s16 arg3) {
     void* obj;
 
-    obj = func_8002BBF4();
+    obj = enemy_slot_alloc();
     if (obj != 0) {
         M2C_FIELD(obj, u8*, 0) = 0x41;
         M2C_FIELD(obj, u8*, 1) = arg0;

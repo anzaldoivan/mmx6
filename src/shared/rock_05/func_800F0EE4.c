@@ -5,14 +5,14 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 void* func_8002C458();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
-s32 func_8002D2D4();
-s32 func_80031474(void*);
+s32 random_byte();
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern u16 D_800F447E; /* TU spelling (func_800EEC40) */
 #define D_800F447E_S16 (*(s16*)&D_800F447E)
@@ -22,7 +22,7 @@ extern s16 D_800F4480;
     {                                                                          \
         M2C_FIELD(M2C_FIELD(self, void**, 0x7C), s8*, 7) = 1;                  \
         for (i = 0; i < 3; i++) {                                              \
-            r[i] = (u8)((u32)func_8002D2D4() % 11);                            \
+            r[i] = (u8)((u32)random_byte() % 11);                            \
         }                                                                      \
         if (r[0] == r[1]) {                                                    \
             r[1] = (r[0] + 5) % 11;                                            \
@@ -61,7 +61,7 @@ void func_800F0EE4(struct X4_BaseObj* self) {
     } else if (self->x_pos.i.hi > D_800F447E_S16 + 0x1150) {
         self->x_pos.i.hi = D_800F447E_S16 + 0x1150;
     }
-    if (func_80031474(self) < 0) {
+    if (check_enemy_hits(self) < 0) {
         func_80049E50(self);
         SPAWN3(self)
         goto tail;
@@ -69,7 +69,7 @@ void func_800F0EE4(struct X4_BaseObj* self) {
     if (self->y_pos.i.hi > D_800F4480 + 0x430) {
         SPAWN3(self)
     tail:
-        func_80016C48(2, 0xD, self);
+        play_sound(2, 0xD, self);
         ((void (*)(s32))func_80012D9C)(5);
         self->state = 2;
         return;

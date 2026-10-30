@@ -1,15 +1,15 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-void func_80016178(void);
-void func_8001642C(s32 arg0, s32* arg1, u8* arg2);
+void pump_file_loads(void);
+void read_dat_file(s32 arg0, s32* arg1, u8* arg2);
 void SsSepClose(s8);
 s8 SsSepOpen(void*, s8, s32);
 void SsSepSetVol(s8, u32, s32, s32);
 extern u8 D_8006E35C[];
 extern s8 D_80090D50[6];
 extern s8 D_80090D64[];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s32 D_800E2600;
 extern s32 D_800E2604;
 
@@ -24,13 +24,12 @@ void func_8001731C(void) {
         }
     }
     {
-        struct X4_EngineObj* e = &D_800CCED0;
+        struct X4_EngineObj* e = &g_playthrough_state;
         p = &D_8006E35C[*(s8*)&e->controlled_player];
     }
-    func_8001642C(*p, &D_800E2600, p);
-    func_80016178();
-    D_80090D64[0] =
-        SsSepOpen((u8*)&D_800E2600 + D_800E2600, D_80090D50[0], 8);
+    read_dat_file(*p, &D_800E2600, p);
+    pump_file_loads();
+    D_80090D64[0] = SsSepOpen((u8*)&D_800E2600 + D_800E2600, D_80090D50[0], 8);
     for (i = 0; i < 8; i++) {
         SsSepSetVol(D_80090D64[0], i, 0x7F, 0x7F);
     }

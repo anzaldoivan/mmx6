@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_80018524(u8);
-void func_800186A8();
+void stop_cd_audio();
 M2C_UNK func_80064C94(M2C_UNK*, u32);
 #define func_80064C94 ((M2C_UNK(*)(M2C_UNK*, u8))func_80064C94)
 extern s32 D_80070A24;
@@ -35,7 +35,7 @@ s32 func_80018290(void) {
                 if (D_800E2E00 < 4U) {
                     D_800E2E00 = 0;
                     D_80070A24 = 1;
-                    func_800186A8();
+                    stop_cd_audio();
                     D_80097418 = 0;
                 } else if (D_80070A24 != 0) {
                     D_80070A24 = 0;

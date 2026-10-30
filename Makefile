@@ -3,7 +3,7 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check split build build-bins clean extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mirror ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check health tools-health fleet expected probe-ladder dumps strings-check badges
+.PHONY: format format-check split build build-bins clean extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mirror ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check health tools-health fleet fleet-quick expected probe-ladder dumps strings-check badges
 
 # Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
 PYTHON ?= python3
@@ -168,6 +168,11 @@ include mk/tools-health.mk
 # The clean fleet verification (container): last line `FLEET <ok> of <n>`, rc 0 only when every binary is green.
 fleet:
 	@MAKE="$(MAKE)" bash tools/mmx6/fleet.sh
+
+# The quick fleet (container; never the gate): fleet.sh --quick, health cut to boundcheck + th-corpus th-ledger
+# th-cookbook; last line `FLEET <ok> of <n> (quick)`.
+fleet-quick:
+	@MAKE="$(MAKE)" bash tools/mmx6/fleet.sh --quick
 
 # asm-differ baseline: expected/<repo-relative path> of every build output.
 expected: build

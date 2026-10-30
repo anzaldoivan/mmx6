@@ -16,7 +16,7 @@
 
 #include "../shared/SLUS_013.95/func_80032D24.c"
 
-#include "../shared/SLUS_013.95/func_80032DF0.c"
+#include "../shared/SLUS_013.95/setup_pause_menu.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80033214);
 
@@ -36,7 +36,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80033214);
 
 #include "../shared/SLUS_013.95/func_80034614.c"
 
-#include "../shared/SLUS_013.95/func_800346EC.c"
+#include "../shared/SLUS_013.95/exit_stage_from_menu.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80034830);
 
@@ -84,7 +84,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80034B70);
 
 #include "../shared/SLUS_013.95/func_800354E8.c"
 
-#include "../shared/SLUS_013.95/func_80035620.c"
+#include "../shared/SLUS_013.95/handle_jump_rise.c"
 
 #include "../shared/SLUS_013.95/func_800357A8.c"
 
@@ -102,7 +102,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80035A2C);
 
 #include "../shared/SLUS_013.95/func_80036364.c"
 
-#include "../shared/SLUS_013.95/func_8003649C.c"
+#include "../shared/SLUS_013.95/perform_ceiling_jump.c"
 
 #include "../shared/SLUS_013.95/func_800365D4.c"
 
@@ -124,7 +124,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80035A2C);
 
 #include "../shared/SLUS_013.95/func_80036E70.c"
 
-#include "../shared/SLUS_013.95/func_80036EB0.c"
+#include "../shared/SLUS_013.95/handle_slide_down.c"
 
 #include "../shared/SLUS_013.95/func_80036FBC.c"
 
@@ -136,7 +136,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80035A2C);
 
 #include "../shared/SLUS_013.95/func_800372DC.c"
 
-#include "../shared/SLUS_013.95/func_8003737C.c"
+#include "../shared/SLUS_013.95/end_ceiling_dash.c"
 
 #include "../shared/entity/state_dispatch.c"
 
@@ -214,7 +214,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80037D68);
 
 #include "../shared/SLUS_013.95/func_80038F64.c"
 
-#include "../shared/SLUS_013.95/func_8003906C.c"
+#include "../shared/SLUS_013.95/select_air_dash.c"
 
 #include "../shared/SLUS_013.95/func_80039228.c"
 
@@ -236,7 +236,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80039C40);
 
 #include "../shared/SLUS_013.95/func_80039DFC.c"
 
-#include "../shared/SLUS_013.95/func_80039EB0.c"
+#include "../shared/SLUS_013.95/check_dash_input.c"
 
 #include "../shared/SLUS_013.95/func_80039F78.c"
 
@@ -270,7 +270,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80039C40);
 
 #include "../shared/SLUS_013.95/func_8003A814.c"
 
-#include "../shared/SLUS_013.95/func_8003A870.c"
+#include "../shared/SLUS_013.95/check_ceiling_jump.c"
 
 #include "../shared/SLUS_013.95/func_8003A980.c"
 
@@ -295,7 +295,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003AAD0);
 
 #include "../shared/SLUS_013.95/func_8003B054.c"
 
-#include "../shared/SLUS_013.95/func_8003B114.c"
+#include "../shared/SLUS_013.95/end_dash.c"
 
 #include "../shared/SLUS_013.95/func_8003B218.c"
 
@@ -368,7 +368,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003CCBC);
 
 #include "../shared/SLUS_013.95/func_8003CD00.c"
 
-#include "../shared/SLUS_013.95/func_8003CD44.c"
+#include "../shared/SLUS_013.95/read_player_input.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003CD9C);
 
@@ -386,7 +386,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003CDF0);
 
 #include "../shared/SLUS_013.95/func_8003CFE0.c"
 
-#include "../shared/SLUS_013.95/func_8003D014.c"
+#include "../shared/SLUS_013.95/check_low_health.c"
 
 #include "../shared/SLUS_013.95/func_8003D07C.c"
 
@@ -396,7 +396,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003CDF0);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003D26C);
 
-#include "../shared/SLUS_013.95/func_8003D2BC.c"
+#include "../shared/SLUS_013.95/spawn_dust.c"
 
 #include "../shared/SLUS_013.95/func_8003D308.c"
 
@@ -418,7 +418,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003D26C);
 
 #include "../shared/SLUS_013.95/func_8003D718.c"
 
-#include "../shared/SLUS_013.95/func_8003D7AC.c"
+#include "../shared/SLUS_013.95/map_buttons.c"
 
 #include "../shared/SLUS_013.95/func_8003D850.c"
 
@@ -434,7 +434,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003D26C);
 
 #include "../shared/SLUS_013.95/func_8003DB44.c"
 
-#include "../shared/SLUS_013.95/func_8003DBDC.c"
+#include "../shared/SLUS_013.95/switch_weapon.c"
 
 #include "../shared/SLUS_013.95/func_8003DD6C.c"
 
@@ -446,19 +446,19 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003D26C);
 
 #include "../shared/SLUS_013.95/func_8003E260.c"
 
-#include "../shared/SLUS_013.95/func_8003E344.c"
+#include "../shared/SLUS_013.95/check_giga_attack.c"
 
 #include "../shared/SLUS_013.95/func_8003E614.c"
 
 #include "../shared/SLUS_013.95/func_8003E9E8.c"
 
-#include "../shared/SLUS_013.95/func_8003EB0C.c"
+#include "../shared/SLUS_013.95/get_weapon_energy_cost.c"
 
 #include "../shared/SLUS_013.95/func_8003EC78.c"
 
 #include "../shared/SLUS_013.95/func_8003ED98.c"
 
-#include "../shared/SLUS_013.95/func_8003EEE4.c"
+#include "../shared/SLUS_013.95/charge_special_weapon.c"
 
 #include "../shared/SLUS_013.95/func_8003F000.c"
 
@@ -468,9 +468,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003D26C);
 
 #include "../shared/SLUS_013.95/func_8003F13C.c"
 
-#include "../shared/SLUS_013.95/func_8003F200.c"
+#include "../shared/SLUS_013.95/start_hover.c"
 
-#include "../shared/SLUS_013.95/func_8003F28C.c"
+#include "../shared/SLUS_013.95/start_falcon_dash.c"
 
 #include "../shared/SLUS_013.95/func_8003F32C.c"
 
@@ -488,7 +488,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003F480);
 
 #include "../shared/SLUS_013.95/func_8003F700.c"
 
-#include "../shared/SLUS_013.95/func_8003F740.c"
+#include "../shared/SLUS_013.95/use_weapon_energy.c"
 
 #include "../shared/SLUS_013.95/func_8003F7BC.c"
 
@@ -503,7 +503,7 @@ void func_8003FA58(void) {
 
 #include "../shared/SLUS_013.95/player_fire_weapon.c"
 
-#include "../shared/SLUS_013.95/func_8003FA8C.c"
+#include "../shared/SLUS_013.95/fire_charged_shot.c"
 
 #include "../shared/SLUS_013.95/func_8003FAFC.c"
 
@@ -519,7 +519,7 @@ void func_8003FA58(void) {
 
 #include "../shared/SLUS_013.95/func_8003FD18.c"
 
-#include "../shared/SLUS_013.95/func_8003FD6C.c"
+#include "../shared/SLUS_013.95/start_saber.c"
 
 #include "../shared/SLUS_013.95/func_8003FE74.c"
 
@@ -635,7 +635,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80040FB4);
 #undef func_8003744C
 #undef D_80073C1C
 
-#include "../shared/SLUS_013.95/func_8004228C.c"
+#include "../shared/SLUS_013.95/init_orb.c"
 
 #include "../shared/SLUS_013.95/func_80042320.c"
 
@@ -699,7 +699,7 @@ void func_800429CC(void) {
 
 #include "../shared/SLUS_013.95/func_80042CE8.c"
 
-#include "../shared/SLUS_013.95/func_80042D3C.c"
+#include "../shared/SLUS_013.95/register_orb.c"
 
 #include "../shared/SLUS_013.95/func_80042D98.c"
 
@@ -749,7 +749,7 @@ void func_800429CC(void) {
 
 #include "../shared/SLUS_013.95/func_800434E0.c"
 
-#include "../shared/SLUS_013.95/func_80043638.c"
+#include "../shared/SLUS_013.95/init_yammar_option.c"
 
 #include "../shared/SLUS_013.95/func_80043890.c"
 
@@ -809,7 +809,7 @@ void func_800429CC(void) {
 
 #include "../shared/SLUS_013.95/func_800451B8.c"
 
-#include "../shared/SLUS_013.95/func_8004548C.c"
+#include "../shared/SLUS_013.95/update_guard_shell.c"
 
 #include "../shared/SLUS_013.95/func_800456D4.c"
 
@@ -905,7 +905,7 @@ void func_800429CC(void) {
 #undef func_80046C64
 #undef D_800762A0
 
-#include "../shared/SLUS_013.95/func_80046E14.c"
+#include "../shared/SLUS_013.95/clamp_player_to_ceiling.c"
 
 #include "../shared/SLUS_013.95/func_800472D0.c"
 
@@ -929,7 +929,7 @@ void func_800473EC(Probe800473EC* arg0) {
     }
 }
 
-#include "../shared/SLUS_013.95/func_80047460.c"
+#include "../shared/SLUS_013.95/move_ceiling.c"
 
 #include "../shared/SLUS_013.95/func_8004755C.c"
 
@@ -1041,7 +1041,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80048628);
 
 #include "../shared/SLUS_013.95/func_80049100.c"
 
-#include "../shared/SLUS_013.95/func_80049270.c"
+#include "../shared/SLUS_013.95/init_buster_shot_visual.c"
 
 #include "../shared/SLUS_013.95/func_80049410.c"
 
@@ -1049,7 +1049,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80048628);
 
 #include "../shared/SLUS_013.95/func_800494DC.c"
 
-#include "../shared/SLUS_013.95/func_80049564.c"
+#include "../shared/SLUS_013.95/update_dust.c"
 
 #include "../shared/SLUS_013.95/func_80049670.c"
 
@@ -1265,7 +1265,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004E26C);
 
 #include "../shared/SLUS_013.95/func_8004E654.c"
 
-#include "../shared/SLUS_013.95/func_8004E680.c"
+#include "../shared/SLUS_013.95/drop_item.c"
 
 #include "../shared/SLUS_013.95/func_8004E78C.c"
 
@@ -1281,7 +1281,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004E26C);
 
 #include "../shared/SLUS_013.95/func_8004ED4C.c"
 
-#include "../shared/SLUS_013.95/func_8004EECC.c"
+#include "../shared/SLUS_013.95/rescue_reploid.c"
 
 #include "../shared/SLUS_013.95/func_8004EFD0.c"
 
@@ -1322,9 +1322,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004FE58);
 
 #include "../shared/SLUS_013.95/func_8004FE8C.c"
 
-#include "../shared/SLUS_013.95/func_8004FF00.c"
+#include "../shared/SLUS_013.95/set_reploid_status.c"
 
-#include "../shared/SLUS_013.95/func_8004FF4C.c"
+#include "../shared/SLUS_013.95/get_reploid_status.c"
 
 #include "../shared/SLUS_013.95/func_8004FF7C.c"
 
@@ -1362,7 +1362,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80050670);
 
 #include "../shared/SLUS_013.95/func_80051104.c"
 
-#include "../shared/SLUS_013.95/func_80051158.c"
+#include "../shared/SLUS_013.95/init_capsule.c"
 
 #include "../shared/SLUS_013.95/func_80051490.c"
 
@@ -1396,7 +1396,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80050670);
 
 #include "../shared/SLUS_013.95/func_80051E9C.c"
 
-#include "../shared/SLUS_013.95/func_80051ED4.c"
+#include "../shared/SLUS_013.95/apply_capsule_part.c"
 
 #include "../shared/SLUS_013.95/func_80051FA8.c"
 
@@ -1478,9 +1478,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80052F64);
 
 #include "../shared/SLUS_013.95/func_800533D4.c"
 
-#include "../shared/SLUS_013.95/func_800533F4.c"
+#include "../shared/SLUS_013.95/is_text_box_seen.c"
 
-#include "../shared/SLUS_013.95/func_80053440.c"
+#include "../shared/SLUS_013.95/set_text_box_seen.c"
 
 #include "../shared/SLUS_013.95/func_8005348C.c"
 

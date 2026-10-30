@@ -4,10 +4,10 @@
 
 extern u32* D_8007789C[];
 extern struct X4_PlayerObj g_Player;
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
-M2C_UNK func_800179A4(void* arg0, M2C_UNK arg1);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
+M2C_UNK set_animation(void* arg0, M2C_UNK arg1);
 M2C_UNK func_80017A04();
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 
 void func_8004B1F4(struct X4_VisualObj* arg0) {
@@ -49,11 +49,11 @@ void func_8004B1F4(struct X4_VisualObj* arg0) {
         idx = 4;
     }
     if (idx == -1) {
-        ((M2C_UNK(*)())func_8002C9B0)(arg0);
+        ((M2C_UNK(*)())clear_object_slot)(arg0);
         return;
     }
     if (idx != arg0->unk2) {
-        func_800179A4(arg0, idx + 0x20);
+        set_animation(arg0, idx + 0x20);
         arg0->unk2 = idx;
     } else {
         func_80017A04(arg0);
@@ -63,7 +63,7 @@ void func_8004B1F4(struct X4_VisualObj* arg0) {
     arg0->y_pos = player->y_pos;
     if (arg0->unk5C.value == 0) {
         arg0->unk5C.value = 8;
-        func_80016C48(0, 0x1F, arg0);
+        play_sound(0, 0x1F, arg0);
     } else {
         arg0->unk5C.value--;
     }

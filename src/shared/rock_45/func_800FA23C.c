@@ -5,7 +5,7 @@
 
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 extern M2C_UNK D_8007433C;
 extern s32 D_80075A5C;
 extern s8 D_8009711A;
@@ -25,7 +25,7 @@ void func_800FA23C(void* arg0) {
         a = TBL(0x10);
     }
     M2C_FIELD(arg0, s32**, 0x54) = a;
-    r = func_80031474(arg0);
+    r = check_enemy_hits(arg0);
     if (r < 0) {
         *TBL(0x3D4) = 1;
         M2C_FIELD(arg0, s8*, 4) = 2;

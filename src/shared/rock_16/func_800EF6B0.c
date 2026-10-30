@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179D0(void*, M2C_UNK, s8);
-s32 func_8004FF4C();
+M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
+s32 get_reploid_status();
 extern s32 D_8006D674[];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CCEFB;
 extern s32 D_800F0E74[];
 extern u16 D_800F1668[];
@@ -18,7 +18,7 @@ extern u16 D_800F1688[][2];
 #define F6B0_U16(o) (*(u16*)((s8*)arg0 + (o)))
 #define F6B0_PTR(o) (*(void**)((s8*)arg0 + (o)))
 #define F6B0_SCRATCH (*(u8**)0x1F800020)
-#define F6B0_ENG2B (D_800CCED0.character_state.bytes[5])
+#define F6B0_ENG2B (g_playthrough_state.character_state.bytes[5])
 
 void func_800EF6B0(void* arg0) {
     u8* p;
@@ -38,7 +38,7 @@ void func_800EF6B0(void* arg0) {
     F6B0_PTR(0x30) = D_800F1668;
     u = F6B0_U8(2);
     if (v < 2) {
-        ((void (*)(void*, s32, s32))func_800179D0)(arg0, v, 0);
+        ((void (*)(void*, s32, s32))set_animation_frame)(arg0, v, 0);
         F6B0_U16(0xA) = D_800F1680[F6B0_S8(2)][0];
         F6B0_U16(0xE) = D_800F1680[F6B0_S8(2)][1];
         F6B0_U8(0x16) = 3;
@@ -49,7 +49,7 @@ void func_800EF6B0(void* arg0) {
         q = F6B0_SCRATCH;
         F6B0_PTR(0x3C) = q + *(s32*)(q + 0x10);
         F6B0_S8(2) = u - 2;
-        if (func_8004FF4C(F6B0_ENG2B * 16 + F6B0_S8(2)) >= 2) {
+        if (get_reploid_status(F6B0_ENG2B * 16 + F6B0_S8(2)) >= 2) {
             F6B0_S8(0x47) = F6B0_U8(2) + F6B0_ENG2B * 16;
         } else {
             F6B0_S8(3) = 0;
@@ -60,8 +60,8 @@ void func_800EF6B0(void* arg0) {
         F6B0_U8(5) = 1;
     } else if (v < 0x22) {
         F6B0_S8(2) = u - 0x12;
-        ((void (*)(void*, s32, s32))func_800179D0)(
-            arg0, 2, func_8004FF4C(D_800CCEFB * 16 + F6B0_S8(2), u));
+        ((void (*)(void*, s32, s32))set_animation_frame)(
+            arg0, 2, get_reploid_status(D_800CCEFB * 16 + F6B0_S8(2), u));
         F6B0_U16(0xA) = D_800F1688[F6B0_S8(2)][0] + 0x59;
         F6B0_U16(0xE) = D_800F1688[F6B0_S8(2)][1];
         F6B0_U8(0x16) = 3;
@@ -71,7 +71,7 @@ void func_800EF6B0(void* arg0) {
         F6B0_PTR(0x3C) = q2 + *(s32*)(q2 + 0xC);
         F6B0_S16(0x42) = 0x78C2;
         F6B0_S8(2) = u - 0x22;
-        r = func_8004FF4C(F6B0_ENG2B * 16 + F6B0_S8(2));
+        r = get_reploid_status(F6B0_ENG2B * 16 + F6B0_S8(2));
         if (r == 2 && (w = D_8006D674[F6B0_ENG2B * 16 + F6B0_S8(2)]) != 0) {
             if (w == 1) {
                 i = 0x18;
@@ -88,7 +88,7 @@ void func_800EF6B0(void* arg0) {
                 i = 0;
             }
         found:
-            ((void (*)(void*, s32, s32))func_800179D0)(arg0, 3, i);
+            ((void (*)(void*, s32, s32))set_animation_frame)(arg0, 3, i);
         } else {
             F6B0_S8(3) = 0;
         }

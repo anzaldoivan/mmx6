@@ -8,7 +8,7 @@
 
 #include "../shared/SLUS_013.95/func_80012658.c"
 
-#include "../shared/SLUS_013.95/func_80012890.c"
+#include "../shared/SLUS_013.95/set_resolution.c"
 
 #include "../shared/SLUS_013.95/func_80012A34.c"
 
@@ -32,13 +32,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80012FE4);
 
 #include "../shared/SLUS_013.95/func_800131AC.c"
 
-#include "../shared/SLUS_013.95/func_80013300.c"
+#include "../shared/SLUS_013.95/create_task.c"
 
-#include "../shared/SLUS_013.95/func_80013360.c"
+#include "../shared/SLUS_013.95/task_yield.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800133A0);
 
-#include "../shared/SLUS_013.95/func_800133F4.c"
+#include "../shared/SLUS_013.95/end_task_slot.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001344C);
 
@@ -78,7 +78,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013BD0);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013BE4);
 
-#include "../shared/SLUS_013.95/func_80013BF0.c"
+#include "../shared/SLUS_013.95/load_player_files.c"
 
 #include "../shared/SLUS_013.95/func_80013D10.c"
 
@@ -90,7 +90,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013DE8);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800144DC);
 
-#include "../shared/SLUS_013.95/func_8001466C.c"
+#include "../shared/SLUS_013.95/init_loading_screen.c"
 
 #include "../shared/SLUS_013.95/func_800146F4.c"
 
@@ -114,7 +114,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80015230);
 
 #include "../shared/SLUS_013.95/func_8001574C.c"
 
-#include "../shared/SLUS_013.95/func_80015A0C.c"
+#include "../shared/SLUS_013.95/load_vab_record.c"
 
 #include "../shared/SLUS_013.95/func_80015C5C.c"
 
@@ -122,11 +122,11 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80015230);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80015EC0);
 
-#include "../shared/SLUS_013.95/func_80016178.c"
+#include "../shared/SLUS_013.95/pump_file_loads.c"
 
 #include "../shared/SLUS_013.95/func_800163A4.c"
 
-#include "../shared/SLUS_013.95/func_8001642C.c"
+#include "../shared/SLUS_013.95/read_dat_file.c"
 
 #include "../shared/SLUS_013.95/func_8001651C.c"
 
@@ -145,7 +145,7 @@ void func_800166FC(void) {
 
 #include "../shared/SLUS_013.95/load_rock_bin_file_table.c"
 
-#include "../shared/SLUS_013.95/func_80016858.c"
+#include "../shared/SLUS_013.95/read_rock_bin_member.c"
 
 #include "../shared/SLUS_013.95/func_80016950.c"
 
@@ -153,7 +153,7 @@ void func_800166FC(void) {
 
 #include "../shared/SLUS_013.95/func_80016B3C.c"
 
-#include "../shared/SLUS_013.95/func_80016C48.c"
+#include "../shared/SLUS_013.95/play_sound.c"
 
 #include "../shared/SLUS_013.95/func_80016D34.c"
 
@@ -167,15 +167,15 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001717C);
 
 #include "../shared/SLUS_013.95/func_800174D4.c"
 
-#include "../shared/SLUS_013.95/func_8001750C.c"
+#include "../shared/SLUS_013.95/silence_sound.c"
 
 #include "../shared/SLUS_013.95/func_800175F0.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80017630);
 
-#include "../shared/SLUS_013.95/func_800179A4.c"
+#include "../shared/SLUS_013.95/set_animation.c"
 
-#include "../shared/SLUS_013.95/func_800179D0.c"
+#include "../shared/SLUS_013.95/set_animation_frame.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80017A04);
 
@@ -199,9 +199,15 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80017A04);
 
 #include "../shared/SLUS_013.95/func_80017F6C.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80018060);
+// 0x80018060 play_bgm_xa_track: plays BGM.XA track arg0 (dat slot 0xF5) via func_80016548; arg0 indexes the 16-byte track table D_8006E58C.
+// basis: oracle assets.tsv:257:dat:245
+// callers: func_80017F6C, play_stage_bgm, func_8003B870, func_80051A44, rock_17 func_800E9B9C, rock_18 func_800E9A64, rock_20 func_800EEAC4, rock_21 func_800EB7A4
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", play_bgm_xa_track);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80018178);
+// 0x80018178 play_demo_xa_track: plays DEMO.XA track arg0 (dat slot 0xF6) via func_80016548; arg0 indexes a track table.
+// basis: oracle assets.tsv:258:dat:246
+// callers: rock_12 func_800EA324
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", play_demo_xa_track);
 
 #include "../shared/SLUS_013.95/func_80018290.c"
 
@@ -213,11 +219,11 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80018178);
 
 #include "../shared/SLUS_013.95/func_80018524.c"
 
-#include "../shared/SLUS_013.95/func_8001854C.c"
+#include "../shared/SLUS_013.95/play_stage_bgm.c"
 
 #include "../shared/SLUS_013.95/func_800185B4.c"
 
-#include "../shared/SLUS_013.95/func_800186A8.c"
+#include "../shared/SLUS_013.95/stop_cd_audio.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80018774);
 
@@ -271,7 +277,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001A3D4);
 
 #include "../shared/SLUS_013.95/func_8001A674.c"
 
-#include "../shared/SLUS_013.95/func_8001A6CC.c"
+#include "../shared/SLUS_013.95/play_str_movie.c"
 
 #include "../shared/SLUS_013.95/func_8001A9B0.c"
 
@@ -411,9 +417,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001C938);
 
 #include "../shared/SLUS_013.95/func_8001DE10.c"
 
-#include "../shared/SLUS_013.95/func_8001DEB8.c"
+#include "../shared/SLUS_013.95/init_title_screen.c"
 
-#include "../shared/SLUS_013.95/func_8001DF5C.c"
+#include "../shared/SLUS_013.95/tick_title_demo_timer.c"
 
 #include "../shared/SLUS_013.95/func_8001DFB0.c"
 
@@ -421,22 +427,22 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001C938);
 
 #include "../shared/SLUS_013.95/func_8001E024.c"
 
-#include "../shared/SLUS_013.95/func_8001E088.c"
+#include "../shared/SLUS_013.95/init_new_game.c"
 
 #include "../shared/SLUS_013.95/func_8001E1BC.c"
 
-#include "../shared/SLUS_013.95/func_8001E32C.c"
+#include "../shared/SLUS_013.95/exit_stage_by_clear.c"
 
 #include "../shared/SLUS_013.95/func_8001E6E4.c"
 
 #include "../shared/SLUS_013.95/func_8001E730.c"
 
 extern u8 D_800CCEDC;
-void func_8001854C(void);
+void play_stage_bgm(void);
 
 void func_8001E78C(void) {
     if ((u32)(D_800CCEDC - 9) >= 2) {
-        func_8001854C();
+        play_stage_bgm();
     }
 }
 
@@ -587,17 +593,17 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001FB3C);
 void func_80021758(void) {
 }
 
-#include "../shared/SLUS_013.95/func_80021760.c"
+#include "../shared/SLUS_013.95/open_text_box.c"
 
 #include "../shared/SLUS_013.95/func_80021AF0.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80021BF4);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", update_text_box);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002234C);
 
 #include "../shared/SLUS_013.95/func_80022838.c"
 
-#include "../shared/SLUS_013.95/func_800228AC.c"
+#include "../shared/SLUS_013.95/get_player_mugshot.c"
 
 #include "../shared/SLUS_013.95/func_80022928.c"
 
@@ -639,7 +645,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80025E1C);
 
 #include "../shared/SLUS_013.95/func_80025FB0.c"
 
-#include "../shared/SLUS_013.95/func_80025FD8.c"
+#include "../shared/SLUS_013.95/set_boss_level.c"
 
 #include "../shared/SLUS_013.95/func_80026028.c"
 
@@ -801,7 +807,7 @@ void func_800299C4(void) {
 
 #include "../shared/SLUS_013.95/func_80029AFC.c"
 
-#include "../shared/SLUS_013.95/func_80029B8C.c"
+#include "../shared/SLUS_013.95/init_checkpoint_positions.c"
 
 #include "../shared/SLUS_013.95/func_80029D18.c"
 
@@ -819,7 +825,7 @@ void func_800299C4(void) {
 
 #include "../shared/SLUS_013.95/func_8002A4E4.c"
 
-#include "../shared/SLUS_013.95/func_8002A588.c"
+#include "../shared/SLUS_013.95/init_options_menu.c"
 
 #include "../shared/SLUS_013.95/func_8002A76C.c"
 
@@ -841,7 +847,7 @@ void func_800299C4(void) {
 
 #include "../shared/SLUS_013.95/func_8002B36C.c"
 
-#include "../shared/SLUS_013.95/func_8002B3D4.c"
+#include "../shared/SLUS_013.95/load_palette.c"
 
 void func_8002B410(u16* dst, u16* src, s32 n, s32 num, s32 den) {
     u32 c;
@@ -889,9 +895,9 @@ void func_8002B410(u16* dst, u16* src, s32 n, s32 num, s32 den) {
 
 #include "../shared/SLUS_013.95/func_8002B79C.c"
 
-#include "../shared/SLUS_013.95/func_8002B838.c"
+#include "../shared/SLUS_013.95/reset_level.c"
 
-#include "../shared/SLUS_013.95/func_8002BBF4.c"
+#include "../shared/SLUS_013.95/enemy_slot_alloc.c"
 
 #include "../shared/SLUS_013.95/func_8002BCCC.c"
 
@@ -913,17 +919,17 @@ void func_8002B410(u16* dst, u16* src, s32 n, s32 num, s32 den) {
 
 #include "../shared/SLUS_013.95/func_8002C398.c"
 
-#include "../shared/SLUS_013.95/func_8002C3F8.c"
+#include "../shared/SLUS_013.95/alloc_class3_slot.c"
 
 #define func_8002C32C func_8002C458
-#define D_800950A0 D_80093C98
+#define D_800950A0 g_projectiles
 #include "../shared/SLUS_013.95/func_8002C458.c"
 #undef func_8002C32C
 #undef D_800950A0
 
-#include "../shared/SLUS_013.95/func_8002C4C4.c"
+#include "../shared/SLUS_013.95/alloc_class4_slot.c"
 
-#include "../shared/SLUS_013.95/func_8002C530.c"
+#include "../shared/SLUS_013.95/alloc_sprite_slot.c"
 
 #include "../shared/SLUS_013.95/func_8002C590.c"
 
@@ -931,13 +937,13 @@ void func_8002B410(u16* dst, u16* src, s32 n, s32 num, s32 den) {
 
 #include "../shared/SLUS_013.95/func_8002C6F0.c"
 
-#include "../shared/SLUS_013.95/func_8002C7F0.c"
+#include "../shared/SLUS_013.95/alloc_class6_slot.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002C850);
 
-#include "../shared/SLUS_013.95/func_8002C950.c"
+#include "../shared/SLUS_013.95/alloc_class7_slot.c"
 
-#include "../shared/SLUS_013.95/func_8002C9B0.c"
+#include "../shared/SLUS_013.95/clear_object_slot.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002C9D4);
 
@@ -969,7 +975,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002CD6C);
 
 #include "../shared/SLUS_013.95/move_object.c"
 
-#include "../shared/SLUS_013.95/func_8002D2D4.c"
+#include "../shared/SLUS_013.95/random_byte.c"
 
 #include "../shared/SLUS_013.95/func_8002D30C.c"
 
@@ -989,7 +995,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002CD6C);
 
 #include "../shared/SLUS_013.95/func_8002D654.c"
 
-#include "../shared/SLUS_013.95/func_8002D868.c"
+#include "../shared/SLUS_013.95/check_attack_hit.c"
 
 #include "../shared/SLUS_013.95/func_8002DCF4.c"
 
@@ -999,7 +1005,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002CD6C);
 
 #include "../shared/SLUS_013.95/func_8002E0DC.c"
 
-#include "../shared/SLUS_013.95/func_8002E1A0.c"
+#include "../shared/SLUS_013.95/check_box_collision.c"
 
 #include "../shared/SLUS_013.95/func_8002E47C.c"
 
@@ -1077,13 +1083,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80030C58);
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80030D80);
 
-#include "../shared/SLUS_013.95/func_80030DC0.c"
+#include "../shared/SLUS_013.95/scale_damage.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80030ECC);
 
 #include "../shared/SLUS_013.95/func_800312DC.c"
 
-#include "../shared/SLUS_013.95/func_80031474.c"
+#include "../shared/SLUS_013.95/check_enemy_hits.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800315CC);
 

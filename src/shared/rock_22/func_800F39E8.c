@@ -7,7 +7,7 @@ extern s16 D_800FC704[8];
 extern s16 D_800FC714[8];
 extern u8 D_800FC724[8];
 extern u8 D_800FC72C[8];
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 
 static inline void set_launch_39E8(struct X4_MainObj* self) {
     s32 index;
@@ -16,7 +16,7 @@ static inline void set_launch_39E8(struct X4_MainObj* self) {
     self->x_speed = D_800FC704[index] << 16;
     self->y_speed = D_800FC714[index] << 16;
     self->unk15 = D_800FC724[index];
-    func_800179A4(self, D_800FC72C[index]);
+    set_animation(self, D_800FC72C[index]);
     self->hurt_box = D_800FC644[SP_CUR_MAIN_OBJ->ext.main_19.unk80];
     self->attack_box = D_800FC654[SP_CUR_MAIN_OBJ->ext.main_19.unk80];
     self->terrain_box = D_800FC664[SP_CUR_MAIN_OBJ->ext.main_19.unk80];

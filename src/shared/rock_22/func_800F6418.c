@@ -5,7 +5,7 @@
 M2C_UNK func_80017A04();
 void* func_8002BCCC(void*, s32);
 void* func_8002C458();
-s32 func_8002D2D4();
+s32 random_byte();
 extern s32 D_80097420;
 
 void func_800F6418(void* arg0) {
@@ -19,7 +19,7 @@ void func_800F6418(void* arg0) {
         if (p != 0) {
             M2C_FIELD(p, u8*, 0) = 0x41;
             M2C_FIELD(p, u8*, 1) = 0x1E;
-            M2C_FIELD(p, u8*, 2) = (func_8002D2D4() & 7) + 0xB;
+            M2C_FIELD(p, u8*, 2) = (random_byte() & 7) + 0xB;
             M2C_FIELD(p, u16*, 0x42) = M2C_FIELD(arg0, u16*, 0x42) & 0x7FFF;
             M2C_FIELD(p, s32*, 0x30) = M2C_FIELD(arg0, s32*, 0x30);
             M2C_FIELD(p, s32*, 0x3C) = M2C_FIELD(arg0, s32*, 0x3C);

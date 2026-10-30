@@ -3,14 +3,14 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 extern s8 D_800FD521;
 
 void func_800F4328(void* arg0, u8 arg1, s16 arg2, s16 arg3) {
     void* obj;
     u8 b15;
 
-    obj = func_8002BBF4();
+    obj = enemy_slot_alloc();
     if (obj != 0) {
         M2C_FIELD(obj, u8*, 0) = 0x41;
         M2C_FIELD(obj, u8*, 1) = 0x18;

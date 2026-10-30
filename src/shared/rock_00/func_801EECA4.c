@@ -4,11 +4,11 @@
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 void func_801EECA4(struct X4_WeaponObj* arg0) {
     if (arg0->unk2 == 0) {
         g_Player.shot_count--;
     }
-    ((void (*)())func_8002C9B0)(arg0);
+    ((void (*)())clear_object_slot)(arg0);
 }
 #undef g_Player

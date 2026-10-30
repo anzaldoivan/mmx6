@@ -6,14 +6,14 @@
 #define SCRATCH_9C (*(s32**)0x1F80009C)
 #define SCRATCH_4C (*(u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void* func_8002C458();
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern s32 D_80074FBC;
 extern u8 D_800970B4;
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s32 D_800F414C;
 extern s32 D_800F4154;
 extern s32 D_800F42B4;
@@ -37,7 +37,7 @@ void func_800EE8C8(struct X4_MainObj* self) {
     u8 t;
     u16 v;
 
-    if (D_800CCED0.stage == 0xC) {
+    if (g_playthrough_state.stage == 0xC) {
         p = SCRATCH_9C;
         self->sprite_frames = (u8*)p + *p;
         self->unk42 = 0x7948;
@@ -48,7 +48,7 @@ void func_800EE8C8(struct X4_MainObj* self) {
     self->hp = 0;
     self->unk62 = 0;
     self->unk40 = 0x140;
-    if (D_800CCED0.stage == 0xC) {
+    if (g_playthrough_state.stage == 0xC) {
         D_800F447E = -0x810;
         D_800F4480 = 0x150;
         D_800F4482 = -0xA00;
@@ -105,7 +105,7 @@ void func_800EE8C8(struct X4_MainObj* self) {
     }
     for (i = 0; i < 4; i++) {
         M2C_FIELD(SCRATCH_4C + i, u8*, 0x90) =
-            ((func_8002D2D4() & 3) + 1) * 0x1E;
+            ((random_byte() & 3) + 1) * 0x1E;
     }
     M2C_FIELD(SCRATCH_4C, u8*, 0x89) = 0;
     M2C_FIELD(SCRATCH_4C, u8*, 0x8A) = 0;
@@ -117,7 +117,7 @@ void func_800EE8C8(struct X4_MainObj* self) {
     M2C_FIELD(SCRATCH_4C, void**, 0x8C) = self->sprite_frames;
     D_800F4490 = 0;
     background_objects[1].unk4 = 9;
-    func_800179A4(self, 4);
+    set_animation(self, 4);
     self->state = 1;
     self->unk5 = 2;
     self->unk6 = 0;

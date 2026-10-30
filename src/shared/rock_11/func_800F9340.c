@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-s32 func_8002D2D4();
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+s32 random_byte();
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void func_800FA06C(void* arg0, u8 arg1);
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800E9B88[];
 extern u16 D_800FDA7E;
 #define D_800FDA7E (*(s16*)&D_800FDA7E)
@@ -23,13 +23,13 @@ void func_800F9340(void* arg0) {
     t = *(s8*)((u8*)arg0 + 0x45);
 
     if (t == 1) {
-        if (func_8002D2D4() & 1) {
-            func_80016C48(2, 0x22, arg0);
+        if (random_byte() & 1) {
+            play_sound(2, 0x22, arg0);
         } else {
-            func_80016C48(2, 0x23, arg0);
+            play_sound(2, 0x23, arg0);
         }
-        func_80016C48(2, 0x4D, arg0);
-        if (buf[(u8)D_800CCED0.player_initial_data[0x46]] > 0) {
+        play_sound(2, 0x4D, arg0);
+        if (buf[(u8)g_playthrough_state.player_initial_data[0x46]] > 0) {
             i = 0;
             do {
                 if (D_800FDA7E >= 10) {
@@ -38,7 +38,7 @@ void func_800F9340(void* arg0) {
                 func_800FA06C(arg0, 0x10);
                 i++;
                 v = i;
-                n = v < buf[(u8)D_800CCED0.player_initial_data[0x46]];
+                n = v < buf[(u8)g_playthrough_state.player_initial_data[0x46]];
             } while (n);
         }
     } else if (t == 2) {

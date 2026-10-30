@@ -8,7 +8,7 @@ M2C_UNK func_8002D230(struct X4_MainObj* self);
 M2C_UNK move_object(void*);
 M2C_UNK func_8002EE10(void*);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049D90_r(
     void*); /* link-only second name (PROVIDEd): the call needs the int return */
 #define func_80049D90 func_80049D90_r
@@ -60,7 +60,7 @@ void func_8004F624(u8* arg0) {
             arg0[6] = 0;
         }
         if (arg0[0x70] != 0 || (func_8002EE10(arg0), arg0[0x70] != 0) ||
-            func_80031474(arg0) < 0 || func_80030ECC(arg0) != 0) {
+            check_enemy_hits(arg0) < 0 || func_80030ECC(arg0) != 0) {
             ((M2C_UNK(*)())func_80049E50)(arg0);
             arg0[4] = 2;
             return;

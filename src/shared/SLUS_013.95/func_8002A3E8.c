@@ -2,7 +2,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern struct X4_StageObjectRecord* D_80073554[13][2];
 void func_80029F38(s16, s16, s16, s16, u8);
 void func_8002A4E4(struct X4_StageObjectRecord*);
@@ -12,5 +12,6 @@ void func_8002A3E8(void) {
                   background_objects[0].x_pos.i.hi + 0x170,
                   background_objects[0].y_pos.i.hi - 0x30,
                   background_objects[0].y_pos.i.hi + 0x120, 0);
-    func_8002A4E4(D_80073554[D_800CCED0.stage][D_800CCED0.substage]);
+    func_8002A4E4(
+        D_80073554[g_playthrough_state.stage][g_playthrough_state.substage]);
 }

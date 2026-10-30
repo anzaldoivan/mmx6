@@ -5,7 +5,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20 (*(s32*)0x1F800020)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 extern s32 D_8007429C;
 extern M2C_UNK g_Player;
@@ -47,7 +47,7 @@ void func_800EFA5C(void* arg0) {
         base = SPAD20;
         off = *(s32*)(idx * 4 + base + 4);
         M2C_FIELD(arg0, s32*, 0x3C) = base + off;
-        ((void (*)(void*, s32, s32))func_800179A4)(arg0, 0xE, off);
+        ((void (*)(void*, s32, s32))set_animation)(arg0, 0xE, off);
     }
     if (M2C_FIELD(arg0, u8*, 0x15) == 0) {
         M2C_FIELD(arg0, s16*, 0xA) =

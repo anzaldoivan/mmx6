@@ -5,10 +5,10 @@
 M2C_UNK func_800122A4();
 M2C_UNK func_8001BD40();
 
-extern u8 D_8006D5F7;
+extern u8 g_temp_options;
 extern u16 D_8006D600[];
 extern u16 D_80071080[];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern void* D_800E2F9C;
 
 void func_800ECE54(void) {
@@ -19,7 +19,7 @@ void func_800ECE54(void) {
     s8 v;
 
     src = D_800E2F9C;
-    dst = (u8*)&D_800CCED0;
+    dst = (u8*)&g_playthrough_state;
     dst[0x66] = src[1];
     dst[0x68] = src[2];
     *(s32*)(dst + 0x70) = *(s32*)(src + 4);
@@ -59,7 +59,7 @@ void func_800ECE54(void) {
     *(s32*)(dst + 0xCC) = *(s32*)(src + 0x40);
     dst[0x43B] = src[0x3F];
     dst[0xC9] = src[0xCC];
-    D_8006D5F7 = src[0xCC];
+    g_temp_options = src[0xCC];
     for (i = 0; i < 16; i++) {
         if (i < 8) {
             {

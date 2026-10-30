@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 M2C_UNK move_object(void*);
 extern s16 D_800F4480;
@@ -21,7 +21,7 @@ void func_800F1F64(u8* arg0) {
             }
         } else if (D_800F4480 - x >= 0x11) {
         call:
-            func_800179A4(arg0, 3);
+            set_animation(arg0, 3);
         }
         a = D_800F4480 + 0x438;
         b = *(s16*)(arg0 + 0xE);

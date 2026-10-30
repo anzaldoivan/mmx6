@@ -15,7 +15,7 @@ M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049EBC(void*, M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_800ECAB8(struct X4_PlayerObj*, s16, s16);
 
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern M2C_UNK D_800F3A0C;
 extern M2C_UNK D_800F3A10;
 extern M2C_UNK D_800F3A1C;
@@ -29,7 +29,7 @@ void func_800ECE74(struct X4_PlayerObj* self) {
     struct X4_Unk_unk68* p;
 
     self->unk42 &= 0x7FFF;
-    if (D_800CCED0.stage >= 0x13) {
+    if (g_playthrough_state.stage >= 0x13) {
         x = (s16)(self->x_pos.i.hi - *(u8*)&self->double_tap_direction) - 1;
         r = func_800ECAB8(self, x, self->y_pos.i.hi);
         tile = func_80030234(self, x, self->y_pos.i.hi) & 0xFF;
@@ -57,7 +57,8 @@ void func_800ECE74(struct X4_PlayerObj* self) {
     }
     if (func_8002CBFC(self, 0x80, 0x80) == 0) {
         func_8002CB50(self);
-    } else if (D_800CCED0.stage != 7 || D_800CCED0.checkpoint != 1) {
+    } else if (g_playthrough_state.stage != 7 ||
+               g_playthrough_state.checkpoint != 1) {
         func_8002CA54(self);
     }
     func_80031F4C(self);

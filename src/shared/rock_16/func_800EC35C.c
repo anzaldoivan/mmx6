@@ -2,19 +2,19 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-void* func_8002C530();
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+void* alloc_sprite_slot();
 s32 func_800EC1FC(s32);
 extern u16 D_800C4570;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s32 D_800F0E74[];
 extern s8 D_800F0ED4[];
 extern s8 D_800F1C80[];
 extern s8 D_800F1CD0[][5];
 extern s8 D_800F1CEA;
 
-#define EC35C_ENG_29 (D_800CCED0.character_state.bytes[3])
-#define EC35C_ENG_2A (D_800CCED0.character_state.bytes[4])
+#define EC35C_ENG_29 (g_playthrough_state.character_state.bytes[3])
+#define EC35C_ENG_2A (g_playthrough_state.character_state.bytes[4])
 #define EC35C_F(o, t) (*(t*)((u8*)arg0 + (o)))
 
 void func_800EC35C(void* arg0) {
@@ -26,7 +26,7 @@ void func_800EC35C(void* arg0) {
     s32 t;
 
     if (D_800C4570 & 0x840) {
-        func_80016C48(5, 1, 0);
+        play_sound(5, 1, 0);
         if ((EC35C_F(0x70, s32) & D_800F0E74[EC35C_ENG_2A]) &&
             func_800EC1FC(EC35C_ENG_2A) == 0) {
             q = (s32*)((u8*)arg0 + 0x74);
@@ -54,7 +54,7 @@ void func_800EC35C(void* arg0) {
         t = 1;
         EC35C_F(2, u8) = t;
         if (D_800F1CEA == 2) {
-            o = func_8002C530();
+            o = alloc_sprite_slot();
             if (o != 0) {
                 o[0] = 1;
                 o[1] = 0x28;

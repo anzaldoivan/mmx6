@@ -4,13 +4,13 @@
 
 void* func_8002C32C();
 s32 func_8002CFB0(void* arg);
-s32 func_8003906C(void*);
+s32 select_air_dash(void*);
 s32 func_8003A2CC(void*);
 s32 func_8003A488(void*);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 void func_8003D394(void* arg0);
-s32 func_8003EB0C(void* arg0, s32 arg1);
-void func_8003F740(void*, s32);
+s32 get_weapon_energy_cost(void* arg0, s32 arg1);
+void use_weapon_energy(void*, s32);
 M2C_UNK func_80049EBC(void*, M2C_UNK, M2C_UNK, M2C_UNK);
 
 #define F(T, o) (*(T*)((u8*)arg0 + (o)))
@@ -49,9 +49,10 @@ void func_801EBA7C(void* arg0) {
         F(u8, 0x84) = 0;
         F(u8, 0x86) = 0;
         F(u8, 0x8C) = 0;
-        if (F(s8, 0xD3) == 0 && func_8003EB0C(arg0, 2) <= F(s16, 0xAC)) {
+        if (F(s8, 0xD3) == 0 &&
+            get_weapon_energy_cost(arg0, 2) <= F(s16, 0xAC)) {
             F(u8, 0x93) = 2;
-            func_8003F740(arg0, 2);
+            use_weapon_energy(arg0, 2);
             p = func_8002C32C();
             if (p != 0) {
                 p[0] = 1;
@@ -65,7 +66,7 @@ void func_801EBA7C(void* arg0) {
     }
     F(u8, 0x8E) = 0;
     if (func_8003A488(arg0) == 0 && func_8003A2CC(arg0) == 0 &&
-        func_8003906C(arg0) == 0) {
+        select_air_dash(arg0) == 0) {
         F(u8, 0x8E) = 1;
         F(s32, 0x20) = 0;
         if (F(s8, 0xD3) == 0) {

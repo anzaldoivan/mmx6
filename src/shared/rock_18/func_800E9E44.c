@@ -2,13 +2,13 @@
 #define M2C_UNK s32
 
 M2C_UNK func_800139A0(M2C_UNK);
-M2C_UNK func_8002B838();
+M2C_UNK reset_level();
 void func_800EA3F0(s32, s32, s32, s32);
 void func_800EA470(s32, s32, s32, s32, s32);
 extern u8 D_80097427;
 
 void func_800E9E44(u8* arg0) {
-    func_8002B838();
+    reset_level();
     func_800EA3F0(0x27, 0, 0x114, 0x20);
     func_800EA470(0x28, 0, 0xF0, 0x32, 0);
     func_800EA3F0(0xE0, 0, 0xC0, 0x32);

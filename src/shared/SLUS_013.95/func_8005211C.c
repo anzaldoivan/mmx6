@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_8002CA14();
 s32 func_8002CAB4(struct X4_BaseObj*);
 extern s8 D_8008EAB0;
@@ -38,7 +38,7 @@ void func_8005211C(void* arg0) {
             }
             if (M2C_FIELD(arg0, s8*, 2) & 0x80) {
                 D_8008EAB0 = 1;
-                func_8002C9B0(arg0, &g_Player);
+                clear_object_slot(arg0, &g_Player);
             }
         }
     } else {

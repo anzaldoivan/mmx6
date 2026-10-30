@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 extern X4_P_TAG* D_8008EB08[2][4][8];
 extern X4_P_TAG* D_80090D70[2][4][8];
-extern struct X4_DrawInfo* D_8009B7A0;
+extern struct X4_DrawInfo* g_cur_draw_info;
 #define M2C_UNK s32
 /* libgpu ordering-table link helpers: read or write a primitive's next-pointer */
 #ifndef setaddr
@@ -22,7 +22,7 @@ void func_80022E44(void) {
     buffer = SP_DRAW_BUFFER;
 
     for (i = 0; i < 4; i++) {
-        otag = &D_8009B7A0->ordering_table.start + D_800CD3F0[i];
+        otag = &g_cur_draw_info->ordering_table.start + D_800CD3F0[i];
 
         for (j = 0; j < 8; j++) {
             if (D_80090D70[buffer][i][j] != NULL) {

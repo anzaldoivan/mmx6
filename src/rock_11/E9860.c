@@ -165,10 +165,10 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800ECCF0);
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800ECF30);
 
 #define func_800EF160 func_800ED1F0
-#define D_800CCED0 D_800CCED0
+#define g_playthrough_state g_playthrough_state
 #include "../shared/rock_04/func_800EF160.c"
 #undef func_800EF160
-#undef D_800CCED0
+#undef g_playthrough_state
 
 #define func_80041AB8 func_800ED624
 #define D_80075FD8 D_800FC07C
@@ -288,7 +288,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F21C0);
 
 #include "../shared/rock_11/func_800F2358.c"
 
-#include "../shared/rock_11/func_800F2390.c"
+#include "../shared/rock_11/init_illumina.c"
 
 #include "../shared/rock_11/func_800F23D8.c"
 

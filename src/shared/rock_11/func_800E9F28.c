@@ -5,13 +5,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object();
 void func_800EAB04(void*);
 extern s8 D_800970A2;
 
 #define AIM(dir, ang)                                                          \
-    func_800179A4(self, (dir));                                                \
+    set_animation(self, (dir));                                                \
     M2C_FIELD(self, s32*, 0x20) = rcos((ang)) << 5;                            \
     M2C_FIELD(self, s32*, 0x24) = rsin((ang)) << 5;                            \
     break;

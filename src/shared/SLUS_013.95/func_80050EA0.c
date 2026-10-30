@@ -4,8 +4,8 @@
 
 extern s8 D_8008EAB0;
 extern struct X4_BackgroundObj background_objects[3];
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_8003CCBC();
 
 void func_80050EA0(u8* arg0, s32 arg1, u8* arg2) {
@@ -14,8 +14,8 @@ void func_80050EA0(u8* arg0, s32 arg1, u8* arg2) {
         *(s8*)(arg2 + 0xD4) = 0;
         func_8003CCBC(arg2);
         *(s8*)(arg0 + 5) = 4;
-        func_800179A4(arg0, 1);
-        func_80016C48(0, 0x11, arg0);
+        set_animation(arg0, 1);
+        play_sound(0, 0x11, arg0);
         if (*(s8*)(arg0 + 2) == 0x12) {
             D_8008EAB0 = 1;
             background_objects[0].unk26 = 0xD70;

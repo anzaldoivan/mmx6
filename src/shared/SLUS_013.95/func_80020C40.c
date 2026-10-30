@@ -24,12 +24,12 @@ void func_8002ACA8();    /* extern; was M2C_UNK (W14 regate of 2ACA8) */
 M2C_UNK func_8002E84C(); /* extern */
 void func_8002F288(struct X4_PlayerObj*); /* extern */
 void func_80034DCC(void);                 /* extern */
-M2C_UNK func_8003CD44();                  /* extern */
+M2C_UNK read_player_input();              /* extern */
 extern M2C_UNK g_Player;
 
 void func_80020C40(void) {
     func_8002E84C();
-    func_8003CD44();
+    read_player_input();
     func_80020A08();
     func_80034DCC();
     func_8002012C();

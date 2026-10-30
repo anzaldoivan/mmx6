@@ -2,12 +2,12 @@
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void* func_8002C530();
+void* alloc_sprite_slot();
 
 void func_800ED478(u8 arg0, s8 arg1, s16 arg2, s16 arg3, u8 arg4) {
     void* obj;
 
-    obj = func_8002C530();
+    obj = alloc_sprite_slot();
     if (obj != 0) {
         M2C_FIELD(obj, u8*, 0) = 1;
         M2C_FIELD(obj, u8*, 1) = 0x2D;

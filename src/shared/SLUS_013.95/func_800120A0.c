@@ -20,8 +20,8 @@ void func_800185B4(void);
 void func_80027A50(void);
 
 extern s32 D_80097420;
-extern struct X4_DrawInfo* D_8009B7A0;
-extern u8 D_800C4578[];
+extern struct X4_DrawInfo* g_cur_draw_info;
+extern u8 g_draw_info_buffers[];
 extern u8 D_800CF908[];
 extern u8 D_800CF948[];
 
@@ -31,7 +31,7 @@ extern u8 D_800CF948[];
 #define SCRATCH7C (*(s32*)0x1F80007C)
 #define SETADDR(p, a) (((X4_P_TAG*)(p))->addr = (u32)(a))
 #define GETADDR(p) (((X4_P_TAG*)(p))->addr)
-#define OT_E4 ((u8*)D_8009B7A0 + 0xE4)
+#define OT_E4 ((u8*)g_cur_draw_info + 0xE4)
 
 void func_800120A0(void) {
     u8* p;
@@ -40,12 +40,12 @@ void func_800120A0(void) {
     func_80012658();
     while (1) {
         VSync(0);
-        PutDispEnv(D_8009B7A0);
-        PutDrawEnv((u8*)D_8009B7A0 + 0x14);
-        DrawOTag((u8*)D_8009B7A0 + 0xEC);
+        PutDispEnv(g_cur_draw_info);
+        PutDrawEnv((u8*)g_cur_draw_info + 0x14);
+        DrawOTag((u8*)g_cur_draw_info + 0xEC);
         SCRATCH0 ^= 1;
-        D_8009B7A0 = (struct X4_DrawInfo*)(D_800C4578 + SCRATCH0 * 0xF0);
-        ClearOTagR((s32)((u8*)D_8009B7A0 + 0x70), 0x20);
+        g_cur_draw_info = (struct X4_DrawInfo*)(g_draw_info_buffers + SCRATCH0 * 0xF0);
+        ClearOTagR((s32)((u8*)g_cur_draw_info + 0x70), 0x20);
         func_800123D0();
         SETADDR(D_800CF948 + SCRATCH0 * 0xC, GETADDR(OT_E4));
         SETADDR(OT_E4, D_800CF948 + SCRATCH0 * 0xC);

@@ -1,12 +1,12 @@
 #include "common.h"
 
-void* func_8002BBF4();
+void* enemy_slot_alloc();
 extern u16 D_800F70DC;
 
 void func_800EF22C(u8* arg0, u8 arg1) {
     u8* temp_v0;
 
-    temp_v0 = func_8002BBF4();
+    temp_v0 = enemy_slot_alloc();
     if (temp_v0 != 0) {
         temp_v0[0] = 0x41;
         temp_v0[1] = 0x3D;

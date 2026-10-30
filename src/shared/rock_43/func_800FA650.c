@@ -3,12 +3,12 @@
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_80017A04(void*);
 M2C_UNK func_8002D230(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 extern struct X4_PlayerObj g_Player;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CCF5C;
 extern s32 D_800FDE30;
 
@@ -18,7 +18,7 @@ void func_800FA650(void* arg0) {
     u8* e;
     u8 i;
 
-    r = func_8002D2D4() & 0xF;
+    r = random_byte() & 0xF;
     M2C_FIELD(arg0, u8*, 0x87) = 0;
     if (g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA) >= 0) {
         if (g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA) < 0x41) {
@@ -46,7 +46,7 @@ void func_800FA650(void* arg0) {
         }
         if (M2C_FIELD(arg0, s16*, 0xE) - g_Player.y_pos.i.hi >= 0x30) {
         far2:
-            e = (u8*)&D_800CCED0;
+            e = (u8*)&g_playthrough_state;
             if (M2C_FIELD(e, s8*, 0x8C) / 2 < M2C_FIELD(arg0, s8*, 0x5C)) {
                 if (r < 0x10) {
                     if (e[0x68] == 2) {
@@ -66,7 +66,7 @@ void func_800FA650(void* arg0) {
             }
         } else {
         near2:
-            e = (u8*)&D_800CCED0;
+            e = (u8*)&g_playthrough_state;
             if (M2C_FIELD(e, s8*, 0x8C) / 2 < M2C_FIELD(arg0, s8*, 0x5C)) {
                 if (r < 6) {
                     M2C_FIELD(arg0, u8*, 0x86) = 0;

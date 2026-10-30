@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
 
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 void func_800EB284();
 extern M2C_UNK D_800743DC;
 extern u8 D_800970B4;
@@ -59,10 +59,10 @@ void func_800EABCC(void* arg0) {
     M2C_FIELD(SPAD, s16*, 0x80) = 0x1E;
     func_800EB284(arg0, c, b);
     if (M2C_FIELD(arg0, s8*, 2) == 0) {
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
         v = 2;
     } else {
-        func_800179A4(arg0, 3);
+        set_animation(arg0, 3);
         v = 3;
     }
     M2C_FIELD(arg0, s8*, 5) = v;

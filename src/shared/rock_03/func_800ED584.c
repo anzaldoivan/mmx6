@@ -2,11 +2,11 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_8002CB50();
 s32 func_8002CBFC(s32, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
 extern struct X4_BackgroundObj background_objects[3];
@@ -23,7 +23,7 @@ void func_800ED584(void* arg0) {
     s32 dir;
 
     sub = *(void**)((u8*)arg0 + 0x7C);
-    if (func_80031474(arg0) < 0 || F8(sub, 4) == 2 || F8(sub, 5) == 5) {
+    if (check_enemy_hits(arg0) < 0 || F8(sub, 4) == 2 || F8(sub, 5) == 5) {
         if (F8(arg0, 2) == 2) {
             func_800477E4(2, &D_800F7694, arg0);
             func_80049E50(arg0);
@@ -41,7 +41,7 @@ void func_800ED584(void* arg0) {
         }
         if (F16(arg0, 0xE) - background_objects[F8(arg0, 0x14)].y_pos.i.hi >=
             0x12D) {
-            func_8002C9B0(arg0);
+            clear_object_slot(arg0);
         }
     }
     if (F8(arg0, 2) == 2) {

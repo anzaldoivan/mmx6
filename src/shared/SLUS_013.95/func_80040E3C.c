@@ -3,10 +3,10 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object(void*);
 M2C_UNK func_800429D4();
-void func_80042D3C(void*);
+void register_orb(void*);
 s32 func_80042E68(void*);
 
 #define F8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -44,8 +44,8 @@ void func_80040E3C(struct X4_MainObj* self) {
         y2 = self->y_pos.i.hi + 0x1C;
         d = tgt->y_pos.i.hi - y2;
         if (d >= 0 ? d < 2 : y2 - tgt->y_pos.i.hi < 2) {
-            func_800179A4(self, 2);
-            func_80042D3C(self);
+            set_animation(self, 2);
+            register_orb(self);
             tgt->unk7 = 2;
             self->hurt_box = 0;
             self->unk42 &= 0x7FFF;

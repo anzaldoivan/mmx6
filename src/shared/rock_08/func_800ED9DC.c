@@ -5,10 +5,10 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20 (*(s32**)0x1F800020)
 
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 s32 func_8002A47C(s32);
-M2C_UNK func_8002C9B0();
-s32 func_8002D2D4();
+M2C_UNK clear_object_slot();
+s32 random_byte();
 
 extern M2C_UNK D_800743DC;
 extern u32* D_80095098;
@@ -25,12 +25,12 @@ void func_800ED9DC(struct X4_PlayerObj* self) {
     s8 kind;
     s32* tbl;
 
-    if (!(func_8002D2D4() & 1)) {
-        func_8002C9B0(self);
+    if (!(random_byte() & 1)) {
+        clear_object_slot(self);
         return;
     }
     if (self->unk2 == 0) {
-        self->unk2 = (u32)func_8002D2D4() % 3;
+        self->unk2 = (u32)random_byte() % 3;
     }
     self->unk5 = 2;
     self->active = 0x41;
@@ -65,16 +65,16 @@ void func_800ED9DC(struct X4_PlayerObj* self) {
         if (kind == 6) {
             self->unk16 = 0x22;
         }
-        func_800179A4(self, 0xA);
+        set_animation(self, 0xA);
         self->unk68 = (struct X4_Unk_unk68*)(tbl + 1);
         self->unk54 = (u32*)&D_800F5A70;
         self->unk50 = 0;
     } else if (kind == 4) {
-        func_800179A4(self, 0xB);
+        set_animation(self, 0xB);
         self->unk68 = (struct X4_Unk_unk68*)(tbl + 2);
         self->unk54 = (u32*)&D_800F5A74;
     } else {
-        func_800179A4(self, 0xC);
+        set_animation(self, 0xC);
         self->unk68 = (struct X4_Unk_unk68*)(tbl + 3);
         self->unk54 = (u32*)&D_800F5A78;
     }

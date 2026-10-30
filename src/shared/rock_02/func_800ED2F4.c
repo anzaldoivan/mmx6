@@ -1,7 +1,7 @@
 /* Adapted from sozud/mmx4 @807a01b src/main/mains/main_48_sentry_drone.c:sentry_drone_dash_start, AGPL-3.0; proven shared with X6 by exact signature 327f58c0753a (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
-s32 func_800179A4(void*, s32);
+s32 set_animation(void*, s32);
 
 void func_800ED2F4(struct X4_MainObj* self) {
     s32 velocity;
@@ -16,6 +16,6 @@ void func_800ED2F4(struct X4_MainObj* self) {
     self->x_accel = 0;
     self->y_speed = 0;
     self->gravity = 0;
-    func_800179A4(self, 0);
+    set_animation(self, 0);
     SP_CUR_MAIN_OBJ->ext.main_48.unk80 = 0x3C;
 }

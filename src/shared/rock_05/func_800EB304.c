@@ -8,7 +8,7 @@ s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002F288(M2C_UNK*);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 
 extern struct X4_BackgroundObj background_objects[3];
@@ -23,7 +23,7 @@ void func_800EB304(void* self) {
     __builtin_memcpy(offs, D_800E9860 + 0x1C, 0x10);
     parent = M2C_FIELD(self, void**, 0x80);
     D_800F3F2C[M2C_FIELD(self, s8*, 5)](self);
-    r = func_80031474(self);
+    r = check_enemy_hits(self);
     if (M2C_FIELD(self, s8*, 2) >= 4) {
         if ((u32)(M2C_FIELD(self, u8*, 5) - 9) >= 2) {
             M2C_FIELD(self, u8*, 0x5C) = 0;

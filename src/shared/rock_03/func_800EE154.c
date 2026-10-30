@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-struct X4_QuadObj* func_8002C7F0(void);
-M2C_UNK func_8002C9B0();
+struct X4_QuadObj* alloc_class6_slot(void);
+M2C_UNK clear_object_slot();
 extern s8 D_800CD30A;
 extern u8 D_800F7544[][8];
 extern u8 D_800F75C4[][8];
@@ -16,7 +16,7 @@ extern u8 D_800F76C4[][8];
 #define P(p, o) (*(void**)((u8*)(p) + (o)))
 
 #define SPAWN(add)                                                             \
-    q = func_8002C7F0();                                                       \
+    q = alloc_class6_slot();                                                   \
     if (q != NULL) {                                                           \
         u8 a_ = B(self, 0);                                                    \
         q->id = 5;                                                             \
@@ -29,7 +29,7 @@ void func_800EE154(void* self) {
     s32 i;
 
     if (D_800CD30A != 8) {
-        func_8002C9B0(self);
+        clear_object_slot(self);
         return;
     }
     i = SB(self, 2);

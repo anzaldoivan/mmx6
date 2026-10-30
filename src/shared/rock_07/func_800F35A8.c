@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK); /* extern */
-s32 func_8002D2D4();                   /* extern */
+M2C_UNK set_animation(void*, M2C_UNK); /* extern */
+s32 random_byte();                   /* extern */
 extern s32 D_800741FC[];
 extern M2C_UNK D_8007433C;
 extern s32 D_800F9788;
@@ -43,7 +43,7 @@ void func_800F35A8(void* arg0) {
     type = sub & 0xF0;
     M2C_FIELD(arg0, s8*, 0x96) = 0;
     if (type == 0) {
-        func_800179A4(arg0, 9);
+        set_animation(arg0, 9);
         M2C_FIELD(arg0, s8*, 0x60) = 4;
         M2C_FIELD(arg0, s8*, 0x16) = 4;
         {
@@ -72,7 +72,7 @@ void func_800F35A8(void* arg0) {
     } else if (type == 0x30) {
         M2C_FIELD(arg0, s8*, 0x60) = 4;
         if (sub == type) {
-            ((void (*)(void*, s32))func_800179A4)(arg0, 0x17);
+            ((void (*)(void*, s32))set_animation)(arg0, 0x17);
             D_800F9878 = arg0;
             M2C_FIELD(arg0, s8*, 0x16) = 4;
             if (M2C_FIELD(arg0, u8*, 0x15) == 0) {
@@ -89,13 +89,13 @@ void func_800F35A8(void* arg0) {
         }
     } else if (type == 0x40) {
         M2C_FIELD(arg0, s8*, 0x60) = 4;
-        func_800179A4(arg0, 0x14);
+        set_animation(arg0, 0x14);
         M2C_FIELD(arg0, s8*, 0x16) = 4;
         M2C_FIELD(arg0, s8*, 5) = 5;
     } else if (type == 0x50) {
         M2C_FIELD(arg0, s8*, 0x96) = one;
-        func_800179A4(arg0, 0x1B);
-        r = func_8002D2D4();
+        set_animation(arg0, 0x1B);
+        r = random_byte();
         M2C_FIELD(arg0, s32**, 0x58) = D_800741FC;
         M2C_FIELD(arg0, s8*, 0x60) = 4;
         M2C_FIELD(arg0, s8*, 0x5C) = one;

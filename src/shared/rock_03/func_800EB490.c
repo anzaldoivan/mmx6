@@ -6,7 +6,7 @@ M2C_UNK func_80017A04();
 s32 func_8002CBFC(s32, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 void func_8004E654(struct X4_BaseObj* arg0, s8 arg1);
 void func_800EBC20(struct X4_MainObj* self);
@@ -28,7 +28,7 @@ void func_800EB490(struct X4_MainObj* self) {
         register void* fn asm("$5") = tbl[self->unk5];
         ((void (*)(struct X4_MainObj*))fn)(self);
     }
-    if (func_80031474(self) < 0) {
+    if (check_enemy_hits(self) < 0) {
         func_80049E50(self);
         func_8004E654((struct X4_BaseObj*)self, 0x12);
         st = 2;

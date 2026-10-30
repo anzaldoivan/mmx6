@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK func_8002B36C(M2C_UNK);
-void* func_8002C530();
+void* alloc_sprite_slot();
 extern s8 D_80097424;
 
 void func_800E9D54(u8* arg0) {
@@ -18,7 +18,7 @@ void func_800E9D54(u8* arg0) {
     a = arg0;
     i = 0;
     do {
-        p = func_8002C530(a);
+        p = alloc_sprite_slot(a);
         if (p != 0) {
             p[0] = 1;
             p[1] = 0x1C;

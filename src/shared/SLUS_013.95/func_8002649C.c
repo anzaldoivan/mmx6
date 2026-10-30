@@ -1,9 +1,9 @@
 #include "common.h"
 
 extern s8 D_8008EAB0;
-extern u16 D_80090D6A;
+extern u16 g_wide_mode;
 extern u8 D_80097438[];
-extern u8 D_800B91C0[];
+extern u8 g_bg_sprite_prims[];
 extern u8 D_800CC870[];
 
 #define SCRATCH_04 (*(u8**)0x1F800004)
@@ -21,12 +21,12 @@ void func_8002649C(s32 arg0, s32 arg1) {
     u16 x;
 
     D_8008EAB0 = 0;
-    if (D_80090D6A == 0) {
+    if (g_wide_mode == 0) {
         for (i = 0; i < 2; i++) {
             {
                 u8* p;
                 for (j = 0; j < 0x400; j++) {
-                    p = D_800B91C0 + (i * 0x4000 + j * 16);
+                    p = g_bg_sprite_prims + (i * 0x4000 + j * 16);
                     p[3] = 3;
                     p[7] = 0x7D;
                 }
@@ -64,7 +64,7 @@ void func_8002649C(s32 arg0, s32 arg1) {
             {
                 u8* p;
                 for (j = 0; j < 0x400; j++) {
-                    p = D_800B91C0 + (i * 0x4000 + j * 16);
+                    p = g_bg_sprite_prims + (i * 0x4000 + j * 16);
                     p[3] = 3;
                     p[7] = 0x7D;
                 }

@@ -7,7 +7,7 @@
 #define H(p, o) M2C_FIELD(p, s16*, o)
 #define W(p, o) M2C_FIELD(p, s32*, o)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern s32 D_80075B9C;
 extern s32 D_800F88A4;
 extern s32 D_800F88A8;
@@ -37,7 +37,7 @@ void func_800EB114(void* arg0) {
         B(arg0, 0x65) = 0;
         W(arg0, 0x54) = (s32)&D_800F88A8;
         W(arg0, 0x68) = (s32)&D_800F88AC;
-        func_800179A4(arg0, 0x10);
+        set_animation(arg0, 0x10);
         sub = SB(arg0, 0x2);
         B(arg0, 0x3) = 0;
         B(arg0, 0x5) = 0;
@@ -60,7 +60,7 @@ void func_800EB114(void* arg0) {
         W(arg0, 0x50) = 0;
         W(arg0, 0x54) = (s32)&D_800F88B4;
         W(arg0, 0x68) = (s32)&D_800F88B8;
-        func_800179A4(a, 0x10);
+        set_animation(a, 0x10);
         sub = SB(arg0, 0x2);
         B(arg0, 0x3) = 0;
         B(arg0, 0x5) = 1;
@@ -89,7 +89,7 @@ void func_800EB114(void* arg0) {
         W(arg0, 0x50) = 0;
         W(arg0, 0x54) = 0;
         W(arg0, 0x68) = (s32)&D_800F88BC;
-        func_800179A4(a, 0x10);
+        set_animation(a, 0x10);
         B(arg0, 0x3) = 0;
         B(arg0, 0x5) = 2;
     }

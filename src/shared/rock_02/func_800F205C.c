@@ -5,7 +5,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD4C (*(u8**)0x1F80004C)
 
-void* func_8002C3F8();
+void* alloc_class3_slot();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
@@ -17,7 +17,7 @@ void func_800F205C(void* arg0) {
     s8 prev;
 
     if (g_Player.unk5 == 0x14) {
-        child = func_8002C3F8();
+        child = alloc_class3_slot();
         if (child != 0) {
             M2C_FIELD(child, u8*, 0) = 1;
             M2C_FIELD(child, u8*, 1) = 0x18;

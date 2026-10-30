@@ -2,9 +2,9 @@
 #include "mmx6/x4.h"
 
 extern u8 D_80097169;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
-#define ENG48 ((u8*)&D_800CCED0)
+#define ENG48 ((u8*)&g_playthrough_state)
 
 s32 func_800F054C(void) {
     u8* e = ENG48;

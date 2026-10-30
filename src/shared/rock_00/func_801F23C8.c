@@ -7,8 +7,8 @@ void move_object(struct X4_MovingObj*);
 s32 func_801EE34C();
 void func_8002F06C(void*);
 void* func_8003D480(M2C_UNK, s8, s8, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
-#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+M2C_UNK set_animation(void*, M2C_UNK);
+#define set_animation ((void (*)(void*, s32))set_animation)
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
 extern M2C_UNK g_Player;
@@ -64,7 +64,7 @@ void func_801F23C8(struct X4_WeaponObj* arg0) {
         arg0->unk70 = 0;
         arg0->unk50 = D_801F3AB0;
         arg0->unk68 = (struct X4_Unk_unk68*)D_801F3AB8;
-        func_800179A4(arg0, 1);
+        set_animation(arg0, 1);
         if (g_Player.input.buttons.held & 8) {
             arg0->y_vel.val = -0x6C000;
         } else {
@@ -82,6 +82,6 @@ void func_801F23C8(struct X4_WeaponObj* arg0) {
     }
 }
 #undef g_Player
-#undef func_800179A4
+#undef set_animation
 #undef func_8002CCB0
 #undef F_8C

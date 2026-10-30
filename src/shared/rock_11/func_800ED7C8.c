@@ -4,10 +4,10 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20_800ED7C8 (*(s32**)0x1F800020)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
-s32 func_8002D2D4();
+s32 random_byte();
 extern s32 D_8007483C;
 extern u32* D_80095098;
 extern u8 D_800970B4;
@@ -82,7 +82,7 @@ void func_800ED7C8(void* self) {
         D_800FD51A = 0;
         D_800FD526 = 0;
         F(s8, 0x87) = 0;
-        F(s8, 0x85) = func_8002D2D4() & 0xF;
+        F(s8, 0x85) = random_byte() & 0xF;
         F(s8, 0x84) = 0x78;
         F(s8, 0x86) = 0;
         F(s8, 0x89) = 0;
@@ -99,7 +99,7 @@ void func_800ED7C8(void* self) {
             F(s16, 0xA) = 0xA0;
             F(s16, 0xE) = 0x48;
             F(s8, 4) = 2;
-            F(s16, 0x7E) = func_8002D2D4() * 16;
+            F(s16, 0x7E) = random_byte() * 16;
             F(void*, 0x54) = &D_800FB26C[0x1058];
             F(s8, 0x5C) = type;
             if (F(u8, 2) & 0xF) {
@@ -110,22 +110,22 @@ void func_800ED7C8(void* self) {
             switch (sub) {
             case 0:
                 F(u8, 0x16) = 0x30;
-                func_800179A4(self, 0x50);
+                set_animation(self, 0x50);
                 F(s32, 0x50) = 0;
                 F(void*, 0x54) = 0;
                 F(s8, 0x5C) = 0x28;
                 F(s8, 5) = 2;
                 break;
             case 1:
-                ((void (*)(void*, s32))func_800179A4)(self, 0x21);
+                ((void (*)(void*, s32))set_animation)(self, 0x21);
                 F(s8, 5) = 3;
                 break;
             case 2:
-                ((void (*)(void*, s32))func_800179A4)(self, 0x25);
+                ((void (*)(void*, s32))set_animation)(self, 0x25);
                 F(s8, 5) = 3;
                 break;
             case 3:
-                func_800179A4(self, 0x25);
+                set_animation(self, 0x25);
                 F(s8, 5) = sub;
                 break;
             }
@@ -136,7 +136,7 @@ void func_800ED7C8(void* self) {
             F(s8, 4) = 2;
             F(u16, 0x40) += 0x400;
             SETUP_GFX();
-            func_800179A4(self, 0x35);
+            set_animation(self, 0x35);
             F(s8, 5) = 5;
         } else if (type == 0x30) {
             F(s8, 0x14) = 0;
@@ -144,7 +144,7 @@ void func_800ED7C8(void* self) {
             F(s8, 4) = 2;
             F(u16, 0x40) += 0x400;
             SETUP_GFX();
-            ((void (*)(void*, s32))func_800179A4)(self, 0x37);
+            ((void (*)(void*, s32))set_animation)(self, 0x37);
             if ((F(s8, 2) & 0xF) < 5) {
                 F(u8, 0x15) = 0x40;
             } else {
@@ -153,7 +153,7 @@ void func_800ED7C8(void* self) {
             F(s8, 0x5C) = 0x14;
             F(s8, 5) = 6;
         } else if (type == 0x40) {
-            func_80016C48(2, 0x38, self);
+            play_sound(2, 0x38, self);
             D_800FD520 = 1;
             F(s8, 0x14) = -1;
             F(s8, 4) = 2;

@@ -1,8 +1,8 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern u8 D_800F3CD0[];
 
 #define SPAD (*(u8**)0x1F80004C)
@@ -19,11 +19,11 @@ void func_800E9B6C(void* self) {
             F(s8, 6) = 0;
             return;
         }
-        func_80016C48(2, 0x16, self);
+        play_sound(2, 0x16, self);
         if (!(F(s8, 2) & 0xF0)) {
-            func_800179A4(self, 0);
+            set_animation(self, 0);
         } else {
-            func_800179A4(self, 2);
+            set_animation(self, 2);
         }
         t = F(u8, 2) & 0xF;
         if (t == 0) {

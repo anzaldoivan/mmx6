@@ -4,11 +4,11 @@
 
 void func_80025F34();
 void func_800280F4(void);
-void func_80029B8C(void);
+void init_checkpoint_positions(void);
 s32 func_8002B2F8(s32);
-M2C_UNK func_8002B838();
+M2C_UNK reset_level();
 void func_8002C2B8();
-struct X4_QuadObj* func_8002C7F0(void);
+struct X4_QuadObj* alloc_class6_slot(void);
 void func_800E9ED4(void);
 extern s8 D_80090D56;
 extern struct X4_BackgroundObj background_objects[3];
@@ -21,9 +21,9 @@ void func_800FA0D8(u8* arg0) {
     struct X4_QuadObj* q;
     s32 i;
 
-    func_8002B838();
+    reset_level();
     func_8002C2B8();
-    func_80029B8C();
+    init_checkpoint_positions();
     func_800280F4();
     func_80025F34();
     {
@@ -45,7 +45,7 @@ void func_800FA0D8(u8* arg0) {
     background_objects[2].unk3 = 1;
     background_objects[2].y_pos.i.hi = 0x100;
     background_objects[2].unk4C = 1;
-    q = func_8002C7F0();
+    q = alloc_class6_slot();
     if (q != 0) {
         q->active = 1;
         q->id = 0xA;

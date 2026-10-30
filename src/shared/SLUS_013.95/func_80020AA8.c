@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 extern M2C_UNK g_Player;
 
@@ -20,18 +20,18 @@ void func_80020AA8(struct X4_AnimatedObj* arg0) {
             if (arg0->unk6 != pl->unk6) {
                 arg0->unk6 = pl->unk6;
                 if (pl->y_vel.val > 0) {
-                    func_800179A4(arg0, 0x2B);
+                    set_animation(arg0, 0x2B);
                 } else if (pl->y_vel.val < 0) {
-                    func_800179A4(arg0, 0x2C);
+                    set_animation(arg0, 0x2C);
                 } else {
-                    func_800179A4(arg0, 0x2A);
+                    set_animation(arg0, 0x2A);
                 }
             }
             arg0->unk15 = pl->unk15;
             func_80017A04(arg0);
             return;
         }
-        func_800179A4(arg0, 0x2A);
+        set_animation(arg0, 0x2A);
         {
             // !FAKE: depin: dropping it breaks the match (100/102)
             register s32 two asm("$2") = 2;
@@ -48,7 +48,7 @@ void func_80020AA8(struct X4_AnimatedObj* arg0) {
         if ((pl->charge_state[0] == var_v1) ||
             (pl->charge_state[1] == var_v1)) {
             arg0->on_screen = 1;
-            func_800179A4(arg0, temp_a1 + 8);
+            set_animation(arg0, temp_a1 + 8);
             {
                 // !FAKE: depin: dropping it breaks the match (99/102)
                 register s32 t asm("$2") = (u8)arg0->state + 1;

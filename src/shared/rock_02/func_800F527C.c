@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_80017A04();
-void* func_8002C3F8();
+void* alloc_class3_slot();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 
 #define SPAD4C (*(u8**)0x1F80004C)
@@ -20,7 +20,7 @@ void func_800F527C(struct X4_MainObj* arg0) {
     arg0->unk7C = d;
     if (d == 0) {
         arg0->unk5 = 2;
-        p = func_8002C3F8();
+        p = alloc_class3_slot();
         if (p != 0) {
             p[0] = 1;
             p[1] = 0x1A;

@@ -5,9 +5,9 @@
 
 void func_80017A04(struct X4_AnimatedObj*);
 void* func_8002C32C();
-s32 func_8003906C(void*);
+s32 select_air_dash(void*);
 s32 func_8003A2CC(void*);
-M2C_UNK func_8003B114(s32);
+M2C_UNK end_dash(s32);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
 void func_8003D18C(void* arg0);
 void func_8003D394(void* arg0);
@@ -20,7 +20,7 @@ void func_801EAA38(u8* arg0) {
 
     flag = 0;
     if (((s8*)arg0)[0xD3] != 0) {
-        func_8003B114((s32)arg0);
+        end_dash((s32)arg0);
         return;
     }
     if (M2C_FIELD(arg0, s16*, 0x14C) == 2) {
@@ -51,7 +51,7 @@ void func_801EAA38(u8* arg0) {
     bits = arg0[0x89];
     if (bits & 8) {
     end:
-        func_8003B114((s32)arg0);
+        end_dash((s32)arg0);
         return;
     }
     if ((bits & 4) && M2C_FIELD(arg0, s32*, 0x24) > 0) {
@@ -80,7 +80,7 @@ void func_801EAA38(u8* arg0) {
         if (func_8003A2CC(arg0) != 0) {
             return;
         }
-        if (func_8003906C(arg0) != 0) {
+        if (select_air_dash(arg0) != 0) {
             return;
         }
     }

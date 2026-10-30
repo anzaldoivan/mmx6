@@ -5,9 +5,9 @@
 #define SPAD20_800F1DC4 (*(s32**)0x1F800020)
 
 s32 func_8002A47C(s32);
-void* func_8002BBF4();
-s32 func_8002D2D4();
-extern s8 D_8008EF48[];
+void* enemy_slot_alloc();
+s32 random_byte();
+extern s8 g_enemies[];
 extern u32* D_80095098;
 extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_800E9A1C[];
@@ -23,13 +23,13 @@ void func_800F1DC4(void* arg0, s32 arg1) {
     if ((s8)arg1 == 0) {
         sel = 1;
     } else {
-        sel = func_8002D2D4() & 1;
+        sel = random_byte() & 1;
     }
     t = M2C_FIELD(arg0, u8*, 0x84);
     if (t != 0) {
         M2C_FIELD(arg0, u8*, 0x84) = --t;
         if (t == 0) {
-            obj = func_8002BBF4();
+            obj = enemy_slot_alloc();
             if (obj != 0) {
                 M2C_FIELD(obj, u8*, 0) = 0x41;
                 M2C_FIELD(obj, u8*, 1) = 8;
@@ -52,7 +52,7 @@ void func_800F1DC4(void* arg0, s32 arg1) {
             }
         }
     } else {
-        for (p = D_8008EF48; p < D_8008EF48 + 0x1D40; p += 0x9C) {
+        for (p = g_enemies; p < g_enemies + 0x1D40; p += 0x9C) {
             if (p[0] != 0 && p[1] == 8) {
                 return;
             }

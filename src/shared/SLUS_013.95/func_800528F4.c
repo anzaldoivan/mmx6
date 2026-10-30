@@ -15,14 +15,14 @@ extern s32 D_80097760;
 extern s32 D_8009776C;
 extern s32 D_800B91B8;
 extern u8 D_800CC868;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CCEDC;
 extern u8 D_800CD40C;
 extern u32 D_800E4488;
 extern s32 D_800E448C;
 extern s32 D_800E4490;
 
-#define ENG_43B (*(u8*)((u8*)&D_800CCED0 + 0x43B))
+#define ENG_43B (*(u8*)((u8*)&g_playthrough_state + 0x43B))
 
 void func_800528F4(struct X4_BaseObj* self) {
     u8 sp10;
@@ -35,12 +35,12 @@ void func_800528F4(struct X4_BaseObj* self) {
         if (D_800CD40C == 0) {
             // !FAKE: depin: dropping it breaks the match (161/228)
             register u16* p asm("$3") = D_8007A0E0;
-            p += D_800CCED0.stage;
+            p += g_playthrough_state.stage;
 
             if (*p == 0) {
                 goto set3;
             }
-            if (D_800CCED0.stage >= 0x13) {
+            if (g_playthrough_state.stage >= 0x13) {
                 if (ENG_43B == 0) {
                     *p = 0x8A;
                 } else if (ENG_43B == 1) {
@@ -48,8 +48,8 @@ void func_800528F4(struct X4_BaseObj* self) {
                 } else {
                     *p = 0x8C;
                 }
-            } else if (D_800CCED0.stage == 0) {
-                if (D_800CCED0.character_state.bytes[0] != 0) {
+            } else if (g_playthrough_state.stage == 0) {
+                if (g_playthrough_state.character_state.bytes[0] != 0) {
                     D_800CC868 = 0;
                     D_8007A0E0[0] = 0x7C;
                 } else {
@@ -57,7 +57,7 @@ void func_800528F4(struct X4_BaseObj* self) {
                 }
             }
             {
-                struct X4_EngineObj* e = &D_800CCED0;
+                struct X4_EngineObj* e = &g_playthrough_state;
 
                 if (e->stage == 0xC && e->substage != 0) {
                     s8 cur = e->character_state.bytes[0xB];
@@ -74,8 +74,8 @@ void func_800528F4(struct X4_BaseObj* self) {
                         D_8007A0E0[e->stage] = 0x86;
                     }
                     D_800CC868 = 0;
-                    D_800CCED0.character_state.bytes[0xC] =
-                        D_800CCED0.character_state.bytes[0xB];
+                    g_playthrough_state.character_state.bytes[0xC] =
+                        g_playthrough_state.character_state.bytes[0xB];
                 }
             }
             if (D_800CC868 == 0) {
@@ -104,7 +104,8 @@ void func_800528F4(struct X4_BaseObj* self) {
         if (D_8009509C == state && D_8008EC08 == 0) {
             D_800CC868 = 1;
             self->unk5++;
-            if (D_800CCED0.stage == 0xC && D_800CCED0.substage != 0) {
+            if (g_playthrough_state.stage == 0xC &&
+                g_playthrough_state.substage != 0) {
                 D_800B91B8 = D_800E448C;
             }
         } else if (D_8009509C & 0xC0) {

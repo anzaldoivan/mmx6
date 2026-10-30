@@ -4,5 +4,7 @@
 D_800E9860 = 0x800E9860;
 // basis: first code word after header (+0x158)
 func_800E99B8 = 0x800E99B8; // type:func size:0x1D4
+// basis: name: community refs/leads/tweaks/BossHealth.tsv:2224 word 0x800F0EB8 match; code:src/rock_23/E9860.c:529 via=func_800F3E78
+update_high_max_secret_lab2_1 = 0x800F3E78; // type:func
 // basis: data trailing words after the last function's jr ra; no jr ra in [0x800f7e04, 0x800f9bec), 1914 words, 701 pointer-valued
 D_800F7E04 = 0x800F7E04; // type:s32 size:0x1DE8

@@ -7,9 +7,9 @@
 M2C_UNK func_80017A04();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
-s32 func_8002D2D4();
+s32 random_byte();
 extern s8 D_800970A2;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F7BA0[][6];
 extern u16* D_800F7DF0;
 extern s32 D_800F7E04;
@@ -20,7 +20,7 @@ void func_800EFD38(void* arg0) {
     u8 frame;
 
     {
-        struct X4_EngineObj* e = &D_800CCED0;
+        struct X4_EngineObj* e = &g_playthrough_state;
         if (M2C_FIELD(arg0, s8*, 0x5C) <
             (s8)((s8)M2C_FIELD(e, u8*, 0x8C) / 3)) {
             D_800F7DF0 = (u16*)&D_800F7E08;
@@ -29,11 +29,11 @@ void func_800EFD38(void* arg0) {
             D_800F7DF0 = (u16*)&D_800F7E04;
         }
     }
-    r = func_8002D2D4();
+    r = random_byte();
     M2C_FIELD(arg0, u8*, 0x87) = 0;
     r &= 0xF;
     if (D_800970A2 == 0) {
-        struct X4_EngineObj* e = &D_800CCED0;
+        struct X4_EngineObj* e = &g_playthrough_state;
         if ((s8)M2C_FIELD(e, u8*, 0x8C) / 2 < M2C_FIELD(arg0, s8*, 0x5C)) {
             if (r < 8) {
                 M2C_FIELD(arg0, u8*, 0x86) = 0;
@@ -48,7 +48,7 @@ void func_800EFD38(void* arg0) {
             M2C_FIELD(arg0, u8*, 0x86) = 5;
         }
     } else {
-        struct X4_EngineObj* e = &D_800CCED0;
+        struct X4_EngineObj* e = &g_playthrough_state;
         if ((s8)M2C_FIELD(e, u8*, 0x8C) / 2 < M2C_FIELD(arg0, s8*, 0x5C)) {
             if (r < 8) {
                 M2C_FIELD(arg0, u8*, 0x86) = 1;

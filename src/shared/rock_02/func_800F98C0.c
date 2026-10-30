@@ -3,9 +3,9 @@
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-struct X4_QuadObj* func_8002C7F0(void);
-s32 func_8002D2D4();
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+struct X4_QuadObj* alloc_class6_slot(void);
+s32 random_byte();
 
 void func_800F98C0(void* arg0) {
     s8 state;
@@ -23,11 +23,11 @@ void func_800F98C0(void* arg0) {
         M2C_FIELD(parent, u16*, 0x42) |= 0x8000;
         kind = M2C_FIELD(arg0, u8*, 0x47);
         if (kind == 0x12 || kind == 0x14 || kind == 0x18) {
-            q = func_8002C7F0();
+            q = alloc_class6_slot();
             if (q != 0) {
                 q->active = 0x13;
                 q->id = 0xF;
-                switch (func_8002D2D4() % 3) {
+                switch (random_byte() % 3) {
                 case 0:
                     M2C_FIELD(q, s32*, 0x38) = 0;
                     break;
@@ -47,7 +47,7 @@ void func_800F98C0(void* arg0) {
                 } else {
                     q->x_pos.i.hi = M2C_FIELD(arg0, u16*, 0xA) - 0x38;
                 }
-                func_80016C48(2, 0x68, arg0);
+                play_sound(2, 0x68, arg0);
                 q->y_pos.i.hi = M2C_FIELD(arg0, u16*, 0xE);
                 q->unk36 = 0;
                 q->bg_offset = M2C_FIELD(arg0, u8*, 0x14);

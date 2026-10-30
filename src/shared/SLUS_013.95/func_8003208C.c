@@ -4,7 +4,7 @@
 s32 func_8002E47C(struct X4_PlayerObj* a, struct X4_PlayerObj* b);
 s32 func_80032208(struct X4_MainObj* self, struct X4_PlayerObj* tgt);
 void func_80032C88(void*, void*);
-extern u8 D_80093C98[];
+extern u8 g_projectiles[];
 extern s8 D_800950A0[];
 
 #define W8(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -21,7 +21,7 @@ void func_8003208C(void* a0) {
     bit = 1;
     if (S32(arg0, 0x68) != 0) {
         i = 0;
-        p = D_80093C98;
+        p = g_projectiles;
         do {
             if (W8(p, 0) != 0 && W8(p, 0x9D) != 0) {
                 func_80032208(arg0, (void*)p);

@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002B6B0();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 extern M2C_UNK g_Player;
@@ -17,7 +17,7 @@ void func_800F5120(struct X4_MainObj* arg0) {
     if (g_Player.hp != 0 && g_Player.nova_strike_active == 0) {
         g_Player.spike_immune = 1;
         g_Player.unk68 = 0;
-        ((M2C_UNK(*)())func_80016C48)(2, 0x20, arg0, &g_Player);
+        ((M2C_UNK(*)())play_sound)(2, 0x20, arg0, &g_Player);
         k = 0x19;
         arg0->unk7C = 0x7F;
         arg0->unk7E = k;

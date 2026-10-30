@@ -1,14 +1,14 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_EngineObj D_800CCED0;
-extern void (*D_8007112C[])(struct X4_EngineObj*);
-void func_80013360(s32);
+extern struct X4_EngineObj g_playthrough_state;
+extern void (*g_playthrough_state_handlers[])(struct X4_EngineObj*);
+void task_yield(s32);
 
 void func_8001E6E4(void) {
     while (1) {
-        s32 i = D_800CCED0.state;
-        D_8007112C[i](&D_800CCED0);
-        func_80013360(1);
+        s32 i = g_playthrough_state.state;
+        g_playthrough_state_handlers[i](&g_playthrough_state);
+        task_yield(1);
     }
 }

@@ -1,14 +1,14 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-void* func_8002C530();
+void* alloc_sprite_slot();
 void func_800EB15C(s32, s32);
 void func_800EB7B8(s32, s32);
 void func_800EBBC8(s32, s32, s32);
 extern struct X4_EngineObj D_80097420;
 extern u8 D_80097427;
-extern struct X4_EngineObj D_800CCED0;
-extern struct X4_MiscObj D_800CD410[];
+extern struct X4_EngineObj g_playthrough_state;
+extern struct X4_MiscObj g_displayed_sprites[];
 extern struct X4_MiscObj D_800E2F90;
 extern void* D_800E2F9C;
 extern u8 D_800F0930[];
@@ -26,7 +26,7 @@ extern u8 D_800F0A10[][0xC];
 #define SAVE ((u8*)D_800E2F90.y_pos.val)
 
 static inline void spawnA(u8 spr, s16 x, s16 y) {
-    u8* obj = func_8002C530();
+    u8* obj = alloc_sprite_slot();
     if (obj != NULL) {
         B(obj, 0) = 1;
         B(obj, 1) = 0x2D;
@@ -34,13 +34,13 @@ static inline void spawnA(u8 spr, s16 x, s16 y) {
         H(obj, 0xA) = x;
         H(obj, 0xE) = y;
         B(obj, 0x58) = 1;
-        B(obj, 0x59) = D_800CCED0.unk1;
+        B(obj, 0x59) = g_playthrough_state.unk1;
         B(obj, 0x5A) = D_80097427;
     }
 }
 
 static inline void spawnB(u8 spr, s16 x, s16 y) {
-    u8* obj = func_8002C530();
+    u8* obj = alloc_sprite_slot();
     if (obj != NULL) {
         B(obj, 0) = 1;
         B(obj, 1) = 0x2D;
@@ -48,7 +48,7 @@ static inline void spawnB(u8 spr, s16 x, s16 y) {
         H(obj, 0xA) = x;
         H(obj, 0xE) = y;
         B(obj, 0x58) = 1;
-        B(obj, 0x59) = D_800CCED0.unk1;
+        B(obj, 0x59) = g_playthrough_state.unk1;
         B(obj, 0x5A) = D_80097420.unk7;
     }
 }
@@ -66,7 +66,7 @@ void func_800EC114(void) {
     s8 z = 0;
 
     for (i = 0; i < 0x60; i++) {
-        e = (u8*)&D_800CD410[i];
+        e = (u8*)&g_displayed_sprites[i];
         if (SB(e, 1) == 0x2D && SB(e, 0x58) != 0) {
             s8* q = (s8*)e;
             s32 k = 0x60;
@@ -75,10 +75,10 @@ void func_800EC114(void) {
             }
         }
     }
-    D_800CCED0.unk4 = 2;
+    g_playthrough_state.unk4 = 2;
     if (UB(SAVE, 0) == 0xFF) {
         {
-            u8* obj = func_8002C530();
+            u8* obj = alloc_sprite_slot();
             if (obj != NULL) {
                 B(obj, 0) = 1;
                 B(obj, 1) = 0x2E;
@@ -86,17 +86,17 @@ void func_800EC114(void) {
                 H(obj, 0xA) = 0x158;
                 H(obj, 0xE) = 0x68;
                 B(obj, 0x58) = 1;
-                B(obj, 0x59) = D_800CCED0.unk1;
+                B(obj, 0x59) = g_playthrough_state.unk1;
                 B(obj, 0x5A) = D_80097427;
             }
         }
-        D_800CCED0.unk4 = 1;
+        g_playthrough_state.unk4 = 1;
         return;
     }
     spawnA(0xA8, 0x108, 0x2E);
     for (j = 0; j < 8; j++) {
         if ((UB(SAVE, 0x3A) >> j) & 1) {
-            if ((s8)(s32)D_800CCED0.controlled_player == 0) {
+            if ((s8)(s32)g_playthrough_state.controlled_player == 0) {
                 n = j;
                 spawnB(T(u8, D_800F0930, n, 6, 0),
                        T(s16, D_800F0930, n, 6, 2) + 0xA,
@@ -158,7 +158,7 @@ void func_800EC114(void) {
     spawnA(0x9A, 0xE5, 0x93);
     func_800EBBC8(0xFE, 0x96, 0);
     if (UB(SAVE, 0x3B) & 0x10) {
-        D_800CCED0.unk4 = 0;
+        g_playthrough_state.unk4 = 0;
         spawnA(0x9E, 0x92, 0xA3);
         id = UB(SAVE, 0x3E) + 0x84;
         spawnA(id, 0xB4, 0xA5);

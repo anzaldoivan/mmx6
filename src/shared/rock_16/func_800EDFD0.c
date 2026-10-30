@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179D0(void*, M2C_UNK, s8);
+M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 extern u16 D_800F11E0[];
 extern u16 D_800F11F8[][2];
 
@@ -30,7 +30,7 @@ void func_800EDFD0(void* arg0) {
         DFD0_U16(0xA) = a;
         DFD0_U16(0xE) = D_800F11F8[v][1];
         DFD0_U8(5) = 0;
-        ((void (*)(void*, s32, s32))func_800179D0)(arg0, v, 0);
+        ((void (*)(void*, s32, s32))set_animation_frame)(arg0, v, 0);
     } else if (v < 4) {
         u8* p;
         s32 a;
@@ -42,7 +42,7 @@ void func_800EDFD0(void* arg0) {
         DFD0_U16(0xA) = a;
         DFD0_U16(0xE) = D_800F11F8[v][1];
         DFD0_U8(5) = 0;
-        ((void (*)(void*, s32, s32))func_800179D0)(arg0, v, 1);
+        ((void (*)(void*, s32, s32))set_animation_frame)(arg0, v, 1);
     } else if (v < 6) {
         u8* p;
         s32 a;
@@ -54,7 +54,7 @@ void func_800EDFD0(void* arg0) {
         DFD0_U16(0xA) = a;
         DFD0_U16(0xE) = D_800F11F8[v][1];
         DFD0_U8(5) = 0;
-        ((void (*)(void*, s32, s32))func_800179D0)(arg0, v, 1);
+        ((void (*)(void*, s32, s32))set_animation_frame)(arg0, v, 1);
     } else if (v < 8) {
         u8* p;
         s32 w = v - 2;
@@ -65,7 +65,7 @@ void func_800EDFD0(void* arg0) {
         DFD0_U16(0xA) = D_800F11F8[w][0] + 0x600;
         DFD0_U16(0xE) = D_800F11F8[w][1];
         DFD0_U8(5) = 1;
-        ((void (*)(void*, s32, s32))func_800179D0)(arg0, w, 1);
+        ((void (*)(void*, s32, s32))set_animation_frame)(arg0, w, 1);
     } else if (v < 10) {
         u8* p;
         s32 w = v - 6;
@@ -76,7 +76,7 @@ void func_800EDFD0(void* arg0) {
         DFD0_U16(0xA) = D_800F11F8[w][0] - 0x600;
         DFD0_U16(0xE) = D_800F11F8[w][1];
         DFD0_U8(5) = 1;
-        ((void (*)(void*, s32, s32))func_800179D0)(arg0, w, 1);
+        ((void (*)(void*, s32, s32))set_animation_frame)(arg0, w, 1);
     }
     DFD0_U8(0x14) = 1;
     DFD0_U8(4)++;

@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 extern struct X4_PlayerObj g_Player;
 
 void func_80046550(s8* arg0) {
@@ -29,5 +29,5 @@ void func_80046550(s8* arg0) {
             p[7] = (s32)var_a1 - 1;
         }
     }
-    ((void (*)())func_8002C9B0)(arg0, var_a1);
+    ((void (*)())clear_object_slot)(arg0, var_a1);
 }

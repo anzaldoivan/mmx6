@@ -4,15 +4,15 @@
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_Unk_unk68 D_801F37C0[];
-M2C_UNK func_8002C9B0();
-#define func_8002C9B0 ((void (*)(struct X4_ObjectHeader * arg0)) func_8002C9B0)
+M2C_UNK clear_object_slot();
+#define clear_object_slot ((void (*)(struct X4_ObjectHeader * arg0)) clear_object_slot)
 
 void func_801EE210(struct X4_WeaponObj* arg0) {
     struct X4_PlayerObj* player = &g_Player;
     u8 temp_v0;
 
     if (g_Player.unk5 != 0x23) {
-        func_8002C9B0(OBJECT_HEADER(arg0));
+        clear_object_slot(OBJECT_HEADER(arg0));
         return;
     }
     if (arg0->state == 0) {
@@ -34,4 +34,4 @@ void func_801EE210(struct X4_WeaponObj* arg0) {
     arg0->unk15 = player->unk15;
 }
 #undef g_Player
-#undef func_8002C9B0
+#undef clear_object_slot

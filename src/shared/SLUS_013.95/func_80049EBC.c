@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_8002D2D4();
+s32 random_byte();
 extern u8 D_800E4470[];
 #define D_800E4470 (*(u8*)&D_800E4470)
 
@@ -11,14 +11,14 @@ void func_80049EBC(void* arg0, s8 arg1, u8 arg2, u8 arg3) {
     s16 y;
     s32 n;
 
-    arg2 &= func_8002D2D4();
-    if (func_8002D2D4() & 1) {
+    arg2 &= random_byte();
+    if (random_byte() & 1) {
         x = ((s16*)arg0)[5] + arg2;
     } else {
         x = ((s16*)arg0)[5] - arg2;
     }
-    arg3 &= func_8002D2D4();
-    if (func_8002D2D4() & 1) {
+    arg3 &= random_byte();
+    if (random_byte() & 1) {
         y = ((s16*)arg0)[7] + arg3;
     } else {
         y = ((s16*)arg0)[7] - arg3;

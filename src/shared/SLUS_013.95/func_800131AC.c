@@ -33,7 +33,7 @@ void func_800131AC(void) {
                 CloseTh(*(s32*)(SLOT_PTR + 8));
                 *(s32*)(SLOT_PTR + 8) =
                     OpenTh(D_800CF960, *(s32*)(SLOT_PTR + 0x10),
-                                  *(s32*)(SLOT_PTR + 0x44));
+                           *(s32*)(SLOT_PTR + 0x44));
                 ExitCriticalSection();
             }
             break;

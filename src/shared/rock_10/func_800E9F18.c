@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 extern u32* D_80095098;
 extern u8 D_800FA900[];
@@ -31,5 +31,5 @@ void func_800E9F18(void* arg0) {
     } else {
         obj->unk16 = 0x11;
     }
-    func_800179A4(obj, obj->unk2);
+    set_animation(obj, obj->unk2);
 }

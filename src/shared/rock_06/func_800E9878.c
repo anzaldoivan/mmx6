@@ -4,7 +4,7 @@
 
 #define F(expr, type, offset) (*(type*)((u8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 
 extern s32 D_80075B9C;
 extern s8 D_800970A5;
@@ -69,7 +69,7 @@ void func_800E9878(struct X4_PlayerObj* self) {
         F(self, s8, 0x88) = 0;
         F(self, s8, 0x75) = 1;
         F(self, s16, 0x86) = F(self, s16, 0xE);
-        func_800179A4(self, 0);
+        set_animation(self, 0);
         F(self, s8, 0x6) = 0;
     }
 }

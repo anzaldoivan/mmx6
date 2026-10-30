@@ -40,7 +40,10 @@ INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FBA24);
 #undef func_800F1AEC
 #undef D_800F62D0
 
-#define func_80041AB8 func_800FBCC8
+// 0x800FBCC8 update_ground_scaravich_boss_rush: per-frame state dispatch of Ground Scaravich in the boss rush.
+// basis: community refs/leads/tweaks/BossHealth.tsv:3414 (word 0x800FCBE0, reached from D_800FD8C4)
+// callers: none known (object type table)
+#define func_80041AB8 update_ground_scaravich_boss_rush
 #define D_80075FD8 D_800FD8C4
 #include "../shared/SLUS_013.95/func_80041AB8.c"
 #undef func_80041AB8
@@ -129,12 +132,12 @@ INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FC5DC);
 #undef D_80073C1C
 
 #define D_800F6AF8 D_800FDC88
-#define func_800179A4 func_800179A4_r08
+#define set_animation func_800179A4_r08
 #define func_800F269C func_800FC704
 #include "../shared/rock_08/func_800F269C.c"
 #undef func_800F269C
 #undef D_800F6AF8
-#undef func_800179A4
+#undef set_animation
 
 INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FC770);
 
@@ -167,10 +170,10 @@ INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FC820);
 INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FCAF0);
 
 #define func_800F2B78 func_800FCBE0
-#define D_800CCED0 D_800CCED0
+#define g_playthrough_state g_playthrough_state
 #include "../shared/rock_08/func_800F2B78.c"
 #undef func_800F2B78
-#undef D_800CCED0
+#undef g_playthrough_state
 
 INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FCC8C);
 
@@ -192,13 +195,13 @@ INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FCD44);
 #undef func_8003744C
 #undef D_80073C1C
 
-#define func_800179A4 func_800179A4_r08
+#define set_animation func_800179A4_r08
 #define func_800F2DB8 func_800FCE20
 #define D_8007433C D_8007433C
 #include "../shared/rock_08/func_800F2DB8.c"
 #undef func_800F2DB8
 #undef D_8007433C
-#undef func_800179A4
+#undef set_animation
 
 INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FCE78);
 

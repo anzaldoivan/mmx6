@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 
 void func_800F9488(u8* arg0) {
     s32 t;
@@ -9,7 +9,7 @@ void func_800F9488(u8* arg0) {
     t = arg0[6] - 1;
     arg0[6] = t;
     if ((t << 0x18) == 0) {
-        ((void (*)(void*, s32))func_800179A4)(arg0, 2);
+        ((void (*)(void*, s32))set_animation)(arg0, 2);
         arg0[5] = arg0[5] + 1;
     }
 }

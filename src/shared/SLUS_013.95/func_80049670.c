@@ -4,12 +4,12 @@
 
 #define M2C_UNK s32
 M2C_UNK func_80017A04();
-M2C_UNK func_8002C9B0(void*, void*);
+M2C_UNK clear_object_slot(void*, void*);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 void func_80049670(struct X4_VisualObj* arg0, struct X4_PlayerObj* arg1) {
     ((void (*)())func_80017A04)(arg0);
     if (arg0->animation_step.fields.relative_step < 0) {
-        ((void (*)())func_8002C9B0)(arg0);
+        ((void (*)())clear_object_slot)(arg0);
         return;
     }
     func_8002CCB0(arg0, 0x20, 0x20);

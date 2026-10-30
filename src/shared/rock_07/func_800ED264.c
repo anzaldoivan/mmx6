@@ -2,7 +2,7 @@
 
 #define M2C_UNK s32
 
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049EBC(void*, M2C_UNK, M2C_UNK, M2C_UNK);
 
@@ -40,6 +40,6 @@ void func_800ED264(u8* arg0) {
             *(s16*)(arg0 + 0x8A) = 5;
         }
     } else if (state == 2) {
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
     }
 }

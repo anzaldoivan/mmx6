@@ -10,8 +10,8 @@
 #define W(p, o) M2C_FIELD(p, s32*, o)
 #define P(p, o) M2C_FIELD(p, void**, o)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object();
@@ -58,7 +58,7 @@ void func_800EAB50(void* arg0) {
     B(arg0, 0x92) = 0;
     sel = SB(arg0, 0x2) & 0xF0;
     if (sel == 0) {
-        func_800179A4(arg0, 8);
+        set_animation(arg0, 8);
         B(arg0, 0x60) = 2;
         P(arg0, 0x68) = &D_800F8840;
         P(arg0, 0x50) = &D_800F8844;
@@ -69,8 +69,8 @@ void func_800EAB50(void* arg0) {
         B(arg0, 0x6) = 0;
         goto recheck;
     } else if (sel == 0x10) {
-        func_80016C48(2, 0x4A, arg0);
-        func_800179A4(arg0, 0xA);
+        play_sound(2, 0x4A, arg0);
+        set_animation(arg0, 0xA);
         B(arg0, 0x60) = 4;
         P(arg0, 0x68) = &D_800F884C;
         P(arg0, 0x50) = &D_800F8850;
@@ -90,8 +90,8 @@ void func_800EAB50(void* arg0) {
         move_object(arg0);
         v = 1;
     } else if (sel == 0x20) {
-        func_80016C48(2, 0x4B, arg0);
-        func_800179A4(arg0, 9);
+        play_sound(2, 0x4B, arg0);
+        set_animation(arg0, 9);
         {
             // !FAKE: depin: dropping it breaks the match (206/208)
             register s32 c4 asm("$2") = 4;
@@ -116,8 +116,8 @@ void func_800EAB50(void* arg0) {
         move_object(arg0);
         v = 2;
     } else if (sel == 0x30) {
-        func_80016C48(2, 0x4C, arg0);
-        func_800179A4(arg0, 0xB);
+        play_sound(2, 0x4C, arg0);
+        set_animation(arg0, 0xB);
         {
             // !FAKE: depin: dropping it breaks the match (198/208)
             register s32 c6 asm("$2") = 6;

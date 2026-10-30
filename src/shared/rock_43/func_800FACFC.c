@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04(void*);
 void* func_8002C458();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
@@ -42,11 +42,11 @@ void func_800FACFC(struct X4_MainObj* self) {
         }
     }
     if (M2C_FIELD(self, s8*, 0x46) == 0) {
-        func_800179A4(self, 0);
+        set_animation(self, 0);
     }
     if (self->unk7C == 0) {
         if (++self->unk7E == tbl[D_800CCF5F]) {
-            func_800179A4(self, 0);
+            set_animation(self, 0);
             {
                 u8* b = ((u8*)&D_800FDE30 + 0x284);
                 u8 i = M2C_FIELD(self, u8*, 0x87)++;
@@ -56,7 +56,7 @@ void func_800FACFC(struct X4_MainObj* self) {
                 self->unk5 = v;
             }
         } else {
-            func_800179A4(self, 7);
+            set_animation(self, 7);
             if (self->unk7E == 2) {
                 self->unk7C = 0x78;
             } else {

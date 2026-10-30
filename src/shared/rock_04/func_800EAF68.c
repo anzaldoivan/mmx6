@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
@@ -32,14 +32,14 @@ void func_800EAF68(void* self) {
         switch (step) {
         case 0:
             if (M2C_FIELD(self, s8*, 0x46) == 0) {
-                ((void (*)(void*, s32))func_800179A4)(self, 0xD);
+                ((void (*)(void*, s32))set_animation)(self, 0xD);
                 M2C_FIELD(self, void**, 0x50) = &D_800F6AB4;
                 M2C_FIELD(self, s8*, 5)++;
             }
             break;
         case 1:
             if (M2C_FIELD(self, s8*, 6) == 0x5A) {
-                ((void (*)(void*, s32))func_800179A4)(self, 0xE);
+                ((void (*)(void*, s32))set_animation)(self, 0xE);
                 M2C_FIELD(self, void**, 0x50) = 0;
                 M2C_FIELD(self, s8*, 5)++;
             }

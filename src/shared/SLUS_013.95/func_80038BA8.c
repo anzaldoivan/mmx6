@@ -3,9 +3,9 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2); /* extern */
-M2C_UNK func_8002D5D0(void*);                  /* extern */
-s32 func_8002FE30(void*);                      /* extern */
+s32 play_sound(s32 a0, s32 a1, void* arg2); /* extern */
+M2C_UNK func_8002D5D0(void*);               /* extern */
+s32 func_8002FE30(void*);                   /* extern */
 
 s32 func_80038BA8(void* arg0) {
     s32 var_a0;
@@ -42,6 +42,6 @@ s32 func_80038BA8(void* arg0) {
         M2C_FIELD(arg0, s8*, 0x85) = 0x1E;
     }
     M2C_FIELD(arg0, s8*, 0x8C) = 1;
-    func_80016C48(1, 5, arg0);
+    play_sound(1, 5, arg0);
     return 1;
 }

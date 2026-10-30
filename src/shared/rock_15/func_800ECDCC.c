@@ -4,18 +4,18 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern M2C_UNK D_8007591C;
 extern u8 D_800970B4;
 extern s16 D_80097222;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern M2C_UNK D_800F6360;
 extern M2C_UNK D_800F6618;
 extern u16 D_800F70DC;
 extern void* D_800F70E4;
 
 void func_800ECDCC(void* arg0) {
-    s8* e = (s8*)&D_800CCED0;
+    s8* e = (s8*)&g_playthrough_state;
     s32 t;
 
     M2C_FIELD(e, u8*, 0x31) = 1;
@@ -39,7 +39,7 @@ void func_800ECDCC(void* arg0) {
     if (t == 0) {
         D_800F70E4 = arg0;
         M2C_FIELD(arg0, s16*, 0x40) = 0x140;
-        func_800179A4(arg0, 0);
+        set_animation(arg0, 0);
         M2C_FIELD(arg0, u8*, 0x89) = 0;
         M2C_FIELD(arg0, s8*, 0x88) = -1;
         M2C_FIELD(arg0, u8*, 0x8A) = 0;

@@ -2,11 +2,11 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80013300(M2C_UNK, M2C_UNK*); /* extern */
+M2C_UNK create_task(M2C_UNK, M2C_UNK*); /* extern */
 M2C_UNK func_800133A0();                  /* extern */
 void func_8002C1DC();
 extern s8 D_80097424;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 void func_8001E6E4(void);
 
 void func_8001DAF8(s8* arg0) {
@@ -16,11 +16,11 @@ void func_8001DAF8(s8* arg0) {
         switch (arg0[2]) {
         case 0:
             func_8002C1DC();
-            D_800CCED0.state = 0;
-            D_800CCED0.unk1 = 0;
-            D_800CCED0.unk2 = 0;
-            D_800CCED0.unk3 = 0;
-            func_80013300(1, &func_8001E6E4);
+            g_playthrough_state.state = 0;
+            g_playthrough_state.unk1 = 0;
+            g_playthrough_state.unk2 = 0;
+            g_playthrough_state.unk3 = 0;
+            create_task(1, &func_8001E6E4);
             func_800133A0();
             break;
         case 1:

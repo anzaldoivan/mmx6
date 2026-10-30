@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s8 D_8008EF48[];
+extern s8 g_enemies[];
 extern s32 D_800C1220[];
 
 void func_8002CF0C(s8* arg0) {
@@ -19,7 +19,7 @@ void func_8002CF0C(s8* arg0) {
     *(s32*)(arg0 + 0x50) = 0;
     *(s32*)(arg0 + 0x54) = 0;
     *(s32*)(arg0 + 0x68) = 0;
-    idx = (u32)(arg0 - D_8008EF48) / 156;
+    idx = (u32)(arg0 - g_enemies) / 156;
     w = idx / 32;
     mask = ~(1 << (idx & 0x1F));
     for (i = 0; i < 80; i++) {

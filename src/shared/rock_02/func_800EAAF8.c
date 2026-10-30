@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 
 #define AAF8_SP64 (*(u8**)(0x1F800064))
 #define AAF8_UB(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -19,12 +19,12 @@ void func_800EAAF8(u8* arg0) {
         case 1:
             AAF8_UB(arg0, 0x16) = 0x22;
             AAF8_UB(arg0, 3) = mode;
-            func_800179A4(arg0, 1);
+            set_animation(arg0, 1);
             break;
         case 2:
             AAF8_UB(arg0, 0x16) = 0x20;
             AAF8_UB(arg0, 3) = 1;
-            func_800179A4(arg0, 4);
+            set_animation(arg0, 4);
             break;
         }
     }

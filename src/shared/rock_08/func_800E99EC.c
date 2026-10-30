@@ -4,7 +4,7 @@
 #include "mmx6/x4.h"
 extern u8 D_800F4C24[16];
 void func_8002CCB0(struct X4_BaseObj*, s32, s32);
-void func_800179D0(struct X4_AnimatedObj*, s32, s32);
+void set_animation_frame(struct X4_AnimatedObj*, s32, s32);
 M2C_UNK func_80017A04();
 
 void func_800E99EC(struct X4_VisualObj* arg0) {
@@ -19,7 +19,7 @@ void func_800E99EC(struct X4_VisualObj* arg0) {
         next_animation = D_800F4C24[player->animation_step.fields.frame_index];
         if (player->animation_step.fields.frame_index != previous_frame &&
             (animation = next_animation & 0xFF) != arg0->unk54) {
-            func_800179D0(ANIMATED_OBJECT(arg0), animation,
+            set_animation_frame(ANIMATED_OBJECT(arg0), animation,
                           arg0->animation_step.fields.event);
             arg0->unk56 = player->animation_step.fields.frame_index;
             arg0->unk54 = next_animation;

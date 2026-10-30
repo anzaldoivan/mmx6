@@ -2,8 +2,8 @@
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-void* func_8002C530();
+M2C_UNK set_animation(void*, M2C_UNK);
+void* alloc_sprite_slot();
 extern s32 D_8007447C;
 extern u8 D_800970B4;
 extern s32 D_800FAB7C;
@@ -40,13 +40,13 @@ void func_800EB450(struct X4_MainObj* arg0) {
     arg0->unk1C.val = arg0->y_pos.val;
     if (arg0->unk2 == 0) {
         arg0->unk7 = 0;
-        ((void (*)(void*, s32, s32))func_800179A4)(arg0, 2, v);
+        ((void (*)(void*, s32, s32))set_animation)(arg0, 2, v);
     } else {
         arg0->unk7 = 0x40;
-        ((void (*)(void*, s32, s32))func_800179A4)(arg0, 0, v);
+        ((void (*)(void*, s32, s32))set_animation)(arg0, 0, v);
     }
     arg0->ext.raw[0] = arg0->animation_step.fields.frame_index;
-    child = func_8002C530();
+    child = alloc_sprite_slot();
     if (child != 0) {
         child->active = 0x41;
         child->id = 2;

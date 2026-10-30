@@ -4,7 +4,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8001A6CC(s32); /* extern */
+s32 play_str_movie(s32); /* extern */
 extern M2C_UNK D_8007119C;
 extern M2C_UNK D_800711A4;
 
@@ -14,11 +14,11 @@ void func_8001EC68(void* arg0) {
         DrawSync(0);
         if ((M2C_FIELD(arg0, s8*, 0xC) == 0xB) &&
             (M2C_FIELD(arg0, s8*, 0x38) != 0)) {
-            func_8001A6CC(8);
+            play_str_movie(8);
         }
         if (M2C_FIELD(arg0, s8*, 0xC) == 0xC) {
             if (M2C_FIELD(arg0, s8*, 0x38) != 0) {
-                func_8001A6CC(9);
+                play_str_movie(9);
             }
         }
         MoveImage(&D_800711A4, 0x140, 0xB0);

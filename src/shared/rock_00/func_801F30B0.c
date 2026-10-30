@@ -5,7 +5,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void func_80017A04(struct X4_AnimatedObj*);
-M2C_UNK func_800179D0(void*, M2C_UNK, s8);
+M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 s32 func_8002CBFC(struct X4_BaseObj*, s32, s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 void move_object(struct X4_MovingObj*);
@@ -32,7 +32,7 @@ void func_801F30B0(void* arg0) {
                     M2C_FIELD(arg0, u8*, 4) = 2;
                     M2C_FIELD(arg0, s32*, 0x50) = 0;
                     M2C_FIELD(arg0, s32*, 0x68) = 0;
-                    func_800179D0(arg0, 1, M2C_FIELD(arg0, s8*, 0x45));
+                    set_animation_frame(arg0, 1, M2C_FIELD(arg0, s8*, 0x45));
                 }
             }
             goto block_9;
@@ -47,7 +47,7 @@ void func_801F30B0(void* arg0) {
         M2C_FIELD(arg0, u8*, 4) = 2;
         M2C_FIELD(arg0, s32*, 0x50) = 0;
         M2C_FIELD(arg0, s32*, 0x68) = 0;
-        func_800179D0(arg0, 1, M2C_FIELD(arg0, s8*, 0x45));
+        set_animation_frame(arg0, 1, M2C_FIELD(arg0, s8*, 0x45));
     block_9:
         if (!(D_80097420 & 3)) {
             M2C_FIELD(arg0, u8*, 0x64) = (u8)(M2C_FIELD(arg0, u8*, 0x64) + 1);

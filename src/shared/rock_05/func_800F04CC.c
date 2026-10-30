@@ -6,7 +6,7 @@
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 
 extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800F4350[];
@@ -34,25 +34,25 @@ void func_800F04CC(void* self) {
     st = M2C_FIELD(SPAD, u8*, 0x8B);
     if (st == 3) {
         if (D_800F448E == 0) {
-            func_80016C48(2, 2, self);
+            play_sound(2, 2, self);
             ((void (*)(s32))func_80012D9C)(4);
             D_800F448E = 1;
         }
         background_objects[1].y_pos.u.hi -= 2;
         if ((s16)background_objects[1].y_pos.u.hi <= D_800F4484 + 0x900) {
-            func_80016C48(2, 3, self);
+            play_sound(2, 3, self);
             M2C_FIELD(SPAD, u8*, 0x8B) = 0;
             D_800F448E = 0;
         }
     } else if (st == 4) {
         if (D_800F448E == 0) {
-            func_80016C48(2, 2, self);
+            play_sound(2, 2, self);
             ((void (*)(s32))func_80012D9C)(4);
             D_800F448E = 1;
         }
         background_objects[1].y_pos.u.hi += 2;
         if ((s16)background_objects[1].y_pos.u.hi >= D_800F4484 + 0xBA0) {
-            func_80016C48(2, 3, self);
+            play_sound(2, 3, self);
             M2C_FIELD(SPAD, u8*, 0x8B) = 0;
             D_800F448E = 0;
         }

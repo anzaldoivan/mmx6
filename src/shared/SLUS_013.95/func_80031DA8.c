@@ -2,7 +2,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-void func_8002E1A0(struct X4_PlayerObj* a, struct X4_PlayerObj* b, s32 mode);
+void check_box_collision(struct X4_PlayerObj* a, struct X4_PlayerObj* b,
+                         s32 mode);
 void func_8002F288(struct X4_PlayerObj*);
 s32 func_80032208(struct X4_MainObj* self, struct X4_PlayerObj* tgt);
 void func_800324C8(struct X4_MainObj* a, struct X4_MainObj* b, u8 flags);
@@ -25,7 +26,7 @@ void func_80031DA8(struct X4_MainObj* arg0) {
             if (arg0->unk76 > 0) {
                 func_800324C8(arg0, (struct X4_MainObj*)p, arg0->unk72);
             }
-            func_8002E1A0((struct X4_PlayerObj*)arg0, p, 0);
+            check_box_collision((struct X4_PlayerObj*)arg0, p, 0);
             if (p->x_pos.i.hi != x || p->y_pos.i.hi != y) {
                 func_8002F288(p);
                 if ((p->unk70 & 0xC) != 0xC && (p->unk70 & 3) != 3) {
@@ -45,7 +46,7 @@ void func_80031DA8(struct X4_MainObj* arg0) {
             if (arg0->unk77 > 0) {
                 func_800324C8(arg0, (struct X4_MainObj*)p, arg0->unk73);
             }
-            func_8002E1A0((struct X4_PlayerObj*)arg0, p, 1);
+            check_box_collision((struct X4_PlayerObj*)arg0, p, 1);
             if (g_Player.unk5 == 0x12) {
                 do {
                     g_Player.x_pos = p->x_pos;

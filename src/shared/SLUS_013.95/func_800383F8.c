@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 struct X4_VisualObj* func_8002C398(void);
 extern u32* D_8007789C[];
 
@@ -17,9 +17,9 @@ void func_800383F8(void* arg0) {
     s32 off;
 
     if (self->id == 0x3A) {
-        func_80016C48(1, 9, self);
+        play_sound(1, 9, self);
     } else if ((u8)(self->id - 0x38) >= 2) {
-        func_80016C48(1, 0xC, self);
+        play_sound(1, 0xC, self);
     }
     obj = func_8002C398();
     if (obj != 0) {

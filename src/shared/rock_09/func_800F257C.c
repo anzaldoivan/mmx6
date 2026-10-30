@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-s32 func_8002D2D4();
+s32 random_byte();
 void func_800F14D4(void*, s32);
 extern s32 D_800755FC;
 extern s32 D_800F6AC8;
@@ -70,7 +70,7 @@ void func_800F257C(struct X4_MainObj* self) {
         self->x_speed = -0x20000;
         self->unk15 = 0;
     }
-    self->y_speed = (func_8002D2D4() % 4 << 16) + 0x50000;
+    self->y_speed = (random_byte() % 4 << 16) + 0x50000;
     self->x_accel = 0;
     self->gravity = 0x3000;
     self->hp = 4;

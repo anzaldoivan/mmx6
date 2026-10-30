@@ -5,13 +5,13 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_8003CD9C();
-void func_8003D2BC(struct X4_PlayerObj* self);
+void spawn_dust(struct X4_PlayerObj* self);
 void player_set_animation_shooting(struct X4_PlayerObj* self, s32 animation);
 
 void func_8003B548(void* arg0) {
     player_set_animation_shooting(arg0, 0xF);
     if (M2C_FIELD(arg0, u8*, 0xE7) != 2) {
-        func_8003D2BC(arg0);
+        spawn_dust(arg0);
     }
     M2C_FIELD(arg0, s8*, 0x67) = -1;
     M2C_FIELD(arg0, s32*, 0x20) = 0;

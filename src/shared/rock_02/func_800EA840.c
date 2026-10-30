@@ -1,6 +1,6 @@
 #include "common.h"
 #define M2C_UNK s32
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8002D230();
 
 #define A840_SPAD (*(u8**)0x1F80004C)
@@ -19,7 +19,7 @@ void func_800EA840(void* arg0) {
     }
     if (--A840_H(arg0, 0x7C) == 0) {
         A840_UH(arg0, 0x7C) = 0x3C;
-        func_80016C48(2, 3, arg0);
+        play_sound(2, 3, arg0);
     }
 }
 

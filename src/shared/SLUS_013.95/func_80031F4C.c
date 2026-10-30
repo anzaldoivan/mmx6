@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s8 D_8008EF48[];
+extern s8 g_enemies[];
 s32 func_8002E664(void* arg0, void* arg1);
 s32 func_800323D4(struct X4_MainObj* self, struct X4_PlayerObj* tgt);
 void func_80032D24(void* arg0, void* arg1);
@@ -16,7 +16,7 @@ void func_80031F4C(void* arg0) {
 
     i = 0;
     if (*(s32*)((u8*)arg0 + 0x68) != 0) {
-        p = D_8008EF48;
+        p = g_enemies;
         do {
             if (p[0] != 0 && *(s32*)(p + 0x68) != 0) {
                 x = *(s32*)(p + 8);

@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 void func_800EFBFC(void*, u8, s16, s16);
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s16 D_800F0EB8[];
 
 #define TIME(e, i) (((s32*)(e))[0x43C / 4 + (i)])
@@ -22,7 +22,7 @@ extern s16 D_800F0EB8[];
     }
 
 void func_800EE368(struct X4_BaseObj* self) {
-    struct X4_EngineObj* e = &D_800CCED0;
+    struct X4_EngineObj* e = &g_playthrough_state;
     s32* best;
     s32* times;
     s32 time;
@@ -34,7 +34,8 @@ void func_800EE368(struct X4_BaseObj* self) {
     s32 seconds;
 
     if (TIME(e, 0) == 0 || e->character_state.bytes[1] != 0) {
-        time = TIME(&D_800CCED0, D_800CCED0.character_state.bytes[0]);
+        time = TIME(&g_playthrough_state,
+                    g_playthrough_state.character_state.bytes[0]);
         base = 0xCE;
     } else {
         times = TIMES(e);
@@ -45,7 +46,8 @@ void func_800EE368(struct X4_BaseObj* self) {
         } else {
             base = 0xCE;
         }
-        time = TIME(&D_800CCED0, D_800CCED0.character_state.bytes[0]);
+        time = TIME(&g_playthrough_state,
+                    g_playthrough_state.character_state.bytes[0]);
     }
     DIGIT(base + 0xA, 4);
     DIGIT(base + 0xB, 10);

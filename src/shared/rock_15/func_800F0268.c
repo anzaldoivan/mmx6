@@ -2,7 +2,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002D2D4();
+s32 random_byte();
 void func_800F1DA8(void*, s32, s32);
 extern s8 D_800CCF5C;
 
@@ -26,7 +26,7 @@ void func_800F0268(void* arg0) {
             M2C_FIELD(arg0, s16*, 0x7E) = 3;
         }
         if (M2C_FIELD(arg0, s8*, 0x8A) == 1) {
-            func_800F1DA8(arg0, func_8002D2D4() & 1, 0);
+            func_800F1DA8(arg0, random_byte() & 1, 0);
         } else {
             func_800F1DA8(arg0, 2, 0);
             M2C_FIELD(arg0, s8*, 0x8A) = 1;

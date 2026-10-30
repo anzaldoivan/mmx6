@@ -3,11 +3,11 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 void* func_8002C458();
 M2C_UNK move_object(s32);
-s32 func_8002D2D4();
+s32 random_byte();
 
 void func_800F8BAC(void* arg0) {
     void* p;
@@ -22,7 +22,7 @@ void func_800F8BAC(void* arg0) {
     p = M2C_FIELD(arg0, void**, 0x7C);
     if (--M2C_FIELD(arg0, s16*, 0x8C) == 0 || M2C_FIELD(p, s8*, 6) == 0 ||
         M2C_FIELD(p, s8*, 4) >= 2) {
-        ((void (*)(void*, s32))func_800179A4)(arg0, 0x1B);
+        ((void (*)(void*, s32))set_animation)(arg0, 0x1B);
         M2C_FIELD(arg0, s32*, 0x50) = 0;
         M2C_FIELD(arg0, u8*, 6)++;
         return;
@@ -42,10 +42,10 @@ void func_800F8BAC(void* arg0) {
     if (--M2C_FIELD(arg0, s16*, 0x8E) == 0) {
         off = 0x40;
         M2C_FIELD(arg0, u16*, 0x8E) =
-            ((u8)((u32)func_8002D2D4() % 5) + 1) * 10 + 0x3C;
+            ((u8)((u32)random_byte() % 5) + 1) * 10 + 0x3C;
         i = 1;
         M2C_FIELD(arg0, u16*, 0x8E) =
-            ((u8)((u32)func_8002D2D4() % 6) + 1) * 10 + 0x1E;
+            ((u8)((u32)random_byte() % 6) + 1) * 10 + 0x1E;
         do {
             c = func_8002C458();
             if (c != 0) {

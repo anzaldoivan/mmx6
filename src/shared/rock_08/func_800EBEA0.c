@@ -4,17 +4,17 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800139A0(M2C_UNK);                 /* extern */
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*); /* extern */
-void func_80029F38();                           /* extern */
-M2C_UNK func_8002B36C(M2C_UNK);                 /* extern */
-M2C_UNK func_8002B6B0();                        /* extern */
+M2C_UNK func_800139A0(M2C_UNK);              /* extern */
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
+void func_80029F38();                        /* extern */
+M2C_UNK func_8002B36C(M2C_UNK);              /* extern */
+M2C_UNK func_8002B6B0();                     /* extern */
 extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_80097420;
 #define D_80097420_h (*(struct X4_ObjectHeader*)&D_80097420)
 extern u8 D_800C4560;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F5644[];
 extern s16 D_800F5754[][16];
 
@@ -41,8 +41,9 @@ void func_800EBEA0(void* arg0) {
     if (D_80097420_h.state == 0) {
         temp_v1 = D_800F5754
             [D_800F5644[M2C_FIELD(arg0, s8*, 2) +
-                        (base = D_800CCED0.character_state.bytes[10] * 4 - 1)]]
-            [0];
+                        (base =
+                             g_playthrough_state.character_state.bytes[10] * 4 -
+                             1)]][0];
         temp_y = D_800F5754[IDX][1];
         g_Player.x_pos.i.hi = temp_v1;
         g_Player.y_pos.i.hi = temp_y;
@@ -52,7 +53,7 @@ void func_800EBEA0(void* arg0) {
             g_Player.y_pos.i.hi--;
         }
         g_Player.spike_immune = 0;
-        D_800CCED0.gameplay_locked = 0;
+        g_playthrough_state.gameplay_locked = 0;
         g_Player.nova_strike_active = 0;
         g_Player.unk18.val = g_Player.x_pos.val;
         g_Player.unk1C.val = g_Player.y_pos.val;
@@ -62,7 +63,7 @@ void func_800EBEA0(void* arg0) {
         background_objects[0].unk44 = 1;
         background_objects[1].unk44 = 1;
         background_objects[2].unk44 = 1;
-        base2 = D_800CCED0.character_state.bytes[10] * 4 - 1;
+        base2 = g_playthrough_state.character_state.bytes[10] * 4 - 1;
         background_objects[0].x_pos.i.hi = D_800F5754[IDX2][2];
         background_objects[0].y_pos.i.hi = D_800F5754[IDX2][3];
         background_objects[1].x_pos.i.hi = D_800F5754[IDX2][4];
@@ -92,7 +93,7 @@ void func_800EBEA0(void* arg0) {
         func_800139A0(8);
         background_objects[0].unk44 = 0;
         background_objects[1].unk44 = 0;
-        func_80016C48(1, 1, arg0);
+        play_sound(1, 1, arg0);
         M2C_FIELD(arg0, u8*, 7) = M2C_FIELD(arg0, u8*, 7) + 1;
     }
 }

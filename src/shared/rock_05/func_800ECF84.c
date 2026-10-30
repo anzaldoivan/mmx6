@@ -1,13 +1,13 @@
 #include "common.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002D2D4();
+s32 random_byte();
 
 void func_800ECF84(u8* arg0) {
     s16 var_v0_2;
     s8 temp_v1;
 
-    if (func_8002D2D4() & 1) {
+    if (random_byte() & 1) {
         M2C_FIELD(arg0, s16*, 0xA) = 0xB80;
         M2C_FIELD(arg0, u8*, 0x8E) =
             (M2C_FIELD(arg0, u8*, 0x8E) + 0x10) & 0x1F0;

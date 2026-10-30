@@ -216,8 +216,8 @@ func_800F22FC = 0x800F22FC; // type:func size:0x20
 func_800F231C = 0x800F231C; // type:func size:0x3C
 // basis: post-return 0x800f2350; no branch of 0x800f1fbc crosses it (1.6 T1 merge check)
 func_800F2358 = 0x800F2358; // type:func size:0x38
-// basis: post-return 0x800f2388; no branch of 0x800f1fbc crosses it (1.6 T1 merge check)
-func_800F2390 = 0x800F2390; // type:func size:0x48
+// basis: post-return 0x800f2388; no branch of 0x800f1fbc crosses it (1.6 T1 merge check); name: community tweaks-index.tsv:183
+init_illumina = 0x800F2390; // type:func size:0x48
 // basis: post-return 0x800f23d0; no branch of 0x800f1fbc crosses it (1.6 T1 merge check)
 func_800F23D8 = 0x800F23D8; // type:func size:0xC4
 // basis: post-return 0x800f2494; no branch of 0x800f1fbc crosses it (1.6 T1 merge check)

@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
 extern s8 D_80097244;
@@ -29,7 +29,7 @@ void func_800F09FC(struct X4_MainObj* self) {
     }
     if (self->collision_flags & 1) {
     block_7:
-        func_80016C48(2, 5, self);
+        play_sound(2, 5, self);
         ((void (*)(s32))func_80012D9C)(3);
         if (self->collision_flags & 2) {
             func_80027BA0(0, 0x17B0, 0xD0, D_800FB220);

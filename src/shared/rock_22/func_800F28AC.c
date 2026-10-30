@@ -9,7 +9,7 @@
 #define FU16(p, o) (*(u16*)((u8*)(p) + (o)))
 #define F32(p, o) (*(s32*)((u8*)(p) + (o)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_80017A04();
 s32 func_800F2FB8(void*, u8, s32);
 s32 func_800F3158(void*);
@@ -53,13 +53,13 @@ void func_800F28AC(struct X4_BaseObj* self) {
                 }
                 F32(self, 0x20) = 0;
                 F32(self, 0x24) = F32(self, 0x24) * 3;
-                func_800179A4(self, 6);
+                set_animation(self, 6);
             } else if (func_800F3158(self) != 0) {
                 self->unk5 = 4;
                 self->unk6 = 0;
             } else {
                 self->unk6 = 2;
-                func_800179A4(self, 6);
+                set_animation(self, 6);
             }
         } else if (F8(self, 0x45) != 0) {
             if (sp[0x80] == 0) {
@@ -114,13 +114,13 @@ void func_800F28AC(struct X4_BaseObj* self) {
                 }
                 F32(self, 0x24) = 0;
                 F32(self, 0x20) = F32(self, 0x20) * 3;
-                func_800179A4(self, 5);
+                set_animation(self, 5);
             } else if (func_800F3158(self) != 0) {
                 self->unk5 = 4;
                 self->unk6 = 0;
             } else {
                 self->unk6 = 2;
-                func_800179A4(self, 5);
+                set_animation(self, 5);
             }
         } else if (F8(self, 0x45) != 0) {
             if (sp[0x80] == 0) {

@@ -2,14 +2,14 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002D2D4();
+s32 random_byte();
 extern s8 D_800CCF5C;
 extern u8 D_800F6DF8[];
 
 void func_800F04A0(void* arg0) {
     u32 r;
 
-    r = func_8002D2D4() & 0xF;
+    r = random_byte() & 0xF;
     if (D_800CCF5C / 2 < M2C_FIELD(arg0, s8*, 0x5C)) {
         if (r < 6) {
             M2C_FIELD(arg0, s8*, 0x88) = 0;

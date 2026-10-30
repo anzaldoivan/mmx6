@@ -7,7 +7,7 @@ M2C_UNK func_800139A0(s8);
 void func_8001D218(void);
 void func_8001D25C(void);
 void func_8001FE74(void);
-void* func_8002C530();
+void* alloc_sprite_slot();
 extern u8 D_800711AC;
 extern u8 D_800711B8;
 extern s32 D_80097420;
@@ -37,7 +37,7 @@ void func_8001F320(void* arg) {
             i = 0;
             one = 1;
             if (*p != 0) {
-                obj = func_8002C530();
+                obj = alloc_sprite_slot();
                 if (obj != 0) {
                     obj[0] = one;
                     obj[1] = 0x20;
@@ -50,7 +50,7 @@ void func_8001F320(void* arg) {
                 p++;
             }
             while (*p != 0xFF) {
-                obj = func_8002C530();
+                obj = alloc_sprite_slot();
                 if (obj != 0) {
                     obj[0] = 1;
                     obj[1] = 0x1F;
@@ -69,7 +69,7 @@ void func_8001F320(void* arg) {
             i = 0;
             one = 1;
             if (*p != 0) {
-                obj = func_8002C530();
+                obj = alloc_sprite_slot();
                 if (obj != 0) {
                     obj[0] = one;
                     obj[1] = 0x20;
@@ -82,7 +82,7 @@ void func_8001F320(void* arg) {
                 p++;
             }
             while (*p != 0xFF) {
-                obj = func_8002C530();
+                obj = alloc_sprite_slot();
                 if (obj != 0) {
                     obj[0] = 1;
                     obj[1] = 0x1F;

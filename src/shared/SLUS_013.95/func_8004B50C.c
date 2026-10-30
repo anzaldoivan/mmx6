@@ -2,10 +2,10 @@
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32
-M2C_UNK func_800179A4(void* arg0, M2C_UNK arg1);
+M2C_UNK set_animation(void* arg0, M2C_UNK arg1);
 
 M2C_UNK func_80017A04();
-M2C_UNK func_8002C9B0(void*, void*);
+M2C_UNK clear_object_slot(void*, void*);
 s32 func_8002CB50(struct X4_BaseObj*);
 void func_8004B50C(struct X4_VisualObj* arg0) {
     struct X4_PlayerObj* temp_a0;
@@ -13,9 +13,9 @@ void func_8004B50C(struct X4_VisualObj* arg0) {
     if (arg0->unk2 != 0x10) {
         if (arg0->unk2 <= 6) {
             if (arg0->unk2 == 0) {
-                func_800179A4(arg0, 0x21);
+                set_animation(arg0, 0x21);
             } else {
-                func_800179A4(arg0, ((arg0->unk2 - 1) >> 1) + 0x21);
+                set_animation(arg0, ((arg0->unk2 - 1) >> 1) + 0x21);
             }
             arg0->unk2++;
             ((void (*)())func_8002CB50)(arg0);
@@ -35,6 +35,6 @@ void func_8004B50C(struct X4_VisualObj* arg0) {
             return;
         }
         arg0->on_screen = 0;
-        ((void (*)())func_8002C9B0)(arg0);
+        ((void (*)())clear_object_slot)(arg0);
     }
 }

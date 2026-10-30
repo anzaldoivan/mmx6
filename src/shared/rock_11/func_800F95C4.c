@@ -2,11 +2,11 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
-s32 func_8002D2D4();
+M2C_UNK set_animation(void*, M2C_UNK);
+s32 random_byte();
 void func_800FA150(void*, s32);
 extern s16 D_800970AA;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800E9B8C[];
 extern s8 D_800FD2EC[];
 extern u16 D_800FDA7C;
@@ -17,11 +17,11 @@ void func_800F95C4(void* arg0) {
     s8 t;
 
     __builtin_memcpy(buf, D_800E9B8C, 4);
-    func_800179A4(arg0, 8);
+    set_animation(arg0, 8);
     if (D_800FDA7C <
-        (t = D_800FD2EC[(u8)D_800CCED0.player_initial_data[0x46]])) {
-        if ((func_8002D2D4() & 0xF) >=
-            buf[(u8)D_800CCED0.player_initial_data[0x46]]) {
+        (t = D_800FD2EC[(u8)g_playthrough_state.player_initial_data[0x46]])) {
+        if ((random_byte() & 0xF) >=
+            buf[(u8)g_playthrough_state.player_initial_data[0x46]]) {
             func_800FA150(arg0, 1);
         }
     }

@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-void* func_8002BBF4();
-s32 func_8002D2D4();
+void* enemy_slot_alloc();
+s32 random_byte();
 extern s32 g_Player;
 extern s16 D_800970AA;
 
@@ -55,7 +55,7 @@ void func_800EECCC(void* arg0) {
         return;
     }
     if (H(arg0, 0x7C) == 0) {
-        obj = func_8002BBF4();
+        obj = enemy_slot_alloc();
         if (obj != 0) {
             UB(obj, 0) = 0x41;
             UB(obj, 1) = 0x1A;
@@ -77,7 +77,7 @@ void func_800EECCC(void* arg0) {
             UH(obj, 0x40) = UH(arg0, 0x40);
             UB(obj, 0x14) = UB(arg0, 0x14);
         }
-        H(arg0, 0x7C) = (func_8002D2D4() % 3 + 1) * 100 + 200;
+        H(arg0, 0x7C) = (random_byte() % 3 + 1) * 100 + 200;
     } else {
         H(arg0, 0x7C)--;
     }

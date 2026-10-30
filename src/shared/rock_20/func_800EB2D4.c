@@ -7,8 +7,8 @@ s32 memcard_read_save_file(s32, u8, s32);
 s32 memcard_list_files(u8, void*, void*);
 s32 func_8001C5EC(u8);
 s32 func_8001C8C4(void*);
-M2C_UNK func_8002B838();
-void* func_8002C530();
+M2C_UNK reset_level();
+void* alloc_sprite_slot();
 void func_800ED45C();
 void func_800F02A0(u8, s8, s32, s16);
 M2C_UNK func_800F0324(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32);
@@ -128,7 +128,7 @@ void func_800EB2D4(u8* arg0) {
                 }
             block_29:
                 arg0[1] = arg0[1] + 2;
-                ((void (*)())func_8002B838)();
+                ((void (*)())reset_level)();
                 F16(arg0, 4) = 1;
                 do {
                     func_800F07B4(arg0);
@@ -142,7 +142,7 @@ void func_800EB2D4(u8* arg0) {
                                   (u8)i);
                     i++;
                 } while (i < 8);
-                obj = func_8002C530();
+                obj = alloc_sprite_slot();
                 if (obj != 0) {
                     obj[0] = 1;
                     F16(obj, 0xA) = 0xE0;
@@ -150,7 +150,7 @@ void func_800EB2D4(u8* arg0) {
                     obj[1] = 0x2E;
                     ((s8*)obj)[2] = -0x10;
                 }
-                obj = func_8002C530();
+                obj = alloc_sprite_slot();
                 if (obj != 0) {
                     obj[0] = 1;
                     obj[1] = 0x2D;

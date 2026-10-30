@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 extern u32* D_8008EC18[2][102];
-extern u16 D_80090D6A;
+extern u16 g_wide_mode;
 extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800A21B8[3][32][64];
 
@@ -51,7 +51,7 @@ void func_800270D0(s32 arg0) {
     row = (y / 16) & 0x1F;
     py = -(y & 0xF);
     n = 0x21;
-    if (D_80090D6A == 0) {
+    if (g_wide_mode == 0) {
         n = 0x15;
     }
     for (j = 0; j < 16; j++) {

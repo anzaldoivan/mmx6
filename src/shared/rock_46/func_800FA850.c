@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002B3D4(M2C_UNK, M2C_UNK*, M2C_UNK);
+M2C_UNK load_palette(M2C_UNK, M2C_UNK*, M2C_UNK);
 M2C_UNK func_8002B54C(M2C_UNK*, M2C_UNK*, M2C_UNK, u16);
 extern s8 D_8008EAB0;
 extern struct X4_BackgroundObj background_objects[3];
@@ -14,7 +14,7 @@ void func_800FA850(u8* arg0) {
     D_800FD120++;
     ((void (*)(M2C_UNK*, M2C_UNK*, M2C_UNK, s32))func_8002B54C)(
         &D_800FBF20, &D_800FAD20, 0x300, D_800FD120);
-    func_8002B3D4(0x90, &D_800FBF20, 0x30);
+    load_palette(0x90, &D_800FBF20, 0x30);
     if (D_800FD120 >= 0x20) {
         D_8008EAB0 = 1;
         background_objects[1].unk3 = 0;

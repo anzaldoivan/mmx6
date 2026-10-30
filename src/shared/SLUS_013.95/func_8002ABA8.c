@@ -8,7 +8,7 @@ extern s32 D_80090C90_flat[];
 extern s16 D_80090D5C;
 extern s16 D_80097430;
 extern u8 D_800C4560;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s16 D_800CF854;
 static inline void func_8002ABA8_clear3(void) {
     s16* c = &D_800CF854;
@@ -28,7 +28,7 @@ void func_8002ABA8(void) {
     for (i = 0; i < 16; i++) {
         D_80090C90[i + 16] = 0;
     }
-    src = D_80073680[D_800CCED0.stage][D_800CCED0.substage];
+    src = D_80073680[g_playthrough_state.stage][g_playthrough_state.substage];
     D_800C4560 |= 1;
     if (src == 0) {
         for (j = 19; j < 31; j++) {

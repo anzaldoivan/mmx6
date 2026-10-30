@@ -4,7 +4,7 @@
 
 #define SPAD20_800F4790 (*(s32*)0x1F800020)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 extern s16 D_800F7780[];
 extern void* D_800F7800;
@@ -41,7 +41,7 @@ void func_800F4790(struct X4_MainObj* arg0) {
                         *(s32*)(func_8002A47C(D_800F7800->id) * 4 +
                                 SPAD20_800F4790 + 4));
     }
-    func_800179A4(arg0, D_800F7780[arg0->unk2 - 0x1E]);
+    set_animation(arg0, D_800F7780[arg0->unk2 - 0x1E]);
     do {
         // !FAKE: depin: dropping it breaks the match (144/152)
         register u8 c asm("$2") = D_800F7800->unk15;

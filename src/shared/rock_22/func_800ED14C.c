@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void* func_8002C458();
 extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
@@ -27,9 +27,9 @@ void func_800ED14C(void* self) {
             DIR(self) = 0;
         }
         if (DIR(self) == 0) {
-            ((void (*)(void*, s32))func_800179A4)(self, 0x18);
+            ((void (*)(void*, s32))set_animation)(self, 0x18);
         } else {
-            ((void (*)(void*, s32))func_800179A4)(self, 6);
+            ((void (*)(void*, s32))set_animation)(self, 6);
         }
         TIMER(self) = 0;
         STATE(self)++;
@@ -49,9 +49,9 @@ void func_800ED14C(void* self) {
                 DIR(self) = 0;
             }
             if (DIR(self) == 0) {
-                ((void (*)(void*, s32))func_800179A4)(self, 0x1A);
+                ((void (*)(void*, s32))set_animation)(self, 0x1A);
             } else {
-                ((void (*)(void*, s32))func_800179A4)(self, 8);
+                ((void (*)(void*, s32))set_animation)(self, 8);
             }
             TIMER(self) = 0;
             STATE(self) = 3;
@@ -62,9 +62,9 @@ void func_800ED14C(void* self) {
                 DIR(self) = 0;
             }
             if (DIR(self) == 0) {
-                ((void (*)(void*, s32))func_800179A4)(self, 0x19);
+                ((void (*)(void*, s32))set_animation)(self, 0x19);
             } else {
-                ((void (*)(void*, s32))func_800179A4)(self, 7);
+                ((void (*)(void*, s32))set_animation)(self, 7);
             }
             STATE(self)++;
         }
@@ -84,9 +84,9 @@ void func_800ED14C(void* self) {
                 DIR(self) = 0;
             }
             if (DIR(self) == 0) {
-                ((void (*)(void*, s32))func_800179A4)(self, 0x1A);
+                ((void (*)(void*, s32))set_animation)(self, 0x1A);
             } else {
-                ((void (*)(void*, s32))func_800179A4)(self, 8);
+                ((void (*)(void*, s32))set_animation)(self, 8);
             }
             TIMER(self) = 0;
             STATE(self) = 3;
@@ -102,9 +102,9 @@ void func_800ED14C(void* self) {
                 DIR(self) = 0;
             }
             if (DIR(self) == 0) {
-                ((void (*)(void*, s32))func_800179A4)(self, 0x18);
+                ((void (*)(void*, s32))set_animation)(self, 0x18);
             } else {
-                ((void (*)(void*, s32))func_800179A4)(self, 6);
+                ((void (*)(void*, s32))set_animation)(self, 6);
             }
             TIMER(self) = 0;
             STATE(self)++;

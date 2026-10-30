@@ -3,8 +3,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void* func_8002C4C4();
-s32 func_8002D2D4();
+void* alloc_class4_slot();
+s32 random_byte();
 extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 
@@ -18,11 +18,11 @@ void func_800EE038(void* arg0) {
     if (M2C_FIELD(q, s8*, 0xE0) != 2) {
         if (M2C_FIELD(arg0, s8*, 5) < 0x10) {
             if ((s16)(M2C_FIELD(arg0, s16*, 0x18) % 144) == 0) {
-                e = func_8002C4C4();
+                e = alloc_class4_slot();
                 if (e != 0) {
                     M2C_FIELD(e, u8*, 0) = 0x41;
                     M2C_FIELD(e, u8*, 1) = 7;
-                    r = func_8002D2D4();
+                    r = random_byte();
                     M2C_FIELD(e, s16*, 0xA) = 0x16F8;
                     M2C_FIELD(e, s16*, 0xE) = 0x138;
                     M2C_FIELD(e, void**, 0x7C) = arg0;

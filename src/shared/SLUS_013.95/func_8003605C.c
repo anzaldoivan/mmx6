@@ -3,15 +3,15 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2); /* extern */
-M2C_UNK func_80017A04();                       /* extern */
-void func_800389B4(void* arg0);                /* extern */
-s32 func_80038BA8(void* arg0);                 /* extern */
-s32 func_8003A764(void*);                      /* extern */
-M2C_UNK func_8003BB94(void*, M2C_UNK, s8);     /* extern */
-s32 func_8003E06C(void*);                      /* extern */
-s32 func_801EA004(void*);                      /* extern */
-s32 func_801EA560(void*);                      /* extern */
+s32 play_sound(s32 a0, s32 a1, void* arg2); /* extern */
+M2C_UNK func_80017A04();                    /* extern */
+void func_800389B4(void* arg0);             /* extern */
+s32 func_80038BA8(void* arg0);              /* extern */
+s32 func_8003A764(void*);                   /* extern */
+M2C_UNK func_8003BB94(void*, M2C_UNK, s8);  /* extern */
+s32 func_8003E06C(void*);                   /* extern */
+s32 func_801EA004(void*);                   /* extern */
+s32 func_801EA560(void*);                   /* extern */
 
 void func_8003605C(void* arg0) {
     s8 temp_s0;
@@ -42,7 +42,7 @@ void func_8003605C(void* arg0) {
             func_800389B4(arg0);
             if (M2C_FIELD(arg0, s32*, 0x1C) != M2C_FIELD(arg0, s32*, 0xC)) {
                 if (M2C_FIELD(arg0, s8*, 0xDE) == 0) {
-                    func_80016C48(0, 0x27, arg0);
+                    play_sound(0, 0x27, arg0);
                 }
                 temp_v0 = M2C_FIELD(arg0, u8*, 0xDE) + 1;
                 M2C_FIELD(arg0, u8*, 0xDE) = temp_v0;

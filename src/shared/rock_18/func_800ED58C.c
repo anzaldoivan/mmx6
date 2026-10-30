@@ -1,11 +1,11 @@
 #include "common.h"
 
-void* func_8002C530();
+void* alloc_sprite_slot();
 
 void func_800ED58C(u8 arg0, s8 arg1, s16 arg2, s16 arg3, u8 arg4) {
     u8* obj;
 
-    obj = func_8002C530();
+    obj = alloc_sprite_slot();
     if (obj != 0) {
         obj[0] = 1;
         obj[1] = 0x2E;

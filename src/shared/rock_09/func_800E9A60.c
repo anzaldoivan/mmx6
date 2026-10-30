@@ -3,13 +3,13 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 extern void (*D_800F5500[])(struct X4_VisualObj*, struct X4_PlayerObj*);
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 M2C_UNK func_8002CB50();
 u8 func_8002FF70(struct X4_PlayerObj*);
 
 void func_800E9A60(struct X4_VisualObj* arg0, struct X4_PlayerObj* arg1) {
     if (arg1->hp == 0 || arg1->state == 3) {
-        func_8002C9B0(arg0);
+        clear_object_slot(arg0);
         return;
     }
     arg0->unk15 = arg1->unk15;

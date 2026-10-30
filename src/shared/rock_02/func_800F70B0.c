@@ -2,11 +2,11 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F70B0(void* arg0) {
-    func_800179A4(arg0, 2);
+    set_animation(arg0, 2);
     {
         s32 t = background_objects[0].unk1E - 0x140;
         if (background_objects[0].unk1E +

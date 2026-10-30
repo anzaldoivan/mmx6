@@ -4,7 +4,7 @@
 
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void func_800EBABC(u8* arg0, u8 arg1);
 extern M2C_UNK D_800743DC;
 extern u8 D_800970B4;
@@ -44,7 +44,7 @@ void func_800EB37C(struct X4_MainObj* self) {
         self->unk18.val = self->x_pos.val;
         y = self->y_pos.val;
         self->unk1C.val = y;
-        func_800179A4(self, 0);
+        set_animation(self, 0);
     }
     self->x_speed = 0;
     self->y_speed = 0;

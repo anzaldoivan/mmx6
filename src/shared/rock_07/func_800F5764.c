@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void func_800F6880(void* arg0, u8 arg1, s16 arg2, s16 arg3);
 extern s32 D_80097420;
 void func_800F9084();
@@ -17,7 +17,7 @@ void func_800F5764(struct X4_MainObj* self) {
     }
     t = self->animation_step.fields.event;
     if (t == 1) {
-        func_800179A4(self, 0x21);
+        set_animation(self, 0x21);
         v = 4;
         self->contact_damage = v;
         v = 0xB4;

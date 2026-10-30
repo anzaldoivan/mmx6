@@ -4,11 +4,11 @@
 
 #define FLD(p, type, off) (*(type*)((u8*)(p) + (off)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void func_8002CCB0(struct X4_BaseObj*, s32, s32);
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_80074C9C;
 extern s8 D_8009711A;
@@ -52,25 +52,25 @@ void func_800F0200(void* arg0) {
     if (v == 4 || v == 2 || (v == 11 && FLD(arg0, s8, 0x6) < 2)) {
         if (D_800F6AF0 == 0) {
             if (FLD(arg0, s8, 0x8B) == 1) {
-                func_80016C48(2, 0x23, arg0);
-                D_800F6AF0 = (func_8002D2D4() & 3) + 0x32;
+                play_sound(2, 0x23, arg0);
+                D_800F6AF0 = (random_byte() & 3) + 0x32;
             } else {
                 switch (FLD(arg0, s8, 0x9A)) {
                 case 1:
-                    func_80016C48(2, 0x22, arg0);
-                    D_800F6AF0 = (func_8002D2D4() & 3) | 0x28;
+                    play_sound(2, 0x22, arg0);
+                    D_800F6AF0 = (random_byte() & 3) | 0x28;
                     break;
                 case 2:
-                    func_80016C48(2, 0x23, arg0);
-                    D_800F6AF0 = (func_8002D2D4() & 3) + 0x32;
+                    play_sound(2, 0x23, arg0);
+                    D_800F6AF0 = (random_byte() & 3) + 0x32;
                     break;
                 case 3:
-                    func_80016C48(2, 0x24, arg0);
-                    D_800F6AF0 = (func_8002D2D4() & 3) + 0x5A;
+                    play_sound(2, 0x24, arg0);
+                    D_800F6AF0 = (random_byte() & 3) + 0x5A;
                     break;
                 case 4:
-                    func_80016C48(2, 0x25, arg0);
-                    D_800F6AF0 = (func_8002D2D4() & 3) | 0x64;
+                    play_sound(2, 0x25, arg0);
+                    D_800F6AF0 = (random_byte() & 3) | 0x64;
                     break;
                 }
             }
@@ -78,7 +78,7 @@ void func_800F0200(void* arg0) {
             D_800F6AF0--;
         }
         if ((s16)(D_800F6AF2 % 60) == 0) {
-            func_80016C48(2, 0x34, arg0);
+            play_sound(2, 0x34, arg0);
         }
         D_800F6AF2++;
     } else {
@@ -88,9 +88,9 @@ void func_800F0200(void* arg0) {
         FLD(arg0, s8, 0x7A) = 0;
         func_80030ECC(arg0);
     }
-    r = func_80031474(arg0);
+    r = check_enemy_hits(arg0);
     if (r < 0) {
-        func_80016C48(2, 0x20, arg0);
+        play_sound(2, 0x20, arg0);
         D_8009711A = 1;
         FLD(arg0, s8, 0x4) = 2;
         FLD(arg0, s8, 0x5) = 0;
@@ -108,7 +108,7 @@ void func_800F0200(void* arg0) {
             if (r == 2 || r == 0xB || r == 0x37) {
                 v = FLD(arg0, s8, 0x5);
                 if (v == 2 || v == 4 || v == 6) {
-                    func_80016C48(2, 0x21, arg0);
+                    play_sound(2, 0x21, arg0);
                     FLD(arg0, s16, 0x80) = 0xB4;
                     FLD(arg0, s8, 0x5) = 0xA;
                     FLD(arg0, s8, 0x6) = 0;

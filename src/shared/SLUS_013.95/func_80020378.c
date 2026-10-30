@@ -4,7 +4,7 @@
 
 M2C_UNK func_8002CD6C(void*);
 extern u8 D_80091298[];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 #define CUR (*(s8**)SP(0x54))
 #define FTBL (*(void (***)(s8*))SP(0x88))
@@ -13,7 +13,7 @@ void func_80020378(void) {
     s8* p;
 
     for (CUR = (s8*)D_80091298; CUR < (s8*)(D_80091298 + 0x2A00); CUR += 0x70) {
-        if (D_800CCED0.unk14 == 0) {
+        if (g_playthrough_state.unk14 == 0) {
             p = CUR;
             if (p[0] == 0) {
                 continue;

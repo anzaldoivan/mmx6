@@ -4,12 +4,12 @@
 
 s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 void func_8004E654(struct X4_BaseObj* arg0, s8 arg1);
 extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CCEED;
 extern M2C_UNK D_800F6CE0;
 extern void (*D_800F6CF4[])(void*);
@@ -25,9 +25,9 @@ void func_800EE5C4(void* arg0) {
     W(arg0, 0x18) = W(arg0, 0x8);
     W(arg0, 0x1C) = W(arg0, 0xC);
     D_800F6CF4[SB(arg0, 5)](arg0);
-    if (func_80031474(arg0) < 0) {
+    if (check_enemy_hits(arg0) < 0) {
         {
-            u8* e = (u8*)&D_800CCED0;
+            u8* e = (u8*)&g_playthrough_state;
             if (SB(e, 0x27) == 0) {
                 SB(e, 0x27) = 0x78;
             }

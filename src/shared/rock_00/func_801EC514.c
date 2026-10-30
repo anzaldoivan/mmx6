@@ -3,8 +3,8 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_8003B114(s32);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK end_dash(s32);
 void func_8003CF54(void*, s32);
 M2C_UNK player_spawn_weapon(M2C_UNK, s8, M2C_UNK, void*);
 M2C_UNK func_801EC678(); /* extern */
@@ -17,14 +17,14 @@ void func_801EC514(void* arg0) {
         }
         M2C_FIELD(arg0, s8*, 0xE0) = 0;
         D_800CCEEC = 0;
-        func_8003B114((s32)arg0);
+        end_dash((s32)arg0);
         return;
     }
     if (M2C_FIELD(arg0, u8*, 0x45) & 0x20) {
         M2C_FIELD(arg0, u8*, 0x45) = 0;
         player_spawn_weapon(1, 0x16, 0, 0);
         func_8003CF54(arg0, 0x49);
-        func_80016C48(1, 0x12, arg0);
+        play_sound(1, 0x12, arg0);
         if (M2C_FIELD(arg0, u8*, 0x15) != 0) {
             M2C_FIELD(arg0, s32*, 0x20) = 0x80000;
         } else {

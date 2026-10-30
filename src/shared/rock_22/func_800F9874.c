@@ -7,7 +7,7 @@
 #define R22_S32(p, o) (*(s32*)((u8*)(p) + (o)))
 
 M2C_UNK func_80017A04();
-s32 func_8002D2D4();
+s32 random_byte();
 extern u16 D_800FD5A4;
 
 void func_800F9874(u8* arg0) {
@@ -32,7 +32,7 @@ void func_800F9874(u8* arg0) {
                     R22_S16(arg0, 0x7E) = 0;
                     R22_S16(arg0, 0x7C) = t;
                 }
-                R22_U8(arg0, 0x93) = ((func_8002D2D4() & 3) << 4) + 0x60;
+                R22_U8(arg0, 0x93) = ((random_byte() & 3) << 4) + 0x60;
                 R22_U8(arg0, 5) = 6;
                 R22_U8(arg0, 6) = 0;
                 return;

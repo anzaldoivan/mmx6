@@ -9,7 +9,7 @@ M2C_UNK func_80049EBC(void*, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
 extern s16 D_80090D5C;
 extern s8 D_8009724F;
 extern s16 D_80097430;
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern s16 D_800CF854;
 
 void func_800ED55C(void* arg0) {
@@ -20,8 +20,8 @@ void func_800ED55C(void* arg0) {
     D_80090D5C = 0;
     D_80097430 = 0;
     D_800CF854 = 0;
-    D_800CCED0.enable_boss = 0;
-    D_800CCED0.boss_ptr = 0;
+    g_playthrough_state.enable_boss = 0;
+    g_playthrough_state.boss_ptr = 0;
     D_8009724F = 0;
     do {
         func_80049EBC(arg0, 1, 0x40, 0x40);

@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
+s32 play_sound(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_8003F0BC(void*);
 M2C_UNK func_8003F480();
 extern struct X4_PlayerObj g_Player;
@@ -39,7 +39,7 @@ void func_800434E0(void* self) {
             if (a == 0x600 || m == 0x600) {
                 UB(0x93) = 0;
                 func_8003F480(p);
-                func_80016C48(0, 0xC, 0);
+                play_sound(0, 0xC, 0);
                 func_8003F0BC(p);
                 f = 1;
             }

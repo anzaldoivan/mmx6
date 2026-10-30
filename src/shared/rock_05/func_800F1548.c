@@ -5,11 +5,11 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SCRATCH_4C (*(u8**)0x1F80004C)
 
-void* func_8002C3F8();
+void* alloc_class3_slot();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern s8 D_800970A5;
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F448C;
 
 void func_800F1548(void* arg0) {
@@ -17,7 +17,7 @@ void func_800F1548(void* arg0) {
     u8* b;
     u8* o;
 
-    e = (u8*)&D_800CCED0;
+    e = (u8*)&g_playthrough_state;
     if (M2C_FIELD(e, s8*, 0xF) == 0 && D_800970A5 == 0x14) {
         b = (u8*)background_objects;
         M2C_FIELD(b, u8*, 0x47) = 2;
@@ -25,7 +25,7 @@ void func_800F1548(void* arg0) {
         if (M2C_FIELD(e, s8*, 0xC) != 0xC) {
             func_8003D308(0x1D, 0x40);
         }
-        o = func_8002C3F8();
+        o = alloc_class3_slot();
         if (o != 0) {
             o[0] = 1;
             o[1] = 0x18;

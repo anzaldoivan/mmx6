@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SCRATCH_4C (*(u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK); /* extern */
+M2C_UNK set_animation(void*, M2C_UNK); /* extern */
 extern s32 D_80074FBC;
 extern s32 D_800F414C;
 extern s32 D_800F4154;
@@ -43,7 +43,7 @@ void func_800F2478(void* arg0) {
     }
     M2C_FIELD(arg0, s32*, 0x20) = 0;
     M2C_FIELD(arg0, s16*, 0xE) = e + 0x380;
-    func_800179A4(arg0, 4);
+    set_animation(arg0, 4);
     {
         // !FAKE: depin: dropping it breaks the match (55/58)
         register s32 c asm("$2") = M2C_FIELD(arg0, u8*, 0x6) + 1;

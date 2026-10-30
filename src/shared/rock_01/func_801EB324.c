@@ -1,9 +1,9 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
-s32 func_8003906C(void*);
+s32 select_air_dash(void*);
 s32 func_80039984(void*);
 s32 func_8003A2CC(void*);
 s32 func_8003A488(void*);
@@ -25,11 +25,11 @@ static inline s32 try_switch_801EB324(s8* p) {
     }
     if (p[0x86] == 6) {
         func_8003BA04(p, 0x60);
-        func_80016C48(1, 7, p);
+        play_sound(1, 7, p);
         p[5] = 0x35;
     } else {
         func_8003BA04(p, 0x5B);
-        func_80016C48(1, 8, p);
+        play_sound(1, 8, p);
         p[5] = 0x31;
     }
     p[6] = 0;
@@ -83,7 +83,7 @@ void func_801EB324(s8* p) {
         if (func_8003A2CC(p) != 0) {
             return;
         }
-        if (func_8003906C(p) != 0) {
+        if (select_air_dash(p) != 0) {
             return;
         }
     } else {

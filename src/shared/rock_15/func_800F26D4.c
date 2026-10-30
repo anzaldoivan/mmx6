@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_8002D2D4();
+s32 random_byte();
 void func_800F1DA8(void* arg0, s32 arg1, s32 arg2);
 
 void func_800F26D4(u8* arg0) {
@@ -14,7 +14,7 @@ void func_800F26D4(u8* arg0) {
     if (*(s16*)(arg0 + 0x7E) != 0) {
         *(s16*)(arg0 + 0x7C) = 0x1E;
         *(s16*)(arg0 + 0x7E) = *(s16*)(arg0 + 0x7E) - 1;
-        func_800F1DA8(arg0, func_8002D2D4() & 1, 0);
+        func_800F1DA8(arg0, random_byte() & 1, 0);
         arg0[0x8D] = arg0[0x8D] + 1;
         return;
     }

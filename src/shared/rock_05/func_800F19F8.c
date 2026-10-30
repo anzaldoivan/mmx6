@@ -4,7 +4,7 @@
 
 #define SCRATCH_4C (*(u8**)0x1F80004C)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_800F4484;
@@ -31,7 +31,7 @@ void func_800F19F8(u8* arg0) {
         background_objects[1].y_pos.u.hi += 2;
         if ((s16)background_objects[1].y_pos.u.hi >= D_800F4484 + 0x990) {
         hit:
-            func_80016C48(2, 3, arg0);
+            play_sound(2, 3, arg0);
             arg0[5] = 7;
             arg0[6] = 0;
         }

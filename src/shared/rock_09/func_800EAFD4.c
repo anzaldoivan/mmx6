@@ -3,7 +3,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
 
-s32 func_8002D2D4();
+s32 random_byte();
 extern u8 D_800F4BF0[];
 
 void func_800EAFD4(void* arg0) {
@@ -19,7 +19,7 @@ void func_800EAFD4(void* arg0) {
         M2C_FIELD(arg0, void**, 0x54) = D_800F4BF0 + 0xFB4;
         M2C_FIELD(arg0, s32*, 0x24) = speed;
         do {
-            M2C_FIELD(SPAD, s16*, 0x82) = func_8002D2D4(speed) & 0x1F;
+            M2C_FIELD(SPAD, s16*, 0x82) = random_byte(speed) & 0x1F;
         } while (0);
         M2C_FIELD(arg0, u8*, 6) += 1;
     }

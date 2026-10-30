@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-s32 func_8004FF4C(s32);
+s32 get_reploid_status(s32);
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F0338(struct X4_AnimatedObj* self) {
@@ -14,7 +14,7 @@ void func_800F0338(struct X4_AnimatedObj* self) {
     count = 0;
     i = 0;
     do {
-        if (func_8004FF4C(i) == 4) {
+        if (get_reploid_status(i) == 4) {
             count++;
         }
         i++;

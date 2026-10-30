@@ -6,7 +6,7 @@
 #define SPAD20 (*(s32**)0x1F800020)
 
 s32 func_8002A47C(s32);
-M2C_UNK func_8002C9B0();
+M2C_UNK clear_object_slot();
 s32 func_800ECAB8(struct X4_PlayerObj*, s16, s16);
 
 extern s32 D_80075B9C;
@@ -25,7 +25,7 @@ void func_800ECBEC(struct X4_PlayerObj* self) {
 
     mode = D_800CD30A;
     if (mode != 5) {
-        func_8002C9B0();
+        clear_object_slot();
         return;
     }
     self->state = 1;
@@ -76,6 +76,6 @@ void func_800ECBEC(struct X4_PlayerObj* self) {
             s32* d = D_800C1220;
             __builtin_memcpy(d + 0xCA7, self, 0xA4);
         }
-        func_8002C9B0(self);
+        clear_object_slot(self);
     }
 }

@@ -4,13 +4,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_80039EB0(struct X4_PlayerObj*);                        /* extern */
+s32 check_dash_input(struct X4_PlayerObj*);                     /* extern */
 M2C_UNK func_8003BA04(void*, M2C_UNK);                          /* extern */
 M2C_UNK func_8003CDBC();                                        /* extern */
 void* player_spawn_weapon(s8 arg0, s8 arg1, s8 arg2, s32 arg3); /* extern */
 
 s32 func_8003F32C(void* arg0) {
-    if (!(M2C_FIELD(arg0, u16*, 0x80) & 0x80) && func_80039EB0(arg0) == 0) {
+    if (!(M2C_FIELD(arg0, u16*, 0x80) & 0x80) && check_dash_input(arg0) == 0) {
         return 0;
     }
     func_8003BA04(arg0, 0xBD);

@@ -5,12 +5,12 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void* func_8002C458();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-s32 func_8002D2D4();
+s32 random_byte();
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 void func_800F04CC(void*);
 
 extern u8 D_800E9860[];
@@ -54,15 +54,15 @@ void func_800EEC40(void* self) {
                             ((s16*)&offs)[i] + D_800F447E;
                         UB(obj, 0x15) = UB(self, 0x15);
                         M2C_FIELD(obj, void**, 0x7C) = self;
-                        func_80016C48(2, 0x19, self);
+                        play_sound(2, 0x19, self);
                     }
-                    (SPAD + i)[0x90] = ((func_8002D2D4() & 3) + 1) * 30;
+                    (SPAD + i)[0x90] = ((random_byte() & 3) + 1) * 30;
                 }
             }
         }
     }
     if (B(self, 0x45) == 0x11 && D_8008EAFC == 0) {
-        func_80016C48(2, 0xB, self);
+        play_sound(2, 0xB, self);
     }
     func_800F04CC(self);
     D_800F4358[B(self, 5)](self);
@@ -70,13 +70,13 @@ void func_800EEC40(void* self) {
         D_800F4490++;
     }
     func_80030ECC(self);
-    r = func_80031474(self);
+    r = check_enemy_hits(self);
     if (r < 0) {
         D_8009711A = 1;
         B(self, 4) = 2;
         B(self, 5) = 0;
         B(self, 6) = 0;
-        func_80016C48(2, 0x20, self);
+        play_sound(2, 0x20, self);
         return;
     }
     if (UB(SPAD, 0x86) == 0) {
@@ -126,7 +126,7 @@ void func_800EEC40(void* self) {
                     B(self, 3) = 0;
                     B(SPAD, 0x88) = B(self, 5);
                     B(self, 5) = 0xB;
-                    func_80016C48(2, 0x21, self);
+                    play_sound(2, 0x21, self);
                 }
             } else {
                 M2C_FIELD(self, void**, 0x58) = &D_8007433C;

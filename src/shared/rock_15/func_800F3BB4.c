@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_80017A04();
-s32 func_8002D2D4();
+s32 random_byte();
 void func_800F3824(struct X4_MainObj*);
 
 void func_800F3BB4(u8* arg0) {
@@ -19,7 +19,7 @@ void func_800F3BB4(u8* arg0) {
         *(s32*)(arg0 + 0x20) = 0x8000;
     }
     *(s32*)(arg0 + 0x24) = 0;
-    r = (u32)func_8002D2D4() % 5;
+    r = (u32)random_byte() % 5;
     arg0[6] = arg0[6] + 1;
     *(s16*)(arg0 + 0x8C) = (r << 5) + 0xC0;
 }

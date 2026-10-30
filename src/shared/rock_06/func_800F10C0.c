@@ -4,11 +4,11 @@
 #define NULL ((void*)0)
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*); /* extern */
-M2C_UNK func_800179A4(void*, M2C_UNK);          /* extern */
-M2C_UNK func_80017A04();                        /* extern */
-s32 func_8002A47C(s32);                         /* extern */
-void* func_8002C32C();                          /* extern */
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
+M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
+M2C_UNK func_80017A04();                     /* extern */
+s32 func_8002A47C(s32);                      /* extern */
+void* func_8002C32C();                       /* extern */
 extern M2C_UNK g_Player;
 
 static inline void F10C0_spawn(void* self, s32 kind) {
@@ -48,7 +48,7 @@ void func_800F10C0(void* arg0) {
             if (M2C_FIELD(arg0, u8*, 0x86) < 3) {
                 F10C0_spawn(arg0, 1);
             }
-            ((void (*)(void*, s32))func_800179A4)(arg0, 0xA);
+            ((void (*)(void*, s32))set_animation)(arg0, 0xA);
             if (M2C_FIELD(arg0, u8*, 0x8D) == 0) {
                 void* pl = &g_Player;
                 M2C_FIELD(pl, u8*, 0xD8) = 0x37;
@@ -57,7 +57,7 @@ void func_800F10C0(void* arg0) {
         } else if (M2C_FIELD(arg0, u8*, 0x86) < 3) {
             F10C0_spawn(arg0, 0);
         }
-        func_80016C48(2, 7, 0);
+        play_sound(2, 7, 0);
     }
     t = M2C_FIELD(arg0, u8*, 0x90) - 1;
     f97 = M2C_FIELD(arg0, u8*, 0x97);
@@ -103,9 +103,9 @@ void func_800F10C0(void* arg0) {
                 M2C_FIELD(arg0, s8*, 5) = 0x10;
                 M2C_FIELD(arg0, s8*, 6) = 0;
                 if (M2C_FIELD(arg0, u16*, 0x88) & 8) {
-                    ((void (*)(void*, s32))func_800179A4)(arg0, 0xA);
+                    ((void (*)(void*, s32))set_animation)(arg0, 0xA);
                 } else {
-                    ((void (*)(void*, s32))func_800179A4)(arg0, 0xC);
+                    ((void (*)(void*, s32))set_animation)(arg0, 0xC);
                 }
             }
         }

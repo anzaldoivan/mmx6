@@ -4,9 +4,9 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002CB50(struct X4_BaseObj*);
-s32 func_8002D2D4();
+s32 random_byte();
 extern u8 D_800970B4;
 extern s32 D_80077AE0[];
 extern s32 D_80077B00[];
@@ -30,12 +30,12 @@ void func_80047B34(void* arg0) {
     M2C_FIELD(arg0, s32*, 0x2C) = 0x5000;
     M2C_FIELD(arg0, u8*, 0x14) = b;
     M2C_FIELD(arg0, s32*, 0x20) =
-        D_80077AE0[func_8002D2D4(b) & 7] +
+        D_80077AE0[random_byte(b) & 7] +
         M2C_FIELD(M2C_FIELD(arg0, void**, 0x54), s32*, 0x20) / 2;
-    t = func_8002D2D4();
+    t = random_byte();
     t = D_80077B00[t & 7];
     M2C_FIELD(arg0, s32*, 0x24) = t;
-    ((void (*)())func_800179A4)(arg0, M2C_FIELD(arg0, u8*, 0x58), t);
+    ((void (*)())set_animation)(arg0, M2C_FIELD(arg0, u8*, 0x58), t);
     M2C_FIELD(arg0, u8*, 0x4) += 1;
     func_8002CB50(arg0);
 }

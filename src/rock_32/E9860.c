@@ -151,10 +151,10 @@ INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EC29C);
 #include "../shared/rock_32/func_800EC404.c"
 
 #define func_800EC728 func_800EC40C
-#define D_8008EF48 D_8008EF48
+#define g_enemies g_enemies
 #include "../shared/rock_11/func_800EC728.c"
 #undef func_800EC728
-#undef D_8008EF48
+#undef g_enemies
 
 #define func_800EC7A0 func_800EC484
 #include "../shared/rock_11/func_800EC7A0.c"
@@ -195,10 +195,10 @@ INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EC9D4);
 INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800ECC14);
 
 #define func_800EF160 func_800ECED4
-#define D_800CCED0 D_800CCED0
+#define g_playthrough_state g_playthrough_state
 #include "../shared/rock_04/func_800EF160.c"
 #undef func_800EF160
-#undef D_800CCED0
+#undef g_playthrough_state
 
 #define func_80041AB8 func_800ED308
 #define D_80075FD8 D_800EE154

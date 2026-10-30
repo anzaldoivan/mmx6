@@ -4,7 +4,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK func_80012D9C(M2C_UNK);
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK move_object(s32);
 extern struct X4_BackgroundObj background_objects[3];
 
@@ -58,7 +58,7 @@ void func_800F6D58(struct X4_AnimatedObj* self) {
                 self->unk7 = 0;
                 st = (u8)self->unk6 + 1;
             } else {
-                func_80016C48(2, 0x55, self);
+                play_sound(2, 0x55, self);
                 func_80012D9C(6);
                 st = (u8)self->unk6;
                 st--;

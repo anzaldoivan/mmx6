@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void func_80042B68(void* arg0, u8 arg1);
 void func_80042C18(struct X4_MainObj* self);
 extern u8 D_800CCF38;
@@ -12,7 +12,7 @@ void func_80042150(struct X4_MainObj* self) {
 
     if (--self->unk7C == 0) {
         func_80042C18(self);
-        func_80016C48(2, 0x42, self);
+        play_sound(2, 0x42, self);
         func_80042B68(self, 0);
         if (--self->unk7E == 0) {
             self->unk7C = 0x28;

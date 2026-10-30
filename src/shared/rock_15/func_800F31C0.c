@@ -4,8 +4,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+M2C_UNK set_animation(void*, M2C_UNK);
 extern u8 D_800F6DF8[];
 
 void func_800F31C0(struct X4_MainObj* self) {
@@ -14,8 +14,8 @@ void func_800F31C0(struct X4_MainObj* self) {
 
     if (--self->unk7C == 0) {
         if (self->unk7E != 0) {
-            func_800179A4(self, 2);
-            func_80016C48(2, 0x26, self);
+            set_animation(self, 2);
+            play_sound(2, 0x26, self);
             self->unk6 = 2;
             return;
         }

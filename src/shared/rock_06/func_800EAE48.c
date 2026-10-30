@@ -8,7 +8,7 @@ s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002F288(M2C_UNK*);
 M2C_UNK func_80030ECC();
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
 void func_8004E654(struct X4_BaseObj* arg0, s8 arg1);
@@ -31,7 +31,7 @@ void func_800EAE48(struct X4_BaseObj* self) {
     func_800EA9E0(self);
     D_800F37D8[self->unk5](self);
     ((void (*)(void*))func_80030ECC)(self);
-    r = func_80031474(self);
+    r = check_enemy_hits(self);
     if (r < 0) {
         ((void (*)(void*))func_80049E50)(self);
         ((void (*)(s32, s32*, void*))func_800477E4)(4, &D_800F37D4, self);

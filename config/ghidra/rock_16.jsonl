@@ -478,6 +478,8 @@
 {"k":"comment","addr":"0x800ef690","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f0638","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f093c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800f0edc","type":"plate","text":"name: community tweaks-index.tsv:148"}
+{"k":"comment","addr":"0x800f1cb0","type":"plate","text":"name: community tweaks-index.tsv:269"}
 {"k":"bookmark","addr":"0x800e9864","type":"Analysis","cat":"Address Table","text":"Address table[13] created"}
 {"k":"bookmark","addr":"0x800e9b28","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800139a0 (flow from 800e9b28)"}
 {"k":"bookmark","addr":"0x800e9b34","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80018060 (flow from 800e9b34)"}
@@ -805,3 +807,5 @@
 {"k":"label","addr":"0x800efc8c","name":"caseD_3","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800efc94","name":"caseD_4","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800efc9c","name":"default","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800f0edc","name":"part_slots_by_rank","primary":true,"src":"USER_DEFINED","func":false}
+{"k":"label","addr":"0x800f1cb0","name":"menu_armor_slots","primary":true,"src":"USER_DEFINED","func":false}

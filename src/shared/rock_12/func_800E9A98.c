@@ -3,7 +3,7 @@
 
 #define F(p, T, o) (*(T*)((u8*)(p) + (o)))
 
-struct X4_QuadObj* func_8002C7F0(void);
+struct X4_QuadObj* alloc_class6_slot(void);
 extern u16 D_800EA814[][8];
 extern u16 D_800EA844[];
 
@@ -17,7 +17,7 @@ void func_800E9A98(void* arg0) {
     F(arg0, s32, 0xC) = 0;
     F(arg0, u8, 0x4)++;
     if (F(arg0, s8, 0x2) == 0) {
-        child = func_8002C7F0();
+        child = alloc_class6_slot();
         F(arg0, void*, 0x38) = child;
         if (child != 0) {
             F(child, u8, 0x0) = 1;

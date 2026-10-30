@@ -3,13 +3,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-struct X4_QuadObj* func_8002C7F0(void);
+struct X4_QuadObj* alloc_class6_slot(void);
 
 void func_800F4588(void* arg0, s32 arg1) {
     void* obj;
     u8 b = arg1;
 
-    obj = func_8002C7F0();
+    obj = alloc_class6_slot();
     if (obj != 0) {
         M2C_FIELD(obj, u8*, 0) = M2C_FIELD(arg0, u8*, 0);
         M2C_FIELD(obj, u8*, 1) = M2C_FIELD(arg0, u8*, 1);

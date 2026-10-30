@@ -4,19 +4,19 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void func_80012D9C(s32);
-void func_8001750C(u8, u8);
+void silence_sound(u8, u8);
 M2C_UNK func_8003BA04(void*, M2C_UNK);
-extern struct X4_EngineObj D_800CCED0;
+extern struct X4_EngineObj g_playthrough_state;
 
 void func_8003D8A8(void* arg0) {
-    func_8001750C(1, 5);
-    func_8001750C(1, 7);
+    silence_sound(1, 5);
+    silence_sound(1, 7);
     func_80012D9C(0);
     if (M2C_FIELD(arg0, s8*, 0xD5) != 0) {
         M2C_FIELD(arg0, s8*, 0x3) = 0;
         M2C_FIELD(arg0, s8*, 0xD7) = 1;
     } else {
-        struct X4_EngineObj* e = &D_800CCED0;
+        struct X4_EngineObj* e = &g_playthrough_state;
         e->unk12 = 1;
         e->unk13 = 1;
         e->unk14 = 1;

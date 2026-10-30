@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object(void*);
 
 void func_800F04E0(struct X4_BaseObj* self) {
@@ -35,7 +35,7 @@ void func_800F04E0(struct X4_BaseObj* self) {
                 move_object(self);
             }
             if (parent->unk6 == 1) {
-                func_800179A4(self, 0x3F);
+                set_animation(self, 0x3F);
             next:
                 self->unk6++;
             }

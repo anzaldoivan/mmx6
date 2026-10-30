@@ -1,8 +1,8 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern struct X4_EngineObj D_800CCED0;
-extern u8 D_8006D5F7;
+extern struct X4_EngineObj g_playthrough_state;
+extern u8 g_temp_options;
 extern u16 D_8006D600[];
 extern u16 D_80071080[];
 void func_800122A4();
@@ -15,7 +15,7 @@ void func_8001BA1C(u8* arg0) {
     u8 i;
     u8 j;
     s8 v;
-    u8* e = (u8*)&D_800CCED0;
+    u8* e = (u8*)&g_playthrough_state;
 
     B(e, 0x66) = arg0[1];
     B(e, 0x68) = arg0[2];
@@ -54,7 +54,7 @@ void func_8001BA1C(u8* arg0) {
     W(e, 0xCC) = W(arg0, 0x40);
     B(e, 0x43B) = arg0[0x3F];
     B(e, 0xC9) = arg0[0xCC];
-    D_8006D5F7 = arg0[0xCC];
+    g_temp_options = arg0[0xCC];
     for (i = 0; i < 16; i++) {
         s32 o;
         if (i < 8) {

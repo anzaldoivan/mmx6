@@ -34,7 +34,10 @@ INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EA4F4);
 
 #include "../shared/rock_07/func_800EB2E8.c"
 
-#define func_80041AB8 func_800EB4C8
+// 0x800EB4C8 update_nightmare_pressure: per-frame state dispatch of the Nightmare Pressure sub-boss.
+// basis: community refs/leads/tweaks/BossHealth.tsv:1294 (word 0x800EB80C, reached from D_800F868C)
+// callers: none known (object type table)
+#define func_80041AB8 update_nightmare_pressure
 #define D_80075FD8 D_800F868C
 #include "../shared/SLUS_013.95/func_80041AB8.c"
 #undef func_80041AB8
@@ -64,7 +67,7 @@ INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EA4F4);
 
 #include "../shared/rock_07/func_800EB7CC.c"
 
-#include "../shared/rock_07/func_800EB80C.c"
+#include "../shared/rock_07/init_nightmare_pressure.c"
 
 #include "../shared/rock_07/func_800EB87C.c"
 
@@ -521,10 +524,10 @@ INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800F4230);
 #include "../shared/rock_07/func_800F44CC.c"
 
 #define func_800F4948 func_800F4504
-#define D_800CCED0 D_800CCED0
+#define g_playthrough_state g_playthrough_state
 #include "../shared/rock_04/func_800F4948.c"
 #undef func_800F4948
-#undef D_800CCED0
+#undef g_playthrough_state
 
 #include "../shared/rock_07/func_800F45A0.c"
 

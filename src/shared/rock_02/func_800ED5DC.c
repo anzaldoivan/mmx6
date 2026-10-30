@@ -3,7 +3,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD4C (*(u8**)0x1F80004C)
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002D380(void*, void*);
 void func_800EC848(void*);
 extern M2C_UNK g_Player;
@@ -16,7 +16,7 @@ void func_800ED5DC(void* arg0) {
     M2C_FIELD(arg0, s32*, 0x24) = 0;
     M2C_FIELD(arg0, s32*, 0x2C) = 0;
     M2C_FIELD(arg0, u8*, 6)++;
-    func_800179A4(arg0, 1);
+    set_animation(arg0, 1);
     g = &g_Player;
     {
         // !FAKE: depin: dropping it breaks the match (36/40)

@@ -1,14 +1,14 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-struct X4_QuadObj* func_8002C7F0(void);
+struct X4_QuadObj* alloc_class6_slot(void);
 extern struct X4_EffectObj* D_800E4498[22];
 
 void func_80053620(struct X4_EffectObj* self) {
     struct X4_QuadObj* q;
 
     if (self->ext.effect_24.timer == 0) {
-        q = func_8002C7F0();
+        q = alloc_class6_slot();
         if (q != 0) {
             q->active = -0x7D;
             q->id = 3;

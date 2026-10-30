@@ -3,8 +3,8 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800179A4(void*, M2C_UNK);          /* extern */
-M2C_UNK func_800179D0(void*, M2C_UNK, s8);      /* extern */
+M2C_UNK set_animation(void*, M2C_UNK);          /* extern */
+M2C_UNK set_animation_frame(void*, M2C_UNK, s8);      /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
 
 void func_801EEA8C(void* arg0) {
@@ -17,9 +17,9 @@ void func_801EEA8C(void* arg0) {
         temp_a0 = arg0 + 0x8C;
         if (temp_v0 == 0) {
             if (M2C_FIELD(arg0, s8*, 2) != 0) {
-                func_800179D0(arg0, 3, M2C_FIELD(arg0, s8*, 0x45));
+                set_animation_frame(arg0, 3, M2C_FIELD(arg0, s8*, 0x45));
             } else {
-                func_800179A4(arg0, 0x1F);
+                set_animation(arg0, 0x1F);
             }
             M2C_FIELD(arg0, s32*, 0x50) = 0;
             M2C_FIELD(arg0, s8*, 5) = 1;

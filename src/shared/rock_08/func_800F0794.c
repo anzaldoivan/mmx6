@@ -8,9 +8,9 @@
 #define OP(p, o) (*(void**)((u8*)(p) + (o)))
 
 void* func_8002C458();
-s32 func_8002D2D4();
-extern struct X4_EngineObj D_800CCED0;
-#define ENG(o) (((u8*)&D_800CCED0)[o])
+s32 random_byte();
+extern struct X4_EngineObj g_playthrough_state;
+#define ENG(o) (((u8*)&g_playthrough_state)[o])
 
 void func_800F0794(void* self) {
     void* child;
@@ -42,21 +42,21 @@ void func_800F0794(void* self) {
                 OUB(child, 0x15) = d;
             }
             one = 1;
-            e1 = (s32)&D_800CCED0;
+            e1 = (s32)&g_playthrough_state;
             if (((u8*)e1)[0x68] >= 2) {
                 s32 c = OB(self, 0x88);
                 if (c == one) {
-                    if (!(func_8002D2D4() & 0xF)) {
+                    if (!(random_byte() & 0xF)) {
                         OUB(child, 7) = one;
                         OUB(self, 0x8B) = one;
                     }
                 } else {
                     if (c == 2) {
-                        t = (u32)(func_8002D2D4() & 0xF) < 2;
+                        t = (u32)(random_byte() & 0xF) < 2;
                     } else if (c == 3) {
-                        t = (u32)(func_8002D2D4() & 0xF) < 3;
+                        t = (u32)(random_byte() & 0xF) < 3;
                     } else {
-                        t = (u32)(func_8002D2D4() & 0xF) < 4;
+                        t = (u32)(random_byte() & 0xF) < 4;
                     }
                     if (t) {
                         OUB(child, 7) = one;
@@ -65,16 +65,16 @@ void func_800F0794(void* self) {
                 }
             }
         }
-        e1 = (s32)&D_800CCED0;
+        e1 = (s32)&g_playthrough_state;
         v = (s8)((u8*)e1)[0x8C] / 2;
         if (OB(self, 0x5C) < v) {
-            if ((u32)(func_8002D2D4() & 0xF) < 9) {
+            if ((u32)(random_byte() & 0xF) < 9) {
                 OUB(self, 5) = 4;
             } else {
                 OUB(self, 5) = 0xB;
             }
             if (OB(self, 0x8A) == 0) {
-                e3 = (u8*)&D_800CCED0;
+                e3 = (u8*)&g_playthrough_state;
                 if (e3[0x68] >= 2) {
                     s32 g = OB(self, 0x88);
                     if (g == 3) {

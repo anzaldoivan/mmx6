@@ -3,7 +3,7 @@
 
 M2C_UNK func_80017A04();
 void* func_8002C458();
-s32 func_8002D2D4();
+s32 random_byte();
 extern u8 D_800CCF38;
 extern void (*D_800FD014[])(void*);
 
@@ -25,7 +25,7 @@ void func_800F74B8(u8* arg0) {
             FU8(arg0, 0x93)--;
         } else {
             c = func_8002C458();
-            if (c != 0 && !(func_8002D2D4() & 1)) {
+            if (c != 0 && !(random_byte() & 1)) {
                 FU8(c, 0) = 0x41;
                 FU8(c, 1) = 0x1E;
                 FU8(c, 2) = 0xA;
@@ -39,7 +39,7 @@ void func_800F74B8(u8* arg0) {
                 FU8(c, 0x15) = FU8(arg0, 0x15);
                 FP(c, 0x7C) = arg0;
             }
-            FU8(arg0, 0x93) = (func_8002D2D4() & 3) * 0x10 + 0x60;
+            FU8(arg0, 0x93) = (random_byte() & 3) * 0x10 + 0x60;
         }
     }
     if (FU8(parent, 0x8E) != 0) {

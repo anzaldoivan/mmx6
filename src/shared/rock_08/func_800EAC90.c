@@ -4,11 +4,11 @@
 
 #define FX(p, type, off) (*(type*)((u8*)(p) + (off)))
 
-M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
-s32 func_800179A4(void*, s32);
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
+s32 set_animation(void*, s32);
 void func_8002CCB0(struct X4_BaseObj*, s32, s32);
 M2C_UNK func_80030ECC(void*);
-s32 func_80031474(void*);
+s32 check_enemy_hits(void*);
 M2C_UNK func_80031DA8();
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
@@ -36,7 +36,7 @@ void func_800EAC90(void* arg0) {
     } else {
         FX(arg0, void*, 0x58) = &D_800743DC;
     }
-    if (func_80031474(arg0) < 0 && FX(arg0, s8, 0x2) != 0) {
+    if (check_enemy_hits(arg0) < 0 && FX(arg0, s8, 0x2) != 0) {
         FX(parent, u8, 0x5C)--;
         func_80049E50(arg0);
         func_800477E4(3, &D_800F55DC, arg0);
@@ -46,25 +46,25 @@ void func_800EAC90(void* arg0) {
         FX(arg0, s8, 0x4) = 2;
         switch (FX(arg0, s8, 0x2)) {
         case 10:
-            func_800179A4(arg0, 0x14);
+            set_animation(arg0, 0x14);
             func_800477E4(3, &D_800F55DC, arg0);
             break;
         case 11:
-            func_800179A4(arg0, 0x14);
+            set_animation(arg0, 0x14);
             func_800477E4(3, &D_800F55DC, arg0);
             break;
         case 12:
             FX(arg0, s8, 0x3) = 0;
             FX(arg0, s8, 0x4) = 3;
             func_800477E4(5, &D_800F55DC, arg0);
-            func_80016C48(2, 0x14, arg0);
+            play_sound(2, 0x14, arg0);
             break;
         case 13:
-            func_800179A4(arg0, 0x14);
+            set_animation(arg0, 0x14);
             func_800477E4(3, &D_800F55DC, arg0);
             break;
         case 14:
-            func_800179A4(arg0, 0x15);
+            set_animation(arg0, 0x15);
             func_800477E4(3, &D_800F55DC, arg0);
             break;
         }

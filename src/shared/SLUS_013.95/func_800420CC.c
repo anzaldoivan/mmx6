@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_800179A4(void*, M2C_UNK);
+M2C_UNK set_animation(void*, M2C_UNK);
 void func_80042C18(struct X4_MainObj* self);
 extern u8 D_800CCF38;
 
@@ -13,7 +13,7 @@ void func_800420CC(struct X4_MainObj* self) {
     register s32 var_v1 asm("$3");
 
     func_80042C18(self);
-    ((void (*)(void*, M2C_UNK))func_800179A4)(self, 4);
+    ((void (*)(void*, M2C_UNK))set_animation)(self, 4);
     d = D_800CCF38;
     {
         s32 one = 1;

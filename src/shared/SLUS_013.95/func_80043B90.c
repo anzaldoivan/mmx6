@@ -2,9 +2,9 @@
 #include "psyq/libgte.h"
 #define M2C_UNK s32
 
-s32 func_80016C48(s32 a0, s32 a1, void* arg2);
-M2C_UNK func_800179A4(void*, M2C_UNK);
-#define func_800179A4 ((void (*)(void*, s32))func_800179A4)
+s32 play_sound(s32 a0, s32 a1, void* arg2);
+M2C_UNK set_animation(void*, M2C_UNK);
+#define set_animation ((void (*)(void*, s32))set_animation)
 s8* func_8002BEC4(s8* p, s32 dir);
 extern s32 D_8007610C;
 extern s32 D_80076110;
@@ -38,7 +38,7 @@ void func_80043B90(s8* arg0, s16 arg1) {
     if (child == 0) {
         return;
     }
-    func_80016C48(1, 0x13, arg0);
+    play_sound(1, 0x13, arg0);
     parent[0x8C]++;
     child[0] = 1;
     F_PTR(child, 0x7C) = parent;
@@ -60,7 +60,7 @@ void func_80043B90(s8* arg0, s16 arg1) {
         F_PTR(child, 0x50) = &D_80076114;
         F_S32(child, 0x24) *= 8;
         F_S32(child, 0x20) *= 8;
-        func_800179A4(child, 4);
+        set_animation(child, 4);
         return;
     }
     child[2] = (u8)arg0[2] + 3;
@@ -75,7 +75,7 @@ void func_80043B90(s8* arg0, s16 arg1) {
         p += 0x8F;
         (*p)++;
     }
-    func_800179A4(child, 3);
+    set_animation(child, 3);
 }
-#undef func_80016C48
-#undef func_800179A4
+#undef play_sound
+#undef set_animation

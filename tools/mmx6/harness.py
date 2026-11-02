@@ -54,6 +54,7 @@ import bank  # noqa: E402
 import bound2  # noqa: E402
 import census  # noqa: E402
 import corpus  # noqa: E402
+import layout  # noqa: E402
 import optscan  # noqa: E402
 import probe  # noqa: E402
 import propagate  # noqa: E402
@@ -143,13 +144,23 @@ def p2_gather():
                     t = t[:t.index("via", 6)]
                 p, _, v = t[3].rpartition(":")
                 reg[(p, int(v, 16))] = (t[2], [tuple(d.split("=", 1)) for d in t[6:]] if t[5] == "define" else [])
+    inc = layout.includers()
+
+    def unit_src(r, s):  # an L-B role file compiles only through its unit (2.4 T15.c3); units, src/shared as is
+        units = inc.get(s, [])
+        if not s.startswith(f"src/{r['prog']}/") or not units or any(f"src/{p}/{tu}.c" == s for p, tu in units):
+            return s
+        p, tu = next((u for u in units if u[0] == r["prog"]), units[0])
+        return f"src/{p}/{tu}.c"
+
     out, todo = [], []
     cs = [r for r in rows() if r["state"] == "c"]
     for r in cs:
         key, pv = (r["prog"], r["name"]), (r["prog"], int(r["vram"], 16))
         if key in src:
             todo.append((r, src[key]))
-        elif pv in reg and not reg[pv][1]:  # a gated exemplar (the gate's own bank): its body compiled as is
+        elif pv in reg and (not reg[pv][1] or unit_src(r, reg[pv][0]) != reg[pv][0]):  # a gated exemplar (the
+            # gate's own bank): its body compiled as is; a define row whose body sits in a role file: its unit
             todo.append((r, reg[pv][0]))
         elif pv in reg:
             d = os.path.join(".run", "harness", "p2")
@@ -160,9 +171,11 @@ def p2_gather():
             todo.append((r, w))
         else:
             raise NotRun(f"{r['prog']} {r['name']} has no banked row in config/probes.txt or gated registry row")
+    todo = [(r, unit_src(r, s)) for r, s in todo]
+    srcs = sorted({s for _, s in todo})  # one compile per source: rows of one unit never race on its build/ .o
     with concurrent.futures.ThreadPoolExecutor(os.cpu_count() or 1) as ex:
-        objs = list(ex.map(lambda rs: probe.compile_obj(rs[1], triple), todo))
-    for (r, s), obj in zip(todo, objs):
+        objs = dict(zip(srcs, ex.map(lambda s: probe.compile_obj(s, triple), srcs)))
+    for (r, s), obj in ((rs, objs[rs[1]]) for rs in todo):
         if obj is None:
             raise NotRun(f"{s} does not compile under {triple}")
         ours, masks = probe.elf_function(obj, r["name"])

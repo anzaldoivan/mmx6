@@ -42,7 +42,7 @@ DecDCTinSync	int DecDCTinSync(int);	-	header:LIBPRESS.H
 DecDCTout	void DecDCTout(unsigned long *, int);	-	header:LIBPRESS.H
 DecDCToutCallback	int DecDCToutCallback(void (*)());	-	header:LIBPRESS.H
 DecDCToutSync	int DecDCToutSync(int);	-	header:LIBPRESS.H
-DecDCTvlc	int DecDCTvlc(unsigned long *, unsigned long *);	-	header:LIBPRESS.H
+DecDCTvlc	int DecDCTvlc(unsigned long *, unsigned long *, int);	-	retail-call
 DecDCTvlcSize	int DecDCTvlcSize(int);	-	header:LIBPRESS.H
 DeliverEvent	void DeliverEvent(unsigned long, unsigned long);	-	header:LIBAPI.H
 DisableEvent	long DisableEvent(long);	-	header:LIBAPI.H
@@ -57,7 +57,7 @@ DsGetSector	int DsGetSector(void *, int);	-	header:LIBDS.H
 EnableEvent	long EnableEvent(long);	-	header:LIBAPI.H
 EnablePAD	void EnablePAD(void);	-	header:LIBAPI.H
 EnterCriticalSection	int EnterCriticalSection(void);	-	header:LIBAPI.H
-ExitCriticalSection	void ExitCriticalSection(void);	-	header:LIBAPI.H
+ExitCriticalSection	int ExitCriticalSection(void);	-	retail-call
 FlushCache	void FlushCache(void);	-	header:LIBAPI.H
 GPU_cw	int GPU_cw();	-	none
 GetDispEnv	struct DISPENV *GetDispEnv(struct DISPENV *);	struct DISPENV;	header:LIBGPU.H
@@ -139,18 +139,18 @@ SpuStart	void SpuStart(void);	-	header:LIBSPU.H
 SpuWritePartly	unsigned long SpuWritePartly(unsigned char *, unsigned long);	-	header:LIBSPU.H
 SsEnd	void SsEnd(void);	-	header:LIBSND.H
 SsInit	void SsInit(void);	-	header:LIBSND.H
-SsIsEos	short SsIsEos(short, short);	-	header:LIBSND.H
+SsIsEos	short SsIsEos(long, short);	-	retail-call
 SsPitchFromNote	unsigned short SsPitchFromNote(short, short, unsigned char, unsigned char);	-	header:LIBSND.H
 SsSepClose	void SsSepClose(short);	-	header:LIBSND.H
 SsSepOpen	short SsSepOpen(unsigned long *, short, short);	-	header:LIBSND.H
 SsSepPlay	void SsSepPlay(short, short, char, short);	-	header:LIBSND.H
-SsSepSetVol	void SsSepSetVol(short, short, short, short);	-	header:LIBSND.H
+SsSepSetVol	void SsSepSetVol(signed char, short, short, short);	-	retail-call
 SsSepStop	void SsSepStop(short, short);	-	header:LIBSND.H
 SsSeqCalledTbyT	void SsSeqCalledTbyT(void);	-	header:LIBSND.H
 SsSeqClose	void SsSeqClose(short);	-	header:LIBSND.H
 SsSeqPlay	void SsSeqPlay(short, char, short);	-	header:LIBSND.H
 SsSeqSetVol	void SsSeqSetVol(short, short, short);	-	header:LIBSND.H
-SsSeqStop	void SsSeqStop(short);	-	header:LIBSND.H
+SsSeqStop	void SsSeqStop(short, char);	-	retail-call
 SsSetMVol	void SsSetMVol(short, short);	-	header:LIBSND.H
 SsSetMono	void SsSetMono(void);	-	header:LIBSND.H
 SsSetSerialAttr	void SsSetSerialAttr(char, char, char);	-	header:LIBSND.H
@@ -338,7 +338,7 @@ firstfile2	int firstfile2();	-	none
 format	long format(char *);	-	header:LIBAPI.H
 init_ring_status	int init_ring_status();	-	none
 memcpy	void *memcpy();	-	header:MEMORY.H
-memset	void *memset();	-	header:MEMORY.H
+memset	void memset(void *, int, int);	-	retail-call
 nextfile	struct DIRENTRY *nextfile(struct DIRENTRY *);	struct DIRENTRY;	header:LIBAPI.H
 note2pitch	int note2pitch();	-	none
 note2pitch2	int note2pitch2();	-	none

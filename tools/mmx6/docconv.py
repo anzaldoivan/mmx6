@@ -8,13 +8,16 @@
          exist is a refusal (DC0).
   docconv.py --self-test
       -> planted tree under .run/<phase>/docconv-selftest/ (removed at the end): one passing file exercising every rule
-         and one failing file per rule. Ends `DOCCONV CONTROL OK` rc 0, or `DOCCONV CONTROL FAIL <case>` rc 1.
+         (also as a shared file, a role file and its unit) and one failing file per rule (DC1: a shared file without
+         its line, a role file no unit includes, a role file whose banner prog is not its unit's). Ends `DOCCONV CONTROL OK` rc 0, or `DOCCONV CONTROL FAIL <case>` rc 1.
 
 Rules (line refs 1-based)
   DC1 banner: exactly one leading comment line `// prog <P> | system <s> | range 0x<lo>-0x<hi>` (or `range -` in a .h);
       config/symbols.<P>.txt exists; lo <= hi (hi = the last instruction word, not end-exclusive). A file under
       src/shared/ also needs a leading `// Shared file: included by <TU>, between <A> and <B>.` line, the TU existing
-      and naming the file in an #include.
+      and naming the file in an #include. A role file (a .c under src/<dir>/ other than src/shared/, not itself a unit
+      of config/c_units.txt) needs no `// Shared file:` line: some unit's #include closure (layout.includers) must
+      reach it, and its banner prog must equal the prog of every unit that does.
   DC2 no build path: no comment line holds a drive path, /Users/ /home/ /work/ /tmp/ /sdk/ /disc/ /mnt/ /private/,
       or `Source:`.
   DC3 header: each file-scope function definition is preceded by a `//` block opening `// 0x<8 HEX> <name>: <purpose>`
@@ -35,6 +38,9 @@ import re
 import shutil
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import layout  # noqa: E402  (includers: the C units' #include closure)
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -150,7 +156,13 @@ def block_above(lines, idx):
     return out[::-1]
 
 
-def check_file(rel, text, tables, root=ROOT):
+def role_file(rel):
+    """A path that DC1 treats as a role file unless it is a unit: a .c under src/<dir>/, dir not shared."""
+    return rel.endswith(".c") and rel.startswith("src/") and not rel.startswith("src/shared/") and rel.count("/") >= 2
+
+
+def check_file(rel, text, tables, root=ROOT, inc=None):
+    """inc: layout.includers of root (needed for a role file)."""
     syms, names, basis, strs = tables
     lines = text.splitlines()
     fails = []
@@ -193,6 +205,14 @@ def check_file(rel, text, tables, root=ROOT):
             tu = root / shared[0].group(1)
             if not tu.is_file() or Path(rel).name not in tu.read_text(encoding="utf-8", errors="replace"):
                 fail(1, 1, f"Shared file: {shared[0].group(1)} missing or not including {Path(rel).name}")
+    units = (inc or {}).get(rel, [])
+    if role_file(rel) and not any(f"src/{p}/{tu}.c" == rel for p, tu in units):
+        if not units:
+            fail(1, 1, "role file included by no C unit (config/c_units.txt closure)")
+        elif good and len(good) == 1:
+            other = [f"{p}/{tu}" for p, tu in units if p != good[0][1].group(1)]
+            if other:
+                fail(good[0][0], 1, f"role file banner prog {good[0][1].group(1)}, included by {', '.join(other)}")
 
     depth, stmt, start, in_block, struct_depth = 0, None, 0, False, None
     for i, line in enumerate(lines):
@@ -319,6 +339,7 @@ def check_func(rel, lines, start, name, prog, tables, helper=False):
 def check(root, paths):
     tables = load_tables(root)
     fails, n = [], 0
+    inc = layout.includers(str(root)) if any(role_file(p) for p in paths) else {}
     for p in paths:
         rel = p
         path = root / p
@@ -327,7 +348,7 @@ def check(root, paths):
             continue
         n += 1
         fails.extend("DOCCONV FAIL " + f for f in check_file(rel, path.read_text(encoding="utf-8",
-                                                                                 errors="replace"), tables, root))
+                                                                                 errors="replace"), tables, root, inc))
     fails = [f if f.startswith("DOCCONV FAIL ") else "DOCCONV FAIL " + f for f in fails]
     if fails:
         return fails, f"DOCCONV FAIL {len(fails)} refusals", 1
@@ -389,6 +410,8 @@ static inline int peek_thing(Thing* t) {
 """
 SHARED_LINE = "// Shared file: included by src/P/tu.c, between do_thing and func_80010040."
 SHARED_TU = '#include "../shared/P/s.c"\n'
+ROLE_TU = '#include "sys/r.c"\n'                   # unit src/P/tu.c -> role file src/P/sys/r.c (layout L-B)
+UNITS = "# planted\nP tu\n"
 HEADER_H = "// prog P | system test | range -\nint do_thing(void* t);\n"
 TREE = {
     "config/symbols.P.txt": "// planted\ndo_thing = 0x80010000;\nfunc_80010040 = 0x80010040;\ndo_thing2 = 0x80010080;\n",
@@ -407,6 +430,8 @@ def selftest():
         ("pass", None, []),
         ("DC0", None, ["src/none.c:0 DC0"]),
         ("DC1s", None, ["src/shared/P/s.c:1 DC1"]),
+        ("DC1r", None, ["src/P/sys/r.c:1 DC1"]),
+        ("DC1p", None, ["src/P/sys/r.c:1 DC1"]),
         ("DC1", mut("0x80010000-0x80010100", "0x80010100-0x80010000"), ["src/b.c:1 DC1"]),
         ("DC2", mut("// A planted file", "// Built in /tmp/x: a planted file"), ["src/b.c:2 DC2"]),
         ("DC3", mut("returns the planted field", "returns field"), ["src/b.c:22 DC3"]),
@@ -425,14 +450,22 @@ def selftest():
         for case, body, want in cases:
             files = dict(TREE)
             if case == "pass":
-                files.update({"src/a.c": GOOD, "include/a.h": HEADER_H, "src/P/tu.c": SHARED_TU,
-                              "src/shared/P/s.c": GOOD.replace("\n#include", "\n" + SHARED_LINE + "\n#include", 1)})
-                paths = ["src/a.c", "include/a.h", "src/shared/P/s.c"]
+                files.update({"src/a.c": GOOD, "include/a.h": HEADER_H, "src/P/tu.c": SHARED_TU + ROLE_TU,
+                              "src/shared/P/s.c": GOOD.replace("\n#include", "\n" + SHARED_LINE + "\n#include", 1),
+                              "config/c_units.txt": UNITS, "src/P/sys/r.c": GOOD})
+                paths = ["src/a.c", "include/a.h", "src/shared/P/s.c", "src/P/sys/r.c"]
             elif case == "DC0":
                 paths = ["src/none.c"]
             elif case == "DC1s":
                 files.update({"src/shared/P/s.c": GOOD, "src/P/tu.c": SHARED_TU})
                 paths = ["src/shared/P/s.c"]
+            elif case == "DC1r":                           # a role file no unit includes
+                files.update({"config/c_units.txt": UNITS, "src/P/tu.c": SHARED_TU, "src/P/sys/r.c": GOOD})
+                paths = ["src/P/sys/r.c"]
+            elif case == "DC1p":                           # banner prog P, included by a unit of prog Q
+                files.update({"config/c_units.txt": "Q tu\n", "src/Q/tu.c": '#include "../P/sys/r.c"\n',
+                              "src/P/sys/r.c": GOOD})
+                paths = ["src/P/sys/r.c"]
             else:
                 files["src/b.c"] = body
                 paths = ["src/b.c"]
@@ -441,7 +474,7 @@ def selftest():
             got = [" ".join(f[len("DOCCONV FAIL "):].split()[:2]) for f in fails]
             ok = got == want and code == (1 if want else 0)
             if case == "pass":
-                ok = ok and summary == "DOCCONV OK 3 files"
+                ok = ok and summary == "DOCCONV OK 4 files"
             if not ok:
                 print(f"DOCCONV CONTROL FAIL {case}")
                 for line in fails + [summary]:

@@ -13,17 +13,23 @@
                or a repeated key is a NAMESQUEUE REFUSE line; rc 0 iff j = n and no refusal.
                Code refs (2.3 T18): every `code:` ref in a verdict basis-ref (col 8) and every config/symbols/basis.tsv
                row of kind `code` must read `code:<path>:<line> via=<anchor>[; ...]`, path git-tracked under src/ or
-               include/, line 1-based on file, anchor a whole word (\\b) on that line; else NAMESQUEUE REFUSE
-               <file>:<n> code-no-via|code-untracked|code-bad-line|code-anchor-missing (a refused row is not judged)
+               include/ (a unit, role file or src/shared body alike: no path pattern), line 1-based on file, anchor
+               a whole word (\\b) on that line; else NAMESQUEUE REFUSE <file>:<n>
+               code-no-via|code-untracked|code-bad-line|code-anchor-missing (a refused row is not judged)
   --self-test  planted fixtures in build/ (removed after); prints NAMESQUEUE CONTROL OK (check must catch a
-               planted unjudged row and a planted verdict for a row not in the queue)
+               planted unjudged row and a planted verdict for a row not in the queue; a planted unit -> role file
+               -> src/shared/<system>/ body gives the body's func_ and the role file's D_ to the unit's prog, and a
+               code ref into the role file passes)
 
 Columns: prog vram candidate source evidence-key basis-kind tier overlay-ref.
 Validity sets come from tracked files only (git ls-files): function starts = oracle functions (unit, vram)
 + `type:func` / `func_` symbols + Ghidra `func` records (config/ghidra/<prog>.jsonl, inside a ram/RAM/CODE block);
-data symbols = other symbols + Ghidra `data`/`label` records + D_<8hex> tokens in src/<prog>/, src/shared/,
-include/. Prog `ovl_<base>` = the one member of that load group (Ghidra image_base) holding the vram.
-overlay-ref `ovl` = an exe vram named in src/rock_*/ or src/shared/rock_*/. A row is refused (counted, never rewritten) when its vram is not in its prog's sets, its candidate
+data symbols = other symbols + Ghidra `data`/`label` records + D_<8hex> tokens of src/ and include/ files. A source
+file's programs (its D_ tokens and func_ definitions count there): the progs of the units whose #include closure
+reaches it (layout.includers: units, role files, src/shared bodies); a file outside every closure: src/<prog>/ or
+src/shared/<prog>/ -> that prog (src/shared/<dir> not a prog -> exe), else exe (2.4 T6).
+Prog `ovl_<base>` = the one member of that load group (Ghidra image_base) holding the vram.
+overlay-ref `ovl` = an exe vram named in a source file of a rock_* program (as above). A row is refused (counted, never rewritten) when its vram is not in its prog's sets, its candidate
 fails style, a community basis carries a tier above `lead` (except source `tweaks`: Tweaks rows are queued
 `consistent-with-bytes`, naming standard v2, docs/naming.md), or (prog, vram, source) repeats.
 """
@@ -34,6 +40,9 @@ import re
 import shutil
 import subprocess
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import layout  # noqa: E402  (includers: the program(s) of a source file, from the C units' #include closure)
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = "config/names-queue.tsv"
@@ -136,20 +145,24 @@ def sets(root, tracked):
                     (funcs if r["k"] == "func" else data)[prog].add(v)
     progs |= set(funcs)
     ovl_tokens = set()
+    inc = layout.includers(root)
     for rel in list_files(root, "src", tracked) + list_files(root, "include", tracked):
         parts = rel.split("/")
-        if parts[0] == "src" and len(parts) > 2 and parts[1] == "shared":
-            prog = parts[2] if parts[2] in progs else EXE
+        units = inc.get(rel)
+        if units:                       # in a unit's closure: the programs of the units that include it (2.4 T6)
+            pl = sorted({p for p, _ in units})
+        elif parts[0] == "src" and len(parts) > 2 and parts[1] == "shared":
+            pl = [parts[2] if parts[2] in progs else EXE]
         elif parts[0] == "src" and len(parts) > 2:
-            prog = parts[1]
+            pl = [parts[1]]
         else:
-            prog = EXE
+            pl = [EXE]
         text = read(root, rel)
-        data[prog].update(int(h, 16) for h in DTOK.findall(text))
-        # T11: a func_ defined in this prog's src (INCLUDE_ASM or a C definition) is a start
-        funcs[prog].update(int(a or b, 16) for a, b in FDEF.findall(text))
-        if parts[0] == "src" and len(parts) > 2 and (parts[1].startswith("rock_") or
-                                                     (parts[1] == "shared" and parts[2].startswith("rock_"))):
+        for prog in pl:
+            data[prog].update(int(h, 16) for h in DTOK.findall(text))
+            # T11: a func_ defined in this prog's src (INCLUDE_ASM or a C definition) is a start
+            funcs[prog].update(int(a or b, 16) for a, b in FDEF.findall(text))
+        if any(p.startswith("rock_") for p in pl):
             ovl_tokens.update(re.findall(r"\b(?:func|D)_([0-9A-F]{8})\b", text))
     return funcs, data, sorted(progs | set(data)), ovl_tokens, groups
 
@@ -418,6 +431,11 @@ FIX = {
         "SLUS_013.95:0x80030000\tstep_object\tcaller\tmove_object\tx\n",
     "src/rock_02/a.c": "void f(void) { func_80020000(); }\n",
     "src/shared/SLUS_013.95/b.c": "extern int D_80070000;\n",
+    # role-file plant (2.4 T6): unit rock_02 u -> role file sys/r.c -> body src/shared/stage/c.c (no prog in its path)
+    "config/c_units.txt": "# fixture\nrock_02 u\n",
+    "src/rock_02/u.c": '#include "sys/r.c"\n',
+    "src/rock_02/sys/r.c": '#include "../../shared/stage/c.c"\nextern int D_800EA400;\nvoid g(void) {\n}\n',
+    "src/shared/stage/c.c": "void func_800EA500(void) {\n}\n",
     "config/ghidra/SLUS_013.95.jsonl": '{"k":"program","name":"SLUS_013.95","image_base":"0x80000000"}\n'
         '{"k":"block","name":"GTEMAC","start":"0x20000000","end":"0x20000263"}\n'
         '{"k":"block","name":"ram","start":"0x80010000","end":"0x8007ffff"}\n'
@@ -459,6 +477,9 @@ def self_test():
         assert q.add(EXE, 0x80030000, None, "planted", "k", "xref", "lead") is None   # Ghidra func only
         assert q.rows[-1][2] == "func_80030000", q.rows[-1]
         assert q.add(EXE, 0x80040000, None, "planted", "k", "xref", "lead") is None   # Ghidra label
+        assert q.add("rock_02", 0x800EA500, None, "planted", "k", "xref", "lead") is None   # body via role file
+        assert q.add("rock_02", 0x800EA400, None, "planted", "k", "xref", "lead") is None   # role-file token
+        assert q.add(EXE, 0x800EA500, None, "planted", "k", "xref", "lead") == "not-symbol"  # not exe's (path rule)
         assert q.add(EXE, 0x20000000, None, "planted", "k", "xref", "lead") == "not-symbol"   # outside ram
         assert q.add("ovl_800E9860", 0x800EA1D8, None, "planted", "k", "xref", "lead") == "ambiguous-prog"
         assert q.add(EXE, 0x8002D2B0, "move_object", "planted", "k", "x4", "consistent-with-bytes") is None
@@ -498,6 +519,9 @@ def self_test():
         assert cjudge("code:src/rock_02/a.c:1")[2] == ["NAMESQUEUE REFUSE %s:2 code-no-via" % VERDICTS]
         assert cjudge("code:src/nope.c:1 via=f")[2] == ["NAMESQUEUE REFUSE %s:2 code-untracked" % VERDICTS]
         assert cjudge("code:src/rock_02/a.c:9 via=f")[2] == ["NAMESQUEUE REFUSE %s:2 code-bad-line" % VERDICTS]
+        assert cjudge("code:src/rock_02/sys/r.c:2 via=D_800EA400")[2] == []                  # a role-file ref
+        assert cjudge("code:src/rock_02/sys/r.c:3 via=D_800EA400")[2] == [
+            "NAMESQUEUE REFUSE %s:2 code-anchor-missing" % VERDICTS]
         os.makedirs(os.path.dirname(os.path.join(tmp, BASIS)), exist_ok=True)
         with open(os.path.join(tmp, BASIS), "w") as f:
             f.write("# prog\tvram\tname\tbasis-kind\tbasis-ref\ttier\n"

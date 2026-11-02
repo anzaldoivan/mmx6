@@ -159,8 +159,9 @@
 {"k":"func","addr":"0x801eaa24","name":"FUN_801eaa24","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_10","type":"/undefined4","storage":"Stack[-0x10]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_c","type":"/undefined4","storage":"Stack[-0xc]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
 {"k":"func","addr":"0x801eae7c","name":"FUN_801eae7c","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
 {"k":"func","addr":"0x801eb12c","name":"FUN_801eb12c","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_10","type":"/undefined4","storage":"Stack[-0x10]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_c","type":"/undefined4","storage":"Stack[-0xc]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
-{"k":"func","addr":"0x801ec614","name":"FUN_801ec614","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
+{"k":"func","addr":"0x801ec614","name":"update_rekkoha","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":"name: xref derived.tsv:30; xref:callee=start_rekkoha; code:src/rock_01/rekkoha.c:49 via=update_rekkoha"}
 {"k":"func","addr":"0x801ec95c","name":"FUN_801ec95c","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
+{"k":"func","addr":"0x801eca50","name":"try_hyoroga_from_ceiling","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: xref derived.tsv:31; xref:caller=attack_hyoroga_from_ceiling; code:src/rock_01/hyoroga_from_ceiling.c:25 via=attack_hyoroga_from_ceiling"}
 {"k":"func","addr":"0x801ecaf0","name":"attack_hyoroga_from_ceiling","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: community tweaks-index.tsv:194"}
 {"k":"func","addr":"0x801eccd4","name":"FUN_801eccd4","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
 {"k":"func","addr":"0x801ecd3c","name":"FUN_801ecd3c","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
@@ -506,6 +507,8 @@
 {"k":"data","addr":"0x801ef970","type":"/undefined *","len":4}
 {"k":"comment","addr":"0x801ea680","type":"plate","text":"name: community tweaks-index.tsv:226"}
 {"k":"comment","addr":"0x801eb0e4","type":"pre","text":"Possible PsyQ macro: setPolyG3()"}
+{"k":"comment","addr":"0x801ec614","type":"plate","text":"name: xref derived.tsv:30; xref:callee=start_rekkoha; code:src/rock_01/rekkoha.c:49 via=update_rekkoha"}
+{"k":"comment","addr":"0x801eca50","type":"plate","text":"name: xref derived.tsv:31; xref:caller=attack_hyoroga_from_ceiling; code:src/rock_01/hyoroga_from_ceiling.c:25 via=attack_hyoroga_from_ceiling"}
 {"k":"comment","addr":"0x801ecaf0","type":"plate","text":"name: community tweaks-index.tsv:194"}
 {"k":"comment","addr":"0x801ed288","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"bookmark","addr":"0x801ea6cc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003eb0c (flow from 801ea6cc)"}
@@ -556,6 +559,10 @@
 {"k":"bookmark","addr":"0x801ec640","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 801ec640)"}
 {"k":"bookmark","addr":"0x801ec97c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003b114 (flow from 801ec97c)"}
 {"k":"bookmark","addr":"0x801ec9a4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 801ec9a4)"}
+{"k":"bookmark","addr":"0x801eca60","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003eb0c (flow from 801eca60)"}
+{"k":"bookmark","addr":"0x801eca8c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003ba04 (flow from 801eca8c)"}
+{"k":"bookmark","addr":"0x801eca9c","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80016c48 (flow from 801eca9c)"}
+{"k":"bookmark","addr":"0x801ecab8","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003f740 (flow from 801ecab8)"}
 {"k":"bookmark","addr":"0x801ecb34","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80017a04 (flow from 801ecb34)"}
 {"k":"bookmark","addr":"0x801ecb68","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c32c (flow from 801ecb68)"}
 {"k":"bookmark","addr":"0x801ecbb4","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8003ba04 (flow from 801ecbb4)"}
@@ -737,4 +744,6 @@
 {"k":"label","addr":"0x2000025c","name":"gte_CompMatrix","primary":true,"src":"IMPORTED","func":true}
 {"k":"label","addr":"0x20000260","name":"gte_ApplyRotMatrix","primary":true,"src":"IMPORTED","func":true}
 {"k":"label","addr":"0x801ea680","name":"start_rekkoha","primary":true,"src":"USER_DEFINED","func":true}
+{"k":"label","addr":"0x801ec614","name":"update_rekkoha","primary":true,"src":"USER_DEFINED","func":true}
+{"k":"label","addr":"0x801eca50","name":"try_hyoroga_from_ceiling","primary":true,"src":"USER_DEFINED","func":true}
 {"k":"label","addr":"0x801ecaf0","name":"attack_hyoroga_from_ceiling","primary":true,"src":"USER_DEFINED","func":true}

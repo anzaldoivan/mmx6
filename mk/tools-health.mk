@@ -4,7 +4,7 @@
 
 TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-types th-declsync th-propagate th-carve th-remap \
 	th-walls th-draw th-validate th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau th-journal th-cards \
-	th-verbatim th-harvest th-scaffold th-ledger th-harness
+	th-verbatim th-harvest th-scaffold th-ledger th-harness th-globtypes th-objfields th-lift
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -66,6 +66,24 @@ th-harness-full: th-corpus th-optscan th-bound2 th-census th-draw
 # then `--all` (last line `TYPES <d> definitions <s> shapes of <f> files; duplicates <n>; raw casts <m>`, rc 0 iff none).
 th-types:
 	$(PYTHON) tools/mmx6/typecheck.py --self-test && $(PYTHON) tools/mmx6/typecheck.py --all
+
+# One type per global (tools/mmx6/globtypes.py; text only + the link maps): planted sign/width/shape/view controls,
+# then `--all` in the same process (C0283; last line `GLOBTYPES <g> globals <d> declarations; conflicts <n> (view <v>)`,
+# rc 0 iff the non-view count is not above config/globtypes-baseline.txt).
+th-globtypes:
+	$(PYTHON) tools/mmx6/globtypes.py --self-test --all
+
+# The object family's fields (tools/mmx6/objfields.py; cc1 over include/mmx6/object.h, the corpus): planted wrong
+# offset/missing row/bad note/off-start controls, then config/types/fields.tsv vs the offsetof table, DC7 notes.
+th-objfields:
+	$(PYTHON) tools/mmx6/objfields.py --self-test
+	$(PYTHON) tools/mmx6/objfields.py --check
+
+# The type lifter (tools/mmx6/lift.py; make + the pinned toolchain): scratch units under .run/<phase>/lift-selftest/,
+# a fixture fields table: liftable -> lifted, bytes equal; width mismatch and unkXX -> refused (unkXX lifted with
+# --unk); a byte-moving lift -> reverted. Last line `LIFT CONTROL OK`. No real run: lifting edits src/.
+th-lift:
+	$(PYTHON) tools/mmx6/lift.py --self-test
 
 # Declaration sync, reconcile rung R3 (tools/mmx6/declsync.py; text only, in memory): synced/refused/uncast controls.
 th-declsync:

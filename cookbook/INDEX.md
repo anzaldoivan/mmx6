@@ -251,7 +251,7 @@ C0248 | Symbol address from symbols file / corpus / asm row, never name spelling
 C0249 | A vote-derived alias cannot corroborate the votes that made it | x4,names,evidence,corroborator,circular,promote | 2026-10-25 | 1.10/T6 | 1.10 T6 review of T6.c1
 C0250 | x4share --partners in a fresh container needs corpus, census and sig first | x4,x4share,container,partners,widen,sequence | 2026-10-25 | 1.10/T6 | 1.10 T6.c1
 C0251 | Overlays see exe symbols only by func_/D_<addr> name: renaming an exe symbol overlays call breaks their link | rename,overlay,link,provide,symbols,x4 | 2026-10-25 | 1.10/T8 | mmx6 T8.c1
-C0252 | Ghidra: mirror external names as a delta JSONL through the existing importer, then re-export | ghidra,import,rename,jsonl,roundtrip | 2026-10-25 | 1.10/T10 | T10.c1
+C0252 | Ghidra: mirror external names as a delta JSONL through the existing importer, then re-export | ghidra,import,rename,jsonl,roundtrip | 2026-10-25 | 1.10/T10 | mmx6 T10.c1
 C0253 | campaign/ is never public. check-public DIR needs its own git repo | split-mode,public,projection,check-public,style | 2026-10-25 | 1.10/T12 | mmx6 T12
 C0254 | Import a script without a __main__ guard via ast (drop top-level calls) | python,import,tools | 2026-10-25 | 2.0/T5 | T5 badges.py
 C0255 | Mark debt constructs on clang-formatted text: InsertBraces splits if-goto | clang-format,debt-marker,fake,goto,insertbraces,propagate | 2026-10-25 | 2.1/T1 | T1.c1 self-test control
@@ -284,3 +284,43 @@ C0281 | make format splits a long INCLUDE_ASM line and carve then drops its asm 
 C0282 | Tie a boss update function to its stage: type-id link, state-table reach, health word | names,boss,objects,basis,code,via,overlay | 2026-10-30 | 2.3/T18 | mmx6 T18 v2 re-judge
 C0283 | Share one expensive gather between a checker's self-test and its run | self-test,harness,cache,health,fleet | 2026-10-30 | 2.3/T19 | mmx6 T19.c1
 C0284 | Judge a community RAM-map row: code corroborator, superseded sweep, struct-head cast test | names,community,ram,data,struct,basis,code | 2026-10-30 | 2.3/T11 | mmx6 T11 B8
+C0285 | Call graph from corpus function bounds plus jal decode, not Ghidra or asm/ | callgraph,xref,jal,corpus,naming,namesqueue | 2026-10-30 | 2.3/T12 | mmx6 2.3 T12.c1
+C0286 | Apply a names-verdict batch: refresh code refs after header inserts and renames | names,verdicts,basis,docconv,rename,refs | 2026-10-30 | 2.3/T12 | mmx6 2.3 T12.c1/c2
+C0287 | Overlay-local data names link via PROVIDE. Inside an INCLUDE_ASM blob add // ignore:True | rename,overlay,link,provide,splat,ignore,symbols | 2026-10-30 | 2.4/T2 | mmx6 T2.c1
+C0288 | Open draft stuck at R2/R4 in a shared unit: carve it into its own unit, then bank | layout,carve,bank,r2,r4,rodata,unit | 2026-10-30 | 2.4/T3 | 2.4 T3.c1
+C0289 | Re-split after plant or carve: delete asm/<prog> and the split stamp, run corpus --all | split,stamp,plant,carve,corpus,stale | 2026-10-30 | 2.4/T3 | 2.4 T3.c1
+C0290 | Units carry cpp -MMD deps. A make -n recipe splice must drop -MMD/-MP/-MT/-MF | make,dependencies,include,rebuild,dumps,cpp | 2026-10-31 | 2.4/T4 | mmx6 T4, T4.c1
+C0291 | Token check a regroup: Makefile cpp output, linemarker and blank lines dropped, equal | cpp,layout,regroup,token-check,host | 2026-10-31 | 2.4/T4 | mmx6 T4.c1
+C0292 | Self-test a role-file layout before any file moves: the role_tree plant (unit -> wrapper + subdir role) | layout,role,self-test,plant,bank,include | 2026-10-31 | 2.4/T5 | mmx6 T5.c1
+C0293 | Bank-path locator calls from a snapshot or tree copy pass root=os.getcwd(), not layout.ROOT | layout,locator,snapshot,cwd,bank,gate,propagate | 2026-10-31 | 2.4/T5 | mmx6 T5.c1
+C0294 | Rename never moves files, so its token rewrite must skip #include lines (func_X.c matches) | rename,include,layout,role,token | 2026-10-31 | 2.4/T6 | mmx6 T6.c1
+C0295 | A file's program comes from all its including units (layout.includers), not the first or the path | layout,includers,program,namesqueue,renamecov,role | 2026-10-31 | 2.4/T6 | mmx6 T6.c2
+C0296 | TU boundary moving a compiled 8-aligned jtbl off retail alignment is red | carve,rodata,jtbl,alignment,split | 2026-10-31 | 2.4/T23 | mmx6 T23.c1 rock_04
+C0297 | splat writes text-section data .s only at a spimdisasm boundary in its segment | splat,spimdisasm,carve,include_asm,dlabel | 2026-10-31 | 2.4/T23 | mmx6 T23.c1 rock_22
+C0298 | Split tail unit needs file-scope decls made inside earlier member bodies | carve,split,extern,preamble,include | 2026-10-31 | 2.4/T23 | mmx6 T23.c1 rock_39
+C0299 | layout apply in the container: mirror its deletions on the host (pull never deletes) | layout,apply,mx.sh,pull,delete,container,comm | 2026-10-31 | 2.4/T15 | mmx6 T15 expert
+C0300 | splat emits nonmatchings asm only for INCLUDE_ASM in the unit file: scan the include closure | splat,include_asm,layout,role,nonmatchings,build | 2026-10-31 | 2.4/T15 | mmx6 T15.c1
+C0301 | Find a C definition by regex: require the brace, because L-B role files carry prototypes | layout,regex,prototype,probe,locate,role | 2026-10-31 | 2.4/T15 | mmx6 T15.c2
+C0302 | Compile a role file through its including unit, never as a unit (harness P2, dedup rows) | layout,role,harness,includers,dedup,compile | 2026-10-31 | 2.4/T15 | mmx6 T15.c3
+C0303 | Split runs: static-only entries join the next run, and a closing #undef stays with the previous role | layout,split,static,undef,role,runs | 2026-10-31 | 2.4/T15.1 | mmx6 T15.1.c1
+C0304 | Re-apply a layout on a split program: flatten L-B units (origin map), reuse names, marker-idempotent repoint | layout,reapply,flat,repoint,moves,idempotent | 2026-10-31 | 2.4/T15.1 | mmx6 T15.1.c1
+C0305 | Repoint a bare cite split across files: choose the file holding prog:0x<vram> on the same line | layout,repoint,cite,vram,dedup,bare | 2026-10-31 | 2.4/T15.1 | mmx6 T15.1.c1
+C0306 | Repoint per-overlay symbols/ghidra and THIRD_PARTY.md: explicit-file run before the default (marker) run | layout,repoint,cite,symbols,ghidra,third_party | 2026-10-31 | 2.4/T16 | mmx6 T16.c2
+C0307 | Self-test split/plant targets: pick via the layout, never fixed vrams or unit paths | self-test,layout,carve,role,health,control | 2026-10-31 | 2.4/T16 | mmx6 T16.c4
+C0308 | Pull config/layout-moves.tsv before a host repoint, since pull src leaves it stale | layout,repoint,apply,mx.sh,pull,moves | 2026-10-31 | 2.4/T24 | mmx6 T24.c1
+C0309 | Whole-name stem rule: only for stems a fixed system list holds | layout,propose,stem,glossary,system,slus | 2026-10-31 | 2.4/T24 | mmx6 T24.c1
+C0310 | Repoint a cite to a long-renamed file from the cite line's blame commit | layout,repoint,cite,git-blame,stale,ghidra,mirror | 2026-10-31 | 2.4/T17 | mmx6 T17.c1
+C0311 | Ledger files keep their lines, so cite checkers and repoint skip them | layout,repoint,cite,ledger,protected,gate,psxdecomp.toml | 2026-10-31 | 2.4/T17 | mmx6 T17.c2
+C0312 | New body under L-B: staged at layout.new_body, the next layout apply folds it into its role file | layout,bank,new_body,role,apply,stage | 2026-10-31 | 2.4/T19 | mmx6 T19 expert
+C0313 | Unbank a body in an L-B self-test: cut its role-file chunk (common.h head to brace), never delete the file | layout,role,self-test,gate,bank,unbank,fixture | 2026-10-31 | 2.4/T21.1 | mmx6 T21.1.c1
+C0314 | Self-tests outside the full chain need th-sig prep (bank and gate read census, x4share and x4port read sig) | selftest,health,bank,gate,census,sig,container | 2026-11-01 | 2.5/T2 | 2.5 T2
+C0315 | SDK header prototype vs retail call: retail's spelling in the header, RETAIL override in psyqnames | psyq,header,prototype,arity,signed-char,psyqnames,retail-call | 2026-11-01 | 2.5/T4 | mmx6 T4.c1
+C0316 | Field-watch control: bp at entry and on jr ra of a gate-proven leaf, the delay-slot store read from the register | pcsx-redux,lua,breakpoint,delay-slot,oracle,field,control | 2026-11-01 | 2.5/T5 | 2.5 T5.c1
+C0317 | Homing a struct out of a generated header: emit its alias before every use | x4,x4port,homed,alias,incomplete-tag,struct,generated-header | 2026-11-01 | 2.5/T5 | 2.5 T5.c3
+C0318 | Member widths via sizeof in the cc1 offsetof table | struct,sizeof,width,cc1,offset,layout,fields | 2026-11-01 | 2.5/T5 | 2.5 T5.c4
+C0319 | Scratch script on container-only build state: python3 -c inline, never pull build/ | mx.sh,container,scratch,pull,firewall,build,sync | 2026-11-01 | 2.5/T5 | 2.5 T5.c4
+C0320 | Struct grown past its source-game size: rewrite (&g)[1].m strides as tail members | struct,sizeof,stride,homed,tail,player | 2026-11-01 | 2.5/T6 | 2.5 T6.c1
+C0321 | Census a pool entry type through pool-only pointers and sibling pools | census,pool,stride,objfields,evidence,projectile | 2026-11-01 | 2.5/T6 | 2.5 T6.c2
+C0322 | Prove a data block's extent from the asm: loads off one symbol's %lo base are its members | struct,extent,bss,data,asm,base-register,members,homed | 2026-11-01 | 2.5/T7 | 2.5 T7 expert
+C0323 | Raw views of a homed struct global to member access: what is safe, what moves bytes | struct,homed,view,member,sign,divide,pointer,lbu | 2026-11-01 | 2.5/T7 | 2.5 T7.c1
+C0324 | Lift offset reads into field reads with lift.py, dry-run first | tool,lift,M2C_FIELD,offset,fields.tsv,struct,retype | 2026-11-01 | 2.5/T8 | T8.c1 dry run

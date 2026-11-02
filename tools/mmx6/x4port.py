@@ -20,28 +20,40 @@
          (prog, vram) order. Last line `X4PORT <wave> x4h <k> packs; include/mmx6/x4.h <b> blocks`.
   x4port.py --credits
       -> (re)writes the marked block (`<!-- x4port credits -->` .. `<!-- /x4port credits -->`, else in place of
-         `*(none yet)*` and the table head above it) of THIRD_PARTY.md: the components table, one row per adapted file
-         (include/mmx6/x4.h, each src/shared/**/*.c that opens with the attribution header), sorted by path. Line
-         `X4PORT CREDITS <n> rows`.
+         `*(none yet)*` and the table head above it) of THIRD_PARTY.md: the components table, one row per attribution
+         header (include/mmx6/x4.h, then every header anywhere in a file of the C units' #include closure, layout.py;
+         adapted()), sorted by (path, line). Line `X4PORT CREDITS <n> rows`.
   x4port.py --repin
-      -> every src/shared/**.c whose attribution header names a pin != PIN: the partner by the header's exact key
-         (campaign/x4/partners.tsv; the header's src:func first) re-ported at PIN for the file's own X6 function
-         (build/corpus/functions.jsonl, prog = its directory). The draft's definition of the function == the file's (code
-         only: comments and whitespace dropped) -> only the header is rewritten (`same`); different -> the file's
-         definition is replaced by the draft's, the file's declarations kept (they are what its TU's other shared
-         files and declsync agree on), its `// !` mark lines kept before the same code line (`changed`, a candidate
-         the build judges); no port, no definition or a lost mark anchor -> the file is left (`skipped <why>`). A path
-         in config/x4/hold.tsv (`path pin blocker`) is never read or rewritten (`held <blocker>`). Rewrites
-         include/mmx6/x4.h from the union of the re-ported drafts' blocks, unless the hold list holds it. Lines
-         `X4PORT REPIN <path> same|changed|skipped <why>|held <blocker>`, last
-         `X4PORT REPIN <s> same <c> changed <k> skipped <h> held`.
+      -> every attribution header (adapted(): any header in a file of the units' closure, bound to the C definition
+         that follows it) naming a pin != PIN: the partner by the header's exact key (campaign/x4/partners.tsv; the
+         header's src:func first) re-ported at PIN for that function (build/corpus/functions.jsonl; prog and name: the
+         first unit whose closure brings the definition under its own name). The draft's definition == the file's (code
+         only: comments and whitespace dropped) -> only that header is rewritten (`same`); different -> that definition
+         is replaced by the draft's, the file's declarations kept (they are what its TU's other shared files and
+         declsync agree on), its `// !` mark lines kept before the same code line (`changed`, a candidate the build
+         judges); no port, no definition or a lost mark anchor -> left (`skipped <why>`). Only the function's header and
+         definition lines change; a file's other functions stay. A function in config/x4/hold.tsv (`key pin blocker`;
+         key `path` = every function of the file, or `prog:func` through layout.locate) is never rewritten (`held
+         <blocker>`); an unresolved `prog:func` key exits. Rewrites include/mmx6/x4.h from the union of the re-ported
+         drafts' blocks, unless the hold list holds it. Lines `X4PORT REPIN <path>:<func> same|changed|skipped
+         <why>|held <blocker>`, last `X4PORT REPIN <s> same <c> changed <k> skipped <h> held`.
+  x4port.py --repin --dry-run | --wave W-x4 --x4h --dry-run
+      -> everything computed, nothing written: `X4PORT DRY would change <path>` per file, last
+         `X4PORT DRY <n> would change; homed <k> kept out`.
+  Homed tags (config/x4/homed.tsv, `x4_tag home x6_tag`): a block of tag X4_<name> is never emitted to x4.h; under
+  its guard x4.h emits `#define X4_<name> <x6_tag>` and includes the hand-written home once at its end.
   x4port.py --self-test
-      -> planted control (C0054) in .run/x4port-selftest/: our banked func_8001E78C (src/SLUS_013.95/120A0.c) as a fake
-         mmx4 source and object, every D_8/func_8 name renamed (Q_8/fanc_8, the object's strtab patched in place, same
+      -> planted control (C0054) in .run/x4port-selftest/: our banked func_8001E78C (body file by layout.locate, unit 120A0)
+         as a fake mmx4 source and object, every D_8/func_8 name renamed (Q_8/fanc_8, the object's strtab patched in place, same
          length). (1) the port maps every name back by address arithmetic: draft body == our body, verbatim ok, its
          pack probes `match`; (2) one unmasked bit of the fake object flipped -> `not exact`; (3) one X6 relocation
-         addend shifted by 4 -> the draft names another symbol; (4) a psy-q-origin block never reaches x4.h; (5) a planted held file and a held
-         x4.h are byte-identical after --repin with a temp hold list. Ends `X4PORT CONTROL OK` | `X4PORT CONTROL FAIL <cases>`.
+         addend shifted by 4 -> the draft names another symbol; (4) a psy-q-origin block never reaches x4.h; (5) on a
+         planted unit tree, plain and as a layout.role_tree: a whole-file `path` hold, a `prog:func` hold in a
+         two-function file and a held x4.h are byte-identical after --repin with a temp hold list (the file's other
+         function reported on its own); (6) adapted() and the credit rows of today's tree are the same inside
+         layout.role_tree of a unit that includes adapted files; (7) a homed tag's block stays out of x4.h (its alias
+         and home include instead); (8) --repin --dry-run on the planted tree, no holds, reports x4.h and writes no
+         file. Ends `X4PORT CONTROL OK` | `X4PORT CONTROL FAIL <cases>`.
 
 Port (G54, spelling first): the mmx4 definition's own text (raw source lines; the preprocessed text when the body holds
 a preprocessor line), `static`/`inline` dropped from its head, then renamed: every mmx4 symbol the body relocates ->
@@ -59,6 +71,7 @@ draft and of x4.h: the attribution header (THIRD_PARTY.md; x4.h lists its mmx4 s
 """
 import argparse
 import bisect
+import collections
 import contextlib
 import io
 import json
@@ -72,6 +85,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import census  # noqa: E402
+import layout  # noqa: E402  (Tree, locate, role_tree: the C units' #include closure)
 import probe  # noqa: E402  (sym_vram, sym_name, asm_labels: names resolved from tables, never their spelling)
 import propagate  # noqa: E402  (registry_rows)
 import sig  # noqa: E402
@@ -92,7 +106,8 @@ SELF_PROG, SELF_VRAM, SELF_TU = "SLUS_013.95", "0x8001E78C", "120A0"  # the self
 HEADER = ("/* Adapted from sozud/mmx4 @{pin} {src}:{func}, AGPL-3.0; proven shared with X6 by exact signature {key} "
           "(see THIRD_PARTY.md). */\n")
 X4H = "include/mmx6/x4.h"
-HOLD = "config/x4/hold.tsv"  # `path pin blocker`: files --repin never rewrites (x4.h included)
+HOLD = "config/x4/hold.tsv"  # `path|prog:func pin blocker`: functions --repin never rewrites (x4.h included)
+HOMED = "config/x4/homed.tsv"  # `x4_tag home x6_tag`: blocks x4.h never emits; their hand-written home defines x6_tag
 PSYQ = "include/psy-q-4.0/"  # mmx4's copies of the Sony SDK headers: never emitted; include/mmx6/psyq_api.h instead
 X4H_HEADER = ("/* Adapted from sozud/mmx4 @{pin} {srcs}, AGPL-3.0; proven shared with X6 by the exact signature each "
               "including draft names (see THIRD_PARTY.md). */")
@@ -743,17 +758,38 @@ def split_tagged(text):
     return text[m.start():i + 1] + ";", text[:m.start()] + f"{m.group(1)} {m.group(2)}" + text[i + 1:]
 
 
-def x4h(blocks):
+def homed(path=HOMED):
+    """{X4_<name>: (home, x6 tag)} of the homed list (`x4_tag home x6_tag`, tab-separated, `#` comments)."""
+    rows = [x.rstrip("\n").split("\t") for x in open(path) if x.strip() and not x.startswith("#")] if os.path.isfile(path) else []
+    return {r[0]: (r[1], r[2]) for r in rows}
+
+
+def homed_out(blocks, home):
+    """The guards of blocks whose tag the homed list homes (`t X4_D_<name>` with X4_<name> a homed tag)."""
+    return sorted(g for g in blocks if g.startswith("t X4_D_") and "X4_" + g[7:] in home)
+
+
+def x4h(blocks, home=None):
     """include/mmx6/x4.h text: attribution, guard, common.h, psyq_api.h, macros (sorted), then types (first-seen
-    order). blocks: {guard: (text, mmx4 file)}; a block from PSYQ is dropped (psyq_api.h re-expresses it)."""
+    order). blocks: {guard: (text, mmx4 file)}; a block from PSYQ is dropped (psyq_api.h re-expresses it). A homed
+    block (home: {X4_<name>: (home, x6 tag)}, default HOMED) is never emitted: first among the types (so an earlier
+    `struct X4_<name>*` use names the home's tag too), under its own guard, `#define X4_<name> <x6 tag>`, and its home
+    is included once at the end (it needs x4.h's types before it)."""
+    home = homed() if home is None else home
     blocks = {g: v for g, v in blocks.items() if not v[1].startswith(PSYQ)}
+    out_h = homed_out(blocks, home)
+    for g in out_h:
+        n = g[7:]
+        blocks[g] = (f"#ifndef X4_D_{n}\n#define X4_D_{n}\n#define X4_{n} {home['X4_' + n][1]}\n#endif", blocks[g][1])
     srcs = ", ".join(sorted({f for _, f in blocks.values() if f})) or "-"
     out = [X4H_HEADER.format(pin=PIN, srcs=srcs),
            "/* Generated by tools/mmx6/x4port.py --wave (never hand-edited): the X4_ types and mmx4 macros the W-x4 "
            "drafts use. */", "#ifndef MMX6_X4_H", "#define MMX6_X4_H", "", '#include "common.h"',
            '#include "mmx6/psyq_api.h"', ""]
     out += [t for g, (t, _) in sorted(blocks.items()) if g.startswith("m ")]
-    out += [t for g, (t, _) in blocks.items() if g.startswith("t ")]
+    out += [blocks[g][0] for g in out_h] + [t for g, (t, _) in blocks.items() if g.startswith("t ") and g not in out_h]
+    out += ([""] if out_h else []) + [f'#include "{h[len("include/"):]}"' for h in sorted({home["X4_" + g[7:]][0]
+                                                                                           for g in out_h})]
     return "\n".join(out + ["", "#endif /* MMX6_X4_H */", ""])
 
 
@@ -812,7 +848,7 @@ def write_pack(root, wave, row, prog, draft, notes):
     return d
 
 
-def lane(wave, root, pvs, limit, only_h=False):
+def lane(wave, root, pvs, limit, only_h=False, dry=False):
     for p in (PARTNERS, FUNCS, CLASSES):
         if not os.path.isfile(p):
             sys.exit(f"x4port: {p} missing")
@@ -886,6 +922,9 @@ def lane(wave, root, pvs, limit, only_h=False):
     ok, why, _ = verbatim.check(text)
     if not ok:
         sys.exit(f"x4port: {X4H} refused by verbatim ({why})")
+    if dry:
+        return dry_report([X4H] if not os.path.isfile(X4H) or Path(X4H).read_text() != text else [],
+                          len(homed_out(blocks, homed())))
     Path(X4H).write_text(text)
     for rep, what in sorted(lines, key=lambda x: (x[0][0], int(x[0][1], 16))):
         print(f"X4PORT {rep[0]}:{rep[1]} {what}")
@@ -966,83 +1005,120 @@ def keep_marks(old, new):
     return "\n".join(out)
 
 
-def held(hold=HOLD):
-    """{path: blocker} of the hold list (`path pin blocker`, tab-separated, `#` comments)."""
+def held(hold=HOLD, tree=None):
+    """{key: blocker} of the hold list (`key pin blocker`, tab-separated, `#` comments). A row names functions: key
+    `path` (every function of that file; include/mmx6/x4.h: x4.h) -> the normalised path; key `prog:func` (one
+    function, found through layout.locate, so the row survives a layout move) -> (path, definition line)."""
     rows = [x.rstrip("\n").split("\t") for x in open(hold) if x.strip() and not x.startswith("#")] if os.path.isfile(hold) else []
-    return {os.path.normpath(r[0]): r[2] for r in rows}
+    out = {}
+    for r in rows:
+        if "/" not in r[0] and ":" in r[0]:
+            prog, fn = r[0].split(":", 1)
+            loc = layout.locate(prog, fn, tree or layout.Tree(os.path.abspath(".")))
+            if loc is None:
+                sys.exit(f"x4port: {hold}: hold key {r[0]} not found (layout.locate)")
+            out[(loc[0], loc[1])] = r[2]
+        else:
+            out[os.path.normpath(r[0])] = r[2]
+    return out
 
 
-def repin(hold=HOLD, shared="src/shared"):
+def dry_report(would, kept):
+    """--dry-run's report: one `X4PORT DRY would change <path>` line per file, then the count line; rc 0."""
+    for f in would:
+        print(f"X4PORT DRY would change {f}")
+    print(f"X4PORT DRY {len(would)} would change; homed {kept} kept out")
+    return 0
+
+
+def repin(hold=HOLD, root=".", dry=False):
     import cards  # noqa: E402  (body_of)
     for p in (PARTNERS, FUNCS):
         if not os.path.isfile(p):
             sys.exit(f"x4port: {p} missing")
     funcs = {(r["prog"], r["name"]): r for r in jl(FUNCS)}
     rows = [x.rstrip("\n").split("\t") for x in open(PARTNERS) if x.strip()]
-    hl, ctx = held(hold), None
+    tree = layout.Tree(os.path.abspath(root))
+    hl, ctx = held(hold, tree), None
     blocks, counts, out = {}, {"same": 0, "changed": 0, "skipped": 0, "held": 0}, []
-    for f in sorted(str(x) for x in Path(shared).rglob("*.c")):
-        # held and at-pin files are ported for their x4.h blocks only, never rewritten
-        hw = hl.get(os.path.normpath(f))
-        if hw is not None:
-            counts["held"] += 1
-            out.append(f"X4PORT REPIN {f} held {hw}")
-        text = Path(f).read_text()
-        m = ADAPTED.match(" ".join(text.split("*/", 1)[0].split()))
-        if not m or not m.group(3):
-            continue
-        keep = hw is not None or m.group(1) == PIN
-        hsrc, hfn = m.group(2).rsplit(":", 1)
-        prog, name = Path(f).parent.name, Path(f).stem
-        row = funcs.get((prog, name))
-        try:
-            if row is None:
-                raise Skip(f"no corpus row {prog}:{name}")
-            mine = [r for r in rows if r[4].startswith(m.group(3))]
-            if not mine:
-                raise Skip(f"no partner of key {m.group(3)}")
-            own = [r for r in mine if (r[0], r[1]) == (prog, row["vram"])] or mine
-            cands = sorted({(r[5], r[6]) for r in own}, key=lambda x: (x != (hsrc, hfn), x))
-            why, got = [], None
-            for src, fn in cands:
-                try:
-                    ctx = ctx or mmx4_ctx()
-                    got = (src, fn) + port(ctx, prog, row, own[0][4], src, fn)
-                    break
-                except Skip as e:
-                    why.append(f"{src}:{fn} {e}")
-            if got is None:
-                raise Skip("; ".join(why))
-            src, fn, draft, _, hb = got
-            old, fdef = cards.body_of(text, name), cards.body_of(draft, name)
-            if not old or not fdef:
-                raise Skip(f"no definition of {name} in the {'file' if not old else 'draft'}")
-            clash = sorted(g[2:] for g, t, _ in hb if blocks.get(g, (t,))[0] != t)
-            if clash:
-                raise Skip("x4.h conflict " + " ".join(clash))
-            new, what = draft.split("\n", 1)[0] + "\n" + text.split("*/", 1)[1].lstrip("\n"), "same"
-            if code_of(fdef) != code_of(old):
-                fdef = cast_calls(text.replace(old, ""), draft.replace(fdef, ""), fdef)
-                new, what = new.replace(old, keep_marks(old, fdef)), "changed"
-        except Skip as e:
+    by_file, would = {}, []
+    for a in adapted(tree):
+        by_file.setdefault(a.path, []).append(a)
+    for f in sorted(by_file):
+        text = Path(root, f).read_text()
+        lines, edits = text.split("\n"), []
+        for a in by_file[f]:
+            # held and at-pin functions are ported for their x4.h blocks only, never rewritten
+            m, label = a.m, f"{f}:{a.defname or '-'}"
+            hw = hl.get((f, a.dfirst), hl.get(os.path.normpath(f)))
             if hw is not None:
-                out[-1] += f" (no blocks: {e})"
+                counts["held"] += 1
+                out.append(f"X4PORT REPIN {label} held {hw}")
+            if not m.group(3):
                 continue
-            counts["skipped"] += 1
-            out.append(f"X4PORT REPIN {f} skipped {e}" + (" (at pin, no blocks)" if keep else ""))
-            continue
-        for g, t, hf in hb:
-            hf = os.path.normpath(hf) if hf else ""
-            blocks.setdefault(g, (t, hf if hf and not os.path.isabs(hf) and not hf.startswith("..") else ""))
-        if keep:
-            if hw is None:
-                counts["same"] += 1
-                if what != "same":
-                    out.append(f"X4PORT REPIN {f} at pin, port differs (not rewritten) {src}:{fn}")
-            continue
-        Path(f).write_text(new)
-        counts[what] += 1
-        out.append(f"X4PORT REPIN {f} {what} {src}:{fn}" + ("" if (src, fn) == (hsrc, hfn) else f" (was {hsrc}:{hfn})"))
+            keep = hw is not None or m.group(1) == PIN
+            hsrc, hfn = m.group(2).rsplit(":", 1)
+            prog, name = a.prog, a.name
+            try:
+                if a.dfirst is None:
+                    raise Skip("no definition follows the header")
+                row = funcs.get((prog, name))
+                if row is None:
+                    raise Skip(f"no corpus row {prog}:{name}")
+                mine = [r for r in rows if r[4].startswith(m.group(3))]
+                if not mine:
+                    raise Skip(f"no partner of key {m.group(3)}")
+                own = [r for r in mine if (r[0], r[1]) == (prog, row["vram"])] or mine
+                cands = sorted({(r[5], r[6]) for r in own}, key=lambda x: (x != (hsrc, hfn), x))
+                why, got = [], None
+                for src, fn in cands:
+                    try:
+                        ctx = ctx or mmx4_ctx()
+                        got = (src, fn) + port(ctx, prog, row, own[0][4], src, fn)
+                        break
+                    except Skip as e:
+                        why.append(f"{src}:{fn} {e}")
+                if got is None:
+                    raise Skip("; ".join(why))
+                src, fn, draft, _, hb = got
+                old, fdef = "\n".join(lines[a.dfirst - 1:a.dlast]), cards.body_of(draft, name)
+                if not fdef:
+                    raise Skip(f"no definition of {name} in the draft")
+                clash = sorted(g[2:] for g, t, _ in hb if blocks.get(g, (t,))[0] != t)
+                if clash:
+                    raise Skip("x4.h conflict " + " ".join(clash))
+                head, body, what = draft.split("\n", 1)[0], None, "same"
+                if code_of(fdef) != code_of(old):
+                    fdef = cast_calls(text.replace(old, ""), draft.replace(fdef, ""), fdef)
+                    body, what = keep_marks(old, fdef), "changed"
+            except Skip as e:
+                if hw is not None:
+                    out[-1] += f" (no blocks: {e})"
+                    continue
+                counts["skipped"] += 1
+                out.append(f"X4PORT REPIN {label} skipped {e}" + (" (at pin, no blocks)" if keep else ""))
+                continue
+            for g, t, hf in hb:
+                hf = os.path.normpath(hf) if hf else ""
+                blocks.setdefault(g, (t, hf if hf and not os.path.isabs(hf) and not hf.startswith("..") else ""))
+            if keep:
+                if hw is None:
+                    counts["same"] += 1
+                    if what != "same":
+                        out.append(f"X4PORT REPIN {label} at pin, port differs (not rewritten) {src}:{fn}")
+                continue
+            edits.append((a, head, body))
+            counts[what] += 1
+            out.append(f"X4PORT REPIN {label} {what} {src}:{fn}" + ("" if (src, fn) == (hsrc, hfn) else f" (was {hsrc}:{hfn})"))
+        # only each rewritten function's header and definition lines change, bottom-up so earlier ranges hold
+        for a, head, body in sorted(edits, key=lambda e: -e[0].first):
+            if body is not None:
+                lines[a.dfirst - 1:a.dlast] = body.split("\n")
+            lines[a.first - 1:a.last] = [head]
+        if edits and dry and "\n".join(lines) != text:
+            would.append(f)
+        elif edits and not dry:
+            Path(root, f).write_text("\n".join(lines))
     if X4H in hl:
         out.append(f"X4PORT REPIN {X4H} held {hl[X4H]}")
     else:
@@ -1050,11 +1126,14 @@ def repin(hold=HOLD, shared="src/shared"):
         ok, why, _ = verbatim.check(text)
         if not ok:
             sys.exit(f"x4port: {X4H} refused by verbatim ({why})")
-        Path(X4H).write_text(text)
+        if not dry:
+            Path(root, X4H).write_text(text)
+        elif not Path(root, X4H).is_file() or Path(root, X4H).read_text() != text:
+            would.append(X4H)
     print("\n".join(out))
     print(f"X4PORT REPIN {counts['same']} same {counts['changed']} changed {counts['skipped']} skipped "
           f"{counts['held']} held {len(blocks)} x4.h blocks")
-    return 0
+    return dry_report(would, len(homed_out(blocks, homed()))) if dry else 0
 
 
 # ---- credits ---------------------------------------------------------------------------------------------------------
@@ -1065,20 +1144,62 @@ TABLE = ("| Component | Upstream | Commit / version | License | Paths here | Bas
          "|---|---|---|---|---|---|\n")
 ADAPTED = re.compile(r"/\* Adapted from sozud/mmx4 @(\w+) (.+?), AGPL-3\.0; proven shared with X6 by "
                      r"(?:exact signature (\w+)|the exact signature each including draft names)")
+ADAPTED_AT = re.compile(r"/\*\s*Adapted from sozud/mmx4\b")
+Adapted = collections.namedtuple("Adapted", "path first last m prog tu name defname dfirst dlast")
 
 
-def credits():
-    rows = []
-    for f in [X4H] + sorted(str(x) for x in Path("src/shared").rglob("*.c")):
-        if not os.path.isfile(f):
-            continue
-        head = Path(f).read_text().split("*/", 1)[0]  # the leading comment, reflow-proof (clang-format)
-        m = ADAPTED.match(" ".join(head.split()))
-        if not m:
-            continue
+def adapted(root="."):
+    """[Adapted] of every mmx4 attribution header (ADAPTED) anywhere in a file of the C units' #include closure
+    (layout.py; root a repo-shaped dir or a layout.Tree), sorted by (path, first). first/last: the comment's lines;
+    dfirst/dlast, defname: the C definition that follows it in that file before any other header (None if none);
+    prog, tu, name: the first unit (config/c_units.txt order) whose closure brings that definition under its own
+    name, else the first under an alias (name = that unit's name for it). Lines 1-based, paths relative to root."""
+    tree = root if isinstance(root, layout.Tree) else layout.Tree(os.path.abspath(str(root)))
+    defs = {}  # path -> {first line index: (last, defname, [(prog, tu, name)])}
+    for p, tu in tree.units():
+        for e in tree.entries(tree.unit_rel(p, tu), ctx=p):
+            for f in e.fns:
+                if f.kind == "def":
+                    defs.setdefault(f.path, {}).setdefault(f.first, (f.last, f.defname, []))[2].append((p, tu, f.name))
+    out = []
+    for rel in sorted(tree.closure()):
+        text = "\n".join(tree.lines(rel))
+        heads = []
+        for h in ADAPTED_AT.finditer(text):
+            end = text.find("*/", h.start())
+            m = ADAPTED.match(" ".join(text[h.start():end].split())) if end >= 0 else None
+            if m:
+                heads.append((text.count("\n", 0, h.start()), text.count("\n", 0, end), m))
+        starts = sorted(defs.get(rel, {}))
+        for k, (h0, h1, m) in enumerate(heads):
+            stop = heads[k + 1][0] if k + 1 < len(heads) else len(text)
+            d0 = next((d for d in starts if h1 < d < stop), None)
+            if d0 is None:
+                out.append(Adapted(rel, h0 + 1, h1 + 1, m, None, None, None, None, None, None))
+                continue
+            d1, dn, sites = defs[rel][d0]
+            p, tu, nm = next((x for x in sites if x[2] == dn), sites[0])
+            out.append(Adapted(rel, h0 + 1, h1 + 1, m, p, tu, nm, dn, d0 + 1, d1 + 1))
+    return out
+
+
+def credit_rows(root="."):
+    """The components table rows: include/mmx6/x4.h (its leading comment), then every attribution header of the
+    C units' closure (adapted(): any header anywhere in a file, one row each), in (path, line) order."""
+    heads, rows = [], []
+    if os.path.isfile(os.path.join(root, X4H)):
+        m = ADAPTED.match(" ".join(Path(root, X4H).read_text().split("*/", 1)[0].split()))  # reflow-proof (clang-format)
+        if m:
+            heads.append((X4H, m))
+    for f, m in heads + [(a.path, a.m) for a in adapted(root)]:
         pin, what, key = m.groups()
         basis = f"exact signature `{key}`, `{what}`" if key else f"types and macros of `{what}` used by the rows below"
         rows.append(f"| mmx4 port | [sozud/mmx4](https://github.com/sozud/mmx4) | `{pin}` | AGPL-3.0 | `{f}` | {basis} |")
+    return rows
+
+
+def credits():
+    rows = credit_rows()
     block = CREDITS[0] + "\n" + TABLE + "".join(r + "\n" for r in rows) + CREDITS[1]
     text = Path(THIRD).read_text()
     if CREDITS[0] in text:
@@ -1109,8 +1230,14 @@ def self_test():
     shutil.rmtree(SELFTEST, ignore_errors=True)
     clone, objroot = os.path.abspath(f"{SELFTEST}/clone"), os.path.abspath(f"{SELFTEST}/obj")
     src = "src/main/120A0.c"
-    text = Path(f"src/{SELF_PROG}/{SELF_TU}.c").read_text()
+    at = layout.locate(SELF_PROG, SELF_FUNC, os.getcwd())  # L-B: the unit is a thin include list; the body's role file
+    text = Path(at[0]).read_text() if at else ""
     body = cards.body_of(text, SELF_FUNC)
+    if body is None:
+        print(f"X4PORT self control: {SELF_FUNC}'s body not found (layout.locate -> {at})")
+        fails.append("body")
+        print(f"X4PORT CONTROL FAIL {' '.join(fails)}")
+        return 1
     fake = '#include "common.h"\n' + "\n".join(cards.top_decls(text)) + "\n\n" + body
     fake = re.sub(r"\bfunc_8", "fanc_8", re.sub(r"\bD_8", "Q_8", fake))
     os.makedirs(os.path.dirname(f"{clone}/{src}"))
@@ -1202,20 +1329,75 @@ def self_test():
     print(f"X4PORT self control: psy-q block kept out of x4.h {clean}")
     if not clean:
         fails.append("psyq")
-    # control: a held file and a held x4.h are never rewritten by --repin
-    hdir = f"{SELFTEST}/held/{SELF_PROG}"
-    os.makedirs(hdir)
-    hf, x4h0 = f"{hdir}/{SELF_FUNC}.c", Path(X4H).read_bytes() if os.path.isfile(X4H) else None
-    plant = HEADER.format(pin="0000000", src=src, func=xf, key=x6["exact"]).encode() + text.encode()
-    Path(hf).write_bytes(plant)
-    Path(f"{SELFTEST}/hold.tsv").write_text(f"# path\tpin\tblocker\n{hf}\t0000000\tplanted\n{X4H}\t0000000\tplanted\n")
-    with contextlib.redirect_stdout(io.StringIO()) as so:
-        repin(f"{SELFTEST}/hold.tsv", f"{SELFTEST}/held")
-    kept = (Path(hf).read_bytes() == plant and f"X4PORT REPIN {hf} held planted" in so.getvalue()
-            and (Path(X4H).read_bytes() if os.path.isfile(X4H) else None) == x4h0)
-    print(f"X4PORT self control: held file and x4.h byte-identical after repin {kept}")
+    # control: a homed tag's block (as a draft's port would hand it) stays out of x4.h; its alias and home come instead
+    plant = "struct X4_PlantObj {\n    s8 plant_member;\n};"
+    t = x4h({"t X4_D_PlantObj": (f"#ifndef X4_D_PlantObj\n#define X4_D_PlantObj\n{plant}\n#endif", "include/obj.h"),
+             "t X4_D_Other": ("#ifndef X4_D_Other\n#define X4_D_Other\nstruct X4_Other { s8 o; };\n#endif", "include/obj.h")},
+            {"X4_PlantObj": ("include/mmx6/plant_home.h", "PlantObj")})
+    home = ("plant_member" not in t and "#define X4_PlantObj PlantObj" in t and t.count('#include "mmx6/plant_home.h"') == 1
+            and "struct X4_Other {" in t and t.index("struct X4_Other {") < t.index('#include "mmx6/plant_home.h"'))
+    print(f"X4PORT self control: homed tag kept out of x4.h, alias and home include emitted {home}")
+    if not home:
+        fails.append("homed")
+    # control: on a planted unit tree (plain, then as a layout.role_tree) a whole-file `path` hold, a `prog:func` hold in
+    # a two-function file and a held x4.h are never rewritten by --repin; the file's other function is its own line
+    mini, x4h0 = os.path.abspath(f"{SELFTEST}/tree"), Path(X4H).read_bytes() if os.path.isfile(X4H) else None
+    hd = HEADER.format(pin="0000000", src=src, func=xf, key=x6["exact"])
+    plants = {"config/c_units.txt": f"{SELF_PROG} {SELF_TU}\n",
+              f"src/{SELF_PROG}/{SELF_TU}.c": '#include "../shared/held/whole.c"\n\n#include "../shared/held/multi.c"\n',
+              "src/shared/held/whole.c": hd + "void x4port_selftest_whole(void) {\n}\n",
+              "src/shared/held/multi.c": hd + body.strip() + "\n\n" + hd + "void x4port_selftest_two(void) {\n}\n"}
+    for rel, t in plants.items():
+        os.makedirs(os.path.dirname(f"{mini}/{rel}"), exist_ok=True)
+        Path(f"{mini}/{rel}").write_text(t)
+    Path(f"{SELFTEST}/hold.tsv").write_text(f"# key\tpin\tblocker\nsrc/shared/held/whole.c\t0000000\tplanted\n"
+                                            f"{SELF_PROG}:{SELF_FUNC}\t0000000\tplanted\n{X4H}\t0000000\tplanted\n")
+    want = [f"X4PORT REPIN src/shared/held/multi.c:{SELF_FUNC} held planted",
+            f"X4PORT REPIN src/shared/held/multi.c:x4port_selftest_two skipped no corpus row {SELF_PROG}:x4port_selftest_two",
+            "X4PORT REPIN src/shared/held/whole.c:x4port_selftest_whole held planted", f"X4PORT REPIN {X4H} held planted"]
+    runs = []
+    try:
+        for role in (False, True):
+            with layout.role_tree(SELF_PROG, SELF_TU, root=mini) if role else contextlib.nullcontext():
+                with contextlib.redirect_stdout(io.StringIO()) as so:
+                    repin(f"{SELFTEST}/hold.tsv", mini)
+            lines = so.getvalue().splitlines()
+            runs.append(all(any(x == w or x.startswith(w + " (no blocks") for x in lines) for w in want)
+                        and lines[-1].startswith("X4PORT REPIN 0 same 0 changed 1 skipped 2 held"))
+    except layout.Refuse as ex:
+        print(f"X4PORT self control: role tree {ex}")
+    kept = (runs == [True, True] and all(Path(f"{mini}/{r}").read_text() == t for r, t in plants.items())
+            and (Path(X4H).read_bytes() if os.path.isfile(X4H) else None) == x4h0 and not os.path.exists(f"{mini}/{X4H}"))
+    print(f"X4PORT self control: path and prog:func holds, two-function file and x4.h byte-identical after repin, "
+          f"plain and role tree {runs} {kept}")
     if not kept:
         fails.append("held")
+    # control: --repin --dry-run on the planted tree with no holds computes the rewrites and writes no file
+    Path(f"{SELFTEST}/hold0.tsv").write_text("# key\tpin\tblocker\n")
+    with contextlib.redirect_stdout(io.StringIO()) as so:
+        rc = repin(f"{SELFTEST}/hold0.tsv", mini, dry=True)
+    last = so.getvalue().splitlines()[-1:] or [""]
+    m = re.fullmatch(r"X4PORT DRY (\d+) would change; homed \d+ kept out", last[0])
+    dry = (rc == 0 and m is not None and int(m.group(1)) >= 1 and f"X4PORT DRY would change {X4H}" in so.getvalue()
+           and all(Path(f"{mini}/{r}").read_text() == t for r, t in plants.items())
+           and (Path(X4H).read_bytes() if os.path.isfile(X4H) else None) == x4h0 and not os.path.exists(f"{mini}/{X4H}"))
+    print(f"X4PORT self control: dry-run repin reports changes and writes no file {dry} ({last[0]})")
+    if not dry:
+        fails.append("dry-run")
+    # control: adapted() and the credit rows of today's tree are the same when a unit holding adapted files is a role tree
+    a0, r0 = adapted("."), credit_rows()
+    p6, t6 = next((x.prog, x.tu) for x in a0 if x.prog)
+    unit, role = f"src/{p6}/{t6}.c", f"src/{p6}/{layout.ROLE_DIR}/{t6}.c"
+    try:
+        with layout.role_tree(p6, t6):
+            a1, r1 = adapted("."), credit_rows()
+    except layout.Refuse as ex:
+        a1, r1 = [], [str(ex)]
+    key = lambda xs: [(unit if x.path == role else x.path,) + tuple(x[1:3]) + tuple(x[4:]) for x in xs]
+    same = key(a0) == key(a1) and r0 == r1 and any(x.prog for x in a0)
+    print(f"X4PORT self control: {len(a0)} headers, {len(r0)} credit rows same in role tree of {p6}/{t6} {same}")
+    if not same:
+        fails.append("role-tree")
     if fails:
         print(f"X4PORT CONTROL FAIL {' '.join(fails)}")
         return 1
@@ -1232,18 +1414,22 @@ def main():
     ap.add_argument("--limit", type=int, default=0, help="a deterministic stride sample of K representatives")
     ap.add_argument("--x4h", action="store_true", help="with --wave: rewrite include/mmx6/x4.h only, no packs")
     ap.add_argument("--credits", action="store_true", help=f"rewrite the mmx4 credits table of {THIRD}")
-    ap.add_argument("--repin", action="store_true", help=f"re-port every src/shared file adapted at another pin, except those {HOLD} holds")
+    ap.add_argument("--repin", action="store_true", help=f"re-port every adapted function at another pin, except those {HOLD} holds")
+    ap.add_argument("--dry-run", action="store_true", help="with --repin or --x4h: compute all, write nothing, list "
+                    "the files that would change")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
+    if a.dry_run and not (a.repin or a.x4h):
+        ap.error("--dry-run needs --repin or --x4h")
     if a.self_test:
         sys.exit(self_test())
     if a.credits:
         sys.exit(credits())
     if a.repin:
-        sys.exit(repin())
+        sys.exit(repin(dry=a.dry_run))
     if not (a.wave and re.fullmatch(r"W-[a-z0-9]+", a.wave)):
         ap.error("--wave W-<lane> required")
-    sys.exit(lane(a.wave, a.root, a.pv, a.limit, a.x4h))
+    sys.exit(lane(a.wave, a.root, a.pv, a.limit, a.x4h, a.dry_run))
 
 
 if __name__ == "__main__":

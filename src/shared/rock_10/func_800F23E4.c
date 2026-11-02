@@ -6,8 +6,8 @@
 M2C_UNK func_8002CA14(); /* extern */
 M2C_UNK func_8002CA54(); /* extern */
 
-void func_800F23E4(void* arg0) {
-    if (M2C_FIELD(arg0, s8*, 4) == 4) {
+void func_800F23E4(struct ObjectHeader* arg0) {
+    if (arg0->state == 4) {
         func_8002CA54();
         return;
     }

@@ -21,7 +21,7 @@ int _SsInit();
 // LIBSND SSINIT_C.OBJ+0x0, retail SLUS_013.95 0x80055EF4
 void SsInit(void);
 // LIBSND SSISEOS.OBJ+0x0, retail SLUS_013.95 0x80055F54
-short SsIsEos(short, short);
+short SsIsEos(long, short); // retail's caller passes arg 1 unnarrowed (a short there moves its registers); SDK takes short
 // LIBSND SSOPENP.OBJ+0x0, retail SLUS_013.95 0x80055F94
 short SsSepOpen(unsigned long *, short, short);
 // LIBSND CC_0.OBJ+0x0, retail SLUS_013.95 0x80056294
@@ -133,7 +133,7 @@ int _SsSndReplay();
 // LIBSND SSSTOP.OBJ+0x0, retail SLUS_013.95 0x80059C74
 int _SsSndStop();
 // LIBSND SSSTOP.OBJ+0x180, retail SLUS_013.95 0x80059DF4
-void SsSeqStop(short);
+void SsSeqStop(short, char); // retail's call passes 2 args; SDK takes 1
 // LIBSND SSSTOP.OBJ+0x1a8, retail SLUS_013.95 0x80059E1C
 void SsSepStop(short, short);
 // LIBSND SSSV.OBJ+0x0, retail SLUS_013.95 0x80059E54
@@ -147,7 +147,7 @@ int _SsSndSetVol();
 // LIBSND SSVOL.OBJ+0x90, retail SLUS_013.95 0x8005A364
 void SsSeqSetVol(short, short, short);
 // LIBSND SSVOL.OBJ+0xf8, retail SLUS_013.95 0x8005A3CC
-void SsSepSetVol(short, short, short, short);
+void SsSepSetVol(signed char, short, short, short); // retail's callers narrow arg 1 to a signed byte; SDK takes short
 // LIBSND TEMPO.OBJ+0x0, retail SLUS_013.95 0x8005A464
 int _SsSndTempo();
 // LIBSND UT_GPA.OBJ+0x0, retail SLUS_013.95 0x8005A684

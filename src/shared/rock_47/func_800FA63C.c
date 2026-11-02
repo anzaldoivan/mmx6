@@ -7,13 +7,13 @@ M2C_UNK reset_level();
 void func_800E9FB4();
 void func_800E9FDC(void);
 extern struct X4_BackgroundObj background_objects[3];
-extern s8 D_80097424;
+#include "mmx6/state.h"
 
 void func_800FA63C(s8* arg0) {
     s32 i;
     s8* p;
 
-    if (D_80097424 == 0) {
+    if (D_80097420.transition.active == 0) {
         func_800E9FB4();
         func_800E9FDC();
         func_8001D218();

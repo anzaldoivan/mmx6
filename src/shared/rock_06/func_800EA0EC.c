@@ -44,8 +44,8 @@ s32 func_800EA0EC(struct X4_PlayerObj* arg0, s16 arg1, s16 arg2) {
     i = 0;
     p = (struct X4_PlayerObj*)D_800C1220;
     for (; i < 0x50; i++, p = (struct X4_PlayerObj*)((u8*)p + 0xA4)) {
-        if (p != arg0 && p->active != 0 && *((s8*)p + 0xA2) != 0 &&
-            (h = p->unk68) != 0 && *((s8*)p + 1) == 0xB) {
+        if (p != arg0 && p->active != 0 && p->shot_palette_timer != 0 &&
+            (h = p->unk68) != 0 && p->id == 0xB) {
             r = EA0EC_hit(p, h, arg1, arg2);
             if (r != 0) {
                 return r;

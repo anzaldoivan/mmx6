@@ -3,7 +3,7 @@
 
     carve.py jtbl <prog> <table_lo>                         table = config/boundaries.txt `jtbl` row lo
     carve.py rodata <prog> <func_vram> [--bytes N]          tables = retail words of the rodata block inside func
-    carve.py opt <prog> <tu> <split vram> [--cflags "<f>"]  split <tu> at a corpus function start
+    carve.py opt <prog> <tu> <split vram> [--cflags "<f>"] [--gate]  split <tu> at a corpus function start
     carve.py --check                                        every record still valid (fail-closed)
     carve.py --self-test                                    planted refusals on a scratch copy under .run/
 
@@ -20,8 +20,18 @@ in that range refuses `foreign-rodata` (T44.c1). Rodata block: exe
 `INCLUDE_ASM(..., D_<base>)`: the first carve of an overlay drops that line and records `block <hi>` (hi = the first
 text function), from which segment.py cuts [base, hi) and starts the unit at hi. On a c parent, opt moves the
 tail of src/<prog>/<tu>.c (from the split function's chunk) to src/<prog>/<newtu>.c and adds `<prog> <newtu>` to
-config/c_units.txt. config/carve.<prog>.mk (generated from the record, included by the Makefile) sets the per-unit
-cc1 flags `CFLAGS_<newtu>`. Inputs: build/corpus/functions.jsonl (corpus.py --all) for function starts and TUs.
+config/c_units.txt; a thin unit (L-B, layout.py) splits at its role-file includes only (a split point inside a role file
+refuses `role-split`; a moved role file's INCLUDE_ASM folders are renamed to <newtu>, C0070); the self-test's second
+pass plants a thin unit over two role files in its scratch. The tail's preamble is the head's header plus every
+non-chunk, non-comment line between its chunks (declarations, externs, #defines) plus the file-scope extern/prototype
+lines of the head's member bodies (their block's #defines applied); the head is written unchanged. opt moves the
+parent's `jtbl` rows whose dispatcher, and `rodata` rows whose retail words' function (corpus), starts >= the split
+vram to <newtu> (rodata-follow), and removes asm/<prog> and build/split/<prog>.stamp so the next make re-splits
+(C0289; T23). --gate snapshots every file the carve writes (unit, tail, role files, c_units, record, .mk, yaml),
+re-splits, rebuilds the program clean and runs `sha1sum -c config/check.<prog>.sha` (log
+.run/carve/gate.<prog>.log): green prints `CARVE opt GATE OK ...`; red restores the snapshot, re-splits and refuses
+`carve-red`. config/carve.<prog>.mk (generated from the record, included by the Makefile) sets the per-unit cc1 flags
+`CFLAGS_<newtu>`. Inputs: build/corpus/functions.jsonl (corpus.py --all) for function starts and TUs.
 Retail words: extracted/retail/iso/SLUS_013.95 | extracted/retail/rock/NN.bin.
 Prints `CARVE jtbl OK <prog> 0x<lo>` / `CARVE rodata OK <prog> 0x<func> 0x<lo>-0x<hi> <bytes>` (per range) /
 `CARVE opt OK <prog> <tu>@0x<vram>`; --check prints those per verified row (rodata: `CARVE rodata OK <prog> 0x<lo>-0x<hi>`) and
@@ -32,16 +42,18 @@ import os
 import re
 import shutil
 import struct
+import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import layout  # noqa: E402  (ASM_RE, asm_line: the INCLUDE_ASM regex and literal)
 import probe  # noqa: E402  (sym_name, plant_lookup: the self-test's names looked up by vram)
 import segment  # noqa: E402
 
 CORPUS = os.path.join(ROOT, "build", "corpus", "functions.jsonl")
 SCRATCH = os.path.join(ROOT, ".run", "carve-selftest")
-INC_RE = re.compile(r"^INCLUDE_ASM\(\"[^\"]*\", *(\w+)\);")
+INC_RE = layout.ASM_RE  # an INCLUDE_ASM line (the one regex, tools/mmx6/layout.py)
 CDEF_RE = re.compile(r"(?!INCLUDE_ASM\b)[A-Za-z_][^;{}()#]*?\b([A-Za-z_]\w*)\s*\([^;{}]*?\)\s*\{(\s*\})?")
 CINC_RE = re.compile(r"^#include \"([^\"]+\.c)\"[ \t]*$")
 
@@ -121,8 +133,9 @@ def d_line(prog, base):
 
 
 def rodata_block(root, prog, rec):
-    """(lo, hi, unit) of prog's rodata block; unit = the overlay c unit whose D_<base> line a first carve drops
-    (None for the exe or an overlay whose record already has its `block` row)."""
+    """(lo, hi, path) of prog's rodata block; path = the repo path of the file (the first c unit or a role file in its
+    include closure, found via layout.find_asm) whose D_<base> line a first carve drops (None for the exe or an overlay
+    whose record already has its `block` row)."""
     if prog == segment.EXE["name"]:
         return segment.EXE["rodata_lo"], segment.EXE["text_lo"], None
     base = segment.read_programs(segment.BOUNDARIES)[prog][0]
@@ -131,22 +144,20 @@ def rodata_block(root, prog, rec):
         return base, his[0], None
     tus = text_tus(prog)
     unit = tus[0][1] if tus and tus[0][0] == base else None
-    path = os.path.join(root, "src", prog, "%s.c" % unit)
-    has = False
-    if unit in segment.c_units(prog) and os.path.exists(path):
-        with open(path) as f:
-            has = any((m.group(1) if m else None) == d_line(prog, base) for m in map(INC_RE.match, f))
+    hit = layout.find_asm(prog, d_line(prog, base), root) if unit in segment.c_units(prog) else None
+    has = hit is not None and hit[2] == unit
     first = min([v for v in corpus(prog) if v > base], default=None)
     if not has or first is None:
         refuse("no-rodata-block", "%s first TU %s is not a c unit with INCLUDE_ASM(..., %s)" % (prog, unit, d_line(prog, base)))
-    return base, first, unit
+    return base, first, hit[0]
 
 
 def place(root, prog, rec, unit, hi, rows):
-    """Append rows to the record; an overlay's first carve also drops its D_<base> line and records `block <hi>`."""
+    """Append rows to the record; an overlay's first carve also drops its D_<base> line (in the file `unit`, a repo
+    path from rodata_block) and records `block <hi>`."""
     if unit is not None:
         base = segment.read_programs(segment.BOUNDARIES)[prog][0]
-        path = os.path.join(root, "src", prog, "%s.c" % unit)
+        path = os.path.join(root, unit)
         with open(path) as f:
             lines = f.read().split("\n")
         i = [k for k, l in enumerate(lines) if (lambda m: m and m.group(1) == d_line(prog, base))(INC_RE.match(l))][0]
@@ -370,8 +381,10 @@ def uncarve_rodata(root, prog, func):
 # ---- opt -----------------------------------------------------------------------------------------------------------
 
 def anchors(lines, srcdir):
-    """[(start, end, names)] of the function chunks of a C unit: INCLUDE_ASM lines, C definitions, and
-    `#define ... #include "<body>.c" #undef ...` member blocks (names = the define targets, or the body's defs)."""
+    """[(start, end, names, role)] of the function chunks of a C unit: INCLUDE_ASM lines, C definitions, and
+    `#define ... #include "<body>.c" #undef ...` member blocks (names = the define targets, or the body's defs); a
+    bare include of a file outside src/shared/ is a role file (L-B, layout.py): names = every function of its chunks,
+    role = (its path, the names of its first chunk); else role = None."""
     out, i, text = [], 0, "\n".join(lines)
     offs = [0]
     for l in lines:
@@ -380,7 +393,7 @@ def anchors(lines, srcdir):
         l = lines[i]
         m = INC_RE.match(l)
         if m:
-            out.append((i, i, {m.group(1)}))
+            out.append((i, i, {m.group(1)}, None))
             i += 1
             continue
         if l.startswith("#define ") or CINC_RE.match(l):
@@ -390,13 +403,19 @@ def anchors(lines, srcdir):
                 j += 1
             m = CINC_RE.match(lines[j]) if j < len(lines) else None
             if m:
-                if not names:
-                    with open(os.path.join(srcdir, m.group(1))) as f:
+                role, target = None, os.path.normpath(os.path.join(srcdir, m.group(1)))
+                if not names and "shared" not in target.split(os.sep):  # a role file: its own chunks, in order
+                    with open(target) as f:
+                        sub = anchors(f.read().rstrip("\n").split("\n"), os.path.dirname(target))
+                    names = set().union(*(a[2] for a in sub))
+                    role = (target, sub[0][2] if sub else set())
+                elif not names:
+                    with open(target) as f:
                         names = {d.group(1) for d in (CDEF_RE.match(x) for x in f) if d}
                 k = j + 1
                 while k < len(lines) and lines[k].startswith("#undef "):
                     k += 1
-                out.append((i, k - 1, names))
+                out.append((i, k - 1, names, role))
                 i = k
                 continue
         m = CDEF_RE.match(text, offs[i]) if l[:1].isalpha() and not l.startswith("extern") else None
@@ -407,10 +426,39 @@ def anchors(lines, srcdir):
             if not m.group(2):
                 while lines[e] != "}":
                     e += 1
-            out.append((i, e, {m.group(1)}))
+            out.append((i, e, {m.group(1)}, None))
             i = e + 1
             continue
         i += 1
+    return out
+
+
+DECL_RE = re.compile(r"(extern\s[^;{}]*|(?!static\b|typedef\b|return\b)[A-Za-z_][\w \t*]*[ \t*]\w+\s*\([^;{}=]*\))"
+                     r"\s*;\s*$")  # a file-scope extern or prototype line
+
+
+def member_decls(block, srcdir):
+    """File-scope `extern` and prototype lines (and `#include "<x>.h"` lines, no `..`) of the .c body a member block
+    (#define... #include #undef...) includes, in order, each with the block's #defines applied as cpp would (whole
+    words); a line using a macro the body itself defines is skipped; [] for an INCLUDE_ASM or C-definition chunk."""
+    m = next((CINC_RE.match(l) for l in block if CINC_RE.match(l)), None)
+    if m is None:
+        return []
+    defs = [l.split()[1:3] for l in block if l.startswith("#define ") and len(l.split()) == 3]
+    out, depth, own = [], 0, set()  # own: the body's own macros active at this line (a line using one is not carried)
+    with open(os.path.normpath(os.path.join(srcdir, m.group(1)))) as f:
+        for l in f:
+            w = l.split()
+            if w[:1] in (["#define"], ["#undef"]) and len(w) > 1:
+                (own.add if w[0] == "#define" else own.discard)(w[1].split("(")[0])
+            elif depth == 0 and re.match(r'#include "[^".]+(/[^".]+)*\.h"\s*$', l):  # the header a decl's types need
+                out.append(l.rstrip())
+            elif depth == 0 and DECL_RE.match(l) and not own & set(re.findall(r"\w+", l)):
+                d = l.rstrip()
+                for a, b in defs:
+                    d = re.sub(r"\b%s\b" % re.escape(a), b, d)
+                out.append(d)
+            depth += l.count("{") - l.count("}")
     return out
 
 
@@ -421,24 +469,128 @@ def split_c(path, newpath, name, tu, newtu):
     k = [i for i, a in enumerate(an) if name in a[2]]
     if not k:
         refuse("no-chunk", "%s has no INCLUDE_ASM, C definition or member block of %s" % (path, name))
+    if an[k[0]][3] and name not in an[k[0]][3][1]:  # a thin unit splits at its role includes only
+        refuse("role-split", "%s is inside role file %s, not its first function" % (name, an[k[0]][3][0]))
     if k[0] == 0:
         refuse("tu-start", "%s is the first chunk of %s" % (name, path))
     cut = an[k[0] - 1][1] + 1
     head = lines[:cut]
     while head and not head[-1].strip():
         head.pop()
-    pre = lines[:an[0][0]]
+    inside = {j for a in an[:k[0]] for j in range(a[0], a[1] + 1)}
+    pre, cmt = lines[:an[0][0]], False  # the tail's preamble: the header + every non-chunk, non-comment line between
+    for j in range(an[0][0], cut):  # the head's chunks (declarations, externs, #defines; T23)
+        s = lines[j].strip()
+        if j in inside or cmt or s.startswith("//") or s.startswith("/*"):
+            cmt = (cmt or s.startswith("/*")) and "*/" not in s
+            continue
+        if s or (pre and pre[-1].strip()):
+            pre.append(lines[j])
     while pre and not pre[-1].strip():
         pre.pop()
+    carried = []  # file-scope declarations the head's member bodies made, which later bodies rely on (rock_39; T23)
+    for a in an[:k[0]]:
+        for d in member_decls(lines[a[0]:a[1] + 1], os.path.dirname(path)) if not a[3] else []:
+            if d not in carried and d not in pre:
+                carried.append(d)
+    pre += [""] + carried if carried else []
     tail = lines[cut:]
     while tail and not tail[0].strip():
         tail.pop(0)
     old = "nonmatchings/%s\"" % tu
     tail = [l.replace(old, "nonmatchings/%s\"" % newtu) if INC_RE.match(l) else l for l in tail]
+    for a in an[k[0]:]:  # role files moving to newtu: their INCLUDE_ASM folders name the new unit (C0070)
+        if a[3]:
+            with open(a[3][0]) as f:
+                rl = f.read().split("\n")
+            with open(a[3][0], "w") as f:
+                f.write("\n".join(l.replace(old, "nonmatchings/%s\"" % newtu) if INC_RE.match(l) else l for l in rl))
     with open(path, "w") as f:
         f.write("\n".join(head) + "\n")
     with open(newpath, "w") as f:
         f.write("\n".join(pre + [""] + tail) + "\n")
+
+
+def table_owner(fns, prog, lo, hi):
+    """Start vram of the corpus function holding the first retail word of [lo, hi) (as table_runs), or None."""
+    ws = retail_words(prog, lo, hi) if lo % 4 == 0 and hi > lo else []
+    return next((v for v, (_, _, e) in fns.items() if ws and v <= ws[0][1] < e), None)
+
+
+def opt_paths(root, prog, tu, newtu):
+    """Every path carve_opt may write: the unit, its tail, the unit's role files, c_units, record, .mk, yaml."""
+    src = os.path.join(root, "src", prog)
+    out = [os.path.join(src, tu + ".c"), os.path.join(src, newtu + ".c")]
+    if os.path.exists(out[0]):
+        with open(out[0]) as f:
+            out += [a[3][0] for a in anchors(f.read().rstrip("\n").split("\n"), src) if a[3]]
+    return out + [cfg(root, p) for p in ("c_units.txt", "carve.%s.txt" % prog, "carve.%s.mk" % prog, prog + ".yaml")]
+
+
+def resplit(root, prog):
+    """Drop asm/<prog> and its split stamp: the next make re-splits (splat never deletes a moved function's .s; C0289)."""
+    shutil.rmtree(os.path.join(root, "asm", prog), ignore_errors=True)
+    stamp = os.path.join(root, "build", "split", prog + ".stamp")
+    if os.path.exists(stamp):
+        os.remove(stamp)
+
+
+def run_log(root, prog, cmd):
+    """rc of cmd run in root, output appended to .run/carve/gate.<prog>.log."""
+    os.makedirs(os.path.join(root, ".run", "carve"), exist_ok=True)
+    with open(os.path.join(root, ".run", "carve", "gate.%s.log" % prog), "a") as f:
+        f.write("$ " + " ".join(cmd) + "\n")
+        f.flush()
+        return subprocess.run(cmd, cwd=root, stdout=f, stderr=subprocess.STDOUT).returncode
+
+
+def gate_build(root, prog):
+    """Re-split, clean rebuild of prog, `sha1sum -c config/check.<prog>.sha`: '' when green, else the failing step."""
+    resplit(root, prog)
+    if run_log(root, prog, ["make", "-s", "build/split/%s.stamp" % prog]):
+        return "split"
+    out = "build/rock/%s.bin" % prog[5:] if prog.startswith("rock_") else "build/" + prog
+    objs = [os.path.join(dp, n) for dp, _, ns in os.walk(os.path.join(root, "build", "src", prog)) for n in ns
+            if n.endswith(".c.o")]
+    for p in objs + [os.path.join(root, "build", prog + ".elf"), os.path.join(root, out)]:
+        if os.path.exists(p):
+            os.remove(p)
+    if run_log(root, prog, ["make", "-s", out]):
+        return "build"
+    return "sha" if run_log(root, prog, ["sha1sum", "-c", "config/check.%s.sha" % prog]) else ""
+
+
+def gate_split(root, prog):
+    """Re-split prog after a restore; rc."""
+    resplit(root, prog)
+    return run_log(root, prog, ["make", "-s", "build/split/%s.stamp" % prog])
+
+
+def carve_opt_gated(root, prog, tu, vram, cflags):
+    """carve_opt, then the gate: a red split/build/hash restores every written file byte-exact, re-splits and refuses
+    `carve-red` (the gate is the arbiter; T23)."""
+    newtu = segment.hexname(vram)
+    saved = {}
+    for p in opt_paths(root, prog, tu, newtu):
+        saved[p] = None
+        if os.path.exists(p):
+            with open(p, "rb") as f:
+                saved[p] = f.read()
+    carve_opt(root, prog, tu, vram, cflags)
+    step = gate_build(root, prog)
+    if not step:
+        print("CARVE opt GATE OK %s %s@0x%08X" % (prog, tu, vram))
+        return
+    for p, b in saved.items():
+        if b is None:
+            if os.path.exists(p):
+                os.remove(p)
+        else:
+            with open(p, "wb") as f:
+                f.write(b)
+    rc = gate_split(root, prog)
+    refuse("carve-red", "%s %s@0x%08X: %s red after the carve; restored%s" % (
+        prog, tu, vram, step, "" if rc == 0 else ", re-split FAILED"))
 
 
 def carve_opt(root, prog, tu, vram, cflags):
@@ -463,7 +615,12 @@ def carve_opt(root, prog, tu, vram, cflags):
             f = jtbl_rows(prog)[int(r[1], 16)][1]
             if r[2] == tu and f >= vram:
                 r[2] = newtu
+        elif r[0] == "rodata" and r[3] == tu:  # rodata-follow (T23): rows are in TU function order, so a suffix moves
+            f = table_owner(fns, prog, int(r[1], 16), int(r[2], 16))
+            if f is not None and f >= vram:
+                r[3] = newtu
     regenerate(root, prog, rec + [["opt", tu, "0x%08X" % vram, newtu] + cflags.split()])
+    resplit(root, prog)  # the tail's INCLUDE_ASM .s regenerate at the next make (C0289)
     print("CARVE opt OK %s %s@0x%08X" % (prog, tu, vram))
 
 
@@ -515,9 +672,9 @@ def check(root, quiet=False):
             elif r[0] == "block" and len(r) == 2:
                 base = segment.read_programs(segment.BOUNDARIES)[prog][0]
                 tus = text_tus(prog)
-                src = os.path.join(root, "src", prog, "%s.c" % tus[0][1])
-                dl = os.path.exists(src) and any((m.group(1) if m else None) == d_line(prog, base)
-                                                 for m in map(INC_RE.match, open(src)))
+                src = "src/%s/%s.c (closure)" % (prog, tus[0][1])
+                hit = layout.find_asm(prog, d_line(prog, base), root)
+                dl = hit is not None and hit[2] == tus[0][1]
                 sym = cfg(root, "symbols.%s.txt" % prog)
                 dl = dl or os.path.exists(sym) and re.search(r"(?m)^%s = 0x%08X;[ \t]*//" % (d_line(prog, base), base),
                                                               open(sym).read()) is not None
@@ -591,6 +748,51 @@ def expect(code, fn, *a):
     return False
 
 
+def plant_target(fns):
+    """(vram, tu, role path | None) of the self-test's opt carve: in the exe's units on the current tree (c_units order),
+    the first chunk after a unit's first that is a C definition or a role file's first function (L-B, layout.py) and a
+    corpus start of that unit; a mid-role function would refuse `role-split` by design."""
+    byname = dict((n, (v, t)) for v, (n, t, _) in fns.items())
+    src = os.path.join(SCRATCH, "src", EXE)
+    for _, tu in layout.Tree(SCRATCH).units(EXE):
+        with open(os.path.join(src, tu + ".c")) as f:
+            lines = f.read().rstrip("\n").split("\n")
+        for a in anchors(lines, src)[1:]:
+            names = a[3][1] if a[3] else a[2] if not INC_RE.match(lines[a[0]]) and len(a[2]) == 1 else set()
+            for n in sorted(names):
+                if byname.get(n, (0, None))[1] == tu:
+                    return byname[n][0], tu, a[3][0] if a[3] else None
+    refuse("no-plant", "no unit of %s has a C definition or role file past its first chunk" % EXE)
+
+
+def follow_target():
+    """(prog, tu, vram) of the self-test's rodata-follow split, through the current layout (T16.c4): the first unit of
+    [EXE] + OVL (c_units order) with a chunk as plant_target's whose start lies in (min, max] of the unit's carved
+    `rodata` table owners, so tables stay and move; a split mid role file would refuse `role-split` by design."""
+    tree = layout.Tree(SCRATCH)
+    for prog in [EXE] + OVL:
+        fns = corpus(prog)
+        byname = dict((n, v) for v, (n, t, _) in fns.items())
+        owners = {}
+        for r in read_record(SCRATCH, prog):
+            f = table_owner(fns, prog, int(r[1], 16), int(r[2], 16)) if r[0] == "rodata" else None
+            if f is not None:
+                owners.setdefault(r[3], []).append(f)
+        src = os.path.join(SCRATCH, "src", prog)
+        for _, tu in tree.units(prog):
+            if not owners.get(tu):
+                continue
+            with open(os.path.join(src, tu + ".c")) as f:
+                lines = f.read().rstrip("\n").split("\n")
+            for a in anchors(lines, src)[1:]:
+                names = a[3][1] if a[3] else a[2] if not INC_RE.match(lines[a[0]]) and len(a[2]) == 1 else set()
+                for n in sorted(names):
+                    v = byname.get(n)
+                    if v is not None and fns[v][1] == tu and min(owners[tu]) < v <= max(owners[tu]):
+                        return prog, tu, v
+    refuse("no-plant", "no unit of %s has carved tables on both sides of a splittable chunk" % ", ".join([EXE] + OVL))
+
+
 def self_test():
     ok = probe.plant_lookup("carve", EXE, 0x800429C4)
     scratch()
@@ -632,7 +834,9 @@ def self_test():
     ok &= expect("overlaps-carve", carve_jtbl, SCRATCH, EXE, 0x80011380)
     # TU 32208 gap: jtbl-carved [..11394) vs 11398; the merged rodata record [..113AC) vs 113B0 (T35.c53)
     ok &= expect("non-contiguous", carve_jtbl, SCRATCH, EXE, 0x800113B0 if jtbl_carved(EXE, 0x80011398) else 0x80011398)
-    c01 = os.path.join(SCRATCH, "src", "rock_01", "1EA000.c")  # plant: a first c unit without its D_<base> line
+    hit01 = layout.find_asm("rock_01", d_line("rock_01", 0x801EA000), SCRATCH)  # unit or L-B role file (T16.c4)
+    c01 = os.path.join(SCRATCH, hit01[0]) if hit01 else os.path.join(SCRATCH, "src", "rock_01", "1EA000.c")
+    # plant: a first c unit without its D_<base> line
     with open(c01) as f:
         keep = [ln for ln in f if (INC_RE.match(ln) or [None, None])[1] != d_line("rock_01", 0x801EA000)]
     with open(c01, "w") as f:
@@ -674,7 +878,7 @@ def self_test():
     ok &= expect("foreign-rodata", carve_rodata, SCRATCH, "rock_04", 0x800EF738, None)  # was non-contiguous before T44.c1
     CORPUS = real
     with open(c4, "w") as f:
-        f.write(c4s.replace("\n\n", '\n\nINCLUDE_ASM("asm/rock_04/nonmatchings/E9860", %s);\n\n' % d4, 1))
+        f.write(c4s.replace("\n\n", "\n\n%s\n\n" % layout.asm_line("rock_04", "E9860", d4), 1))
     t = check(SCRATCH, quiet=True) != 0
     print("control check-d-line  %s" % ("tripped" if t else "NOT refused"))
     ok &= t
@@ -702,28 +906,122 @@ def self_test():
     print("control rodata-merge  %s" % ("placed" if t else "WRONG"))
     ok &= t
     fns = corpus(EXE)
-    tu = fns[0x800429C4][1]
-    ok &= expect("not-a-start", carve_opt, SCRATCH, EXE, tu, 0x800429C8, "")
+    tgt, tu, role = plant_target(fns)  # through the current layout (T15.c2): never a fixed address
+    nt = segment.hexname(tgt)
+    print("control plant target %s 0x%08X %s%s" % (tu, tgt, fns[tgt][0], " (role file %s)" % role if role else ""))
+    ok &= expect("not-a-start", carve_opt, SCRATCH, EXE, tu, tgt + 4, "")
     start = dict((n, v) for v, n in text_tus(EXE))[tu]
     ok &= expect("tu-start", carve_opt, SCRATCH, EXE, tu, start, "")
-    carve_opt(SCRATCH, EXE, tu, 0x800429C4, "-O0 -G0")  # positive control: a C-definition chunk moves
+    global gate_build, gate_split  # gate (T23): an injected red hash restores every written file, refuses carve-red
+    real_gate = (gate_build, gate_split)
+    gate_build, gate_split = (lambda root, prog: "sha"), (lambda root, prog: 0)
+    paths = opt_paths(SCRATCH, EXE, tu, nt)
+    before = [open(p, "rb").read() if os.path.exists(p) else None for p in paths]
+    t = expect("carve-red", carve_opt_gated, SCRATCH, EXE, tu, tgt, "-O0 -G0")
+    gate_build, gate_split = real_gate
+    t = t and before == [open(p, "rb").read() if os.path.exists(p) else None for p in paths]
+    print("control opt-gate-restore %s" % ("restored" if t else "WRONG"))
+    ok &= t
+    os.makedirs(os.path.join(SCRATCH, "asm", EXE), exist_ok=True)  # stale split output a carve must drop (C0289)
+    os.makedirs(os.path.join(SCRATCH, "build", "split"), exist_ok=True)
+    open(os.path.join(SCRATCH, "asm", EXE, "stale.s"), "w").close()
+    open(os.path.join(SCRATCH, "build", "split", EXE + ".stamp"), "w").close()
+    carve_opt(SCRATCH, EXE, tu, tgt, "-O0 -G0")  # positive control: a C-definition chunk (or its role file) moves
+    t = not os.path.exists(os.path.join(SCRATCH, "asm", EXE)) and \
+        not os.path.exists(os.path.join(SCRATCH, "build", "split", EXE + ".stamp"))
+    print("control opt-resplit   %s" % ("dropped" if t else "WRONG"))
+    ok &= t
     src = os.path.join(SCRATCH, "src", EXE)
-    with open(os.path.join(src, "429C4.c")) as f:
+    with open(os.path.join(src, nt + ".c")) as f:
         new = f.read()
     with open(os.path.join(src, tu + ".c")) as f:
         head = f.read()
-    f429 = probe.sym_name(EXE, 0x800429C4)
-    t = (new.startswith('#include "common.h"\n\nvoid %s(void) {' % f429) and f429 not in head
-         and "nonmatchings/%s\"" % tu not in new and "CFLAGS_429C4 := -O0 -G0" in open(cfg(SCRATCH, "carve.%s.mk" % EXE)).read()
-         and "%s 429C4" % EXE in open(cfg(SCRATCH, "c_units.txt")).read())
+    f429 = fns[tgt][0]
+    if role:  # a role file's first function: its include moves, its INCLUDE_ASM folders name the new unit
+        inc = '#include "%s"' % os.path.relpath(role, src)
+        moved = inc in new.split("\n") and inc not in head.split("\n") and \
+            "nonmatchings/%s\"" % tu not in open(role).read()
+    else:  # a C definition: it moves, the carried block between (T23) precedes it
+        d = re.search(r"\n\n[^\n]*\b%s\s*\(" % f429, new)
+        moved = d is not None and f429 not in new[:d.start()] and f429 not in head
+    t = (new.startswith('#include "common.h"\n\n') and moved
+         and "nonmatchings/%s\"" % tu not in new and "CFLAGS_%s := -O0 -G0" % nt in open(cfg(SCRATCH, "carve.%s.mk" % EXE)).read()
+         and "%s %s" % (EXE, nt) in open(cfg(SCRATCH, "c_units.txt")).read())
     print("control opt-split     %s" % ("moved" if t else "WRONG"))
     ok &= t
+    # rodata-follow (T23): a unit's carved rows split at a chunk between their owners: the later owners' rows move.
+    # Target through the current layout (T16.c4): on L-B rock_04 ED3A4 sits mid role file (refuses role-split).
+    p4, tu4, v4 = follow_target()
+    n4 = segment.hexname(v4)
+    print("control follow target %s %s 0x%08X" % (p4, tu4, v4))
+    fns4 = corpus(p4)
+    own = [(r[1], r[3], table_owner(fns4, p4, int(r[1], 16), int(r[2], 16)))
+           for r in read_record(SCRATCH, p4) if r[0] == "rodata"]
+    carve_opt(SCRATCH, p4, tu4, v4, "")
+    got = [(r[1], r[3]) for r in read_record(SCRATCH, p4) if r[0] == "rodata"]
+    want = [(lo, n4 if t == tu4 and f is not None and f >= v4 else t) for lo, t, f in own]
+    lo1 = min([int(lo, 16) for lo, t in want if t == n4] or [0])
+    blo = rodata_block(SCRATCH, p4, read_record(SCRATCH, p4))[0] - (segment.EXE["header"] if p4 == EXE else 0)
+    t = got == want and {n4, tu4} <= {t for _, t in want} and \
+        "- [0x%X, .rodata, %s]\n" % (lo1 - blo, n4) in open(cfg(SCRATCH, p4 + ".yaml")).read()
+    print("control opt-rodata-follow %s" % ("moved" if t else "WRONG %s" % got))
+    ok &= t
+    ok &= preamble_control()
+    ok &= role_controls()
     use_root(ROOT)
     if not ok:
         print("CARVE CONTROL FAILED")
         return 1
     print("CARVE CONTROL OK")
     return 0
+
+
+def preamble_control():
+    """T23: a declaration between chunks of the head, and a member body's file-scope extern/prototype (the block's
+    #defines applied), reach the tail's preamble (a comment there does not); the head is written unchanged."""
+    d = os.path.join(SCRATCH, "src", "Q")
+    os.makedirs(d, exist_ok=True)
+    unit, new = os.path.join(d, "unit.c"), os.path.join(d, "C0000.c")
+    with open(os.path.join(d, "body.c"), "w") as f:  # a member body whose file-scope extern later bodies rely on
+        f.write('#include "common.h"\n#include "mmx6/x4.h"\n'
+                "extern s16 D_Y;\nvoid func_q(s32);\n#define MU s32\nMU func_m(void);\n#undef MU\n\n"  # MU: its own
+                "void func_q(s32 a) {\n    D_Y = a;\n}\n")  # macro, so func_m's prototype is not carried
+    head = ['#include "common.h"', "", layout.asm_line("Q", "unit", "func_a"), "", "extern u8 D_X;",
+            "void func_b(void);", "", "// func_c: its doc comment stays with it", "void func_c(void) {", "}", "",
+            "#define D_Y D_Y_s16", "#define func_q func_e", '#include "body.c"', "#undef D_Y", "#undef func_q"]
+    with open(unit, "w") as f:
+        f.write("\n".join(head + ["", layout.asm_line("Q", "unit", "func_d")]) + "\n")
+    split_c(unit, new, "func_d", "unit", "C0000")
+    t = (open(unit).read() == "\n".join(head) + "\n" and open(new).read() == "\n".join(
+        ['#include "common.h"', "", "extern u8 D_X;", "void func_b(void);", "", '#include "mmx6/x4.h"', "extern s16 D_Y_s16;",
+         "void func_e(s32);", "", layout.asm_line("Q", "C0000", "func_d")]) + "\n")
+    print("control opt-preamble  %s" % ("kept" if t else "WRONG"))
+    return t
+
+
+def role_controls():
+    """Second pass (T5): split_c on a planted thin unit over two role files (scratch src/P/, never src/): a split point
+    inside a role file refuses `role-split`, the first chunk `tu-start`; the second role file's first function splits
+    at its include, the moved role file's INCLUDE_ASM folders renamed to the new unit."""
+    d = os.path.join(SCRATCH, "src", "P")
+    thin, new, ra, rb = (os.path.join(d, x) for x in ("thin.c", "B0000.c", "sys/a.c", "sys/b.c"))
+    plant = {thin: '#include "common.h"\n\n#include "sys/a.c"\n\n#include "sys/b.c"\n',
+             ra: "%s\n\nvoid func_a2(void) {\n}\n" % layout.asm_line("P", "thin", "func_a1"),
+             rb: "%s\n\n%s\n" % (layout.asm_line("P", "thin", "func_b1"), layout.asm_line("P", "thin", "func_b2"))}
+    os.makedirs(os.path.dirname(ra), exist_ok=True)
+    for p, t in plant.items():
+        with open(p, "w") as f:
+            f.write(t)
+    print("control role-tree pass: thin unit %s over sys/a.c sys/b.c" % os.path.relpath(thin, SCRATCH))
+    ok = expect("role-split", split_c, thin, new, "func_b2", "thin", "B0000")
+    ok &= expect("role-split", split_c, thin, new, "func_a2", "thin", "B0000")
+    ok &= expect("tu-start", split_c, thin, new, "func_a1", "thin", "B0000")
+    split_c(thin, new, "func_b1", "thin", "B0000")
+    t = (open(thin).read() == '#include "common.h"\n\n#include "sys/a.c"\n'
+         and open(new).read() == '#include "common.h"\n\n#include "sys/b.c"\n'
+         and open(rb).read() == plant[rb].replace("nonmatchings/thin\"", "nonmatchings/B0000\"") and open(ra).read() == plant[ra])
+    print("control role-opt-split %s" % ("moved" if t else "WRONG"))
+    return ok and t
 
 
 def main(argv):
@@ -739,8 +1037,11 @@ def main(argv):
         if len(argv) in (3, 5) and argv[0] == "rodata" and (len(argv) == 3 or argv[3] == "--bytes"):
             carve_rodata(ROOT, argv[1], int(argv[2], 16), int(argv[4], 0) if len(argv) == 5 else None)
             return 0
-        if len(argv) in (4, 6) and argv[0] == "opt" and (len(argv) == 4 or argv[4] == "--cflags"):
-            carve_opt(ROOT, argv[1], argv[2], int(argv[3], 16), argv[5] if len(argv) == 6 else "")
+        gate = argv[-1:] == ["--gate"]
+        args = argv[:-1] if gate else argv
+        if len(args) in (4, 6) and args[0] == "opt" and (len(args) == 4 or args[4] == "--cflags"):
+            (carve_opt_gated if gate else carve_opt)(ROOT, args[1], args[2], int(args[3], 16),
+                                                       args[5] if len(args) == 6 else "")
             return 0
     except Refuse as e:
         print(e)

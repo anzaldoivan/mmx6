@@ -49,7 +49,8 @@
          key differs from its row key (drift), one member row dropped (missing member), a row for a function outside
          the class (not in class) -> each refused; --expect-registry on planted rows/verdicts: a refused row refused ->
          agrees, a gated row refused -> DRIFT, a c-empty exemplar refused -> agrees; a planted unit alias above a member's
-         INCLUDE_ASM -> the identity define dropped; grouped (plan on planted rows, planted verdicts): a gated exemplar
+         INCLUDE_ASM -> the identity define dropped (again on a layout.role_tree plant of that unit: `role-tree control
+         unit alias`); grouped (plan on planted rows, planted verdicts): a gated exemplar
          row refused inside a 2+-key group -> DRIFT, rc 1; a refused member row -> its unit isolated, agrees, rc 0;
          exemplar row removed -> planned with the rows' named exemplar; rows disagreeing on it -> setup error;
          mark_inherited on a planted body (pin near column 80, a goto) -> standalone markers above, none trailing,
@@ -71,6 +72,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import bank  # noqa: E402
 import census  # noqa: E402
+import layout  # noqa: E402
 import probe  # noqa: E402
 
 CLASSES = "build/census/classes.jsonl"
@@ -157,20 +159,29 @@ def extent_same(prog, row):
 
 
 def unit_aliases(prog, tu, func, name, root="src"):
-    """True when the `#define` lines directly above func's INCLUDE_ASM line in <root>/<prog>/<tu>.c define name (T40.c1)."""
-    try:
-        with open(f"{root}/{prog}/{tu}.c") as f:
-            lines = f.read().split("\n")
-    except OSError:
-        return False
-    at = f'INCLUDE_ASM("asm/{prog}/nonmatchings/{tu}", {func});'
-    for i, line in enumerate(lines):
-        if line == at:
-            j = i - 1
-            while j >= 0 and lines[j].startswith("#define "):
-                if lines[j].split()[1] == name:
-                    return True
-                j -= 1
+    """True when the `#define` lines directly above func's INCLUDE_ASM line (layout.asm_line) in <root>/<prog>/<tu>.c
+    or a file of its #include closure (a role file) define name (T40.c1)."""
+    at, todo, seen = layout.asm_line(prog, tu, func), [f"{root}/{prog}/{tu}.c"], set()
+    while todo:
+        p = todo.pop(0)
+        if p in seen:
+            continue
+        seen.add(p)
+        try:
+            with open(p) as f:
+                lines = f.read().split("\n")
+        except OSError:
+            continue
+        for i, line in enumerate(lines):
+            m = layout.INC_RE.match(line)
+            if m:
+                todo.append(os.path.normpath(os.path.join(os.path.dirname(p), m.group(1))))
+            if line == at:
+                j = i - 1
+                while j >= 0 and lines[j].startswith("#define "):
+                    if lines[j].split()[1] == name:
+                        return True
+                    j -= 1
     return False
 
 
@@ -299,7 +310,7 @@ def tudecl_step(prog, vram, src, defines, log, tail, why):
     on a stop the copy deleted (gate() restored the unit)."""
     import gate as gm
     func = bank.corpus_row(prog, vram)["name"]
-    copy = f"src/shared/{prog}/{func}.c"
+    copy = layout.new_body(prog, func)
     if not any(gm.TUDECL_RE.match(ln) for ln in tail.splitlines()):
         return None, f"{why}; tudecl n/a: {gm.err_key(tail)}"
     if os.path.exists(copy):
@@ -901,10 +912,20 @@ def self_test():
     ud = os.path.join(d, "src", "p")  # plant: the unit's own alias above the INCLUDE_ASM suppresses the identity define
     os.makedirs(ud, exist_ok=True)
     with open(os.path.join(ud, "u.c"), "w") as f:
-        f.write('#define D_1 D_1_x4\nINCLUDE_ASM("asm/p/nonmatchings/u", f);\n\nINCLUDE_ASM("asm/p/nonmatchings/u", g);\n')
-    got = [unit_aliases("p", "u", fn, nm, os.path.join(d, "src")) for fn, nm in (("f", "D_1"), ("f", "D_2"), ("g", "D_1"))]
+        f.write(f'#define D_1 D_1_x4\n{layout.asm_line("p", "u", "f")}\n\n{layout.asm_line("p", "u", "g")}\n')
+    want = [("f", "D_1"), ("f", "D_2"), ("g", "D_1")]
+    got = [unit_aliases("p", "u", fn, nm, os.path.join(d, "src")) for fn, nm in want]
     good = got == [True, False, False]
     print(f"control unit alias {'ok' if good else 'FAIL'}: {got}")
+    fails += not good
+    try:  # second pass: the planted unit as a layout.role_tree thin wrapper; the alias read from the role file
+        with layout.role_tree("p", "u", d) as role:
+            got = [unit_aliases("p", "u", fn, nm, os.path.join(d, "src")) for fn, nm in want]
+        good = got == [True, False, False]
+        print(f"role-tree control unit alias {'ok' if good else 'FAIL'}: {got} ({role})")
+    except layout.Refuse as e:
+        good = False
+        print(f"role-tree control unit alias FAIL: {e}")
     fails += not good
     fails += inherited_control()
     if fails:

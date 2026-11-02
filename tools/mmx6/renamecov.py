@@ -7,15 +7,19 @@
   renamecov.py --self-test
       -> planted tree under .run/<phase>/renamecov-selftest/ (removed at the end): a clean tree passes; a symbols-file
          symbol with no basis, a src extern with no basis, an x4 row with a wrong name and an sdk row of tier `lead`
-         are each refused with the right why; an sdk row of tier `proven-at-gate` passes. Ends `RENAMECOV CONTROL OK` rc 0, or `RENAMECOV CONTROL FAIL <case>` rc 1.
+         are each refused with the right why; an sdk row of tier `proven-at-gate` passes; the src extern case again
+         in a body under src/shared/<system>/ (no prog in its path) that a rock_01 unit includes through a role file
+         is reported under rock_01. Ends `RENAMECOV CONTROL OK` rc 0, or `RENAMECOV CONTROL FAIL <case>` rc 1.
 
 Inputs
   symbols   config/symbols.<prog>.txt (prog = the filename middle): lines `name = 0xADDR; ...`; `//` lines skipped.
-  src       src/**/*.c|h. prog = the path part after src/ or src/shared/ (src/probes and files directly in src/ ->
-            SLUS_013.95). A src symbol = a column-0 file-scope declaration or definition with external linkage
+  src       src/**/*.c|h. progs = those of the units whose #include closure reaches the file (layout.includers:
+            units, role files, src/shared bodies; c_units.txt order); a file outside every closure: the path part
+            after src/ or src/shared/ (src/probes and files directly in src/ -> SLUS_013.95). A src symbol = a column-0 file-scope declaration or definition with external linkage
             (brace depth 0, outside comments and preprocessor lines; not `static`, `typedef`, a bare struct/union/
-            enum tag, a macro call or a body line). Its vram: the name in its prog's symbols file, else in
-            SLUS_013.95's (overlays reference exe symbols, C0125), else `-` (reported under the path's prog).
+            enum tag, a macro call or a body line). Its vram: the name in the first of its progs' symbols files
+            that holds it, else in SLUS_013.95's (overlays reference exe symbols, C0125), else `-` (reported under
+            its first prog).
   basis     config/symbols/basis.tsv: `#` header, TAB `prog vram name basis-kind basis-ref tier`.
   names     config/x4/names.tsv: no header, TAB `prog vram kind x6name alias tier scope votes basis`.
   pin       config/refs.toml, the `[[ref]]` named "mmx4": `ref`[:7].
@@ -50,6 +54,9 @@ import shutil
 import sys
 import tomllib
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import layout  # noqa: E402  (includers: a source file's programs, from the C units' #include closure)
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -171,11 +178,14 @@ def collect(symdir, srcdir):
             if not exempt(prog, name):
                 found.add((prog, vram, name, "sym"))
     srcdir = Path(srcdir)
+    inc = layout.includers(str(srcdir.parent))
     for p in sorted(srcdir.rglob("*")):
         if p.suffix not in (".c", ".h") or not p.is_file():
             continue
-        prog = src_prog(p.relative_to(srcdir))
+        rel = p.relative_to(srcdir)
+        progs = list(dict.fromkeys(u[0] for u in inc.get("src/" + rel.as_posix(), []))) or [src_prog(rel)]
         for name in src_names(p.read_text(errors="replace")):
+            prog = next((q for q in progs if name in syms.get(q, {})), progs[0])
             if exempt(prog, name):
                 continue
             if name in syms.get(prog, {}):
@@ -277,7 +287,7 @@ PIN_FULL = "abcdef0123456789abcdef0123456789abcdef01"
 NB = "x4 exact 0123456789ab sozud/mmx4@abcdef0 src/main/a.c:do_thing"
 
 
-def plant(base, extra_sym="", extra_src="", alias="do_thing", extra_basis=""):
+def plant(base, extra_sym="", extra_src="", alias="do_thing", extra_basis="", role=""):
     if base.exists():
         shutil.rmtree(base)
     (base / "config/symbols").mkdir(parents=True)
@@ -296,6 +306,12 @@ def plant(base, extra_sym="", extra_src="", alias="do_thing", extra_basis=""):
         head + f"SLUS_013.95\t0x80010010\tdo_thing\tx4\t{NB[3:]}; corroborator hand community\tgate\n"
         "SLUS_013.95\t0x80054AD8\t__start\tcommunity\tcrt0\t-\n" + extra_basis)
     (base / "names.tsv").write_text(f"SLUS_013.95\t0x80010010\tfunc\tfunc_80010010\t{alias}\tgate\tengine\t-\t{NB}\n")
+    if role:                                         # unit rock_01 u -> role file sys/r.c -> src/shared/stage/s.c
+        for rel, text in (("config/c_units.txt", "rock_01 u\n"), ("src/rock_01/u.c", '#include "sys/r.c"\n'),
+                          ("src/rock_01/sys/r.c", '#include "../../shared/stage/s.c"\n'),
+                          ("src/shared/stage/s.c", role)):
+            (base / rel).parent.mkdir(parents=True, exist_ok=True)
+            (base / rel).write_text(text)
     (base / "refs.toml").write_text(f'[[ref]]\nname = "other"\nref = "1111111"\n\n[[ref]]\nname = "mmx4"\n'
                                     f'ref = "{PIN_FULL}"\n')
 
@@ -306,6 +322,8 @@ def selftest():
         ("sym-no-basis", {"extra_sym": "g_Planted = 0x80020000;\n"},
          "RENAMECOV REFUSE SLUS_013.95 0x80020000 g_Planted no basis"),
         ("src-no-basis", {"extra_src": "extern s32 planted_extern;\n"},
+         "RENAMECOV REFUSE rock_01 - planted_extern no basis"),
+        ("role-src-no-basis", {"role": "extern s32 planted_extern;\n"},
          "RENAMECOV REFUSE rock_01 - planted_extern no basis"),
         ("x4-wrong-name", {"alias": "other_thing"},
          "RENAMECOV REFUSE SLUS_013.95 0x80010010 do_thing name do_thing not other_thing"),

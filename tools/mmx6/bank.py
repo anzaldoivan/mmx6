@@ -2,11 +2,14 @@
 """bank.py -- the reconcile ladder: bank one body into its real TU, rung by rung (container python3, stdlib only).
 
   bank.py <prog:vram> --src <file>
-      -> preflight: the corpus row (build/corpus/functions.jsonl) is include_asm in a TU of config/c_units.txt, else
+      -> preflight: the corpus row (build/corpus/functions.jsonl) is include_asm in a TU of config/c_units.txt
+         (segment.c_units) with its INCLUDE_ASM line found (layout.find_asm), else
          `RECONCILE <func> refused: <cause>` (rc 2). Rungs:
          R1 sha1 of --src recorded; probe.probe under the Makefile default TRIPLE must MATCH.
-         R2 in src/<prog>/<tu>.c the line `INCLUDE_ASM("asm/<prog>/nonmatchings/<tu>", <func>);` becomes
-            `#include "<src relative to src/<prog>/>"`; the unit object must compile.
+         R2 in the file tools/mmx6/layout.py find_asm names (the unit src/<prog>/<tu>.c or a role file of its
+            #include closure) the line `INCLUDE_ASM("asm/<prog>/nonmatchings/<tu>", <func>);` becomes
+            `#include "<src relative to that file's dir>"`; the unit object must compile. Already placed (the unit's
+            closure defines <func> from --src, layout.Tree: any file, multi-function included): re-gated, not edited.
          R3 declsync.sync over the program's C files (refusal or declsync error stops); typecheck.py --files <edited + body>; edited
             units recompile.
          R4 stop on a config/boundaries.txt jtbl row of the program with lo inside the function ("jtbl not carved"),
@@ -33,10 +36,15 @@
          writes the registry; after each control the planted state is restored and rebuilt; teardown restores src/,
          the registry and build/corpus/*.jsonl byte-exact, deletes the planted .s files and rebuilds; fail-closed end
          check: src/ tree, registry and program binary sha1 equal their pre-test values.
-         Prints each control's verdict line, then `RECONCILE CONTROL OK` (rc 0), else `RECONCILE SELF-TEST FAIL` rc 1.
+         Second pass: the same controls with X's unit a layout.role_tree plant (thin unit over
+         src/<prog>/selftest_role/<tu>.c, which includes X's role file: X's block found there unchanged, R2 edits that
+         role file through the extra include level), `bank: role-tree pass on <tu> -> <role>`, lines
+         `role-tree control ...`. Prints each control's verdict line, then `RECONCILE CONTROL OK` (rc 0), else
+         `RECONCILE SELF-TEST FAIL` rc 1.
 Firewall G12: names, addresses, counts and hashes of our own files only.
 """
 import argparse
+import contextlib
 import glob
 import hashlib
 import json
@@ -51,7 +59,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import corpus  # noqa: E402
 import declsync  # noqa: E402
+import layout  # noqa: E402
 import probe  # noqa: E402
+import segment  # noqa: E402
 
 LOGDIR = ".run/bank"
 REGISTRY = "config/dedup_registry.txt"
@@ -103,11 +113,6 @@ def corpus_row(prog, vram):
             if r["prog"] == prog and int(r["vram"], 16) == vram:
                 return r
     return None
-
-
-def c_units(prog):
-    with open("config/c_units.txt") as f:
-        return {t[1] for t in (l.split() for l in f) if len(t) >= 2 and t[0] == prog}
 
 
 def bin_out(prog):
@@ -177,10 +182,22 @@ def block(src, where, defines):
             + [f"#undef {o}" for o, _ in defines])
 
 
-def placed(lines, blk, defines):
-    """Indexes where blk starts in lines (a bare include preceded by a #define is another member's block)."""
-    return [i for i in range(len(lines)) if lines[i:i + len(blk)] == blk
-            and (defines or not (i and lines[i - 1].startswith("#define ")))]
+def placed(prog, func, src, tu):
+    """True when unit tu's #include closure defines func from src (layout: any file, a multi-function one included;
+    a body under another member's alias block defines that member's name, not func). cwd = the tree."""
+    try:
+        return any(f.kind == "def" and f.name == func and f.path == os.path.relpath(src)
+                   for f in layout.Tree(os.getcwd()).fns(prog, tu))
+    except (layout.Refuse, OSError):
+        return False
+
+
+def find_asm(prog, func):
+    """layout.find_asm over the tree at cwd (a gate snapshot, a dry-run copy, the repo); a closure defect -> None."""
+    try:
+        return layout.find_asm(prog, func, os.getcwd())
+    except (layout.Refuse, OSError):
+        return None
 
 
 def wrapper(src, func, defines, prog=""):
@@ -208,18 +225,17 @@ def ladder(prog, vram, src, func, tu, saved, log, defines=(), r5=True):
     if not os.path.isfile(unit_o) and sh(["make", "-s", unit_o], log):
         raise Stop(2, f"pre-bank {unit_o} does not build")
     pre_ro = rodata_size(unit_o)
-    # R2 (a unit already holding the block is re-gated: compiled, not edited)
-    line = f'INCLUDE_ASM("asm/{prog}/nonmatchings/{tu}", {func});'
-    with open(unit_c) as f:
-        text = f.read()
-    lines = text.split("\n")
-    blk = block(src, os.path.dirname(unit_c), defines)
-    at = placed(lines, blk, defines)
-    if lines.count(line) == 1 and not at:
-        i = lines.index(line)
-        put(saved, unit_c, "\n".join(lines[:i] + blk + lines[i + 1:]))
-    elif lines.count(line) or len(at) != 1:
-        raise Stop(2, f"{lines.count(line)} lines `{line}`, {len(at)} placed blocks in {unit_c}")
+    # R2 (a unit already holding the block is re-gated: compiled, not edited); the INCLUDE_ASM line is edited in the
+    # file layout finds it in (the unit or a role file), the #include relative to that file
+    line, fa, at = layout.asm_line(prog, tu, func), find_asm(prog, func), placed(prog, func, src, tu)
+    where = fa[0] if fa else unit_c
+    with open(where) as f:
+        lines = f.read().split("\n")
+    if fa and fa[2] == tu and lines[fa[1] - 1] == line and lines.count(line) == 1 and not at:
+        i = fa[1] - 1
+        put(saved, where, "\n".join(lines[:i] + block(src, os.path.dirname(where), defines) + lines[i + 1:]))
+    elif fa or not at:
+        raise Stop(2, f"{lines.count(line)} lines `{line}`, {int(at)} placed blocks in {where}")
     if sh(["make", "-s", "-B", unit_o], log):
         raise Stop(2, f"{unit_o} does not compile (log {LOGDIR}/{log}.log)")
     # R3
@@ -239,7 +255,8 @@ def ladder(prog, vram, src, func, tu, saved, log, defines=(), r5=True):
         put(saved, p, t)
     if sh([sys.executable, "tools/mmx6/typecheck.py", "--files"] + sorted(edits) + [src], log):
         raise Stop(3, f"typecheck.py --files rc != 0 (log {LOGDIR}/{log}.log)")
-    units = {p for p in edits if os.path.dirname(p) == f"src/{prog}" and p.endswith(".c")} | ({unit_c} if edits else set())
+    units = {p for p in edits if os.path.dirname(p) == f"src/{prog}" and p.endswith(".c")
+             and os.path.basename(p)[:-2] in segment.c_units(prog)} | ({unit_c} if edits else set())  # role files: no .o
     for p in sorted(units):
         if sh(["make", "-s", "-B", f"build/{p}.o"], log):
             raise Stop(3, f"edited unit {p} does not recompile")
@@ -272,15 +289,13 @@ def preflight(prog, vram, src, defines=()):
     """(corpus row or None, func, refusal cause or ''); a c row passes only when its unit holds src's block."""
     r = corpus_row(prog, vram) if os.path.isfile("build/corpus/functions.jsonl") else None
     func = r["name"] if r else f"{prog}:0x{vram:08X}"
-    regate = False
-    if r is not None and r["state"] == "c" and os.path.isfile(f"src/{prog}/{r['tu']}.c") and os.path.isfile(src):
-        unit_c = f"src/{prog}/{r['tu']}.c"
-        with open(unit_c) as f:
-            regate = len(placed(f.read().split("\n"), block(src, os.path.dirname(unit_c), defines), defines)) == 1
+    regate = r is not None and r["state"] == "c" and os.path.isfile(src) and placed(prog, func, src, r["tu"])
     cause = ("no corpus row" if r is None
              else f"state {r['state']}, not include_asm" if r["state"] != "include_asm" and not regate
-             else f"TU {r['tu']} not in config/c_units.txt" if r["tu"] not in c_units(prog)
-             else f"no file {src}" if not os.path.isfile(src) else "")
+             else f"TU {r['tu']} not in config/c_units.txt" if r["tu"] not in segment.c_units(prog)
+             else f"no file {src}" if not os.path.isfile(src)
+             else f"no `{layout.asm_line(prog, r['tu'], func)}` in {prog}'s units" if not regate
+             and find_asm(prog, func) is None else "")
     return r, func, cause
 
 
@@ -329,9 +344,10 @@ def bank(pv, src, registry=True, defines=()):
 # ---- self-test -----------------------------------------------------------------------------------------------------
 
 def member_block(prog, func):
-    """(unit .c, line index, the member's table) of func's define block for the exemplar body, or None."""
+    """(file, line index, the member's table) of func's define block for the exemplar body, or None; file = a unit
+    or a role file (any .c under src/<prog>/)."""
     _, _, ename, etable, esrc = exemplar()
-    for unit_c in sorted(glob.glob(f"src/{prog}/*.c")):
+    for unit_c in sorted(glob.glob(f"src/{prog}/**/*.c", recursive=True)):
         with open(unit_c) as f:
             lines = f.read().split("\n")
         for i in range(len(lines) - 1):
@@ -360,13 +376,32 @@ def tree_sums(root):
 
 
 def self_test():
-    prog, ev, ename, etable, esrc = exemplar()
+    prog, ev = EXEMPLAR[:2]
     if not probe.plant_lookup("bank", prog, ev):
         return 1
     corpus_out = [f"build/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
     pre_src, pre_reg, pre_bin = tree_sums("src"), sha1(REGISTRY), sha1(bin_out(prog))
     pre_corpus = {p: open(p, "rb").read() for p in corpus_out}
-    saved, fails = {}, 0
+    fails = controls(corpus_out, pre_bin, pre_corpus, role=False)
+    fails += controls(corpus_out, pre_bin, pre_corpus, role=True)
+    # fail-closed: the tree, the registry and the binary are what they were before the test
+    for what, ok in (("src/", tree_sums("src") == pre_src), (REGISTRY, sha1(REGISTRY) == pre_reg),
+                     (bin_out(prog), os.path.exists(bin_out(prog)) and sha1(bin_out(prog)) == pre_bin)):
+        if not ok:
+            print(f"bank: {what} sha1 differs from the pre-test value")
+            fails += 1
+    if fails:
+        print(f"RECONCILE SELF-TEST FAIL {fails}")
+        return 1
+    print("RECONCILE CONTROL OK")
+    return 0
+
+
+def controls(corpus_out, pre_bin, pre_corpus, role):
+    """Failures of controls A, B; role: on a layout.role_tree plant of X's unit (X's block reached through it)."""
+    prog, ev, ename, etable, esrc = exemplar()
+    saved, fails, stack = {}, 0, contextlib.ExitStack()
+    tag = "role-tree " if role else ""
     try:
         cls = dup_key(prog, ev)
         rows = {int(r["vram"], 16): r for r in map(json.loads, open(corpus_out[0])) if r["prog"] == prog}
@@ -376,16 +411,22 @@ def self_test():
         sibs = [(v, b) for v, b in sibs if b][:2]
         if len(sibs) < 2:
             raise Stop(0, f"{len(sibs)} c-unit siblings of {ename}'s dup class with a define block; need 2")
+        if role:  # second pass: X's unit as a thin wrapper over one role file; the blocks found again through it
+            pre = sibs[0][1]  # L-B: X's block already lives in a role file; the plant adds one include level above it
+            rp = stack.enter_context(layout.role_tree(prog, rows[sibs[0][0]]["tu"], os.getcwd()))
+            sibs = [(v, member_block(prog, rows[v]["name"])) for v, _ in sibs]
+            if sibs[0][1] != pre or pre[0] not in declsync.unit_files(prog, [rp]):
+                raise Stop(0, f"role-tree: X's block {pre} not found again through {rp} ({sibs[0][1]})")
+            print(f"bank: role-tree pass on {rows[sibs[0][0]]['tu']} -> {rp}")
         # plant (C0054): each member's define block -> INCLUDE_ASM of a generated .s of its retail words
         for v, (unit_c, i, _) in sorted(sibs, key=lambda s: (s[1][0], -s[1][1])):  # bottom-up within a unit
-            func, tu = rows[v]["name"], os.path.basename(unit_c)[:-2]
+            func, tu = rows[v]["name"], rows[v]["tu"]
             words = plant_words(prog, func, v, int(rows[v]["end"], 16))
             _, seg_start, seg_vram = probe.yaml_layout(prog)
             off = seg_start + v - seg_vram
             with open(unit_c) as f:
                 lines = f.read().split("\n")
-            put(saved, unit_c, "\n".join(lines[:i] + [f'INCLUDE_ASM("asm/{prog}/nonmatchings/{tu}", {func});']
-                                         + lines[i + 5:]))
+            put(saved, unit_c, "\n".join(lines[:i] + [layout.asm_line(prog, tu, func)] + lines[i + 5:]))
             put(saved, f"asm/{prog}/nonmatchings/{tu}/{func}.s",
                 ".set noat      /* allow manual use of $at */\n.set noreorder /* don't insert nops after branches */\n\n"
                 f"nonmatching {func}, 0x{4 * len(words):X}\n\nglabel {func}\n"
@@ -402,12 +443,12 @@ def self_test():
         with open(esrc) as f:
             body = f.read()
         x, y = rows[vx]["name"], rows[vy]["name"]
-        controls = [  # (name, func, vram, table, plant prototype, expect)
+        cases = [  # (name, func, vram, table, plant prototype, expect)
             ("A", x, vx, tx, True, " R5 banked; "),
             ("B", y, vy, etable, False, " stopped R5: "),
         ]
         snap = sorted({ux, uy}) + [PLANT_UNIT, REGISTRY]
-        for name, func, vram, table, plant, expect in controls:
+        for name, func, vram, table, plant, expect in cases:
             orig = {p: (open(p, "rb").read() if os.path.exists(p) else None) for p in snap}
             try:
                 os.makedirs(SELFTEST_DIR, exist_ok=True)
@@ -423,7 +464,7 @@ def self_test():
                 if plant:
                     synced = f"void {func}(s8* arg0);" in open(PLANT_UNIT).read()
                     good &= synced and f"body sha1 {h0} unchanged" in out
-                print(f"control {name} {func} {'ok' if good else 'FAIL'}: want {expect.strip(' :;')}")
+                print(f"{tag}control {name} {func} {'ok' if good else 'FAIL'}: want {expect.strip(' :;')}")
                 fails += not good
             finally:
                 restore(orig)
@@ -437,6 +478,11 @@ def self_test():
         fails += 1
     finally:
         restore(saved)
+        try:
+            stack.close()  # the role-tree plant's unit restored, its sums checked
+        except layout.Refuse as e:
+            print(f"bank: {e}")
+            fails += 1
         shutil.rmtree(SELFTEST_DIR, ignore_errors=True)
         shutil.rmtree(f"build/{SELFTEST_DIR}", ignore_errors=True)
         for p, b in pre_corpus.items():
@@ -445,17 +491,7 @@ def self_test():
         if rebuild(prog, "selftest-teardown"):
             print(f"bank: teardown rebuild of {prog} red")
             fails += 1
-    # fail-closed: the tree, the registry and the binary are what they were before the test
-    for what, ok in (("src/", tree_sums("src") == pre_src), (REGISTRY, sha1(REGISTRY) == pre_reg),
-                     (bin_out(prog), os.path.exists(bin_out(prog)) and sha1(bin_out(prog)) == pre_bin)):
-        if not ok:
-            print(f"bank: {what} sha1 differs from the pre-test value")
-            fails += 1
-    if fails:
-        print(f"RECONCILE SELF-TEST FAIL {fails}")
-        return 1
-    print("RECONCILE CONTROL OK")
-    return 0
+    return fails
 
 
 def main():

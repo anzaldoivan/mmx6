@@ -5,7 +5,7 @@
 
 M2C_UNK clear_object_slot(); /* extern */
 
-void func_800FA8A0(void* arg0) {
-    M2C_FIELD(arg0, s8*, 3) = 0;
+void func_800FA8A0(struct ObjectHeader* arg0) {
+    arg0->on_screen = 0;
     clear_object_slot();
 }

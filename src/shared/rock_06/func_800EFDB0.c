@@ -10,8 +10,7 @@ M2C_UNK func_80017A04();                     /* extern */
 void* func_8002C32C();                       /* extern */
 s32 random_byte();
 extern M2C_UNK g_Player;
-extern struct X4_ObjectHeader D_80097420;
-#define D_80097420 (*(s32*)&D_80097420)
+#include "mmx6/state.h"
 
 void func_800EFDB0(void* arg0) {
     s32 cnt;
@@ -24,7 +23,7 @@ void func_800EFDB0(void* arg0) {
     void* o;
     s8 st;
 
-    if (!(D_80097420 & 3) && (random_byte() & 1)) {
+    if (!(D_80097420.frame_counter & 3) && (random_byte() & 1)) {
         random_byte();
     }
     st = M2C_FIELD(arg0, s8*, 6);
@@ -97,4 +96,3 @@ void func_800EFDB0(void* arg0) {
         ((M2C_UNK(*)())func_80017A04)(arg0);
     }
 }
-#undef D_80097420

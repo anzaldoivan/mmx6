@@ -2,14 +2,16 @@
 """x4names.py -- X4 names as aliases for X6 addresses, from the proven X4 partnerships (stdlib; host, except --widen).
 
   x4names.py --build
-      -> reads campaign/x4/partners.tsv and the line-1 headers of src/shared/**/*.c (x4port.ADAPTED); admits a row
+      -> reads campaign/x4/partners.tsv and the mmx4 attribution headers of the C units' #include closure
+         (x4adapter.attributed over x4port.adapted: any header in a file, bound to the definition that follows it,
+         multi-function files included); admits a row
          when its X4 name is real (not func_8XXXXXXX), it has exactly one X4 partner and it is 8 words or more;
          writes config/x4/names.tsv, sorted by (prog, vram, kind), tab-separated, NO header row (so the row count of
          the last line equals `wc -l`):
              prog  vram  kind  x6name  alias  tier  scope  votes  basis
          kind   func | data (--widen only)
          tier   gate   the X6 function is banked in C (partners state `c`, or its key / its name as a defined
-                       function is in an attributed src/shared file): proven-at-gate
+                       function follows an attribution header): proven-at-gate
                 bytes  exact signature, body still assembly: consistent-with-bytes
          scope  object the mmx4 source sits under mains/ items/ effects/ layers/ misc/ weapons/ visuals/ quads/
                        (an alias only, held back from renames until a role basis exists); else engine
@@ -138,7 +140,6 @@ import x4share  # noqa: E402  (CLONE)
 ROOT = x4adapter.ROOT
 TAG = x4adapter.TAG
 PARTNERS = x4adapter.PARTNERS
-SHARED = x4adapter.SHARED
 NAMES = x4adapter.NAMES
 DOC = x4adapter.DOC
 SELFTEST = ROOT / ".run/x4names-selftest"
@@ -178,8 +179,8 @@ def load(names):
     return x4core.load(names, TAG)
 
 
-def build(partners, shared, names):
-    return x4core.build(partners, names, x4adapter.banked(shared), pin7(), TAG)
+def build(partners, root, names):
+    return x4core.build(partners, names, x4adapter.banked(root), pin7(), TAG)
 
 
 def merge(exact, pending, admitted, by_key, x6sym, defs, funcs, att):
@@ -442,6 +443,9 @@ CASES = (
     ("seven_words", ("func_80010200", 7, "3" * 40, "src/main/player.c", "planted_short", 1, "c"), None),
     ("good", ("func_80010300", 8, "4" * 40, "src/main/weapons/weapon_00_planted.c", "planted_good", 1,
               "include_asm"), ("gate", "object")),
+    # the second function of a two-function file: its own header (not the file's first) makes it `gate`
+    ("multi_second", ("func_80010400", 8, "5" * 40, "src/main/weapons/weapon_00_planted.c", "planted_multi_two", 1,
+                      "include_asm"), ("gate", "object")),
 )
 
 
@@ -683,7 +687,8 @@ def compare_doc(funcs, fields, absent, pin, nstructs):
            f"The mmx4 pin is `{pin}`.", "",
            "The tool compares our names with the mmx4 names at the pin. The functions are the `func` rows of "
            "`config/x4/names.tsv`. Our function name is the name in `config/symbols.<prog>.txt` at that address. "
-           "The fields are the members of each `X4_` struct and union in `include/mmx6/x4.h`. "
+           "The fields are the members of each `X4_` struct and union in `include/mmx6/x4.h`, a homed one "
+           "(`config/x4/homed.tsv`) by its X6 tag in its hand-written home. "
            "The pinned compiler gives the offset of each field on each side.", "",
            "A pair is `agree` when the two names are equal, and `conflict` when they differ. "
            "A pair is `X6-only` when only our name is real, and `mmx4-only` when only the mmx4 name is real. "
@@ -808,7 +813,8 @@ def layout(pp, tags, cc1):
 
 
 def struct_layouts():
-    """{N: (ours, theirs | None)} for every struct|union X4_<N> of x4.h (container: the clone at the pin, cc1)."""
+    """{N: (ours, theirs | None)} for every struct|union X4_<N> of x4.h, and every homed X4_<N> (x4port.HOMED) by its
+    X6 tag in its home (x4.h includes it) (container: the clone at the pin, cc1)."""
     os.chdir(ROOT)
     ctx = x4port.mmx4_ctx()  # exits unless the clone is at the pin
     cc1 = x4adapter.tools(x4adapter.triple(x4port.TRIPLE))["cc1"]
@@ -816,12 +822,18 @@ def struct_layouts():
     kinds = {}
     for m in re.finditer(r"\b(struct|union)\s+X4_(\w+)\s*\{", text):
         kinds.setdefault(m.group(2), m.group(1))
+    ctag = {}
+    for x4tag, (home, tag) in x4port.homed(str(ROOT / x4port.HOMED)).items():
+        m = re.search(rf"\b(struct|union)\s+{tag}\s*\{{", (ROOT / home).read_text())
+        if m:
+            kinds.setdefault(x4tag[3:], m.group(1))
+            ctag[x4tag[3:]] = tag
     os.makedirs(CMP_SCR, exist_ok=True)
     src = CMP_SCR / "ours.c"
     src.write_text('#include "mmx6/x4.h"\n')
     ours_cpp = ["mipsel-linux-gnu-cpp", "-nostdinc", "-undef", "-D__GNUC__=2", "-DPSX", "-Iinclude"]  # Makefile CPP
     pp = x4port.run_cpp(ours_cpp + [str(src)], str(ROOT))
-    ours = layout(pp, [(k, n, f"X4_{n}") for n, k in sorted(kinds.items())], cc1)
+    ours = layout(pp, [(k, n, ctag.get(n, f"X4_{n}")) for n, k in sorted(kinds.items())], cc1)
     # mmx4: the first .c that defines tag N, the files x4.h is adapted from first (its line 1), then all sorted
     first = re.findall(r"\b(src/\S+?\.c)\b", text.split("\n", 1)[0])
     clone = Path(ctx.clone)
@@ -915,17 +927,37 @@ def compare_cases():
 
 def self_test():
     shutil.rmtree(SELFTEST, ignore_errors=True)
-    os.makedirs(SELFTEST / "shared/planted")
+    os.makedirs(SELFTEST / "src/shared/planted")
+    os.makedirs(SELFTEST / "src/PLANTED")
+    os.makedirs(SELFTEST / "config")
     with open(SELFTEST / "partners.tsv", "w") as f:
         for i, (_, (x6, words, key, src, x4, npart, state), _) in enumerate(CASES):
             f.write(f"PLANTED\t0x{0x80010000 + i * 0x100:08X}\t{x6}\t{words}\t{key}\t{src}\t{x4}\t{npart}\t{state}\n")
     # the good row is still include_asm in the table; its key in an attributed file is what makes it `gate`
-    (SELFTEST / "shared/planted/planted_good.c").write_text(
-        f"/* Adapted from sozud/mmx4 @{x4port.PIN} src/main/weapons/weapon_00_planted.c:planted_good, AGPL-3.0; "
-        f"proven shared with X6 by exact signature {'4' * 12} (see THIRD_PARTY.md). */\nvoid planted(void) {{\n}}\n")
-    build(SELFTEST / "partners.tsv", SELFTEST / "shared", SELFTEST / "names.tsv")
+    # a planted unit tree: the attributed files are those of its #include closure
+    hd = lambda fn, k: (f"/* Adapted from sozud/mmx4 @{x4port.PIN} src/main/weapons/weapon_00_planted.c:{fn}, AGPL-3.0; "
+                        f"proven shared with X6 by exact signature {k * 12} (see THIRD_PARTY.md). */\n")
+    (SELFTEST / "config/c_units.txt").write_text("PLANTED E9860\n")
+    (SELFTEST / "src/PLANTED/E9860.c").write_text('#include "../shared/planted/planted_good.c"\n\n'
+                                                  '#include "../shared/planted/planted_multi.c"\n')
+    (SELFTEST / "src/shared/planted/planted_good.c").write_text(hd("planted_good", "4") + "void planted(void) {\n}\n")
+    (SELFTEST / "src/shared/planted/planted_multi.c").write_text(
+        hd("planted_multi_one", "6") + "void planted_one(void) {\n}\n\n" + hd("planted_multi_two", "5")
+        + "void planted_two(void) {\n}\n")
+    build(SELFTEST / "partners.tsv", SELFTEST, SELFTEST / "names.tsv")
     got = {r[3]: r for r in load(SELFTEST / "names.tsv")}
     fails = []
+    # the same table when the planted unit is a role tree (layout.role_tree: its text in one role file)
+    import layout  # noqa: E402  (role_tree)
+    plain = (SELFTEST / "names.tsv").read_text()
+    try:
+        with layout.role_tree("PLANTED", "E9860", root=str(SELFTEST)):
+            build(SELFTEST / "partners.tsv", SELFTEST, SELFTEST / "names.tsv")
+        same = (SELFTEST / "names.tsv").read_text() == plain
+    except layout.Refuse as e:
+        same = False
+        print(f"X4NAMES CASE role_tree {e}")
+    fails += case("role_tree", same, f"names.tsv same in role tree {same}")
     for name, (x6, words, _, _, x4, npart, _), want in CASES:
         r = got.get(x6)
         why = refusal(x4, npart, words)
@@ -950,7 +982,7 @@ def main(argv):
         print(__doc__.strip())
         return 0
     if argv == ["--build"]:
-        build(PARTNERS, SHARED, NAMES)
+        build(PARTNERS, ROOT, NAMES)
         return 0
     if argv == ["--widen"]:
         return widen()

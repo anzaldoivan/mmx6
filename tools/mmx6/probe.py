@@ -220,7 +220,8 @@ def find_extent(prog, func, root="."):
                 if name.endswith(".c"):
                     with open(os.path.join(d, name), errors="replace") as f:
                         src = f.read()
-                    if not re.search(rf"^\w[^;(]*\b{re.escape(func)}\(", src, re.M):
+                    # Definition only: an L-B role file can carry a prototype of func (2.4 T15).
+                    if not re.search(rf"^\w[^;(]*\b{re.escape(func)}\([^;]*?\)\s*\{{", src, re.M):
                         continue
                     names = re.findall(r"^\w[^;(]*\b(\w+)\(", src, re.M)
                     names += re.findall(r"^INCLUDE_ASM\([^,]*, *(\w+)\)", src, re.M)

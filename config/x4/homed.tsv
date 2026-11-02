@@ -1,0 +1,10 @@
+# x4_tag	home	x6_tag
+# Tags x4port.py never emits to include/mmx6/x4.h: their home defines x6_tag; x4.h aliases `#define x4_tag x6_tag`.
+X4_ObjectHeader	include/mmx6/object.h	ObjectHeader
+X4_BaseObj	include/mmx6/object.h	BaseObj
+X4_AnimatedObj	include/mmx6/object.h	AnimatedObj
+X4_MainObj	include/mmx6/object.h	MainObj
+X4_PlayerObj	include/mmx6/player.h	PlayerObj
+X4_ShotObj	include/mmx6/projectile.h	ProjectileObj
+X4_TransitionState	include/mmx6/state.h	TransitionState
+X4_MainBssState	include/mmx6/state.h	MainBssState

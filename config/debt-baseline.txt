@@ -29,11 +29,11 @@ raise protected 1 2026-10-25 2.0 no-rom: gamestr check + badges --check
 824 pin
 579 goto
 484 goto-unmarked
-32582 offset
+32370 offset
 1877 address
 70 cast
-6607 field
-4895 placeholder
-25786 placeholder-use
-15714 extern
-4653 filename
+6599 field
+4874 placeholder
+25405 placeholder-use
+15308 extern
+949 filename

@@ -9,20 +9,23 @@
   typecheck.py --self-test
       -> in memory ({path: text} over the real files + planted texts, no disk writes): real set passes; planted dup
          (Probe800473EC's shape, new name, include/mmx6/), raw cast (src/SLUS_013.95/), outside (struct in src/),
-         unkeyable (fn-pointer typedef) each alone rc 1 with the right reason. Ends `TYPES CONTROL OK`.
+         unkeyable (fn-pointer typedef) each alone rc 1 with the right reason; a header sorting before types.h (its
+         types, X4_ types, a full-width bitfield) keys with no refusal. Ends `TYPES CONTROL OK`.
 
 Refusals: `TYPES REFUSE <dup|outside|raw-cast|unkeyable> <path>:<line> <name/text>`.
   dup       a definition whose shape (or name) an earlier one already has (include/mmx6/ is read first).
   outside   a definition in a file not under include/mmx6/.
 include/mmx6/x4.h (x4port.py's generated X4_ mirror of mmx4 types, its own namespace) and include/mmx6/psyq_api.h (its
 hand-written X4_ PsyQ types, T7.c4) are read and counted, never
-refused, and its shapes are not registered (an X4_ type may share a shape with ours).
+refused, and its shapes are not registered (an X4_ type may share a shape with ours); their types key ours.
   raw-cast  `*(T *)0x...` (any spacing, any pointer depth) in comment-stripped src/<prog>/ text.
-  unkeyable a definition the parser cannot key (unknown member type, fn pointer, bitfield, inline nested struct...);
+  unkeyable a definition the parser cannot key (unknown member type, fn pointer, bitfield narrower than its type...);
             refused with the reason, never skipped.
 Shape key: scalar typedef = (width, signed); struct = (size, ((offset, width) per member)), PSX MIPS natural
 alignment (1/2/4, pointer 4, array = elem x count, hex/dec counts, known types resolved; struct align = max member
-align, size padded); union = members at offset 0. `extern` declarations and prototypes are not definitions.
+align, size padded); union = members at offset 0; an inline nested struct/union is keyed as its member's type; a
+bitfield `T [name] : N` with N = T's width is a T member at the next offset. Member types resolve across all files
+whatever their order (2.5 T5). `extern` declarations and prototypes are not definitions.
 """
 import argparse
 import glob
@@ -89,9 +92,14 @@ def scalar(words):
 
 def count(dim):
     s = dim[1:-1].strip()
-    if not re.fullmatch(r"0[xX][0-9A-Fa-f]+|\d+", s):
-        raise Unkeyable("array count " + dim)
-    return int(s, 0)
+    if re.fullmatch(r"0[xX][0-9A-Fa-f]+|\d+", s):
+        return int(s, 0)
+    if re.fullmatch(r"(?:\s|[()+\-*]|0[xX][0-9A-Fa-f]+|\d+)+", s):  # integer arithmetic, e.g. `[0x98 - 0x84]`
+        try:
+            return int(eval(s, {"__builtins__": {}}))
+        except (SyntaxError, ValueError, TypeError):
+            pass
+    raise Unkeyable("array count " + dim)
 
 
 def parse_decl(toks, known, need_base=True):
@@ -124,6 +132,9 @@ def parse_decl(toks, known, need_base=True):
             continue
         while cur and cur[0] in QUALIFIERS:
             cur.pop(0)
+        bits = None
+        if len(cur) >= 2 and cur[-2] == ":" and re.fullmatch(r"\d+", cur[-1]):  # `T [name] : N`
+            bits, cur = int(cur[-1]), cur[:-2] or ["_bitfield"]
         depth = 0
         while cur and cur[0] == "*":
             depth, cur = depth + 1, cur[1:]
@@ -135,6 +146,8 @@ def parse_decl(toks, known, need_base=True):
         if bad:
             raise Unkeyable(("bitfield" if ":" in bad else "function pointer or unparsed")
                             + " '%s'" % " ".join(cur))
+        if bits is not None and (base is None or depth or len(cur) > 1 or bits != base[1] * 8):
+            raise Unkeyable("bitfield '%s : %d' narrower than its type" % (" ".join(cur), bits))
         decls.append((cur[0], depth, [count(d) for d in cur[1:]]))
         cur = []
     if base is None and (need_base or any(d[1] == 0 for d in decls)):
@@ -155,9 +168,19 @@ def struct_key(kind, body, known):
         toks = TOKEN.findall(decl)
         if not toks:
             continue
-        if "{" in toks:
-            raise Unkeyable("inline nested struct/union")
-        base, _, decls = parse_decl(toks, known, need_base=False)
+        if "{" in toks:  # inline nested struct/union: key its body, then its declarators as members of that type
+            ob = decl.index("{")
+            cb = match_brace(decl, ob)
+            head = TOKEN.findall(decl[:ob])
+            if not head or head[0] not in ("struct", "union") or len(head) > 2:
+                raise Unkeyable("inline nested head '%s'" % " ".join(head))
+            known["_inline_member"] = struct_key(head[0], decl[ob + 1:cb], known)
+            try:
+                base, _, decls = parse_decl(["_inline_member"] + TOKEN.findall(decl[cb + 1:]), known, need_base=False)
+            finally:
+                del known["_inline_member"]
+        else:
+            base, _, decls = parse_decl(toks, known, need_base=False)
         for _, depth, dims in decls:
             size, a = member_layout(base, depth, dims)
             align = max(align, a)
@@ -252,9 +275,18 @@ def defs_of(text, known):
 def check(files):
     """files: {relpath: text} -> (refusal lines, d, s, f)."""
     order = sorted(files, key=lambda p: (not p.startswith(HOME), p))
-    known, shapes, names, refusals, d, ndup, nraw = {}, {}, {}, [], 0, 0, 0
+    stripped = {p: strip(files[p]) for p in order}
+    known = {}  # member types resolve across all files, whatever their order: key every file until known stops growing
+    while True:
+        before = len(known)
+        for path in order:
+            for _ in defs_of(stripped[path], known):
+                pass
+        if len(known) == before:
+            break
+    shapes, names, refusals, d, ndup, nraw = {}, {}, [], 0, 0, 0
     for path in order:
-        text = strip(files[path])
+        text = stripped[path]
         line = lambda off: text.count("\n", 0, off) + 1
         for off, name, key, reason in defs_of(text, known):
             d += 1
@@ -306,10 +338,24 @@ def report(files):
 
 def self_test():
     real = read(all_paths())
-    refusals, summary, _, _ = check(real)
+    refusals, summary, d, s = check(real)
     assert not refusals, (refusals, summary)
-    _, summary, d, s = check({p: t for p, t in real.items() if p not in X4H})  # ours only: x4.h's X4_ types are counted
-    assert d == s == 7, summary  # but not ours (T7.c3: x4.h tracked)
+    d_x4 = sum(1 for p in X4H for _ in defs_of(strip(real[p]), {}))
+    assert d - d_x4 == s == 17, summary  # ours: 7 + object.h's 4 (2.5 T5) + player.h's 1 + projectile.h's 1 (2.5 T6) + state.h's 2 (2.5 T7) + task.h's 1 + class4.h's 1 (2.5 T9.c1); X4_ types never registered
+    known = {}  # as check(): member types resolve across all files (player.h's, projectile.h's members come from x4.h)
+    while True:
+        before = len(known)
+        for p in sorted(real, key=lambda p: (not p.startswith(HOME), p)):
+            for _ in defs_of(strip(real[p]), known):
+                pass
+        if len(known) == before:
+            break
+    sizes = {n: k[1] for p in (HOME + "object.h", HOME + "player.h", HOME + "projectile.h", HOME + "state.h")
+             for _, n, k, _ in defs_of(strip(real[p]), known)}
+    want = {"struct " + n: z for n, z in (("ObjectHeader", 0x14), ("BaseObj", 0x18), ("AnimatedObj", 0x4C),
+                                          ("MainObj", 0x9C), ("PlayerObj", 0x158), ("ProjectileObj", 0xA0),
+                                          ("TransitionState", 0x4), ("MainBssState", 0xC))}
+    assert sizes == want, sizes  # the homed structs keyed at their sizes (2.5 T5.c3, T6.c1, T6.c2, T7.c1)
     known = {}
     probe = [k for _, n, k, _ in defs_of(strip(real[HOME + "types.h"]), known) if n == "Probe800473EC"]
     assert probe == [("struct", 0x20, ((0, 5), (5, 1), (6, 14), (0x14, 2), (0x16, 2), (0x18, 4), (0x1C, 4)))], probe
@@ -328,6 +374,11 @@ def self_test():
         kinds = {r.split()[2] for r in refusals}
         assert refusals and kinds == {reason} and all(path in r for r in refusals), (reason, refusals)
         print("control %s: %s" % (reason, refusals[0]))
+    files = dict(real)  # control: a header sorting before types.h keys from types.h, x4.h and a full-width bitfield
+    files[HOME + "aaplanted.h"] = "struct PlantedEarly {\n    s8 a;\n    s8: 8;\n    X4_f32 b[3];\n    u16 c;\n};\n"
+    refusals, summary, _, s2 = check(files)
+    assert not refusals and s2 == s + 1, (refusals, summary)
+    print("control early: %s keys (%s)" % (HOME + "aaplanted.h", summary))
     print("TYPES CONTROL OK")
     return 0
 

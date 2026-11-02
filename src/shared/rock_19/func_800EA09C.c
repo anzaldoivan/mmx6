@@ -4,12 +4,12 @@
 
 extern s8 D_800CCF08;
 
-void func_800EA09C(void* arg0) {
+void func_800EA09C(struct ObjectHeader* arg0) {
     s32 v = D_800CCF08;
 
     if (v == 1) {
-        M2C_FIELD(arg0, s8*, 3) = v;
+        arg0->on_screen = v;
         return;
     }
-    M2C_FIELD(arg0, s8*, 3) = 0;
+    arg0->on_screen = 0;
 }

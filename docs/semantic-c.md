@@ -64,7 +64,9 @@ A licence line, such as the mmx4 adaptation notice, may come before the banner.
 DC2: no comment holds a build path, such as a drive letter path, a home folder or a `Source:` line.
 Our paths say nothing about the game, and a leaked path ties the text to one machine.
 
-A file under `src/shared/` also carries one line naming where it is included, in this form.
+A body lives in its unit's role file (`docs/layout.md`), found with `layout.locate`.
+A file under `src/shared/` is the one owner of a body more than one unit includes.
+It also carries one line naming where it is included, in this form.
 
 `// Shared file: included by src/SLUS_013.95/32208.c, between player_ladder_let_go and func_80037880.`
 

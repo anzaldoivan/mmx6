@@ -20,8 +20,8 @@ func_800EA1F0 = 0x800EA1F0; // type:func size:0x890
 func_800EAA80 = 0x800EAA80; // type:func size:0xD4
 // basis: post-return 0x800eab4c; spans the returns at 0x800eab88, 0x800eabf0 (its branches target past those returns)
 func_800EAB54 = 0x800EAB54; // type:func size:0xD4
-// basis: post-return 0x800eac20
-func_800EAC28 = 0x800EAC28; // type:func size:0x148
+// basis: post-return 0x800eac20; name: xref derived.tsv:34; xref:caller=build_mission_report_list; code:src/rock_20/mission_report.c:33 via=build_mission_report_list
+init_mission_report = 0x800EAC28; // type:func size:0x148
 // basis: post-return 0x800ead68
 func_800EAD70 = 0x800EAD70; // type:func size:0x128
 // basis: post-return 0x800eae90
@@ -38,8 +38,8 @@ func_800EB2D4 = 0x800EB2D4; // type:func size:0x3C8
 func_800EB69C = 0x800EB69C; // type:func size:0xF0
 // basis: post-return 0x800eb784
 func_800EB78C = 0x800EB78C; // type:func size:0x1D8
-// basis: post-return 0x800eb95c
-func_800EB964 = 0x800EB964; // type:func size:0x1CC
+// basis: post-return 0x800eb95c; name: xref derived.tsv:35; xref:caller=memcard_format; code:src/rock_20/memcard_format.c:63 via=memcard_format
+update_memcard_format = 0x800EB964; // type:func size:0x1CC
 // basis: post-return 0x800ebb28
 func_800EBB30 = 0x800EBB30; // type:func size:0x26C
 // basis: post-return 0x800ebd94

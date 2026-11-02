@@ -599,9 +599,9 @@ Order of work:
    `carve.py:657-715` and `mk/tools-health.mk:162-164`. Each self-test gains a planted non-address name.
 2. A rename tool writes `alias = 0xADDR;` with its `// basis:` line into `config/symbols.<prog>.txt`. It rewrites
    definitions, calls, prototypes and `INCLUDE_ASM` names. It also rewrites the `define` fields of
-   `config/dedup_registry.txt`, the `src/shared` file names and `THIRD_PARTY.md` (through `x4port.py --credits`).
-   It never touches generated assembly (G6). It writes `config/x4/renames.tsv` old-to-new, so journal history stays
-   searchable. Executable symbols referenced from overlays are renamed in every overlay's files (C0125).
+   `config/dedup_registry.txt` and `THIRD_PARTY.md` (through `x4port.py --credits`).
+   It never touches generated assembly (G6), and since 2.4 it moves no file (C0294, docs/layout.md). It writes
+   `config/x4/renames.tsv` old-to-new, so journal history stays searchable. Executable symbols referenced from overlays are renamed in every overlay's files (C0125).
 3. Gate: a clean fleet N of N. A rename is byte-neutral, so any difference is a missed reference.
 4. Rename-coverage scanner.
 5. Ghidra mirror by script: `label` records with `func:true` through `ImportAnnotations.java`, round-trip green.

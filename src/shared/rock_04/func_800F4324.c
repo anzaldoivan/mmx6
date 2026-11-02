@@ -10,7 +10,7 @@ void func_800F5488(struct X4_MainObj* self);
 
 void func_800F4324(struct X4_MainObj* self) {
     ((void (*)(void*))move_object)(self);
-    if (*((u8*)self + 0x70) & 4) {
+    if (self->collision_flags & 4) {
         play_sound(2, 0x12, self);
         func_80012D9C(8);
         func_800F5488(self);

@@ -42,6 +42,6 @@ int DecDCToutCallback(void (*)());
 // LIBPRESS VLC.OBJ+0x0, retail SLUS_013.95 0x80069544
 int DecDCTvlcSize(int);
 // LIBPRESS VLC.OBJ+0x30, retail SLUS_013.95 0x80069574
-int DecDCTvlc(unsigned long *, unsigned long *);
+int DecDCTvlc(unsigned long *, unsigned long *, int); // retail's call passes 3 args; SDK takes 2
 
 #endif /* PSYQ_LIBPRESS_H */

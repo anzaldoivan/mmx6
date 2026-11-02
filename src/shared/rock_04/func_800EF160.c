@@ -9,7 +9,7 @@ s32 random_byte();
 extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
 extern struct X4_BackgroundObj background_objects[3];
-extern s32 D_80097420;
+#include "mmx6/state.h"
 extern struct X4_EngineObj g_playthrough_state;
 
 #define SB(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -91,7 +91,7 @@ void func_800EF160(void* arg0) {
         }
     }
     if (g_playthrough_state.stage != 0x16) {
-        if (!(D_80097420 & 1)) {
+        if (!(D_80097420.frame_counter & 1)) {
             UB(arg0, 0x80) = 2;
             if (!(random_byte() & 0xF)) {
                 UB(arg0, 0x80) = 6;
@@ -102,7 +102,7 @@ void func_800EF160(void* arg0) {
         }
         return;
     }
-    if (!(D_80097420 & 7)) {
+    if (!(D_80097420.frame_counter & 7)) {
         UB(arg0, 0x80) = 2;
         if (!(random_byte() & 0xF)) {
             UB(arg0, 0x80) = 6;

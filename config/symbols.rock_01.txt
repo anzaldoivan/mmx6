@@ -6,6 +6,10 @@ D_801EA000 = 0x801EA000; // type:s32
 func_801EA004 = 0x801EA004; // type:func size:0x120
 // basis: name: community tweaks-index.tsv:226
 start_rekkoha = 0x801EA680; // type:func
+// basis: name: xref derived.tsv:30; xref:callee=start_rekkoha; code:src/rock_01/rekkoha.c:49 via=update_rekkoha
+update_rekkoha = 0x801EC614; // type:func
+// basis: name: xref derived.tsv:31; xref:caller=attack_hyoroga_from_ceiling; code:src/rock_01/hyoroga_from_ceiling.c:25 via=attack_hyoroga_from_ceiling
+try_hyoroga_from_ceiling = 0x801ECA50; // type:func
 // basis: name: community tweaks-index.tsv:194
 attack_hyoroga_from_ceiling = 0x801ECAF0; // type:func
 // basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T40.13.1.c1; was D_801EE39C)

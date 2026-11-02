@@ -155,6 +155,7 @@
 {"k":"func","addr":"0x20000258","name":"gte_ApplyMatrixSV","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/SVECTOR *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/SVECTOR *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
 {"k":"func","addr":"0x2000025c","name":"gte_CompMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/MATRIX *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/MATRIX *","storage":"gte1:4","src":"USER_DEFINED"},{"name":"r2","type":"/LIBGTE.H/MATRIX *","storage":"gte2:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
 {"k":"func","addr":"0x20000260","name":"gte_ApplyRotMatrix","ret":"/void","cc":"__gtemacro","varargs":false,"noreturn":false,"inline":false,"custom":true,"sigsrc":"IMPORTED","params":[{"name":"r0","type":"/LIBGTE.H/SVECTOR *","storage":"gte0:4","src":"USER_DEFINED"},{"name":"r1","type":"/LIBGTE.H/VECTOR *","storage":"gte1:4","src":"USER_DEFINED"}],"locals":[],"comment":null}
+{"k":"func","addr":"0x800ea324","name":"start_demo_xa_track","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: xref derived.tsv:33; xref:caller=play_demo_xa_track; code:src/rock_12/demo_xa.c:17 via=play_demo_xa_track"}
 {"k":"data","addr":"0x20000000","type":"/byte[4]","len":4}
 {"k":"data","addr":"0x20000004","type":"/byte[4]","len":4}
 {"k":"data","addr":"0x20000008","type":"/byte[4]","len":4}
@@ -358,6 +359,7 @@
 {"k":"comment","addr":"0x800ea224","type":"plate","text":"Possible VM_VIB.OBJ/SsUtVibrateOn"}
 {"k":"comment","addr":"0x800ea22c","type":"plate","text":"Possible VM_VIB.OBJ/SsUtVibrateOff"}
 {"k":"comment","addr":"0x800ea304","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
+{"k":"comment","addr":"0x800ea324","type":"plate","text":"name: xref derived.tsv:33; xref:caller=play_demo_xa_track; code:src/rock_12/demo_xa.c:17 via=play_demo_xa_track"}
 {"k":"bookmark","addr":"0x800e9864","type":"Analysis","cat":"Address Table","text":"Address table[8] created"}
 {"k":"bookmark","addr":"0x800e9958","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c850 (flow from 800e9958)"}
 {"k":"bookmark","addr":"0x800e99cc","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 8002c850 (flow from 800e99cc)"}
@@ -542,3 +544,4 @@
 {"k":"label","addr":"0x800e9a60","name":"caseD_3","primary":true,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800e9a60","name":"caseD_7","primary":false,"src":"ANALYSIS","func":false}
 {"k":"label","addr":"0x800e9a88","name":"default","primary":true,"src":"ANALYSIS","func":false}
+{"k":"label","addr":"0x800ea324","name":"start_demo_xa_track","primary":true,"src":"USER_DEFINED","func":true}

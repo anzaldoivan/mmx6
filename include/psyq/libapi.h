@@ -46,7 +46,7 @@ int HookEntryInt();
 // LIBAPI A36.OBJ+0x0, retail SLUS_013.95 0x80069ED4
 int EnterCriticalSection(void);
 // LIBAPI A37.OBJ+0x0, retail SLUS_013.95 0x80069EE4
-void ExitCriticalSection(void);
+int ExitCriticalSection(void); // retail callers are compiled against an int return (v0 kept live); SDK returns void
 // LIBAPI A50.OBJ+0x0, retail SLUS_013.95 0x80069EF4
 long open(char *, unsigned long);
 // LIBAPI A52.OBJ+0x0, retail SLUS_013.95 0x80069F04

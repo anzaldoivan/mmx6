@@ -1,7 +1,7 @@
 #include "common.h"
 
 s32 func_8002D654(s8*, u8*);
-extern u8 g_projectiles[];
+#include "mmx6/projectile.h"
 
 s32 func_800FA664(u8* arg0) {
     s8* p;

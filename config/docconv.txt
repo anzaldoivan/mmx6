@@ -1,9 +1,9 @@
 # config/docconv.txt -- files checked by `tools/mmx6/docconv.py check` (DC1-DC8 documentation conventions).
 # One repo-relative path per line; `#` lines are comments. A listed path that does not exist is a refusal.
-src/shared/SLUS_013.95/player_hurt.c
-src/shared/SLUS_013.95/load_rock_dat_file_table.c
-src/shared/SLUS_013.95/load_rock_bin_file_table.c
-src/shared/SLUS_013.95/memcard_read_save_file.c
-src/shared/SLUS_013.95/memcard_format.c
-src/shared/rock_20/memcard_write_save_file.c
-src/shared/SLUS_013.95/memcard_list_files.c
+src/SLUS_013.95/damage/hurt.c
+src/SLUS_013.95/file/rock_dat_file_table.c
+src/SLUS_013.95/file/rock_bin_file_table.c
+src/SLUS_013.95/save/save_file.c
+src/SLUS_013.95/save/memcard_format.c
+src/rock_20/save_file.c
+src/SLUS_013.95/save/memcard_list_files.c

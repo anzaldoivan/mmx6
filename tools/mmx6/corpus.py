@@ -149,9 +149,13 @@ def read_c(path):
 
 
 def parse_c(prog):
-    """({name: (tu, empty)} of C definitions, {tu: {INCLUDE_ASM names}}) of src/<prog>/*.c (+ their included .c)."""
+    """({name: (tu, empty)} of C definitions, {tu: {INCLUDE_ASM names}}) of src/<prog>/<tu>.c (+ their included .c).
+    The units are the config/c_units.txt rows of prog, not every src/<prog>/*.c: an L-B overlay's role files sit beside
+    its unit (docs/layout.md) and belong to the unit that includes them (2.4 T15.c1)."""
     defs, inc = {}, {}
-    for path in sorted(glob.glob(f"src/{prog}/*.c")):
+    with open("config/c_units.txt") as f:
+        tus = sorted({w[1] for w in (l.split("#", 1)[0].split() for l in f) if len(w) == 2 and w[0] == prog})
+    for path in (f"src/{prog}/{tu}.c" for tu in tus):
         tu = os.path.basename(path)[:-2]
         src = read_c(path)
         inc[tu] = set(INC_RE.findall(src))

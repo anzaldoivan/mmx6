@@ -6,7 +6,7 @@
 M2C_UNK func_80017A04();
 M2C_UNK move_object(void*);
 extern struct X4_PlayerObj g_Player;
-extern s32 D_80097420;
+#include "mmx6/state.h"
 
 #define EA_U8(p, o) (*(u8*)((u8*)(p) + (o)))
 #define EA_S16(p, o) (*(s16*)((u8*)(p) + (o)))

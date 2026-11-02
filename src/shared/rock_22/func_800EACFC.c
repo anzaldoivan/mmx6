@@ -5,13 +5,13 @@
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8003D330();
 extern struct X4_BackgroundObj background_objects[3];
-extern s32 D_80097420;
+#include "mmx6/state.h"
 extern u16 D_800FB700[];
 
 #define F81(p) (((u8*)(p))[0x81])
 
 void func_800EACFC(struct X4_MainObj* arg0) {
-    u32 t = D_80097420;
+    u32 t = D_80097420.frame_counter;
 
     if (t == t / 10 * 10) {
         F81(arg0) = (F81(arg0) + 1) & 3;

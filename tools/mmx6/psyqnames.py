@@ -31,7 +31,8 @@ off ledger starts is `refused:trivial-off-ledger`; several placements: exactly o
 `refused:trivial-off-ledger`), else all `ambiguous:trivial` (C0273). One vram, several globals: the first by name is kept, the rest are `aliases`.
 Prototypes (C0128): each declaration re-emitted in our own words: no parameter names, typedefs resolved (u_char etc.
 to unsigned types, typedef'd structs to `struct X` with `struct X;` in forward, function-pointer typedefs expanded);
-no declaration -> `int name();` basis none. Stdlib only.
+no declaration -> `int name();` basis none. RETAIL overrides the SDK form where the retail callers' object code
+needs another (byte-proven in phase 2.5 T4.c1; include/psyq carries the reason): basis retail-call. Stdlib only.
 """
 import argparse
 import os
@@ -336,6 +337,12 @@ def lane_reasons(rows, named, starts, dropped):
 BASE = {"void", "char", "short", "int", "long", "float", "double", "unsigned", "signed", "const", "volatile",
         "struct", "union", "enum"}
 FIXED = {"u_char": "unsigned char", "u_short": "unsigned short", "u_long": "unsigned long", "u_int": "unsigned int"}
+RETAIL = {"DecDCTvlc": "int DecDCTvlc(unsigned long *, unsigned long *, int);",
+          "ExitCriticalSection": "int ExitCriticalSection(void);",
+          "SsIsEos": "short SsIsEos(long, short);",
+          "SsSepSetVol": "void SsSepSetVol(signed char, short, short, short);",
+          "SsSeqStop": "void SsSeqStop(short, char);",
+          "memset": "void memset(void *, int, int);"}
 
 
 def header_statements(inc):
@@ -470,6 +477,8 @@ class Protos:
         return ", ".join(self.param(p, fwd, depth) for p in split_top(text))
 
     def proto(self, name, lib):
+        if name in RETAIL:
+            return RETAIL[name], "-", "retail-call"
         ds = self.decl.get(name)
         if not ds:
             return f"int {name}();", "-", "none"

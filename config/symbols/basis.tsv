@@ -481,7 +481,7 @@ SLUS_013.95	0x80073658	option_cursors	community	tweaks-index.tsv:298; corroborat
 SLUS_013.95	0x80078E08	capsule_parts	community	tweaks-index.tsv:218; corroborator func_80051ED4 ORs D_80078E08[id] into D_800CCED0+0x69	consistent-with-bytes
 SLUS_013.95	0x8008EF48	g_enemies	community	tweaks-index.tsv:134; corroborator func_8002B838 clears 0x30 slots of 0x9C bytes	consistent-with-bytes
 SLUS_013.95	0x80090D6A	g_wide_mode	community	tweaks-index.tsv:36; corroborator func_80012890 compares it to arg, 0 -> width 0x140, else 0x200	consistent-with-bytes
-SLUS_013.95	0x80093C98	g_projectiles	community	tweaks-index.tsv:136; corroborator func_8002B838 clears 0x20 slots of 0xA0 bytes (workbook says stride 0x9C)	consistent-with-bytes
+SLUS_013.95	0x80093C98	g_projectiles	community	tweaks-index.tsv:136; corroborator func_8002B838 clears 0x20 slots of 0xA0 bytes (workbook says stride 0x9C); stride 0xA0: sizeof(struct ProjectileObj) 0xA0 in the cc1 offsetof table (objfields.py --check, typecheck.py --self-test, 2.5 T6.c2), strides p += 0xA0 / bound 0x1400 = 32 x 0xA0 in SLUS 8001E6E4.c, 80022928.c, 8002B410.c, 8002BCCC.c, 8002C458.c, 80031F4C.c, 80032208.c, stage/level.c, commander_yammark/func_800ECA2C.c, rock_11/func_800FA664.c (docs/types/projectile.md); workbook 0x9C is ObjectTempTable#1 0x8008EF48	proven-at-gate
 SLUS_013.95	0x8009B79C	g_screen_width	community	tweaks-index.tsv:37; corroborator set 0x140/0x200 in func_80012890 and passed as width to SetDefDrawEnv/SetDefD...	consistent-with-bytes
 SLUS_013.95	0x800CCED0	g_playthrough_state	community	tweaks-index.tsv:49; corroborator func_80025FD8 reads +0xC stage and +0x8D rank, extern X4_EngineObj in ~300 C...	consistent-with-bytes
 SLUS_013.95	0x800CD410	g_displayed_sprites	community	tweaks-index.tsv:380; corroborator func_8002C530 walks it in 0x60 steps	consistent-with-bytes
@@ -496,48 +496,73 @@ rock_07	0x800EB80C	init_nightmare_pressure	community	tweaks-index.tsv:182; corro
 rock_11	0x800F2390	init_illumina	community	tweaks-index.tsv:183; corroborator on D_800970A5==0x14: boss ptr +0x20=self, bar size +0x8C=0x40	consistent-with-bytes
 rock_17	0x800E9E2C	tick_boss_intro	community	tweaks-index.tsv:329; corroborator copies 8 bytes from D_800E9860+4 (= workbook sound table 0x800E9864), timer +...	consistent-with-bytes
 rock_20	0x800EE6F4	build_mission_report_list	community	tweaks-index.tsv:344; corroborator reads MR fields D_800CCED0+0x26/+0x27, D_80097169, offset 0x43B, calls func_8...	consistent-with-bytes
-SLUS_013.95	0x80013300	create_task	code	code:src/shared/SLUS_013.95/create_task.c:15 via=OpenTh	consistent-with-bytes
-SLUS_013.95	0x80013360	task_yield	code	code:src/shared/SLUS_013.95/task_yield.c:13 via=ChangeTh	consistent-with-bytes
-SLUS_013.95	0x800133F4	end_task_slot	code	code:src/shared/SLUS_013.95/end_task_slot.c:17 via=CloseTh	consistent-with-bytes
-SLUS_013.95	0x80016178	pump_file_loads	code	code:src/shared/SLUS_013.95/pump_file_loads.c:65 via=rock_dat_file_table	consistent-with-bytes
-SLUS_013.95	0x8001750C	silence_sound	code	code:src/shared/SLUS_013.95/silence_sound.c:19 via=SsUtKeyOffV	consistent-with-bytes
-SLUS_013.95	0x800179D0	set_animation_frame	code	code:src/shared/SLUS_013.95/set_animation_frame.c:11 via=arg1	consistent-with-bytes
-SLUS_013.95	0x8001854C	play_stage_bgm	code	code:src/shared/SLUS_013.95/play_stage_bgm.c:17 via=g_stage_bgm_tracks	consistent-with-bytes
-SLUS_013.95	0x800186A8	stop_cd_audio	code	code:src/shared/SLUS_013.95/stop_cd_audio.c:33 via=SsSetSerialAttr	consistent-with-bytes
-SLUS_013.95	0x80029B8C	init_checkpoint_positions	code	code:src/shared/SLUS_013.95/init_checkpoint_positions.c:20 via=checkpoint	consistent-with-bytes
-SLUS_013.95	0x8002C3F8	alloc_class3_slot	code	code:src/shared/SLUS_013.95/alloc_class3_slot.c:15 via=D_8009B7B0	consistent-with-bytes
-SLUS_013.95	0x8002C4C4	alloc_class4_slot	code	code:src/shared/SLUS_013.95/alloc_class4_slot.c:14 via=D_800C1220	consistent-with-bytes
-SLUS_013.95	0x8002C7F0	alloc_class6_slot	code	code:src/shared/SLUS_013.95/alloc_class6_slot.c:14 via=D_8009C9B0	consistent-with-bytes
-SLUS_013.95	0x8002C950	alloc_class7_slot	code	code:src/shared/SLUS_013.95/alloc_class7_slot.c:14 via=D_800C4778	consistent-with-bytes
-SLUS_013.95	0x8002C9B0	clear_object_slot	code	code:src/shared/SLUS_013.95/clear_object_slot.c:9 via=arg0	consistent-with-bytes
-SLUS_013.95	0x8002D2D4	random_byte	code	code:src/shared/SLUS_013.95/random_byte.c:13 via=D_80090E70	consistent-with-bytes
-SLUS_013.95	0x8004FF00	set_reploid_status	code	code:src/shared/SLUS_013.95/rescue_reploid.c:37 via=set_reploid_status	consistent-with-bytes
-SLUS_013.95	0x8004FF4C	get_reploid_status	code	code:src/shared/SLUS_013.95/func_80018F98.c:16 via=get_reploid_status	consistent-with-bytes
-SLUS_013.95	0x800533F4	is_text_box_seen	code	code:src/shared/rock_11/func_800F23D8.c:22 via=is_text_box_seen	consistent-with-bytes
-SLUS_013.95	0x80053440	set_text_box_seen	code	code:src/shared/rock_11/func_800F23D8.c:24 via=set_text_box_seen	consistent-with-bytes
-SLUS_013.95	0x8007093C	g_stage_bgm_tracks	code	code:src/shared/SLUS_013.95/play_stage_bgm.c:17 via=g_stage_bgm_tracks	consistent-with-bytes
-SLUS_013.95	0x8007112C	g_playthrough_state_handlers	code	code:src/shared/SLUS_013.95/func_8001E6E4.c:11 via=g_playthrough_state_handlers	consistent-with-bytes
-SLUS_013.95	0x80073ABC	g_player_state_handlers	code	code:src/shared/SLUS_013.95/func_80034DCC.c:60 via=g_player_state_handlers	consistent-with-bytes
-SLUS_013.95	0x8008EC10	g_tilemap_layer_stride	code	code:src/shared/SLUS_013.95/func_80027D6C.c:28 via=g_tilemap_layer_stride	consistent-with-bytes
-SLUS_013.95	0x8009B7A0	g_cur_draw_info	code	code:src/shared/SLUS_013.95/func_800120A0.c:47 via=g_cur_draw_info	consistent-with-bytes
-SLUS_013.95	0x800B91C0	g_bg_sprite_prims	code	code:src/shared/SLUS_013.95/func_8002649C.c:29 via=g_bg_sprite_prims	consistent-with-bytes
-SLUS_013.95	0x800C456C	g_pad1_buttons	code	code:src/shared/SLUS_013.95/func_80012A34.c:47 via=g_pad1_buttons	consistent-with-bytes
-SLUS_013.95	0x800C4578	g_draw_info_buffers	code	code:src/shared/SLUS_013.95/func_800120A0.c:47 via=g_draw_info_buffers	consistent-with-bytes
-SLUS_013.95	0x800C4758	g_pad2_buttons	code	code:src/shared/SLUS_013.95/func_80012A34.c:84 via=g_pad2_buttons	consistent-with-bytes
-SLUS_013.95	0x800CD338	g_tilemap_width	code	code:src/shared/SLUS_013.95/func_80027D6C.c:25 via=g_tilemap_width	consistent-with-bytes
-SLUS_013.95	0x800CD339	g_tilemap_height	code	code:src/shared/SLUS_013.95/func_80027D6C.c:25 via=g_tilemap_height	consistent-with-bytes
-rock_02	0x800EFED0	update_d1000	community	refs/leads/tweaks/BossHealth.tsv:234 word 0x800EFF4C match; code:src/shared/rock_02/update_d1000.c:19 via=D_800FB198	consistent-with-bytes
-rock_02	0x800F5170	update_high_max_intro	community	refs/leads/tweaks/BossHealth.tsv:284 word 0x800F21B0 match; code:src/rock_02/E9860.c:523 via=update_high_max_intro	consistent-with-bytes
-rock_03	0x800F40C8	update_commander_yammark	community	refs/leads/tweaks/BossHealth.tsv:1346 word 0x800EF810 match; code:src/rock_03/E9860.c:507 via=update_commander_yammark	consistent-with-bytes
-rock_04	0x800F2E8C	update_blizzard_wolfang	community	refs/leads/tweaks/BossHealth.tsv:1574 word 0x800F232C match; code:src/rock_04/E9860.c:307 via=update_blizzard_wolfang	consistent-with-bytes
-rock_05	0x800EC534	update_nightmare_snake	community	refs/leads/tweaks/BossHealth.tsv:366 word 0x800ED610 match; code:src/rock_05/E9860.c:103 via=D_800F3F1C	consistent-with-bytes
-rock_07	0x800EB4C8	update_nightmare_pressure	community	refs/leads/tweaks/BossHealth.tsv:1294 word 0x800EB80C match; code:src/rock_07/E9860.c:41 via=D_800F868C	consistent-with-bytes
-rock_08	0x800F1C60	update_ground_scaravich	community	refs/leads/tweaks/BossHealth.tsv:1774 word 0x800F2B78 match; code:src/rock_08/E9860.c:379 via=D_800F5F34	consistent-with-bytes
-rock_15	0x800EDE18	update_sigma_1	community	refs/leads/tweaks/BossHealth.tsv:2404 word 0x800ED124 match; code:src/rock_15/E9860.c:329 via=D_800F666C	consistent-with-bytes
-rock_23	0x800F3E78	update_high_max_secret_lab2_1	community	refs/leads/tweaks/BossHealth.tsv:2224 word 0x800F0EB8 match; code:src/rock_23/E9860.c:529 via=update_high_max_secret_lab2_1	consistent-with-bytes
-rock_24	0x800F49F0	update_gate	community	refs/leads/tweaks/BossHealth.tsv:2303 word 0x800EF400 match; code:src/rock_24/E9860.c:513 via=D_800F75F0	consistent-with-bytes
-rock_33	0x800FE988	update_commander_yammark_boss_rush	community	refs/leads/tweaks/BossHealth.tsv:2986 word 0x800FA0D0 match; code:src/rock_33/FA000.c:58 via=update_commander_yammark_boss_rush	consistent-with-bytes
-rock_34	0x800FB9E4	update_blizzard_wolfang_boss_rush	community	refs/leads/tweaks/BossHealth.tsv:3214 word 0x800FAE84 match; code:src/rock_34/FA000.c:56 via=update_blizzard_wolfang_boss_rush	consistent-with-bytes
-rock_37	0x800FBCC8	update_ground_scaravich_boss_rush	community	refs/leads/tweaks/BossHealth.tsv:3414 word 0x800FCBE0 match; code:src/rock_37/FA000.c:47 via=D_800FD8C4	consistent-with-bytes
-rock_43	0x800FC128	update_nightmare_zero	community	refs/leads/tweaks/BossHealth.tsv:2571 word 0x800FA000 match (data, Values table); code:src/rock_43/FA000.c:49 via=D_800FE134	consistent-with-bytes
-rock_44	0x800FDA98	update_high_max_hidden_area	community	refs/leads/tweaks/BossHealth.tsv:2761 word 0x800FAAD8 match; code:src/rock_44/FA000.c:105 via=update_high_max_hidden_area	consistent-with-bytes
+SLUS_013.95	0x80013300	create_task	code	code:src/SLUS_013.95/task/task.c:13 via=OpenTh	consistent-with-bytes
+SLUS_013.95	0x80013360	task_yield	code	code:src/SLUS_013.95/task/task_yield.c:13 via=ChangeTh	consistent-with-bytes
+SLUS_013.95	0x800133F4	end_task_slot	code	code:src/SLUS_013.95/task/task_800133F4.c:15 via=CloseTh	consistent-with-bytes
+SLUS_013.95	0x80016178	pump_file_loads	code	code:src/SLUS_013.95/file/file_loads.c:65 via=rock_dat_file_table	consistent-with-bytes
+SLUS_013.95	0x8001750C	silence_sound	code	code:src/SLUS_013.95/sound/sound_8001750C.c:18 via=SsUtKeyOffV	consistent-with-bytes
+SLUS_013.95	0x800179D0	set_animation_frame	code	code:src/SLUS_013.95/graphics/animation.c:27 via=arg1	consistent-with-bytes
+SLUS_013.95	0x8001854C	play_stage_bgm	code	code:src/SLUS_013.95/stage/stage.c:17 via=g_stage_bgm_tracks	consistent-with-bytes
+SLUS_013.95	0x800186A8	stop_cd_audio	code	code:src/SLUS_013.95/cd/cd_audio.c:33 via=SsSetSerialAttr	consistent-with-bytes
+SLUS_013.95	0x80029B8C	init_checkpoint_positions	code	code:src/SLUS_013.95/stage/checkpoint.c:20 via=checkpoint	consistent-with-bytes
+SLUS_013.95	0x8002C3F8	alloc_class3_slot	code	code:src/SLUS_013.95/object/class3_slot.c:15 via=D_8009B7B0	consistent-with-bytes
+SLUS_013.95	0x8002C4C4	alloc_class4_slot	code	code:src/SLUS_013.95/object/class4_slot.c:14 via=D_800C1220	consistent-with-bytes
+SLUS_013.95	0x8002C7F0	alloc_class6_slot	code	code:src/SLUS_013.95/object/class6_slot.c:14 via=D_8009C9B0	consistent-with-bytes
+SLUS_013.95	0x8002C950	alloc_class7_slot	code	code:src/SLUS_013.95/object/class7_slot.c:14 via=D_800C4778	consistent-with-bytes
+SLUS_013.95	0x8002C9B0	clear_object_slot	code	code:src/SLUS_013.95/object/object_slot.c:9 via=arg0	consistent-with-bytes
+SLUS_013.95	0x8002D2D4	random_byte	code	code:src/SLUS_013.95/system/random_byte.c:13 via=D_80090E70	consistent-with-bytes
+SLUS_013.95	0x8004FF00	set_reploid_status	code	code:src/SLUS_013.95/item/reploid.c:37 via=set_reploid_status	consistent-with-bytes
+SLUS_013.95	0x8004FF4C	get_reploid_status	code	code:src/SLUS_013.95/80018774.c:350 via=get_reploid_status	consistent-with-bytes
+SLUS_013.95	0x800533F4	is_text_box_seen	code	code:src/rock_11/800F23D8.c:22 via=is_text_box_seen	consistent-with-bytes
+SLUS_013.95	0x80053440	set_text_box_seen	code	code:src/rock_11/800F23D8.c:24 via=set_text_box_seen	consistent-with-bytes
+SLUS_013.95	0x8007093C	g_stage_bgm_tracks	code	code:src/SLUS_013.95/stage/stage.c:17 via=g_stage_bgm_tracks	consistent-with-bytes
+SLUS_013.95	0x8007112C	g_playthrough_state_handlers	code	code:src/SLUS_013.95/8001E6E4.c:11 via=g_playthrough_state_handlers	consistent-with-bytes
+SLUS_013.95	0x80073ABC	g_player_state_handlers	code	code:src/SLUS_013.95/80034830.c:270 via=g_player_state_handlers	consistent-with-bytes
+SLUS_013.95	0x8008EC10	g_tilemap_layer_stride	code	code:src/SLUS_013.95/80026028.c:987 via=g_tilemap_layer_stride	consistent-with-bytes
+SLUS_013.95	0x8009B7A0	g_cur_draw_info	code	code:src/SLUS_013.95/800120A0.c:47 via=g_cur_draw_info	consistent-with-bytes
+SLUS_013.95	0x800B91C0	g_bg_sprite_prims	code	code:src/SLUS_013.95/80026028.c:191 via=g_bg_sprite_prims	consistent-with-bytes
+SLUS_013.95	0x800C456C	g_pad1_buttons	code	code:src/SLUS_013.95/80012A34.c:47 via=g_pad1_buttons	consistent-with-bytes
+SLUS_013.95	0x800C4578	g_draw_info_buffers	code	code:src/SLUS_013.95/800120A0.c:47 via=g_draw_info_buffers	consistent-with-bytes
+SLUS_013.95	0x800C4758	g_pad2_buttons	code	code:src/SLUS_013.95/80012A34.c:84 via=g_pad2_buttons	consistent-with-bytes
+SLUS_013.95	0x800CD338	g_tilemap_width	code	code:src/SLUS_013.95/80026028.c:984 via=g_tilemap_width	consistent-with-bytes
+SLUS_013.95	0x800CD339	g_tilemap_height	code	code:src/SLUS_013.95/80026028.c:984 via=g_tilemap_height	consistent-with-bytes
+rock_02	0x800EFED0	update_d1000	community	refs/leads/tweaks/BossHealth.tsv:234 word 0x800EFF4C match; code:src/rock_02/d1000.c:19 via=D_800FB198	consistent-with-bytes
+rock_02	0x800F5170	update_high_max_intro	community	refs/leads/tweaks/BossHealth.tsv:284 word 0x800F21B0 match; code:src/rock_02/high_max_800F5170.c:2 via=update_high_max_intro	consistent-with-bytes
+rock_03	0x800F40C8	update_commander_yammark	community	refs/leads/tweaks/BossHealth.tsv:1346 word 0x800EF810 match; code:src/rock_03/commander_yammark.c:2 via=update_commander_yammark	consistent-with-bytes
+rock_04	0x800F2E8C	update_blizzard_wolfang	community	refs/leads/tweaks/BossHealth.tsv:1574 word 0x800F232C match; code:src/rock_04/blizzard_wolfang.c:2 via=update_blizzard_wolfang	consistent-with-bytes
+rock_05	0x800EC534	update_nightmare_snake	community	refs/leads/tweaks/BossHealth.tsv:366 word 0x800ED610 match; code:src/rock_05/nightmare_snake.c:5 via=D_800F3F1C	consistent-with-bytes
+rock_07	0x800EB4C8	update_nightmare_pressure	community	refs/leads/tweaks/BossHealth.tsv:1294 word 0x800EB80C match; code:src/rock_07/nightmare_pressure.c:5 via=D_800F868C	consistent-with-bytes
+rock_08	0x800F1C60	update_ground_scaravich	community	refs/leads/tweaks/BossHealth.tsv:1774 word 0x800F2B78 match; code:src/rock_08/ground_scaravich.c:5 via=D_800F5F34	consistent-with-bytes
+rock_15	0x800EDE18	update_sigma_1	community	refs/leads/tweaks/BossHealth.tsv:2404 word 0x800ED124 match; code:src/rock_15/sigma.c:5 via=D_800F666C	consistent-with-bytes
+rock_23	0x800F3E78	update_high_max_secret_lab2_1	community	refs/leads/tweaks/BossHealth.tsv:2224 word 0x800F0EB8 match; code:src/rock_23/high_max.c:2 via=update_high_max_secret_lab2_1	consistent-with-bytes
+rock_24	0x800F49F0	update_gate	community	refs/leads/tweaks/BossHealth.tsv:2303 word 0x800EF400 match; code:src/rock_24/gate.c:5 via=D_800F75F0	consistent-with-bytes
+rock_33	0x800FE988	update_commander_yammark_boss_rush	community	refs/leads/tweaks/BossHealth.tsv:2986 word 0x800FA0D0 match; code:src/rock_33/commander_yammark.c:2 via=update_commander_yammark_boss_rush	consistent-with-bytes
+rock_34	0x800FB9E4	update_blizzard_wolfang_boss_rush	community	refs/leads/tweaks/BossHealth.tsv:3214 word 0x800FAE84 match; code:src/rock_34/blizzard_wolfang.c:2 via=update_blizzard_wolfang_boss_rush	consistent-with-bytes
+rock_37	0x800FBCC8	update_ground_scaravich_boss_rush	community	refs/leads/tweaks/BossHealth.tsv:3414 word 0x800FCBE0 match; code:src/rock_37/ground_scaravich.c:5 via=D_800FD8C4	consistent-with-bytes
+rock_43	0x800FC128	update_nightmare_zero	community	refs/leads/tweaks/BossHealth.tsv:2571 word 0x800FA000 match (data, Values table); code:src/rock_43/nightmare_zero.c:5 via=D_800FE134	consistent-with-bytes
+rock_44	0x800FDA98	update_high_max_hidden_area	community	refs/leads/tweaks/BossHealth.tsv:2761 word 0x800FAAD8 match; code:src/rock_44/hidden_area.c:2 via=update_high_max_hidden_area	consistent-with-bytes
+SLUS_013.95	0x80012658	init_system	xref	derived.tsv:5; xref:caller=load_rock_dat_file_table; code:src/SLUS_013.95/system/system.c:96 via=load_rock_dat_file_table	consistent-with-bytes
+SLUS_013.95	0x80015EC0	wait_for_file_load	xref	derived.tsv:6; xref:caller=init_loading_screen; code:src/SLUS_013.95/file/file_load.c:5 via=wait_for_file_load	consistent-with-bytes
+SLUS_013.95	0x80016D34	key_on_sfx_voices	xref	derived.tsv:7; xref:callee=play_sound; code:src/SLUS_013.95/sound/sound.c:43 via=key_on_sfx_voices	consistent-with-bytes
+SLUS_013.95	0x80017008	play_sfx_sequence	xref	derived.tsv:8; xref:callee=play_sound; code:src/SLUS_013.95/sound/sound.c:41 via=play_sfx_sequence	consistent-with-bytes
+SLUS_013.95	0x8001731C	load_player_sound_seqs	xref	derived.tsv:9; xref:callee=load_player_files; code:src/SLUS_013.95/file/player_files.c:48 via=load_player_sound_seqs	consistent-with-bytes
+SLUS_013.95	0x80020D18	run_text_box	xref	derived.tsv:11; xref:caller=update_text_box; code:src/SLUS_013.95/text/text_box.c:13 via=update_text_box	consistent-with-bytes
+SLUS_013.95	0x80022838	load_speaker_palette	xref	derived.tsv:12; xref:callee=open_text_box; code:src/SLUS_013.95/text/text_box_80021760.c:124 via=load_speaker_palette	consistent-with-bytes
+SLUS_013.95	0x80031DA8	collide_solid_object	xref	derived.tsv:14; xref:caller=check_box_collision; code:src/SLUS_013.95/collision/solid_object.c:32 via=check_box_collision	consistent-with-bytes
+SLUS_013.95	0x80034FBC	update_player	xref	derived.tsv:15; xref:caller=player_update_flash; code:src/SLUS_013.95/player/player.c:68 via=player_update_flash	consistent-with-bytes
+SLUS_013.95	0x8003A2CC	try_enter_wall_cling	xref	derived.tsv:17; xref:caller=player_enter_wall_cling; code:src/SLUS_013.95/cling/enter_wall_cling.c:23 via=player_enter_wall_cling	consistent-with-bytes
+SLUS_013.95	0x8003A3DC	try_enter_ladder	xref	derived.tsv:18; xref:caller=player_enter_ladder_climb_on_top; code:src/SLUS_013.95/ladder/enter_ladder.c:30 via=player_enter_ladder_climb_on_top	consistent-with-bytes
+SLUS_013.95	0x8003A514	try_leave_ladder	xref	derived.tsv:19; xref:caller=player_enter_ladder_step_off_bottom; code:src/SLUS_013.95/ladder/leave_ladder.c:18 via=player_enter_ladder_step_off_bottom	consistent-with-bytes
+SLUS_013.95	0x8003F048	update_weapon_switch	xref	derived.tsv:22; xref:caller=switch_weapon; code:src/SLUS_013.95/weapon/weapon_switch.c:18 via=switch_weapon	consistent-with-bytes
+SLUS_013.95	0x8003F32C	try_start_air_dash	xref	derived.tsv:23; xref:callee=select_air_dash; code:src/SLUS_013.95/dash/air_dash.c:57 via=try_start_air_dash	consistent-with-bytes
+SLUS_013.95	0x8003F864	start_player_attack	xref	derived.tsv:24; xref:caller=start_saber; code:src/SLUS_013.95/attack/player_attack.c:5 via=start_player_attack	consistent-with-bytes
+SLUS_013.95	0x80049478	update_buster_shot_visual	xref	derived.tsv:25; xref:caller=init_buster_shot_visual; code:src/SLUS_013.95/weapon/buster_shot_visual_80049478.c:20 via=init_buster_shot_visual	consistent-with-bytes
+SLUS_013.95	0x800515B4	update_capsule	xref	derived.tsv:28; xref:caller=init_capsule; code:src/SLUS_013.95/item/capsule_800515B4.c:31 via=init_capsule	consistent-with-bytes
+rock_01	0x801EC614	update_rekkoha	xref	derived.tsv:30; xref:callee=start_rekkoha; code:src/rock_01/rekkoha.c:49 via=update_rekkoha	consistent-with-bytes
+rock_01	0x801ECA50	try_hyoroga_from_ceiling	xref	derived.tsv:31; xref:caller=attack_hyoroga_from_ceiling; code:src/rock_01/hyoroga_from_ceiling.c:25 via=attack_hyoroga_from_ceiling	consistent-with-bytes
+rock_03	0x800F5664	step_commander_yammark	xref	derived.tsv:32; xref:callee=update_commander_yammark; code:src/shared/commander_yammark/step_commander_yammark.c:12 via=step_commander_yammark	consistent-with-bytes
+rock_12	0x800EA324	start_demo_xa_track	xref	derived.tsv:33; xref:caller=play_demo_xa_track; code:src/rock_12/demo_xa.c:17 via=play_demo_xa_track	consistent-with-bytes
+rock_20	0x800EAC28	init_mission_report	xref	derived.tsv:34; xref:caller=build_mission_report_list; code:src/rock_20/mission_report.c:33 via=build_mission_report_list	consistent-with-bytes
+rock_20	0x800EB964	update_memcard_format	xref	derived.tsv:35; xref:caller=memcard_format; code:src/rock_20/memcard_format.c:63 via=memcard_format	consistent-with-bytes
+rock_16	0x800F0EDC	part_slots_by_rank	community	tweaks-index.tsv:148; corroborator func_800EBEA8 indexes it by the playthrough rank byte (g_playthrough_state +0x8D) and tests != 0; func_800EC1FC returns an entry	consistent-with-bytes
+rock_16	0x800F1CB0	menu_armor_slots	community	tweaks-index.tsv:269; corroborator func_800E9898 fills it with slot ids 0,1,5,2,3,4 from selectable_characters bits (+0x5F), count in D_800F1CEB; func_800EB080 reads it	consistent-with-bytes

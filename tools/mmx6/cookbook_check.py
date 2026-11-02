@@ -14,10 +14,17 @@ triage table's TODOs (container, stdlib only; reads only, tools/cookbook_add.sh 
         D/C0002.md holds no `TODO` (else TODO C0002).
       -> per defect `COOKBOOK ORPHAN|DANGLING|DUP|TITLE|NOSYMPTOM|TODO <id>` rc 1;
          else `COOKBOOK OK <e> entries, <r> rows, 0 orphans, 0 dangling` rc 0.
+  cookbook_check.py --entry <path>... [--dir D]   (tools/commit_task.sh runs it on staged cookbook/C*.md)
+      reads only the named entries + D/INDEX.md; per entry:
+        line 1 `# <stem> — <title>` (else HEAD);
+        line 2 `tags: <t>(,<t>)* · date: YYYY-MM-DD · phase/task: <x> · origin: <y>`, tags without spaces (else TAGS);
+        exactly one row for the id, its title/tags/date/phase-task/origin == lines 1-2 (else ROW).
+      -> per defect `COOKBOOK HEAD|TAGS|ROW <id> <why>` rc 1; else `COOKBOOK ENTRY OK <n> entries` rc 0.
   cookbook_check.py --self-test
       scratch copies of D under .run/cookbook-selftest/<plant>/ (C0054; never the real cookbook/): the unplanted
       copy must pass first (C0066), then plants orphan file, dangling row, title mismatch, idiom entry without a
-      symptom tag, duplicate row, TODO in C0002, each refused with its token.
+      symptom tag, duplicate row, TODO in C0002, each refused with its token; then --entry passes every entry of
+      the clean copy and refuses a broken line 1 (HEAD) and a broken line 2 (TAGS).
       Ends `COOKBOOK CONTROL OK`, else `COOKBOOK CONTROL FAIL <why>` rc 1.
 Firewall G12: our own docs only; prints ids and counts, never retail bytes.
 """
@@ -32,6 +39,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 ROW_RE = re.compile(r'^(C\d{4}) \| ')
 HEAD_RE = re.compile(r'^# (C\d{4}) — (.*)$')
 SYM_RE = re.compile(r'`(sym-[a-z0-9-]+)`\s*$')
+TAGS_RE = re.compile(r'^tags: ([^ ,]+(?:,[^ ,]+)*) · date: (\d{4}-\d{2}-\d{2}) · phase/task: (.+?) · origin: (.+)$')
 
 
 def _read(path):
@@ -104,6 +112,48 @@ def run_check(d):
     return 0
 
 
+def entry_defects(paths, d):
+    """--entry: line 1, line 2 and the one INDEX row of each named entry. Returns (defect lines, n)."""
+    rows = {}
+    for line in _read(os.path.join(d, 'INDEX.md')):
+        if not line.startswith('<!--') and ROW_RE.match(line):
+            f = line.split(' | ')
+            rows.setdefault(f[0], []).append(f)
+    defects = []
+    for p in paths:
+        eid = os.path.basename(p)[:-3] if p.endswith('.md') else os.path.basename(p)
+        lines = _read(p) if os.path.isfile(p) else []
+        m = HEAD_RE.match(lines[0]) if lines else None
+        if not m or m.group(1) != eid or not m.group(2).strip():
+            defects.append('COOKBOOK HEAD %s line 1 is not `# %s — <title>`' % (eid, eid))
+            continue
+        t = TAGS_RE.match(lines[1]) if len(lines) > 1 else None
+        if not t:
+            defects.append('COOKBOOK TAGS %s line 2 is not `tags: <t,t> · date: YYYY-MM-DD · phase/task: <x> · '
+                           'origin: <y>`' % eid)
+            continue
+        rs = rows.get(eid, [])
+        if len(rs) != 1:
+            defects.append('COOKBOOK ROW %s %d INDEX rows (want 1)' % (eid, len(rs)))
+            continue
+        want = [eid, m.group(2)] + list(t.groups())
+        if rs[0] != want:
+            bad = [n for n, i in (('title', 1), ('tags', 2), ('date', 3), ('phase/task', 4), ('origin', 5))
+                   if len(rs[0]) <= i or rs[0][i] != want[i]] or ['field count']
+            defects.append('COOKBOOK ROW %s INDEX row differs from lines 1-2: %s' % (eid, ', '.join(bad)))
+    return defects, len(paths)
+
+
+def run_entry(paths, d):
+    defects, n = entry_defects(paths, d)
+    for x in defects:
+        print(x)
+    if defects:
+        return 1
+    print('COOKBOOK ENTRY OK %d entries' % n)
+    return 0
+
+
 def _append(path, text):
     with open(path, 'a', encoding='utf-8') as f:
         f.write(text)
@@ -161,6 +211,33 @@ def self_test(src):
         if plant and token not in defects:
             print('COOKBOOK CONTROL FAIL %s plant not refused (%s)' % (name, ', '.join(defects) or 'no defect'))
             return 1
+    # --entry plants (the commit_task.sh path): the clean copy's entries all pass, then a broken line 1
+    # (no em dash) and a broken line 2 (space-separated tags) are refused with HEAD / TAGS.
+    clean = os.path.join(base, 'clean')
+    defects, _ = entry_defects(sorted(glob.glob(os.path.join(clean, 'C[0-9][0-9][0-9][0-9].md'))), clean)
+    if defects:
+        print('COOKBOOK CONTROL FAIL clean copy refused by --entry: ' + defects[0])
+        return 1
+    c3 = lambda d: os.path.join(d, 'C0003.md')
+
+    def p_head(d):
+        _sub(c3(d), '# C0003 — ', '# C0003 - ')
+
+    def p_tags(d):
+        line = _read(c3(d))[1]
+        _sub(c3(d), line, line.replace(',', ' ', 1) if ',' in line else line.replace(' · date:', ' date:', 1))
+
+    for name, plant, token in [('entry-head', p_head, 'COOKBOOK HEAD C0003'),
+                               ('entry-tags', p_tags, 'COOKBOOK TAGS C0003')]:
+        d = os.path.join(base, name)
+        if os.path.exists(d):
+            shutil.rmtree(d)
+        shutil.copytree(src, d)
+        plant(d)
+        defects, _ = entry_defects([c3(d)], d)
+        if not any(x.startswith(token + ' ') for x in defects):
+            print('COOKBOOK CONTROL FAIL %s plant not refused (%s)' % (name, ', '.join(defects) or 'no defect'))
+            return 1
     print('COOKBOOK CONTROL OK')
     return 0
 
@@ -170,9 +247,12 @@ def main():
     ap.add_argument('--check', action='store_true')
     ap.add_argument('--dir', default=os.path.join(ROOT, 'cookbook'))
     ap.add_argument('--self-test', action='store_true')
+    ap.add_argument('--entry', nargs='+', metavar='PATH')
     a = ap.parse_args()
     if a.self_test:
         return self_test(a.dir)
+    if a.entry:
+        return run_entry(a.entry, a.dir)
     return run_check(a.dir)
 
 

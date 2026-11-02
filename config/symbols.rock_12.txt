@@ -4,5 +4,7 @@
 D_800E9860 = 0x800E9860;
 // basis: first code word after header (+0x24)
 func_800E9884 = 0x800E9884; // type:func size:0x214
+// basis: name: xref derived.tsv:33; xref:caller=play_demo_xa_track; code:src/rock_12/demo_xa.c:17 via=play_demo_xa_track
+start_demo_xa_track = 0x800EA324; // type:func
 // basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T6.c1; was D_800EA4DC)
 func_800EA4DC = 0x800EA4DC;

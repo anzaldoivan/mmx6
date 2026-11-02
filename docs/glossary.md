@@ -37,7 +37,7 @@ The check is `python3 tools/mmx6/gamestr.py check`.
 | stage id | - | - | - | stage_id | docs/leads/tcrf-proto.md:10 |
 | boss rush | - | - | - | boss_rush | docs/leads/tcrf-proto.md:16 |
 | Nightmare Soul | ナイトメアソウル | - | - | nightmare_soul | docs/leads/tcrf-proto.md:24 |
-| Nightmare Soul gate | - | - | - | NIGHTMARE_SOUL_GATE | src/shared/SLUS_013.95/func_8001E32C.c (proto 5000, retail 3000) |
+| Nightmare Soul gate | - | - | - | NIGHTMARE_SOUL_GATE | src/SLUS_013.95/stage/stage_8001E32C.c (proto 5000, retail 3000) |
 | High Max | ハイマックス | - | - | high_max | docs/leads/tcrf-proto.md:28 |
 | Commander Yammark | コマンダー・ヤンマーク | - | - | commander_yammark | docs/leads/community.tsv:6 |
 | Ground Scaravich | グランド・スカラビッチ | - | - | ground_scaravich | docs/leads/community.tsv:8 |
@@ -272,6 +272,7 @@ The check is `python3 tools/mmx6/gamestr.py check`.
 | game progress struct, also the save image | - | - | - | g_playthrough_state | docs/leads/tweaks-index.tsv:49 |
 | enemy/boss object array, stride 0x9C | - | - | - | g_enemies | docs/leads/tweaks-index.tsv:134 |
 | projectile object array | - | - | - | g_projectiles | docs/leads/tweaks-index.tsv:136 |
+| limited-parts allowance by playthrough rank | - | - | - | part_slots_by_rank | docs/leads/tweaks-index.tsv:148 |
 | Yammark projectile setup, difficulty branch, speed | - | - | - | init_yammark_projectile | docs/leads/tweaks-index.tsv:162 |
 | Wolfang ice spikes, level gate | - | - | - | init_wolfang_ice_spike | docs/leads/tweaks-index.tsv:168 |
 | boss level by player rank, 8 entries | - | - | - | boss_level_by_rank | docs/leads/tweaks-index.tsv:172 |
@@ -314,6 +315,7 @@ The check is `python3 tools/mmx6/gamestr.py check`.
 | in-game input reading | - | - | - | read_player_input | docs/leads/tweaks-index.tsv:260 |
 | default difficulty and speed | - | - | - | default_options | docs/leads/tweaks-index.tsv:265 |
 | title screen demo timer | - | - | - | tick_title_demo_timer | docs/leads/tweaks-index.tsv:268 |
+| armor slot ids listed in the menu, from selectable characters | - | - | - | menu_armor_slots | docs/leads/tweaks-index.tsv:269 |
 | item drop, off on Xtreme | - | - | - | drop_item | docs/leads/tweaks-index.tsv:271 |
 | attack slots tested against enemies | - | - | - | check_enemy_hits | docs/leads/tweaks-index.tsv:275 |
 | player attack hit detection | - | - | - | check_attack_hit | docs/leads/tweaks-index.tsv:277 |
@@ -387,3 +389,35 @@ The check is `python3 tools/mmx6/gamestr.py check`.
 | pad 2 buttons down | - | - | - | g_pad2_buttons | docs/leads/ram.tsv:36 |
 | stage layout width | - | - | - | g_tilemap_width | docs/leads/ram.tsv:71 |
 | stage layout height | - | - | - | g_tilemap_height | docs/leads/ram.tsv:72 |
+| start the system at boot | - | - | - | init_system | docs/leads/derived.tsv:5 |
+| wait for a file load | - | - | - | wait_for_file_load | docs/leads/derived.tsv:6 |
+| start the voices of a sound effect | - | - | - | key_on_sfx_voices | docs/leads/derived.tsv:7 |
+| play a sound sequence | - | - | - | play_sfx_sequence | docs/leads/derived.tsv:8 |
+| load the player's sounds | - | - | - | load_player_sound_seqs | docs/leads/derived.tsv:9 |
+| run the text box each frame | - | - | - | run_text_box | docs/leads/derived.tsv:11 |
+| load the speaker's colours | - | - | - | load_speaker_palette | docs/leads/derived.tsv:12 |
+| solid object collision | - | - | - | collide_solid_object | docs/leads/derived.tsv:14 |
+| player update each frame | - | - | - | update_player | docs/leads/derived.tsv:15 |
+| try to cling to a wall | - | - | - | try_enter_wall_cling | docs/leads/derived.tsv:17 |
+| try to grab a ladder | - | - | - | try_enter_ladder | docs/leads/derived.tsv:18 |
+| try to leave a ladder | - | - | - | try_leave_ladder | docs/leads/derived.tsv:19 |
+| weapon switch update | - | - | - | update_weapon_switch | docs/leads/derived.tsv:22 |
+| try to start an air dash | - | - | - | try_start_air_dash | docs/leads/derived.tsv:23 |
+| start a player attack | - | - | - | start_player_attack | docs/leads/derived.tsv:24 |
+| buster shot visual update | - | - | - | update_buster_shot_visual | docs/leads/derived.tsv:25 |
+| capsule update | - | - | - | update_capsule | docs/leads/derived.tsv:28 |
+| Rekkoha update | - | - | - | update_rekkoha | docs/leads/derived.tsv:30 |
+| try Hyoroga from the ceiling | - | - | - | try_hyoroga_from_ceiling | docs/leads/derived.tsv:31 |
+| Commander Yammark step | - | - | - | step_commander_yammark | docs/leads/derived.tsv:32 |
+| start a demo voice track | - | - | - | start_demo_xa_track | docs/leads/derived.tsv:33 |
+| set up the mission report | - | - | - | init_mission_report | docs/leads/derived.tsv:34 |
+| memory card format update | - | - | - | update_memcard_format | docs/leads/derived.tsv:35 |
+| wait for a file load | - | - | - | file_load | docs/leads/derived.tsv:6 |
+| key on the sound-effect voices | - | - | - | sfx_voices | docs/leads/derived.tsv:7 |
+
+## SLUS systems
+
+These are the SLUS_013.95 role-file folders. They are not stems.
+Folders: player, dash, ladder, cling, weapon, attack, damage, collision, object, effect, graphics, sound, cd, file,
+save, menu, title, text, stage, item, task, system.
+The stems of each folder are in docs/layout.md `## SLUS systems`.

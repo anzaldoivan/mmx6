@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 void* alloc_sprite_slot();
-extern u8 D_80097427;
+#include "mmx6/state.h"
 extern struct X4_EngineObj g_playthrough_state;
 extern void* D_800E2F9C;
 extern s16 D_800F0B30[];
@@ -17,7 +17,7 @@ static inline void spawn(u8 spr, s16 x, s16 y) {
         *(s16*)(obj + 0xE) = y;
         obj[0x58] = 1;
         obj[0x59] = g_playthrough_state.unk1;
-        obj[0x5A] = D_80097427;
+        obj[0x5A] = D_80097420.transition.selection;
     }
 }
 

@@ -33,6 +33,20 @@ SUFFIXES = ("rtl", "jump", "cse", "addressof", "gcse", "loop", "cse2", "bp", "fl
 PLANT = "extern int g(int);\nint f(int a)\n{\n    int b = a * 3;\n    if (g(a)) b += a;\n    return b + g(b);\n}\n"
 
 
+def strip_depflags(cpp):
+    """cpp argv without the C rule's dependency-file flags (-MMD -MP, -MT/-MF <arg>; Makefile since 2.4 T4): a dry
+    run never makes the .d file's directory, and the preprocessed text does not depend on them."""
+    out, skip = [], False
+    for t in cpp:
+        if skip:
+            skip = False
+        elif t in ("-MT", "-MF"):
+            skip = True
+        elif t not in ("-MMD", "-MP"):
+            out.append(t)
+    return out
+
+
 def recipe(c, extra=()):
     """[cpp, cc1, maspsx, as] argv lists of the C rule for repo-relative c, from make's dry run (extra: make args)."""
     p = subprocess.run([os.environ.get("MAKE", "make"), "-s", "-n", "-B", f"build/{c}.o", *extra],
@@ -48,7 +62,7 @@ def recipe(c, extra=()):
                 else:
                     stages[-1].append(t)
             if len(stages) == 4:
-                return stages
+                return [strip_depflags(stages[0])] + stages[1:]
     raise RuntimeError(f"no cpp|cc1|maspsx|as line in the recipe of build/{c}.o")
 
 

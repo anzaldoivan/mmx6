@@ -1,0 +1,2 @@
+# config/globtypes-baseline.txt -- tools/mmx6/globtypes.py --all: non-view conflicts allowed (rc 1 above it). T3.c1, 2.5.
+conflicts 4

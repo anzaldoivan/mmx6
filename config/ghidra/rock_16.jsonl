@@ -478,8 +478,8 @@
 {"k":"comment","addr":"0x800ef690","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f0638","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f093c","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
-{"k":"comment","addr":"0x800f0edc","type":"plate","text":"name: community tweaks-index.tsv:148"}
-{"k":"comment","addr":"0x800f1cb0","type":"plate","text":"name: community tweaks-index.tsv:269"}
+{"k":"comment","addr":"0x800f0edc","type":"plate","text":"name: community tweaks-index.tsv:148; corroborator func_800EBEA8 indexes it by the playthrough rank byte (g_playthrough_state +0x8D) and tests != 0; func_800EC1FC returns an entry"}
+{"k":"comment","addr":"0x800f1cb0","type":"plate","text":"name: community tweaks-index.tsv:269; corroborator func_800E9898 fills it with slot ids 0,1,5,2,3,4 from selectable_characters bits (+0x5F), count in D_800F1CEB; func_800EB080 reads it"}
 {"k":"bookmark","addr":"0x800e9864","type":"Analysis","cat":"Address Table","text":"Address table[13] created"}
 {"k":"bookmark","addr":"0x800e9b28","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 800139a0 (flow from 800e9b28)"}
 {"k":"bookmark","addr":"0x800e9b34","type":"Error","cat":"Bad Instruction","text":"Could not follow disassembly flow into non-existing memory at 80018060 (flow from 800e9b34)"}

@@ -8,7 +8,7 @@
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80017A04();
 extern struct X4_PlayerObj g_Player;
-extern s32 D_80097420;
+#include "mmx6/state.h"
 
 void func_800EB1A0(void* arg0) {
     s32 angle;
@@ -33,7 +33,7 @@ void func_800EB1A0(void* arg0) {
             M2C_FIELD(arg0, s8*, 7) = 2;
         }
     }
-    if (M2C_FIELD(arg0, s8*, 3) != 0 && !(D_80097420 & 0x1F)) {
+    if (M2C_FIELD(arg0, s8*, 3) != 0 && !(D_80097420.frame_counter & 0x1F)) {
         play_sound(2, 0xD, arg0);
     }
 }

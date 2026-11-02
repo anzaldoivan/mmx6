@@ -20,7 +20,8 @@
       -> in memory: width-compatible prototype synced, width-incompatible (`s16` param) refused, cast removed;
          force: the `s16` prototype and an extern object synced; an unprototyped cast of other arity left as
          written, not refused (plain and force); an M2C_UNK definition vs `()` prototypes and void casts left as
-         written, an s32 prototype synced, s16/s8 width conflicts refused.
+         written, an s32 prototype synced, s16/s8 width conflicts refused; role-tree pass: a thin unit over a role
+         file (src/P/sys/r.c), the role file's prototype synced, the unit untouched.
          Ends `DECLSYNC CONTROL OK` (rc 0), else rc 1.
 """
 import argparse
@@ -244,6 +245,11 @@ def self_test():
                      ("((s8 (*)())func_V)();\n", "return s8 vs M2C_UNK")):
         t, lines, refused = sync_text("src/P/d.c", bad, dv)
         ok(t == bad and refused == 1 and why in lines[0], f"real width conflict refused: {why}")
+    # role-tree pass (T5, in memory): a thin unit `#include "sys/r.c"` over a role file holding the prototype
+    rt = {body: texts[body], "src/P/u.c": '#include "sys/r.c"\n', "src/P/sys/r.c": "void func_T(s32, u32);\n"}
+    edits, lines, refused, _ = sync("P", body, files=["src/P/u.c", "src/P/sys/r.c"], texts=rt)
+    ok(edits == {"src/P/sys/r.c": "void func_T(s8* arg0, s32 arg1);\n"} and refused == 0,
+       "role-tree pass: the role file's prototype synced, the thin unit untouched")
     if fails:
         print(f"DECLSYNC SELF-TEST FAIL {len(fails)}")
         return 1

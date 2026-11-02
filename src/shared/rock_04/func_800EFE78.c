@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK clear_object_slot();
-extern s32 D_80097420;
+#include "mmx6/state.h"
 
 void func_800EFE78(struct X4_BaseObj* self) {
     s32 a;
@@ -14,7 +14,7 @@ void func_800EFE78(struct X4_BaseObj* self) {
     b = *(u16*)((u8*)self + 0x82) - 1;
     *(u16*)((u8*)self + 0x80) = a;
     *(u16*)((u8*)self + 0x82) = b;
-    if (!(D_80097420 & 1)) {
+    if (!(D_80097420.frame_counter & 1)) {
         *(u16*)((u8*)self + 0xA) = a;
     } else {
         *(u16*)((u8*)self + 0xA) = b;

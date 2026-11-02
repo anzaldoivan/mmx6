@@ -15,7 +15,7 @@ void func_800EE038(void* arg0) {
     s32 r;
 
     q = &g_Player;
-    if (M2C_FIELD(q, s8*, 0xE0) != 2) {
+    if (q->nova_strike_active != 2) {
         if (M2C_FIELD(arg0, s8*, 5) < 0x10) {
             if ((s16)(M2C_FIELD(arg0, s16*, 0x18) % 144) == 0) {
                 e = alloc_class4_slot();

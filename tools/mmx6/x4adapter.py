@@ -11,9 +11,19 @@ the game. Callers: x4share.py (the partner table), x4names.py (the names table a
   the functions   game(x6, rows): (prog, vram, name, words, exact key, state) per build/sig/sigs.jsonl row, name and
                   state from build/corpus/functions.jsonl; the key is two-sided (X6 words under the X6 object's
                   relocation mask, mmx4 words under the mmx4 object's), equal to census.dup_key.
-  tier gate       banked(): partners state `c`, or the function's name / key in an attributed src/shared file.
+  tier gate       banked(): partners state `c`, or the function's name / key under an mmx4 attribution header
+                  (x4port.adapted: any header in a file of the C units' #include closure, bound to the definition
+                  that follows it; multi-function files included).
   game objects    slots() -> Build: the X6 object and linked symbols of an anchor (census.obj_of, x4port.Addrs).
   tables, doc     PARTNERS, NAMES, DOC, SCRATCH, DOC_TEXT.
+
+  x4adapter.py --self-test
+      -> attributed() on a planted unit tree (.run/<phase>/x4adapter-selftest/, removed at the end) whose unit includes a
+         two-function file (each function under its own header, then a header-less helper): both keys and both
+         names, never the helper's; the same inside layout.role_tree of that unit. rebase() on a planted plate with
+         a superseded basis line (twice, `name:` form) between an alias line and hand text: replaced once in place,
+         both kept, and a rerun on its output is `kept` and unchanged. Ends `X4ADAPTER CONTROL OK` rc 0,
+         else `X4ADAPTER CONTROL FAIL <case>` rc 1.
 
   x4adapter.py --ghidra <prog> --out <path>
       -> the plate-comment mirror of the aliases of <prog> (x4core.ghidra_aliases) in mmx6's annotation record shape
@@ -28,9 +38,12 @@ the game. Callers: x4share.py (the partner table), x4names.py (the names table a
          records only. A renamed symbol (config/symbols.<prog>.txt: a `// basis:`-annotated name != func_/D_<ADDR>):
          a `func` record first when the export has no function there (creates it), a `label` {primary, USER_DEFINED,
          func for type:func}, the basis line as plate comment. Every other names.tsv row of <prog>: its plate line.
-         Plate text = the export's plate + the new line unless already there. Every record is emitted on a rerun too
-         (Ghidra counts it unchanged). Last line per program
-         `X4NAMES mirror <prog> <r> renames (<f> new funcs): <new> new plate comments, <appended> appended, <kept> already there`
+         Plate text = the export's plate + the new line unless already there; for a renamed symbol (rebase()) an
+         earlier basis line of it (a plate line whose first word is the basis line's, e.g. `name:`, but != it) is
+         replaced in place by the current one (further ones dropped), other plate lines (names.tsv alias lines,
+         Ghidra's, hand text) kept verbatim. Every record is emitted on a rerun too (Ghidra counts it unchanged).
+         Last line per program `X4NAMES mirror <prog> <r> renames (<f> new funcs): <new> new plate comments,
+         <appended> appended, <replaced> replaced, <kept> already there`
 """
 import json
 import os
@@ -54,14 +67,11 @@ DEFAULT = dict(name="gcc2.6.3-psx-aspsx2.63", cc1="/opt/cc/2.6.3-psx/cc1", row="
 OBJROOT = f"{SCR}/{TRIPLE}/obj"
 EXE = "SLUS_013.95"
 PARTNERS = ROOT / "campaign/x4/partners.tsv"
-SHARED = ROOT / "src/shared"
 NAMES = ROOT / "config/x4/names.tsv"
 DOC = ROOT / "docs/x4-names.md"
 SCRATCH = ROOT / ".run/x4names"  # --widen intermediates: container only, never pulled or tracked
 GHIDRA = ROOT / "config/ghidra"
 WIDEN_HINT = "--widen runs in the container, after x4share.py --partners"
-# a function definition at column 0: `<type words> name(<params>) {`
-DEFINED = re.compile(r"^\w[^;{}()\n]*?\b(\w+)\s*\([^;{}]*\)\s*\{", re.M)
 
 PHASE_1_10 = """## For phase 1.10
 
@@ -168,21 +178,18 @@ def game(x6, rows):
         yield s["prog"], int(s["vram"], 16), r.get("name", "-"), s["words"], s["exact"], r.get("state", "-")
 
 
-# ---- tier gate: the attributed src/shared files ----------------------------------------------------------------------
+# ---- tier gate: the attributed functions -----------------------------------------------------------------------------
 
-def attributed(shared):
-    """(key prefixes, defined function names) of the src/shared files that carry the mmx4 attribution header."""
-    import x4port  # ADAPTED (imported here: x4port imports x4share, which imports this module)
+def attributed(root=ROOT):
+    """(key prefixes, defined function names) of the mmx4 attribution headers of root's C units' closure
+    (x4port.adapted: every header anywhere in a file, the name of the definition that follows it)."""
+    import x4port  # adapted (imported here: x4port imports x4share, which imports this module)
     keys, names = set(), set()
-    for f in sorted(Path(shared).rglob("*.c")):
-        text = f.read_text()
-        head = text.split("*/", 1)[0]  # the leading comment, reflow-proof (as x4port.credits)
-        m = x4port.ADAPTED.match(" ".join(head.split()))
-        if not m:
-            continue
-        if m.group(3):
-            keys.add(m.group(3).lower())
-        names.update(DEFINED.findall(text))
+    for a in x4port.adapted(root):
+        if a.m.group(3):
+            keys.add(a.m.group(3).lower())
+        if a.defname:
+            names.add(a.defname)
     return keys, names
 
 
@@ -192,8 +199,8 @@ def banked_by(att):
     return lambda col: col[8] == "c" or col[2] in names or any(col[4].lower().startswith(k) for k in keys)
 
 
-def banked(shared=SHARED):
-    return banked_by(attributed(shared))
+def banked(root=ROOT):
+    return banked_by(attributed(root))
 
 
 # ---- game objects: the X6 side of the relocation-slot pairing --------------------------------------------------------
@@ -319,6 +326,26 @@ def renamed(prog):
     return out
 
 
+def rebase(cur, basis):
+    """(plate text, kind) of a renamed symbol's plate cur (None: none yet) with basis as its basis line: an earlier
+    basis line (a line whose first word is basis's, e.g. `name:`, != basis) is replaced in place by basis, further
+    ones dropped; other lines (x4: aliases, Ghidra's, hand text) kept verbatim. kind: new | kept | appended | replaced."""
+    if cur is None:
+        return basis, "new"
+    w, out, placed, old = basis.split(" ", 1)[0], [], False, False
+    for x in cur.split("\n"):
+        if x == basis or x.split(" ", 1)[0] == w:
+            old |= x != basis
+            if not placed:
+                out.append(basis)
+            placed = True
+        else:
+            out.append(x)
+    if not placed:
+        return cur + "\n" + basis, "appended"
+    return "\n".join(out), "replaced" if old else "kept"
+
+
 def mirror_one(prog, out):
     lines = (GHIDRA / f"{prog}.jsonl").read_text().splitlines()
     head = [x for x in lines if x.startswith('{"k":"program"')]
@@ -329,11 +356,13 @@ def mirror_one(prog, out):
             r = json.loads(x)
             if r["type"] == "plate":
                 plate[int(r["addr"], 16)] = r["text"]
-    n = dict(new=0, appended=0, kept=0)
+    n = dict(new=0, appended=0, kept=0, replaced=0)
 
-    def merge(a, text):  # the full plate text at a with text as one of its lines
+    def merge(a, text, basis=False):  # the full plate text at a with text as one of its lines (basis: rebase)
         cur = plate.get(a)
-        if cur is None:
+        if basis:
+            plate[a], k = rebase(cur, text)
+        elif cur is None:
             plate[a], k = text, "new"
         elif text in cur.split("\n"):
             k = "kept"
@@ -348,7 +377,7 @@ def mirror_one(prog, out):
     body, made = [], 0
     ren = renamed(prog)
     for a, name, basis, is_func in ren:
-        addr, text = f"0x{a:08x}", merge(a, basis)
+        addr, text = f"0x{a:08x}", merge(a, basis, basis=True)
         if is_func and a not in funcs:
             body.append(rec({"k": "func", "addr": addr, "name": name, "ret": "/undefined", "cc": "unknown",
                              "varargs": False, "noreturn": False, "inline": False, "custom": False, "sigsrc": "DEFAULT",
@@ -372,7 +401,7 @@ def mirror_one(prog, out):
     with open(out / f"{prog}.jsonl", "w", newline="\n") as f:
         f.write("".join(x + "\n" for x in head + body))
     print(f"{TAG} mirror {prog} {len(ren)} renames ({made} new funcs): {n['new']} new plate comments, "
-          f"{n['appended']} appended, {n['kept']} already there")
+          f"{n['appended']} appended, {n['replaced']} replaced, {n['kept']} already there")
 
 
 def mirror(out):
@@ -388,7 +417,53 @@ def mirror(out):
     return 0
 
 
+def self_test():
+    import shutil
+    import layout  # noqa: E402  (role_tree, RUN)
+    import x4port  # HEADER, PIN
+    st = ROOT / layout.RUN / "x4adapter-selftest"
+    hd = lambda fn, k: x4port.HEADER.format(pin=x4port.PIN, src="src/main/a.c", func=fn, key=k * 12)
+    plant = {"config/c_units.txt": "rock_90 E9860\n",
+             "src/rock_90/E9860.c": '#include "../shared/rock_90/multi.c"\n\nvoid unit_own(void) {\n}\n',
+             "src/shared/rock_90/multi.c": hd("one", "a") + "void multi_one(void) {\n}\n\n" + hd("two", "b")
+                                           + "void multi_two(void) {\n}\n\nstatic void helper(void) {\n}\n"}
+    shutil.rmtree(st, ignore_errors=True)
+    for rel, t in plant.items():
+        (st / rel).parent.mkdir(parents=True, exist_ok=True)
+        (st / rel).write_text(t)
+    want, fails = ({"a" * 12, "b" * 12}, {"multi_one", "multi_two"}), []
+    got = attributed(st)
+    print(f"{TAG} adapter case multi-function {sorted(got[0])} {sorted(got[1])}")
+    if got != want:
+        fails.append("multi-function")
+    try:
+        with layout.role_tree("rock_90", "E9860", root=str(st)):
+            got = attributed(st)
+    except layout.Refuse as e:
+        got = str(e)
+    print(f"{TAG} adapter case role-tree {got == want}")
+    if got != want:
+        fails.append("role-tree")
+    shutil.rmtree(st, ignore_errors=True)
+    basis = "name: code code:src/a/b.c:7 via=new_name"
+    cur = "\n".join(["name: code code:src/a/func_80010000.c:5 via=func_80010000", "x4: alias [slot/engine] x",
+                     "name: code code:src/a/func_80010000.c:6 via=func_80010000", "hand text"])
+    one, k1 = rebase(cur, basis)
+    two, k2 = rebase(one, basis)
+    ok = (k1, k2) == ("replaced", "kept") and one == two == "\n".join([basis, "x4: alias [slot/engine] x", "hand text"])
+    print(f"{TAG} adapter case rebase {k1} {k2} {ok}")
+    if not ok:
+        fails.append("rebase")
+    if fails:
+        print(f"X4ADAPTER CONTROL FAIL {fails[0]}")
+        return 1
+    print("X4ADAPTER CONTROL OK")
+    return 0
+
+
 def main(argv):
+    if argv == ["--self-test"]:
+        return self_test()
     if len(argv) == 4 and argv[0] == "--ghidra" and argv[2] == "--out":
         return ghidra(argv[1], argv[3])
     if len(argv) == 3 and argv[0] == "--mirror" and argv[1] == "--out":

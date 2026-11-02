@@ -11,7 +11,8 @@
       -> planted trees under .run/<phase>/readcensus-selftest/ (removed at the end), counted by the real tools (psxd_floor
          `debt --repo` on a planted git repo; typecheck.check on the planted {path: text}) and parsed through the step
          logs: one of each kind -> each count 1 (macro bodies: one per kind); a clean tree with the negative controls
-         (helper macros, a sanctioned shared include, a struct outside include/ under include/) -> all 0. Ends
+         (helper macros, a sanctioned shared include, a struct outside include/ under include/) -> all 0; the clean
+         tree as a layout.role_tree (unit -> role file -> shared body) -> shared-includes 2, no macro body. Ends
          `READCENSUS CONTROL OK`.
 
 Last line: `READCENSUS pins-unmarked <n> macro-bodies <n> raw-casts <n> struct-dups <n>`, rc 0 (the counts are the
@@ -25,8 +26,9 @@ log is missing or unparseable.
                                  (`<type>[ *]<name>(params) {`, control keywords excluded);
                  include-in-body a #include of a .c/.inc file at brace depth > 0;
                  include-chain   a #include of a .c from a file under src/shared/.
-                 Not counted: helper macros (M2C_FIELD, PAIR, do{}while statement macros) and the top-level includes of
-                 src/shared/<prog>/*.c by a program's TU (the sanctioned C files per system: the INFO count).
+                 Not counted: helper macros (M2C_FIELD, PAIR, do{}while statement macros) and the top-level .c
+                 includes, outside src/shared/, of a file that holds a function body of the units' #include closure
+                 (layout.py: a src/shared body or a role file; the sanctioned C files per system: the INFO count).
 """
 import argparse
 import os
@@ -34,6 +36,9 @@ import re
 import shutil
 import subprocess
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import layout  # noqa: E402  (Tree.entries: which files hold the units' function bodies)
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
@@ -68,8 +73,16 @@ def blank(text):
     return COMMENT.sub(sub, text)
 
 
-def scan_text(path, text):
-    """([(kind, line, text)], shared-include count) of one file."""
+def body_files(root):
+    """The files that hold a function body (C or INCLUDE_ASM) of some unit's #include closure (layout.py)."""
+    tree = layout.Tree(root)
+    if not os.path.isfile(os.path.join(root, "config", "c_units.txt")):
+        return set()
+    return {f.path for p, tu in tree.units() for e in tree.entries(tree.unit_rel(p, tu), ctx=p) for f in e.fns}
+
+
+def scan_text(path, text, bodies=()):
+    """([(kind, line, text)], shared-include count) of one file; bodies: body_files of the tree."""
     hits, shared, depth = [], 0, 0
     lines = blank(text).split("\n")
     i = 0
@@ -95,7 +108,7 @@ def scan_text(path, text):
                     hits.append(("include-chain", start, show))
                 elif tc:
                     dest = os.path.normpath(os.path.join(os.path.dirname(path), target)).replace(os.sep, "/")
-                    if re.fullmatch(r"src/shared/[^/]+/[^/]+\.c", dest):
+                    if dest in bodies:
                         shared += 1
         else:
             code = re.sub(r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'', "", line)
@@ -117,9 +130,10 @@ def source_paths(root):
 def macroscan(root):
     """The step's output lines and rc: MACROBODY lines and the summary."""
     out, nbody, nshared, paths = [], 0, 0, source_paths(root)
+    bodies = body_files(root)
     for p in paths:
         with open(os.path.join(root, p), encoding="utf-8", errors="replace") as f:
-            hits, shared = scan_text(p, f.read())
+            hits, shared = scan_text(p, f.read(), bodies)
         nshared += shared
         for kind, line, show in hits:
             nbody += 1
@@ -211,6 +225,7 @@ CLEAN = {
     "include/planted_lib.h": "struct LibOnly {\n    int x;\n    int y;\n    int z;\n};\n",
     "src/SLUS_013.95/main.c": '#include "../shared/SLUS_013.95/func_80010000.c"\n\nvoid Main(void) {\n}\n',
     "src/shared/SLUS_013.95/func_80010000.c": "void func_80010000(void) {\n}\n",
+    "config/c_units.txt": "SLUS_013.95 main\n",
 }
 PLANTED = {
     "src/SLUS_013.95/pin.c": 'void Walk(void) {\n    register int i asm("$16");\n    i = 1;\n}\n',
@@ -250,6 +265,10 @@ def self_test():
         clean, ck, _ = census_tree(SELF, "clean", CLEAN)
         print("clean: pins %d bodies %d casts %d dups %d shared %d" % clean)
         assert clean == (0, 0, 0, 0, 1) and ck == [], (clean, ck)
+        with layout.role_tree("SLUS_013.95", "main", root=os.path.join(SELF, "clean")):   # unit -> role -> body
+            out, _ = macroscan(os.path.join(SELF, "clean"))
+        print("role: " + out[-1])
+        assert out == ["MACROSCAN files 5 macro-bodies 0 shared-includes 2"], out
         got, kinds, logdir = census_tree(SELF, "planted", dict(CLEAN, **PLANTED))
         print("planted: pins %d bodies %d casts %d dups %d shared %d" % got)
         assert got == (1, 3, 1, 1, 1), got

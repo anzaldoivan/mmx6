@@ -32,6 +32,9 @@
          pass. P (before G, dry-run): the same body with its `>= 2` lifted to REMAP_P (default 3) as
          src/shared/_selftest/remap_px.c -> must be gated R1 with the define REMAP_P=2.
          R: `remap_a(1); remap_b(2);` vs the reverse, compiled standalone in .run/remap/ -> must be refused at pair.
+         The definition is found by layout.locate; second pass: P, G, R again with 120A0 a layout.role_tree plant
+         (`family_remap: role-tree pass on ...`, lines `role-tree control ...`; G's INCLUDE_ASM plant and bank in the
+         role file).
          Teardown restores src/, the registry and build/corpus/{functions,spans,denominators}.jsonl byte-exact, deletes
          the plants, rebuilds; fail-closed check of src/, registry, exe sha1. Ends `REMAP CONTROL OK` (rc 0), else
          `REMAP SELF-TEST FAIL <n>` (rc 1). Logs under .run/remap/.
@@ -51,6 +54,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import bank  # noqa: E402
 import census  # noqa: E402
+import layout  # noqa: E402
 import probe  # noqa: E402
 import propagate  # noqa: E402
 
@@ -60,8 +64,8 @@ HILO = ("R_MIPS_HI16", "R_MIPS_LO16")
 REL_ROW = re.compile(r"^([0-9a-f]{8})\s+[0-9a-f]{8}\s+(R_MIPS_\w+)(?:\s+[0-9a-f]{8}\s+(\S+))?")
 G_SIB = ("SLUS_013.95", 0x8001E78C)
 G_UNIT = "src/SLUS_013.95/120A0.c"
-G_SRC = "src/shared/_selftest/remap_ex.c"
-P_SRC = "src/shared/_selftest/remap_px.c"
+G_SRC = layout.new_body("_selftest", "remap_ex")  # src/shared/_selftest/remap_ex.c
+P_SRC = layout.new_body("_selftest", "remap_px")
 PARAM = re.compile(r"^#ifndef (\w+)\n#define \1 (-?\w+)\n#endif$", re.M)
 
 
@@ -311,10 +315,15 @@ def control_g():
     callees = sorted({s for t, s in sib_t if t == "R_MIPS_26"})
     if len(callees) != 1:
         raise bank.Stop(0, f"{func}: {len(callees)} jal targets, want 1")
-    with open(G_UNIT) as f:
+    at = layout.locate(prog, func, os.getcwd())  # the unit G_UNIT, or the role file of its role_tree plant
+    if at is None or at[3] != tu or not os.path.isfile(at[0]):
+        raise bank.Stop(0, f"{func}: no C definition in {tu}'s closure ({at})")
+    unit = at[0]
+    with open(unit) as f:
         lines = f.read().split("\n")
-    i = next(k for k, l in enumerate(lines) if re.match(rf"^\w[^;(]*\b{func}\(.*\{{$", l))
-    j = next(k for k in range(i, len(lines)) if lines[k] == "}")
+    i, j = at[1] - 1, at[2] - 1
+    if not re.match(rf"^\w[^;(]*\b{func}\(.*\{{$", lines[i]) or lines[j] != "}":
+        raise bank.Stop(0, f"{func}: {unit}:{at[1]}-{at[2]} is not a one-line-header definition")
     fn = "\n".join(lines[i:j + 1])
     decls = []
     for l in lines[:i]:
@@ -341,8 +350,7 @@ def control_g():
         raise bank.Stop(0, f"{func}: plant {4 * len(words):X}B vs corpus [{gv:X},{end:X}) / extent {ext}")
     _, seg_start, seg_vram = probe.yaml_layout(prog)
     off = seg_start + gv - seg_vram
-    bank.put(saved, G_UNIT, "\n".join(lines[:i] + [f'INCLUDE_ASM("asm/{prog}/nonmatchings/{tu}", {func});']
-                                      + lines[j + 1:]))
+    bank.put(saved, unit, "\n".join(lines[:i] + [layout.asm_line(prog, tu, func)] + lines[j + 1:]))
     bank.put(saved, f"asm/{prog}/nonmatchings/{tu}/{func}.s",
              ".set noat      /* allow manual use of $at */\n.set noreorder /* don't insert nops after branches */\n\n"
              f"nonmatching {func}, 0x{4 * len(words):X}\n\nglabel {func}\n"
@@ -357,8 +365,35 @@ def self_test():
     corpus_out = [f"build/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
     pre_src, pre_reg, pre_bin = src_bytes(), open(bank.REGISTRY, "rb").read(), bank.sha1(bank.bin_out(prog))
     pre_corpus = {p: open(p, "rb").read() for p in corpus_out}
-    saved, fails = {}, 0
     os.makedirs(SCRATCH, exist_ok=True)
+    fails = controls(prog, pre_reg, pre_bin, pre_corpus, role=False)
+    fails += controls(prog, pre_reg, pre_bin, pre_corpus, role=True)
+    for what, ok in (("src/", src_bytes() == pre_src), (bank.REGISTRY, open(bank.REGISTRY, "rb").read() == pre_reg),
+                     (bank.bin_out(prog), os.path.exists(bank.bin_out(prog))
+                      and bank.sha1(bank.bin_out(prog)) == pre_bin)):
+        if not ok:
+            print(f"family_remap: {what} differs from the pre-test value")
+            fails += 1
+    print(f"family_remap: self-test wall {time.time() - t0:.0f}s")
+    if fails:
+        print(f"REMAP SELF-TEST FAIL {fails}")
+        return 1
+    print("REMAP CONTROL OK")
+    return 0
+
+
+def controls(prog, pre_reg, pre_bin, pre_corpus, role):
+    """Failures of controls P, G, R; role: on a layout.role_tree plant of G's unit (its definition in the role file)."""
+    saved, fails, stack = {}, 0, contextlib.ExitStack()
+    tag = "role-tree " if role else ""
+    if role:
+        try:
+            rp = stack.enter_context(layout.role_tree(prog, os.path.basename(G_UNIT)[:-2], os.getcwd()))
+        except layout.Refuse as e:
+            print(f"family_remap: {e}")
+            return 1
+        print(f"family_remap: role-tree pass on {G_UNIT} -> {rp}")
+    snap = src_bytes()
     try:
         saved, fam, func, sib_t = control_g()
         if bank.rebuild(prog, "remap-selftest") or bank.sha1(bank.bin_out(prog)) != pre_bin:
@@ -374,7 +409,7 @@ def self_test():
             raise bank.Stop(0, f"{P_SRC} does not compile")
         state, rung, cause, defines = remap_one(r, "remap_px", targets(relocs(obj, "remap_px")), P_SRC, True,
                                                 census.asm_index(), sib_t)
-        print(f"control P {propagate.pv(G_SIB)} {func} {state} {rung}: {cause}; defines {defines}")
+        print(f"{tag}control P {propagate.pv(G_SIB)} {func} {state} {rung}: {cause}; defines {defines}")
         fails += not (state == "gated" and defines and ("REMAP_P", "2") in defines)
         obj = probe.compile_obj(G_SRC, bank.makefile_triple())
         if obj is None:
@@ -382,12 +417,12 @@ def self_test():
         ex_t = targets(relocs(obj, "remap_ex"))
         state, rung, cause, defines = remap_one(r, "remap_ex", ex_t, G_SRC, False, census.asm_index(), sib_t)
         good = state == "gated" and rung == "R5"
-        print(f"control G {propagate.pv(G_SIB)} {func} {state} {rung}: {cause}")
+        print(f"{tag}control G {propagate.pv(G_SIB)} {func} {state} {rung}: {cause}")
         if good:
             family_row(fam, "_selftest:0x00000000", G_SRC, propagate.pv(G_SIB), defines)
             p = subprocess.run([sys.executable, "tools/mmx6/propagate.py", "--check"], capture_output=True, text=True)
             last = (p.stdout.strip().split("\n") or [""])[-1]
-            print(f"control G propagate.py --check rc {p.returncode}: {last}")
+            print(f"{tag}control G propagate.py --check rc {p.returncode}: {last}")
             good = p.returncode == 0 and last.startswith("REGISTRY OK")
         fails += not good
         # control R: a reordered call pair must be refused at pair
@@ -400,35 +435,29 @@ def self_test():
             raise bank.Stop(0, "control R bodies do not compile")
         defines, why = pair(targets(relocs(oa, "remap_ra")), targets(relocs(ob, "remap_rb")), "remap_ra", "remap_rb")
         good = defines is None and why.startswith("reorder")
-        print(f"control R remap_rb {'refused pair: ' + why if defines is None else 'gated pair'}")
+        print(f"{tag}control R remap_rb {'refused pair: ' + why if defines is None else 'gated pair'}")
         fails += not good
     except (Exception, SystemExit) as e:
         print(f"family_remap: self-test {type(e).__name__}: {e}")
         fails += 1
     finally:
         bank.restore(saved)
-        put_tree(pre_src)
+        put_tree(snap)
         shutil.rmtree(f"build/{os.path.dirname(G_SRC)}", ignore_errors=True)
         with open(bank.REGISTRY, "wb") as f:
             f.write(pre_reg)
         for p, b in pre_corpus.items():
             with open(p, "wb") as f:
                 f.write(b)
+        try:
+            stack.close()  # the role-tree plant's unit restored, its sums checked
+        except layout.Refuse as e:
+            print(f"family_remap: {e}")
+            fails += 1
         if bank.rebuild(prog, "remap-selftest-teardown"):
             print(f"family_remap: teardown rebuild of {prog} red")
             fails += 1
-    for what, ok in (("src/", src_bytes() == pre_src), (bank.REGISTRY, open(bank.REGISTRY, "rb").read() == pre_reg),
-                     (bank.bin_out(prog), os.path.exists(bank.bin_out(prog))
-                      and bank.sha1(bank.bin_out(prog)) == pre_bin)):
-        if not ok:
-            print(f"family_remap: {what} differs from the pre-test value")
-            fails += 1
-    print(f"family_remap: self-test wall {time.time() - t0:.0f}s")
-    if fails:
-        print(f"REMAP SELF-TEST FAIL {fails}")
-        return 1
-    print("REMAP CONTROL OK")
-    return 0
+    return fails
 
 
 def main():

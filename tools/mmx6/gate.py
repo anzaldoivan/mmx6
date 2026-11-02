@@ -8,8 +8,8 @@
          waves/.iso/gate-<prog>.<pid>/ (cards.snapshot + all of build/, .clang-format, docs/codegen-map; src/ copied,
          never hardlinked) holding the per-program lock .run/gate/locks/<prog>.lock (busy: `GATE LOCKED <prog>`, rc 1);
          drafts of one program serially. Per draft, cwd = the snapshot: the draft is clang-formatted (repo
-         .clang-format, C0063) as src/shared/<prog>/<func>.c; the standalone masked probe (cards.score) compiles it as
-         drafts/<prog>/<func>.c (TU flags; `#define <draft name> <func>` first when the draft defines another name);
+         .clang-format, C0063) as layout.new_body (src/shared/<prog>/<func>.c); the standalone masked probe
+         (cards.score) compiles it as drafts/<prog>/<func>.c (TU flags; `#define <draft name> <func>` first when the draft defines another name);
          verbatim.check; bank.bank on the body copy; on a bank stop R1-R4 the recovery ladder (`define`, `declsync`, `cast`,
          `tudecl`; R2 `tusync` when a first-stop/attempt log names the body's own func (`conflicting types for|
          redefinition of|previous declaration of 'func'`, `'func' redeclared as different kind of symbol`): every other
@@ -34,7 +34,11 @@
          `WAVE W<n> banked <k> (<i> instructions) of <d> drafts; recovered <r>`. Every snapshot is removed (finally;
          stale gate-* of a dead pid at start). rc 0 = the gate completed, 1 = assertion/apply conflict/lock, 2 usage.
   gate.py --self-test
-      -> planted controls (C0054) in .run/gate-selftest/ (wave W0); /work restored byte-exact after; last line
+      -> planted controls (C0054) in .run/gate-selftest/ (wave W0); then a role-tree pass (W1, `gate: role-tree pass on
+         <tu> -> <role>`): case A's member with its unit a layout.role_tree plant, banked into its own role file reached
+         through the plant (`role-tree control A ok`); cases F, I, M undo a bank by turning the body's chunk of its role
+         file (layout.locate, from its `#include "common.h"` head) into its INCLUDE_ASM line; bodies at
+         layout.new_body, INCLUDE_ASM lines layout.asm_line; /work restored byte-exact after; last line
          `GATE CONTROL OK` (rc 0), else `GATE CONTROL FAIL <case>` (rc 1). docs/ops/campaign.md ## Gate, ## Recovery.
 Firewall G12: names, addresses, counts, labels and our own C only.
 """
@@ -62,6 +66,7 @@ import cards  # noqa: E402
 import carve  # noqa: E402
 import declsync  # noqa: E402
 import journal  # noqa: E402
+import layout  # noqa: E402
 import plateau  # noqa: E402
 import probe  # noqa: E402
 import propagate  # noqa: E402
@@ -75,6 +80,7 @@ TUDECL_F = ("rock_35", 0x800FE298, 0x800970AA)  # self-test case F: a banked bod
 # was ("rock_35", 0x800FDD90, "D_800FE9A8") (T48): T36.c1 aliased propagated rock_05 members' D_800F4480 onto D_800FE9A8
 # in rock_35's unit, so the planted TU `extern u16` collided with them and the plant rebuild went red
 RODATA_I = ("rock_04", 0x800E9B30)  # self-test case I: a body banked via rodata, its carve and bank undone
+# (T21.1: since T16.c2 I, M and F are chunks of role files, not src/shared files: the chunk, not a file, undone)
 # was 0x800EA2A8 (T4.c2): later waves carved E9864..E98F4 around its row E9894; undoing a mid-run row splits the unit's
 # .rodata (carve refuses non-contiguous; splat then drops jtbl_800E987C of asm func_800E9DFC), so I and M are the
 # unit's first and last rodata rows (T21.c2)
@@ -395,7 +401,7 @@ def err_key(log):
 def carve_files(prog):
     """The files `carve.py rodata <prog>` may write (record, .mk, yaml, symbols, the overlay unit's D_ line)."""
     return [f"config/carve.{prog}.txt", f"config/carve.{prog}.mk", f"config/{prog}.yaml",
-            f"config/symbols.{prog}.txt"] + sorted(glob.glob(f"src/{prog}/*.c"))
+            f"config/symbols.{prog}.txt"] + sorted(glob.glob(f"src/{prog}/**/*.c", recursive=True))  # units, role files
 
 
 def resplit(prog, log):
@@ -450,7 +456,7 @@ def gate_draft(d, t, say):
     pv, prog, func, row = d["pv"], d["prog"], d["func"], d["row"]
     res = dict(pv=pv, verdict=None, score="-", label="-", note="", draft=os.path.join(d["pack"], "draft.c"),
                banked=False, recovered=None)
-    body = f"src/shared/{prog}/{func}.c"
+    body = layout.new_body(prog, func)
     try:
         text = fmt(d["text"], body)
         names = [x[0] for x in declsync.definitions(text)]
@@ -785,18 +791,37 @@ def plant_s(saved, prog, tu, func, vram, end):
                        for k, w in enumerate(words)) + f"endlabel {func}\n")
 
 
-def plant_unit(saved, unit_c, prog, members, wrap=None):
-    """Rewrite unit_c from its original text with each member's define block (line index i) -> INCLUDE_ASM (between
-    wrap[func]'s (before, after) lines when given)."""
+def plant_unit(saved, unit_c, prog, members, wrap=None, tu=None):
+    """Rewrite unit_c (a unit, or a role file of unit tu: pass tu) from its original text with each member's define block (line
+    index i) -> INCLUDE_ASM (between wrap[func]'s (before, after) lines when given)."""
     if unit_c in saved and saved[unit_c] is not None:
         lines = saved[unit_c].decode().split("\n")
     else:
         lines = open(unit_c).read().split("\n")
-    tu = os.path.basename(unit_c)[:-2]
+    tu = tu or os.path.basename(unit_c)[:-2]
     for i, func in sorted(members, reverse=True):
         pre, post = (wrap or {}).get(func, ([], []))
-        lines = lines[:i] + pre + [f'INCLUDE_ASM("asm/{prog}/nonmatchings/{tu}", {func});'] + post + lines[i + 5:]
+        lines = lines[:i] + pre + [layout.asm_line(prog, tu, func)] + post + lines[i + 5:]
     bank.put(saved, unit_c, "\n".join(lines))
+
+
+def body_of(prog, func):
+    """func's body file (layout.locate) when it is a C definition, else ""."""
+    at = layout.locate(prog, func, os.getcwd())
+    return at[0] if at and not layout.ASM_RE.match(open(at[0]).read().split("\n")[at[1] - 1]) else ""
+
+
+def body_span(prog, func):
+    """(file, i, j): lines[i:j] of func's file (layout.locate) = its chunk, from the chunk's own `#include "common.h"`
+    head (L-B: a role file keeps each moved body's header) to the definition's end; else None (self-test F, I, M)."""
+    at, fb = layout.locate(prog, func, os.getcwd()), body_of(prog, func)
+    if not fb:
+        return None
+    lines, i = open(fb).read().split("\n"), at[1] - 1
+    k = i - 1
+    while k >= 0 and lines[k] != '#include "common.h"' and not lines[k].startswith("}"):
+        k -= 1
+    return (fb, k, at[2]) if k >= 0 and lines[k] == '#include "common.h"' else None
 
 
 def self_test():
@@ -830,7 +855,7 @@ def self_test():
             if r is None or m == (exe, ev) or not (m[0] == exe or m[0].startswith("rock_")):
                 continue
             blk = bank.member_block(m[0], r["name"])
-            if blk and os.path.basename(blk[0])[:-2] in cu.get(m[0], ()):
+            if blk and r["tu"] in cu.get(m[0], ()):
                 mem.setdefault(m[0], []).append((m[1], r, blk))
         ov = next((p for p in sorted(mem) if p.startswith("rock_")), None)
         fp, fv, fsv = TUDECL_F
@@ -861,16 +886,16 @@ def self_test():
             raise RuntimeError("case L needs a third overlay member of the exemplar class in a unit apart from E's, G's, J's")
         # case F (tudecl): a banked body whose `extern s16 <sym>` (read signed) meets a planted TU `extern u16 <sym>`
         fr = rows.get((fp, fv))
-        fb = f"src/shared/{fp}/{fr['name']}.c" if fr else ""
-        finc = f'#include "../shared/{fp}/{fr["name"]}.c"' if fr else ""
-        fu = f"src/{fp}/{fr['tu']}.c" if fr else ""
-        fincs = [os.path.normpath(os.path.join(os.path.dirname(fu), x))
-                 for x in re.findall(r'^#include "(\.\./[^"]+)"', open(fu).read() if fr else "", re.M)]
-        if not fr or fr["state"] != "c" or not os.path.isfile(fb) or f"extern s16 {fsym};" not in open(fb).read() \
-                or open(fu).read().split("\n").count(finc) != 1 or fsym in open(fu).read() \
-                or any(fsym in open(x).read() for x in fincs if x != os.path.normpath(fb) and os.path.isfile(x)):
-            raise RuntimeError(f"case F needs {fp}:0x{fv:08X} banked as {fb} with `extern s16 {fsym};`, one include, "
-                               f"no other mention of {fsym} in {fu} or its other includes")
+        # L-B: the body is a chunk of a role file (body_span); fu = that file
+        fs = body_span(fp, fr["name"]) if fr else None
+        fb = fu = fs[0] if fs else ""
+        fl = open(fb).read().split("\n") if fb else []
+        rest = "\n".join(fl[:fs[1]] + fl[fs[2]:]) if fs else ""
+        if not fr or fr["state"] != "c" or not fs or f"extern s16 {fsym};" not in fl[fs[1]:fs[2]] or fsym in rest \
+                or any(fsym in open(x).read() for x in declsync.unit_files(fp, [f"src/{fp}/{fr['tu']}.c"])
+                       if x != fb):
+            raise RuntimeError(f"case F needs {fp}:0x{fv:08X} banked as a chunk of {fb} with `extern s16 {fsym};`, "
+                               f"no other mention of {fsym} in {fb} or its unit's other files")
         gwrap = {G[1]["name"]: (["#define arg0 1"], ["#undef arg0"])}  # case G: a TU macro eats the body's parameter
         # case I (rodata): a body banked via rodata; its carve undone (carve.uncarve_rodata) and its bank undone
         # case M (rodata, T44): RODATA_M, a second table merged after I's in one unit (+4 pad), undone the same way;
@@ -878,14 +903,12 @@ def self_test():
         rod = {}
         for case, (ip, iva) in (("I", RODATA_I), ("M", RODATA_M)):
             ir = rows.get((ip, iva))
-            ib = f"src/shared/{ip}/{ir['name']}.c" if ir else ""
-            iinc = f'#include "../shared/{ip}/{ir["name"]}.c"' if ir else ""
-            iu = f"src/{ip}/{ir['tu']}.c" if ir else ""
-            if not ir or ir["state"] != "c" or not os.path.isfile(ib) or open(iu).read().split("\n").count(iinc) != 1:
-                raise RuntimeError(f"case {case} needs {ip}:0x{iva:08X} banked as {ib}, one include")
-            rod[case] = (ip, iva, ir, ib, iinc, iu)
-        ip, iva, ir, ib, iinc, iu = rod["I"]
-        mp, mva, mr, mb, minc, mu = rod["M"]
+            ib = (body_span(ip, ir["name"]) or ("",))[0] if ir else ""  # L-B: a chunk of a role file; iu = that file
+            if not ir or ir["state"] != "c" or not ib:
+                raise RuntimeError(f"case {case} needs {ip}:0x{iva:08X} banked as a chunk with a common.h head")
+            rod[case] = (ip, iva, ir, ib, ib)
+        ip, iva, ir, ib, iu = rod["I"]
+        mp, mva, mr, mb, mu = rod["M"]
         progs = list(dict.fromkeys([exe, ov, fp, ip, mp, J[0], K[0], L[0]]))
         if K[1][2][0] in (fu, iu, mu) or L[1][2][0] in (fu, iu, mu) or J[1][2][0] in (iu, mu):
             raise RuntimeError("case K's or L's unit is F's, I's or M's, or J's is I's or M's")
@@ -894,15 +917,12 @@ def self_test():
             saved.setdefault(p, open(p, "rb").read() if os.path.isfile(p) else None)
         carve.use_root(carve.ROOT)
         rtext = {}
-        for case, (p, v, r, b, inc, u) in rod.items():
+        for case, (p, v, r, b, u) in rod.items():
             carve.uncarve_rodata(carve.ROOT, p, v)
-            rtext[case] = open(b).read()
+            _, i, j = body_span(p, r["name"])  # located again: an earlier case's edit moved the lines
             ul = open(u).read().split("\n")
-            i = ul.index(inc)
-            bank.put(saved, u, "\n".join(ul[:i] + [f'INCLUDE_ASM("asm/{p}/nonmatchings/{r["tu"]}", {r["name"]});']
-                                          + ul[i + 1:]))
-            saved.setdefault(b, open(b, "rb").read())
-            os.remove(b)
+            rtext[case] = "\n".join(ul[i:j]) + "\n"
+            bank.put(saved, u, "\n".join(ul[:i] + [layout.asm_line(p, r["tu"], r["name"])] + ul[j:]))
         for p in dict.fromkeys([ip, mp]):
             if bank.sh(["make", "-s", f"build/split/{p}.stamp"], "gate-selftest"):
                 raise RuntimeError(f"case I/M re-split of {p} red")
@@ -916,24 +936,21 @@ def self_test():
             units = {}
             for v, r, (unit_c, i, _) in ms:
                 plant_s(saved, prog, r["tu"], r["name"], v, int(r["end"], 16))
-                units.setdefault(unit_c, []).append((i, r["name"]))
-            for unit_c, lst in units.items():
-                plant_unit(saved, unit_c, prog, lst, gwrap)
-        ftext = open(fb).read()
-        plant_s(saved, fp, fr["tu"], fr["name"], fv, int(fr["end"], 16))
+                units.setdefault((unit_c, r["tu"]), []).append((i, r["name"]))
+            for (unit_c, tu), lst in units.items():  # L-B: unit_c is a role file of unit tu, not named after it
+                plant_unit(saved, unit_c, prog, lst, gwrap, tu=tu)
+        _, i, j = body_span(fp, fr["name"])
         ul = open(fu).read().split("\n")
-        i = ul.index(finc)
-        bank.put(saved, fu, "\n".join(ul[:i] + [f"extern u16 {fsym};",
-                                                f'INCLUDE_ASM("asm/{fp}/nonmatchings/{fr["tu"]}", {fr["name"]});']
-                                       + ul[i + 1:]))
-        saved.setdefault(fb, open(fb, "rb").read())
-        os.remove(fb)
+        ftext = "\n".join(ul[i:j]) + "\n"
+        plant_s(saved, fp, fr["tu"], fr["name"], fv, int(fr["end"], 16))
+        bank.put(saved, fu, "\n".join(ul[:i] + [f"extern u16 {fsym};", layout.asm_line(fp, fr["tu"], fr["name"])]
+                                       + ul[j:]))
         edef = next(d for d in declsync.definitions(open(esrc).read()) if d[0] == ename)
         pret = "u8" if declsync.norm(edef[1]) == "s32" else "s32"
         for (prog, (v, r, (unit_c, _, _))), extra in ((J, []), (K, [
                 f"    {pret} {K[1][1]['name']}({edef[2]});"]), (L, [])):
             ul = open(unit_c).read().split("\n")
-            i = ul.index(f'INCLUDE_ASM("asm/{prog}/nonmatchings/{r["tu"]}", {r["name"]});')
+            i = ul.index(layout.asm_line(prog, r["tu"], r["name"]))
             bank.put(saved, unit_c, "\n".join(ul[:i] + [f"{pret} {r['name']}({edef[2]});"] + extra + ul[i:]))
         ktu = declsync.unit_files(K[0], [K[1][2][0]])
         ltu = declsync.unit_files(L[0], [L[1][2][0]])
@@ -949,7 +966,8 @@ def self_test():
             raise RuntimeError("planted members not include_asm in the regenerated corpus")
         # D: its unit block back, its .s gone; the corpus still names it include_asm -> MISSING asm
         for unit_c in sorted({m[2][0] for m in (A, B, C, D, H)}):
-            plant_unit(saved, unit_c, exe, [(m[2][1], m[1]["name"]) for m in (A, B, C, H) if m[2][0] == unit_c])
+            plant_unit(saved, unit_c, exe, [(m[2][1], m[1]["name"]) for m in (A, B, C, H) if m[2][0] == unit_c],
+                       tu=next(m[1]["tu"] for m in (A, B, C, D, H) if m[2][0] == unit_c))
         os.remove(f"asm/{exe}/nonmatchings/{D[1]['tu']}/{D[1]['name']}.s")
         if bank.rebuild(exe, "gate-selftest") or bank.sha1(bank.bin_out(exe)) != pre_bin[exe]:
             raise RuntimeError(f"D unplant rebuild of {exe} red")
@@ -1018,7 +1036,7 @@ def self_test():
             fail("J-apply")
         rc_k = {r["pv"]: r for r in journal.records(jp)}.get(cases["K"][0], {}) if os.path.isfile(jp) else {}
         if not any(x.startswith(f"STOPPED {cases['K'][0]} R2: ") for x in lines) or rc_k.get("label") != "R2" \
-                or {p: file_sha(p) for p in ktu} != ksum or os.path.exists(f"src/shared/{K[0]}/{K[1][1]['name']}.c"):
+                or {p: file_sha(p) for p in ktu} != ksum or os.path.exists(layout.new_body(K[0], K[1][1]["name"])):
             fail("K")
         # L: its tusync attempt compiled and stopped R5 hash red (not a compile stop), then STOPPED R2, TU byte-exact
         lpv, lfn = cases["L"][0], L[1][1]["name"]
@@ -1027,7 +1045,7 @@ def self_test():
         rc_l = {r["pv"]: r for r in journal.records(jp)}.get(lpv, {}) if os.path.isfile(jp) else {}
         if not re.match(rf"RECONCILE {lfn} stopped R5: .*whole-binary hash red", lr) \
                 or not any(x.startswith(f"STOPPED {lpv} R2: ") for x in lines[li:]) or rc_l.get("label") != "R2" \
-                or {p: file_sha(p) for p in ltu} != lsum or os.path.exists(f"src/shared/{L[0]}/{lfn}.c"):
+                or {p: file_sha(p) for p in ltu} != lsum or os.path.exists(layout.new_body(L[0], lfn)):
             fail("L")
         # the call path of cast_fix on a planted text: an arity conflict on the draft's own call
         write(os.path.join(SELFTEST, "cast.c"), "M2C_UNK func_A();  /* extern */\nvoid f(void) { func_A(); }\n")
@@ -1107,11 +1125,95 @@ def self_test():
         fails.append("teardown-binary")
     if glob.glob(os.path.join(cards.ISO, "gate-*")):
         fails.append("teardown-iso")
+    fails += role_pass()
     if fails:
         print(f"GATE CONTROL FAIL {','.join(fails)}")
         return 1
     print("GATE CONTROL OK")
     return 0
+
+
+def role_pass():
+    """Second self-test pass (T5): case A again (the exemplar class's first exe member with a define block) with its
+    unit a layout.role_tree plant: the block planted INCLUDE_ASM in its role file (L-B: one include level below the
+    plant), the gate banks the draft there
+    (bank R2 via find_asm) and applies the role file back; then everything restored. [failed checks]."""
+    exe, ev, ename, etable, esrc = bank.exemplar()
+    corpus_out = [f"build/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
+    pre_sums, pre_reg, pre_bin = src_sums(), open(bank.REGISTRY, "rb").read(), bank.sha1(bank.bin_out(exe))
+    pre_corpus = {p: open(p, "rb").read() for p in corpus_out}
+    fails, saved, stack, snap = [], {}, contextlib.ExitStack(), None
+    try:
+        cls = bank.dup_key(exe, ev)
+        rows = {int(r["vram"], 16): r for r in map(json.loads, open(corpus_out[0])) if r["prog"] == exe}
+        cu = {t[1] for t in map(str.split, open(cards.C_UNITS)) if len(t) >= 2 and t[0] == exe}
+        v, r = next((v, rows[v]) for v in sorted(int(m[1], 16) for m in cls["members"] if m[0] == exe)
+                    if v != ev and v in rows and rows[v]["tu"] in cu and bank.member_block(exe, rows[v]["name"]))
+        func, tu = r["name"], r["tu"]
+        pre = bank.member_block(exe, func)  # L-B: the block lives in a role file; the plant adds an include level above
+        role = stack.enter_context(layout.role_tree(exe, tu, os.getcwd()))
+        snap = {p: open(p, "rb").read() for p in glob.glob("src/**/*", recursive=True) if os.path.isfile(p)}
+        blk = bank.member_block(exe, func)
+        if not blk or blk != pre or blk[0] not in declsync.unit_files(exe, [role]):
+            raise RuntimeError(f"role-tree: {func}'s block {pre} not found again through {role} ({blk})")
+        print(f"gate: role-tree pass on {tu} -> {role}")
+        plant_s(saved, exe, tu, func, v, int(r["end"], 16))
+        plant_unit(saved, blk[0], exe, [(blk[1], func)], tu=tu)
+        if bank.rebuild(exe, "gate-selftest-role") or bank.sha1(bank.bin_out(exe)) != pre_bin:
+            raise RuntimeError(f"role-tree plant rebuild of {exe} red")
+        if bank.sh([sys.executable, "tools/mmx6/corpus.py", "--all"], "gate-selftest-role"):
+            raise RuntimeError("corpus.py --all rc != 0 on the role-tree plant")
+        r = next(x for x in map(json.loads, open(corpus_out[0])) if x["prog"] == exe and int(x["vram"], 16) == v)
+        if r["state"] != "include_asm":
+            raise RuntimeError(f"role-tree planted {func} is {r['state']}")
+        root, jp = os.path.join(SELFTEST, "role", "waves"), os.path.join(SELFTEST, "role", "journal.jsonl")
+        shutil.rmtree(os.path.join(SELFTEST, "role"), ignore_errors=True)
+        pack, pv = os.path.join(root, "W1", f"{exe}_{func}"), f"{exe}:0x{v:08X}"
+        os.makedirs(pack)
+        with open(os.path.join(pack, "pack.json"), "w") as f:
+            json.dump(dict(pv=pv, prog=exe, func=func, tu=tu, words=r["words"]), f)
+        write(os.path.join(pack, "draft.c"), open(esrc).read().replace(ename, func).replace(etable, blk[2]))
+        lines = []
+        rc, _ = run("W1", root, jp, 1, False, lambda x: (print(x, flush=True), lines.append(x)))
+        inc = f'#include "{os.path.relpath(layout.new_body(exe, func), os.path.dirname(blk[0]))}"'
+        ok = (rc == 0 and f"BANKED {pv} {r['words']}" in lines and inc in open(blk[0]).read().split("\n")
+              and open(f"src/{exe}/{tu}.c").read() == f'#include "{os.path.relpath(role, f"src/{exe}")}"\n')
+        print(f"role-tree control A {'ok' if ok else 'FAIL'}: banked into {blk[0]} through {role}")
+        if not ok:
+            fails.append("role-A")
+    except (Exception, SystemExit) as e:
+        print(f"gate: role-tree pass {type(e).__name__}: {e}")
+        fails.append("role-setup")
+    finally:
+        bank.restore(saved)
+        if snap is not None:  # src/ back to the role-tree state, then the plant itself undone
+            for p in glob.glob("src/**/*", recursive=True):
+                if os.path.isfile(p) and p not in snap:
+                    os.remove(p)
+            for p, b in snap.items():
+                if not os.path.isfile(p) or open(p, "rb").read() != b:
+                    with open(p, "wb") as f:
+                        f.write(b)
+        try:
+            stack.close()
+        except layout.Refuse as e:
+            print(f"gate: {e}")
+            fails.append("role-restore")
+        for d in sorted(glob.glob("src/**/", recursive=True), reverse=True):
+            if not os.listdir(d):
+                os.rmdir(d)
+        with open(bank.REGISTRY, "wb") as f:
+            f.write(pre_reg)
+        for p, b in pre_corpus.items():
+            with open(p, "wb") as f:
+                f.write(b)
+        if bank.rebuild(exe, "gate-selftest-role-teardown"):
+            fails.append(f"role-teardown-rebuild-{exe}")
+        bank.sh([sys.executable, "tools/mmx6/sig.py", "--rescan"], "gate-selftest-role-teardown")
+    if src_sums() != pre_sums or open(bank.REGISTRY, "rb").read() != pre_reg \
+            or bank.sha1(bank.bin_out(exe)) != pre_bin:
+        fails.append("role-teardown")
+    return fails
 
 
 def main():

@@ -1,6 +1,11 @@
 // splat symbol_addrs for rock_16. splat parses `key:value` tokens in a trailing comment as attributes, so each
 // symbol's `basis: <src>` sits on the comment line above it (G62). Declared from retail bytes (phase 1.5 T5).
+// A named data symbol inside the c subsegment carries `// ignore:True`: splat would split the INCLUDE_ASM-ed blob at it (hash red); the Makefile PROVIDE still links the name (T2.c1).
 // basis: data overlay header: word 0 and the header words before the first code word; no jr ra in [0x800e9860, 0x800e9898), 14 words, 13 pointer-valued
 D_800E9860 = 0x800E9860;
 // basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T5.c3; was D_800F095C)
 func_800F095C = 0x800F095C;
+// basis: name: community tweaks-index.tsv:148; corroborator func_800EBEA8 indexes it by the playthrough rank byte (g_playthrough_state +0x8D) and tests != 0; func_800EC1FC returns an entry
+part_slots_by_rank = 0x800F0EDC; // ignore:True
+// basis: name: community tweaks-index.tsv:269; corroborator func_800E9898 fills it with slot ids 0,1,5,2,3,4 from selectable_characters bits (+0x5F), count in D_800F1CEB; func_800EB080 reads it
+menu_armor_slots = 0x800F1CB0; // ignore:True

@@ -6,8 +6,8 @@
 extern s8 D_80097180;
 extern void (*D_800F6C34[])(void*);
 
-void func_800EE208(void* arg0) {
+void func_800EE208(struct ObjectHeader* arg0) {
     if (D_80097180 != 2) {
-        D_800F6C34[M2C_FIELD(arg0, s8*, 4)](arg0);
+        D_800F6C34[arg0->state](arg0);
     }
 }

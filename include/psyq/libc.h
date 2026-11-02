@@ -20,7 +20,7 @@ char *strcpy();
 // LIBC C42.OBJ+0x0, retail SLUS_013.95 0x80069D84
 void *memcpy();
 // LIBC C43.OBJ+0x0, retail SLUS_013.95 0x80069D94
-void *memset();
+void memset(void *, int, int); // retail callers are compiled against a void return (v0 free after the call); SDK returns void *
 // LIBC C63.OBJ+0x0, retail SLUS_013.95 0x80069DA4
 int printf(const char *, ...);
 // LIBC C40.OBJ+0x0, retail SLUS_013.95 0x8006B754

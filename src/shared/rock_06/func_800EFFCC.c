@@ -29,13 +29,13 @@ void func_800EFFCC(void* arg0) {
         }
         f97 = M2C_FIELD(arg0, u8*, 0x97);
         if (f97 & 0x40) {
-            void* pl;
+            struct PlayerObj* pl;
             if (!(f97 & 2)) {
                 M2C_FIELD(arg0, s32*, 0x24) = 0;
                 M2C_FIELD(arg0, s32*, 0x2C) = 0;
             }
             pl = &g_Player;
-            M2C_FIELD(pl, u8*, 0xD5) = 0;
+            pl->hover_timer = 0;
             M2C_FIELD(arg0, u8*, 0x97) ^= 0x40;
             func_8003CCBC(pl);
         }

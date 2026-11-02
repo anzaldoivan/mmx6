@@ -7,8 +7,9 @@
       -> every row `prog vram name basis-kind basis-ref tier` (TAB, `#` lines skipped; the first row of a
          (prog, vram) wins) whose current name differs from `name`, in file order; basis = `<kind> <basis-ref>`.
   rename.py --self-test
-      -> planted tree under .run/<phase>/rename-selftest/ (removed at the end). Ends `RENAME CONTROL OK` rc 0, or
-         `RENAME CONTROL FAIL <case>` rc 1.
+      -> planted tree under .run/<phase>/rename-selftest/ (removed at the end): overlay and exe renames, refusals,
+         a two-function file (no file moves), and a dry run inside layout.role_tree of a planted unit. Ends
+         `RENAME CONTROL OK` rc 0, or `RENAME CONTROL FAIL <case>` rc 1.
   --dry-run prints the edit list and the left-alone hits, writes nothing. --root plants a tree (default: the repo).
 
 Scope (C0125). Overlay prog P: src/P/**, src/shared/P/**, and the shared path of every config/dedup_registry.txt
@@ -20,14 +21,14 @@ Edits (one plan per rename, applied only when nothing refuses)
             replaces a `; name: <basis>` suffix. No line (an auto-named exe symbol): `// basis: name: <basis>` and
             `<new> = 0xVRAM;` (`// type:func` for a func_) are inserted before the first higher address.
   scope     every word-bounded old-name token in the scope's src/include files (definitions, calls, prototypes,
-            INCLUDE_ASM names, `#define` aliases, include paths).
-  moves     src/shared files in scope whose stem is the old name -> `<new>.c` in the same directory.
+            INCLUDE_ASM names, `#define` aliases), except on `#include` lines: a rename is in place, it never moves
+            or renames a file (a body file keeps its path, whatever its stem; one file may hold many functions,
+            L-B role files, layout.py), so include paths, the registry's shared-path column and THIRD_PARTY.md's
+            paths stay valid as they are.
   foreign   a TU outside the scope that includes an edited scope file: its `#define old`/`#undef old` lines around
-            that include get <new>, and the include path follows a move.
+            that include get <new>.
   registry  config/dedup_registry.txt: in `define a=b`, `a` (exemplar namespace) is rewritten when the exemplar prog
-            is P, `b` (member namespace) when the member prog is P (SLUS_013.95: every row, both sides); the
-            shared-path column follows a move.
-  credits   `x4port.py --credits` (cwd = root) when THIRD_PARTY.md names a moved path.
+            is P, `b` (member namespace) when the member prog is P (SLUS_013.95: every row, both sides).
   journal   config/x4/renames.tsv gains `prog vram old new basis` (TAB, no header).
 
 Refusals (`RENAME REFUSE <prog:vram> <why>`, rc 1; nothing of that rename is written), checked in this order
@@ -46,11 +47,9 @@ Refusals (`RENAME REFUSE <prog:vram> <why>`, rc 1; nothing of that rename is wri
                                 overlay prog only: an edited scope file uses old on a code line and a TU outside the
                                 scope includes it with no `#define old` in the block above the include (it would
                                 reference <new>; an exe <new> links in every overlay, so exe renames never refuse this)
-  target exists <path>          a move target already exists
 
 Lines (deterministic order)
   RENAME EDIT <path> <what>          one per edited file
-  RENAME MOVE <old path> <new path>
   RENAME LEFT <path> <kind>          every other tracked hit of the old name (git ls-files, else a walk): kinds
                                      `other prog` (a C0125 repeat in src/include), `history` (journals, logs, docs,
                                      oracle/partner tables), `tool` (tools/ code and fixtures), `unclassified`
@@ -65,6 +64,8 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+
+import layout  # noqa: E402  (tools/mmx6: the body path of a program, T5)
 
 REPO = Path(__file__).resolve().parents[2]
 
@@ -195,7 +196,7 @@ class Tree:
         _, reg = self.registry()
         bodies = {ln.split(" ")[2] for ln in reg if ln and not ln.startswith("#") and len(ln.split(" ")) > 2
                   and ln.split(" ")[1].split(":")[0] == prog}
-        return sorted(f for f in self.code if f.startswith((f"src/{prog}/", f"src/shared/{prog}/")) or f in bodies)
+        return sorted(f for f in self.code if f.startswith((f"src/{prog}/", os.path.dirname(layout.new_body(prog, "_")) + "/")) or f in bodies)
 
 
 def includes(tree, rel, text=None):
@@ -230,14 +231,14 @@ def cycle(pairs):
 
 
 def plan(tree, prog, vram, new, basis):
-    """(old, edits {rel: text}, moves [(old, new)], left [(rel, kind)]) or raise Refuse."""
+    """(old, edits {rel: text}, left [(rel, kind)]) or raise Refuse."""
     old = tree.current(prog, vram)
     if old is None:
         raise Refuse("unknown prog:vram")
     if old == new:
-        return old, {}, [], []
+        return old, {}, []
     rx, scope = word(old), tree.scope(prog)
-    edits, moves = {}, []
+    edits = {}
     # symbols file
     srel, lines = tree.symbols(prog)
     lines = list(lines)
@@ -258,15 +259,13 @@ def plan(tree, prog, vram, new, basis):
         typ = " // type:func" if old.startswith("func_") else ""
         lines[at:at] = [f"// basis: name: {basis}", f"{new} = 0x{vram:08X};{typ}"]
     edits[srel] = "\n".join(lines)
-    # scope token rewrite
+    # scope token rewrite (never an #include line: files stay where they are)
     for f in scope:
         text = tree.read(f)
         if rx.search(text):
-            edits[f] = rx.sub(new, text)
-    for f in scope:
-        if f.startswith("src/shared/") and Path(f).stem == old:
-            moves.append((f, str(Path(f).with_name(new + Path(f).suffix))))
-    moved = dict(moves)
+            out = "\n".join(ln if INCL.match(ln) else rx.sub(new, ln) for ln in text.split("\n"))
+            if out != text:
+                edits[f] = out
     # foreign includers
     inscope = set(scope)
     used = {f for f in scope if code_hit(tree.read(f), rx)}
@@ -278,7 +277,7 @@ def plan(tree, prog, vram, new, basis):
         lines = edits.get(t, tree.read(t)).split("\n")
         changed = False
         for i, inc in includes(tree, t):
-            if inc not in used and inc not in moved:
+            if inc not in used:
                 continue
             blk = block(orig, i)
             if prog != EXE and inc in used and not any(orig[j].split()[1:2] == [old] for j in blk
@@ -291,9 +290,6 @@ def plan(tree, prog, vram, new, basis):
                     if len(parts) > 1 and parts[1] == old:
                         lines[j] = lines[j].replace(old, new, 1)
                         changed = True
-                if inc in moved:
-                    lines[i] = lines[i].replace(f"{old}{Path(inc).suffix}\"", f"{new}{Path(inc).suffix}\"", 1)
-                    changed = True
         if changed:
             edits[t] = "\n".join(lines)
     # registry
@@ -308,8 +304,6 @@ def plan(tree, prog, vram, new, basis):
             continue
         exp, mem = f[1].split(":")[0], f[3].split(":")[0]
         pairs = []
-        if f[2] in moved:
-            f[2] = moved[f[2]]
         if f[5].startswith("define "):
             words = f[5].split(" ")
             for k, m in enumerate(words[1:], 1):
@@ -351,11 +345,8 @@ def plan(tree, prog, vram, new, basis):
                 raise Refuse(f"{new} defined in overlay {p}")
     if refusals:
         raise Refuse(refusals[0])
-    for a, b in moves:
-        if (tree.root / b).exists():
-            raise Refuse(f"target exists {b}")
-    # left-alone hits
-    handled = set(edits) | set(moved) | {"THIRD_PARTY.md", "config/x4/renames.tsv"}
+    # left-alone hits (THIRD_PARTY.md names paths, which a rename never moves)
+    handled = set(edits) | {"THIRD_PARTY.md", "config/x4/renames.tsv"}
     left = []
     for f in tree.tracked():
         if f in handled:
@@ -369,19 +360,17 @@ def plan(tree, prog, vram, new, basis):
         kind = "other prog" if f.startswith(("src/", "include/", "config/symbols.")) else \
             "history" if f.startswith(HISTORY) else "tool" if f.startswith("tools/") else "unclassified"
         left.append((f, kind))
-    return old, edits, moves, left
+    return old, edits, left
 
 
 def apply(tree, prog, vram, new, basis, dry):
-    old, edits, moves, left = plan(tree, prog, vram, new, basis)
+    old, edits, left = plan(tree, prog, vram, new, basis)
     if old == new:
         return False
     for f in sorted(edits):
         what = "symbols line" if f.startswith("config/symbols.") else "registry rows" if "dedup_registry" in f \
             else "tokens"
         print(f"RENAME EDIT {f} {what}")
-    for a, b in moves:
-        print(f"RENAME MOVE {a} {b}")
     for f, kind in left:
         print(f"RENAME LEFT {f} {kind}")
     print(f"RENAME {prog}:0x{vram:08X} {old} -> {new}")
@@ -389,19 +378,6 @@ def apply(tree, prog, vram, new, basis, dry):
         return True
     for f in sorted(edits):
         tree.write(f, edits[f])
-    for a, b in moves:
-        text = tree.read(a)
-        (tree.root / a).rename(tree.root / b)
-        tree.cache.pop(a, None)
-        tree.cache[b] = text
-    tree.code = sorted(set(tree.code) - set(dict(moves)) | {b for _, b in moves})
-    third = tree.root / "THIRD_PARTY.md"
-    if moves and third.exists() and any(f"`{a}`" in third.read_text() for a, _ in moves):
-        r = subprocess.run([sys.executable, str(REPO / "tools/mmx6/x4port.py"), "--credits"], cwd=tree.root,
-                           capture_output=True, text=True)
-        if r.returncode:
-            sys.exit(f"rename: x4port --credits failed: {r.stdout}{r.stderr}")
-        print(r.stdout.strip())
     log = tree.root / "config/x4/renames.tsv"
     log.parent.mkdir(parents=True, exist_ok=True)
     with log.open("a") as fh:
@@ -498,6 +474,12 @@ PLANT = {
     "src/rock_02/E9860.c": '#include "../shared/rock_02/func_800E0000.c"\n',
     "src/rock_06/E9860.c": "#define func_800E0000 func_800E5000\n#define func_800E0100 func_800E5100\n"
                            '#include "../shared/rock_02/func_800E0000.c"\n#undef func_800E0000\n#undef func_800E0100\n',
+    "config/symbols.rock_05.txt": "// basis: g\nfunc_800E5500 = 0x800E5500;\n// basis: h\nfunc_800E5600 = 0x800E5600;\n"
+                                  "// basis: i\nfunc_800E5700 = 0x800E5700;\n",
+    "src/shared/rock_05/func_800E5500.c": "void func_800E5500(void) {\n}\n\nvoid func_800E5600(void) {\n"
+                                          "    func_800E5500();\n}\n",
+    "src/rock_05/E9860.c": '#include "../shared/rock_05/func_800E5500.c"\n\nvoid func_800E5700(void) {\n'
+                           "    func_800E5600();\n}\n",
     "basis.tsv": "# prog\tvram\tname\tbasis-kind\tbasis-ref\ttier\n"
                  "SLUS_013.95\t0x80054AD8\t__start\tdebug\tpc0\t-\n"
                  "rock_09\t0x800EE934\tdust_end\tx4\texact abcdef123456\tgate\n",
@@ -528,26 +510,25 @@ def selftest():
 
     before = {r: rd(r) for r in PLANT}
     rc, out = go(from_tsv(SELFTEST / "basis.tsv"), dry=True)
-    case("dry-run", rc == 0 and "RENAME LEFT basis.tsv" not in out and "RENAME MOVE" in out
+    case("dry-run", rc == 0 and "RENAME LEFT basis.tsv" not in out and "RENAME MOVE" not in out
          and "RENAME LEFT src/rock_15/E9860.c other prog" in out and all(rd(r) == before[r] for r in PLANT))
     rc, out = go(from_tsv(SELFTEST / "basis.tsv"))
     case("overlay rename", rc == 0 and "RENAME OK 1 renamed 1 unchanged" in out)
     case("symbols", "// basis: first code word; name: x4 exact abcdef123456\ndust_end = 0x800EE934; // type:func"
          in rd("config/symbols.rock_09.txt"))
-    case("move", not (SELFTEST / "src/shared/rock_09/func_800EE934.c").exists()
-         and "void dust_end(void* self)" in rd("src/shared/rock_09/dust_end.c"))
-    case("tu", rd("src/rock_09/E9860.c") == '#include "../shared/rock_09/dust_end.c"\nvoid g(void) { dust_end(0); }\n')
+    case("no move", not (SELFTEST / "src/shared/rock_09/dust_end.c").exists()
+         and "void dust_end(void* self)" in rd("src/shared/rock_09/func_800EE934.c"))
+    case("tu", rd("src/rock_09/E9860.c") == '#include "../shared/rock_09/func_800EE934.c"\nvoid g(void) { dust_end(0); }\n')
     case("foreign tu", rd("src/rock_24/E9860.c").startswith(
         "#define dust_end func_800ED454\n#define func_800E0100 func_800E5100\n"
-        '#include "../shared/rock_09/dust_end.c"\n#undef dust_end\n'))
-    case("registry", "k1 rock_09:0x800EE934 src/shared/rock_09/dust_end.c rock_24:0x800ED454 gated define "
+        '#include "../shared/rock_09/func_800EE934.c"\n#undef dust_end\n'))
+    case("registry", "k1 rock_09:0x800EE934 src/shared/rock_09/func_800EE934.c rock_24:0x800ED454 gated define "
          "dust_end=func_800ED454 func_800E0100=func_800E5100 via tudecl\n" in rd("config/dedup_registry.txt"))
     case("repeat untouched", all(rd(r) == before[r] for r in
                                  ("src/rock_15/E9860.c", "src/shared/rock_15/func_800EE934.c",
                                   "config/symbols.rock_15.txt"))
          and "k2 rock_15:0x800EE934 src/shared/rock_15/func_800EE934.c" in rd("config/dedup_registry.txt"))
-    case("credits", "`src/shared/rock_09/dust_end.c`" in rd("THIRD_PARTY.md")
-         and "func_800EE934.c" not in rd("THIRD_PARTY.md"))
+    case("credits untouched", rd("THIRD_PARTY.md") == before["THIRD_PARTY.md"])
     case("journal", rd("config/x4/renames.tsv") ==
          "rock_09\t0x800EE934\tfunc_800EE934\tdust_end\tx4 exact abcdef123456\n")
     rc, out = go([(EXE, 0x8003744C, "state_dispatch", "debug d")])
@@ -585,14 +566,29 @@ def selftest():
     # the no-define case: rock_24's block loses its alias for the rock_09 body
     t = rd("src/rock_24/E9860.c").replace("#define dust_end func_800ED454\n", "")
     (SELFTEST / "src/rock_24/E9860.c").write_text(t)
-    refusals[2] = (refusals[2][0], refusals[2][1], "RENAME REFUSE rock_09:0x800EE934 src/shared/rock_09/dust_end.c "
+    refusals[2] = (refusals[2][0], refusals[2][1], "RENAME REFUSE rock_09:0x800EE934 src/shared/rock_09/func_800EE934.c "
                    "included by src/rock_24/E9860.c without #define dust_end")
     for name, jobs, want in refusals:
         rc, out = go(jobs)
         case(name, rc == 1 and want in out.splitlines() and out.rstrip().endswith("RENAME FAIL 1 refused"))
     case("refusals write nothing", all(rd(r) == snap[r] for r in snap)
-         and (SELFTEST / "src/shared/rock_09/dust_end.c").exists()
+         and (SELFTEST / "src/shared/rock_09/func_800EE934.c").exists()
          and rd("config/x4/renames.tsv").count("\n") == 5)
+    # a two-function file: as a planted role tree (dry run: the unit's text lives in its role file), then in place
+    files = sorted(str(p.relative_to(SELFTEST)) for p in SELFTEST.rglob("*") if p.is_file())
+    role = "src/rock_05/" + layout.ROLE_DIR + "/E9860.c"
+    try:
+        with layout.role_tree("rock_05", "E9860", root=str(SELFTEST)):
+            rc, out = go([("rock_05", 0x800E5600, "multi_two", "x")], dry=True)
+    except layout.Refuse as e:
+        rc, out = 1, str(e)
+    case("role tree", rc == 0 and f"RENAME EDIT {role} tokens" in out
+         and "RENAME EDIT src/shared/rock_05/func_800E5500.c tokens" in out and "RENAME EDIT src/rock_05/E9860.c" not in out)
+    rc, out = go([("rock_05", 0x800E5500, "multi_one", "x")])
+    case("multi-function file", rc == 0 and rd("src/shared/rock_05/func_800E5500.c") ==
+         "void multi_one(void) {\n}\n\nvoid func_800E5600(void) {\n    multi_one();\n}\n"
+         and rd("src/rock_05/E9860.c") == before["src/rock_05/E9860.c"]
+         and sorted(str(p.relative_to(SELFTEST)) for p in SELFTEST.rglob("*") if p.is_file()) == files)
     shutil.rmtree(SELFTEST, ignore_errors=True)
     if fails:
         print(f"RENAME CONTROL FAIL {fails[0]}")

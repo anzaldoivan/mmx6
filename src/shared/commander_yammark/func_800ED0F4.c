@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK move_object(s32);
 extern struct X4_PlayerObj g_Player;
 
@@ -20,7 +20,7 @@ void func_800ED0F4(void* arg0) {
     // !FAKE: depin: dropping it breaks the match (68/75)
     register u16 c asm("$2");
 
-    func_80017A04();
+    animate_object();
     move_object((s32)arg0);
     c = F16(arg0, 0x8C);
     F16(arg0, 0x8C) = c + 1;

@@ -1,6 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 extern struct X4_EngineObj g_playthrough_state;
 
 M2C_UNK func_8004E78C(M2C_UNK arg0) {
@@ -41,6 +42,7 @@ void func_8004E7E0(void) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -52,12 +54,10 @@ s32 func_8002A47C(s32);
 void func_8002F288(struct X4_PlayerObj*);
 M2C_UNK func_8004FE8C();
 s32 get_reploid_status(s32);
-extern M2C_UNK D_800743DC;
 extern s32 D_80078910;
 extern s32 D_8007891C;
 extern s32 D_80078BEC;
 extern u32* D_80095098;
-extern u8 D_800970B4;
 
 void func_8004E800(void* arg0) {
     // !FAKE: depin: dropping it breaks the match (41/158)
@@ -134,8 +134,8 @@ void func_8004E800(void* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
+M2C_UNK animate_object();
+s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 s32 rescue_reploid(void*);
 s32 func_8004FE8C();
@@ -145,7 +145,7 @@ void set_reploid_status(u8, s32);
 void func_8004EA78(u8* arg0) {
     s8 temp_s1;
 
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     if (func_8004FE8C(arg0) != 0) {
         if (arg0[0x84] == 0) {
             if (arg0[0x7E] == 0) {
@@ -172,14 +172,15 @@ void func_8004EA78(u8* arg0) {
             arg0[4] = 6;
             arg0[5] = temp_s1;
             arg0[6] = 0;
-            goto block_24;
+            arg0[7] = 0;
+            return;
         }
         if (arg0[0x7E] == 1) {
             *(s16*)(arg0 + 0xE) =
                 *(u16*)(arg0 + 0x7C) +
                 (rsin((D_80097420.frame_counter & 0x7F) << 5) >> 0xA);
         }
-        if (func_8002CBFC(arg0, 0x30, 0x30) == 0) {
+        if (is_off_screen(arg0, 0x30, 0x30) == 0) {
             if (arg0[0x84] == 0) {
                 func_8002CCB0(arg0, 0x10, 0x20);
             } else {
@@ -190,10 +191,9 @@ void func_8004EA78(u8* arg0) {
         if (arg0[2] != 0x80) {
             arg0[3] = 0;
             arg0[4] = 7;
-            goto block_24;
+            arg0[7] = 0;
         }
     } else {
-    block_24:
         arg0[7] = 0;
     }
 }
@@ -203,8 +203,8 @@ void func_8004EA78(u8* arg0) {
 #include "mmx6/x4.h"
 
 s32 play_sound(s32 a0, s32 a1, void* arg2);
-M2C_UNK func_80017A04();
-#define func_80017A04 ((M2C_UNK(*)())func_80017A04)
+M2C_UNK animate_object();
+#define animate_object ((M2C_UNK(*)())animate_object)
 void func_8004FE58(s32, s8);
 extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
@@ -216,7 +216,7 @@ void func_8004EC30(u8* arg0) {
     // !FAKE: depin: dropping it breaks the match (66/71)
     register s32 f asm("$2");
 
-    func_80017A04();
+    animate_object();
     p = arg0 + 0x7C;
     f = ((s8*)arg0)[6];
     if (f == 0) {
@@ -256,7 +256,7 @@ void func_8004EC30(u8* arg0) {
         arg0[0] &= 0xF7;
     }
 }
-#undef func_80017A04
+#undef animate_object
 
 #include "common.h"
 #define M2C_UNK s32
@@ -268,7 +268,8 @@ s32 play_sound(s32 a0, s32 a1, void* arg2);
 void func_8004FE58(s32, s8);
 
 #define ENG ((u8*)&g_playthrough_state)
-#define ENG5B (((struct X4_EngineObj*)(ENG - -g_Player.unk2))->sub_tanks[-1])
+#define ENG5B                                                                  \
+    (((struct X4_EngineObj*)(ENG - -g_Player.character))->sub_tanks[-1])
 
 void func_8004ED4C(u8* arg0, u8 arg1, u8 a2) {
     // !FAKE: depin: dropping it breaks the match (90/96)

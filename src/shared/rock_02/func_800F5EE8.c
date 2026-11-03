@@ -5,7 +5,7 @@
 #define SPAD20_800F5EE8 (*(s32**)0x1F800020)
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s32 func_8002A47C(s32);
 void* func_8002C458();
 
@@ -16,7 +16,7 @@ void func_800F5EE8(void* self) {
     s8 kind;
     void* obj;
 
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     kind = F(s8, 0x45);
     if (kind == 1) {
         play_sound(2, 0x1E, self);

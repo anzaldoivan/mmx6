@@ -3,11 +3,11 @@
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK clear_object_slot(void*, void*);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 void func_80049670(struct X4_VisualObj* arg0, struct X4_PlayerObj* arg1) {
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
     if (arg0->animation_step.fields.relative_step < 0) {
         ((void (*)())clear_object_slot)(arg0);
         return;
@@ -21,13 +21,13 @@ void func_80049670(struct X4_VisualObj* arg0, struct X4_PlayerObj* arg1) {
 extern struct X4_VisualAttachmentOffset D_80077BF4[2];
 
 void func_800496C0(struct X4_VisualObj* arg0, struct X4_PlayerObj* arg1) {
-    arg0->unk15 = arg1->unk15;
+    arg0->unk15 = arg1->facing;
     if (arg0->unk15 == 0) {
-        arg0->x_pos.i.hi = arg1->x_pos.i.hi + D_80077BF4[arg1->unk2].x;
+        arg0->x_pos.i.hi = arg1->x_pos.i.hi + D_80077BF4[arg1->character].x;
     } else {
-        arg0->x_pos.i.hi = arg1->x_pos.i.hi - D_80077BF4[arg1->unk2].x;
+        arg0->x_pos.i.hi = arg1->x_pos.i.hi - D_80077BF4[arg1->character].x;
     }
-    arg0->y_pos.i.hi = arg1->y_pos.i.hi + D_80077BF4[arg1->unk2].y;
+    arg0->y_pos.i.hi = arg1->y_pos.i.hi + D_80077BF4[arg1->character].y;
 }
 
 #include "common.h"
@@ -42,11 +42,11 @@ void func_80049748(struct X4_BaseObj* arg0, struct X4_BaseObj* arg1) {
 
     idx = arg1->unk2;
     if (idx == 0) {
-        if (arg1->unk5 == 0x23) {
+        if (arg1->action == 0x23) {
             idx = 2;
         }
     }
-    if (arg1->unk5 == 0x1F) {
+    if (arg1->action == 0x1F) {
         idx = 3;
     }
     t = arg1->unk15;
@@ -63,13 +63,13 @@ void func_80049748(struct X4_BaseObj* arg0, struct X4_BaseObj* arg1) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void func_80049854(struct X4_ShotObj* arg0);
 void func_80049950(struct X4_VisualObj* arg0);
 void func_800499A0(void* arg0);
 
 M2C_UNK func_80049800(void* arg0, void* arg1) {
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     func_800499A0(arg0);
     if (((s8*)arg0)[5] == 0) {
         func_80049854(arg0);
@@ -112,7 +112,7 @@ void func_80049854(struct X4_ShotObj* arg0) {
                 }
             }
         }
-        arg0->unk5++;
+        arg0->action++;
     }
     func_8002CCB0(arg0, 0x40, 0x20);
 }
@@ -158,15 +158,14 @@ void func_800499A0(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80049A14);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80049A14);
 // clang-format on
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-struct X4_VisualObj* func_8002C398(void);
-extern u32* D_8007789C[];
-extern u8 D_800970B4;
+struct X4_VisualObj* find_free_visual_obj(void);
 
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 
@@ -177,7 +176,7 @@ void func_80049D90(void* arg0) {
     s32 off;
     u8 bg;
 
-    obj = func_8002C398();
+    obj = find_free_visual_obj();
     if (obj != 0) {
         obj->active = 0x21;
         obj->id = 3;
@@ -190,7 +189,7 @@ void func_80049D90(void* arg0) {
         obj->bg_offset = bg;
         tbl = SCRATCH_1C;
         off = *(s32*)(tbl + 4);
-        obj->animation_table = D_8007789C;
+        obj->animation_table = g_visual_animation_tables;
         obj->unk40 = 0;
         obj->unk42 = 0x7802;
         obj->unk16 = 0;
@@ -218,7 +217,7 @@ void func_80049E50(struct X4_MainObj* self) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 random_byte();                      /* extern */
+s32 random_byte();                        /* extern */
 M2C_UNK func_8004A0C0(s8, s16, s16, s32); /* extern */
 
 void func_80049E70(void* arg0, s8 arg1) {
@@ -305,13 +304,13 @@ void func_80049F98(struct X4_BaseObj* self, s8 arg1, u8 arg2, u8 arg3,
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 
 M2C_UNK func_8004A0C0(s8 arg0, s16 arg1, s16 arg2, s32 arg3) {
     struct X4_VisualObj* obj;
     u8 v = arg3;
 
-    obj = func_8002C398();
+    obj = find_free_visual_obj();
     if (obj != 0) {
         obj->active = 0x21;
         obj->id = 4;
@@ -348,7 +347,7 @@ void func_8004A154(struct ObjectHeader* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004A194);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004A194);
 // clang-format on
 
 #include "common.h"
@@ -356,13 +355,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004A194);
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
 M2C_UNK func_8002CB50();
 M2C_UNK move_object(void*);
 
 M2C_UNK func_8004A250(void* arg0) {
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
     if (M2C_FIELD(arg0, s8*, 0x46) < 0) {
         ((M2C_UNK(*)())clear_object_slot)(arg0);
     } else {
@@ -374,9 +373,9 @@ M2C_UNK func_8004A250(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004A2B4);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004A2B4);
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004A768);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004A768);
 // clang-format on
 
 #include "common.h"
@@ -384,7 +383,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004A768);
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 s32 random_byte();
 
 extern s32 D_80077D58[];
@@ -407,7 +406,7 @@ void func_8004A998(u8 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5) {
     i = 0;
     kind = arg0;
     for (; i < arg5; i++) {
-        v = func_8002C398();
+        v = find_free_visual_obj();
         if (v != 0) {
             U8(0x0) = 0x21;
             U8(0x1) = 9;
@@ -493,14 +492,13 @@ void func_8004AC7C(struct ObjectHeader* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_8002CB50();
 s32 random_byte();
-extern M2C_UNK D_80077E34;
-extern u8 D_800970B4;
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 
 void func_8004ACBC(void* arg0) {
@@ -537,7 +535,7 @@ void func_8004ACBC(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
 s32 func_8002CB50(struct X4_BaseObj*);
 #define clear_object_slot ((M2C_UNK(*)(u8*))clear_object_slot)
@@ -552,7 +550,7 @@ void func_8004AD78() {
     u8 temp_v1;
 
     move_object(arg0);
-    ((void (*)(u8*))func_80017A04)(arg0);
+    ((void (*)(u8*))animate_object)(arg0);
     if (*(s8*)(arg0 + 0x46) == 0) {
         *(s32*)(arg0 + 0x20) = 0;
         *(s32*)(arg0 + 0x24) = 0;
@@ -575,10 +573,10 @@ void func_8004AD78() {
 #undef func_8002CB50
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK clear_object_slot(); /* extern */
-extern s8 D_800970A5;
 extern u16 D_800CF856;
 
 #define SCRATCH_3C (*(u8**)0x1F80003C)
@@ -636,11 +634,11 @@ void func_8004AE1C(u8* p, s32 arg1) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_80017B04(u8*, s16, s16);
 #define func_80017B04 func_80017B04
 M2C_UNK clear_object_slot();
-extern s8 D_800970A2;
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
 #define OFS(o) (SCRATCH_14 + *(s32*)(SCRATCH_14 + (o)))
@@ -700,12 +698,12 @@ void func_8004AF94(struct X4_VisualObj* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u32* D_8007789C[];
 extern struct X4_PlayerObj g_Player;
 s32 play_sound(s32 a0, s32 a1, void* arg2);
 M2C_UNK set_animation(void* arg0, M2C_UNK arg1);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 
@@ -723,7 +721,7 @@ void func_8004B1F4(struct X4_VisualObj* arg0) {
         frames = SP_SPRITE_FRAMES;
         off = frames[12];
         arg0->unk40 = 0;
-        arg0->animation_table = &D_8007789C;
+        arg0->animation_table = &g_visual_animation_tables;
         arg0->unk16 = 3;
         arg0->unk42 = 0x7802;
         arg0->unk5C.value = 0;
@@ -755,9 +753,9 @@ void func_8004B1F4(struct X4_VisualObj* arg0) {
         set_animation(arg0, idx + 0x20);
         arg0->unk2 = idx;
     } else {
-        func_80017A04(arg0);
+        animate_object(arg0);
     }
-    arg0->unk15 = player->unk15;
+    arg0->unk15 = player->facing;
     arg0->x_pos = player->x_pos;
     arg0->y_pos = player->y_pos;
     if (arg0->unk5C.value == 0) {
@@ -781,7 +779,7 @@ extern struct X4_PlayerObj g_Player;
 void func_8004B3A0(struct X4_VisualObj* arg0) {
     u8* sp;
 
-    if (g_Player.unk5 != 0x23) {
+    if (g_Player.action != 0x23) {
         ((M2C_UNK(*)())clear_object_slot)();
         return;
     }
@@ -796,7 +794,7 @@ void func_8004B3A0(struct X4_VisualObj* arg0) {
     }
     arg0->animation_step.fields.frame_index =
         g_Player.animation_step.fields.frame_index - 0x42;
-    arg0->unk15 = g_Player.unk15;
+    arg0->unk15 = g_Player.facing;
     arg0->x_pos = g_Player.x_pos;
     arg0->y_pos = g_Player.y_pos;
     if (arg0->unk5C.value == 0) {
@@ -838,7 +836,7 @@ void func_8004B4BC(struct X4_VisualObj* arg0) {
 #define M2C_UNK s32
 M2C_UNK set_animation(void* arg0, M2C_UNK arg1);
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK clear_object_slot(void*, void*);
 s32 func_8002CB50(struct X4_BaseObj*);
 void func_8004B50C(struct X4_VisualObj* arg0) {
@@ -861,10 +859,10 @@ void func_8004B50C(struct X4_VisualObj* arg0) {
         temp_a0 = arg0->unk50;
         if (((u8)temp_a0->shot_types[0] == 2) && (temp_a0->active != 0) &&
             (temp_a0->last_shot_type & 0x40)) {
-            arg0->unk15 = temp_a0->unk15;
+            arg0->unk15 = temp_a0->facing;
             arg0->x_pos.i.hi = temp_a0->x_pos.i.hi;
             arg0->y_pos.i.hi = temp_a0->y_pos.i.hi;
-            ((void (*)())func_80017A04)(arg0);
+            ((void (*)())animate_object)(arg0);
             ((void (*)())func_8002CB50)(arg0);
             return;
         }
@@ -884,7 +882,7 @@ void func_8004B614(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004B634);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004B634);
 // clang-format on
 
 #include "common.h"
@@ -916,8 +914,7 @@ void func_8004B788(void* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
-
-extern struct X4_AbcObj D_8008EAF0;
+#include "mmx6/globals.h"
 
 void func_8004B824(struct X4_UnkObj* arg0) {
     struct X4_AbcObj* abc = &D_8008EAF0;
@@ -958,9 +955,9 @@ void func_8004B86C(u8* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern void (*D_80077E80[])();
-extern u8 D_8008EAFC;
 
 void func_8004B908(struct X4_WeaponObj* arg0) {
     if (D_8008EAFC == 0) {
@@ -1302,12 +1299,11 @@ void func_8004C3FC(void) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 s32 random_byte();
-extern s32 D_80073760[];
-extern s32 D_80073784[];
 
 void func_8004C41C(void* arg0) {
     s32 sy;
@@ -1340,9 +1336,9 @@ void func_8004C41C(void* arg0) {
             i = M2C_FIELD(arg0, u8*, 0x38) - 0x18;
         }
     }
-    vx = (D_80073760[i] * sx << 4) >> 4;
+    vx = (g_angle_x_speeds[i] * sx << 4) >> 4;
     M2C_FIELD(arg0, s32*, 0x3C) = vx;
-    vy = D_80073784[i] * sy << 4;
+    vy = g_angle_y_speeds[i] * sy << 4;
     M2C_FIELD(arg0, s32*, 0x44) = vx;
     M2C_FIELD(arg0, s32*, 0x4C) = vx;
     M2C_FIELD(arg0, s32*, 0x54) = vx / 2;
@@ -1719,16 +1715,16 @@ void func_8004CD3C(struct X4_QuadObj* arg0) {
         }
         if (arg0->runtime.legacy.unk48 == 0) {
             if (arg0->x_pos.i.hi >= 0x140) {
-                goto set2;
+                arg0->unk5 = 2;
+                break;
             }
-            goto call;
+            func_8004D074(arg0);
+            break;
         }
         if (arg0->x_pos.i.hi < -0xB0) {
-        set2:
             arg0->unk5 = 2;
             break;
         }
-    call:
         func_8004D074(arg0);
         break;
     case 2:
@@ -1918,11 +1914,11 @@ void func_8004D2F8(void) {
 #include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define F32(p, off) (*(s32*)((u8*)(p) + (off)))
 
 extern struct X4_BackgroundObj background_objects[3];
-extern u16 g_screen_width;
 struct X4_QuadObj* alloc_class6_slot(void);
 M2C_UNK clear_object_slot();
 void func_8004D598(void* arg0);
@@ -2106,7 +2102,7 @@ void func_8004D75C(void) {
 #undef D_80075FD8
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004D7B8);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004D7B8);
 // clang-format on
 
 #include "common.h"
@@ -2115,11 +2111,11 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004D7B8);
 
 #define F(T, o) (*(T*)((u8*)arg0 + (o)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_8002CA54();
 s32 func_8002CAB4(struct X4_BaseObj*);
 s32 func_8002CB50(struct X4_BaseObj*);
-M2C_UNK func_8002D230(struct X4_MainObj* self);
+M2C_UNK apply_object_motion(struct X4_MainObj* self);
 void func_8002F288(struct X4_PlayerObj*);
 u8 func_80030234(struct X4_PlayerObj*, s16, s16);
 void func_8004E26C(void*);
@@ -2149,13 +2145,13 @@ void func_8004DA7C(void* arg0) {
                     F(s8, 0x6) = 1;
                     F(s32, 0x2C) = 0x8000;
                     F(s32, 0x24) = (var_v1 < 0 ? -var_v1 : var_v1) >> 1;
-                    ((void (*)(void*))func_8002D230)(arg0);
+                    ((void (*)(void*))apply_object_motion)(arg0);
                 } else {
                     F(s8, 0x6) = 0;
                     F(s8, 0x67) = 0;
                 }
             } else {
-                func_8002D230(arg0);
+                apply_object_motion(arg0);
             }
         } else {
             if (!(F(u8, 0x70) & 8)) {
@@ -2164,10 +2160,10 @@ void func_8004DA7C(void* arg0) {
                 F(s32, 0x2C) = 0x8000;
                 F(s8, 0x67) = 1;
             }
-            func_80017A04(arg0);
+            animate_object(arg0);
         }
     } else {
-        func_80017A04(arg0);
+        animate_object(arg0);
     }
     if (F(s32, 0x10) == 0) {
         if (--F(u16, 0x80) == 0) {
@@ -2255,7 +2251,7 @@ void func_8004DCB8(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004DDD4);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004DDD4);
 // clang-format on
 
 #include "common.h"
@@ -2330,17 +2326,17 @@ void func_8004E0A8(u8* arg0, u8 arg1, s32 arg2) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8004E26C);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004E26C);
 // clang-format on
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define F(T, o) (*(T*)((u8*)arg0 + (o)))
 
 void func_8002F288(struct X4_PlayerObj*);
 extern void (*D_800788F8[])(void*);
-extern s8 D_80097180;
 
 void func_8004E5D8(void* arg0) {
     if (D_80097180 != 2 || F(s8, 0x4) <= 0) {

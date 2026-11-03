@@ -87,17 +87,17 @@ INCLUDE_ASM("asm/rock_35/nonmatchings/FA000", func_800FCE28);
 // clang-format on
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK); /* extern */
-M2C_UNK func_80017A04();               /* extern */
+M2C_UNK animate_object();              /* extern */
 s32 func_80040498();                   /* extern */
-extern s8 D_80097240;
 
 void func_800FCE78(void* arg0) {
-    func_80017A04();
+    animate_object();
     if (func_80040498() == 0) {
         set_animation(arg0, 1);
         D_80097240 = 2;
@@ -125,8 +125,8 @@ INCLUDE_ASM("asm/rock_35/nonmatchings/FA000", func_800FCED4);
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04(void*); /* extern */
-M2C_UNK move_object(void*);   /* extern */
+M2C_UNK animate_object(void*); /* extern */
+M2C_UNK move_object(void*);    /* extern */
 
 void func_800FD024(void* arg0) {
     if (M2C_FIELD(arg0, u8*, 0x70) & 1) {
@@ -134,7 +134,7 @@ void func_800FD024(void* arg0) {
         M2C_FIELD(arg0, u8*, 6) = (u8)(M2C_FIELD(arg0, u8*, 6) + 1);
         return;
     }
-    func_80017A04(arg0);
+    animate_object(arg0);
     move_object(arg0);
 }
 
@@ -258,7 +258,7 @@ INCLUDE_ASM("asm/rock_35/nonmatchings/FA000", func_800FDCAC);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK); /* extern */
-s32 random_byte();                   /* extern */
+s32 random_byte();                     /* extern */
 extern s16 D_800FE9A8;
 
 void func_800FDD90(void* arg0) {
@@ -272,6 +272,7 @@ void func_800FDD90(void* arg0) {
         if (temp_v0 < 0x11) {
 
         } else {
+            // !FAKE: range test needs per-sign compares jumping to one shared block (C0144); abs() form folds to a negate
             goto block_4;
         }
     } else if ((D_800FE9A8 - temp_v1) >= 0x11) {
@@ -371,22 +372,22 @@ INCLUDE_ASM("asm/rock_35/nonmatchings/FA000", func_800FE2D0);
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();                        /* extern */
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);     /* extern */
+M2C_UNK animate_object();                       /* extern */
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);     /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK move_object(void*);                     /* extern */
 s32 check_enemy_hits(void*);                    /* extern */
 M2C_UNK func_80049D90(void*);                   /* extern */
 
 void func_800FE32C(struct ObjectHeader* arg0) {
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     move_object(arg0);
     if (check_enemy_hits(arg0) < 0) {
         func_80049D90(arg0);
         arg0->state = 2;
         return;
     }
-    if (func_8002CBFC(arg0, 0x60, 0x60) == 0) {
+    if (is_off_screen(arg0, 0x60, 0x60) == 0) {
         func_8002CCB0(arg0, 0x30, 0x30);
         return;
     }
@@ -407,21 +408,21 @@ void func_800FE32C(struct ObjectHeader* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK); /* extern */
-M2C_UNK func_80017A04();               /* extern */
-M2C_UNK func_8002D230(void*);          /* extern */
+M2C_UNK animate_object();              /* extern */
+M2C_UNK apply_object_motion(void*);    /* extern */
 s32 check_enemy_hits(void*);           /* extern */
 
 void func_800FE414(void* arg0) {
     s8 temp_v1_2;
     u8 temp_v1;
 
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     temp_v1 = M2C_FIELD(arg0, u8*, 0x95);
     if (temp_v1 < 0x1EU) {
         M2C_FIELD(arg0, u8*, 0x95) = (u8)(temp_v1 + 1);
         return;
     }
-    func_8002D230(arg0);
+    apply_object_motion(arg0);
     if (check_enemy_hits(arg0) < 0) {
         M2C_FIELD(arg0, s8*, 4) = 2;
         return;
@@ -445,21 +446,22 @@ void func_800FE414(void* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();                        /* extern */
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);     /* extern */
+M2C_UNK animate_object();                       /* extern */
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);     /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK move_object(void*);                     /* extern */
 s32 check_enemy_hits(void*);                    /* extern */
 M2C_UNK func_80049E50(void*);                   /* extern */
 
 void func_800FE4B8(struct ObjectHeader* arg0) {
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     move_object(arg0);
     if (check_enemy_hits(arg0) < 0) {
         func_80049E50(arg0);
+        // !FAKE: goto shares the state = 2 store; a copied store with return moved bytes
         goto block_5;
     }
-    if (func_8002CBFC(arg0, 0x60, 0x60) == 0) {
+    if (is_off_screen(arg0, 0x60, 0x60) == 0) {
         func_8002CCB0(arg0, 0x30, 0x30);
         return;
     }

@@ -14,7 +14,7 @@ void func_800EF960(void* arg0) {
     s32 angle;
 
     limit = 0x14;
-    if (pl->unk2 != 0) {
+    if (pl->character != 0) {
         limit = 0x28;
     }
     if (limit < ++OUB(arg0, 0x88)) {

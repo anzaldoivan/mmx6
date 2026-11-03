@@ -2,9 +2,8 @@
 #define M2C_UNK s32
 
 #include "psyq/libsnd.h"
+#include "mmx6/globals.h"
 extern s16 D_8006E358[];
-extern u8* D_800E155C;
-extern u8 D_800E25F8[];
 
 // 0x80017008 play_sfx_sequence: stops a lower-priority sequence on the entry's channel, plays the SEQ or SEP and records the channel priority.
 // basis: xref play_sound (docs/leads/derived.tsv:8)

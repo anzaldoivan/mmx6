@@ -1,8 +1,8 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+M2C_UNK animate_object();
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
 s32 check_enemy_hits(void*);
@@ -23,7 +23,7 @@ void func_800F7284(void* self) {
     }
     F(s32, 0x18) = F(s32, 0x8);
     F(s32, 0x1C) = F(s32, 0xC);
-    ((void (*)(void*))func_80017A04)(self);
+    ((void (*)(void*))animate_object)(self);
     D_800FD49C[F(s8, 5)](self);
     if (F(s8, 4) != s) {
         F(s8, 3) = 0;
@@ -46,7 +46,7 @@ void func_800F7284(void* self) {
             return;
         }
     }
-    if (func_8002CBFC(self, 0x20, 0xB0) == 0) {
+    if (is_off_screen(self, 0x20, 0xB0) == 0) {
         func_8002CCB0(self, 0x10, 0x10);
         return;
     }

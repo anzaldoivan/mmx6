@@ -3,8 +3,8 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002D5D0(void*);                          /* extern */
-s32 try_enter_wall_cling(void*);                              /* extern */
+M2C_UNK move_by_velocity(void*);                       /* extern */
+s32 try_enter_wall_cling(void*);                       /* extern */
 M2C_UNK player_set_animation_shooting(void*, M2C_UNK); /* extern */
 M2C_UNK func_8003F508(void*, M2C_UNK);                 /* extern */
 s32 func_801EC35C();                                   /* extern */
@@ -20,15 +20,15 @@ void player_hover_back(void* arg0) {
             if (temp_v0 > 0) {
                 player_set_animation_shooting(arg0, 0x17);
                 var_v0 = 3;
-                goto block_7;
+            } else {
+                move_by_velocity(arg0);
+                func_8003F508(arg0, 0x19);
+                return;
             }
-            func_8002D5D0(arg0);
-            func_8003F508(arg0, 0x19);
-            return;
+        } else {
+            player_set_animation_shooting(arg0, 0x1A);
+            var_v0 = 6;
         }
-        player_set_animation_shooting(arg0, 0x1A);
-        var_v0 = 6;
-    block_7:
         M2C_FIELD(arg0, s8*, 6) = var_v0;
     }
 }

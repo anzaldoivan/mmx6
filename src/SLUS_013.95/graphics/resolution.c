@@ -2,14 +2,11 @@
 #include "psyq/libgpu.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_800122A4();
 
-extern u8 D_8006D5FC[];
 extern X4_RECT D_8006D884;
-extern u16 g_wide_mode;
-extern u16 g_screen_width;
-extern u8 D_800C458C[];
 extern struct X4_EngineObj g_playthrough_state;
 
 // 0x80012890 set_resolution: switches screen resolution.

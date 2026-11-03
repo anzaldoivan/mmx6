@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 
 void func_8003FAFC(void* arg0) {
-    func_8003BA04(arg0, 0x61);
+    player_set_animation(arg0, 0x61);
     play_sound(1, 0x1A, arg0);
     ((u8*)arg0)[0x67] = 1;
     ((u8*)arg0)[0x5] = 0x28;
@@ -17,13 +17,13 @@ void func_8003FAFC(void* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 void* player_spawn_weapon(s8 arg0, s8 arg1, s8 arg2, s32 arg3);
 M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
                             M2C_UNK arg3);
 
 void func_8003FB48(void* arg0) {
-    func_8003BA04(arg0, 0x5F);
+    player_set_animation(arg0, 0x5F);
     M2C_FIELD(arg0, s8*, 0x67) = 1;
     player_spawn_weapon(1, 0xB, 0, 0);
     M2C_FIELD(arg0, s8*, 0xA6) = 1;
@@ -36,10 +36,10 @@ void func_8003FB48(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 
 void func_8003FBBC(void* arg0) {
-    ((void (*)(void*, s32))func_8003BA04)(arg0, 0x5F);
+    ((void (*)(void*, s32))player_set_animation)(arg0, 0x5F);
     ((u8*)arg0)[0x67] = 1;
     ((u8*)arg0)[5] = 0x2B;
     ((u8*)arg0)[6] = 0;
@@ -50,7 +50,7 @@ void func_8003FBBC(void* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8003BB94(void*, M2C_UNK, s8); /* extern */
+M2C_UNK player_set_animation_frame(void*, M2C_UNK, s8); /* extern */
 
 void func_8003FBF8(void* arg0) {
     s32 var_v1;
@@ -70,7 +70,7 @@ void func_8003FBF8(void* arg0) {
         M2C_FIELD(arg0, s8*, 6) = 0;
         return;
     }
-    ((void (*)(void*, M2C_UNK, s8))func_8003BB94)(arg0, 0x60, 2);
+    ((void (*)(void*, M2C_UNK, s8))player_set_animation_frame)(arg0, 0x60, 2);
     M2C_FIELD(arg0, s8*, 6) = 2;
 }
 
@@ -104,10 +104,10 @@ void func_8003FC88(void* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 
 void func_8003FCD4(void* arg0) {
-    ((void (*)(void*, s32))func_8003BA04)(arg0, 0x5F);
+    ((void (*)(void*, s32))player_set_animation)(arg0, 0x5F);
     M2C_FIELD(arg0, u8*, 0x67) = 1;
     M2C_FIELD(arg0, u8*, 0xA6) = 2;
     M2C_FIELD(arg0, u8*, 5) = 0x2A;
@@ -117,16 +117,16 @@ void func_8003FCD4(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8003BA04(void*, M2C_UNK);
-extern s8 D_800CCEEC;
+M2C_UNK player_set_animation(void*, M2C_UNK);
 
 void func_8003FD18(void* arg0) {
     // !FAKE: pins the shared constant one to the register retail uses
     register s32 one asm("$3");
-    ((void (*)(void*, s32))func_8003BA04)(arg0, 0x5F);
+    ((void (*)(void*, s32))player_set_animation)(arg0, 0x5F);
     one = 1;
     M2C_FIELD(arg0, u8*, 0xE0) = 2;
     M2C_FIELD(arg0, s32*, 0x68) = 0;

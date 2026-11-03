@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s32 random_byte();
 
 #define UB(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -10,7 +10,7 @@ s32 random_byte();
 #define W(p, o) (*(s32*)((u8*)(p) + (o)))
 
 void func_800F2324(void* arg0) {
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
     if (H(arg0, 0x7C) != 0) {
         H(arg0, 0x7C)--;
         return;

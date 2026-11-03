@@ -1,8 +1,8 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-extern u8 D_800970B4;
 
 #define B(p, o) (*(s8*)((u8*)(p) + (o)))
 #define UB(p, o) (*(u8*)((u8*)(p) + (o)))

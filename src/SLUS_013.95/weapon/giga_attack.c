@@ -1,143 +1,134 @@
 #include "common.h"
 #define M2C_UNK s32
-M2C_UNK func_8003BA04(void*, M2C_UNK);
-M2C_UNK func_8003CDF0();
-#define func_8003CDF0 ((void (*)(void*))func_8003CDF0)
-M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
-                            M2C_UNK arg3);
-M2C_UNK func_8003DF58(void*);
-M2C_UNK func_8003F0BC(void*);
-M2C_UNK func_8003F480();
-extern s8 D_800CCEEC;
-
-#define B(o) (*(s8*)((u8*)self + (o)))
-#define UB(o) (*(u8*)((u8*)self + (o)))
-#define H(o) (*(s16*)((u8*)self + (o)))
-#define UH(o) (*(u16*)((u8*)self + (o)))
-#define W(o) (*(s32*)((u8*)self + (o)))
+#include "mmx6/x4.h"
+#include "mmx6/globals.h"
+#include "mmx6/effect.h"
+#include "mmx6/weapon.h"
+#define func_8003CDF0 func_8003CDF0
 
 // 0x8003E344 check_giga_attack: giga attack input, armor checks, execution.
 // basis: community tweaks-index.tsv:202
-// callers: func_8003E06C, func_8003E174, func_8003E260, func_8003F13C and others
-s32 check_giga_attack(void* self) {
+// callers: func_8003E06C, try_shoot_in_air, try_shoot_on_ladder, try_start_attack and others
+s32 check_giga_attack(void* arg0) {
+    struct X4_PlayerObj* self = arg0;
     s32 ret;
     s32 m;
     s32 v;
     u8 k;
 
     ret = 0;
-    if (B(0x2) != 0) {
+    if (self->character != 0) {
         return ret;
     }
-    if (UB(0x92) != 0) {
+    if (self->shot_cooldown != 0) {
         return ret;
     }
-    if (H(0xA8) != H(0x14A)) {
+    if (*(s16*)self->weapon_energy != self->giga_energy_max) {
         return ret;
     }
-    if (!(UH(0x80) & 0x40)) {
+    if (!(self->pressed_input & 0x40)) {
         return ret;
     }
-    k = UB(0xE7);
+    k = self->armor;
     if ((u32)(k - 1) >= 4) {
         return 0;
     }
     if (k == 4) {
-        if (B(0x86) != 0) {
+        if (self->air_action != 0) {
             return 0;
         }
         m = 2;
-        if (UB(0x15) != 0) {
+        if (self->facing != 0) {
             m = 1;
         }
-        if (UB(0x89) & m) {
+        if (self->latched_collision_flags & m) {
             return 0;
         }
     }
     func_8003CDF0(self);
-    if (B(0x2) == 0) {
-        UB(0x93) = 0;
-        func_8003F480(self);
-        func_8003DF58(self);
-        func_8003F0BC(self);
+    if (self->character == 0) {
+        self->weapon = 0;
+        player_reset_charge(self);
+        set_shot_types(self);
+        react_to_weapon_change(self);
     }
-    UB(0x67) = 1;
-    UB(0x61) = 0;
-    UB(0xA4) = 0;
-    if (UB(0xE7) != 4) {
-        H(0xA8) = 0;
+    self->air_state = 1;
+    self->invincibility_timer = 0;
+    self->hurt_phase = 0;
+    if (self->armor != 4) {
+        *(s16*)self->weapon_energy = 0;
     }
-    k = UB(0xE7);
+    k = self->armor;
     if (k == 1) {
-        if (UB(0x89) & 8) {
-            func_8003BA04(self, 0xAE);
+        if (self->latched_collision_flags & 8) {
+            player_set_animation(self, 0xAE);
         } else {
-            func_8003BA04(self, 0xB1);
+            player_set_animation(self, 0xB1);
         }
-        UB(0x5) = 0x24;
+        self->action = 0x24;
         player_spawn_visual(1, 0x1B, 8, 0);
-        UB(0x86) = 5;
-        UB(0xE1) = 0;
-        W(0x68) = 0;
-        UB(0xE0) = 2;
+        self->air_action = 5;
+        self->nova_strike_timer = 0;
+        self->terrain_box = 0;
+        self->nova_strike_active = 2;
         ret = 1;
     } else if (k == 2) {
-        if (UB(0x89) & 8) {
-            func_8003BA04(self, 0xB9);
-            UB(0x7) = 0;
+        if (self->latched_collision_flags & 8) {
+            player_set_animation(self, 0xB9);
+            self->action_timer = 0;
         } else {
-            func_8003BA04(self, 0xBA);
-            UB(0x7) = 1;
+            player_set_animation(self, 0xBA);
+            self->action_timer = 1;
         }
-        UB(0x5) = 0x25;
-        UB(0x86) = 5;
-        UB(0xE1) = 0;
-        W(0x68) = 0;
-        UB(0xE0) = 2;
+        self->action = 0x25;
+        self->air_action = 5;
+        self->nova_strike_timer = 0;
+        self->terrain_box = 0;
+        self->nova_strike_active = 2;
         player_spawn_visual(1, 0x1B, 7, 0);
         ret = 1;
     } else if (k == 3) {
-        if (UB(0x89) & 8) {
-            func_8003BA04(self, 0xB9);
-            UB(0x7) = 0;
+        if (self->latched_collision_flags & 8) {
+            player_set_animation(self, 0xB9);
+            self->action_timer = 0;
         } else {
-            func_8003BA04(self, 0xBA);
-            UB(0x7) = 1;
+            player_set_animation(self, 0xBA);
+            self->action_timer = 1;
         }
-        UB(0x5) = 0x4D;
-        UB(0x86) = 5;
-        UB(0xE1) = 0;
-        W(0x68) = 0;
-        UB(0xE0) = 2;
+        self->action = 0x4D;
+        self->air_action = 5;
+        self->nova_strike_timer = 0;
+        self->terrain_box = 0;
+        self->nova_strike_active = 2;
         ret = 1;
     } else {
-        func_8003BA04(self, 0x6A);
+        player_set_animation(self, 0x6A);
         {
             // !FAKE: depin: dropping it breaks the match (143/180)
             register s32 c asm("$2");
             c = 0x22;
-            UB(0x5) = c;
+            self->action = c;
             c = 5;
-            UB(0x86) = c;
+            self->air_action = c;
             c = 0x18;
-            UB(0x84) = 0;
-            UB(0x8C) = 0;
-            UB(0xE1) = c;
+            self->dash_momentum = 0;
+            self->afterimage = 0;
+            self->nova_strike_timer = c;
         }
-        if (UB(0x15) != 0) {
-            W(0x20) = 0x28000;
+        if (self->facing != 0) {
+            self->x_vel.val = 0x28000;
         } else {
-            W(0x20) = -0x28000;
+            self->x_vel.val = -0x28000;
         }
-        W(0x24) = 0x38000;
-        W(0x28) = 0;
+        self->y_vel.val = 0x38000;
+        self->x_accel = 0;
         ret = 1;
-        UB(0xE0) = ret;
-        UB(0x7) = 0;
-        W(0x2C) = W(0x100);
+        self->nova_strike_active = ret;
+        self->action_timer = 0;
+        self->gravity = self->base_gravity;
     }
-    UB(0x7A) = 1;
+    self->spike_immune = 1;
     D_800CCEEC = 1;
-    UB(0x6) = 0;
+    self->action_phase = 0;
     return ret;
 }

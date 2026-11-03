@@ -1,9 +1,9 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-extern s8 D_800970A5;
 extern struct X4_EngineObj g_playthrough_state;
 
 // 0x800F2390 init_illumina: Illumina sub-boss start.

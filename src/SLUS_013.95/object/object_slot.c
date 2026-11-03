@@ -12,7 +12,7 @@ void clear_object_slot(void* arg0) {
     o->unk2 = 0;
     o->on_screen = 0;
     o->state = 0;
-    o->unk5 = 0;
-    o->unk6 = 0;
+    o->action = 0;
+    o->action_phase = 0;
     o->unk7 = 0;
 }

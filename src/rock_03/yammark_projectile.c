@@ -2,15 +2,14 @@
 #include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-extern s32 D_80074BFC;
 extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
-extern u8 D_800CCF38;
 extern s32 D_800F7D60;
 extern s32 D_800F7D64;
 extern s32 D_800F7D68;

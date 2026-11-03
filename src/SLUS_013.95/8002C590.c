@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern u8 D_800964A0[];
+#include "mmx6/globals.h"
 
 s8* func_8002C590(void) {
     s8* p;
@@ -24,10 +23,9 @@ s8* func_8002C590(void) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern struct X4_MiscObj g_displayed_sprites[];
 extern u8 D_800CF7B0[];
-extern u8 D_800CF810[];
 
 s8* func_8002C5F0(s8* p, s32 back) {
     if (back == 0) {
@@ -75,9 +73,9 @@ s8* func_8002C5F0(s8* p, s32 back) {
 
 #include "common.h"
 
-extern u8 D_80091298[];
 extern u8 D_80093C28[];
 #include "mmx6/projectile.h"
+#include "mmx6/globals.h"
 
 s8* func_8002C6F0(s8* arg0, s32 arg1) {
     s8* p;

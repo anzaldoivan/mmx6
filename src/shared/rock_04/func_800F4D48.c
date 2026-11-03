@@ -11,6 +11,6 @@ void func_800F4D48(struct X4_MainObj* self) {
         self->unk7E = 3;
     }
     if (++self->hp == D_800CCF5C) {
-        self->unk6++;
+        self->action_phase++;
     }
 }

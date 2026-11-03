@@ -1,17 +1,16 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK func_800139A0(s8);
 void func_8001FE74(void);
 s8* func_8002C590(void);
 
-extern u8 g_temp_options;
 extern u8 option_labels[];
 extern u8 option_cursors[];
 #include "mmx6/state.h"
 extern struct X4_EngineObj g_playthrough_state;
-extern u8 D_800E4188;
 
 // 0x8002A588 init_options_menu: options list display and toggles.
 // basis: community tweaks-index.tsv:292

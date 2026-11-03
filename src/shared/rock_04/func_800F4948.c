@@ -1,9 +1,9 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 struct X4_EffectObj* alloc_class3_slot(void);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
-extern s8 D_800970A5;
 extern struct X4_EngineObj g_playthrough_state;
 
 #define F8(p, o) (*(u8*)((u8*)(p) + (o)))

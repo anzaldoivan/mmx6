@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void* func_8002C458();
 s32 random_byte();
 
@@ -22,7 +22,7 @@ void func_800F1D4C(void* arg0) {
     r = random_byte();
     q = r / 3;
     sel = (u8)(r - q * 3);
-    ((M2C_UNK(*)())func_80017A04)(arg0, q);
+    ((M2C_UNK(*)())animate_object)(arg0, q);
     mode = SB(arg0, 0x45);
     if (mode == 1) {
         obj = func_8002C458();

@@ -1,14 +1,14 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
-M2C_UNK func_80017A04();                     /* extern */
+M2C_UNK animate_object();                    /* extern */
 void* func_8002C32C();                       /* extern */
 extern M2C_UNK g_Player;
-extern s8 D_800970FC;
 
 void func_800F04E8(void* arg0) {
     s32 f;
@@ -20,6 +20,7 @@ void func_800F04E8(void* arg0) {
             play_sound(2, 0x25, 0);
             f = 1;
         } else {
+            // !FAKE: goto enters the shared flag-clear arm; duplicating the clear store moved bytes (setcc)
             goto block_4;
         }
     } else {
@@ -84,8 +85,8 @@ void func_800F04E8(void* arg0) {
                 }
             }
         }
-        ((void (*)(void*))func_80017A04)(arg0);
+        ((void (*)(void*))animate_object)(arg0);
         return;
     }
-    ((void (*)(void*))func_80017A04)(arg0);
+    ((void (*)(void*))animate_object)(arg0);
 }

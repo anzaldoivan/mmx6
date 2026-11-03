@@ -31,22 +31,22 @@ void func_800EA9E0(struct X4_BaseObj* self) {
         }
         if (self->unk15 != 0) {
             struct X4_PlayerObj* pl = &g_Player;
-            if (pl->unk15 == 0 && self->x_pos.val < pl->x_pos.val &&
+            if (pl->facing == 0 && self->x_pos.val < pl->x_pos.val &&
                 ABS(OBJ(p)->y_pos.i.hi - self->y_pos.i.hi) < 0x18 &&
                 OBJ(p)->x_pos.i.hi < self->x_pos.i.hi + 0x80) {
                 M2C_FIELD(self, u8*, 0x80) |= 1;
             }
         } else {
             struct X4_PlayerObj* pl = &g_Player;
-            if (pl->unk15 != 0 && self->x_pos.val > pl->x_pos.val &&
+            if (pl->facing != 0 && self->x_pos.val > pl->x_pos.val &&
                 ABS(OBJ(p)->y_pos.i.hi - self->y_pos.i.hi) < 0x18 &&
                 self->x_pos.i.hi - 0x80 < OBJ(p)->x_pos.i.hi) {
                 M2C_FIELD(self, u8*, 0x80) |= 1;
             }
         }
         if (M2C_FIELD(self, u8*, 0x80) & 1) {
-            self->unk5 = 3;
-            self->unk6 = 0;
+            self->action = 3;
+            self->action_phase = 0;
             set_animation(self, 5);
             return;
         }

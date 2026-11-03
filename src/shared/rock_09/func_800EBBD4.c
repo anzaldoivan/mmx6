@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+M2C_UNK animate_object();
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 
 #define B(p, o) (*(u8*)((u8*)(p) + (o)))
 #define SB(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -31,9 +31,9 @@ void func_800EBBD4(void* arg0) {
         B(arg0, 4) = 2;
         return;
     }
-    if (func_8002CBFC(arg0, 0x30, 0x40) == 0) {
+    if (is_off_screen(arg0, 0x30, 0x40) == 0) {
         func_8002CCB0(arg0, 0x30, 0x40);
     }
-    func_8002D230(arg0);
-    func_80017A04(arg0);
+    apply_object_motion(arg0);
+    animate_object(arg0);
 }

@@ -1,10 +1,9 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
 extern struct X4_PlayerObj g_Player;
-extern s16 D_80097206;
-extern s8 D_800CCEED;
 
 void func_800E9A34(u8* arg0) {
     s16* p;
@@ -66,8 +65,8 @@ INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800E9B68);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+M2C_UNK animate_object();
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002F288(M2C_UNK*);
 M2C_UNK func_80030ECC(void*);
@@ -91,10 +90,10 @@ void func_800E9CA8(struct X4_BaseObj* self) {
     }
     {
         u8* tbl = D_800ED718;
-        void* fn = ((void**)tbl)[self->unk5];
+        void* fn = ((void**)tbl)[self->action];
         ((void (*)(struct X4_BaseObj*))fn)(self);
     }
-    func_80017A04(self);
+    animate_object(self);
     func_80030ECC(self);
     if (check_enemy_hits(self) < 0) {
         func_80049E50(self);
@@ -103,7 +102,7 @@ void func_800E9CA8(struct X4_BaseObj* self) {
         self->state = 2;
         return;
     }
-    if (func_8002CBFC(self, 0xA0, 0x78) == 0) {
+    if (is_off_screen(self, 0xA0, 0x78) == 0) {
         func_8002CCB0(self, 0x20, 0x20);
         if (self->on_screen != 0) {
             if (M2C_FIELD(SPAD, s16*, 0x84) != 0) {
@@ -243,7 +242,7 @@ void func_800EB480(struct X4_BaseObj* self) {
         } else {
             set_animation(self, SPAD[0x8C]);
         }
-        self->unk6++;
+        self->action_phase++;
     }
 }
 
@@ -279,8 +278,8 @@ void func_800EB5E8(void) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();                        /* extern */
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);     /* extern */
+M2C_UNK animate_object();                       /* extern */
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);     /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK move_object(void*);                     /* extern */
 M2C_UNK func_8002EE10(void*);                   /* extern */
@@ -288,7 +287,7 @@ M2C_UNK func_80030ECC(void*);                   /* extern */
 M2C_UNK func_80049D90(void*);                   /* extern */
 
 void func_800EB7C8(void* arg0) {
-    func_80017A04();
+    animate_object();
     move_object(arg0);
     func_80030ECC(arg0);
     if ((M2C_FIELD(arg0, u8*, 0x70) != 0) ||
@@ -297,7 +296,7 @@ void func_800EB7C8(void* arg0) {
         M2C_FIELD(arg0, u8*, 4) = (u8)(M2C_FIELD(arg0, u8*, 4) + 1);
         return;
     }
-    if (func_8002CBFC(arg0, 0x18, 0x18) == 0) {
+    if (is_off_screen(arg0, 0x18, 0x18) == 0) {
         func_8002CCB0(arg0, 0x10, 0x10);
         return;
     }
@@ -325,15 +324,15 @@ extern void (*D_800ED78C)(void*);
 
 #define F530_FLD(p, type, off) (*(type*)((u8*)(p) + (off)))
 static inline u8 f530_tile(struct X4_PlayerObj* p, s16 x, s16 y) {
-    if (p->unk68 == 0) {
+    if (p->terrain_box == 0) {
         return 0;
     }
     return func_80030234(p, x, y);
 }
 #define F530_TILE(dy)                                                          \
     f530_tile(&g_Player, g_Player.x_pos.i.hi,                                  \
-              g_Player.unk68->unk1 +                                           \
-                  (g_Player.y_pos.i.hi + g_Player.unk68->unk3) + (dy))
+              g_Player.terrain_box->unk1 +                                     \
+                  (g_Player.y_pos.i.hi + g_Player.terrain_box->unk3) + (dy))
 #define F530_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define F530_MIN(a, b) ((a) < (b) ? (a) : (b))
 #define F530_ABS(x) ((x) >= 0 ? (x) : -(x))
@@ -368,60 +367,66 @@ void func_800EB898(u8* arg0) {
         case 19:
         case 20:
             arg0[4] = 1;
-            if (arg0[0x21] == 0x3C && g_Player.unk15 != 0 &&
-                g_Player.unk5 != 0xC) {
+            if (arg0[0x21] == 0x3C && g_Player.facing != 0 &&
+                g_Player.action != 0xC) {
                 g_Player.x_pos.val = F530_FLD(&g_Player, s32, 0x13C);
-                goto tail;
+            } else {
+                F530_NEG();
             }
-            F530_NEG();
+            // !FAKE: goto enters the retile switch; merging cases moved bytes
             goto tail;
         case 21:
         case 22:
         case 23:
         case 24:
             arg0[4] = 1;
-            if (arg0[0x21] == 0x3C && g_Player.unk15 == 0 &&
-                g_Player.unk5 != 0xC) {
+            if (arg0[0x21] == 0x3C && g_Player.facing == 0 &&
+                g_Player.action != 0xC) {
                 g_Player.x_pos.val = F530_FLD(&g_Player, s32, 0x13C);
-                goto tail;
+            } else {
+                F530_POS();
             }
-            F530_POS();
+            // !FAKE: goto enters the retile switch; merging cases moved bytes
             goto tail;
         case 25:
         case 26:
             arg0[4] = 1;
-            if (arg0[0x21] == 0x3C && g_Player.unk15 != 0 &&
-                g_Player.unk5 != 0xC) {
+            if (arg0[0x21] == 0x3C && g_Player.facing != 0 &&
+                g_Player.action != 0xC) {
                 g_Player.x_pos.val = F530_FLD(&g_Player, s32, 0x13C);
-                goto tail;
+            } else {
+                F530_NEG();
             }
-            F530_NEG();
+            // !FAKE: goto enters the retile switch; merging cases moved bytes
             goto tail;
         case 27:
         case 28:
             arg0[4] = 1;
-            if (arg0[0x21] == 0x3C && g_Player.unk15 == 0 &&
-                g_Player.unk5 != 0xC) {
+            if (arg0[0x21] == 0x3C && g_Player.facing == 0 &&
+                g_Player.action != 0xC) {
                 g_Player.x_pos.val = F530_FLD(&g_Player, s32, 0x13C);
-                goto tail;
+            } else {
+                F530_POS();
             }
-            F530_POS();
+            // !FAKE: goto enters the retile switch; merging cases moved bytes
             goto tail;
         case 16:
             arg0[0x20] = F530_TILE(-0x10);
+            // !FAKE: goto re-dispatches the outer switch on the retiled value; a loop wrapper would add a test
             goto loop;
         case 0:
-            if (g_Player.unk88.unsigned_bytes.collision_flags & 8) {
+            if (g_Player.latched_collision_flags & 8) {
+                // !FAKE: goto shares case 60's call; copied call+break moved
                 goto call;
             }
             if ((s8)arg0[4] == 2) {
                 D_800ED78C(arg0);
             }
-            arg0[0x1C] = g_Player.unk5;
+            arg0[0x1C] = g_Player.action;
             break;
         default:
             arg0[4] = 1;
-            arg0[0x1C] = g_Player.unk5;
+            arg0[0x1C] = g_Player.action;
             break;
         tail:
             switch (arg0[0x20] = F530_TILE(0)) {
@@ -429,19 +434,20 @@ void func_800EB898(u8* arg0) {
                 if ((s8)arg0[4] != 2) {
                     D_800ED784[(s8)arg0[4]](arg0);
                 }
-                arg0[0x1C] = g_Player.unk5;
+                arg0[0x1C] = g_Player.action;
                 break;
             case 0x10 ... 0x1C:
             case 0x38:
                 break;
             default:
+                // !FAKE: goto shares case 60's call; copied call+break moved
                 goto call;
             }
             break;
         case 60:
         call:
             D_800ED784[(s8)arg0[4]](arg0);
-            arg0[0x1C] = g_Player.unk5;
+            arg0[0x1C] = g_Player.action;
             break;
         }
     }
@@ -490,15 +496,16 @@ s32 func_800EC430(struct X4_PlayerObj* a, struct X4_PlayerObj* b) {
     s16 l;
     s16 r;
 
-    if (b->unk68 == 0) {
+    if (b->terrain_box == 0) {
         return 0;
     }
-    if (b->unk5 != 2 && b->unk5 != 4 && b->unk5 != 0x14 && b->unk5 != 3) {
+    if (b->action != 2 && b->action != 4 && b->action != 0x14 &&
+        b->action != 3) {
         return 0;
     }
-    ra = a->unk68;
+    ra = a->terrain_box;
     ax = a->x_pos.i.hi;
-    rb = b->unk68;
+    rb = b->terrain_box;
     aw = ra->unk2;
     bw = rb->unk2;
     l = ax - (aw - 8);
@@ -514,24 +521,24 @@ s32 func_800EC430(struct X4_PlayerObj* a, struct X4_PlayerObj* b) {
     ay = a->y_pos.i.hi + ra->unk1;
     by = b->y_pos.i.hi + rb->unk1;
     d = (ay - by) >= 0 ? (ay - by) : (by - ay);
-    return ((volatile struct X4_PlayerObj*)a)->unk68->unk3 +
-               ((volatile struct X4_PlayerObj*)b)->unk68->unk3 >=
+    return ((volatile struct X4_PlayerObj*)a)->terrain_box->unk3 +
+               ((volatile struct X4_PlayerObj*)b)->terrain_box->unk3 >=
            d;
 }
 
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20_800EC53C (*(s32**)0x1F800020)
 
 M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 extern u32* D_80095098;
 extern struct X4_EngineObj g_playthrough_state;
-extern s8 D_800CCEF6;
 extern s32 D_800ED7D0;
 extern s32 D_800ED7DC;
 
@@ -579,7 +586,7 @@ void func_800EC53C(void* self) {
         F(u8, 2) &= 0xF;
         set_animation(self, 0);
         k = 1;
-        obj = func_8002C398();
+        obj = find_free_visual_obj();
         if (obj != 0) {
             G(u8, 0) = 0x51;
             G(u8, 1) = 0x18;
@@ -604,7 +611,7 @@ void func_800EC53C(void* self) {
         F(u8, 2) &= 0xF;
         F(u8, 5) = 0;
         set_animation(self, 0);
-        obj = func_8002C398();
+        obj = find_free_visual_obj();
         if (obj != 0) {
             G(u8, 0) = 0x51;
             G(u8, 1) = 0x18;
@@ -670,18 +677,17 @@ void func_800EC8E8(struct X4_PlayerObj* arg0) {
 
     if (func_800EC430(arg0, &g_Player) != 0) {
         g_Player.x_pos.i.hi = arg0->x_pos.i.hi;
-        temp_a2 = g_Player.unk68->unk3;
+        temp_a2 = g_Player.terrain_box->unk3;
         g_Player.y_pos.i.hi = arg0->y_pos.i.hi - temp_a2;
-        ((s32(*)(s32, s32, s32))func_8003D308)(0x14, g_Player.unk15, temp_a2);
-        arg0->unk6 = arg0->unk6 + 1;
+        ((s32(*)(s32, s32, s32))func_8003D308)(0x14, g_Player.facing, temp_a2);
+        arg0->action_phase = arg0->action_phase + 1;
     }
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-
-extern s8 D_800970A5;
 
 void func_800EC95C(void* arg0) {
     if (D_800970A5 == 0x14) {
@@ -691,17 +697,17 @@ void func_800EC95C(void* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
-extern u8 D_800970B5;
 
 void func_800EC98C(void* arg0) {
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
         play_sound(1, 1, arg0);
         ((void (*)(M2C_UNK, M2C_UNK))func_8003D308)(0x16, D_800970B5);
@@ -720,7 +726,7 @@ void func_800EC98C(void* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_8003D330();
 extern s8 D_80097170;
 extern struct X4_EngineObj g_playthrough_state;
@@ -729,7 +735,7 @@ void func_800EC9FC(void* arg0) {
     s32 i;
     s8* p;
 
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     if ((M2C_FIELD(arg0, s16*, 0x7C) == 0 ||
          --M2C_FIELD(arg0, s16*, 0x7C) == 0) &&
         D_80097170 < 0) {
@@ -763,12 +769,12 @@ INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800ECAC8);
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_8002CB50();
 
 void func_800ECB14(s8* arg0) {
     if (arg0[7] < 0xA) {
-        ((void (*)())func_80017A04)();
+        ((void (*)())animate_object)();
         if (arg0[0x45] & 0x80) {
             ((u8*)arg0)[0x45] &= 0x7F;
             ((u8*)arg0)[7]++;
@@ -820,11 +826,11 @@ void func_800ECC08(s8* arg0) {
 
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();    /* extern */
+M2C_UNK animate_object();   /* extern */
 M2C_UNK func_8002CB50(s32); /* extern */
 
 void func_800ECC60(s32 arg0) {
-    func_80017A04();
+    animate_object();
     func_8002CB50(arg0);
 }
 

@@ -2,8 +2,8 @@
 
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+M2C_UNK animate_object();
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
 s32 check_enemy_hits(void*);
@@ -16,7 +16,7 @@ void func_800E98C0(s8* arg0) {
 
     *(s32*)(arg0 + 0x18) = *(s32*)(arg0 + 0x8);
     *(s32*)(arg0 + 0x1C) = *(s32*)(arg0 + 0xC);
-    func_80017A04();
+    animate_object();
     D_800F3CF8[arg0[5]](arg0);
     if ((u8)arg0[0x47] == 0xD || (u8)arg0[0x47] == 0x1B) {
         *(s32*)(arg0 + 0x54) = 0;
@@ -33,7 +33,7 @@ void func_800E98C0(s8* arg0) {
         SCRATCH_4C[0x84] = 1;
     }
     func_80030ECC(arg0);
-    if (func_8002CBFC(arg0, 0xA0, 0xA0) == 0) {
+    if (is_off_screen(arg0, 0xA0, 0xA0) == 0) {
         if ((u8)arg0[0x47] == 0xD || (u8)arg0[0x47] == 0x1B) {
             arg0[3] = 0;
             return;

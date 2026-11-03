@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern s16 D_800CCED4;
+#include "mmx6/globals.h"
 
 void func_800F07FC(u8* arg0) {
     s8 v = arg0[2];

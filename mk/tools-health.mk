@@ -2,9 +2,9 @@
 # `make fleet`). One rung per phase tool: a rung runs the tool's --self-test, then its real run; later tasks append
 # their rung to TOOLS_HEALTH_RUNGS. Last line `TOOLS-HEALTH OK <k> rungs`.
 
-TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-report th-types th-declsync th-propagate th-carve th-remap \
+TOOLS_HEALTH_RUNGS := th-corpus th-boundcheck th-optscan th-bound2 th-census th-sig th-selftests-cheap th-report th-types th-declsync th-propagate th-carve th-remap \
 	th-walls th-draw th-validate th-cites th-dumps th-alloc th-repro th-map th-cookbook th-permute th-plateau th-journal th-cards \
-	th-verbatim th-harvest th-scaffold th-ledger th-harness th-globtypes th-objfields th-lift
+	th-verbatim th-harvest th-scaffold th-ledger th-harness th-globtypes th-objfields th-lift th-namesqueue
 # `make tools-health-full`: the same chain with the full harness (adds P3, a touch + rebuild) and every other tool's
 # --self-test that is not a rung, and th-propagate with every registry key's --dry-run.
 TOOLS_HEALTH_FULL_RUNGS := $(filter-out th-harness th-propagate,$(TOOLS_HEALTH_RUNGS)) th-harness-full th-propagate-full \
@@ -171,11 +171,15 @@ th-propagate-full: th-propagate
 # one planted file per refusal plus a passing tree), docconv.py (the DC1-DC8 documentation check: one planted file
 # per rule plus a passing file; then its real check of config/docconv.txt) and badges.py (README badges: a planted
 # stale and fresh badge).
-th-selftests:
+th-selftests: th-selftests-cheap
+	$(PYTHON) tools/mmx6/bank.py --self-test
+
+# The 15 cheap self-tests (~18 s; docs/ops/selftest-cost.md, rule M24): a fleet rung after th-sig, whose census and
+# sig outputs x4share/x4port read (C0314). bank (above) and gate (th-gate) stay full-chain only.
+th-selftests-cheap: th-sig
 	$(PYTHON) tools/mmx6/boundaries.py --self-test
 	$(PYTHON) tools/mmx6/loadmap.py --self-test
 	$(PYTHON) tools/mmx6/probe.py --self-test
-	$(PYTHON) tools/mmx6/bank.py --self-test
 	$(PYTHON) tools/mmx6/x4share.py --self-test
 	$(PYTHON) tools/mmx6/x4port.py --self-test
 	$(PYTHON) tools/mmx6/x4names.py --self-test
@@ -194,6 +198,12 @@ th-selftests:
 # K&R refused, upstream clean); ~15 s. No real run here: the stored draft (T7.c2) runs on its own.
 th-permute:
 	$(PYTHON) tools/mmx6/permute.py --self-test
+
+# The names queue and every `code:` basis ref (tools/mmx6/namesqueue.py; text + git ls-files, rule M23): planted
+# controls, then `check` (rc 0 iff judged = queue rows and no `NAMESQUEUE REFUSE`, e.g. a stale ref after a line shift).
+th-namesqueue:
+	$(PYTHON) tools/mmx6/namesqueue.py --self-test
+	$(PYTHON) tools/mmx6/namesqueue.py check
 
 # The plateau classifier (tools/mmx6/plateau.py): planted regalloc/sched/branch/identical pairs in
 # .run/plateau-selftest/, then a tracked non-matching draft's residual label and triage rows (`PLATEAU <func> <label> …`).

@@ -42,7 +42,7 @@ void func_800F326C(void* arg0) {
             self->attack_box = &D_800F70D8;
             break;
         }
-        self->unk5++;
+        self->action++;
     }
 }
 
@@ -50,7 +50,7 @@ void func_800F326C(void* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002D230();
+M2C_UNK apply_object_motion();
 M2C_UNK func_80049D90(void*);
 void func_800F51F0(struct X4_AnimatedObj* arg0, u8 arg1);
 
@@ -63,7 +63,7 @@ void func_800F32F4(struct X4_AnimatedObj* arg0) {
         ((u8*)arg0)[4] = 5;
         return;
     }
-    func_8002D230(arg0);
+    apply_object_motion(arg0);
 }
 
 #include "common.h"
@@ -104,7 +104,7 @@ void func_800F5488(struct X4_MainObj* self);
 void func_800F3478(struct X4_MainObj* self) {
     func_800F5488(self);
     ((void (*)(void*, s32))set_animation)(self, 2);
-    self->unk6++;
+    self->action_phase++;
 }
 
 #include "../shared/rock_04/func_800F34B4.c"
@@ -132,9 +132,9 @@ void func_800F3684(struct X4_MainObj* arg0) {
 
     func_800F5488(arg0);
     set_animation(arg0, 4);
-    v = arg0->unk6;
+    v = arg0->action_phase;
     arg0->unk7C = 0x3C;
-    arg0->unk6 = v + 1;
+    arg0->action_phase = v + 1;
 }
 
 #include "../shared/rock_04/func_800F36C8.c"
@@ -247,7 +247,7 @@ void func_800F5488(struct X4_MainObj* self);
 void func_800F3EB0(struct X4_MainObj* self) {
     func_800F5488(self);
     ((void (*)(void*, s32))set_animation)(self, 0x12);
-    self->unk6++;
+    self->action_phase++;
 }
 
 #include "common.h"
@@ -256,7 +256,7 @@ void func_800F3EB0(struct X4_MainObj* self) {
 
 #define F(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80012D9C(M2C_UNK);
+M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object(void*);
@@ -272,7 +272,7 @@ void func_800F3EEC(void* arg0) {
     }
     if (var_v0 != 0) {
         play_sound(2, 0x12, arg0);
-        func_80012D9C(8);
+        start_pad_vibration(8);
         set_animation(arg0, 0xB);
         func_800F5088(arg0, 0x20);
         func_800F5088(arg0, 0x21);
@@ -300,15 +300,15 @@ INCLUDE_ASM("asm/rock_04/nonmatchings/E9860", func_800F4058);
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
 void func_800F5488(struct X4_MainObj* self);
-extern s8 D_800970A2;
 
 void func_800F410C(struct X4_MainObj* self) {
     func_800F5488(self);
     ((void (*)(void*, s32))set_animation)(self, D_800970A2 + 0xD);
-    self->unk6++;
+    self->action_phase++;
 }
 
 #include "../shared/rock_04/func_800F4150.c"
@@ -333,7 +333,7 @@ void func_800F5488(struct X4_MainObj* self);
 void func_800F41FC(struct X4_MainObj* self) {
     func_800F5488(self);
     ((void (*)(void*, s32))set_animation)(self, 0x13);
-    self->unk6++;
+    self->action_phase++;
 }
 
 #include "../shared/rock_04/func_800F4238.c"
@@ -552,6 +552,7 @@ void func_800F4F24(void* arg0) {
         case -1:
         case 0:
             tbl = D_800F6FB0;
+            // !FAKE: goto shares the set block holding the pinned table load; duplicating it needs a second pin
             goto set;
         case 1:
             tbl = D_800F7030;
@@ -572,9 +573,8 @@ void func_800F4FD0(void) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/rock_04.h"
 
-extern s32 D_800F70B4;
-extern s32 D_800F70B8;
 extern s32 D_800F70BC;
 extern s32 D_800F70C0;
 extern u8 D_800F70C4[];
@@ -653,10 +653,10 @@ void func_800F5544(void) {
 
 #define M2C_UNK s32
 
-M2C_UNK func_8002D230(); /* extern */
+M2C_UNK apply_object_motion(); /* extern */
 
 void func_800F55A0(void) {
-    func_8002D230();
+    apply_object_motion();
 }
 
 #define func_8003744C func_800F55C0
@@ -668,9 +668,9 @@ void func_800F55A0(void) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80012D9C(M2C_UNK);
+M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_8002D230();
+M2C_UNK apply_object_motion();
 M2C_UNK func_8002EE10(void*);
 M2C_UNK func_80049D90(void*);
 void func_800F5A94(void* arg0, u8 arg1);
@@ -679,7 +679,7 @@ void func_800F55FC(u8* arg0) {
     // !FAKE: depin: dropping it breaks the match (35/37)
     register s32 v asm("$2");
 
-    func_8002D230(arg0);
+    apply_object_motion(arg0);
     if ((v = arg0[0x70]) == 0) {
         func_8002EE10(arg0);
         if (arg0[0x70] == 0) {
@@ -687,7 +687,7 @@ void func_800F55FC(u8* arg0) {
         }
     }
     play_sound(2, 0x17, arg0);
-    func_80012D9C(8);
+    start_pad_vibration(8);
     func_80049D90(arg0);
     func_800F5A94(arg0, 0x10);
     func_800F5A94(arg0, 0x11);

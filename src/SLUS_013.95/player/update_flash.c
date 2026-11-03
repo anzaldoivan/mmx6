@@ -1,14 +1,18 @@
 /* Adapted from sozud/mmx4 @807a01b src/main/player_common.c:player_update_flash, AGPL-3.0; proven shared with X6 by exact signature e08fdf21be18 (see THIRD_PARTY.md). */
+// prog SLUS_013.95 | system player | range 0x8003CE38-0x8003CF20
 #include "common.h"
 #include "mmx6/x4.h"
 
+// 0x8003CE38 player_update_flash: steps the shot and hurt palette flashes.
+// basis: x4 exact e08fdf21be18
+// callers: update_player
 void player_update_flash(struct X4_PlayerObj* self) {
-    s8 action = self->unk5; // likely fake
-    if ((self->unk5 != PLAYER_BEAM_IN) && (action != PLAYER_BEAM_OUT) &&
+    s8 action = self->action; // likely fake
+    if ((self->action != PLAYER_BEAM_IN) && (action != PLAYER_BEAM_OUT) &&
         (self->hurt_phase <= 0)) {
         if (self->shot_palette_timer != 0) {
             if (--self->shot_palette_timer == 0) {
-                func_8003C4EC(self);
+                player_load_weapon_palette(self);
             }
         }
         if (self->hurt_phase < 0) {
@@ -19,9 +23,9 @@ void player_update_flash(struct X4_PlayerObj* self) {
                 self->flash_delay--;
             } else {
                 if (self->flash_phase == 0) {
-                    func_8003CF54(self, self->flash_palette);
+                    load_player_palette(self, self->flash_palette);
                 } else {
-                    func_8003C4EC(self);
+                    player_load_weapon_palette(self);
                 }
                 self->flash_delay = 1;
                 if (FLICKER_ENABLED) {

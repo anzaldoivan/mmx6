@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002D230();
+M2C_UNK apply_object_motion();
 extern s16 D_800970AA;
 
 void func_800EC4B4(void* arg0) {
@@ -26,5 +26,5 @@ void func_800EC4B4(void* arg0) {
         M2C_FIELD(arg0, s8*, 5) = var_v1;
         return;
     }
-    func_8002D230(arg0);
+    apply_object_motion(arg0);
 }

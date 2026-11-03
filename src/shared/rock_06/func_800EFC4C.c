@@ -1,14 +1,14 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
-M2C_UNK func_80017A04();                     /* extern */
+M2C_UNK animate_object();                    /* extern */
 extern M2C_UNK g_Player;
-extern s8 D_800970FC;
 
 void func_800EFC4C(void* arg0) {
     s32 hit;
@@ -31,6 +31,7 @@ void func_800EFC4C(void* arg0) {
             play_sound(2, 0x25, 0);
             hit = 1;
         } else {
+            // !FAKE: goto enters the shared flag-clear arm; duplicating the clear store moved bytes (setcc)
             goto clear;
         }
     } else {
@@ -48,35 +49,35 @@ void func_800EFC4C(void* arg0) {
     if (!(M2C_FIELD(arg0, u8*, 0x97) & 2)) {
         if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
             st = 1;
-            goto set_call;
-        }
-        f = M2C_FIELD(arg0, u16*, 0x8A);
-        if (f & 0x80) {
-            st = 4;
-            goto set_call;
-        }
-        if (f & 0x30) {
-            cond = 1;
-            if (M2C_FIELD(arg0, s8*, 2) != 0) {
-                cond = M2C_FIELD(arg0, u8*, 0x7E) == 0;
-            }
         } else {
-            cond = 0;
+            f = M2C_FIELD(arg0, u16*, 0x8A);
+            if (f & 0x80) {
+                st = 4;
+            } else {
+                if (f & 0x30) {
+                    cond = 1;
+                    if (M2C_FIELD(arg0, s8*, 2) != 0) {
+                        cond = M2C_FIELD(arg0, u8*, 0x7E) == 0;
+                    }
+                } else {
+                    cond = 0;
+                }
+                if (cond != 0) {
+                    st = 3;
+                } else {
+                    if (!(M2C_FIELD(arg0, u16*, 0x88) & 3)) {
+                        // !FAKE: goto skips st stores; copied call+return moved
+                        goto call;
+                    }
+                    st = 3;
+                }
+            }
         }
-        if (cond != 0) {
-            st = 3;
-            goto set_call;
-        }
-        if (!(M2C_FIELD(arg0, u16*, 0x88) & 3)) {
-            goto call;
-        }
-        st = 3;
-    set_call:
         M2C_FIELD(arg0, s8*, 5) = st;
         M2C_FIELD(arg0, s8*, 6) = 0;
     call:
-        ((M2C_UNK(*)())func_80017A04)(arg0, hit);
+        ((M2C_UNK(*)())animate_object)(arg0, hit);
     } else {
-        ((M2C_UNK(*)())func_80017A04)(arg0);
+        ((M2C_UNK(*)())animate_object)(arg0);
     }
 }

@@ -1,14 +1,14 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
-extern s32 D_80077A8C;
 #include "mmx6/state.h"
 extern s32 D_801F3838;
 M2C_UNK set_animation(void*, M2C_UNK);
-void func_80017A04(struct X4_AnimatedObj*);
+void animate_object(struct X4_AnimatedObj*);
 M2C_UNK clear_object_slot();
 #define set_animation ((void (*)(void*, s32))set_animation)
 #define SCRATCH_14 (*(u8**)0x1F800014)
@@ -35,7 +35,8 @@ void func_801ED898(struct X4_WeaponObj* arg0) {
         kill = 1;
     }
     if (kill != 0) {
-        goto block_14;
+        clear_object_slot(arg0);
+        return;
     }
     if (arg0->state == 0) {
         arg0->state++;
@@ -53,9 +54,9 @@ void func_801ED898(struct X4_WeaponObj* arg0) {
         arg0->unk3C = temp_a0 + temp_a2;
         arg0->x_pos.val = player->x_pos.val;
         arg0->y_pos.val = player->y_pos.val;
-        arg0->unk15 = player->unk15;
+        arg0->unk15 = player->facing;
         dx = -0x20;
-        if (player->unk7 == 0) {
+        if (player->action_timer == 0) {
             dx = -0x40;
         }
         if (arg0->unk15 != 0) {
@@ -64,9 +65,8 @@ void func_801ED898(struct X4_WeaponObj* arg0) {
         M2C_FIELD(arg0, s16*, 0xA) += dx;
         set_animation(arg0, 1);
     } else {
-        func_80017A04((struct X4_AnimatedObj*)arg0);
+        animate_object((struct X4_AnimatedObj*)arg0);
         if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
-        block_14:
             clear_object_slot(arg0);
             return;
         }
@@ -88,13 +88,13 @@ void func_801ED898(struct X4_WeaponObj* arg0) {
 #include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
-extern s32 D_80077A8C;
 extern s32 D_801F3848;
 M2C_UNK set_animation(void*, M2C_UNK);
-void func_80017A04(struct X4_AnimatedObj*);
+void animate_object(struct X4_AnimatedObj*);
 M2C_UNK clear_object_slot();
 #define set_animation ((void (*)(void*, s32))set_animation)
 #define SCRATCH_14 (*(u8**)0x1F800014)
@@ -109,7 +109,7 @@ void func_801EDA64(struct X4_WeaponObj* arg0) {
     u8 dir;
 
     player = &g_Player;
-    if (player->unk5 != 0x25) {
+    if (player->action != 0x25) {
         clear_object_slot(arg0);
         return;
     }
@@ -127,7 +127,7 @@ void func_801EDA64(struct X4_WeaponObj* arg0) {
         arg0->unk16 = 0;
         M2C_FIELD(arg0, s8*, 0x9C) = 1;
         arg0->unk3C = temp_a0 + temp_a2;
-        dir = player->unk15;
+        dir = player->facing;
         M2C_FIELD(arg0, s16*, 0x92) = 0;
         M2C_FIELD(arg0, s16*, 0x8C) = -0x30;
         arg0->unk15 = dir;
@@ -141,7 +141,7 @@ void func_801EDA64(struct X4_WeaponObj* arg0) {
         set_animation(arg0, 2);
         arg0->unk50 = &D_801F3848;
     } else {
-        func_80017A04((struct X4_AnimatedObj*)arg0);
+        animate_object((struct X4_AnimatedObj*)arg0);
         if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
             clear_object_slot(arg0);
             return;

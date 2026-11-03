@@ -11,7 +11,7 @@ void func_80041F6C(struct X4_MainObj* self) {
     self->unk7C = 0x3C;
     {
         // !FAKE: pin the increment temp to the first return register
-        register s32 t asm("$2") = (u8)self->unk6 + 1;
-        self->unk6 = t;
+        register s32 t asm("$2") = (u8)self->action_phase + 1;
+        self->action_phase = t;
     }
 }

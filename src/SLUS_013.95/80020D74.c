@@ -1,8 +1,8 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u8 D_800911A8[];
 void func_80020AA8(struct X4_AnimatedObj* arg0);
 
 M2C_UNK func_80020D74(void) {
@@ -20,7 +20,7 @@ M2C_UNK func_80020D74(void) {
 /* Adapted from sozud/mmx4 @807a01b src/main/object_update.c:func_80021CC8, AGPL-3.0; proven shared with X6 by exact signature a99aed5959d6 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
-extern struct X4_UnkObj D_800972F8[3];
+#include "mmx6/globals.h"
 
 void func_80020DC8(void) {
     struct X4_UnkObj* var_s0;
@@ -43,7 +43,7 @@ void func_80020E1C(struct X4_UnkObj* arg0) {
 
     arg0->animation_step.fields.frame_index =
         p->animation_step.fields.frame_index;
-    arg0->unk15 = p->unk15;
+    arg0->unk15 = p->facing;
     arg0->unk38 = p->unk38;
     arg0->unk3C = p->unk3C;
     arg0->unk18 = arg0->x_pos;
@@ -164,10 +164,10 @@ void func_8002103C(void* arg0, void* arg1) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define CUR (*(u8**)0x1F800064)
 
-extern u8 D_800964A0[];
 extern void (*D_80071360[])(s8*);
 
 void func_800210E8(void) {
@@ -208,7 +208,7 @@ void func_80021194(struct X4_AnimatedObj* arg0, s8* arg1) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04(); /* extern */
+M2C_UNK animate_object(); /* extern */
 
 void func_80021208(struct ObjectHeader* arg0, void* arg1) {
     if ((M2C_FIELD(arg1, s8*, 0x9B) == 0) &&
@@ -217,7 +217,7 @@ void func_80021208(struct ObjectHeader* arg0, void* arg1) {
         arg0->state = 0;
         return;
     }
-    func_80017A04();
+    animate_object();
 }
 
 /* Adapted from sozud/mmx4 @807a01b src/main/afterimage.c:func_800AEA58, AGPL-3.0; proven shared with X6 by exact signature 2a177c96c5fb (see THIRD_PARTY.md). */
@@ -341,8 +341,8 @@ void func_80021400(void) {
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern u16 D_80090E70;
 #include "mmx6/state.h"
+#include "mmx6/globals.h"
 extern struct X4_EngineObj g_playthrough_state;
 
 #define SAVE_BASE ((s32*)0x801F6000)
@@ -450,8 +450,8 @@ void func_8002163C(void) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u16 D_80090E70;
 extern struct X4_EngineObj g_playthrough_state;
 
 #define SAVE_BASE ((s32*)0x801F6000)

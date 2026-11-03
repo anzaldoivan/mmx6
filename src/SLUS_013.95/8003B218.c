@@ -24,8 +24,8 @@ M2C_UNK func_8003B218(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8003BA04(void*, M2C_UNK);
-M2C_UNK func_8003CDBC();
+M2C_UNK player_set_animation(void*, M2C_UNK);
+void player_clear_attack();
 
 M2C_UNK func_8003B298(void* arg0) {
     u8* p = arg0;
@@ -33,7 +33,7 @@ M2C_UNK func_8003B298(void* arg0) {
     s32 t;
     s32 u;
 
-    func_8003BA04(arg0, 0x12);
+    player_set_animation(arg0, 0x12);
     u = *(s32*)(p + 0x10C);
     t = *(s32*)(p + 0xEC) & 0x10;
     *(s32*)(p + 0x24) = 0;
@@ -53,7 +53,7 @@ M2C_UNK func_8003B298(void* arg0) {
         // !FAKE: pin the call argument so the join store issues first
         register u8* a asm("$4") = p;
         *(s8*)(p + 0x86) = 3;
-        ((void (*)())func_8003CDBC)(a);
+        ((void (*)())player_clear_attack)(a);
     }
     *(s8*)(p + 5) = 0xD;
     *(s8*)(p + 6) = 0;
@@ -64,12 +64,12 @@ M2C_UNK func_8003B298(void* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 
 M2C_UNK func_8003B30C(void* arg0) {
     s32 t;
 
-    ((void (*)(void*, s32))func_8003BA04)(arg0, 0x13);
+    ((void (*)(void*, s32))player_set_animation)(arg0, 0x13);
     t = M2C_FIELD(arg0, s32*, 0x100);
     M2C_FIELD(arg0, s8*, 0x67) = -1;
     M2C_FIELD(arg0, s8*, 0x8C) = -1;
@@ -84,12 +84,15 @@ M2C_UNK func_8003B30C(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 
+// 0x8003B360 func_8003B360: enters action 7 with velocities cleared, gravity from +0x100 and animation 0x84.
+// basis: none
+// callers: func_80037130
 void func_8003B360(void* arg0) {
     u8* p = arg0;
 
-    ((void (*)(void*, s32))func_8003BA04)(arg0, 0x84);
+    ((void (*)(void*, s32))player_set_animation)(arg0, 0x84);
     *(s8*)(p + 0x67) = -1;
     *(s32*)(p + 0x20) = 0;
     *(s32*)(p + 0x28) = 0;

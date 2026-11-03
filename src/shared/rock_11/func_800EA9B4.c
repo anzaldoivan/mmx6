@@ -9,14 +9,8 @@ extern struct X4_PlayerObj g_Player;
 void func_800EA9B4(void* arg0) {
     s32 d = g_Player.y_pos.i.hi - M2C_FIELD(arg0, s16*, 0xE);
 
-    if (d >= 0) {
-        if (d < 2) {
-            M2C_FIELD(arg0, s32*, 0x24) = 0;
-        } else {
-            goto far;
-        }
-    } else if (M2C_FIELD(arg0, s16*, 0xE) - g_Player.y_pos.i.hi >= 2) {
-    far:
+    if (d >= 0 ? d >= 2
+               : M2C_FIELD(arg0, s16*, 0xE) - g_Player.y_pos.i.hi >= 2) {
         if (g_Player.y_pos.i.hi >= M2C_FIELD(arg0, s16*, 0xE)) {
             M2C_FIELD(arg0, s32*, 0x24) = -0x18000;
         } else {

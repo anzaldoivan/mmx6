@@ -10,6 +10,6 @@ void func_800F900C(struct X4_MainObj* self) {
         play_sound(2, 0x25, self);
         self->unk7C = 8;
         self->unk7E = D_800CCF5C / 3;
-        self->unk6++;
+        self->action_phase++;
     }
 }

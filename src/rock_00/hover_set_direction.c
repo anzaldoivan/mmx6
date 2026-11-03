@@ -7,9 +7,9 @@ M2C_UNK player_set_animation_shooting(void*, M2C_UNK);
 void player_hover_set_direction(struct X4_PlayerObj* self, s32 direction) {
     if (direction > 0) {
         ((void (*)())player_set_animation_shooting)(self, 0x17);
-        self->unk6 = 3;
+        self->action_phase = 3;
     } else {
         ((void (*)())player_set_animation_shooting)(self, 0x19);
-        self->unk6 = 5;
+        self->action_phase = 5;
     }
 }

@@ -1,31 +1,30 @@
+// prog SLUS_013.95 | system weapon | range 0x8003F048-0x8003F0B8
 #include "common.h"
 
 #define M2C_UNK s32
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
+#include "mmx6/x4.h"
 
-void switch_weapon(void* self);
-void func_8003DD6C(void* self);
-M2C_UNK func_8003DF58(void*);
-M2C_UNK func_8003F0BC(void*);
+#include "mmx6/weapon.h"
 
 // 0x8003F048 update_weapon_switch: runs switch_weapon when requested, else steps the weapon selection and reacts when the weapon byte 0x93 changed.
-// basis: xref switch_weapon (docs/leads/derived.tsv:22)
+// basis: xref derived.tsv:22; xref:caller=switch_weapon
 // callers: update_player
-void update_weapon_switch(void* arg0) {
+void update_weapon_switch(void* self) {
+    struct X4_PlayerObj* arg0 = self;
     s8 temp_s0;
 
-    if (M2C_FIELD(arg0, s8*, 2) != 0) {
+    if (arg0->character != 0) {
         switch_weapon(arg0);
         return;
     }
-    temp_s0 = M2C_FIELD(arg0, s8*, 0x93);
+    temp_s0 = arg0->weapon;
     func_8003DD6C(arg0);
-    func_8003DF58(arg0);
+    set_shot_types(arg0);
     {
         // !FAKE: retail reads the re-loaded byte into the first return register
-        register s32 cur asm("$2") = M2C_FIELD(arg0, s8*, 0x93);
+        register s32 cur asm("$2") = arg0->weapon;
         if (temp_s0 != cur) {
-            func_8003F0BC(arg0);
+            react_to_weapon_change(arg0);
         }
     }
 }

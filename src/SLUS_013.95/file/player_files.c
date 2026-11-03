@@ -2,12 +2,11 @@
 #include "psyq/libgpu.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern struct X4_EngineObj g_playthrough_state;
 #define ENG ((u8*)&g_playthrough_state)
 extern M2C_UNK* D_800B91B8;
-extern s32 D_8009B798;
-extern s32 D_800CD408;
 extern s32 D_800C4564;
 extern s32 D_8006D9D4;
 #define SCRATCH38 (*(M2C_UNK**)0x1F800038)

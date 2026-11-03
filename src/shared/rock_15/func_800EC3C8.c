@@ -2,14 +2,14 @@
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void func_800EC3C8(struct X4_MainObj* self) {
-    ((void (*)())func_80017A04)(ANIMATED_OBJECT(self));
+    ((void (*)())animate_object)(ANIMATED_OBJECT(self));
     if (self->collision_flags & 8) {
-        self->unk5 = 2;
-        self->unk6 = 0;
+        self->action = 2;
+        self->action_phase = 0;
         self->y_speed = 0;
         self->gravity = 0;
         self->x_speed = 0;
@@ -17,5 +17,5 @@ void func_800EC3C8(struct X4_MainObj* self) {
         self->air_state = 0;
         return;
     }
-    ((void (*)())func_8002D230)(ANIMATED_OBJECT(self));
+    ((void (*)())apply_object_motion)(ANIMATED_OBJECT(self));
 }

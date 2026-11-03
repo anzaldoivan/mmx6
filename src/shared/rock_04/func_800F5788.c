@@ -34,6 +34,6 @@ void func_800F5788(struct X4_MainObj* self) {
     }
     self->on_screen = 0;
     self->state = 1;
-    self->unk5 = 0;
-    self->unk6 = 0;
+    self->action = 0;
+    self->action_phase = 0;
 }

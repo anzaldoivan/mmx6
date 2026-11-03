@@ -21,7 +21,7 @@ void func_800EAE94(void* arg0) {
     s32 d;
 
     dx = g_Player.x_pos.i.hi - M2C_FIELD(arg0, s16*, 0xA);
-    if (g_Player.unk2 == 0) {
+    if (g_Player.character == 0) {
         y = M2C_FIELD(arg0, s16*, 0xE) + 0x30;
         dy = g_Player.y_pos.i.hi - y;
     } else {
@@ -44,7 +44,7 @@ void func_800EAE94(void* arg0) {
         M2C_FIELD(arg0, s32*, 0x24) = (m << 1) / 8;
     }
     move_object((s32)arg0);
-    if (g_Player.unk2 == 0) {
+    if (g_Player.character == 0) {
         if (!NEAR3(d, g_Player.x_pos.i.hi, M2C_FIELD(arg0, s16*, 0xA))) {
             return;
         }

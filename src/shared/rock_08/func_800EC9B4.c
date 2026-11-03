@@ -2,13 +2,13 @@
 #define M2C_UNK s32
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void* func_8002C458();
 
 void func_800EC9B4(u8* arg0) {
     u8* p;
 
-    ((void (*)(void*))func_80017A04)(arg0);
+    ((void (*)(void*))animate_object)(arg0);
     if ((arg0[0x45] & 0xF) == 1) {
         p = func_8002C458();
         if (p != 0) {

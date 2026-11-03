@@ -16,8 +16,8 @@ struct ObjectHeader {
     s8 unk2; // +0x02 read by func_801EECA4
     s8 on_screen; // +0x03 read by func_801F1450
     s8 state; // +0x04 read by func_801EE14C
-    s8 unk5; // +0x05 read by func_801EEFC0
-    s8 unk6; // +0x06 read by func_8004202C
+    s8 action; // +0x05 written by func_8004202C
+    s8 action_phase; // +0x06 read by func_8004202C
     s8 unk7; // +0x07 read by func_801F29B8
     X4_f32 x_pos; // +0x08 read by func_800F4240
     X4_f32 y_pos; // +0x0C read by func_800F4240
@@ -31,8 +31,8 @@ struct BaseObj {
     s8 unk2; // +0x02 read by func_80044D04
     s8 on_screen; // +0x03 read by func_800E9CA8
     s8 state; // +0x04 read by func_80049100
-    s8 unk5; // +0x05 read by func_80049748
-    s8 unk6; // +0x06 read by func_800EFFD8
+    s8 action; // +0x05 read by func_80049748
+    s8 action_phase; // +0x06 read by func_800EFFD8
     s8 unk7; // +0x07 read by func_800E9C84
     X4_f32 x_pos; // +0x08 read by func_8002CAB4
     X4_f32 y_pos; // +0x0C read by func_8002CAB4
@@ -50,13 +50,13 @@ struct AnimatedObj {
     s8 unk2; // +0x02 read by func_80020AA8
     s8 on_screen; // +0x03 read by func_800ECA2C
     s8 state; // +0x04 read by func_80020AA8
-    s8 unk5; // +0x05 read by func_800F2014
-    s8 unk6; // +0x06 read by func_80020AA8
+    s8 action; // +0x05 read by func_800F2014
+    s8 action_phase; // +0x06 read by func_80020AA8
     s8 unk7; // +0x07 read by func_800EE5AC
-    X4_f32 x_pos; // +0x08 read by func_8002CBFC
-    X4_f32 y_pos; // +0x0C read by func_8002CBFC
+    X4_f32 x_pos; // +0x08 read by is_off_screen
+    X4_f32 y_pos; // +0x0C read by is_off_screen
     void* backref; // +0x10 written by func_80029F38
-    s8 bg_offset; // +0x14 read by func_8002CBFC
+    s8 bg_offset; // +0x14 read by is_off_screen
     u8 unk15; // +0x15 read by func_800F2014
     u8 unk16; // +0x16 written by func_800F5378
     u8 unk17; // +0x17 read by func_800F55A0
@@ -85,22 +85,22 @@ struct MainObj {
     s8 unk2; // +0x02 read by clamp_player_to_ceiling
     s8 on_screen; // +0x03 read by func_800EB098
     s8 state; // +0x04 read by clamp_player_to_ceiling
-    s8 unk5; // +0x05 read by func_800324C8
-    s8 unk6; // +0x06 read by func_800324C8
+    s8 action; // +0x05 read by func_800324C8
+    s8 action_phase; // +0x06 read by func_800324C8
     s8 unk7; // +0x07 read by func_800EA2E0
-    X4_f32 x_pos; // +0x08 read by func_8002FD3C
-    X4_f32 y_pos; // +0x0C read by func_8002FD3C
+    X4_f32 x_pos; // +0x08 read by get_tile_attr_top
+    X4_f32 y_pos; // +0x0C read by get_tile_attr_top
     void* backref; // +0x10 read by func_800EBEE8
-    s8 bg_offset; // +0x14 read by func_8002FD3C
-    u8 unk15; // +0x15 read by func_8002D230
+    s8 bg_offset; // +0x14 read by get_tile_attr_top
+    u8 unk15; // +0x15 read by apply_object_motion
     u8 unk16; // +0x16 written by func_80041290
     u8 unk17; // +0x17 read by func_800F167C
     X4_f32 unk18; // +0x18 read by func_800324C8
     X4_f32 unk1C; // +0x1C read by clamp_player_to_ceiling
-    s32 x_speed; // +0x20 read by func_8002D230
-    s32 y_speed; // +0x24 read by func_8002D230
-    s32 x_accel; // +0x28 read by func_8002D230
-    s32 gravity; // +0x2C read by func_8002D230
+    s32 x_speed; // +0x20 read by apply_object_motion
+    s32 y_speed; // +0x24 read by apply_object_motion
+    s32 x_accel; // +0x28 read by apply_object_motion
+    s32 gravity; // +0x2C read by apply_object_motion
     const u8* const* animation_table; // +0x30 read by func_80042A9C
     const u8* animation_cursor; // +0x34 unreferenced
     s16 animation_speed; // +0x38 unreferenced
@@ -108,7 +108,7 @@ struct MainObj {
     const u8* sprite_frames; // +0x3C read by func_80042A9C
     u16 unk40; // +0x40 read by func_80042A9C
     u16 unk42; // +0x42 read by func_80042A9C
-    union X4_AnimationStep animation_step; // +0x44 read by func_8003674C
+    union X4_AnimationStep animation_step; // +0x44 read by update_move_off_screen
     u8 previous_animation_index; // +0x48 unreferenced
     s8 pad49[2]; // +0x49 unreferenced
     s8 unk4B; // +0x4B unreferenced
@@ -129,8 +129,8 @@ struct MainObj {
     s8 unk66; // +0x66 read by func_80032208
     s8 air_state; // +0x67 read by func_800EB634
     struct X4_Unk_unk68* terrain_box; // +0x68 read by collide_solid_object
-    s16 unk6C; // +0x6C written by func_8002FE30
-    s16 unk6E; // +0x6E written by func_8002FE30
+    s16 unk6C; // +0x6C written by get_tile_attr_above
+    s16 unk6E; // +0x6E written by get_tile_attr_above
     u8 collision_flags; // +0x70 read by func_800EB5D4
     s8: 8; // +0x71 unreferenced
     s8 unk72; // +0x72 read by collide_solid_object

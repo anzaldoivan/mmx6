@@ -4,11 +4,11 @@
 #include "psyq/libcd.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 int func_800617A4(X4_CdlLOC* p);
 
 extern u8 D_80010014[];
-extern u8 rock_bin_file_table[];
 #define rock_bin_file_table (*(s32(*)[][2]) & rock_bin_file_table)
 
 // 0x80016780 load_rock_bin_file_table: reads the ROCK_X6.BIN file table (0x3B entries) into rock_bin_file_table.

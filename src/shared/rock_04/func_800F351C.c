@@ -18,21 +18,21 @@ void func_800F351C(struct X4_MainObj* self) {
         if (f == 0) {
             if (D_800970AA >= self->x_pos.i.hi || (self->collision_flags & 2)) {
                 set_animation(self, 0x17);
-                t = self->unk6;
+                t = self->action_phase;
                 v = 0xFFFE0000;
                 self->x_speed = v;
                 self->unk7C = 0x10;
-                self->unk6 = t + 1;
+                self->action_phase = t + 1;
                 return;
             }
         } else if (D_800970AA <= self->x_pos.i.hi ||
                    (self->collision_flags & 1)) {
             set_animation(self, 0x17);
-            t = self->unk6;
+            t = self->action_phase;
             v = 0x20000;
             self->x_speed = v;
             self->unk7C = 0x10;
-            self->unk6 = t + 1;
+            self->action_phase = t + 1;
             return;
         }
     }

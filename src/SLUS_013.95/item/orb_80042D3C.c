@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u8 D_80075FE8[];
 extern struct X4_EngineObj g_playthrough_state;
 
 // 0x80042D3C register_orb: orb registered until Nightmare reset.

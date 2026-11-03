@@ -4,14 +4,14 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
 extern struct X4_EngineObj g_playthrough_state;
 
 void func_800F1678(void* arg0) {
     struct X4_EngineObj* e;
 
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     e = &g_playthrough_state;
     if (e->stage != 0xC) {
         ((void (*)(s32, s32, s32))open_text_box)(0, 0xFF,

@@ -14,13 +14,16 @@ void func_800EE828(void* self) {
             st = *(s8*)((u8*)self + 0x5);
             do {
                 if (st == one) {
+                    // !FAKE: flag chain order; || if/else moved bytes
                     goto zero;
                 }
                 if (st == 2) {
+                    // !FAKE: flag chain order; || if/else moved bytes
                     goto zero;
                 }
             } while (0);
             if (st == 5) {
+                // !FAKE: flag chain order; || if/else moved bytes
                 goto zero;
             }
             flag = 1;
@@ -29,19 +32,24 @@ void func_800EE828(void* self) {
             st = *(s8*)((u8*)self + 0x5);
             flag = 1;
             if (st == 0) {
+                // !FAKE: flag chain order; || if/else moved bytes
                 goto done;
             }
             do {
                 if (st == one) {
+                    // !FAKE: flag chain order; || if/else moved bytes
                     goto zero;
                 }
                 if (st == 2) {
+                    // !FAKE: flag chain order; || if/else moved bytes
                     goto zero;
                 }
                 if (st == 5) {
+                    // !FAKE: flag chain order; || if/else moved bytes
                     goto zero;
                 }
                 if (st == 4) {
+                    // !FAKE: flag chain order; || if/else moved bytes
                     goto zero;
                 }
             } while (0);
@@ -57,6 +65,7 @@ void func_800EE828(void* self) {
             if (*(s8*)((u8*)self + 0x67) == 0) {
                 t = *(u8*)((u8*)self + 0x97);
                 *(s8*)((u8*)self + 0x5) = 7;
+                // !FAKE: shared store tail; dup tail moved bytes
                 goto common;
             }
             if (*(u8*)((u8*)self + 0x7D) == 0) {

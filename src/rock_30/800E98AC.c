@@ -74,13 +74,13 @@ void func_800EA35C(void) {
 #include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-extern s32 D_8007429C;
 extern s32 g_Player;
 extern s32 D_800EF998;
 extern s32 D_800EF99C;
@@ -124,7 +124,7 @@ void func_800EA3C8(void* arg0) {
     M2C_FIELD(arg0, s32*, 0x2C) = 0;
     M2C_FIELD(arg0, s32*, 0x20) = 0;
     M2C_FIELD(arg0, s32*, 0x24) = 0x40000;
-    if (func_8002CBFC(arg0, 0x20, 0x20) == 0) {
+    if (is_off_screen(arg0, 0x20, 0x20) == 0) {
         func_8002CCB0(arg0, 0x10, 0x10);
         return;
     }
@@ -507,11 +507,11 @@ INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EC148);
 
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();  /* extern */
+M2C_UNK animate_object(); /* extern */
 M2C_UNK move_object(s32); /* extern */
 
 void func_800EC1A4(s32 arg0) {
-    func_80017A04();
+    animate_object();
     move_object(arg0);
 }
 
@@ -529,11 +529,11 @@ INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EC20C);
 
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();  /* extern */
+M2C_UNK animate_object(); /* extern */
 M2C_UNK move_object(s32); /* extern */
 
 void func_800EC278(s32 arg0) {
-    func_80017A04();
+    animate_object();
     move_object(arg0);
 }
 
@@ -568,14 +568,14 @@ void func_800EC3DC(void* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04(void*); /* extern */
-M2C_UNK move_object();        /* extern */
+M2C_UNK animate_object(void*); /* extern */
+M2C_UNK move_object();         /* extern */
 
 void func_800EC440(struct MainObj* arg0) {
     arg0->x_speed = 0;
     arg0->y_speed = 0x20000;
     ((M2C_UNK(*)())move_object)();
-    func_80017A04(arg0);
+    animate_object(arg0);
 }
 
 // clang-format off
@@ -683,11 +683,10 @@ void func_800ECB54(void) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-extern u8 D_8008EAFC;
 extern s32 g_Player;
-extern s8 D_800CCEF6;
 
 #define PL ((u8*)&g_Player)
 #define F_S8(p, o) (*(s8*)((p) + (o)))
@@ -751,6 +750,7 @@ INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800ED038);
 // clang-format on
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -758,7 +758,6 @@ INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800ED038);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);                /* extern */
 M2C_UNK load_palette(s32, M2C_UNK*, M2C_UNK);                 /* extern */
 M2C_UNK func_8002B410(M2C_UNK*, M2C_UNK*, M2C_UNK, s32, s32); /* extern */
-extern s8 D_800CCEF6;
 extern M2C_UNK D_800F00FC;
 extern M2C_UNK D_800F011C;
 
@@ -858,7 +857,7 @@ void func_800ED734(void* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80012D9C(M2C_UNK);
+M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(s32);
@@ -870,7 +869,7 @@ void func_800ED7C8(void* self) {
         ((void (*)(void*))move_object)(self);
         if (F(u8, 0x70) & 8) {
             play_sound(2, 0x52, self);
-            ((void (*)(s32))func_80012D9C)(5);
+            ((void (*)(s32))start_pad_vibration)(5);
             F(s16, 0x7C) = 0xB4;
             F(s8, 5)++;
             if (F(s8, 3) != 0) {
@@ -923,7 +922,7 @@ INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800ED8D8);
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK set_animation(void*, M2C_UNK);
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 M2C_UNK func_8004E78C(M2C_UNK);
 extern s32 g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
@@ -932,11 +931,12 @@ extern struct X4_EngineObj g_playthrough_state;
 void func_800ED9EC(void* self) {
     struct X4_VisualObj* obj;
 
-    if (g_Player.unk5 == 0x14) {
+    if (g_Player.action == 0x14) {
         ((void (*)(s32))func_8004E78C)(1);
         M2C_FIELD(self, s8*, 0) |= 8;
         if ((g_Player.hp & 0x7F) >=
-            ((struct X4_EngineObj*)((s8*)&g_playthrough_state - -g_Player.unk2))
+            ((struct X4_EngineObj*)((s8*)&g_playthrough_state -
+                                    -g_Player.character))
                 ->sub_tanks[-1]) {
             ((void (*)(void*, s32))set_animation)(self, 2);
             M2C_FIELD(self, s8*, 6) += 1;
@@ -946,7 +946,7 @@ void func_800ED9EC(void* self) {
         ((void (*)(void*, s32))set_animation)(self, 1);
         M2C_FIELD(self, s16*, 0x7C) = 0x1F;
         M2C_FIELD(self, s8*, 6) += 2;
-        obj = func_8002C398();
+        obj = find_free_visual_obj();
         if (obj != 0) {
             obj->active = 0x49;
             obj->id = 0xE;
@@ -955,7 +955,7 @@ void func_800ED9EC(void* self) {
             obj->unk15 = 0;
             obj->unk50 = self;
         }
-        obj = func_8002C398();
+        obj = find_free_visual_obj();
         if (obj != 0) {
             obj->active = 0x49;
             obj->id = 0xE;
@@ -990,7 +990,8 @@ void func_800EDB18(void* self) {
     if (--M2C_FIELD(self, s16*, 0x7C) == 0) {
         M2C_FIELD(self, s16*, 0x7C) = 2;
         hi = g_Player.hp & 0x80;
-        e = (struct X4_EngineObj*)((s8*)&g_playthrough_state - -g_Player.unk2);
+        e = (struct X4_EngineObj*)((s8*)&g_playthrough_state -
+                                   -g_Player.character);
         if ((g_Player.hp & 0x7F) >= e->sub_tanks[-1]) {
             g_Player.hp = hi | e->sub_tanks[-1];
             M2C_FIELD(self, s16*, 0x7C) = 0x1B;
@@ -1048,6 +1049,7 @@ INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EDE44);
 // clang-format on
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -1055,7 +1057,6 @@ INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EDE44);
 M2C_UNK set_animation(void*, M2C_UNK); /* extern */
 M2C_UNK func_8003D330();               /* extern */
 M2C_UNK func_8004E78C(M2C_UNK);        /* extern */
-extern s8 D_800CCEF7;
 
 void func_800EDEC4(void* arg0) {
     if (M2C_FIELD(arg0, s8*, 0x46) == 0) {

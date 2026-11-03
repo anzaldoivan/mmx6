@@ -21,34 +21,32 @@ void func_800FA644(void* arg0) {
         M2C_FIELD(arg0, u8*, 0x3) = 1;
         M2C_FIELD(arg0, u8*, 0x4) = 1;
         M2C_FIELD(arg0, u8*, 0x5) = 0;
-        goto end;
-    }
-    if (hi == 0x10) {
-        M2C_FIELD(arg0, u8*, 0x16) = 4;
-        ((void (*)(void*, s32))set_animation)(arg0, 0x1F);
-        flags = M2C_FIELD(arg0, u16*, 0x42);
-        mode = 1;
-        M2C_FIELD(arg0, s16*, 0x54) = 0;
-        M2C_FIELD(arg0, u8*, 0x3) = mode;
-        M2C_FIELD(arg0, u8*, 0x4) = mode;
-        goto set5;
-    }
-    if (hi == 0x20) {
-        M2C_FIELD(arg0, u8*, 0x16) = 4;
-        ((void (*)(void*, s32))set_animation)(arg0, 0x21);
-        do {
+    } else {
+        if (hi == 0x10) {
+            M2C_FIELD(arg0, u8*, 0x16) = 4;
+            ((void (*)(void*, s32))set_animation)(arg0, 0x1F);
             flags = M2C_FIELD(arg0, u16*, 0x42);
-        } while (0);
-        mode = 1;
-        M2C_FIELD(arg0, u8*, 0x3) = mode;
-        M2C_FIELD(arg0, u8*, 0x4) = mode;
-        mode = 2;
-    set5:
+            mode = 1;
+            M2C_FIELD(arg0, s16*, 0x54) = 0;
+            M2C_FIELD(arg0, u8*, 0x3) = mode;
+            M2C_FIELD(arg0, u8*, 0x4) = mode;
+        } else if (hi == 0x20) {
+            M2C_FIELD(arg0, u8*, 0x16) = 4;
+            ((void (*)(void*, s32))set_animation)(arg0, 0x21);
+            do {
+                flags = M2C_FIELD(arg0, u16*, 0x42);
+            } while (0);
+            mode = 1;
+            M2C_FIELD(arg0, u8*, 0x3) = mode;
+            M2C_FIELD(arg0, u8*, 0x4) = mode;
+            mode = 2;
+        } else {
+            return;
+        }
         M2C_FIELD(arg0, u8*, 0x5) = mode;
-    end:
-        do {
-            M2C_FIELD(arg0, u8*, 0x6) = 0;
-        } while (0);
-        M2C_FIELD(arg0, u16*, 0x42) = flags & 0x7FFF;
     }
+    do {
+        M2C_FIELD(arg0, u8*, 0x6) = 0;
+    } while (0);
+    M2C_FIELD(arg0, u16*, 0x42) = flags & 0x7FFF;
 }

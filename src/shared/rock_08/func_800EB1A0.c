@@ -6,14 +6,14 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 extern struct X4_PlayerObj g_Player;
 #include "mmx6/state.h"
 
 void func_800EB1A0(void* arg0) {
     s32 angle;
 
-    func_80017A04();
+    animate_object();
     {
         // !FAKE: depin: dropping it breaks the match (58/62)
         register s32 c asm("$2") = M2C_FIELD(arg0, s16*, 0x80);

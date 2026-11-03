@@ -324,3 +324,50 @@ C0321 | Census a pool entry type through pool-only pointers and sibling pools | 
 C0322 | Prove a data block's extent from the asm: loads off one symbol's %lo base are its members | struct,extent,bss,data,asm,base-register,members,homed | 2026-11-01 | 2.5/T7 | 2.5 T7 expert
 C0323 | Raw views of a homed struct global to member access: what is safe, what moves bytes | struct,homed,view,member,sign,divide,pointer,lbu | 2026-11-01 | 2.5/T7 | 2.5 T7.c1
 C0324 | Lift offset reads into field reads with lift.py, dry-run first | tool,lift,M2C_FIELD,offset,fields.tsv,struct,retype | 2026-11-01 | 2.5/T8 | T8.c1 dry run
+C0325 | lift.py traps: built tree first, shared fragments need their struct header | tool,lift,harness,src/shared,include,fleet-quick | 2026-11-02 | 2.5/T9 | T9 attempt 2
+C0326 | Width/sign view *(u8*)&p->m when lifting to a differently typed field | lift,field,view,width,sign,offset,M2C_FIELD | 2026-11-02 | 2.5/T9 | T9.c1
+C0327 | Lift a void* param via a typed local, and a constant-first width view dodges the floor | lift,void-star,typed-local,conflicting-types,unit,view,floor,offset | 2026-11-02 | 2.5/T9 | T9.c2 weapon/
+C0328 | Byte baseline vs HEAD without git stash: waves base copy, basebuild, diff.sh | harness,baseline,diff,stash,waves,expected | 2026-11-02 | 2.5/T9 | T9.c2
+C0329 | Hoisting a C0117 neighbour extern strips a conflict's view tag | extern,header,hoist,globtypes,view,C0117 | 2026-11-02 | 2.5/T10 | mmx6 T10.c1
+C0330 | New include in concatenated units goes before the first use, not after the first x4.h | include,header,preamble,unit,role-file,hoist | 2026-11-02 | 2.5/T10 | mmx6 T10.c1
+C0331 | Struct headers ride on x4.h: fleet-inconsistent prototypes need a header x4.h does not include | header,prototype,extern,hoist,x4,unit | 2026-11-02 | 2.5/T10 | mmx6 T10.c2
+C0332 | Hoisted externs: every role-file chunk includes the header itself, not once per file | extern,header,hoist,role-file,chunk,self-test,gate | 2026-11-02 | 2.5/T10 | mmx6 T10.c4
+C0333 | Byte evidence for a global's access width: objdump -dr the built objects, read the LO16 reloc insns | globtypes,conflict,objdump,reloc,width,evidence | 2026-11-02 | 2.5/T10 | mmx6 T10.c5
+C0334 | A sign-split range test as one ternary compare removes the C0144 goto | lever,goto,ternary,range-test,goto-removal | 2026-11-02 | 2.5/T11 | T11.c4 rock_11 EF0EC
+C0335 | Copy a short shared tail instead of a goto: jump2 cross-jumps the copies back | lever,goto,cross-jump,jump2,tail,goto-removal | 2026-11-02 | 2.5/T11 | T11.c4 rock_22 EC670
+C0336 | A goto into the then-arm folds into one || condition, assignments inside the test | lever,goto,short-circuit,condition,goto-removal | 2026-11-02 | 2.5/T11 | T11.c2 shared F25F0
+C0337 | A goto inside a macro is marked at each use site of the macro | goto,debt-marker,fake,macro | 2026-11-02 | 2.5/T11 | T11.c1 shared EEC50
+C0338 | Per-function trial loop in a coder volume: keep the baselines across sync | harness,diff,volume,sync,expected,trial | 2026-11-02 | 2.5/T11 | T11.c1 c2 c4
+C0339 | An Agent worktree starts at an older ref: merge a coder branch 3-way, never by whole-file checkout | workflow,worktree,merge,parallel,coder | 2026-11-02 | 2.5/T11 | T11 merge repair 9d42d5072
+C0340 | A switch default arm that repeats the fall-through store becomes break | lever,goto,switch,default,goto-removal | 2026-11-02 | 2.5/T11 | T11.c9 rock_07 E9C98
+C0341 | Address debt on a lui/ori-built literal: macro in include/addr.h, not a linked symbol | address,debt,psxd_floor,lui-ori,symbol,addr.h | 2026-11-02 | 2.5/T12 | T12.c1 task_yield/task_slot
+C0342 | Cite-anchor drift: map each cited line through git, then rewrite only the digits | layout,cite,cite-anchor,drift,git,repoint | 2026-11-02 | 2.5/T12 | T12.c2 c9209314b
+C0343 | s8[N] member read as s16 per index: retype it s16[N/2], cast forms swap the addu | lever,retype,member,operand-order,cast,array,lift | 2026-11-02 | 2.5/T13 | T13.c1 yammar_option
+C0344 | Container /work has no .git: git ls-files tools need a walk fallback | container,git,ls-files,sync,fleet,namesqueue,rung | 2026-11-02 | 2.6/T1 | mmx6 2.6 T1
+C0345 | Bulk clang-format shifts code: line anchors, so repoint basis, verdicts, doc headers | clang-format,format,code-ref,namesqueue,docconv | 2026-11-02 | 2.6/T2 | mmx6 T2.c1
+C0346 | System membership: call-graph reach plus all-callers-inside fixpoint, host-side | callgraph,membership,system,jal,dispatch-table,corpus,shared-helper | 2026-11-02 | 2.6/T3 | mmx6 2.6 T3.c1
+C0347 | Compile a stray waves/ draft against today's headers via make build/<path>.o | draft,compile,headers,stalled,waves,container | 2026-11-02 | 2.6/T4 | 2.6 T4.c1
+C0348 | Tree-wide member rename: error-driven, by declared type, re-check code refs after format | rename,member,field,struct,clang-format,coderef,fields.tsv | 2026-11-02 | 2.6/T5 | T5.c1 family action rename
+C0349 | Typing player-state bases in batch: one unit, one fleet-quick, diff.sh only on red | lift,typed-local,batch,unit,fleet-quick,diff,view | 2026-11-02 | 2.6/T5 | T5.c2 movement folder
+C0350 | Runtime watch on short pad schedules: control tail, dispatch arg from the source register | pcsx-redux,lua,breakpoint,control,pad,dispatch,camera | 2026-11-02 | 2.6/T6 | 2.6 T6.c1
+C0351 | Labelled RAM poke as pad-schedule stimulus. A mode-id poke does not load its overlay | pcsx-redux,lua,poke,stimulus,overlay,oracle | 2026-11-02 | 2.6/T6 | 2.6 T6.c1
+C0352 | Reach a mode through its source global, held across the init frame | pcsx-redux,lua,poke,stimulus,overlay,init,oracle | 2026-11-02 | 2.6/T6 | 2.6 T6.c2
+C0353 | PC probes for a return value or a store, opt-in per schedule | pcsx-redux,lua,breakpoint,probe,return-value,datapoint-id | 2026-11-02 | 2.6/T6 | 2.6 T6.c2
+C0354 | Documenting files for docconv: DC4 needs the banner, DC5 takes symbol names only | docconv,header,dc4,dc5,banner,code-ref | 2026-11-02 | 2.6/T7 | mmx6 T7.c1-c4
+C0355 | Naming batch: comment holds for unqueueable tokens, queue built before check | namesqueue,verdicts,hold,placeholder-tier,naming | 2026-11-02 | 2.6/T7 | T7.c7 apply batch
+C0356 | ledger.py --build needs a fleet run after the last mx.sh sync | ledger,sync,mx.sh,fleet,health | 2026-11-02 | 2.6/T7 | T7.c7 fleet health rc 2
+C0357 | Insert DC1 banners before layout repoint, else shift path:N cites by one | layout,repoint,banner,dc1,cite,line-shift | 2026-11-02 | 2.6/T8 | mmx6 T8.c1
+C0358 | Banking a func_<vram> body raises the placeholder debt floor: name first or raise | debt,placeholder,floor,bank,commit,naming | 2026-11-02 | 2.6/T9 | mmx6 T9.c1/c2
+C0359 | Gate MISSING census classes.jsonl means post-build scanners not run | gate,census,scanners,missing,build | 2026-11-02 | 2.6/T9 | mmx6 T9.c1/c2
+C0360 | carve.py refuses a mid-file role-split: cut only at role-file starts, else bank in place | carve,role-split,layout,bank,unit | 2026-11-02 | 2.6/T9 | mmx6 T9.c1/c2
+C0361 | Gate declsync is program-wide: carving does not dodge a sibling M2C_UNK prototype | gate,declsync,prototype,r2,carve,clang-format | 2026-11-02 | 2.6/T9 | mmx6 T9.c1/c2
+C0362 | A placeholder raise is written and committed by the developer outside Claude Code | debt,placeholder,raise,floor,commit,claudecode | 2026-11-02 | 2.6/T9 | T9.c3 log
+C0363 | A container pull overwrites host-only edits to config/ files: sync or commit first | mx.sh,pull,sync,config,container,debt,raise | 2026-11-02 | 2.6/T9 | T9 raise resets 21:17, 21:37
+C0364 | Hoisting a struct global's extern hides its v.m reads from objfields census: keep it | extern,header,objfields,census,hoist,g_Player | 2026-11-02 | 2.6/T10 | mmx6 T10.c1 bf13822b8
+C0365 | Retry depin after every goto rewrite: a structural rewrite can free a pin | depin,pin,goto,goto-removal,lever,order | 2026-11-03 | 2.6/T10 | mmx6 T10.c2 1887d723c
+C0366 | goto end: nest the arm rest under the guard, or hoist one early-return guard | lever,goto,goto-removal,nest,guard,block-order | 2026-11-03 | 2.6/T10 | mmx6 T10.c2 player_to_ceiling, 8003ED98
+C0367 | depin misjudges pins in #included or multi-function files: verify by build hash | depin,probe,include,wrapper,build-hash,harness | 2026-11-03 | 2.6/T10 | mmx6 T10.c2
+C0368 | Parallel naming drafts: read-only drafters, one proposal TSV each, one merged checker | naming,drafting,parallel,proposals,rename,coderef | 2026-11-03 | 2.6/T14 | mmx6 T14.c1-c5
+C0369 | Never name a shared-body exemplar (src/shared) from one member's use | naming,shared,exemplar,define,template,hold | 2026-11-03 | 2.6/T14 | mmx6 T14.c3
+C0370 | A new x4 struct home fails th-types: typecheck rejects x4 unions and fixes the shape count | x4,home,homed,typecheck,self-test,struct,lift,wall | 2026-11-03 | 2.6/T14 | mmx6 T14.c8
+C0371 | Scope a layout propose to a task's files: merge rows, add refused stems first | layout,propose,merge,scope,stem,filename,debt,banner | 2026-11-03 | 2.6/T14 | mmx6 T14.c9

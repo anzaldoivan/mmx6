@@ -23,7 +23,8 @@ Rules (line refs 1-based)
   DC3 header: each file-scope function definition is preceded by a `//` block opening `// 0x<8 HEX> <name>: <purpose>`
       (address from config/symbols.<P>.txt or a func_ name; purpose >= 3 words). Exempt (with DC4-DC6): a `static inline`
       helper with no address (not in config/symbols.<P>.txt, no func_ name); it may carry a short header
-      `// <name>: <purpose>` (name matches, purpose >= 3 words) or none.
+      `// <name>: <purpose>` (name matches, purpose >= 3 words) or none. Preprocessor lines and their backslash
+      continuations (a `#define` body) are not scanned for definitions; the passing planted file holds such a macro.
   DC4 basis: `// basis: <kind> <ref>` matching a config/symbols/basis.tsv row (prog, vram, kind; ref >= 8 chars inside
       basis-ref), or `// basis: none` for a func_ name.
   DC5 callers: `// callers: a, b` (names from any config/symbols.*.txt) or `// callers: none known`.
@@ -214,9 +215,12 @@ def check_file(rel, text, tables, root=ROOT, inc=None):
             if other:
                 fail(good[0][0], 1, f"role file banner prog {good[0][1].group(1)}, included by {', '.join(other)}")
 
-    depth, stmt, start, in_block, struct_depth = 0, None, 0, False, None
+    depth, stmt, start, in_block, struct_depth, pp_cont = 0, None, 0, False, None, False
     for i, line in enumerate(lines):
         ln = i + 1
+        if pp_cont:                                    # a backslash-continued preprocessor line (a #define body)
+            pp_cont = line.rstrip().endswith("\\")
+            continue
         code, comment, nb = split(line, in_block)
         holds_comment = in_block or nb or "//" in line or "/*" in line
         in_block = nb
@@ -234,6 +238,7 @@ def check_file(rel, text, tables, root=ROOT, inc=None):
                                                                                else ""):
                 fail(ln, 7, "struct member without `by <identifier>` or `unreferenced` note")
         if depth == 0 and stmt is None and code.strip().startswith("#"):
+            pp_cont = line.rstrip().endswith("\\")
             continue
         for c in code:
             if depth == 0:
@@ -407,6 +412,11 @@ void func_80010040(void) {
 static inline int peek_thing(Thing* t) {
     return t->b;
 }
+
+#define CLEAR(x)                                                               \\
+    if (x) {                                                                   \\
+        x = 0;                                                                 \\
+    }
 """
 SHARED_LINE = "// Shared file: included by src/P/tu.c, between do_thing and func_80010040."
 SHARED_TU = '#include "../shared/P/s.c"\n'

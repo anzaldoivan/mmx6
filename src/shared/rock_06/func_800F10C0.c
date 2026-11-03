@@ -6,7 +6,7 @@
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
-M2C_UNK func_80017A04();                     /* extern */
+M2C_UNK animate_object();                    /* extern */
 s32 func_8002A47C(s32);                      /* extern */
 void* func_8002C32C();                       /* extern */
 extern M2C_UNK g_Player;
@@ -83,13 +83,12 @@ void func_800F10C0(void* arg0) {
                     m = 1;
                 }
                 g = M2C_FIELD(arg0, u16*, 0x88);
-                if (g & m) {
-                    goto add;
+                v = g & m;
+                if (v == 0) {
+                    v = g & 0x100;
                 }
-                v = g & 0x100;
             }
             if (v != 0) {
-            add:
                 M2C_FIELD(arg0, s32*, 8) += M2C_FIELD(arg0, s32*, 0x20);
             }
             cond = 0;
@@ -109,8 +108,8 @@ void func_800F10C0(void* arg0) {
                 }
             }
         }
-        ((M2C_UNK(*)())func_80017A04)(arg0);
+        ((M2C_UNK(*)())animate_object)(arg0);
     } else {
-        ((M2C_UNK(*)())func_80017A04)(arg0);
+        ((M2C_UNK(*)())animate_object)(arg0);
     }
 }

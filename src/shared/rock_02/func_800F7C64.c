@@ -4,12 +4,12 @@
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 
 #define SPAD4C (*(u8**)0x1F80004C)
 
 void func_800F7C64(u8* arg0) {
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     if ((s8)arg0[0x45] == 1) {
         s32 t;
         play_sound(2, 0x1E, arg0);

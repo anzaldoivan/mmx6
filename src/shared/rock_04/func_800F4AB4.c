@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_8002D230();
+M2C_UNK apply_object_motion();
 
 void func_800F4AB4(struct X4_MainObj* self) {
     if (self->collision_flags & 8) {
@@ -12,14 +12,14 @@ void func_800F4AB4(struct X4_MainObj* self) {
         set_animation(self, 7);
         {
             // !FAKE: pin keeps the increment temp in the second return register
-            register s32 t asm("$3") = (u8)self->unk6 + 1;
+            register s32 t asm("$3") = (u8)self->action_phase + 1;
             // !FAKE: pin keeps the stored constant in the first return register
             register s32 k asm("$2") = 1;
             self->on_screen = k;
             self->unk7C = 0xB4;
-            self->unk6 = t;
+            self->action_phase = t;
         }
         return;
     }
-    func_8002D230(self);
+    apply_object_motion(self);
 }

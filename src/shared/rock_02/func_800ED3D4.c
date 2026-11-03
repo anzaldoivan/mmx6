@@ -4,6 +4,6 @@
 extern void (*D_800FAE78[])(struct X4_MainObj*);
 
 void func_800ED3D4(struct X4_MainObj* self) {
-    D_800FAE78[self->unk6](self);
-    func_80017A04((struct X4_PlayerObj*)self);
+    D_800FAE78[self->action_phase](self);
+    animate_object((struct X4_PlayerObj*)self);
 }

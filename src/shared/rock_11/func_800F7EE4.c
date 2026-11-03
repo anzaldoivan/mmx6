@@ -12,10 +12,10 @@ void func_800F7EE4(struct X4_MainObj* self) {
     {
         struct X4_PlayerObj* p = &g_Player;
         ((u8*)p)[0xCA] = 0;
-        func_8003D308(0x14, p->unk15);
+        func_8003D308(0x14, p->facing);
     }
     set_animation(self, 8);
-    self->unk5 = 1;
+    self->action = 1;
     self->unk7C = 0x7F;
     self->unk7E = 0x19;
     self->invincibility_timer = 0x19;

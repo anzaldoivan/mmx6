@@ -38,7 +38,7 @@ void func_80033500(u8* arg0) {
             e = (u8*)&g_playthrough_state;
             {
                 // !FAKE: depin: dropping it breaks the match (177/187)
-                register s32 x asm("$3") = g_Player.unk2;
+                register s32 x asm("$3") = g_Player.character;
                 if ((g_Player.hp & 0x7F) < ((s8*)(e - -x))[0x5B]) {
                     arg0[5] = 3;
                     m = e[0x63] & 0x7F;
@@ -52,7 +52,7 @@ void func_80033500(u8* arg0) {
             e = (u8*)&g_playthrough_state;
             {
                 // !FAKE: depin: dropping it breaks the match (177/187)
-                register s32 x asm("$3") = g_Player.unk2;
+                register s32 x asm("$3") = g_Player.character;
                 if ((g_Player.hp & 0x7F) < ((s8*)(e - -x))[0x5B]) {
                     arg0[5] = 3;
                     if ((e[0x64] & 0x7F) == 0x20) {
@@ -90,8 +90,10 @@ void func_80033500(u8* arg0) {
             n--;
             if (j < 4) {
                 if ((arg0 + n)[0x16] == 0) {
+                    // !FAKE: goto loop; for(;;)+break form moved bytes
                     goto loop;
                 }
+                // !FAKE: goto shares set2; for(;;)+break form moved bytes
                 goto set2;
             }
         } else {
@@ -214,18 +216,16 @@ void func_800337EC(u8* arg0) {
                 register s32 st asm("$5");
                 st = old;
                 i = st - 0 + old - st;
-            next:
-                i++;
-                if (i >= 0x11) {
-                    i = 0x10;
-                    if (self[0x26] == 0) {
-                        i = 0xF;
+                do {
+                    i++;
+                    if (i >= 0x11) {
+                        i = 0x10;
+                        if (self[0x26] == 0) {
+                            i = 0xF;
+                        }
+                        break;
                     }
-                } else if (st != i) {
-                    if (q[i] == 0) {
-                        goto next;
-                    }
-                }
+                } while (st != i && q[i] == 0);
             }
             self[0x14] = i;
             break;
@@ -238,16 +238,12 @@ void func_800337EC(u8* arg0) {
                 register s32 st asm("$5");
                 i = old;
                 st = old;
-            prev:
-                i--;
-                if (i < 0xD) {
-                    i = old;
-                }
-                if (q[i] == 0) {
-                    if (st != i) {
-                        goto prev;
+                do {
+                    i--;
+                    if (i < 0xD) {
+                        i = old;
                     }
-                }
+                } while (q[i] == 0 && st != i);
             }
             self[0x14] = i;
             break;
@@ -288,7 +284,7 @@ void func_80033A38(u8* arg0) {
                 k = v - 1;
                 *p = k | 0x80;
                 k = (g_Player.hp & 0x7F) + 1;
-                mx = ((s8*)(e - -g_Player.unk2))[0x5B];
+                mx = ((s8*)(e - -g_Player.character))[0x5B];
                 if (mx < k) {
                     k = mx;
                 }
@@ -297,7 +293,7 @@ void func_80033A38(u8* arg0) {
                     play_sound(0, 0x17, 0);
                 }
             } else {
-                s8 mx = ((s8*)(e - -g_Player.unk2))[0x5B];
+                s8 mx = ((s8*)(e - -g_Player.character))[0x5B];
                 if (g_Player.hp != mx) {
                     k = (g_Player.hp & 0x7F) + 1;
                     if (mx < k) {
@@ -332,7 +328,7 @@ void func_80033A38(u8* arg0) {
                 *q = k | 0x80;
                 k = (g_Player.hp & 0x7F) + 1;
                 h = g_Player.hp & ~0x7F;
-                hi = ((s8*)(f - -g_Player.unk2))[0x5B];
+                hi = ((s8*)(f - -g_Player.character))[0x5B];
                 if (hi < k) {
                     k = hi;
                 }
@@ -385,6 +381,7 @@ void func_80033C24(u8* arg0) {
                 i++;
             } while (i < 9);
             if (flag) {
+                // !FAKE: goto shares the dec block; copied block moved bytes
                 goto dec;
             }
             {
@@ -456,6 +453,7 @@ void func_80033C24(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_800122A4();
 M2C_UNK func_800139A0(s8);
@@ -470,8 +468,6 @@ M2C_UNK clear_object_slot();
 
 extern u16 D_800739DC[][6];
 extern struct X4_PlayerObj g_Player;
-extern u8 D_800C4560;
-extern u16 g_pad1_buttons[];
 extern struct X4_EngineObj g_playthrough_state;
 extern struct X4_QuadObj* D_800E4440[];
 
@@ -480,17 +476,17 @@ void func_80033E00(struct X4_PlayerObj* self) {
     struct X4_QuadObj* q;
     s32 i;
 
-    switch (self->unk6) {
+    switch (self->action_phase) {
     case 0:
         func_800139F4(0x20);
-        self->unk6++;
+        self->action_phase++;
         func_80026028();
         break;
     case 1:
         if (D_80097420.transition.active != 0) {
             func_80026028();
         } else {
-            self->unk6++;
+            self->action_phase++;
         }
         break;
     case 2:
@@ -508,7 +504,7 @@ void func_80033E00(struct X4_PlayerObj* self) {
                 q->active = 1;
                 D_800E4440[i]->id = 0xB;
                 *(u8*)&D_800E4440[i]->unk36 = 0xFF;
-                if (g_Player.unk2 != 0) {
+                if (g_Player.character != 0) {
                     D_800E4440[i]->unk34 = 0x1F;
                 } else {
                     D_800E4440[i]->unk34 = 0x7C00;
@@ -528,12 +524,12 @@ void func_80033E00(struct X4_PlayerObj* self) {
             }
         }
         func_800139A0(0x20);
-        self->unk6++;
+        self->action_phase++;
         func_800210E8();
         break;
     case 3:
         if (D_80097420.transition.active == 0) {
-            self->unk6++;
+            self->action_phase++;
         }
         func_800210E8();
         D_800C4560 |= 1;
@@ -568,7 +564,7 @@ void func_80033E00(struct X4_PlayerObj* self) {
             }
         }
         if (g_pad1_buttons[2] & 0x40) {
-            self->unk6++;
+            self->action_phase++;
         }
         if (g_pad1_buttons[2] & 0x10) {
             s8* e = (s8*)&g_playthrough_state;
@@ -586,7 +582,7 @@ void func_80033E00(struct X4_PlayerObj* self) {
     }
     case 5:
         if (g_pad1_buttons[0] == 0) {
-            self->unk6++;
+            self->action_phase++;
         }
         func_800210E8();
         func_8002ACA8();
@@ -603,7 +599,7 @@ void func_80033E00(struct X4_PlayerObj* self) {
             e[1] = 0;
         }
         self->state = 0;
-        self->unk5 = 0;
+        self->action = 0;
         func_800210E8();
         func_8002ACA8();
         func_80025FB0();
@@ -632,7 +628,7 @@ void func_80034288(struct X4_PlayerObj* self) {
     switch (D_800C4570) {
     case 0x800:
         self->state = 2;
-        self->unk5 = 0;
+        self->action = 0;
         break;
     case 0x40: {
         s8* e = (s8*)&g_playthrough_state;
@@ -643,8 +639,8 @@ void func_80034288(struct X4_PlayerObj* self) {
         case 4: {
             struct X4_PlayerObj* pl = &g_Player;
             if ((pl->hp & 0x7F) <
-                ((s8*)&g_playthrough_state + pl->unk2)[0x5B]) {
-                self->unk5 = 9;
+                ((s8*)&g_playthrough_state + pl->character)[0x5B]) {
+                self->action = 9;
             }
             break;
         }
@@ -660,7 +656,7 @@ void func_80034288(struct X4_PlayerObj* self) {
                 }
             }
             if (found != 0) {
-                self->unk5 = 0xA;
+                self->action = 0xA;
             }
             break;
         }
@@ -694,13 +690,13 @@ void func_80034288(struct X4_PlayerObj* self) {
             }
         }
         self->bg_offset = i;
-        self->unk5 = 0;
+        self->action = 0;
         break;
     case 0x4000:
         i = 13;
         for (n = 0; n < 4; n++, i++) {
             if (*((u8*)self + i + 0x16) != 0) {
-                self->unk5 = 2;
+                self->action = 2;
                 break;
             }
         }
@@ -712,7 +708,7 @@ void func_80034288(struct X4_PlayerObj* self) {
             for (n = 0; n < 3; n++, i++) {
                 u8* p = &self->unk16;
                 if (p[i] != 0) {
-                    self->unk5 = 1;
+                    self->action = 1;
                     break;
                 }
             }
@@ -754,7 +750,7 @@ void func_80034574(struct X4_PlayerObj* arg0) {
     if (!(D_80097420.frame_counter & 1)) {
         struct X4_PlayerObj* pl = &g_Player;
         s8* e = (s8*)&g_playthrough_state;
-        max = ((s8*)&g_playthrough_state + pl->unk2)[0x5B];
+        max = ((s8*)&g_playthrough_state + pl->character)[0x5B];
         hp = pl->hp & 0x7F;
         if (hp != max) {
             v = hp + 1;
@@ -766,7 +762,7 @@ void func_80034574(struct X4_PlayerObj* arg0) {
                 play_sound(0, 0x17, 0);
             }
         } else {
-            arg0->unk5 = 8;
+            arg0->action = 8;
             e[0x464] = 1;
         }
     }

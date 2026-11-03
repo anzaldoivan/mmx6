@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 extern struct X4_PlayerObj g_Player;
 
 #define FU8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -18,7 +18,7 @@ void func_800EDE78(void* arg0) {
     // !FAKE: depin: dropping it breaks the match (39/46)
     register u16 c asm("$2");
 
-    func_80017A04();
+    animate_object();
     c = F16(arg0, 0x8C);
     F16(arg0, 0x8C) = c + 1;
     if ((s16)c >= 0x5B) {

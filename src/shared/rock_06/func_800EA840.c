@@ -15,9 +15,9 @@ void func_800EA840(struct X4_BaseObj* self) {
     }
     if (!(M2C_FIELD(self, u8*, 0x70) & 8)) {
         set_animation(self, 3);
-        self->unk5 = 2;
+        self->action = 2;
         M2C_FIELD(self, s32*, 0x2C) = 0x4200;
-        self->unk6 = 0;
+        self->action_phase = 0;
         M2C_FIELD(self, s32*, 0x24) = 0;
         M2C_FIELD(self, s32*, 0x28) = 0;
         M2C_FIELD(self, s8*, 0x67) = -1;
@@ -48,8 +48,8 @@ void func_800EA840(struct X4_BaseObj* self) {
         s32 v;
 
         set_animation(self, 2);
-        self->unk5 = 5;
-        self->unk6 = 0;
+        self->action = 5;
+        self->action_phase = 0;
         M2C_FIELD(self, s32*, 0x24) = 0x38000;
         v = -0x10000;
         M2C_FIELD(self, s32*, 0x2C) = 0x4200;

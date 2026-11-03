@@ -4,17 +4,17 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK); /* extern */
-M2C_UNK func_80017A04();               /* extern */
-M2C_UNK func_8002D230();               /* extern */
+M2C_UNK animate_object();              /* extern */
+M2C_UNK apply_object_motion();         /* extern */
 
 void func_800EB070(void* arg0) {
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     if (M2C_FIELD(arg0, s8*, 6) == 0) {
         if (M2C_FIELD(arg0, s8*, 0x45) != 0) {
             M2C_FIELD(arg0, s8*, 6) = (s8)((u8)M2C_FIELD(arg0, s8*, 6) + 1);
         }
     } else {
-        func_8002D230(arg0);
+        apply_object_motion(arg0);
         if (M2C_FIELD(arg0, s32*, 0x24) < 0) {
             M2C_FIELD(arg0, s8*, 6) = (s8)((u8)M2C_FIELD(arg0, s8*, 6) + 1);
             set_animation(arg0, 3);

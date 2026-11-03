@@ -22,10 +22,11 @@ void func_800EFE14(struct X4_MainObj* self) {
     if (m == 2) {
         if ((s8)D_800CCF5C / 2 < self->hp) {
             if (r < 8) {
-                self->unk5 = 6;
+                self->action = 6;
             } else {
-                self->unk5 = 5;
+                self->action = 5;
             }
+            // !FAKE: cross-arm jump order; dup tails moved bytes
             goto inc;
         }
         c = r < 7;
@@ -34,7 +35,8 @@ void func_800EFE14(struct X4_MainObj* self) {
         } else {
             v = 6;
         }
-        self->unk5 = v;
+        self->action = v;
+        // !FAKE: cross-arm jump order; dup tails moved bytes
         goto chk;
     }
     if (m == 1) {
@@ -45,7 +47,7 @@ void func_800EFE14(struct X4_MainObj* self) {
             v = 9;
         }
         do {
-            self->unk5 = v;
+            self->action = v;
         } while (0);
         if (self->hp < (s8)D_800CCF5C / 2) {
         chk:
@@ -57,20 +59,20 @@ void func_800EFE14(struct X4_MainObj* self) {
                     // !FAKE: depin: dropping it breaks the match (24/106)
                     register s32 b asm("$3") = 8;
                     self->unk7C = a;
-                    self->unk5 = b;
+                    self->action = b;
                 }
             }
         }
     inc:
         SCRATCH_4C[0x89]++;
     } else {
-        self->unk5 = 3;
+        self->action = 3;
         SCRATCH_4C[0x89] = 0;
     }
     if (SCRATCH_4C[0x89] >= 4) {
-        self->unk5 = 0xA;
+        self->action = 0xA;
         SCRATCH_4C[0x8B] += 2;
     }
-    self->unk6 = 0;
+    self->action_phase = 0;
 }
 #undef D_800CCF5C

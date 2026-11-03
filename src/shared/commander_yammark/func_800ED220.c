@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK move_object(s32);
 extern struct X4_PlayerObj g_Player;
 
@@ -14,7 +14,7 @@ void func_800ED220(void* arg0) {
     // !FAKE: depin: dropping it breaks the match (47/53)
     register s32 t asm("$2");
 
-    func_80017A04();
+    animate_object();
     move_object((s32)arg0);
     {
         s32 n;
@@ -28,6 +28,7 @@ void func_800ED220(void* arg0) {
         d = F16(p, 0xA) - F16(arg0, 0xA);
         if (d >= 0) {
             if (d < 0x20) {
+                // !FAKE: C0144 range test joins sign arms; abs folds
                 goto y;
             }
             return;
@@ -40,11 +41,13 @@ void func_800ED220(void* arg0) {
             e = F16(q, 0xE) - F16(arg0, 0xE);
             if (e >= 0) {
                 if (e < 0x10) {
+                    // !FAKE: shared reset tail; dup tail moved bytes
                     goto reset;
                 }
                 return;
             }
             if (F16(arg0, 0xE) - F16(q, 0xE) < 0x10) {
+                // !FAKE: shared reset tail; dup tail moved bytes
                 goto reset;
             }
         }

@@ -31,8 +31,8 @@ void func_800F5B90(struct X4_MainObj* arg0) {
     arg0->gravity = 0;
     arg0->hp = 0;
     arg0->contact_damage = 0;
-    arg0->unk6 = 0;
-    arg0->unk5 = 0;
+    arg0->action_phase = 0;
+    arg0->action = 0;
     (*(u8*)&arg0->state)++;
     arg0->y_pos.u.hi = e;
 }

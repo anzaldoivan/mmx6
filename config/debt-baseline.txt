@@ -26,14 +26,14 @@ raise protected 1 2026-10-14 psxdecomp 0.6.0: the guard hook fails closed (upgra
 raise protected 1 2026-10-16 own gate dropped: fleet runs in dev CI, land_check and the milestone gate, not on push
 raise protected 1 2026-10-24 1.9/T6 no-rom audits: README lint + 6 no-game self-tests
 raise protected 1 2026-10-25 2.0 no-rom: gamestr check + badges --check
-824 pin
-579 goto
-484 goto-unmarked
-32370 offset
-1877 address
+raise placeholder 8 2026-11-02 T9: 8 movement asm bodies banked to C bring their func_ names into the count
+820 pin
+350 goto
+31441 offset
+1892 address
 70 cast
-6599 field
-4874 placeholder
-25405 placeholder-use
-15308 extern
-949 filename
+5496 field
+4785 placeholder
+20110 placeholder-use
+13078 extern
+961 filename

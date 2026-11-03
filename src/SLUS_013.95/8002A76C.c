@@ -1,16 +1,11 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 play_sound(s32, s32, void*);
 void func_800139F4(s32);
-extern u8 g_temp_options;
-extern u16 D_8006D600[];
 extern u8 option_values[];
-extern u16 D_80073610[];
-extern u16 D_80073620[];
 #include "mmx6/state.h"
-extern u16 g_pad1_buttons[];
-extern u8 D_800E4188;
 
 #define MODE (D_80097420.transition.active)
 #define CUR (D_80097420.transition.selection)
@@ -23,7 +18,8 @@ void func_8002A76C(void) {
     u16 tmp;
 
     if (MODE == 0) {
-        if ((g_pad1_buttons[2] & 0x800) || ((g_pad1_buttons[2] & 0x40) && CUR == 0xB)) {
+        if ((g_pad1_buttons[2] & 0x800) ||
+            ((g_pad1_buttons[2] & 0x40) && CUR == 0xB)) {
             play_sound(0, 0x22, 0);
             func_800139F4(0x20);
             D_800E4188++;
@@ -58,11 +54,11 @@ void func_8002A76C(void) {
                 for (i = 0; i < 8; i++) {
                     if (btn == D_80073620[i]) {
                         play_sound(0, 0x22, 0);
-                        tmp = D_8006D600[sel];
-                        D_8006D600[sel] = D_80073620[i];
-                        for (j = 0; D_8006D600[j] != 0; j++) {
-                            if (j != sel && D_8006D600[j] == D_80073620[i]) {
-                                D_8006D600[j] = tmp;
+                        tmp = button_map[sel];
+                        button_map[sel] = D_80073620[i];
+                        for (j = 0; button_map[j] != 0; j++) {
+                            if (j != sel && button_map[j] == D_80073620[i]) {
+                                button_map[j] = tmp;
                             }
                         }
                         return;
@@ -77,8 +73,7 @@ void func_8002A76C(void) {
 }
 
 #include "common.h"
-
-extern u8 D_800964A0[];
+#include "mmx6/globals.h"
 
 static inline void func_8002AA74_fill(u8* p, u8 c, u16 n) {
     while (n--) {
@@ -97,11 +92,7 @@ void func_8002AA74(void) {
 }
 
 #include "common.h"
-
-extern u8 g_temp_options;
-extern u8 D_800CCF99;
-extern u8 D_800964A0[];
-extern u8 D_800E4188;
+#include "mmx6/globals.h"
 
 void func_8002AACC(u8* arg0) {
     u16 i;
@@ -124,10 +115,10 @@ void func_8002AACC(u8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 extern void (*D_80073674[])();
-extern u8 D_800E4188;
 void func_800210E8(void);
 void func_80025E1C();
 
@@ -139,6 +130,7 @@ M2C_UNK func_8002AB58(s32 arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern s32* D_80073680[][2];
 // !FAKE: flat alias of the TU's D_80090C90[][16]; the 2-D type changes %lo offset folding
@@ -146,7 +138,6 @@ extern s32 D_80090C90_flat[];
 #define D_80090C90 D_80090C90_flat
 extern s16 D_80090D5C;
 extern s16 D_80097430;
-extern u8 D_800C4560;
 extern struct X4_EngineObj g_playthrough_state;
 extern s16 D_800CF854;
 static inline void func_8002ABA8_clear3(void) {
@@ -183,6 +174,7 @@ void func_8002ABA8(void) {
 #undef D_80090C90
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 extern s32 D_80090C90[][16];
 #define D_80090C90 (*(s32(*)[]) & D_80090C90)
@@ -193,9 +185,7 @@ extern s8 D_8009742C;
 #define D_8009742C (*(u8*)&D_8009742C)
 extern s16 D_80097430;
 extern u16 D_80097754;
-extern u16 D_80097798[];
 extern u16 D_800A21B6;
-extern u8 D_800C4560;
 extern u16 D_800C8858;
 extern s8 D_800CF850;
 #define D_800CF850 (*(u8*)&D_800CF850)
@@ -298,15 +288,13 @@ void func_8002ACA8(void) {
 #undef D_800CF850
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 extern s32 D_80090C90[][16];
 extern s16 D_80090D5C;
 #define D_80090D5C ((u16*)&D_80090D5C)
 extern s16 D_80097430;
 #define D_80097430 ((u16*)&D_80097430)
-extern u16 D_80097798[];
-extern u16 D_8009E1B0[];
-extern u8 D_800C4560;
 extern s8 D_800CF850;
 #define D_800CF850 ((u8*)&D_800CF850)
 extern s16 D_800CF854;
@@ -437,11 +425,11 @@ void func_8002B29C(void) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 extern s32 D_80090C90[][16];
 extern s16 D_80090D5C;
 extern s16 D_80097430;
-extern u8 D_800C4560;
 extern s16 D_800CF854;
 
 s32 func_8002B2F8(s32 arg0) {

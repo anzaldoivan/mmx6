@@ -19,7 +19,7 @@ void player_hover_back_stop(struct X4_PlayerObj* self) {
         }
         if (self->animation_step.fields.relative_step == 0) {
             ((void (*)())player_set_animation_shooting)(self, 0x16);
-            self->unk6 = 2;
+            self->action_phase = 2;
             return;
         }
         func_8003F508(self, 0x1A);

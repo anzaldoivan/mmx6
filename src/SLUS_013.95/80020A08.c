@@ -1,8 +1,8 @@
 /* Adapted from sozud/mmx4 @807a01b src/main/object_update.c:func_80021C14, AGPL-3.0; proven shared with X6 by exact signature cac1f7cae392 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 extern struct X4_EngineObj g_playthrough_state;
-extern struct X4_RideArmorObj D_800CD340;
 extern void (*D_80071380[])(struct X4_RideArmorObj*);
 
 void func_80020A08(void) {
@@ -27,7 +27,7 @@ void func_80020A08(void) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 extern M2C_UNK g_Player;
 
 void func_80020AA8(struct X4_AnimatedObj* arg0) {
@@ -39,10 +39,10 @@ void func_80020AA8(struct X4_AnimatedObj* arg0) {
     arg0->x_pos.val = pl->x_pos.val;
     arg0->y_pos.val = pl->y_pos.val;
     if (temp_a1 == 3) {
-        if ((pl->unk5 == 0x23) && (pl->unk6 > 0)) {
+        if ((pl->action == 0x23) && (pl->action_phase > 0)) {
             arg0->on_screen = 1;
-            if (arg0->unk6 != pl->unk6) {
-                arg0->unk6 = pl->unk6;
+            if (arg0->action_phase != pl->action_phase) {
+                arg0->action_phase = pl->action_phase;
                 if (pl->y_vel.val > 0) {
                     set_animation(arg0, 0x2B);
                 } else if (pl->y_vel.val < 0) {
@@ -51,15 +51,15 @@ void func_80020AA8(struct X4_AnimatedObj* arg0) {
                     set_animation(arg0, 0x2A);
                 }
             }
-            arg0->unk15 = pl->unk15;
-            func_80017A04(arg0);
+            arg0->unk15 = pl->facing;
+            animate_object(arg0);
             return;
         }
         set_animation(arg0, 0x2A);
         {
             // !FAKE: depin: dropping it breaks the match (100/102)
             register s32 two asm("$2") = 2;
-            arg0->unk6 = two;
+            arg0->action_phase = two;
         }
         arg0->on_screen = 0;
         return;
@@ -85,7 +85,7 @@ void func_80020AA8(struct X4_AnimatedObj* arg0) {
             arg0->state = 0;
             return;
         }
-        func_80017A04(arg0);
+        animate_object(arg0);
     }
 }
 
@@ -104,7 +104,7 @@ void func_800206C0(void);          /* extern */
 void func_800207D4(void);          /* extern */
 void update_layer_objects(void);   /* extern */
 void func_80020A08(void);          /* extern */
-void run_text_box(void);          /* extern */
+void run_text_box(void);           /* extern */
 M2C_UNK func_80020D74();           /* extern */
 void func_80020DC8(void);          /* extern */
 void func_8002927C(void);          /* extern */

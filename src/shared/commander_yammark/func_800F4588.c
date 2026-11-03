@@ -4,9 +4,9 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 M2C_UNK func_8003D330();
 s32 func_80040498();
 extern s8 D_800CCF5C;
@@ -35,8 +35,8 @@ void func_800F4588(void* arg0) {
         return;
     }
     func_8003D330(n);
-    func_80017A04(arg0);
-    func_8002D230(arg0);
+    animate_object(arg0);
+    apply_object_motion(arg0);
     func_8002CCB0(arg0, 0x40, 0x40);
     M2C_FIELD(arg0, u16*, 0x7C) = 0;
     M2C_FIELD(arg0, u8*, 5) = 4;

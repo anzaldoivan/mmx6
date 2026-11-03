@@ -3,13 +3,13 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 M2C_UNK func_80049E50(void*);
 
 void func_800F72BC(void* arg0) {
     u8 f;
 
-    ((void (*)())func_8002D230)();
+    ((void (*)())apply_object_motion)();
     if (M2C_FIELD(arg0, u8*, 0x70) != 0) {
         if ((s16)--M2C_FIELD(arg0, u16*, 0x88) == -1) {
             func_80049E50(arg0);
@@ -31,6 +31,6 @@ void func_800F72BC(void* arg0) {
         }
         M2C_FIELD(arg0, s32*, 8) = M2C_FIELD(arg0, s32*, 0x18);
         M2C_FIELD(arg0, s32*, 0xC) = M2C_FIELD(arg0, s32*, 0x1C);
-        func_8002D230(arg0);
+        apply_object_motion(arg0);
     }
 }

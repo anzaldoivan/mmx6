@@ -1,10 +1,10 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void set_boss_level();
-extern s8 D_800970A5;
 extern s8 D_80097298;
 extern struct X4_EngineObj g_playthrough_state;
 

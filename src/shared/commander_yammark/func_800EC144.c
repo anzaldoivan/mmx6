@@ -1,8 +1,8 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
-M2C_UNK func_8002D230();
+M2C_UNK animate_object();
+M2C_UNK apply_object_motion();
 s32 func_80030CCC(void*, s16, s16);
 
 #define FU8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -14,8 +14,8 @@ void func_800EC144(void* arg0) {
     // !FAKE: depin: dropping it breaks the match (68/70)
     register s32 t asm("$2");
 
-    func_80017A04();
-    func_8002D230(arg0);
+    animate_object();
+    apply_object_motion(arg0);
     t = FU8(arg0, 0x15);
     if (t != 0) {
         u8* q = *(u8**)((u8*)arg0 + 0x68);
@@ -30,6 +30,7 @@ void func_800EC144(void* arg0) {
         0xFF) {
         if (FU8(arg0, 0x15) == 0) {
             if (FU8(arg0, 0x70) & 2) {
+                // !FAKE: shared set block; inverted test, dup moved bytes
                 goto set;
             }
             return;

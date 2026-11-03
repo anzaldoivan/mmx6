@@ -5,11 +5,7 @@
 s32 func_8001C718(s32 arg0);
 s32 func_8001C824(void);
 #include "psyq/libapi.h"
-extern u8 D_8006D620;
-extern s32 D_800E2F70;
-extern s32 D_800E2F74;
-extern s32 D_800E2F78;
-extern s32 D_800E2F7C;
+#include "mmx6/globals.h"
 
 s32 func_8001C5EC(s32 arg0) {
     s32 ret;

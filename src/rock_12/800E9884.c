@@ -157,11 +157,11 @@ void func_800E9BAC(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
 extern struct X4_BackgroundObj background_objects[3];
-extern s16 D_800CCED4;
 extern s16 D_800EA858[];
 extern s16 D_800EA874[][2];
 extern u8 D_800EA8A8[][8];
@@ -176,7 +176,7 @@ void func_800E9D08(void* arg0) {
     // !FAKE: pin the table offset in the first result register as retail allocates it
     register s32 off asm("$3");
 
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     if (F(s8, 0x46) == 0) {
         if (F(s8, 0x2) == 0) {
             idx = F(s8, 0x54);
@@ -228,9 +228,9 @@ void func_800E9D08(void* arg0) {
 #include "psyq/libspu.h"
 
 #include "psyq/libsnd.h"
+#include "mmx6/globals.h"
 void func_8005BA24(void);
 extern s8 D_80090D55;
-extern s8 D_80090D64[];
 extern s32 D_800E0D38;
 
 void func_800E9ED4(void) {
@@ -274,8 +274,8 @@ void func_800E9FB4(void) {
 #include "common.h"
 
 #include "psyq/libsnd.h"
+#include "mmx6/globals.h"
 void func_8005BA04(void);
-extern s8 D_80090D64[];
 
 void func_800E9FDC(void) {
     SsSepClose(D_80090D64[5]);
@@ -374,12 +374,12 @@ void func_800EA1A0(void* arg0) {
 #undef FAMILY_FIELD
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK clear_object_slot(); /* extern */
-extern s16 D_800CCED4;
 
 void func_800EA270(struct ObjectHeader* arg0) {
     clear_object_slot();

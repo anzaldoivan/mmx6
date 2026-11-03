@@ -8,11 +8,11 @@ extern u16 D_800FDA7E;
 
 void func_800F92DC(struct X4_MainObj* arg0) {
     if ((s16)D_800FDA7E >= 0xA) {
-        arg0->unk5 = 4;
-        arg0->unk6 = 0;
+        arg0->action = 4;
+        arg0->action_phase = 0;
         return;
     }
     func_800FA4C8(arg0);
     ((void (*)(void*, M2C_UNK))set_animation)(arg0, 7);
-    arg0->unk6 = arg0->unk6 + 1;
+    arg0->action_phase = arg0->action_phase + 1;
 }

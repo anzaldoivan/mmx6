@@ -1,10 +1,10 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
-extern s32 D_80077A8C;
 extern s32 D_801F37D0;
 extern s32 D_801F37D4;
 extern s32 D_801F4E28;
@@ -53,14 +53,14 @@ void init_shuriken_buster(struct X4_WeaponObj* arg0) {
         D_801F4E28 = 8;
     }
     arg0->unk16 = 0;
-    arg0->unk15 = player->unk15;
+    arg0->unk15 = player->facing;
     arg0->unk68 = (struct X4_Unk_unk68*)&D_801F37D4;
     arg0->unk50 = &D_801F37D0;
     arg0->unk28.val = 0;
     arg0->unk2C = 0;
     set_animation(arg0, 0);
     arg0->state++;
-    if (player->unk5 == 0x1F) {
+    if (player->action == 0x1F) {
         play_sound(1, 8, arg0);
         arg0->x_pos.u.hi = player->x_pos.u.hi;
         arg0->y_pos.u.hi = player->y_pos.u.hi + 0x18;

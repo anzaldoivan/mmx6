@@ -1,9 +1,4 @@
-#include "common.h"
-#include "mmx6/object.h"
-
-void move_object(void* arg0) {
-    struct AnimatedObj* o = arg0;
-
-    o->x_pos.val = (s32)(o->x_pos.val + o->x_vel.val);
-    o->y_pos.val = (s32)(o->y_pos.val - o->y_vel.val);
-}
+// prog SLUS_013.95 | system object | range 0x80017A04-0x80017A44
+// clang-format off
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", animate_object);
+// clang-format on

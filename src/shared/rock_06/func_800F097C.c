@@ -5,7 +5,7 @@
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
-M2C_UNK func_80017A04();                     /* extern */
+M2C_UNK animate_object();                    /* extern */
 s32 func_8002A47C(s32);                      /* extern */
 void* func_8002C32C();                       /* extern */
 extern M2C_UNK g_Player;
@@ -65,5 +65,5 @@ void func_800F097C(void* arg0) {
             M2C_FIELD(arg0, s8*, 6) = 0;
         }
     }
-    func_80017A04(arg0);
+    animate_object(arg0);
 }

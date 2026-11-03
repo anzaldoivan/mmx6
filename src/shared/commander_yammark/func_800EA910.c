@@ -4,7 +4,7 @@
 
 void func_800EA910(struct X4_MainObj* self) {
     if (--self->unk7C == 0) {
-        self->unk5 = 3;
-        self->unk6 = 0;
+        self->action = 3;
+        self->action_phase = 0;
     }
 }

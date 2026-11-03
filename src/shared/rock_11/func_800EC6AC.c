@@ -16,8 +16,8 @@ void func_800EC6AC(struct X4_BaseObj* self) {
         play_sound(2, 0x3C, self);
         {
             u8 v = SPAD[0x8B];
-            self->unk6 = 0;
-            self->unk5 = v;
+            self->action_phase = 0;
+            self->action = v;
         }
     }
 }

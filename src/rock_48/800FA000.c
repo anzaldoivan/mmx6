@@ -228,13 +228,13 @@ void func_800FA464(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_8001D218();
 M2C_UNK reset_level();
 void func_800E9FB4();
 void func_800E9FDC(void);
 extern struct X4_BackgroundObj background_objects[3];
-extern s8 D_800CCEF7;
 
 void func_800FA514(u8* arg0) {
     s32 i;

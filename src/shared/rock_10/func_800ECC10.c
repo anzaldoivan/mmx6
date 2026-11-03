@@ -4,6 +4,6 @@
 
 void func_800ECC10(struct X4_MainObj* self) {
     if (--self->unk7C == 0) {
-        self->unk6 = 0;
+        self->action_phase = 0;
     }
 }

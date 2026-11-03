@@ -1,13 +1,13 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
-M2C_UNK func_80017A04();                     /* extern */
+M2C_UNK animate_object();                    /* extern */
 extern M2C_UNK g_Player;
-extern s8 D_800970FC;
 
 #define SET_STATE(o, s)                                                        \
     {                                                                          \
@@ -35,6 +35,7 @@ void func_800F1494(void* arg0) {
     }
     if ((M2C_FIELD(arg0, u16*, 0x88) & 7) == 4) {
         if (!(M2C_FIELD(arg0, u16*, 0x8A) & 0x80)) {
+            // !FAKE: goto enters the shared flag-clear arm; duplicating the clear store moved bytes (setcc)
             goto clear;
         }
         play_sound(2, 0x25, 0);
@@ -51,6 +52,7 @@ void func_800F1494(void* arg0) {
     } else if (M2C_FIELD(arg0, u8*, 0xA8) & 8) {
         SET_STATE(arg0, 5);
     } else if (M2C_FIELD(arg0, u8*, 0x97) & 2) {
+        // !FAKE: goto keeps the shared tail block order; inlining or duplicating the tail moved bytes
         goto tail;
     } else if ((g = M2C_FIELD(arg0, u16*, 0x8A)) & 0x80) {
         SET_STATE(arg0, 0xC);
@@ -84,10 +86,10 @@ void func_800F1494(void* arg0) {
                 }
                 M2C_FIELD(arg0, s32*, 8) += M2C_FIELD(arg0, s32*, 0x20);
             }
-            ((M2C_UNK(*)())func_80017A04)(arg0, f);
+            ((M2C_UNK(*)())animate_object)(arg0, f);
         }
     }
     return;
 tail:
-    ((void (*)(void*))func_80017A04)(arg0);
+    ((void (*)(void*))animate_object)(arg0);
 }

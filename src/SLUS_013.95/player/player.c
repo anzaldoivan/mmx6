@@ -1,21 +1,14 @@
+// prog SLUS_013.95 | system player | range 0x80034FBC-0x80035140
 #include "common.h"
 #include "mmx6/x4.h"
 
-void func_80039228(void* arg0);
-void func_80039DFC(void* arg0);
-void func_80039F78(void* arg0);
-void func_8003A1C8(void* arg0);
-void func_8003A268(void* arg0);
-void func_8003C3C8(void* arg0);
-void player_update_flash(struct X4_PlayerObj* self);
-void func_8003EC78(struct X4_PlayerObj* arg0);
-void update_weapon_switch(void* arg0);
-extern void (*D_80073ACC[])(struct X4_PlayerObj*);
-extern struct X4_EngineObj g_playthrough_state;
+#include "mmx6/globals.h"
+#include "mmx6/weapon.h"
+#include "mmx6/pilot_globals.h"
 
 // 0x80034FBC update_player: per-frame player step: timers, weapon switch, the player state handler table, charge and shot, flash.
-// basis: xref player_update_flash (docs/leads/derived.tsv:15)
-// callers: none known (no jal caller)
+// basis: xref derived.tsv:15; xref:caller=player_update_flash
+// callers: none known
 void update_player(struct X4_PlayerObj* p) {
     s32 d = *(u8*)&p->unkD0;
     s32 f = (u8)g_playthrough_state.unkF;
@@ -27,12 +20,12 @@ void update_player(struct X4_PlayerObj* p) {
     p->unkCF = 0;
     p->unkDD = 0;
     p->move_lock = d | f | d4;
-    p->unk88.bytes.collision_flags = p->unk70 | t;
+    p->latched_collision_flags = p->collision_flags | t;
     if (g_playthrough_state.unk10 == 0) {
         if (p->unkE5 != 0) {
             p->unkE5--;
         }
-        func_80039228(p);
+        update_player_damage(p);
         if (p->hp == 0) {
             return;
         }
@@ -45,23 +38,23 @@ void update_player(struct X4_PlayerObj* p) {
                 p->attacking = 0;
             }
         }
-        if (*(s8*)&p->unk8D > 0) {
-            if (--*(s8*)&p->unk8D == 0) {
-                *(s8*)&p->unk8D = -1;
+        if (*(s8*)&p->low_health_timer > 0) {
+            if (--*(s8*)&p->low_health_timer == 0) {
+                *(s8*)&p->low_health_timer = -1;
             }
         }
         func_8003A1C8(p);
         func_8003A268(p);
-        func_80039F78(p);
-        func_80039DFC(p);
+        update_double_tap_dash(p);
+        check_floor_lost(p);
         update_weapon_switch(p);
-        D_80073ACC[p->unk5](p);
+        player_action_handlers[p->action](p);
         p->unk71 = 0;
         p->unk72 = 0;
         p->wall_climbable = 0;
     }
     if (g_playthrough_state.unk10 != 2) {
-        func_8003EC78(p);
+        update_player_charge(p);
         player_update_flash(p);
         func_8003C3C8(p);
     }

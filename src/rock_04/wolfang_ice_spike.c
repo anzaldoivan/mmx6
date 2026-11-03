@@ -1,22 +1,19 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_04.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD9C (*(s32**)0x1F80009C)
 
 M2C_UNK set_animation(void*, M2C_UNK);
 extern s32 D_800741FC[];
-extern s32 D_8007519C;
-extern u8 D_800970B4;
 extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_80097222;
 extern struct X4_EngineObj g_playthrough_state;
 extern s32 D_800F70B0;
-extern s32 D_800F70B4;
-extern s32 D_800F70B8;
 extern s32 D_800F7478;
-extern u32 D_800F7840;
 
 #define ENG8F (((u8*)&g_playthrough_state)[0x8F])
 
@@ -63,18 +60,18 @@ void init_wolfang_ice_spike(struct X4_MainObj* self) {
         self->hurt_box = &D_800F70B8;
         self->terrain_box = (void*)&D_800F70B0;
         self->state = 1;
-        self->unk5 = 2;
+        self->action = 2;
     } else if (type == 1) {
         self->unk16 = 6;
         self->on_screen = 0;
         self->unk7C = 0x14;
         self->state = 3;
-        self->unk5 = 0;
+        self->action = 0;
         self->active |= 0x10;
     } else if ((type & 0xF0) == 0x10) {
         if (ENG8F < 2) {
             self->state = 5;
-            self->unk5 = 0;
+            self->action = 0;
             return;
         }
         self->collision_data = D_800741FC;
@@ -102,8 +99,8 @@ void init_wolfang_ice_spike(struct X4_MainObj* self) {
         }
         self->unk16 = 4;
         self->state = 4;
-        self->unk5 = 0;
+        self->action = 0;
     }
-    self->unk6 = 0;
+    self->action_phase = 0;
     self->unk7 = 0;
 }

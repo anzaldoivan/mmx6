@@ -6,7 +6,7 @@
 M2C_UNK func_800139F4(M2C_UNK);
 extern s16 D_800970AA;
 #include "mmx6/state.h"
-extern s8 D_800CCEDF;
+#include "mmx6/globals.h"
 
 void func_800EF144(void* arg0) {
     s32 temp_a0;

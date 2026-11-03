@@ -3,15 +3,15 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04(); /* extern */
+M2C_UNK animate_object(); /* extern */
 
 void func_800F4480(void* arg0) {
     void* temp_s0;
     s32 temp_a1;
 
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     temp_s0 = M2C_FIELD(arg0, void**, 0x7C);
-    ((M2C_UNK(*)())func_80017A04)(arg0);
+    ((M2C_UNK(*)())animate_object)(arg0);
     if (M2C_FIELD(arg0, s8*, 2) == 9) {
         if (M2C_FIELD(temp_s0, u8*, 0x15) != 0) {
             M2C_FIELD(arg0, u8*, 0x15) = 0x40;

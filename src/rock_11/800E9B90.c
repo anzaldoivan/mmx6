@@ -8,13 +8,13 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800E9B90);
 #include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object();
 void func_800EAB04(void*);
-extern s8 D_800970A2;
 
 #define AIM(dir, ang)                                                          \
     set_animation(self, (dir));                                                \
@@ -76,10 +76,11 @@ void func_800E9F28(struct X4_BaseObj* self) {
     M2C_FIELD(self, s32*, 0x2C) = 0;
     func_800EAB04(self);
     ((void (*)(void*))move_object)(self);
-    self->unk6++;
+    self->action_phase++;
 }
 
 #include "common.h"
+#include "mmx6/rock_11.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -90,7 +91,6 @@ void func_800EAB04(void*);
 extern s16 D_800970AA;
 extern u16 D_80097202;
 #define D_80097202 (*(s16*)&D_80097202)
-extern u8 D_800FB26C[];
 
 void func_800EA220(void* self) {
     ((void (**)(void*))(D_800FB26C + 0xB94))[M2C_FIELD(self, s8*, 0x6)](self);
@@ -163,6 +163,7 @@ void func_800EA630(void) {
 }
 
 #include "common.h"
+#include "mmx6/rock_11.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -172,7 +173,6 @@ M2C_UNK move_object();
 void func_800EAB04(void*);
 extern u16 D_80097202;
 #define D_80097202 (*(s16*)&D_80097202)
-extern u8 D_800FB26C[];
 
 void func_800EA650(void* self) {
     ((void (**)(void*))(D_800FB26C + 0xB7C))[M2C_FIELD(self, s8*, 0x6)](self);
@@ -198,11 +198,10 @@ void func_800EA650(void* self) {
 #include "../shared/rock_11/func_800EA750.c"
 
 #include "common.h"
+#include "mmx6/rock_11.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
-
-extern u8 D_800FB26C[];
 
 void func_800EA758(void* self) {
     u8* s1 = M2C_FIELD(SPAD, u8**, 0x80);
@@ -319,6 +318,8 @@ void func_800EAC80(void) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_11.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -328,8 +329,6 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_800EC728(s8* arg0);
 extern s32 D_800741FC[];
-extern u8 D_800970B4;
-extern u8 D_800FB26C[];
 extern u8 D_800FBEF8[];
 extern u8 D_800FBF2C[];
 extern u8 D_800FBF34[];
@@ -374,6 +373,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800EADE0);
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
@@ -381,7 +381,6 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800EADE0);
 M2C_UNK move_object(void*);
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
-extern u8 D_800FB26C[];
 
 void func_800EAF90(struct X4_BaseObj* self) {
     u8 flags;
@@ -392,7 +391,7 @@ void func_800EAF90(struct X4_BaseObj* self) {
     if (flags & 1) {
         M2C_FIELD(self, s32*, 0x20) = 0;
         M2C_FIELD(self, s32*, 0x24) = 0x38000;
-        self->unk5 = 6;
+        self->action = 6;
         self->unk15 = 0x40;
         func_800EC7A0(self);
     } else {
@@ -415,13 +414,13 @@ void func_800EAF90(struct X4_BaseObj* self) {
                         SPAD[0x88] += i - 1;
                     }
                     M2C_FIELD(self, s32*, 0x24) = 0xFFFC8000;
-                    self->unk5 = 4;
+                    self->action = 4;
                     SPAD[0x8A] |= 1;
                     self->unk15 = 0;
                     break;
                 }
                 if ((u8)i == 4) {
-                    self->unk5 = 2;
+                    self->action = 2;
                     M2C_FIELD(self, s32*, 0x28) = 0;
                     M2C_FIELD(self, s32*, 0x2C) = 0x1000;
                     __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
@@ -440,13 +439,13 @@ void func_800EAF90(struct X4_BaseObj* self) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK move_object(void*);
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
-extern u8 D_800FB26C[];
 
 void func_800EB1B8(struct X4_BaseObj* self) {
     s32 i;
@@ -457,7 +456,7 @@ void func_800EB1B8(struct X4_BaseObj* self) {
     if (flags & 8) {
         *(s32*)((u8*)self + 0x20) = 0x38000;
         *(s32*)((u8*)self + 0x24) = 0;
-        self->unk5 = 3;
+        self->action = 3;
         self->unk15 = 0x40;
         func_800EC7A0(self);
     } else {
@@ -484,7 +483,7 @@ void func_800EB1B8(struct X4_BaseObj* self) {
                         u8* q;
                         p[0x89] += i;
                         *(s32*)((u8*)self + 0x20) = 0xFFFC8000;
-                        self->unk5 = 5;
+                        self->action = 5;
                         q = SPAD;
                         q[0x8A] |= 0x10;
                         self->unk15 = 0;
@@ -492,7 +491,7 @@ void func_800EB1B8(struct X4_BaseObj* self) {
                     }
                 }
                 if ((i & 0xFF) == 4) {
-                    self->unk5 = 2;
+                    self->action = 2;
                     *(s32*)((u8*)self + 0x28) = 0;
                     *(s32*)((u8*)self + 0x2C) = 0x1000;
                     __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
@@ -515,13 +514,13 @@ void func_800EB1B8(struct X4_BaseObj* self) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK move_object(void*);
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
-extern u8 D_800FB26C[];
 
 void func_800EB3D4(struct X4_BaseObj* self) {
     s32 i;
@@ -532,7 +531,7 @@ void func_800EB3D4(struct X4_BaseObj* self) {
     if (flags & 2) {
         *(s32*)((u8*)self + 0x20) = 0;
         *(s32*)((u8*)self + 0x24) = 0xFFFC8000;
-        self->unk5 = 4;
+        self->action = 4;
         self->unk15 = 0;
         func_800EC7A0(self);
     } else {
@@ -559,7 +558,7 @@ void func_800EB3D4(struct X4_BaseObj* self) {
                         u8* q;
                         p[0x88] += i;
                         *(s32*)((u8*)self + 0x24) = 0x38000;
-                        self->unk5 = 6;
+                        self->action = 6;
                         q = SPAD;
                         q[0x8A] |= 1;
                         self->unk15 = 0x40;
@@ -567,7 +566,7 @@ void func_800EB3D4(struct X4_BaseObj* self) {
                     }
                 }
                 if ((i & 0xFF) == 4) {
-                    self->unk5 = 2;
+                    self->action = 2;
                     *(s32*)((u8*)self + 0x28) = 0;
                     *(s32*)((u8*)self + 0x2C) = 0x1000;
                     __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
@@ -590,13 +589,13 @@ void func_800EB3D4(struct X4_BaseObj* self) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK move_object(void*);
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
-extern u8 D_800FB26C[];
 
 void func_800EB5E8(struct X4_BaseObj* self) {
     s32 i;
@@ -607,7 +606,7 @@ void func_800EB5E8(struct X4_BaseObj* self) {
     if (flags & 4) {
         *(s32*)((u8*)self + 0x20) = 0xFFFC8000;
         *(s32*)((u8*)self + 0x24) = 0;
-        self->unk5 = 5;
+        self->action = 5;
         self->unk15 = 0;
         func_800EC7A0(self);
     } else {
@@ -634,7 +633,7 @@ void func_800EB5E8(struct X4_BaseObj* self) {
                         u8* q;
                         p[0x89] += i;
                         *(s32*)((u8*)self + 0x20) = 0x38000;
-                        self->unk5 = 3;
+                        self->action = 3;
                         q = SPAD;
                         q[0x8A] |= 0x10;
                         self->unk15 = 0x40;
@@ -642,7 +641,7 @@ void func_800EB5E8(struct X4_BaseObj* self) {
                     }
                 }
                 if ((i & 0xFF) == 4) {
-                    self->unk5 = 2;
+                    self->action = 2;
                     *(s32*)((u8*)self + 0x28) = 0;
                     *(s32*)((u8*)self + 0x2C) = 0x1000;
                     __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
@@ -665,13 +664,13 @@ void func_800EB5E8(struct X4_BaseObj* self) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK move_object(void*);
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
-extern u8 D_800FB26C[];
 
 void func_800EB7FC(struct X4_BaseObj* self) {
     s32 i;
@@ -682,7 +681,7 @@ void func_800EB7FC(struct X4_BaseObj* self) {
     if (flags & 2) {
         *(s32*)((u8*)self + 0x20) = 0;
         *(s32*)((u8*)self + 0x24) = 0x38000;
-        self->unk5 = 0xA;
+        self->action = 0xA;
         self->unk15 = 0;
         func_800EC7A0(self);
     } else {
@@ -709,7 +708,7 @@ void func_800EB7FC(struct X4_BaseObj* self) {
                         u8* q;
                         p[0x88] += i;
                         *(s32*)((u8*)self + 0x24) = 0xFFFC8000;
-                        self->unk5 = 8;
+                        self->action = 8;
                         q = SPAD;
                         q[0x8A] |= 1;
                         self->unk15 = 0x40;
@@ -717,7 +716,7 @@ void func_800EB7FC(struct X4_BaseObj* self) {
                     }
                 }
                 if ((i & 0xFF) == 4) {
-                    self->unk5 = 2;
+                    self->action = 2;
                     *(s32*)((u8*)self + 0x28) = 0;
                     *(s32*)((u8*)self + 0x2C) = 0x1000;
                     __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
@@ -740,13 +739,13 @@ void func_800EB7FC(struct X4_BaseObj* self) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK move_object(void*);
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
-extern u8 D_800FB26C[];
 
 void func_800EBA10(struct X4_BaseObj* self) {
     s32 i;
@@ -757,7 +756,7 @@ void func_800EBA10(struct X4_BaseObj* self) {
     if (flags & 8) {
         *(s32*)((u8*)self + 0x20) = 0xFFFC8000;
         *(s32*)((u8*)self + 0x24) = 0;
-        self->unk5 = 7;
+        self->action = 7;
         self->unk15 = 0;
         func_800EC7A0(self);
     } else {
@@ -784,7 +783,7 @@ void func_800EBA10(struct X4_BaseObj* self) {
                         u8* q;
                         p[0x89] += i;
                         *(s32*)((u8*)self + 0x20) = 0x38000;
-                        self->unk5 = 9;
+                        self->action = 9;
                         q = SPAD;
                         q[0x8A] |= 0x10;
                         self->unk15 = 0;
@@ -792,7 +791,7 @@ void func_800EBA10(struct X4_BaseObj* self) {
                     }
                 }
                 if ((i & 0xFF) == 4) {
-                    self->unk5 = 2;
+                    self->action = 2;
                     *(s32*)((u8*)self + 0x28) = 0;
                     *(s32*)((u8*)self + 0x2C) = 0x1000;
                     __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
@@ -815,6 +814,7 @@ void func_800EBA10(struct X4_BaseObj* self) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
@@ -822,7 +822,6 @@ void func_800EBA10(struct X4_BaseObj* self) {
 M2C_UNK move_object(void*);
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
-extern u8 D_800FB26C[];
 
 void func_800EBC28(struct X4_BaseObj* self) {
     u8 flags;
@@ -833,7 +832,7 @@ void func_800EBC28(struct X4_BaseObj* self) {
     if (flags & 1) {
         M2C_FIELD(self, s32*, 0x20) = 0;
         M2C_FIELD(self, s32*, 0x24) = 0xFFFC8000;
-        self->unk5 = 8;
+        self->action = 8;
         self->unk15 = 0x40;
         func_800EC7A0(self);
     } else {
@@ -856,13 +855,13 @@ void func_800EBC28(struct X4_BaseObj* self) {
                         SPAD[0x88] += i - 1;
                     }
                     M2C_FIELD(self, s32*, 0x24) = 0x38000;
-                    self->unk5 = 0xA;
+                    self->action = 0xA;
                     SPAD[0x8A] |= 1;
                     self->unk15 = 0;
                     break;
                 }
                 if ((u8)i == 4) {
-                    self->unk5 = 2;
+                    self->action = 2;
                     M2C_FIELD(self, s32*, 0x28) = 0;
                     M2C_FIELD(self, s32*, 0x2C) = 0x1000;
                     __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
@@ -881,13 +880,13 @@ void func_800EBC28(struct X4_BaseObj* self) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK move_object(void*);
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
-extern u8 D_800FB26C[];
 
 void func_800EBE50(struct X4_BaseObj* self) {
     s32 i;
@@ -898,7 +897,7 @@ void func_800EBE50(struct X4_BaseObj* self) {
     if (flags & 4) {
         *(s32*)((u8*)self + 0x20) = 0x38000;
         *(s32*)((u8*)self + 0x24) = 0;
-        self->unk5 = 9;
+        self->action = 9;
         self->unk15 = 0x40;
         func_800EC7A0(self);
     } else {
@@ -925,7 +924,7 @@ void func_800EBE50(struct X4_BaseObj* self) {
                         u8* q;
                         p[0x89] += i;
                         *(s32*)((u8*)self + 0x20) = 0xFFFC8000;
-                        self->unk5 = 7;
+                        self->action = 7;
                         q = SPAD;
                         q[0x8A] |= 0x10;
                         self->unk15 = 0;
@@ -933,7 +932,7 @@ void func_800EBE50(struct X4_BaseObj* self) {
                     }
                 }
                 if ((i & 0xFF) == 4) {
-                    self->unk5 = 2;
+                    self->action = 2;
                     *(s32*)((u8*)self + 0x28) = 0;
                     *(s32*)((u8*)self + 0x2C) = 0x1000;
                     __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
@@ -957,13 +956,13 @@ void func_800EBE50(struct X4_BaseObj* self) {
 #include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK set_animation(void*, M2C_UNK);
 void func_800EC830(void*, s32, s32);
 extern struct X4_PlayerObj g_Player;
-extern u8 D_800CCF38;
 
 void func_800EC068(struct X4_BaseObj* self) {
     s8 state = *(s8*)((u8*)self + 0x45);
@@ -987,7 +986,7 @@ void func_800EC068(struct X4_BaseObj* self) {
             v = *(u8*)((u8*)self + 6);
             v += 1;
         }
-        self->unk6 = v;
+        self->action_phase = v;
     }
 }
 
@@ -999,7 +998,7 @@ void func_800EC068(struct X4_BaseObj* self) {
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 s32 random_byte();
 
@@ -1087,7 +1086,7 @@ void func_800EC180(void* self) {
     M2C_FIELD(self, s32*, 0x24) = r * 32 + t;
     M2C_FIELD(self, s32*, 0x28) = 0;
     M2C_FIELD(self, s32*, 0x2C) = 0;
-    if (func_8002CBFC(self, 0x18, 0x18) == 0) {
+    if (is_off_screen(self, 0x18, 0x18) == 0) {
         func_8002CCB0(self, 0x10, 0x10);
     } else {
         M2C_FIELD(self, u8*, 0x4)++;
@@ -1175,8 +1174,8 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800EC830);
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();                        /* extern */
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);     /* extern */
+M2C_UNK animate_object();                       /* extern */
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);     /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK move_object(void*);                     /* extern */
 M2C_UNK func_8002EE10(void*);                   /* extern */
@@ -1184,7 +1183,7 @@ M2C_UNK func_80030ECC(void*);                   /* extern */
 M2C_UNK func_80049D90(void*);                   /* extern */
 
 void func_800EC900(void* arg0) {
-    func_80017A04();
+    animate_object();
     move_object(arg0);
     func_80030ECC(arg0);
     if ((M2C_FIELD(arg0, u8*, 0x70) != 0) ||
@@ -1193,7 +1192,7 @@ void func_800EC900(void* arg0) {
         M2C_FIELD(arg0, u8*, 4) = (u8)(M2C_FIELD(arg0, u8*, 4) + 1);
         return;
     }
-    if (func_8002CBFC(arg0, 0x18, 0x18) == 0) {
+    if (is_off_screen(arg0, 0x18, 0x18) == 0) {
         func_8002CCB0(arg0, 0x10, 0x10);
         return;
     }
@@ -1323,15 +1322,17 @@ void func_800ED748(void* arg0) {
 
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04(); /* extern */
-M2C_UNK move_object();   /* extern */
+M2C_UNK animate_object(); /* extern */
+M2C_UNK move_object();    /* extern */
 
 void func_800ED79C(s32 arg0) {
-    func_80017A04();
+    animate_object();
     move_object(arg0);
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_11.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -1343,20 +1344,7 @@ s32 func_8002A47C(s32);
 s32 random_byte();
 extern s32 D_8007483C;
 extern u32* D_80095098;
-extern u8 D_800970B4;
-extern s16 D_8009721C;
-extern u8 D_800FB26C[];
 extern s32 D_800FC84C;
-extern void* D_800FD510;
-extern s8 D_800FD514;
-extern s16 D_800FD516;
-extern s16 D_800FD518;
-extern s8 D_800FD51A;
-extern s8 D_800FD51B;
-extern s8 D_800FD51D;
-extern s8 D_800FD51F;
-extern s8 D_800FD520;
-extern s8 D_800FD521;
 extern s16 D_800FD526;
 
 #define F(type, off) M2C_FIELD(self, type*, off)
@@ -1503,17 +1491,14 @@ void func_800ED7C8(void* self) {
 #undef SETUP_GFX
 
 #include "common.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_11.h"
 #define M2C_UNK s32
 #define SPAD28 (*(s32*)0x1F800028)
 
 M2C_UNK load_palette(M2C_UNK, M2C_UNK*, M2C_UNK);
 M2C_UNK func_8002B410(M2C_UNK*, M2C_UNK*, M2C_UNK, s32, s32);
-extern s8 D_800CCEEC;
 extern u8 D_800E9878[];
-extern M2C_UNK D_800FD530;
-extern M2C_UNK D_800FD930;
-extern M2C_UNK D_800FD9D0;
-extern s16 D_800FDA70;
 
 void func_800EDD28(u8* arg0) {
     u8 buf[4];
@@ -1531,15 +1516,11 @@ void func_800EDD28(u8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/rock_11.h"
 #define M2C_UNK s32
 
 M2C_UNK load_palette(M2C_UNK, M2C_UNK*, M2C_UNK);
 M2C_UNK func_8002B410(M2C_UNK*, M2C_UNK*, M2C_UNK, s32, s32);
-extern M2C_UNK D_800FD530;
-extern M2C_UNK D_800FD730;
-extern M2C_UNK D_800FD930;
-extern M2C_UNK D_800FD9D0;
-extern s16 D_800FDA70;
 
 void func_800EDF24(u8* arg0) {
     func_8002B410(&D_800FD730, &D_800FD530, 0x100, --D_800FDA70, 0x60);
@@ -1555,13 +1536,13 @@ void func_800EDF24(u8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/rock_11.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_800F1A90(void* self, u8 arg1);
 void func_800F3E10(void* arg0, s32 arg1);
-extern s8 D_800FD514;
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 
@@ -1612,6 +1593,7 @@ void func_800EE034(void* self) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20_800EE178 (*(s32**)0x1F800020)
@@ -1624,8 +1606,6 @@ void func_800478F0(s32, void*, void*, u16, s32, s32);
 void func_800F4664(s16 arg0, s16 arg1);
 extern u32* D_80095098;
 extern struct X4_BackgroundObj background_objects[3];
-extern u8 D_800C4560;
-extern s8 D_800CCEF4;
 extern u8 D_800FC9A4[];
 extern u8 D_800FC9D0[];
 
@@ -1696,12 +1676,12 @@ void func_800EE178(void* self) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80012D9C(M2C_UNK);
+M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 extern s16 D_80090D5C;
 #include "mmx6/state.h"
+#include "mmx6/globals.h"
 extern s16 D_80097430;
-extern u8 D_800C4560;
 extern s16 D_800CF854;
 
 #define F(type, off) M2C_FIELD(self, type*, off)
@@ -1727,7 +1707,7 @@ void func_800EE4F4(void* self) {
         func_8002943C(2, 5, 2);
     }
     if (!(D_80097420.frame_counter & 0x1F)) {
-        func_80012D9C(3);
+        start_pad_vibration(3);
     }
 }
 
@@ -1735,6 +1715,7 @@ void func_800EE4F4(void* self) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20_800EE5F8 (*(s32**)0x1F800020)
@@ -1747,10 +1728,7 @@ s32 random_byte();
 void func_800478F0(s32, void*, void*, u16, s32, s32);
 void func_800F4664(s16 arg0, s16 arg1);
 extern u32* D_80095098;
-extern s8 D_800970A5;
 extern struct X4_BackgroundObj background_objects[3];
-extern u8 D_800C4560;
-extern s8 D_800CCEF4;
 extern u8 D_800FC9A4[];
 extern u8 D_800FC9D0[];
 
@@ -1823,7 +1801,7 @@ void func_800EE5F8(void* self) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80012D9C(M2C_UNK);
+M2C_UNK start_pad_vibration(M2C_UNK);
 s32 random_byte();
 void func_800F1FBC();
 void func_800F3EC4(void* arg0, u8 arg1, s16 arg2, s16 arg3);
@@ -1855,7 +1833,7 @@ void func_800EE990(u8* self) {
                       background_objects[0].y_pos.u.hi - 0xA);
     }
     if (!(D_80097420.frame_counter & 0x1F)) {
-        func_80012D9C(3);
+        start_pad_vibration(3);
     }
     if (D_80097420.transition.fade_amount == 0) {
         func_800F1FBC();
@@ -1867,16 +1845,15 @@ void func_800EE990(u8* self) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
 s32 random_byte();
 extern struct X4_BackgroundObj background_objects[3];
-extern u8 D_800FB26C[];
 extern u8 D_800FC9D8[];
 extern u8 D_800FC9E0[];
-extern s8 D_800FD514;
 
 #define TB (D_800FB26C + 0xE44)
 #define F(type, off) M2C_FIELD(self, type*, off)
@@ -1913,11 +1890,12 @@ void func_800EEBBC(void* self) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
 s32 random_byte();
 M2C_UNK func_80030ECC(void*);
@@ -1927,15 +1905,8 @@ M2C_UNK func_80049E50(void*);
 void func_800F4664(s16 arg0, s16 arg1);
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_800FC99C;
-extern s32 D_800FC9A0;
 extern u8 D_800FC9C0[];
 extern void (*D_800FCAF4[])(void*);
-extern s8 D_800FD51C;
-extern s8 D_800FD51D;
-extern s8 D_800FD51E;
-extern s8 D_800FD51F;
-extern s8 D_800FD520;
-extern s8 D_800FD521;
 extern u8 D_800FD522;
 
 // str 0x800FC99C sha1=0eac54faaac158f6d801fad2ace88d48fcfa11f5 = "printable byte run: a table, not text"
@@ -1975,7 +1946,9 @@ void func_800EED14(void* arg0) {
             background_objects[0].unk4C = 1;
             D_800FD521 = 0;
         }
-        goto block_14;
+        M2C_FIELD(arg0, s8*, 4) = 3;
+        M2C_FIELD(arg0, s8*, 3) = 0;
+        return;
     }
     switch (M2C_FIELD(arg0, s8*, 2)) {
     case 0x11:
@@ -1992,17 +1965,18 @@ void func_800EED14(void* arg0) {
         ((void (*)(void*))func_80049E50)(arg0);
         M2C_FIELD(arg0, s32*, 0x54) = 0;
         ((void (*)(s32, void*, void*))func_800477E4)(4, &D_800FC99C, arg0);
-        goto block_14;
+        M2C_FIELD(arg0, s8*, 4) = 3;
+        M2C_FIELD(arg0, s8*, 3) = 0;
+        return;
     case 0x20:
         if (D_800FD51E == 0) {
             break;
         }
-    block_14:
         M2C_FIELD(arg0, s8*, 4) = 3;
         M2C_FIELD(arg0, s8*, 3) = 0;
         return;
     }
-    ((void (*)(void*))func_80017A04)(arg0);
+    ((void (*)(void*))animate_object)(arg0);
     D_800FCAF4[M2C_FIELD(arg0, s8*, 5)](arg0);
     if (check_enemy_hits(arg0) < 0) {
         switch (M2C_FIELD(arg0, s8*, 2) & 0xF0) {
@@ -2058,24 +2032,10 @@ void func_800EF0EC(void* arg0) {
     move_object(arg0);
     t = F(s16, 0xA);
     d = x - t;
-    if (d >= 0) {
-        if (d < 3) {
-            goto L1;
-        }
-        return;
-    }
-    if (t - 0xA0 < 3) {
-    L1:
+    if (d >= 0 ? d < 3 : t - 0xA0 < 3) {
         t = F(s16, 0xE);
         d = 0x20 - t;
-        if (d >= 0) {
-            if (d < 3) {
-                goto L2;
-            }
-            return;
-        }
-        if (t - 0x20 < 3) {
-        L2:
+        if (d >= 0 ? d < 3 : t - 0x20 < 3) {
             func_800F4254(arg0, 0x20);
             func_800F4534(arg0, 0);
             {
@@ -2093,12 +2053,10 @@ void func_800EF0EC(void* arg0) {
 
 #include "common.h"
 #include "psyq/libgte.h"
+#include "mmx6/rock_11.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-extern s8 D_800FD514;
-extern s8 D_800FD51B;
-extern s8 D_800FD51E;
 extern u8 D_800FD522;
 #define D_800FD522 (*(s8*)&D_800FD522)
 extern s16 D_800FD526;
@@ -2133,13 +2091,12 @@ void func_800EF204(void* arg0) {
 
 #include "common.h"
 #include "psyq/libgte.h"
+#include "mmx6/rock_11.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK move_object(void*);
-extern s8 D_800FD51B;
-extern s8 D_800FD51E;
 
 #define F(type, off) M2C_FIELD(arg0, type*, off)
 
@@ -2229,24 +2186,10 @@ void func_800EF408(void* arg0) {
     move_object(arg0);
     t = F(s16, 0xA);
     d = x - t;
-    if (d >= 0) {
-        if (d < 4) {
-            goto L1;
-        }
-        return;
-    }
-    if (t - x < 4) {
-    L1:
+    if (d >= 0 ? d < 4 : t - x < 4) {
         t = F(s16, 0xE);
         d = y - t;
-        if (d >= 0) {
-            if (d < 4) {
-                goto L2;
-            }
-            return;
-        }
-        if (t - y < 4) {
-        L2:
+        if (d >= 0 ? d < 4 : t - y < 4) {
             F(s16, 0xA) = x;
             F(s16, 0xE) = y;
             F(u8, 0x6)++;
@@ -2256,6 +2199,7 @@ void func_800EF408(void* arg0) {
 
 #include "common.h"
 #include "psyq/libgte.h"
+#include "mmx6/rock_11.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -2266,9 +2210,6 @@ M2C_UNK func_800F1A90(void* self, u8 arg1);
 M2C_UNK func_800F4534(void*, M2C_UNK);
 extern u8 D_800E9884[];
 extern u8 D_800E9894[];
-extern s16 D_800FD516;
-extern s16 D_800FD518;
-extern s8 D_800FD51B;
 
 #define F(type, off) M2C_FIELD(arg0, type*, off)
 
@@ -2326,18 +2267,16 @@ void func_800EF5B8(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80012D9C(M2C_UNK);
+M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
 void func_800F41D0(void* arg0, u8 arg1, s16 arg2, s16 arg3);
 extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_800FC9B0[];
-extern s8 D_800FD51C;
-extern s8 D_800FD51F;
-extern s8 D_800FD521;
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 #define G(type, off) (*(type*)(p + (off)))
@@ -2365,7 +2304,7 @@ void func_800EF7FC(void* self) {
                       background_objects[0].y_pos.i.hi, p + 8);
         background_objects[0].unk4C = 1;
         if (D_800FD51F == 0xF) {
-            func_80012D9C(5);
+            start_pad_vibration(5);
             play_sound(2, 0x35, self);
             D_800FD51C = 1;
             F(s16, 0x7C) = 0;
@@ -2413,6 +2352,7 @@ void func_800EF98C(void* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
@@ -2421,9 +2361,6 @@ s32 random_byte();
 void func_800F4664(s16 arg0, s16 arg1);
 extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_800FC9C0[];
-extern s8 D_800FD51C;
-extern s8 D_800FD51F;
-extern s8 D_800FD520;
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 
@@ -2464,6 +2401,7 @@ void func_800EFAE4(void* self) {
 #include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
@@ -2472,10 +2410,6 @@ s32 func_80030234(struct X4_PlayerObj*, s16, s16);
 void func_800F402C(void*, s32);
 extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
-extern s16 D_800FD516;
-extern s16 D_800FD518;
-extern s8 D_800FD51A;
-extern s8 D_800FD51B;
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 
@@ -2560,7 +2494,7 @@ void func_800EFCC0(struct X4_PlayerObj* self) {
             g_Player.y_pos.u.hi - background_objects[0].y_pos.u.hi;
         func_800F402C(self, 4);
         F(s16, 0x7C) = 0x3C;
-        self->unk6++;
+        self->action_phase++;
     }
     D_800FD51A = self->on_screen;
 }
@@ -2574,6 +2508,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F0050);
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
@@ -2583,7 +2518,6 @@ M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 extern struct X4_PlayerObj g_Player;
 extern s32 D_800FCBA4;
 extern s32 D_800FCBA8;
-extern s8 D_800FD51D;
 
 #define F(type, off) M2C_FIELD(arg0, type*, off)
 
@@ -2692,7 +2626,8 @@ void func_800F0330(void* arg0) {
         0x38;
     F(s16, 0xA) = x;
     F(s16, 0xE) = y;
-    ((void (*)(void*, s32, s16))set_animation_frame)(arg0, 0x20, F(s16, 0x88) / 3);
+    ((void (*)(void*, s32, s16))set_animation_frame)(arg0, 0x20,
+                                                     F(s16, 0x88) / 3);
     j = F(s16, 0x88);
     for (i = 0; i < 5; i++) {
         j -= 2;
@@ -2726,7 +2661,7 @@ void func_800F04E0(struct X4_BaseObj* self) {
 
     parent = *(struct X4_BaseObj**)((u8*)self + 0x7C);
     if (parent->on_screen != 0 && *(s32*)((u8*)parent + 0x54) != 0) {
-        step = self->unk6;
+        step = self->action_phase;
         if (step == 0) {
             v = self->unk15;
             if (v != 0) {
@@ -2735,6 +2670,7 @@ void func_800F04E0(struct X4_BaseObj* self) {
                 v = 0xFFF40000;
             }
             *(s32*)((u8*)self + 0x20) = v;
+            // !FAKE: goto shares the step-advance tail with step 1; duplicating the tail moved bytes
             goto next;
         } else if (step == 1) {
             if (self->unk15 == 0) {
@@ -2748,14 +2684,15 @@ void func_800F04E0(struct X4_BaseObj* self) {
             } else {
                 move_object(self);
             }
-            if (parent->unk6 == 1) {
+            if (parent->action_phase == 1) {
                 set_animation(self, 0x3F);
             next:
-                self->unk6++;
+                self->action_phase++;
             }
             return;
         } else if (step == 2) {
             if (*(s8*)((u8*)self + 0x45) == 1) {
+                // !FAKE: goto shares the off tail with the parent check; duplicating the tail moved bytes
                 goto off;
             }
         }
@@ -2833,7 +2770,8 @@ void func_800F1048(void* arg0) {
     y = ((s16)(F(s16, 0xC) - bg->y_pos.i.hi) - 0x38) * k;
     F(s16, 0xA) = x / 39 + 0xA0;
     F(s16, 0xE) = y / 39 + 0x38;
-    ((void (*)(void*, s32, s16))set_animation_frame)(arg0, 0x20, F(s16, 0x54) / 3);
+    ((void (*)(void*, s32, s16))set_animation_frame)(arg0, 0x20,
+                                                     F(s16, 0x54) / 3);
     if (F(s16, 0x56) == 0) {
         F(u8, 0x4)++;
     } else {
@@ -2843,17 +2781,14 @@ void func_800F1048(void* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_11.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void func_800F4588(void* arg0, s32 arg1);
-extern s16 D_800971EC;
-extern s16 D_800FD516;
-extern s16 D_800FD518;
-extern s8 D_800FD51A;
-extern s8 D_800FD51B;
 
 #define F(type, off) M2C_FIELD(arg0, type*, off)
 #define SH(off) (((X4_f32*)arg0)[((off) - 2) / 4].i.hi)
@@ -3180,17 +3115,14 @@ M2C_UNK func_800F1A90(void* self, u8 arg1) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_11.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void func_800F1DC4(void* arg0, s32 arg1);
 extern struct X4_BackgroundObj background_objects[3];
-extern s8 D_800CCEED;
-extern void* D_800FD510;
-extern s8 D_800FD514;
-extern s8 D_800FD51D;
 extern s16 D_800FD526;
-extern s16 D_800FD52A;
 
 void func_800F1BE8(void* arg0) {
     switch (D_800FD514) {
@@ -3252,6 +3184,7 @@ void func_800F1BE8(void* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20_800F1DC4 (*(s32**)0x1F800020)
@@ -3259,7 +3192,6 @@ void func_800F1BE8(void* arg0) {
 s32 func_8002A47C(s32);
 void* enemy_slot_alloc();
 s32 random_byte();
-extern s8 g_enemies[];
 extern u32* D_80095098;
 extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_800E9A1C[];
@@ -3362,10 +3294,10 @@ void func_800F1FBC(void) {
 #undef D_80075FD8
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-extern s8 D_8009716C;
 extern void (*D_800FCBE8[])(void*);
 
 void func_800F215C(void* arg0) {
@@ -3382,24 +3314,24 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F21C0);
 // clang-format on
 
 #include "common.h"
+#include "mmx6/rock_11.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_80030ECC(void*);
 s32 check_enemy_hits(void*);
 void func_800F1BE8(void* arg0);
 void func_800F3D24(u8* self);
 extern void (*D_800FCA14[])(void*);
-extern s8 D_800FD51D;
 
 void func_800F2208(void* arg0) {
     s32 r;
 
     M2C_FIELD(arg0, s16*, 0xA) = 0xA0;
     M2C_FIELD(arg0, s16*, 0xE) = 0x88;
-    func_80017A04();
+    animate_object();
     D_800FCA14[M2C_FIELD(arg0, s8*, 5)](arg0);
     func_800F3D24(arg0);
     r = check_enemy_hits(arg0);

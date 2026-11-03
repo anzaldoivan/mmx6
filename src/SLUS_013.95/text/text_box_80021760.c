@@ -1,10 +1,9 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern struct X4_AbcObj D_8008EAF0;
 extern struct X4_EngineObj g_playthrough_state;
-extern u16 g_wide_mode;
 extern s32 D_8006E408;
 extern s32 D_800E33B0;
 extern struct X4_QuadObj* D_800E33B4;

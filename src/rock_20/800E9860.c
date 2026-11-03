@@ -4,10 +4,10 @@ INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", D_800E9860);
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/rock_20.h"
 
 void func_800F02A0(u8, s8, s32, s16);
 void func_800F0784(s32);
-extern s16 D_800F48F0;
 
 #define ENG ((u8*)g_playthrough_state)
 #define S_2 (((u8*)arg0)[0x2])
@@ -72,6 +72,8 @@ void func_800E98E0(void* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_20.h"
 #define M2C_UNK s32
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
@@ -80,8 +82,6 @@ extern s8 D_800CCEF8;
 extern u16 D_800F36B0[];
 extern u16 D_800F48EC;
 #define D_800F48EC (*(s16*)&D_800F48EC)
-extern s16 D_800F48EE;
-extern s16 D_800F48F0;
 
 void func_800E9B58(struct X4_EngineObj* arg0) {
     extern u8 g_playthrough_state[];
@@ -114,6 +114,8 @@ INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800E9D40);
 // clang-format on
 
 #include "common.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_20.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
@@ -123,17 +125,12 @@ s32 func_800F05AC(s32);
 s32 func_800F05E8(u8);
 s32 func_800F0724(u8, s32);
 void func_800F0784(s32);
-extern s32 D_8006D674[];
 extern s8 D_800CCEF8;
-extern u16 D_800F36CC;
 extern s32 D_800F370C[];
 extern s16 D_800F3920[];
 extern u16 D_800F48EC;
-extern s16 D_800F48EE;
-extern s16 D_800F48F0;
 extern u8 D_800F48F2;
 extern u8 D_800F48F5;
-extern u8 D_800F48F7;
 
 #define S_2 M2C_FIELD(self, u8*, 0x2)
 #define S_3 M2C_FIELD(self, s8*, 0x3)
@@ -158,8 +155,8 @@ void func_800E9E34(void* self) {
             }
             func_800F04C8(self, D_800F48F2, (s8)(D_800F48F5 + 2), 0xDC,
                           D_800F3920[(s8)D_800F48F5 + 1]);
-            if (D_8006D674[D_800F48F2] != 0) {
-                i = func_800F05AC(D_8006D674[D_800F48F2]);
+            if (part_by_reploid[D_800F48F2] != 0) {
+                i = func_800F05AC(part_by_reploid[D_800F48F2]);
                 {
                     s32* t = D_800F370C;
                     e = &t[i * 3];
@@ -210,6 +207,8 @@ void func_800E9E34(void* self) {
 #include "../shared/rock_20/func_800EA11C.c"
 
 #include "common.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_20.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
@@ -218,22 +217,15 @@ s32 func_800F05AC(s32);
 s32 func_800F05E8(u8);
 s32 func_800F0724(u8, s32);
 void func_800F0784(s32);
-extern s32 D_8006D674[];
 extern s8 D_800CCEF8;
 extern u8 D_800CCF2B[];
 extern u8 D_800CCF31[];
-extern u16 D_800F36CC;
 extern s32 D_800F370C[];
-extern u8 D_800F3844[];
 extern s16 D_800F3920[];
 extern u16 D_800F48EC;
-extern s16 D_800F48EE;
-extern s16 D_800F48F0;
 extern u8 D_800F48F2;
 extern u8 D_800F48F4;
 extern u8 D_800F48F5;
-extern u8 D_800F48F7;
-extern u8 D_800F48F8;
 
 #define S_2 M2C_FIELD(self, u8*, 0x2)
 #define S_3 M2C_FIELD(self, s8*, 0x3)
@@ -269,13 +261,13 @@ void func_800EA1F0(void* self) {
     {
         while ((s8)D_800F48F2 >= 0) {
             if (func_800F05E8(D_800F48F2) != 0) {
-                if (D_8006D674[D_800F48F2] != 0) {
+                if (part_by_reploid[D_800F48F2] != 0) {
                     if (D_800F48F7 == 0) {
                         S_3 = 2;
                         func_800F0784(2);
                         D_800F48F7 = 1;
                     }
-                    i = func_800F05AC(D_8006D674[D_800F48F2]);
+                    i = func_800F05AC(part_by_reploid[D_800F48F2]);
                     {
                         s32* t = D_800F370C;
                         e = &t[i * 3];

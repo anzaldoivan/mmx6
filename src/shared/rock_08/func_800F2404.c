@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void* func_8002C458();
 
 #define UB(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -15,7 +15,7 @@ void* func_8002C458();
 void func_800F2404(void* arg0) {
     void* p;
 
-    func_80017A04();
+    animate_object();
     if (SB(arg0, 0x45) == 5) {
         play_sound(2, 0x26, arg0);
         play_sound(2, 0x37, arg0);

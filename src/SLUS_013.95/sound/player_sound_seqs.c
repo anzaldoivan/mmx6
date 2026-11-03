@@ -1,12 +1,11 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void pump_file_loads(void);
 void read_dat_file(s32 arg0, s32* arg1, u8* arg2);
 #include "psyq/libsnd.h"
 extern u8 D_8006E35C[];
-extern s8 D_80090D50[6];
-extern s8 D_80090D64[];
 extern struct X4_EngineObj g_playthrough_state;
 extern s32 D_800E2600;
 extern s32 D_800E2604;

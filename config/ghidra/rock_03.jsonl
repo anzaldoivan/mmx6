@@ -167,7 +167,7 @@
 {"k":"func","addr":"0x800f3be4","name":"init_yammark_projectile","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: community tweaks-index.tsv:162"}
 {"k":"func","addr":"0x800f40c8","name":"update_commander_yammark","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: community refs/leads/tweaks/BossHealth.tsv:1346 word 0x800EF810 match; code:src/rock_03/commander_yammark.c:2 via=update_commander_yammark"}
 {"k":"func","addr":"0x800f5358","name":"FUN_800f5358","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
-{"k":"func","addr":"0x800f5664","name":"step_commander_yammark","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: xref derived.tsv:32; xref:callee=update_commander_yammark; code:src/shared/commander_yammark/step_commander_yammark.c:12 via=step_commander_yammark"}
+{"k":"func","addr":"0x800f5664","name":"step_commander_yammark","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: xref derived.tsv:32; xref:callee=update_commander_yammark; code:src/shared/commander_yammark/step_commander_yammark.c:13 via=step_commander_yammark"}
 {"k":"data","addr":"0x20000000","type":"/byte[4]","len":4}
 {"k":"data","addr":"0x20000004","type":"/byte[4]","len":4}
 {"k":"data","addr":"0x20000008","type":"/byte[4]","len":4}
@@ -755,7 +755,7 @@
 {"k":"comment","addr":"0x800ef600","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f3be4","type":"plate","text":"name: community tweaks-index.tsv:162"}
 {"k":"comment","addr":"0x800f40c8","type":"plate","text":"name: community refs/leads/tweaks/BossHealth.tsv:1346 word 0x800EF810 match; code:src/rock_03/commander_yammark.c:2 via=update_commander_yammark"}
-{"k":"comment","addr":"0x800f5664","type":"plate","text":"name: xref derived.tsv:32; xref:callee=update_commander_yammark; code:src/shared/commander_yammark/step_commander_yammark.c:12 via=step_commander_yammark"}
+{"k":"comment","addr":"0x800f5664","type":"plate","text":"name: xref derived.tsv:32; xref:callee=update_commander_yammark; code:src/shared/commander_yammark/step_commander_yammark.c:13 via=step_commander_yammark"}
 {"k":"comment","addr":"0x800f57bc","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f58c8","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800f5a98","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}

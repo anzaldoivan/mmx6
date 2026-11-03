@@ -3,8 +3,8 @@
 #include "mmx6/x4.h"
 
 void spike_crawler_hit_flash(struct X4_MainObj* self) {
-    if (self->unk6 == 0) {
-        self->unk6++;
+    if (self->action_phase == 0) {
+        self->action_phase++;
         self->invincibility_timer = 0x28;
     }
     if (BLINK_CLOCK(self->invincibility_timer) & 7) {
@@ -13,8 +13,8 @@ void spike_crawler_hit_flash(struct X4_MainObj* self) {
         self->unk42 |= 0x8000;
     }
     if (--self->invincibility_timer == 0) {
-        self->unk5 = 1;
-        self->unk6 = 0;
+        self->action = 1;
+        self->action_phase = 0;
         self->unk42 &= 0x7FFF;
     }
 }

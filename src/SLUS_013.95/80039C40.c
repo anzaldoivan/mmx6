@@ -1,111 +1,23 @@
-// clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80039C40);
-// clang-format on
-
+// prog SLUS_013.95 | system movement | range 0x80039C40-0x80039DF8
+/* Adapted from sozud/mmx4 @29b62af src/main/player_check.c:player_check_dash_jump, AGPL-3.0; proven shared with X6 by exact signature 45aeff6b7124 (see THIRD_PARTY.md). */
 #include "common.h"
-#define M2C_UNK s32
+#include "mmx6/x4.h"
+s32 check_dash_input(struct X4_PlayerObj*);
 
-M2C_UNK func_8003B9AC(void*);
-extern u8 D_800CCF99;
+// 0x80039C40 func_80039C40: dash or jump check: a dash input starts a dash, else a JUMP press starts a jump; returns 1 when taken.
+// basis: none
+// callers: update_stand, update_walk_start
+// unnamed callers: func_800354E8, func_80035D38, func_80036800, rock_00 and rock_01 player states
+s32 func_80039C40(void* arg0) {
+    struct X4_PlayerObj* self = arg0;
 
-s32 func_80039C9C(void* arg0) {
-    if (((s8*)arg0)[0xD3] != 0) {
-        return 0;
+    if (check_dash_input(self) != 0) {
+        start_dash(self);
+        return 1;
     }
-    if (!(D_800CCF99 & 8)) {
-        return 0;
+    if (self->pressed_input & PLAYER_INPUT_JUMP) {
+        start_jump(self);
+        return 1;
     }
-    if (!(*(u16*)((u8*)arg0 + 0x7C) & 8)) {
-        return 0;
-    }
-    func_8003B9AC(arg0);
-    return 1;
-}
-
-#include "common.h"
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-
-s32 func_80039CFC(void* arg0) {
-    u16 temp_v1;
-
-    if (M2C_FIELD(arg0, s8*, 0xD3) != 0) {
-        return 0;
-    }
-    temp_v1 = M2C_FIELD(arg0, u16*, 0x7C);
-    if (!(temp_v1 & 3)) {
-        return 0;
-    }
-    if (temp_v1 & 1) {
-        M2C_FIELD(arg0, u8*, 0x15) = 0x40;
-        if (M2C_FIELD(arg0, u8*, 0x89) & 1) {
-            return 0;
-        }
-        M2C_FIELD(arg0, s32*, 0x20) = M2C_FIELD(arg0, s32*, 0xF0);
-    } else {
-        M2C_FIELD(arg0, u8*, 0x15) = 0;
-        if (M2C_FIELD(arg0, u8*, 0x89) & 2) {
-            return 0;
-        }
-        M2C_FIELD(arg0, s32*, 0x20) = -M2C_FIELD(arg0, s32*, 0xF0);
-    }
-    return 1;
-}
-
-#include "common.h"
-
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-
-s32 func_80039D7C(void* arg0) {
-    u16 temp_v1;
-
-    if (M2C_FIELD(arg0, s8*, 0xD3) != 0) {
-        return 0;
-    }
-    temp_v1 = M2C_FIELD(arg0, u16*, 0x7C);
-    if (!(temp_v1 & 3)) {
-        return 0;
-    }
-    if (temp_v1 & 1) {
-        M2C_FIELD(arg0, u8*, 0x15) = 0x40;
-        if (M2C_FIELD(arg0, u8*, 0x89) & 1) {
-            return 0;
-        }
-        M2C_FIELD(arg0, s32*, 0x20) = M2C_FIELD(arg0, s32*, 0xF4);
-    } else {
-        M2C_FIELD(arg0, u8*, 0x15) = 0;
-        if (M2C_FIELD(arg0, u8*, 0x89) & 2) {
-            return 0;
-        }
-        M2C_FIELD(arg0, s32*, 0x20) = -M2C_FIELD(arg0, s32*, 0xF4);
-    }
-    return 1;
-}
-
-#include "common.h"
-#define M2C_UNK s32
-
-M2C_UNK func_8003AFF4(s32);
-M2C_UNK func_8003CCBC();
-M2C_UNK func_8003CDBC();
-
-void func_80039DFC(void* arg0) {
-    s8* p = (s8*)arg0;
-    s8 temp_v1;
-
-    temp_v1 = p[5];
-    if (temp_v1 == 0) {
-        return;
-    }
-    if (temp_v1 == 1) {
-        return;
-    }
-    if ((p[0x67] == 0) && (p[0xA4] <= 0) && (p[0xD5] >= 0) && (p[0xD4] == 0) &&
-        !(((u8*)p)[0x89] & 8)) {
-        if (p[2] != 0) {
-            func_8003CDBC();
-        }
-        func_8003AFF4((s32)arg0);
-        func_8003CCBC(arg0);
-    }
+    return 0;
 }

@@ -3,25 +3,14 @@
 #include "psyq/libetc.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void task_yield(s32);
 void func_80014E60(s32, s32);
 M2C_UNK func_80014F70(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_80064894(s32, s32);
 X4_CdlCB func_800648B4(X4_CdlCB func);
-extern u8 D_8008EC08;
-extern s32 D_8008EC0C;
-extern u8 D_8009509C;
-extern s32 D_800E01A8;
-extern u8* D_800E01AC;
-extern s32 D_800E01B0;
-extern s32 D_800E01B4;
-extern s32 D_800E01C0;
-extern u8 D_800E0379;
 extern u8 D_800E037A;
-extern s32 D_800E037C;
-extern u32 D_800E0380;
-extern s32 rock_dat_file_table[][2];
 
 // 0x80016178 pump_file_loads: steps the queued DAT file reads and re-issues a read on CD error status.
 // basis: code src/shared/SLUS_013.95/pump_file_loads.c:65 via=rock_dat_file_table
@@ -38,10 +27,7 @@ void pump_file_loads(void) {
 
     param[0] = 0xA0;
     D_8008EC0C = 0;
-    if (D_8009509C == 2) {
-        goto check;
-    }
-    do {
+    while (D_8009509C != 2 || D_8008EC08 != 0) {
         {
             if (D_8009509C & 0xC0) {
                 if (D_800E01C0 == 0) {
@@ -83,11 +69,5 @@ void pump_file_loads(void) {
             }
             task_yield(1);
         }
-        if (D_8009509C == 2) {
-        check:
-            if (D_8008EC08 == 0) {
-                break;
-            }
-        }
-    } while (1);
+    }
 }

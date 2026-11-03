@@ -13,6 +13,7 @@
 #define M2C_UNK s32
 
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void set_animation(void*, M2C_UNK);
 void func_8002CCB0(struct X4_BaseObj*, s32, s32);
@@ -23,7 +24,7 @@ void func_800FBD40(s8* arg0) {
     struct X4_PlayerObj* pl = &g_Player;
 
     *(u8*)((s32)pl + 0xCA) = 0;
-    func_8003D308(0x14, pl->unk15);
+    func_8003D308(0x14, pl->facing);
     arg0[5] = 1;
     *(u16*)(arg0 + 0x42) &= 0x7FFF;
     set_animation(arg0, 5);
@@ -93,11 +94,10 @@ void func_800FC05C(void) {
 #undef D_80073C1C
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-
-extern M2C_UNK D_80074C9C;
 
 void func_800FC0A0(void* arg0) {
     M2C_FIELD(arg0, M2C_UNK**, 0x58) = &D_80074C9C;
@@ -153,7 +153,7 @@ INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FC210);
 #include "mmx6/x4.h"
 
 void set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK move_object(void*);
 s32 random_byte();
 
@@ -162,22 +162,22 @@ void func_800FC2AC(void* arg0) {
     s32 r;
 
     r = random_byte() & 0xF;
-    ((void (*)(void*))func_80017A04)(arg0);
+    ((void (*)(void*))animate_object)(arg0);
     if (r < 5) {
         ((void (*)(void*, s32))set_animation)(arg0, 0);
-        self->unk5 = 5;
-        self->unk6 = 0;
+        self->action = 5;
+        self->action_phase = 0;
         return;
     }
     if (r < 0xA) {
-        self->unk5 = 6;
-        self->unk6 = 0;
+        self->action = 6;
+        self->action_phase = 0;
         self->input.buttons.held = 0x5A;
         return;
     }
     ((void (*)(void*))move_object)(arg0);
-    self->unk5 = 2;
-    self->unk6 = 1;
+    self->action = 2;
+    self->action_phase = 1;
 }
 #undef func_800F2244
 
@@ -192,11 +192,11 @@ INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FC340);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 
 void func_800FC39C(void* arg0) {
     ((void (*)(void*, s32))set_animation)(arg0, 0);
-    ((void (*)(void*))func_80017A04)(arg0);
+    ((void (*)(void*))animate_object)(arg0);
     M2C_FIELD(arg0, s16*, 0x7C) = 0x28;
     M2C_FIELD(arg0, u8*, 6) = M2C_FIELD(arg0, u8*, 6) + 1;
 }
@@ -204,20 +204,20 @@ void func_800FC39C(void* arg0) {
 
 #define func_800F2378 func_800FC3E0
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define OUB(p, o) (*(u8*)((u8*)(p) + (o)))
 #define OH(p, o) (*(u16*)((u8*)(p) + (o)))
 
 void set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
-extern u8 D_800CCF5F;
+M2C_UNK animate_object();
 
 void func_800FC3E0(void* arg0) {
     // !FAKE: inherited from src/shared/rock_08/func_800F2378.c
     register s32 t asm("$2");
 
-    func_80017A04();
+    animate_object();
     t = OH(arg0, 0x7C) - 1;
     OH(arg0, 0x7C) = t;
     if ((s16)t == 0) {
@@ -421,10 +421,10 @@ INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FCE78);
 
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04(); /* extern */
+M2C_UNK animate_object(); /* extern */
 
 void func_800FCF6C(void) {
-    func_80017A04();
+    animate_object();
 }
 
 #define func_800F2F24 func_800FCF8C

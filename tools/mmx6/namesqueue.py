@@ -12,7 +12,8 @@
                when given); a verdict whose key is not in the queue, a verdict word outside admitted|held|rejected,
                or a repeated key is a NAMESQUEUE REFUSE line; rc 0 iff j = n and no refusal.
                Code refs (2.3 T18): every `code:` ref in a verdict basis-ref (col 8) and every config/symbols/basis.tsv
-               row of kind `code` must read `code:<path>:<line> via=<anchor>[; ...]`, path git-tracked under src/ or
+               row of kind `code` must read `code:<path>:<line> via=<anchor>[; ...]` (`;` parts without `code:` are
+               prose and skipped, in both files), path git-tracked under src/ or
                include/ (a unit, role file or src/shared body alike: no path pattern), line 1-based on file, anchor
                a whole word (\\b) on that line; else NAMESQUEUE REFUSE <file>:<n>
                code-no-via|code-untracked|code-bad-line|code-anchor-missing (a refused row is not judged)
@@ -22,7 +23,8 @@
                code ref into the role file passes)
 
 Columns: prog vram candidate source evidence-key basis-kind tier overlay-ref.
-Validity sets come from tracked files only (git ls-files): function starts = oracle functions (unit, vram)
+Validity sets come from tracked files only (git ls-files; a root without .git, e.g. the container's synced /work,
+is walked instead): function starts = oracle functions (unit, vram)
 + `type:func` / `func_` symbols + Ghidra `func` records (config/ghidra/<prog>.jsonl, inside a ram/RAM/CODE block);
 data symbols = other symbols + Ghidra `data`/`label` records + D_<8hex> tokens of src/ and include/ files. A source
 file's programs (its D_ tokens and func_ definitions count there): the progs of the units whose #include closure
@@ -77,7 +79,8 @@ def hexv(v):
 
 
 def list_files(root, sub, tracked):
-    if tracked:
+    # No .git (the container's /work: mx.sh sync copies tracked + untracked-non-ignored files): walk instead (2.6 T1).
+    if tracked and os.path.exists(os.path.join(root, ".git")):
         r = subprocess.run(["git", "-C", root, "ls-files", "-z", "--", sub], capture_output=True, check=True)
         return sorted(p for p in r.stdout.decode().split("\0") if p)
     out = []
@@ -394,7 +397,7 @@ def check(root, source=None, quiet=False, tracked=True):
     for n, line in enumerate(btext.splitlines(), 1):
         f = line.split("\t")
         if not line.startswith("#") and len(f) >= 5 and f[3] == "code":
-            why = code(f[4])
+            why = code("; ".join(p for p in f[4].split(";") if "code:" in p))   # prose parts skipped, as in verdicts
             if why:
                 refuse.append("NAMESQUEUE REFUSE %s:%d %s" % (BASIS, n, why))
     if not quiet:

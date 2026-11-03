@@ -1,12 +1,11 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #ifndef M2C_FIELD
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #endif
 #define SPAD (*(u8**)0x1F80004C)
-
-extern u8 D_800CCF5F;
 
 void func_800F5F80(void* arg0) {
     if (M2C_FIELD(SPAD, u8*, 0x8A) != 0x11) {

@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK move_object(s32);
 extern struct X4_PlayerObj g_Player;
 
@@ -18,22 +18,25 @@ void func_800ED020(void* self) {
     // !FAKE: depin: dropping it breaks the match (46/53)
     register u16 t asm("$2");
 
-    func_80017A04();
+    animate_object();
     move_object(self);
     t = TIMER(self);
     TIMER(self) = t + 1;
     if ((s16)t < 0x5B) {
         if (g_Player.x_pos.i.hi - XPOS(self) >= 0) {
             if (g_Player.x_pos.i.hi - XPOS(self) < 8) {
+                // !FAKE: C0144 range test joins sign arms; abs folds
                 goto near_x;
             }
         } else if (XPOS(self) - g_Player.x_pos.i.hi < 8) {
         near_x:
             if (g_Player.y_pos.i.hi - YPOS(self) >= 0) {
                 if (g_Player.y_pos.i.hi - YPOS(self) < 0x20) {
+                    // !FAKE: shared reset tail; dup tail moved bytes
                     goto next;
                 }
             } else if (YPOS(self) - g_Player.y_pos.i.hi < 0x20) {
+                // !FAKE: shared reset tail; dup tail moved bytes
                 goto next;
             }
         }

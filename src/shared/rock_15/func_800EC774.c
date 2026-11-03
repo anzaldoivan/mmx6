@@ -1,13 +1,13 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 
 void func_800EC774(struct X4_VisualObj* arg0) {
     struct X4_VisualObj* obj;
     u8 bg;
 
-    obj = func_8002C398();
+    obj = find_free_visual_obj();
     if (obj != 0) {
         obj->active = 0x41;
         obj->id = 0x15;

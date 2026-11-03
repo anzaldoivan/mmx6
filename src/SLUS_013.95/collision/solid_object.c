@@ -1,6 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void check_box_collision(struct X4_PlayerObj* a, struct X4_PlayerObj* b,
                          s32 mode);
@@ -10,8 +11,6 @@ void func_800324C8(struct X4_MainObj* a, struct X4_MainObj* b, u8 flags);
 extern s8 D_800950A0[];
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
-extern u8 D_800C4568;
-extern struct X4_RideArmorObj D_800CD340;
 
 // 0x80031DA8 collide_solid_object: box-collides the player (mode 0) and the ride armor (mode 1) with the object's terrain box, restoring the old position on blocked moves.
 // basis: xref check_box_collision (docs/leads/derived.tsv:14)
@@ -32,7 +31,8 @@ void collide_solid_object(struct X4_MainObj* arg0) {
             check_box_collision((struct X4_PlayerObj*)arg0, p, 0);
             if (p->x_pos.i.hi != x || p->y_pos.i.hi != y) {
                 func_8002F288(p);
-                if ((p->unk70 & 0xC) != 0xC && (p->unk70 & 3) != 3) {
+                if ((p->collision_flags & 0xC) != 0xC &&
+                    (p->collision_flags & 3) != 3) {
                     p->unk18.val = p->x_pos.val;
                     p->unk1C.val = p->y_pos.val;
                 } else {
@@ -50,7 +50,7 @@ void collide_solid_object(struct X4_MainObj* arg0) {
                 func_800324C8(arg0, (struct X4_MainObj*)p, arg0->unk73);
             }
             check_box_collision((struct X4_PlayerObj*)arg0, p, 1);
-            if (g_Player.unk5 == 0x12) {
+            if (g_Player.action == 0x12) {
                 do {
                     g_Player.x_pos = p->x_pos;
                 } while (0);

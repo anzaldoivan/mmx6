@@ -1,17 +1,17 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define NULL ((void*)0)
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
-M2C_UNK func_80017A04();                     /* extern */
-struct X4_VisualObj* func_8002C398(void);
+M2C_UNK animate_object();                    /* extern */
+struct X4_VisualObj* find_free_visual_obj(void);
 s32 random_byte();
 extern M2C_UNK g_Player;
-extern s8 D_800970FC;
 #include "mmx6/state.h"
 
 void func_800EF950(void* arg0) {
@@ -47,7 +47,7 @@ void func_800EF950(void* arg0) {
         }
         if (M2C_FIELD(arg0, s8*, 2) == 0) {
             play_sound(2, 0x29, 0);
-            o = func_8002C398();
+            o = find_free_visual_obj();
             if (o != NULL) {
                 o->active = M2C_FIELD(arg0, s8*, 0);
                 o->id = 0xC;
@@ -71,6 +71,7 @@ void func_800EF950(void* arg0) {
             play_sound(2, 0x25, 0);
             hit = 1;
         } else {
+            // !FAKE: hit=0 block order; if/else moved bytes
             goto clear;
         }
     } else {
@@ -82,12 +83,14 @@ void func_800EF950(void* arg0) {
     }
     if (hit != 0) {
         st = 0xB;
+        // !FAKE: shared tail order; dup tails moved bytes
         goto set_ret;
     }
     if (!(M2C_FIELD(arg0, u8*, 0x97) & 2)) {
         f = M2C_FIELD(arg0, u16*, 0x8A);
         if (f & 0x80) {
             st = 4;
+            // !FAKE: shared tail order; dup tails moved bytes
             goto set_call;
         }
         if (f & 0x30) {
@@ -100,6 +103,7 @@ void func_800EF950(void* arg0) {
         }
         if (cond != 0) {
             st = 9;
+            // !FAKE: shared tail order; dup tails moved bytes
             goto set_call;
         }
         a8 = M2C_FIELD(arg0, u8*, 0xA8);
@@ -111,6 +115,7 @@ void func_800EF950(void* arg0) {
         } else {
             if (a8 & 3) {
                 st = 8;
+                // !FAKE: shared tail order; dup tails moved bytes
                 goto set_ret;
             }
             if (!(M2C_FIELD(arg0, u8*, 0x97) & 8)) {
@@ -133,6 +138,7 @@ void func_800EF950(void* arg0) {
             if (t != 0) {
                 M2C_FIELD(arg0, s32*, 8) += M2C_FIELD(arg0, s32*, 0x20);
                 if (M2C_FIELD(arg0, s8*, 0x90)-- >= 0) {
+                    // !FAKE: shared tail order; dup tails moved bytes
                     goto call;
                 }
             }
@@ -143,8 +149,8 @@ void func_800EF950(void* arg0) {
             return;
         }
     call:
-        ((M2C_UNK(*)())func_80017A04)(arg0, hit);
+        ((M2C_UNK(*)())animate_object)(arg0, hit);
     } else {
-        ((M2C_UNK(*)())func_80017A04)(arg0);
+        ((M2C_UNK(*)())animate_object)(arg0);
     }
 }

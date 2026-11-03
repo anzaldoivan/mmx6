@@ -1,21 +1,21 @@
 #include "common.h"
 #include "psyq/libgte.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void* func_8002C458();
 s32 random_byte();
-extern u8 D_800CCF38;
 
 void func_800F4194(void* arg0) {
     void* child;
     s32 i;
     s32 r;
 
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     if (M2C_FIELD(arg0, u8*, 0x8D)++ >= 0x3D) {
         r = random_byte() & 0x2D;
         if (D_800CCF38 >= 2) {

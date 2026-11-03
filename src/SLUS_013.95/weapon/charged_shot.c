@@ -3,10 +3,9 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 random_byte();                   /* extern */
-M2C_UNK func_8003CFE0(void*, M2C_UNK); /* extern */
-M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
-                            M2C_UNK arg3); /* extern */
+#include "mmx6/system.h"
+#include "mmx6/effect.h"
+#include "mmx6/weapon.h"
 
 // 0x8003FA8C fire_charged_shot: X charged shot sound.
 // basis: community tweaks-index.tsv:327
@@ -18,6 +17,6 @@ void fire_charged_shot(struct PlayerObj* arg0) {
     temp_v1 = arg0->shot_type;
     if (((temp_v1 == 0x12) || (temp_v1 == 0x14) || (temp_v1 == 0x13)) &&
         (random_byte() & 1)) {
-        func_8003CFE0(arg0, 6);
+        play_sound_unless_low_health(arg0, 6);
     }
 }

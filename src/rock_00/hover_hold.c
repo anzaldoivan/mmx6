@@ -2,7 +2,7 @@
 
 #define M2C_UNK s32
 
-s32 try_enter_wall_cling(void*);              /* extern */
+s32 try_enter_wall_cling(void*);       /* extern */
 M2C_UNK func_8003F508(void*, M2C_UNK); /* extern */
 s32 func_801EC35C();                   /* extern */
 s32 func_801EC3AC(void*);              /* extern */

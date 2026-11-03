@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void* alloc_class3_slot();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 
@@ -15,11 +15,11 @@ void func_800F527C(struct X4_MainObj* arg0) {
     // !FAKE: depin: dropping it breaks the match (29/65)
     register s16 d asm("$2");
 
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     d = arg0->unk7C - 1;
     arg0->unk7C = d;
     if (d == 0) {
-        arg0->unk5 = 2;
+        arg0->action = 2;
         p = alloc_class3_slot();
         if (p != 0) {
             p[0] = 1;

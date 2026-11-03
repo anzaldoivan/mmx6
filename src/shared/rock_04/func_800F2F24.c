@@ -14,7 +14,7 @@ void func_800F2F24(s8* arg0) {
     u8 temp;
 
     play_sound(2, 0x20, arg0);
-    temp = g_Player.unk15;
+    temp = g_Player.facing;
     *(u8*)((s32)&g_Player + 0xCA) = 0;
     func_8003D308(0x14, temp);
     set_animation(arg0, 0x19);

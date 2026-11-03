@@ -98,9 +98,9 @@ void func_8002B674(s32 arg0, s32 arg1) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern u8 D_80073738[];
-extern u8 D_80091298[];
 extern s8 D_800950A0[];
 #define M2C_UNK s32
 extern M2C_UNK g_Player;
@@ -143,8 +143,8 @@ void func_8002B6B0(void) {
 
 #include "common.h"
 
-extern s8 g_enemies[];
 #include "mmx6/projectile.h"
+#include "mmx6/globals.h"
 
 void func_8002B79C(void) {
     s8 z;

@@ -128,33 +128,33 @@ M2C_UNK func_801ECD90(void* arg0, M2C_UNK arg1) {
 #include "common.h"
 #define M2C_UNK s32
 
-s32 func_80039C9C(void*);
-s32 func_80039CFC(void*);
+s32 check_crouch_input(void*);
+s32 check_walk_start_input(void*);
 s32 try_enter_ladder(void*);
-M2C_UNK func_8003AE8C(void*);
+M2C_UNK start_walk(void*);
 
 s32 func_801ECE08(void* arg0) {
     if (try_enter_ladder(arg0) != 0) {
         return 1;
     }
-    if (func_80039C9C(arg0) != 0) {
+    if (check_crouch_input(arg0) != 0) {
         return 1;
     }
-    if (func_80039CFC(arg0) == 0) {
+    if (check_walk_start_input(arg0) == 0) {
         return 0;
     }
-    func_8003AE8C(arg0);
+    start_walk(arg0);
     return 1;
 }
 
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_8003AAD0();
 void func_8003AD18(void* arg0);
 void func_8003B870(struct X4_PlayerObj* self);
-extern s8 D_800CCEDF;
 
 void func_801ECE60(void* arg0) {
     s8* p = arg0;
@@ -210,22 +210,22 @@ void func_801ECED4(s8* p) {
 #undef func_800F2518
 
 #include "common.h"
+#include "mmx6/x4.h"
 #define M2C_UNK s32
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D5D0(void*);
 M2C_UNK end_dash(s32);
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 M2C_UNK func_801ECD54(void*, M2C_UNK);
 extern u16 D_800CCEDC;
 
 void func_801ECF90(void* arg0) {
     s32 var_v1;
 
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     ((void (*)())func_801ECD54)(arg0, 0x24);
     var_v1 = 0xA;
     if (((u8*)arg0)[0x15] != 0) {
@@ -243,7 +243,7 @@ void func_801ECF90(void* arg0) {
             } else {
                 ((void (*)())func_8002943C)(0x1E, 2, 1);
             }
-            ((void (*)())func_8003BA04)(arg0, 0x66);
+            ((void (*)())player_set_animation)(arg0, 0x66);
             ((u8*)arg0)[0xCB] = 1;
             ((void (*)())func_801ECD54)(arg0, 0x24);
             ((u8*)arg0)[0x67] = 0;
@@ -255,17 +255,17 @@ void func_801ECF90(void* arg0) {
         ((void (*)())end_dash)((s32)arg0);
         return;
     }
-    ((void (*)())func_8002D5D0)(arg0);
+    ((void (*)())move_by_velocity)(arg0);
 }
 
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK end_dash(s32);
 
 void func_801ED0A0(void* arg0) {
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
     if (((s8*)arg0)[0x46] == 0) {
         ((u8*)arg0)[0x8E] = 0;
         end_dash((s32)arg0);
@@ -314,7 +314,7 @@ void func_801ED198(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 
 void func_801ED230(u8* arg0) {
     s32 t;
@@ -322,7 +322,7 @@ void func_801ED230(u8* arg0) {
     t = arg0[0xE1] + 1;
     arg0[0xE1] = t;
     if ((u32)(t & 0xFF) >= 0x47U) {
-        ((void (*)(void*, s32))func_8003BA04)(arg0, 0x6F);
+        ((void (*)(void*, s32))player_set_animation)(arg0, 0x6F);
         arg0[6] = arg0[6] + 1;
     }
 }
@@ -336,7 +336,7 @@ INCLUDE_ASM("asm/rock_01/nonmatchings/1EA000", func_801ED288);
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 extern struct X4_PlayerObj g_Player;
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
 M2C_UNK func_801ED3DC();
 void func_801ED6F0(u8* self, u8* parent);
@@ -357,7 +357,7 @@ void func_801ED2A8(void* arg0) {
         var_a1 = 1;
     }
     id = M2C_FIELD(arg0, u8*, 0x1);
-    if (M2C_FIELD(arg0, u8*, 0x15) != p->unk15 && (u32)(id - 0x18) < 3) {
+    if (M2C_FIELD(arg0, u8*, 0x15) != p->facing && (u32)(id - 0x18) < 3) {
         var_a1 = 1;
     }
     if ((s8)id == 0x2A &&
@@ -372,7 +372,7 @@ void func_801ED2A8(void* arg0) {
         // !FAKE: block order, init path placed after the release call
         goto init;
     }
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
     if ((M2C_FIELD(arg0, s32*, 0x0) & 0xFFFF00) == 0x2400 ||
         M2C_FIELD(arg0, s8*, 0x46) != 0) {
         // !FAKE: block order, shares the update call tail
@@ -467,19 +467,19 @@ void func_801ED6F0(u8* self, u8* parent) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(void*);
 void set_velocity_from_angle(void*, s32);
 M2C_UNK func_8002EE10(void*);
-void func_8003CF24(s32, s32, s32);
+void load_buffered_palette(s32, s32, s32);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
-extern s32 D_8007798C;
 extern struct X4_PlayerObj g_Player;
 extern s32 D_801EE3E0;
 extern s32 D_801EE3E4;
@@ -504,7 +504,7 @@ void func_801ED928(struct X4_WeaponObj* arg0) {
         arg0->unk42 = 0x7843;
         arg0->unk16 = 1;
         arg0->unk3C = t + off;
-        func_8003CF24(6, 0x13, 1);
+        load_buffered_palette(6, 0x13, 1);
         arg0->x_pos.i.hi = player->x_pos.i.hi;
         arg0->y_pos.i.hi = player->y_pos.i.hi + 0x18;
         set_velocity_from_angle(arg0, ((arg0->unk2 * 2) + 0x16) & 0xFE);
@@ -512,9 +512,9 @@ void func_801ED928(struct X4_WeaponObj* arg0) {
         arg0->y_vel.val *= 5;
         ((void (*)(void*, s32))set_animation)(arg0, 3);
         arg0->state++;
-    } else if (arg0->state == 1 && func_8002CBFC(arg0, 0x20, 0x20) == 0 &&
+    } else if (arg0->state == 1 && is_off_screen(arg0, 0x20, 0x20) == 0 &&
                arg0->unk98 == 0) {
-        func_80017A04(arg0);
+        animate_object(arg0);
         ((void (*)(void*))move_object)(arg0);
         arg0->unk64 = arg0->unk2 + 1;
         if (arg0->unk70 == 0) {
@@ -540,16 +540,16 @@ INCLUDE_ASM("asm/rock_01/nonmatchings/1EA000", func_801EDAF4);
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(void*);
 M2C_UNK func_8002EE10(void*);
 void func_800383F8(void*);
-extern s32 D_8007798C;
 extern struct X4_PlayerObj g_Player;
 extern s32 D_801EE3E8;
 extern s32 D_801EE3FC;
@@ -613,14 +613,14 @@ void func_801EDCC8(u8* arg0) {
         }
         H(arg0, 0xA) = v;
         H(arg0, 0xE) = UH(pl, 0xE) - 6;
-        ((void (*)())func_80017A04)(arg0);
+        ((void (*)())animate_object)(arg0);
         if (SB(arg0, 0x45) & 0x80) {
             B(arg0, 4)++;
         }
         // !FAKE: shared tail call block placed last, as retail lays it out
         goto tail;
     } else if (state == 2) {
-        if (func_8002CBFC(arg0, 0x10, 0x10) != 0 || SB(arg0, 0x98) != 0) {
+        if (is_off_screen(arg0, 0x10, 0x10) != 0 || SB(arg0, 0x98) != 0) {
             // !FAKE: shared dead-path call block before the tail, as retail lays it out
             goto dead;
         }
@@ -630,10 +630,10 @@ void func_801EDCC8(u8* arg0) {
             // !FAKE: shared dead-path call block before the tail, as retail lays it out
             goto dead;
         }
-        ((void (*)())func_80017A04)(arg0);
+        ((void (*)())animate_object)(arg0);
         W(arg0, 0x68) = (s32)(&D_801EE3E8 + (B(arg0, 0x45) & 0x7F));
         move_object(arg0);
-        if (pl->unk5 == 0x11) {
+        if (pl->action == 0x11) {
             // !FAKE: shared dead-path call block before the tail, as retail lays it out
             goto dead;
         }
@@ -659,8 +659,8 @@ void func_801EDCC8(u8* arg0) {
         W(arg0, 0x50) = 0;
         return;
     } else {
-        func_80017A04(arg0);
-        if (func_8002CBFC(arg0, 0x10, 0x10) != 0 || SB(arg0, 0x46) == 0) {
+        animate_object(arg0);
+        if (is_off_screen(arg0, 0x10, 0x10) != 0 || SB(arg0, 0x46) == 0) {
             // !FAKE: shared dead-path call block before the tail, as retail lays it out
             goto dead;
         }
@@ -677,12 +677,12 @@ tail:
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
 M2C_UNK move_object(void*);
-extern s32 D_8007798C;
 extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_801EE3DC;
@@ -730,7 +730,7 @@ void func_801EDFC8(u8* arg0) {
         // !FAKE: shared despawn call block
         goto block_16;
     }
-    func_80017A04(arg0, pl);
+    animate_object(arg0, pl);
     move_object(arg0);
     if (!(D_80097420.frame_counter & 7)) {
         B(arg0, 0x64)++;
@@ -757,12 +757,12 @@ void func_801EDFC8(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
 M2C_UNK move_object(void*);
-extern s32 D_8007798C;
 extern struct X4_BackgroundObj background_objects[3];
 
 #define SCRATCH_1C (*(u8**)0x1F80001C)
@@ -802,7 +802,7 @@ void func_801EE254(u8* arg0) {
         B(arg0, 4)++;
         return;
     }
-    func_80017A04(arg0);
+    animate_object(arg0);
     move_object(arg0);
     if (H(arg0, 0xE) >= background_objects[SB(arg0, 0x14)].y_pos.i.hi + 0x190) {
         clear_object_slot(arg0);

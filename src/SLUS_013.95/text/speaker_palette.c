@@ -1,11 +1,11 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 s32 func_80021AF0(s32 arg0);
 M2C_UNK load_palette(M2C_UNK, M2C_UNK*, M2C_UNK);
 extern u8 speaker_colors[];
 extern u8 D_8006E484[];
-extern u16 g_wide_mode;
 
 // 0x80022838 load_speaker_palette: loads the palette of the speaker of text arg0 into CLUT slot 0x16, or 0x5F in wide mode.
 // basis: xref open_text_box (docs/leads/derived.tsv:12)

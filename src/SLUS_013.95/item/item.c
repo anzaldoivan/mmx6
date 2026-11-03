@@ -1,11 +1,11 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void* enemy_slot_alloc();
 s32 random_byte();
 extern u8 D_80078860[];
 extern u8 D_800788F0[];
-extern u8 D_800CCF38;
 
 // 0x8004E680 drop_item: item drop; off on Xtreme.
 // basis: community tweaks-index.tsv:271

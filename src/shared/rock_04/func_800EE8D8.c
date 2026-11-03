@@ -1,11 +1,11 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void* enemy_slot_alloc();
 s32 random_byte();
 extern s16 D_800970AA;
-extern s8 D_800CCEED;
 
 #define SB(p, o) (*(s8*)((u8*)(p) + (o)))
 #define UB(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -38,8 +38,7 @@ void func_800EE8D8(void* arg0) {
             if (obj != NULL && (s16)(H(arg0, 0x7E) % 7) == 0) {
                 SPAWN_HEAD(obj, 4)
                 UH(obj, 0xA) = UH(arg0, 0xA);
-                UH(obj, 0xE) =
-                    UH(arg0, 0xE) + ((random_byte() & 0x1F) - 0x10);
+                UH(obj, 0xE) = UH(arg0, 0xE) + ((random_byte() & 0x1F) - 0x10);
             }
             H(arg0, 0x7E)--;
         } else {
@@ -52,8 +51,7 @@ void func_800EE8D8(void* arg0) {
             if (obj != NULL && (s16)(H(arg0, 0x7E) % 7) == 0) {
                 SPAWN_HEAD(obj, 5)
                 UH(obj, 0xA) = UH(arg0, 0xA);
-                UH(obj, 0xE) =
-                    UH(arg0, 0xE) + ((random_byte() & 0x1F) - 0x10);
+                UH(obj, 0xE) = UH(arg0, 0xE) + ((random_byte() & 0x1F) - 0x10);
             }
             H(arg0, 0x7E)--;
         } else {
@@ -78,6 +76,7 @@ void func_800EE8D8(void* arg0) {
         d = D_800970AA - H(arg0, 0xA);
         if (d >= 0) {
             if (d >= 0x30) {
+                // !FAKE: C0115 stops jump2 tail merge; shared cond 207/282
                 goto far;
             }
             return;

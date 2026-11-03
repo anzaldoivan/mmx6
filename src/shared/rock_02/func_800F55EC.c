@@ -6,7 +6,7 @@
 #define SPAD4C_800F55EC (*(u8**)0x1F80004C)
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s32 func_8002A47C(s32);
 void* func_8002C458();
 
@@ -17,7 +17,7 @@ void func_800F55EC(void* self) {
     s32 base;
     u16 ang;
 
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     if (M2C_FIELD(self, s8*, 0x45) == 1) {
         play_sound(2, 0x1E, self);
         i = 0;

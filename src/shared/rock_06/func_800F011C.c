@@ -1,13 +1,13 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
-M2C_UNK func_8002D230(void*);                /* extern */
+M2C_UNK apply_object_motion(void*);          /* extern */
 extern M2C_UNK g_Player;
-extern s8 D_800970FC;
 
 #define SET_STATE(n)                                                           \
     {                                                                          \
@@ -45,6 +45,7 @@ void func_800F011C(void* arg0) {
                 play_sound(2, 0x25, 0);
                 hit = 1;
             } else {
+                // !FAKE: goto enters the shared flag-clear arm; duplicating the clear store moved bytes (setcc)
                 goto clear;
             }
         } else {
@@ -104,9 +105,9 @@ void func_800F011C(void* arg0) {
             if (M2C_FIELD(arg0, s32*, 0x24) < -0x5E000) {
                 M2C_FIELD(arg0, s32*, 0x24) = -0x5E000;
             }
-            func_8002D230(arg0);
+            apply_object_motion(arg0);
             return;
         }
-        func_8002D230(arg0);
+        apply_object_motion(arg0);
     }
 }

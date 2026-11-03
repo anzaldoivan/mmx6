@@ -5,13 +5,13 @@ INCLUDE_ASM("asm/rock_51/nonmatchings/FA000", D_800FA000);
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void func_800E9F7C(void);
 extern s8 D_8008EAB0;
 extern struct X4_BackgroundObj background_objects[3];
 #include "mmx6/state.h"
-extern s8 D_800CCF08;
 
 void func_800FA004(u8* arg0) {
     s16 temp_v1;
@@ -81,6 +81,7 @@ INCLUDE_ASM("asm/rock_51/nonmatchings/FA000", func_800FA2A0);
 // clang-format on
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 void func_80025F34();
@@ -92,7 +93,6 @@ void func_8002C2B8();
 void func_800E9ED4(void);
 extern s8 D_80090D56;
 extern s8 D_8009742C;
-extern s8 D_800CCF08;
 extern s8 D_800CF850;
 extern u8 D_800EA510[];
 extern u8 D_800FA9D4[];
@@ -253,12 +253,12 @@ void func_800FA700(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK load_palette(M2C_UNK, M2C_UNK*, M2C_UNK);
 M2C_UNK func_8002B54C(M2C_UNK*, M2C_UNK*, M2C_UNK, u16);
 extern struct X4_BackgroundObj background_objects[3];
-extern s8 D_800CCF08;
 extern M2C_UNK D_800FAA08;
 extern M2C_UNK D_800FBC08;
 

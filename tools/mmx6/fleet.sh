@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
-# fleet.sh — the clean fleet verification (container; `make fleet`): rm -rf build asm expected → make extract →
+# fleet.sh — the clean fleet verification (container; `make fleet`): make format-check (src/ vs .clang-format) →
+# rm -rf build asm expected → make extract →
 # make -j8 -k split build → make health. ok = BINS outputs present (build/<exe>, build/rock/NN.bin; .DELETE_ON_ERROR
 # removes any whose hash check failed), n = config/*.yaml, k = `N = <k>` of config/loadmap.txt.
 # Before it `C MATCHED <c> of <F> functions (<e> empty-body; banked <c-e>)` (F, e from build/corpus/functions.jsonl).
-# Last line, always: `FLEET <ok> of <n>`; rc 0 only if ok = n, n = k, extract and health rc 0, the corpus is
+# Last line, always: `FLEET <ok> of <n>`; rc 0 only if ok = n, n = k, format-check, extract and health rc 0, the corpus is
 # present and its c + c-empty = c.
-# `fleet.sh --quick` (`make fleet-quick`): the same, but health is cut to boundcheck.py + `make -s th-corpus th-ledger
+# `fleet.sh --quick` (`make fleet-quick`): the same (format-check included), but health is cut to boundcheck.py + `make -s th-corpus th-ledger
 # th-cookbook`; last line `FLEET <ok> of <n> (quick)`. Quick is never the gate (contract.sh matches `^FLEET .* of N$`).
 set -u
 quick=; [ "${1:-}" = "--quick" ] && quick=1
 cd "$(dirname "$0")/../.."
 MK=(${MAKE:-make} --no-print-directory)
 
+"${MK[@]}" -s format-check; rc_format=$?
 rm -rf build asm expected
 "${MK[@]}" extract; rc_extract=$?
 "${MK[@]}" -j8 -k split build
@@ -31,6 +33,7 @@ done
 k=$(sed -n 's/^N = \([0-9][0-9]*\)$/\1/p' config/loadmap.txt)
 
 rc=0
+[ "$rc_format" -eq 0 ] || { echo "fleet: make format-check rc $rc_format"; rc=1; }
 [ "$rc_extract" -eq 0 ] || { echo "fleet: make extract rc $rc_extract"; rc=1; }
 [ "$rc_health" -eq 0 ] || { echo "fleet: make health rc $rc_health"; rc=1; }
 [ "$n" = "$k" ] || { echo "fleet: $n config/*.yaml but config/loadmap.txt N = ${k:-?}"; rc=1; }

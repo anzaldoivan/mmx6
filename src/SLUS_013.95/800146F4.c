@@ -1,8 +1,7 @@
 #include "common.h"
 
 #include "mmx6/state.h"
-extern u8 D_800A51B8[];
-extern u8 D_800C4858[];
+#include "mmx6/globals.h"
 
 void func_800139F4(s32);
 void set_resolution(s32 arg0);

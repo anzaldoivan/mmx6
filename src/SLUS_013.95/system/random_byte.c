@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern u16 D_80090E70;
+#include "mmx6/globals.h"
 
 // 0x8002D2D4 random_byte: steps the random seed and returns its low byte.
 // basis: code src/shared/SLUS_013.95/random_byte.c:13 via=D_80090E70

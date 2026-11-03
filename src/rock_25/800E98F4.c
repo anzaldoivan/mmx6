@@ -1,6 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
@@ -9,8 +10,6 @@
 M2C_UNK set_animation(void*, M2C_UNK);
 void func_800EAA5C(void*, s32, void*);
 void func_800EABD0(struct X4_MainObj* self);
-extern M2C_UNK D_800743DC;
-extern u8 D_800970B4;
 extern s32 D_800EF330;
 extern s32 D_800EF334;
 extern s32 D_800EF6D8;
@@ -50,7 +49,7 @@ void func_800E98F4(struct X4_MainObj* self) {
     self->unk1C.val = y;
     func_800EABD0(self);
     self->state = 1;
-    self->unk6 = 0;
+    self->action_phase = 0;
     __builtin_memcpy(*sp + 0x80, &D_800EF334, 4);
     kind = self->unk2;
     if (kind == 0) {
@@ -59,7 +58,7 @@ void func_800E98F4(struct X4_MainObj* self) {
             s32 two = 2;
             // !FAKE: depin: dropping it breaks the match (58/107)
             register s32 h asm("$2") = self->y_pos.u.hi;
-            self->unk5 = two;
+            self->action = two;
             self->y_pos.u.hi = h - 0x20;
         }
     } else if (kind == 1) {
@@ -68,7 +67,7 @@ void func_800E98F4(struct X4_MainObj* self) {
             s32 two = 2;
             // !FAKE: depin: dropping it breaks the match (70/107)
             register s32 h asm("$2") = self->y_pos.u.hi;
-            self->unk5 = two;
+            self->action = two;
             self->y_pos.u.hi = h + 0x20;
         }
     } else if (kind == 2) {
@@ -77,7 +76,7 @@ void func_800E98F4(struct X4_MainObj* self) {
         p = SPAD;
         M2C_FIELD(p, u16*, 0x84) = self->y_pos.u.hi;
         func_800EAA5C(self, 0x10, p);
-        self->unk5 = seven;
+        self->action = seven;
         self->terrain_box = 0;
         self->attack_box = &D_800EF330;
         self->hurt_box = &D_800EF334;
@@ -270,10 +269,10 @@ INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800EA998);
 
 #define M2C_UNK s32
 
-M2C_UNK func_8002D230(); /* extern */
+M2C_UNK apply_object_motion(); /* extern */
 
 void func_800EAA34(void) {
-    func_8002D230();
+    apply_object_motion();
 }
 
 #include "common.h"
@@ -705,10 +704,10 @@ void func_800ED750(struct ObjectHeader* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK); /* extern */
-M2C_UNK func_80017A04();               /* extern */
+M2C_UNK animate_object();              /* extern */
 
 void func_800ED9A4(void* arg0) {
-    func_80017A04();
+    animate_object();
     if (M2C_FIELD(arg0, s8*, 0x45) == 2) {
         set_animation(arg0, 0);
         M2C_FIELD(arg0, s16*, 0x7C) = 0;
@@ -734,10 +733,10 @@ void func_800ED9A4(void* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK); /* extern */
-M2C_UNK func_80017A04();               /* extern */
+M2C_UNK animate_object();              /* extern */
 
 void func_800EDB44(void* arg0) {
-    func_80017A04();
+    animate_object();
     if (M2C_FIELD(arg0, s8*, 0x45) == 2) {
         set_animation(arg0, 0);
         M2C_FIELD(arg0, s16*, 0x7C) = 0;
@@ -755,10 +754,10 @@ void func_800EDB44(void* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK); /* extern */
-M2C_UNK func_80017A04();               /* extern */
+M2C_UNK animate_object();              /* extern */
 
 void func_800EDBC4(void* arg0) {
-    func_80017A04();
+    animate_object();
     if (M2C_FIELD(arg0, s8*, 0x45) == 2) {
         set_animation(arg0, 0);
         M2C_FIELD(arg0, s16*, 0x7C) = 0;
@@ -770,10 +769,10 @@ void func_800EDBC4(void* arg0) {
 
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04(); /* extern */
+M2C_UNK animate_object(); /* extern */
 
 void func_800EDC0C(void) {
-    func_80017A04();
+    animate_object();
 }
 
 #include "common.h"
@@ -806,15 +805,15 @@ INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800EDC4C);
 
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();                  /* extern */
-M2C_UNK clear_object_slot(s32);               /* extern */
-s32 func_8002CBFC(s32, M2C_UNK, M2C_UNK); /* extern */
+M2C_UNK animate_object();                 /* extern */
+M2C_UNK clear_object_slot(s32);           /* extern */
+s32 is_off_screen(s32, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK move_object(s32);                 /* extern */
 
 void func_800EDE50(s32 arg0) {
-    func_80017A04();
+    animate_object();
     move_object(arg0);
-    if (func_8002CBFC(arg0, 0x40, 0x40) == 1) {
+    if (is_off_screen(arg0, 0x40, 0x40) == 1) {
         clear_object_slot(arg0);
     }
 }

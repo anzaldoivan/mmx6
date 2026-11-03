@@ -185,14 +185,14 @@ SLUS_013.95	0x800E0398	D_800E0398	assets	assets.tsv:iso/ROCK_X6.DAT	admitted	roc
 SLUS_013.95	0x800E0B58	D_800E0B58	assets	assets.tsv:iso/ROCK_X6.BIN	admitted	rock_bin_file_table: [0x3B][2] (lba, size) per ROCK_X6.BIN member, written by load_rock_bin_file_table, read by func_80016858	assets.tsv:3:iso/ROCK_X6.BIN
 # T8 block (SLUS objects, T8): rows 0x8002C3F8..0x800500E0 re-judged under standard v2 (T18)
 SLUS_013.95	0x8002BBF4	enemy_slot_alloc	objects	objects.tsv:origin:0x0	admitted	enemy_slot_alloc: objects.tsv:338 proven (origin type 0/1 -> this allocator, 7 distinct frames, intro_stage.jsonl); bytes: first free 0x9C slot of D_8008EF48[48], cleared; role word from Tweaks ObjectTempTable#1 enemy object array (tweaks-index.tsv:134)	objects.tsv:338
-SLUS_013.95	0x8002C3F8	find_free_effect_obj	objects	objects.tsv:origin:0x3	admitted	alloc_class3_slot: v2 identification: origin table type 0x3 -> this allocator (objects.tsv:341); each sibling scans its own pool; words: engine words (code: scans D_8009B7B0 (0x60 x 0x30) for active==0, zeroes and returns the slot)	code:src/SLUS_013.95/object/class3_slot.c:15 via=D_8009B7B0; objects.tsv:341
-SLUS_013.95	0x8002C4C4	class4_slot_alloc	objects	objects.tsv:origin:0x4	admitted	alloc_class4_slot: v2 identification: origin table type 0x4 -> this allocator (objects.tsv:342); each sibling scans its own pool; words: engine words (code: scans D_800C1220 (0x3340 / 0xA4) for active==0, zeroes and returns the slot)	code:src/SLUS_013.95/object/class4_slot.c:14 via=D_800C1220; objects.tsv:342
+SLUS_013.95	0x8002C3F8	find_free_effect_obj	objects	objects.tsv:origin:0x3	admitted	alloc_class3_slot: v2 identification: origin table type 0x3 -> this allocator (objects.tsv:341); each sibling scans its own pool; words: engine words (code: scans D_8009B7B0 (0x60 x 0x30) for active==0, zeroes and returns the slot)	code:src/SLUS_013.95/object/class3_slot.c:18 via=g_class3_slots; objects.tsv:341
+SLUS_013.95	0x8002C4C4	class4_slot_alloc	objects	objects.tsv:origin:0x4	admitted	alloc_class4_slot: v2 identification: origin table type 0x4 -> this allocator (objects.tsv:342); each sibling scans its own pool; words: engine words (code: scans D_800C1220 (0x3340 / 0xA4) for active==0, zeroes and returns the slot)	code:src/SLUS_013.95/object/class4_slot.c:18 via=g_class4_slots; objects.tsv:342
 SLUS_013.95	0x8002C530	find_free_misc_obj	objects	objects.tsv:origin:0x5	rejected	already named alloc_sprite_slot (config/symbols.SLUS_013.95.txt:62); candidate find_free_misc_obj superseded	config/symbols.SLUS_013.95.txt:62
-SLUS_013.95	0x8002C7F0	class6_slot_alloc	objects	objects.tsv:origin:0x6	admitted	alloc_class6_slot: v2 identification: origin table type 0x6 -> this allocator (objects.tsv:344); each sibling scans its own pool; words: engine words (code: scans D_8009C9B0 (0x1800) for active==0, zeroes and returns the slot)	code:src/SLUS_013.95/object/class6_slot.c:14 via=D_8009C9B0; objects.tsv:344
-SLUS_013.95	0x8002C950	class7_slot_alloc	objects	objects.tsv:origin:0x7	admitted	alloc_class7_slot: v2 identification: origin table type 0x7 -> this allocator (objects.tsv:345); each sibling scans its own pool; words: engine words (code: scans D_800C4778 (4 slots) for active==0, zeroes and returns the slot)	code:src/SLUS_013.95/object/class7_slot.c:14 via=D_800C4778; objects.tsv:345
+SLUS_013.95	0x8002C7F0	class6_slot_alloc	objects	objects.tsv:origin:0x6	admitted	alloc_class6_slot: v2 identification: origin table type 0x6 -> this allocator (objects.tsv:344); each sibling scans its own pool; words: engine words (code: scans D_8009C9B0 (0x1800) for active==0, zeroes and returns the slot)	code:src/SLUS_013.95/object/class6_slot.c:17 via=g_class6_slots; objects.tsv:344
+SLUS_013.95	0x8002C950	class7_slot_alloc	objects	objects.tsv:origin:0x7	admitted	alloc_class7_slot: v2 identification: origin table type 0x7 -> this allocator (objects.tsv:345); each sibling scans its own pool; words: engine words (code: scans D_800C4778 (4 slots) for active==0, zeroes and returns the slot)	code:src/SLUS_013.95/object/class7_slot.c:15 via=g_class7_slots; objects.tsv:345
 SLUS_013.95	0x80041AB8	update_nightmare_virus	objects	objects.tsv:temp#1:0x0F	held	v2: shared #define body func_80041AB8.c instanced in ~20 overlays; name awaits a neutral shared-body name	objects.tsv:57 temp#1 0x0F -> 0x80041AB8; code:src/shared/save_file/func_80041AB8.c:14 via=D_80075FD8
-SLUS_013.95	0x80041AF4	func_80041AF4	objects	objects.tsv:temp#2:0x0C	held	v2 words: code shows only per-frame state dispatch, no object noun	code:src/SLUS_013.95/80040388.c:641 via=D_800760C8; objects.tsv:244
-SLUS_013.95	0x8004E5D8	func_8004E5D8	objects	objects.tsv:temp#1:0x2F	held	v2 words: code shows only per-frame state dispatch, no object noun	code:src/SLUS_013.95/80049670.c:2349 via=D_800788F8; objects.tsv:144
+SLUS_013.95	0x80041AF4	func_80041AF4	objects	objects.tsv:temp#2:0x0C	held	v2 words: code shows only per-frame state dispatch, no object noun	code:src/SLUS_013.95/80040388.c:644 via=D_800760C8; objects.tsv:244
+SLUS_013.95	0x8004E5D8	func_8004E5D8	objects	objects.tsv:temp#1:0x2F	held	v2 words: code shows only per-frame state dispatch, no object noun	code:src/SLUS_013.95/80049670.c:2345 via=D_800788F8; objects.tsv:144
 SLUS_013.95	0x800500E0	func_800500E0	objects	objects.tsv:temp#2:0x18	held	v2 words: code shows only per-frame state dispatch, no object noun	code:src/SLUS_013.95/8004FF7C.c:44 via=D_80078CCC; objects.tsv:279
 SLUS_013.95	0x80054260	func_80054260	objects	objects.tsv:temp#1:0x00	rejected	empty stub (jr ra): the object link names no behaviour (objects.tsv:3)	objects.tsv:3
 SLUS_013.95	0x80054268	func_80054268	objects	objects.tsv:temp#1:0x01	rejected	empty stub (jr ra): the object link names no behaviour (objects.tsv:5)	objects.tsv:5
@@ -328,10 +328,10 @@ SLUS_013.95	0x80054670	func_80054670	objects	objects.tsv:temp#2:0x39	rejected	em
 # B6 objects in the overlays (T9): 195 rows held (no named link runtime-proven; the 4 proven links are unnamed); boss ids narrowed per stage with BossHealth.tsv member evidence (objects.tsv notes)
 # T9 block: rows 0x800EAFB0..0x800FDA98 (boss and rock_02 runtime rows) re-judged under standard v2 (T18)
 rock_02	0x800EA1D8	func_800EA1D8	objects	objects.tsv:temp#1:0x00	held	not runtime-proven (objects.tsv:4: 0 frames, tier lead; >= 3 needed)	objects.tsv:4
-rock_02	0x800EAFB0	func_800EAFB0	objects	objects.tsv:temp#1:0x01	held	v2 words: code shows only per-frame state dispatch, no object noun	code:src/rock_02/800E9B90.c:721 via=D_800FAB48; objects.tsv:6
-rock_02	0x800EB414	func_800EB414	objects	objects.tsv:temp#2:0x00	held	v2 words: code shows only per-frame state dispatch, no object noun	code:src/rock_02/800E9B90.c:904 via=D_800FAB70; objects.tsv:201
+rock_02	0x800EAFB0	func_800EAFB0	objects	objects.tsv:temp#1:0x01	held	v2 words: code shows only per-frame state dispatch, no object noun	code:src/rock_02/800E9B90.c:722 via=D_800FAB48; objects.tsv:6
+rock_02	0x800EB414	func_800EB414	objects	objects.tsv:temp#2:0x00	held	v2 words: code shows only per-frame state dispatch, no object noun	code:src/rock_02/800E9B90.c:907 via=D_800FAB70; objects.tsv:201
 rock_02	0x800EBC24	func_800EBC24	objects	objects.tsv:temp#1:0x02	held	not runtime-proven (objects.tsv:10: 0 frames, tier lead; >= 3 needed)	objects.tsv:10
-rock_02	0x800ECF3C	func_800ECF3C	objects	objects.tsv:temp#1:0x05	held	v2 words: code shows only per-frame state dispatch, no object noun	code:src/rock_02/800E9B90.c:1616 via=D_800FAE34; objects.tsv:19
+rock_02	0x800ECF3C	func_800ECF3C	objects	objects.tsv:temp#1:0x05	held	v2 words: code shows only per-frame state dispatch, no object noun	code:src/rock_02/800E9B90.c:1621 via=D_800FAE34; objects.tsv:19
 rock_02	0x800EDB48	func_800EDB48	objects	objects.tsv:temp#2:0x04	held	v2 words: code shows only per-frame state dispatch, no object noun	code:src/shared/rock_02/func_800EDB48.c:15 via=D_800FAEDC; objects.tsv:213
 rock_02	0x800EF2EC	func_800EF2EC	objects	objects.tsv:temp#2:0x01	held	not runtime-proven (objects.tsv:205: 0 frames, tier lead; >= 3 needed)	objects.tsv:205
 rock_02	0x800EFED0	update_intro_boss	objects	objects.tsv:temp#1:0x30	admitted	update_d1000: v2 identification: type-id link objects.tsv:146 + BossHealth word in code reached only via the fn's own state table (cited fn func_800EFF4C = D_800FB198[0], L's own state table; only referrer L; no other rock_02 object reaches it); words: refs/leads/tweaks/BossHealth.tsv:233 header D-1000; refs/leads/tweaks/ObjectTempTable_1.tsv:r3c39 30 Intro Boss	refs/leads/tweaks/BossHealth.tsv:234 word 0x800EFF4C match; code:src/rock_02/d1000.c:19 via=D_800FB198
@@ -651,10 +651,10 @@ SLUS_013.95	0x8006E224	logo_stream_path	tweaks	tweaks-index.tsv:385	held	no read
 SLUS_013.95	0x1F800008	stage_start_pointer	tweaks	tweaks-index.tsv:389	held	not checkable: scratchpad 0x1F800008 holds a runtime value, no static symbol	tweaks-index.tsv:389
 SLUS_013.95	0x80071570	mugshot_anim_data	tweaks	tweaks-index.tsv:400	held	no reader in our C (pointer target only): meaning unchecked	tweaks-index.tsv:400
 # B8 community RAM + wiki (T11): ram maps are leads; admitted only with a code corroborator in our C (engine words); rest superseded, 2.4 fields, held or as the objects row
-SLUS_013.95	0x80013300	create_a_task	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:37	admitted	create_task: ram map lead; identification and words from our C: slot arg0 at 0x801F8100+arg0*0x80: OpenTh(arg1 entry fn, slot sp, slot gp) in critical section, slot state=2; func_80013	code:src/SLUS_013.95/task/task.c:13 via=OpenTh; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:37
-SLUS_013.95	0x80013360	task_yield_for_frames	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:39	admitted	task_yield: ram map lead; identification and words from our C: current slot (0x801F8300) +2 = arg0 count, +0 = 1, ChangeTh(0xFF000000) back to main thread; func_80016178 calls (1) per	code:src/SLUS_013.95/task/task_yield.c:13 via=ChangeTh; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:39
+SLUS_013.95	0x80013300	create_a_task	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:37	admitted	create_task: ram map lead; identification and words from our C: slot arg0 at 0x801F8100+arg0*0x80: OpenTh(arg1 entry fn, slot sp, slot gp) in critical section, slot state=2; func_80013	code:src/SLUS_013.95/task/task.c:16 via=OpenTh; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:37
+SLUS_013.95	0x80013360	task_yield_for_frames	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:39	admitted	task_yield: ram map lead; identification and words from our C: current slot (0x801F8300) +2 = arg0 count, +0 = 1, ChangeTh(0xFF000000) back to main thread; func_80016178 calls (1) per	code:src/SLUS_013.95/task/task_yield.c:14 via=ChangeTh; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:39
 SLUS_013.95	0x800133A0	end_a_task	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:40	held	asm only (INCLUDE_ASM) and no C caller shows role	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:40
-SLUS_013.95	0x800133F4	end_a_task	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:41	admitted	end_task_slot: ram map lead; identification and words from our C: slot arg0 at 0x801F8100+arg0*0x80: if state!=0, state=0 and CloseTh(slot thread)	code:src/SLUS_013.95/task/task_800133F4.c:15 via=CloseTh; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:41
+SLUS_013.95	0x800133F4	end_a_task	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:41	admitted	end_task_slot: ram map lead; identification and words from our C: slot arg0 at 0x801F8100+arg0*0x80: if state!=0, state=0 and CloseTh(slot thread)	code:src/SLUS_013.95/task/task_slot.c:18 via=CloseTh; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:41
 SLUS_013.95	0x8001344C	create_a_task	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:38	held	asm only (INCLUDE_ASM) and no C caller shows role	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:38
 SLUS_013.95	0x800139A0	screen_fade_in	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:20	held	meaning unchecked: fade body func_80013530 is asm	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:20
 SLUS_013.95	0x800139F4	screen_fade_out	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:21	held	asm only (INCLUDE_ASM) and no C caller shows role	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:21
@@ -662,12 +662,12 @@ SLUS_013.95	0x80013DE8	load_a_stage	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:
 SLUS_013.95	0x8001494C	gather_and_load_files	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:23	held	asm only (INCLUDE_ASM) and no C caller shows role	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:23
 SLUS_013.95	0x80014F70	seek_a_member_in_the	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:1	held	asm only (INCLUDE_ASM) and no C caller shows role	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:1
 SLUS_013.95	0x80015EC0	draw_the_loading_screen	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:15	held	asm only (INCLUDE_ASM) and no C caller shows role	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:15
-SLUS_013.95	0x80016178	gather_and_load_files	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:22	admitted	pump_file_loads: ram map lead; identification and words from our C: loop: on CD status D_8009509C&0xC0 re-issues read of rock_dat_file_table[idx] via func_80014E60 or func_80014F70; after 	code:src/SLUS_013.95/file/file_loads.c:65 via=rock_dat_file_table; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:22
+SLUS_013.95	0x80016178	gather_and_load_files	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:22	admitted	pump_file_loads: ram map lead; identification and words from our C: loop: on CD status D_8009509C&0xC0 re-issues read of rock_dat_file_table[idx] via func_80014E60 or func_80014F70; after 	code:src/SLUS_013.95/file/file_loads.c:51 via=rock_dat_file_table; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:22
 SLUS_013.95	0x8001750C	silence_sound	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:26	admitted	silence_sound: ram map lead; identification and words from our C: arg0==0xFF: SsUtSetVVol(i,0,0)+SsUtKeyOffV(i) for 24 voices; else the voice range from D_80097778[arg0][arg1]	code:src/SLUS_013.95/sound/sound_8001750C.c:18 via=SsUtKeyOffV; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:26
 SLUS_013.95	0x800179D0	set_an_animation_frame	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/object.txt:13	admitted	set_animation_frame: ram map lead; identification and words from our C: obj+0x30 animation_table[arg1] + arg2 -> +0x34 animation_cursor, +0x44 animation_step=*cursor, +0x17=arg1, +0x48 previou	code:src/SLUS_013.95/graphics/animation.c:27 via=arg1; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/object.txt:13
 SLUS_013.95	0x80017E98	top_level_frame_draw	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:16	held	role words unsupported: two func_80017630 blits, top-level frame draw not shown	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:16
 SLUS_013.95	0x8001854C	pick_music_for_the_current	ram-archipelago	Archipelago@f5b9979:worlds/mmx6/disc.py:1034	admitted	play_stage_bgm: ram map lead; identification and words from our C: if stage!=0x10F: play_bgm_xa_track(D_8007093C[stage*8+substage*4+player*2], 0x63, e)	code:src/SLUS_013.95/stage/stage.c:17 via=g_stage_bgm_tracks; ram.tsv key Archipelago@f5b9979:worlds/mmx6/disc.py:1034
-SLUS_013.95	0x800186A8	stop_music	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:18	admitted	stop_cd_audio: ram map lead; identification and words from our C: if D_800E2E5C==2: func_800187A0(0), CdControlB(9 pause) when D_800E2E4C==2 and D_800E2E48, SsSetSerialAttr(0,0,0), clear	code:src/SLUS_013.95/cd/cd_audio.c:33 via=SsSetSerialAttr; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:18
+SLUS_013.95	0x800186A8	stop_music	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:18	admitted	stop_cd_audio: ram map lead; identification and words from our C: if D_800E2E5C==2: func_800187A0(0), CdControlB(9 pause) when D_800E2E4C==2 and D_800E2E48, SsSetSerialAttr(0,0,0), clear	code:src/SLUS_013.95/cd/cd_audio.c:29 via=SsSetSerialAttr; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:18
 SLUS_013.95	0x8001D218	default_layer_setup	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:1	held	role words unsupported: C shows audio stop + reset_level, no layer setup	MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:1
 SLUS_013.95	0x8001ED44	end_credits_screen_handler	ram-archipelago	Archipelago@f5b9979:worlds/mmx6/client.py:173	held	role words unsupported: end credits not shown in C	Archipelago@f5b9979:worlds/mmx6/client.py:173
 SLUS_013.95	0x80025F34	layer_settings_setup	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:6	held	meaning unchecked: layer settings not shown; callees unnamed	MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:6
@@ -676,32 +676,32 @@ SLUS_013.95	0x80027AA8	tile_upload_to_vram	ram-kuumba123	MegaManX6_PS1_Modding@b
 SLUS_013.95	0x80027BA0	tile_upload_to_vram	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:4	held	asm only (INCLUDE_ASM) and no C caller shows role	MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:4
 SLUS_013.95	0x800280F4	draw_priority_setup	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:7	held	role words unsupported: unk4A/unk4B unnamed, priority not shown	MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:7
 SLUS_013.95	0x80029B8C	spawn_setup	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:8	admitted	init_checkpoint_positions: ram map lead; identification and words from our C: src=D_80073300[stage*2+substage][checkpoint]: g_Player x/y pos, background_objects[0..2] positions and bounds, g_Player+	code:src/SLUS_013.95/stage/checkpoint.c:20 via=checkpoint; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:8
-SLUS_013.95	0x8002C9B0	object_removal_call_target	ram-archipelago	Archipelago@f5b9979:worlds/mmx6/disc.py:336	admitted	clear_object_slot: ram map lead; identification and words from our C: zeroes obj bytes 0..7 (X4_BaseObj active,id,unk2,on_screen,state,unk5..7); called on object exit paths (rock_45/func_800	code:src/SLUS_013.95/object/object_slot.c:9 via=arg0; ram.tsv key Archipelago@f5b9979:worlds/mmx6/disc.py:336
-SLUS_013.95	0x8002C9B0	remove_an_object	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/object.txt:5	admitted	clear_object_slot: ram map lead; identification and words from our C: zeroes obj bytes 0..7 (X4_BaseObj active,id,unk2,on_screen,state,unk5..7); called on object exit paths (rock_45/func_800	code:src/SLUS_013.95/object/object_slot.c:9 via=arg0; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/object.txt:5
+SLUS_013.95	0x8002C9B0	object_removal_call_target	ram-archipelago	Archipelago@f5b9979:worlds/mmx6/disc.py:336	admitted	clear_object_slot: ram map lead; identification and words from our C: zeroes obj bytes 0..7 (X4_BaseObj active,id,unk2,on_screen,state,unk5..7); called on object exit paths (rock_45/func_800	code:src/SLUS_013.95/object/object_slot.c:8 via=arg0; ram.tsv key Archipelago@f5b9979:worlds/mmx6/disc.py:336
+SLUS_013.95	0x8002C9B0	remove_an_object	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/object.txt:5	admitted	clear_object_slot: ram map lead; identification and words from our C: zeroes obj bytes 0..7 (X4_BaseObj active,id,unk2,on_screen,state,unk5..7); called on object exit paths (rock_45/func_800	code:src/SLUS_013.95/object/object_slot.c:8 via=arg0; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/object.txt:5
 SLUS_013.95	0x8002CB50	queue_an_object_for_display	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/object.txt:7	held	role words unsupported: C is an on-screen test, no display queue	MegaManX6_PS1_Modding@b3a1bf4:symbols/object.txt:7
-SLUS_013.95	0x8002D2D4	random_number	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/object.txt:9	admitted	random_byte: ram map lead; identification and words from our C: v=D_80090E70; v += (3v&0xFFFF)>>8 mixed; store D_80090E70; return v&0xFF	code:src/SLUS_013.95/system/random_byte.c:13 via=D_80090E70; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/object.txt:9
+SLUS_013.95	0x8002D2D4	random_number	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/object.txt:9	admitted	random_byte: ram map lead; identification and words from our C: v=D_80090E70; v += (3v&0xFFFF)>>8 mixed; store D_80090E70; return v&0xFF	code:src/SLUS_013.95/system/random_byte.c:12 via=D_80090E70; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/object.txt:9
 SLUS_013.95	0x8004FF00	write_a_rescue_unit_status	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:4	admitted	set_reploid_status: ram map lead; identification and words from our C: 4-bit field arg0 of g_playthrough_state+0xD8 words = arg1; rescue_reploid sets 2 on contact (rescue_reploid.c:37)	code:src/SLUS_013.95/item/reploid.c:37 via=set_reploid_status; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:4
-SLUS_013.95	0x8004FF4C	read_a_rescue_unit_status	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:2	admitted	get_reploid_status: ram map lead; identification and words from our C: returns 4-bit field arg0 of g_playthrough_state+0xD8 words; func_80018F98 tests ==2	code:src/SLUS_013.95/80018774.c:350 via=get_reploid_status; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:2
-SLUS_013.95	0x800533F4	test_a_dialogue_seen_flag	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:3	admitted	is_text_box_seen: ram map lead; identification and words from our C: bit arg0 of u16 g_playthrough_state+0x9E[D_8007A124[stage*2+substage]]; callers: if 0 -> open_text_box(n) then func_8005	code:src/rock_11/800F23D8.c:22 via=is_text_box_seen; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:3
-SLUS_013.95	0x80053440	set_a_dialogue_seen_flag	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:5	admitted	set_text_box_seen: ram map lead; identification and words from our C: sets bit arg0 of the same u16 (g_playthrough_state+0x9E, D_8007A124 index); called right after open_text_box	code:src/rock_11/800F23D8.c:24 via=set_text_box_seen; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:5
+SLUS_013.95	0x8004FF4C	read_a_rescue_unit_status	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:2	admitted	get_reploid_status: ram map lead; identification and words from our C: returns 4-bit field arg0 of g_playthrough_state+0xD8 words; func_80018F98 tests ==2	code:src/SLUS_013.95/80018774.c:335 via=get_reploid_status; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:2
+SLUS_013.95	0x800533F4	test_a_dialogue_seen_flag	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:3	admitted	is_text_box_seen: ram map lead; identification and words from our C: bit arg0 of u16 g_playthrough_state+0x9E[D_8007A124[stage*2+substage]]; callers: if 0 -> open_text_box(n) then func_8005	code:src/rock_11/800F23D8.c:20 via=is_text_box_seen; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:3
+SLUS_013.95	0x80053440	set_a_dialogue_seen_flag	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:5	admitted	set_text_box_seen: ram map lead; identification and words from our C: sets bit arg0 of the same u16 (g_playthrough_state+0x9E, D_8007A124 index); called right after open_text_box	code:src/rock_11/800F23D8.c:22 via=set_text_box_seen; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/misc.txt:5
 SLUS_013.95	0x800617A4	cd_position_to_sector_number	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:6	held	asm only: no def in src/; SDK name CdPosToInt is an x4 import, not engine words	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:6
 SLUS_013.95	0x8006E58C	music_stream_table	ram-archipelago	Archipelago@f5b9979:worlds/mmx6/disc.py:1028	held	asm only (INCLUDE_ASM) and no C caller shows role	Archipelago@f5b9979:worlds/mmx6/disc.py:1028
 SLUS_013.95	0x8007093C	per_stage_music_cue_table	ram-archipelago	Archipelago@f5b9979:worlds/mmx6/disc.py:1030	admitted	g_stage_bgm_tracks: ram map lead; identification and words from our C: u8[]; func_8001854C indexes [stage*8+substage*4+player*2] and passes it as play_bgm_xa_track arg0	code:src/SLUS_013.95/stage/stage.c:17 via=g_stage_bgm_tracks; ram.tsv key Archipelago@f5b9979:worlds/mmx6/disc.py:1030
 SLUS_013.95	0x8007112C	screen_handler_table	ram-archipelago	Archipelago@f5b9979:worlds/mmx6/client.py:172	admitted	g_playthrough_state_handlers: ram map lead; identification and words from our C: fn ptr table; func_8001E6E4 loops D_8007112C[g_playthrough_state.state](&g_playthrough_state) then task_yield(1)	code:src/SLUS_013.95/8001E6E4.c:11 via=g_playthrough_state_handlers; ram.tsv key Archipelago@f5b9979:worlds/mmx6/client.py:172
 SLUS_013.95	0x80073ABC	player_top_level_state_jump	ram-archipelago	Archipelago@f5b9979:worlds/mmx6/client.py:249	admitted	g_player_state_handlers: ram map lead; identification and words from our C: fn ptr table; func_80034DCC calls D_80073ABC[p->state](p) for the player	code:src/SLUS_013.95/80034830.c:270 via=g_player_state_handlers; ram.tsv key Archipelago@f5b9979:worlds/mmx6/client.py:249
 SLUS_013.95	0x800741FC	damage_tables	ram-archipelago	Archipelago@f5b9979:worlds/mmx6/damage.py:3	held	role words unsupported: C shows collision_data pointer, not damage	Archipelago@f5b9979:worlds/mmx6/damage.py:3
-SLUS_013.95	0x8008EC10	stage_layout_size	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:10	admitted	g_tilemap_layer_stride: ram map lead; identification and words from our C: u16 layer stride: SP_BG_TILEMAP + layer*D_8008EC10 + width*row + col; func_8002798C copies 3*D_8008EC10 bytes	code:src/SLUS_013.95/80026028.c:987 via=g_tilemap_layer_stride; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:10
+SLUS_013.95	0x8008EC10	stage_layout_size	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:10	admitted	g_tilemap_layer_stride: ram map lead; identification and words from our C: u16 layer stride: SP_BG_TILEMAP + layer*D_8008EC10 + width*row + col; func_8002798C copies 3*D_8008EC10 bytes	code:src/SLUS_013.95/80026028.c:985 via=g_tilemap_layer_stride; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:10
 SLUS_013.95	0x80097420	frame_counter	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:52	held	2.5 T7: held, failing clause: names the +0 member, not the symbol; 0x80097420 is the head of the 0xC MainBssState block (24 functions take %lo(D_80097420) as one base and read +4/+6/+7; include/mmx6/state.h); frame_counter is admitted as that field name (the main loop increments it once per iteration, src/SLUS_013.95/800120A0.c:58; mmx4 MainBssState at the pin); the head stays D_80097420	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:52
-SLUS_013.95	0x8009B7A0	draw_list_pointer	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/gpu.txt:27	admitted	g_cur_draw_info: ram map lead; identification and words from our C: X4_DrawInfo*; PutDispEnv/PutDrawEnv/DrawOTag from it, then swapped to D_800C4578+SCRATCH0*0xF0	code:src/SLUS_013.95/800120A0.c:47 via=g_cur_draw_info; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/gpu.txt:27
+SLUS_013.95	0x8009B7A0	draw_list_pointer	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/gpu.txt:27	admitted	g_cur_draw_info: ram map lead; identification and words from our C: X4_DrawInfo*; PutDispEnv/PutDrawEnv/DrawOTag from it, then swapped to D_800C4578+SCRATCH0*0xF0	code:src/SLUS_013.95/800120A0.c:44 via=g_cur_draw_info; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/gpu.txt:27
 SLUS_013.95	0x800B91B8	archive_buffer_free_pointer	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:53	held	role words unsupported: free pointer not shown, no C advances it	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:53
-SLUS_013.95	0x800B91C0	rectangle_list	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/gpu.txt:30	admitted	g_bg_sprite_prims: ram map lead; identification and words from our C: u8[]; 2 x 0x4000 halves of 0x400 16-byte prims, p[3]=3 p[7]=0x7D (SPRT_16); func_80026D44 sets SP_PRIM_PTR to half SP_BU	code:src/SLUS_013.95/80026028.c:191 via=g_bg_sprite_prims; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/gpu.txt:30
+SLUS_013.95	0x800B91C0	rectangle_list	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/gpu.txt:30	admitted	g_bg_sprite_prims: ram map lead; identification and words from our C: u8[]; 2 x 0x4000 halves of 0x400 16-byte prims, p[3]=3 p[7]=0x7D (SPRT_16); func_80026D44 sets SP_PRIM_PTR to half SP_BU	code:src/SLUS_013.95/80026028.c:189 via=g_bg_sprite_prims; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/gpu.txt:30
 SLUS_013.95	0x800C456C	pad_1_buttons_down	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:43	admitted	g_pad1_buttons: ram map lead; identification and words from our C: u16[3]: [0]=pad buttons from PadInitDirect buf 1 D_800CF920, [1]=previous, [2]=newly down	code:src/SLUS_013.95/80012A34.c:47 via=g_pad1_buttons; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:43
 SLUS_013.95	0x800C4570	pad_1_buttons_newly_down	ram-archipelago	Archipelago@f5b9979:worlds/mmx6/disc.py:150	rejected	2.4: field of D_800C456C +0x4	Archipelago@f5b9979:worlds/mmx6/disc.py:150
 SLUS_013.95	0x800C4570	pad_1_buttons_newly_down	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:45	rejected	2.4: field of D_800C456C +0x4	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:45
-SLUS_013.95	0x800C4578	drawing_settings	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/gpu.txt:28	admitted	g_draw_info_buffers: ram map lead; identification and words from our C: u8[] base of two 0xF0 X4_DrawInfo buffers (dispenv, drawenv +0x14, OT); D_8009B7A0 = D_800C4578+SCRATCH0*0xF0	code:src/SLUS_013.95/800120A0.c:47 via=g_draw_info_buffers; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/gpu.txt:28
+SLUS_013.95	0x800C4578	drawing_settings	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/gpu.txt:28	admitted	g_draw_info_buffers: ram map lead; identification and words from our C: u8[] base of two 0xF0 X4_DrawInfo buffers (dispenv, drawenv +0x14, OT); D_8009B7A0 = D_800C4578+SCRATCH0*0xF0	code:src/SLUS_013.95/800120A0.c:45 via=g_draw_info_buffers; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/gpu.txt:28
 SLUS_013.95	0x800C4758	pad_2_buttons_down	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:47	admitted	g_pad2_buttons: ram map lead; identification and words from our C: u16[3]: [0]=pad buttons from PadInitDirect buf 2 D_800CF870, [1]=previous, [2]=newly down	code:src/SLUS_013.95/80012A34.c:84 via=g_pad2_buttons; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:47
-SLUS_013.95	0x800CD338	stage_layout_width	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:8	admitted	g_tilemap_width: ram map lead; identification and words from our C: u8 column bound and row stride of SP_BG_TILEMAP (col >= D_800CD338 -> tile 0)	code:src/SLUS_013.95/80026028.c:984 via=g_tilemap_width; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:8
-SLUS_013.95	0x800CD339	stage_layout_height	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:9	admitted	g_tilemap_height: ram map lead; identification and words from our C: u8 row bound of SP_BG_TILEMAP; background max_y = D_800CD339-1	code:src/SLUS_013.95/80026028.c:984 via=g_tilemap_height; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:9
+SLUS_013.95	0x800CD338	stage_layout_width	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:8	admitted	g_tilemap_width: ram map lead; identification and words from our C: u8 column bound and row stride of SP_BG_TILEMAP (col >= D_800CD338 -> tile 0)	code:src/SLUS_013.95/80026028.c:982 via=g_tilemap_width; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:8
+SLUS_013.95	0x800CD339	stage_layout_height	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:9	admitted	g_tilemap_height: ram map lead; identification and words from our C: u8 row bound of SP_BG_TILEMAP; background max_y = D_800CD339-1	code:src/SLUS_013.95/80026028.c:982 via=g_tilemap_height; ram.tsv key MegaManX6_PS1_Modding@b3a1bf4:symbols/layer.txt:9
 rock_18	0x8006D624	rank_thresholds	ram-archipelago	Archipelago@f5b9979:worlds/mmx6/disc.py:610	held	no C reader: only the D_8006D624 token is in rock_18 (R2.4-005). The overlay link exists since 2.4 T2	Archipelago@f5b9979:worlds/mmx6/disc.py:610
 SLUS_013.95	0x80012890	screen_setup	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:29	rejected	superseded: named set_resolution by B7 (tweaks); ram map agrees, no rename	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:29
 SLUS_013.95	0x8001642C	archive_seek	ram-kuumba123	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:2	rejected	superseded: named read_dat_file by B7 (tweaks); ram map agrees, no rename	MegaManX6_PS1_Modding@b3a1bf4:symbols/common.txt:2
@@ -779,36 +779,303 @@ rock_37	0x800FBCC8	update_ground_scaravich	community	community.tsv:8	rejected	su
 rock_43	0x800FC128	update_nightmare_zero	community	community.tsv:18	rejected	superseded: named update_nightmare_zero by B6 objects (T9/T18, basis code); community agrees, no rename	community.tsv:18
 rock_44	0x800FDA98	update_high_max	community	community.tsv:12	rejected	superseded: named update_high_max_hidden_area by B6 objects (T9/T18, basis code); community agrees, no rename	community.tsv:12
 # B9 derived (T12): 31 call-graph names (docs/leads/derived.tsv), a named caller/callee + our C; 23 admitted (basis xref), 8 held (role unread or guessed)
-SLUS_013.95	0x80012658	init_system	derived	derived.tsv:5	admitted	-	xref:caller=load_rock_dat_file_table; code:src/SLUS_013.95/system/system.c:96 via=load_rock_dat_file_table
+SLUS_013.95	0x80012658	init_system	derived	derived.tsv:5	admitted	-	xref:caller=load_rock_dat_file_table; code:src/SLUS_013.95/system/system.c:86 via=load_rock_dat_file_table
 SLUS_013.95	0x80015EC0	wait_for_file_load	derived	derived.tsv:6	admitted	-	xref:caller=init_loading_screen; code:src/SLUS_013.95/file/file_load.c:5 via=wait_for_file_load
-SLUS_013.95	0x80016D34	key_on_sfx_voices	derived	derived.tsv:7	admitted	-	xref:callee=play_sound; code:src/SLUS_013.95/sound/sound.c:43 via=key_on_sfx_voices
-SLUS_013.95	0x80017008	play_sfx_sequence	derived	derived.tsv:8	admitted	-	xref:callee=play_sound; code:src/SLUS_013.95/sound/sound.c:41 via=play_sfx_sequence
-SLUS_013.95	0x8001731C	load_player_sound_seqs	derived	derived.tsv:9	admitted	-	xref:callee=load_player_files; code:src/SLUS_013.95/file/player_files.c:48 via=load_player_sound_seqs
+SLUS_013.95	0x80016D34	key_on_sfx_voices	derived	derived.tsv:7	admitted	-	xref:callee=play_sound; code:src/SLUS_013.95/sound/sound.c:40 via=key_on_sfx_voices
+SLUS_013.95	0x80017008	play_sfx_sequence	derived	derived.tsv:8	admitted	-	xref:callee=play_sound; code:src/SLUS_013.95/sound/sound.c:38 via=play_sfx_sequence
+SLUS_013.95	0x8001731C	load_player_sound_seqs	derived	derived.tsv:9	admitted	-	xref:callee=load_player_files; code:src/SLUS_013.95/file/player_files.c:47 via=load_player_sound_seqs
 SLUS_013.95	0x8001EB48	end_stage_on_clear	derived	derived.tsv:10	held	D_80097424 != 0 branch (func_80020C40, func_80025FB0) unread; role of the whole routine guessed	xref:caller=exit_stage_by_clear; code:src/SLUS_013.95/8001E6E4.c:262 via=exit_stage_by_clear
 SLUS_013.95	0x80020D18	run_text_box	derived	derived.tsv:11	admitted	-	xref:caller=update_text_box; code:src/SLUS_013.95/text/text_box.c:13 via=update_text_box
-SLUS_013.95	0x80022838	load_speaker_palette	derived	derived.tsv:12	admitted	-	xref:callee=open_text_box; code:src/SLUS_013.95/text/text_box_80021760.c:124 via=load_speaker_palette
+SLUS_013.95	0x80022838	load_speaker_palette	derived	derived.tsv:12	admitted	-	xref:callee=open_text_box; code:src/SLUS_013.95/text/text_box_80021760.c:123 via=load_speaker_palette
 SLUS_013.95	0x80022928	load_palette_block	derived	derived.tsv:13	held	meaning of the 0x1E0 slot base and the scratch 0xA8 source unknown; name generic	xref:callee=setup_pause_menu; code:src/SLUS_013.95/menu/pause_menu.c:171 via=func_80022928
-SLUS_013.95	0x80031DA8	collide_solid_object	derived	derived.tsv:14	admitted	-	xref:caller=check_box_collision; code:src/SLUS_013.95/collision/solid_object.c:32 via=check_box_collision
-SLUS_013.95	0x80034FBC	update_player	derived	derived.tsv:15	admitted	-	xref:caller=player_update_flash; code:src/SLUS_013.95/player/player.c:68 via=player_update_flash
-SLUS_013.95	0x80036E70	update_slide_down	derived	derived.tsv:16	held	substate != 0 handler func_80036FBC unread; which player state this is is guessed	xref:caller=handle_slide_down; code:src/SLUS_013.95/800365D4.c:397 via=handle_slide_down
-SLUS_013.95	0x8003A2CC	try_enter_wall_cling	derived	derived.tsv:17	admitted	-	xref:caller=player_enter_wall_cling; code:src/SLUS_013.95/cling/enter_wall_cling.c:23 via=player_enter_wall_cling
+SLUS_013.95	0x80031DA8	collide_solid_object	derived	derived.tsv:14	admitted	-	xref:caller=check_box_collision; code:src/SLUS_013.95/collision/solid_object.c:31 via=check_box_collision
+SLUS_013.95	0x80034FBC	update_player	derived	derived.tsv:15	admitted	-	xref:caller=player_update_flash; code:src/SLUS_013.95/player/player.c:58 via=player_update_flash
+SLUS_013.95	0x80036E70	update_slide_down	derived	derived.tsv:16	admitted	-	xref:callee=handle_slide_down; code:src/SLUS_013.95/player/slide_down.c:15 via=handle_slide_down
+SLUS_013.95	0x8003A2CC	try_enter_wall_cling	derived	derived.tsv:17	admitted	-	xref:caller=player_enter_wall_cling; code:src/SLUS_013.95/cling/enter_wall_cling.c:25 via=player_enter_wall_cling
 SLUS_013.95	0x8003A3DC	try_enter_ladder	derived	derived.tsv:18	admitted	-	xref:caller=player_enter_ladder_climb_on_top; code:src/SLUS_013.95/ladder/enter_ladder.c:30 via=player_enter_ladder_climb_on_top
-SLUS_013.95	0x8003A514	try_leave_ladder	derived	derived.tsv:19	admitted	-	xref:caller=player_enter_ladder_step_off_bottom; code:src/SLUS_013.95/ladder/leave_ladder.c:18 via=player_enter_ladder_step_off_bottom
-SLUS_013.95	0x8003B548	enter_landing	derived	derived.tsv:20	held	player state 0xB not identified; landing is a guess from dust + zeroed speeds	xref:caller=spawn_dust; code:src/SLUS_013.95/8003B440.c:67 via=spawn_dust
-SLUS_013.95	0x8003EC78	update_player_shooting	derived	derived.tsv:21	held	fire branch (func_8003ED98, func_8003F480) unread; shooting role guessed	xref:caller=charge_special_weapon; code:src/SLUS_013.95/8003EC78.c:54 via=charge_special_weapon
-SLUS_013.95	0x8003F048	update_weapon_switch	derived	derived.tsv:22	admitted	-	xref:caller=switch_weapon; code:src/SLUS_013.95/weapon/weapon_switch.c:18 via=switch_weapon
-SLUS_013.95	0x8003F32C	try_start_air_dash	derived	derived.tsv:23	admitted	-	xref:callee=select_air_dash; code:src/SLUS_013.95/dash/air_dash.c:57 via=try_start_air_dash
+SLUS_013.95	0x8003A514	try_leave_ladder	derived	derived.tsv:19	admitted	-	xref:caller=player_enter_ladder_step_off_bottom; code:src/SLUS_013.95/ladder/leave_ladder.c:19 via=player_enter_ladder_step_off_bottom
+SLUS_013.95	0x8003B548	start_slide_down	derived	derived.tsv:20	admitted	-	code:src/SLUS_013.95/8003B548.c:24 via=action
+SLUS_013.95	0x8003EC78	update_player_charge	derived	derived.tsv:21	admitted	-	xref:caller=charge_special_weapon; code:src/SLUS_013.95/weapon/player_charge.c:50 via=charge_special_weapon
+SLUS_013.95	0x8003F048	update_weapon_switch	derived	derived.tsv:22	admitted	-	xref:caller=switch_weapon; code:src/SLUS_013.95/weapon/weapon_switch.c:17 via=switch_weapon
+SLUS_013.95	0x8003F32C	try_start_air_dash	derived	derived.tsv:23	admitted	-	xref:callee=select_air_dash; code:src/SLUS_013.95/dash/air_dash.c:56 via=try_start_air_dash
 SLUS_013.95	0x8003F864	start_player_attack	derived	derived.tsv:24	admitted	-	xref:caller=start_saber; code:src/SLUS_013.95/attack/player_attack.c:5 via=start_player_attack
-SLUS_013.95	0x80049478	update_buster_shot_visual	derived	derived.tsv:25	admitted	-	xref:caller=init_buster_shot_visual; code:src/SLUS_013.95/weapon/buster_shot_visual_80049478.c:20 via=init_buster_shot_visual
+SLUS_013.95	0x80049478	update_buster_shot_visual	derived	derived.tsv:25	admitted	-	xref:caller=init_buster_shot_visual; code:src/SLUS_013.95/weapon/buster_shot_visual_80049478.c:19 via=init_buster_shot_visual
 SLUS_013.95	0x8004EA78	update_reploid_idle	derived	derived.tsv:26	held	which reploid sub-state this is is not shown; idle is a guess	xref:caller=rescue_reploid; code:src/SLUS_013.95/8004E78C.c:168 via=rescue_reploid
 SLUS_013.95	0x8004ED4C	grant_rescue_reward	derived	derived.tsv:27	held	the hp-cap and 0x63/0x6A fill reading is unconfirmed; reward role guessed	xref:callee=rescue_reploid; code:src/SLUS_013.95/item/reploid.c:49 via=func_8004ED4C
-SLUS_013.95	0x800515B4	update_capsule	derived	derived.tsv:28	admitted	-	xref:caller=init_capsule; code:src/SLUS_013.95/item/capsule_800515B4.c:31 via=init_capsule
+SLUS_013.95	0x800515B4	update_capsule	derived	derived.tsv:28	admitted	-	xref:caller=init_capsule; code:src/SLUS_013.95/item/capsule_800515B4.c:30 via=init_capsule
 SLUS_013.95	0x80051828	spawn_capsule_visual	derived	derived.tsv:29	held	visual type 0x49 being capsule-specific is a guess; body is a generic linked-visual spawn	xref:callee=init_capsule; code:src/SLUS_013.95/item/capsule.c:114 via=func_80051828
 rock_01	0x801EC614	update_rekkoha	derived	derived.tsv:30	admitted	-	xref:callee=start_rekkoha; code:src/rock_01/rekkoha.c:49 via=update_rekkoha
 rock_01	0x801ECA50	try_hyoroga_from_ceiling	derived	derived.tsv:31	admitted	-	xref:caller=attack_hyoroga_from_ceiling; code:src/rock_01/hyoroga_from_ceiling.c:25 via=attack_hyoroga_from_ceiling
-rock_03	0x800F5664	step_commander_yammark	derived	derived.tsv:32	admitted	-	xref:callee=update_commander_yammark; code:src/shared/commander_yammark/step_commander_yammark.c:12 via=step_commander_yammark
+rock_03	0x800F5664	step_commander_yammark	derived	derived.tsv:32	admitted	-	xref:callee=update_commander_yammark; code:src/shared/commander_yammark/step_commander_yammark.c:13 via=step_commander_yammark
 rock_12	0x800EA324	start_demo_xa_track	derived	derived.tsv:33	admitted	-	xref:caller=play_demo_xa_track; code:src/rock_12/demo_xa.c:17 via=play_demo_xa_track
 rock_20	0x800EAC28	init_mission_report	derived	derived.tsv:34	admitted	-	xref:caller=build_mission_report_list; code:src/rock_20/mission_report.c:33 via=build_mission_report_list
 rock_20	0x800EB964	update_memcard_format	derived	derived.tsv:35	admitted	-	xref:caller=memcard_format; code:src/rock_20/memcard_format.c:63 via=memcard_format
 SLUS_013.95	0x8008EF48	mmx5_dev_obj_step	x5	x5.tsv:13	rejected	2.5 T7: superseded, the address is named g_enemies; the X5 name step is for field +0x06, a layout lead (include/mmx6/object.h keeps unk6, T5)	x5.tsv:13
 SLUS_013.95	0x80097420	mmx5_dev_d_8009a420	x5	x5.tsv:17	rejected	2.5 T7: an X5 placeholder, no name; a layout lead for MainBssState offsets only (docs/types/state.md)	x5.tsv:17
+# B10 2.6 T7: 116 movement names (docs/leads/derived.tsv; 3 judged in place above at derived.tsv:16,20,21; T7.props.all.tsv after refute T7.c5); 68 admitted (basis code/oracle/xref), 48 held (clause)
+SLUS_013.95	0x8006D600	button_map	derived	derived.tsv:37	admitted	-	code:src/SLUS_013.95/system/buttons.c:12 via=map_buttons
+SLUS_013.95	0x80073ACC	player_action_handlers	derived	derived.tsv:38	admitted	-	oracle:docs/systems/movement.md mv_walk-0005 mv_walk-0008 mv_jump-0021
+SLUS_013.95	0x80073C04	dash_phase_table	derived	derived.tsv:39	admitted	-	oracle:docs/systems/movement.md mv_dash-0021 mv_dash-0023 mv_dash-0024
+SLUS_013.95	0x80073C10	ceiling_dash_phase_table	derived	derived.tsv:40	held	role guessed: ceiling dash only from the community name of entry 2 (read from retail data, no tracked line); action 13 not reached in T6	xref:dispatch=func_80037130
+SLUS_013.95	0x80073C58	ceiling_jump_phase_table	derived	derived.tsv:41	admitted	-	oracle:docs/systems/movement.md mv_ceiling2-0023 mv_ceiling2-0024 mv_ceiling2-0027
+SLUS_013.95	0x80073C70	hurt_animations	derived	derived.tsv:42	held	role guessed: func_8003BA04 (animation set) still unnamed; no new basis since T7	-
+SLUS_013.95	0x80073C78	hurt_motion_table	derived	derived.tsv:43	admitted	-	code:src/SLUS_013.95/damage/hurt_8003963C.c:38 via=x_vel
+SLUS_013.95	0x80073CD8	hurt_invincibility_times	derived	derived.tsv:44	admitted	-	code:src/SLUS_013.95/damage/hurt_8003963C.c:56 via=invincibility_timer
+SLUS_013.95	0x80073D60	dash_spark_offsets	derived	derived.tsv:45	admitted	-	code:src/SLUS_013.95/dash/spawn_dash_spark.c:46 via=dash_spark_offsets
+SLUS_013.95	0x80073E00	shot_type_attack_flags	derived	derived.tsv:46	held	role guessed: what a nonzero entry means is still unread (no dp, no named reader of the values)	-
+SLUS_013.95	0x80073EC0	switch_weapon_stage_masks	derived	derived.tsv:47	admitted	-	code:src/SLUS_013.95/weapon/weapon.c:47 via=beaten_stages
+SLUS_013.95	0x80073EC8	switch_weapon_slot_weapons	derived	derived.tsv:48	admitted	-	code:src/SLUS_013.95/weapon/weapon.c:60 via=weapon
+SLUS_013.95	0x80073ED0	switch_weapon_weapon_slots	derived	derived.tsv:49	admitted	-	code:src/SLUS_013.95/weapon/weapon.c:39 via=weapon
+SLUS_013.95	0x80073ED8	weapon_slot_stage_masks	derived	derived.tsv:50	held	neighbour func_8003DD6C held (character 0 word unsourced); no new basis	-
+SLUS_013.95	0x80073EE4	weapon_slot_weapons	derived	derived.tsv:51	held	neighbour func_8003DD6C held (character 0 word unsourced); no new basis	-
+SLUS_013.95	0x80073EF0	weapon_weapon_slots	derived	derived.tsv:52	held	neighbour func_8003DD6C held (character 0 word unsourced); no new basis	-
+SLUS_013.95	0x800762C0	ceiling_state_table	derived	derived.tsv:53	admitted	-	xref:callee=clamp_player_to_ceiling; code:src/SLUS_013.95/cling/player_to_ceiling.c:44 via=state
+SLUS_013.95	0x8007789C	g_visual_animation_tables	derived	derived.tsv:54	admitted	-	code:src/SLUS_013.95/dash/spawn_dash_spark.c:37 via=animation_table
+SLUS_013.95	0x80012D9C	start_pad_vibration	derived	derived.tsv:55	admitted	-	code:src/SLUS_013.95/system/pad.c:30 via=PadInfoMode
+SLUS_013.95	0x80017A04	animate_object	derived	derived.tsv:56	admitted	-	code:src/SLUS_013.95/player/script_vanish.c:14 via=animation_step
+SLUS_013.95	0x80020C40	update_gameplay_frame	derived	derived.tsv:57	held	role guessed: per-frame loop body, callers unread	xref:caller=read_player_input
+SLUS_013.95	0x80029478	start_screen_shake_y	derived	derived.tsv:58	held	x4 exact; route x4names (M14)	xref:caller=move_ceiling
+SLUS_013.95	0x8002C398	find_free_visual_obj	derived	derived.tsv:59	admitted	-	code:src/SLUS_013.95/effect/dust.c:15 via=active
+SLUS_013.95	0x8002CBFC	is_off_screen	derived	derived.tsv:60	admitted	-	code:src/SLUS_013.95/title/screen_8002CBFC.c:17 via=background_objects
+SLUS_013.95	0x8002CFB0	apply_player_motion	derived	derived.tsv:61	admitted	-	code:src/SLUS_013.95/player/player_motion.c:35 via=gravity
+SLUS_013.95	0x8002D5D0	move_by_velocity	derived	derived.tsv:62	admitted	-	xref:callee=handle_slide_down; code:src/SLUS_013.95/player/slide_down.c:33 via=handle_slide_down
+SLUS_013.95	0x8002FD3C	get_tile_attr_top	derived	derived.tsv:63	admitted	-	code:src/SLUS_013.95/collision/tile_attr_top.c:12 via=terrain_box
+SLUS_013.95	0x8002FE30	get_tile_attr_above	derived	derived.tsv:64	admitted	-	code:src/SLUS_013.95/collision/tile_attr_above.c:34 via=bg_offset
+SLUS_013.95	0x8002FF70	get_tile_attr_bottom	derived	derived.tsv:65	admitted	-	code:src/SLUS_013.95/collision/tile_attr_bottom.c:22 via=bg_offset
+SLUS_013.95	0x80030068	get_tile_attr_below	derived	derived.tsv:66	admitted	-	code:src/SLUS_013.95/collision/tile_attr_below.c:12 via=terrain_box
+SLUS_013.95	0x8003015C	get_tile_attr_origin	derived	derived.tsv:67	admitted	-	code:src/SLUS_013.95/collision/tile_attr_origin.c:20 via=bg_offset
+SLUS_013.95	0x80030304	get_tile_attr_at	derived	derived.tsv:68	held	asm body unread in tracked C (draft only, unverified); role from callers only	xref:caller=perform_ceiling_jump
+SLUS_013.95	0x80035144	update_stage_entry	derived	derived.tsv:69	admitted	-	code:src/SLUS_013.95/player/stage_entry.c:44 via=init_move_stats
+SLUS_013.95	0x80035274	update_stand	derived	derived.tsv:70	admitted	-	oracle:docs/systems/movement.md mv_walk-0008 mv_walk-0023 mv_jump-0038
+SLUS_013.95	0x800353C0	update_walk_start	derived	derived.tsv:71	admitted	-	code:src/SLUS_013.95/player/walk_8003AE8C.c:19 via=action
+SLUS_013.95	0x800354E8	update_walk	derived	derived.tsv:72	held	oracle 2 dps only; the action-4 store has no named anchor; re-judge once check_walk_input (func_80039D7C) applies	-
+SLUS_013.95	0x800365D4	update_ceiling_hang	derived	derived.tsv:73	held	role guessed: hang from code and a retail table word only; the ceiling cling never ran (movement.md Open, gate attr 0x39)	-
+SLUS_013.95	0x8003674C	update_move_off_screen	derived	derived.tsv:74	admitted	-	code:src/SLUS_013.95/800365D4.c:88 via=is_off_screen
+SLUS_013.95	0x800368FC	update_fall	derived	derived.tsv:75	admitted	-	oracle:docs/systems/movement.md mv_jump-0028 mv_jump-0041 mv_hover2-0040
+SLUS_013.95	0x80036A04	update_landing	derived	derived.tsv:76	admitted	-	oracle:docs/systems/movement.md mv_jump-0035 mv_jump-0042 mv_dash-0049
+SLUS_013.95	0x80036B10	update_wall_cling	derived	derived.tsv:77	admitted	-	code:src/SLUS_013.95/cling/wall_cling.c:30 via=try_wall_jump
+SLUS_013.95	0x80036C28	update_wall_jump	derived	derived.tsv:78	admitted	-	code:src/SLUS_013.95/cling/wall_jump_8003B440.c:52 via=action
+SLUS_013.95	0x80036C68	update_wall_jump_push	derived	derived.tsv:79	admitted	-	code:src/SLUS_013.95/cling/wall_jump_8003B440.c:53 via=action_phase
+SLUS_013.95	0x80036D4C	update_wall_jump_rise	derived	derived.tsv:80	admitted	-	code:src/SLUS_013.95/cling/wall_jump.c:105 via=y_vel
+SLUS_013.95	0x80036FBC	update_slide_down_let_go	derived	derived.tsv:81	admitted	-	code:src/SLUS_013.95/player/slide_down.c:60 via=is_pressing_into_wall
+SLUS_013.95	0x800370B0	update_dash	derived	derived.tsv:82	admitted	-	oracle:docs/systems/movement.md mv_dash-0021 mv_dash-0023 mv_dash-0024
+SLUS_013.95	0x80037130	update_ceiling_dash	derived	derived.tsv:83	held	role guessed: ceiling dash only from the retail word D_80073C10[2]=end_ceiling_dash; no tracked line, not reached in T6	-
+SLUS_013.95	0x80037610	update_ladder_climb_up	derived	derived.tsv:84	admitted	-	xref:caller=try_leave_ladder; code:src/SLUS_013.95/ladder/ladder_climb_80037610.c:22 via=try_leave_ladder
+SLUS_013.95	0x80037704	update_ladder_climb_down	derived	derived.tsv:85	admitted	-	xref:caller=try_leave_ladder; code:src/SLUS_013.95/ladder/ladder_climb_80037610.c:74 via=try_leave_ladder
+SLUS_013.95	0x80037880	update_hurt_knockback	derived	derived.tsv:86	admitted	-	oracle:docs/systems/movement.md mv_wall-0021 mv_wall-0023 mv_wall-0024 mv_lowhp-0044
+SLUS_013.95	0x80037A60	move_x_backward	derived	derived.tsv:87	admitted	-	code:src/SLUS_013.95/player/x_backward.c:31 via=facing
+SLUS_013.95	0x80037DC4	update_control_lock	derived	derived.tsv:88	admitted	-	oracle:docs/systems/movement.md mv_walk-0007 mv_hover2-0009 mv_ceiling2-0009
+SLUS_013.95	0x800381F0	update_ceiling_jump	derived	derived.tsv:89	admitted	-	oracle:docs/systems/movement.md mv_ceiling2-0023 mv_ceiling2-0024 mv_ceiling2-0027
+SLUS_013.95	0x80038248	end_ceiling_jump	derived	derived.tsv:90	admitted	-	code:src/SLUS_013.95/cling/ceiling_jump_800381F0.c:46 via=base_gravity
+SLUS_013.95	0x80039228	update_player_damage	derived	derived.tsv:91	admitted	-	code:src/SLUS_013.95/damage/damage_80039228.c:119 via=invincibility_timer
+SLUS_013.95	0x8003963C	start_hurt	derived	derived.tsv:92	admitted	-	code:src/SLUS_013.95/damage/hurt_8003963C.c:35 via=hurt_type
+SLUS_013.95	0x800397F8	snap_to_tile_slope	derived	derived.tsv:93	admitted	-	code:src/SLUS_013.95/collision/to_tile_slope.c:58 via=y_pos
+SLUS_013.95	0x80039C40	player_check_dash_jump	derived	derived.tsv:94	held	x4 exact; route x4names (M14)	-
+SLUS_013.95	0x80039CFC	check_walk_start_input	derived	derived.tsv:95	admitted	-	xref:caller=update_stand; code:src/SLUS_013.95/player/stand.c:28 via=start_walk
+SLUS_013.95	0x80039D7C	check_walk_input	derived	derived.tsv:96	admitted	-	xref:caller=player_check_dash_jump_walk; code:src/SLUS_013.95/player/walk.c:12 via=player_check_dash_jump_walk
+SLUS_013.95	0x80039DFC	check_floor_lost	derived	derived.tsv:97	admitted	-	code:src/SLUS_013.95/player/floor_lost.c:23 via=latched_collision_flags
+SLUS_013.95	0x80039F78	update_double_tap_dash	derived	derived.tsv:98	admitted	-	code:src/SLUS_013.95/dash/double_tap_dash.c:25 via=double_tap_dash
+SLUS_013.95	0x80039FFC	check_dash_end	derived	derived.tsv:99	admitted	-	code:src/SLUS_013.95/dash/dash_end.c:40 via=dash_timer
+SLUS_013.95	0x8003A33C	try_wall_jump	derived	derived.tsv:100	admitted	-	code:src/SLUS_013.95/cling/wall_jump_8003A33C.c:18 via=wall_climbable
+SLUS_013.95	0x8003A394	is_pressing_into_wall	derived	derived.tsv:101	admitted	-	xref:callee=try_enter_wall_cling; code:src/SLUS_013.95/cling/pressing_into_wall.c:17 via=latched_collision_flags
+SLUS_013.95	0x8003A488	try_grab_ladder_from_air	derived	derived.tsv:102	admitted	-	code:src/SLUS_013.95/ladder/grab_ladder_from_air.c:24 via=attacking
+SLUS_013.95	0x8003A9C4	start_dash	derived	derived.tsv:103	admitted	-	code:src/SLUS_013.95/dash/dash_8003A9C4.c:50 via=dash_timer
+SLUS_013.95	0x8003AD18	player_start_stand	derived	derived.tsv:104	held	no named anchor on the action line; func_8003ADB4 also enters action 2 (nearest alternative not told apart)	-
+SLUS_013.95	0x8003AE8C	start_walk	derived	derived.tsv:105	admitted	-	code:src/SLUS_013.95/player/walk_8003AE8C.c:19 via=action
+SLUS_013.95	0x8003AED4	player_start_walking	derived	derived.tsv:106	held	no named anchor on the action line (p[5] = 4) or its call; re-judge once check_walk_input (func_80039D7C) applies	xref:caller=player_check_dash_jump_walk
+SLUS_013.95	0x8003AF1C	start_jump	derived	derived.tsv:107	admitted	-	code:src/SLUS_013.95/player/walk.c:17 via=PLAYER_INPUT_JUMP
+SLUS_013.95	0x8003AFF4	player_start_fall	derived	derived.tsv:108	held	no named anchor; func_8003B360 (8003B218.c:89, animation 0x84) also enters action 7, and no dp records which one ran	-
+SLUS_013.95	0x8003B054	player_land	derived	derived.tsv:109	admitted	-	xref:caller=player_check_dash_jump_walk; code:src/SLUS_013.95/player/land.c:26 via=player_check_dash_jump_walk
+SLUS_013.95	0x8003B440	start_wall_jump	derived	derived.tsv:110	admitted	-	code:src/SLUS_013.95/cling/wall_jump_8003B440.c:52 via=action; glossary.md:425 (wall jump); derived.tsv:110
+SLUS_013.95	0x8003B5B8	release_wall_slide	derived	derived.tsv:111	held	role guessed: no dp for slide phase 1; the new wall jump row (glossary :425) is action 10, not this	xref:caller=handle_slide_down
+SLUS_013.95	0x8003B63C	grab_ladder	derived	derived.tsv:112	admitted	-	xref:callee=try_enter_ladder; code:src/SLUS_013.95/ladder/ladder.c:23 via=x_pos
+SLUS_013.95	0x8003B6B4	reach_ladder_top	derived	derived.tsv:113	admitted	-	xref:callee=try_leave_ladder; code:src/SLUS_013.95/ladder/leave_ladder.c:13 via=try_leave_ladder; code:src/SLUS_013.95/ladder/enter_ladder.c:30 via=player_enter_ladder_climb_on_top
+SLUS_013.95	0x8003B954	player_enter_beam_out	derived	derived.tsv:114	held	x4 exact; route x4names (M14)	xref:caller=func_80038144
+SLUS_013.95	0x8003BA04	player_set_animation	derived	derived.tsv:115	admitted	-	xref:callee=set_animation; code:src/SLUS_013.95/8003B7B4.c:169 via=set_animation
+SLUS_013.95	0x8003BB94	player_set_animation_frame	derived	derived.tsv:116	admitted	-	xref:caller=set_animation_frame; code:src/SLUS_013.95/graphics/set_animation_frame.c:61 via=set_animation_frame
+SLUS_013.95	0x8003C4EC	player_load_weapon_palette	derived	derived.tsv:117	admitted	-	xref:caller=load_palette; code:src/SLUS_013.95/weapon/load_weapon_palette.c:39 via=load_palette
+SLUS_013.95	0x8003CD9C	player_clear_dash	derived	derived.tsv:118	admitted	-	code:src/SLUS_013.95/8003CD9C.c:5 via=dash_momentum
+SLUS_013.95	0x8003CDBC	player_clear_attack	derived	derived.tsv:119	admitted	-	code:src/SLUS_013.95/8003CD9C.c:18 via=attacking
+SLUS_013.95	0x8003CE30	clear_flash_palette	derived	derived.tsv:120	admitted	-	code:include/mmx6/player.h:121 via=flash_palette
+SLUS_013.95	0x8003CF24	load_buffered_palette	derived	derived.tsv:121	admitted	-	code:src/SLUS_013.95/graphics/buffered_palette.c:10 via=load_palette
+SLUS_013.95	0x8003CF54	load_player_palette	derived	derived.tsv:122	admitted	-	code:src/SLUS_013.95/graphics/player_palette.c:13 via=load_palette
+SLUS_013.95	0x8003CFE0	play_sound_unless_low_health	derived	derived.tsv:123	admitted	-	xref:callee=play_sound; code:src/SLUS_013.95/8003CFE0.c:9 via=play_sound; code:src/SLUS_013.95/cling/wall_jump_8003B440.c:13 via=start_wall_jump
+SLUS_013.95	0x8003D10C	set_stand_animation_by_hp	derived	derived.tsv:124	admitted	-	code:src/SLUS_013.95/graphics/animation_8003D10C.c:13 via=g_playthrough_state
+SLUS_013.95	0x8003D18C	set_air_x_velocity	derived	derived.tsv:125	admitted	-	xref:callee=handle_jump_rise; code:src/SLUS_013.95/player/jump_rise.c:17 via=handle_jump_rise
+SLUS_013.95	0x8003D598	set_base_move_stats	derived	derived.tsv:126	admitted	-	xref:caller=init_move_stats; code:src/SLUS_013.95/player/move_stats.c:10 via=init_move_stats; code:src/SLUS_013.95/8003D598.c:34 via=dash_speed
+SLUS_013.95	0x8003D630	init_move_stats	derived	derived.tsv:127	admitted	-	code:src/SLUS_013.95/player/move_stats.c:14 via=equipped_parts
+SLUS_013.95	0x8003D718	load_armor_and_parts	derived	derived.tsv:128	admitted	-	code:src/SLUS_013.95/player/armor.c:16 via=armor; code:src/SLUS_013.95/player/armor.c:17 via=equipped_parts
+SLUS_013.95	0x8003DD6C	switch_weapon_character0	derived	derived.tsv:129	held	role read; the character 0 word (X) still unsourced (glossary :171 player_char gives no id map)	xref:callee=update_weapon_switch
+SLUS_013.95	0x8003DF58	set_shot_types	derived	derived.tsv:130	admitted	-	code:src/SLUS_013.95/weapon/shot_types.c:41 via=shot_types
+SLUS_013.95	0x8003E174	try_shoot_in_air	derived	derived.tsv:131	admitted	-	xref:caller=start_player_attack; code:src/SLUS_013.95/weapon/shoot_in_air.c:47 via=start_player_attack
+SLUS_013.95	0x8003E260	try_shoot_on_ladder	derived	derived.tsv:132	admitted	-	xref:caller=start_player_attack; code:src/SLUS_013.95/weapon/shoot_on_ladder.c:40 via=start_player_attack
+SLUS_013.95	0x8003E614	try_fire_shot	derived	derived.tsv:133	admitted	-	xref:caller=use_weapon_energy; code:src/SLUS_013.95/weapon/fire_shot.c:114 via=use_weapon_energy
+SLUS_013.95	0x8003ED98	check_charge_release	derived	derived.tsv:134	held	role guessed: buttons 0x10/0x20 unsourced, func_8003F480 unnamed; no new basis since T7	xref:callee=update_player_charge
+SLUS_013.95	0x8003F0BC	react_to_weapon_change	derived	derived.tsv:135	admitted	-	xref:callee=update_weapon_switch; code:src/SLUS_013.95/weapon/to_weapon_change.c:17 via=player_spawn_visual
+SLUS_013.95	0x8003F13C	try_start_attack	derived	derived.tsv:136	admitted	-	xref:caller=start_player_attack; code:src/SLUS_013.95/attack/start_attack.c:38 via=start_player_attack
+SLUS_013.95	0x8003F480	player_reset_charge	derived	derived.tsv:137	admitted	-	code:src/SLUS_013.95/8003F3DC.c:41 via=charge_timer
+SLUS_013.95	0x8003F644	try_start_shot_attack	derived	derived.tsv:138	admitted	-	xref:caller=start_player_attack; code:src/SLUS_013.95/attack/start_shot_attack.c:39 via=start_player_attack
+SLUS_013.95	0x8003F7BC	set_charge_shot_type	derived	derived.tsv:139	held	no named anchor (offset macros only)	xref:callee=func_8003DF58
+SLUS_013.95	0x8003FF90	player_set_charge_flash	derived	derived.tsv:140	admitted	-	code:src/SLUS_013.95/weapon/set_charge_flash.c:41 via=flash_palette
+rock_00	0x801EB61C	update_x_stand_animation	derived	derived.tsv:141	admitted	-	xref:callee=set_stand_animation_by_hp; code:src/rock_00/801EA0C4.c:736 via=set_stand_animation_by_hp; code:src/SLUS_013.95/player/stand.c:14 via=update_stand
+rock_00	0x801EB6E8	player_enter_ladder_shoot	derived	derived.tsv:142	admitted	-	xref:caller=try_shoot_on_ladder; code:src/SLUS_013.95/weapon/shoot_on_ladder.c:12 via=try_shoot_on_ladder
+rock_00	0x801EB8B8	update_air_dash	derived	derived.tsv:143	admitted	-	oracle:docs/systems/movement.md mv_airdash-0031 mv_falcon-0035 mv_ladder2-0053
+rock_01	0x801EBE04	try_start_rekkoha	derived	derived.tsv:144	admitted	-	xref:caller=start_rekkoha; code:src/rock_01/801EA7A4.c:817 via=start_rekkoha
+rock_00	0x801EC020	player_hover_idle	derived	derived.tsv:145	admitted	-	xref:caller=player_hover_set_direction; code:src/rock_00/801EB7C8.c:341 via=player_hover_set_direction
+rock_01	0x801EC0F0	try_start_ladder_attack	derived	derived.tsv:146	held	role guessed: the callers are named now, but the attack word rests on the callee func_801ECCD4 (Z-Saber input per tweaks-index:232), still unnamed; name it first	xref:callee=func_801ECCD4
+rock_01	0x801EC298	try_start_air_jump	derived	derived.tsv:147	admitted	-	xref:callee=select_air_dash; code:src/SLUS_013.95/dash/air_dash.c:40 via=select_air_dash
+rock_01	0x801EC9C4	update_zero_stand_animation	derived	derived.tsv:148	admitted	-	xref:caller=update_stand; code:src/rock_01/801EC68C.c:172 via=g_playthrough_state; code:src/SLUS_013.95/player/stand.c:14 via=update_stand
+SLUS_013.95	0x801ECA50	try_hyoroga_from_ceiling	derived	derived.tsv:149	held	cross-program token; rock_01 name exists; the exe side needs a SLUS PROVIDE (C0251/C0287)	-
+# B10c 2.6 T7: 120 movement tokens held with no queue key (no name proposed, or a field expression; namesqueue refuses a placeholder or non-name candidate), one comment per token: prog vram token: failing clause (NAME1)
+# held SLUS_013.95 0x80073CE4 D_80073CE4: role guessed: per-character jump sound or voice ids; func_8003CFE0 unread
+# held SLUS_013.95 0x80073D6C D_80073D6C: role guessed: offset of an unnamed visual; no datapoint, no named anchor
+# held SLUS_013.95 0x800970A5 D_800970A5: field of g_Player +0x05 (action)
+# held SLUS_013.95 0x800970FC D_800970FC: not a symbol name: g_Player.hp is a field expression; field of g_Player +0x5C (hp)
+# held SLUS_013.95 0x8009711A D_8009711A: not a symbol name: g_Player.spike_immune is a field expression; field of g_Player +0x7A (spike_immune)
+# held SLUS_013.95 0x80097180 D_80097180: field of g_Player +0xE0 (nova_strike_active)
+# held SLUS_013.95 0x800CCEDF D_800CCEDF: field of g_playthrough_state +0xF (X4_EngineObj.unkF, read as e->unkF in func_80037BC4)
+# held SLUS_013.95 0x800CCEEC D_800CCEEC: field of g_playthrough_state +0x1C (gameplay_locked)
+# held SLUS_013.95 0x800CCEF6 D_800CCEF6: field of g_playthrough_state +0x26 (X4_EngineObj.character_state.bytes[0])
+# held SLUS_013.95 0x800CCEF7 D_800CCEF7: field of g_playthrough_state +0x27
+# held SLUS_013.95 0x800CCF2F D_800CCF2F: not a symbol name: g_playthrough_state+0x5F is a field expression; field of g_playthrough_state +0x5F
+# held SLUS_013.95 0x800CCF38 D_800CCF38: field of g_playthrough_state +0x68
+# held SLUS_013.95 0x800CCF99 D_800CCF99: not a symbol name: g_playthrough_state+0xC9 is a field expression; field of g_playthrough_state +0xC9
+# held SLUS_013.95 0x800CD40C D_800CD40C: role unread: no datapoint, no named anchor
+# held SLUS_013.95 0x801EE700 D_801EE700: role guessed: per-frame box tables of func_8003C3C8, whose own role is unread; no named anchor
+# held SLUS_013.95 0x801EE800 D_801EE800: role guessed: per-frame box tables of func_8003C3C8, whose own role is unread; no named anchor
+# held SLUS_013.95 0x801EE900 D_801EE900: role guessed: per-frame box tables of func_8003C3C8, whose own role is unread; no named anchor
+# held SLUS_013.95 0x801EEA00 D_801EEA00: role guessed: per-frame box tables of func_8003C3C8, whose own role is unread; no named anchor
+# held SLUS_013.95 0x801EF620 D_801EF620: role guessed: per-frame box tables of func_8003C3C8, whose own role is unread; no named anchor
+# held SLUS_013.95 0x801F3B4C D_801F3B4C: role guessed: per-frame box tables of func_8003C3C8, whose own role is unread; no named anchor
+# held SLUS_013.95 0x801F3C4C D_801F3C4C: role guessed: per-frame box tables of func_8003C3C8, whose own role is unread; no named anchor
+# held SLUS_013.95 0x801F3D4C D_801F3D4C: role guessed: per-frame box tables of func_8003C3C8, whose own role is unread; no named anchor
+# held SLUS_013.95 0x801F3E4C D_801F3E4C: role guessed: per-frame box tables of func_8003C3C8, whose own role is unread; no named anchor
+# held SLUS_013.95 0x801F3F4C D_801F3F4C: role guessed: per-frame box tables of func_8003C3C8, whose own role is unread; no named anchor
+# held SLUS_013.95 0x801F49F4 D_801F49F4: role guessed: per-frame box tables of func_8003C3C8, whose own role is unread; no named anchor
+# held SLUS_013.95 0x8001EC40 func_8001EC40: role unread: mode of func_80034830 unknown
+# held SLUS_013.95 0x80035A2C func_80035A2C: asm body unread; role from one callee only
+# held SLUS_013.95 0x80035D38 func_80035D38: no datapoint for action 26; role unread
+# held SLUS_013.95 0x800361D4 func_800361D4: role guessed: a horizontal hang/climb loop; no datapoint, no named anchor
+# held SLUS_013.95 0x80036364 func_80036364: no datapoint for action 30; role unread
+# held SLUS_013.95 0x80037920 func_80037920: role unread: which hurt type 5 is
+# held SLUS_013.95 0x800379AC func_800379AC: role unread: which hurt type 3 is
+# held SLUS_013.95 0x80037F34 func_80037F34: x4 exact; route x4names (M14)
+# held SLUS_013.95 0x8003809C func_8003809C: no datapoint, no named anchor
+# held SLUS_013.95 0x800383F8 func_800383F8: role guessed: effect kind unread
+# held SLUS_013.95 0x8003A764 func_8003A764: role guessed: leaving a climbable surface; tile classes 0x25..0x2F unnamed
+# held SLUS_013.95 0x8003A814 func_8003A814: role guessed: animation offset from the surface side; tile classes unnamed
+# held SLUS_013.95 0x8003ADB4 func_8003ADB4: no named anchor; differs from func_8003AD18 only by the character branch
+# held SLUS_013.95 0x8003B30C func_8003B30C: role unread: no datapoint, no named anchor
+# held SLUS_013.95 0x8003B360 func_8003B360: no named anchor; func_8003AFF4 also enters action 7
+# held SLUS_013.95 0x8003CD00 func_8003CD00: field of g_Player +0x68 (terrain_box) set by offset, no named anchor
+# held SLUS_013.95 0x8003D26C func_8003D26C: role unread: asm body unread
+# held SLUS_013.95 0x8003D330 func_8003D330: role unread: fields unnamed
+# held SLUS_013.95 0x8003D394 func_8003D394: role unread: tile 0x24 meaning, callees unnamed
+# held SLUS_013.95 0x8004755C func_8004755C: role guessed: a moving stage object that shakes the screen on stop; which object is unread
+# held SLUS_013.95 0x80047674 func_80047674: role unread: object unidentified
+# held SLUS_013.95 0x800476E0 func_800476E0: role unread: object unidentified
+# held SLUS_013.95 0x80047760 func_80047760: role unread: object unidentified
+# held rock_01 0x801EA004 func_801EA004: role unread: overlay state and tile class unnamed
+# held rock_01 0x801EA124 func_801EA124: role unread: overlay state unnamed
+# held rock_00 0x801EAA38 func_801EAA38: role unread: not in D_80073ACC[0..39] targets
+# held rock_01 0x801EB324 func_801EB324: role guessed: Zero air attack rise, technique unread
+# held rock_01 0x801EB5F8 func_801EB5F8: role unread: asm body unread
+# held rock_01 0x801EBA7C func_801EBA7C: role guessed: Zero dive attack, technique unread
+# held rock_01 0x801EBC60 func_801EBC60: role unread: helpers and fields unnamed
+# held rock_01 0x801EC1F8 func_801EC1F8: role unread: lead mismatched, no datapoint
+# held rock_01 0x801ECE08 func_801ECE08: role unread: callees unnamed
+# B10b 2.6 T7.c7: 6 tweaks leads newly queued by the rebuild (exe data tokens hoisted into include/mmx6/globals.h, T10.c1); judged in 2.6 T13: part_by_reploid admitted; 2 g_Player-interior rows rejected (named fields); 3 g_playthrough_state-interior rows held (member names)
+SLUS_013.95	0x8006D674	part_by_reploid	tweaks	tweaks-index.tsv:353	admitted	-	tweaks-index.tsv:353; corroborator s32 table read [row*16+slot] (rock_16 800E9898.c:2920) and tested against a part bit (rock_20 800EE878.c:1226)
+SLUS_013.95	0x80097169	beaten_stages_copy	tweaks	tweaks-index.tsv:124	rejected	superseded: interior of g_Player (+0xC9), already the field PlayerObj.beaten_stages; Tweaks agrees, a field not a symbol, no rename	tweaks-index.tsv:124
+SLUS_013.95	0x80097187	character_armor	tweaks	tweaks-index.tsv:127	rejected	superseded: interior of g_Player (+0xE7), already the field PlayerObj.armor; Tweaks agrees, a field not a symbol, no rename	tweaks-index.tsv:127
+SLUS_013.95	0x800CCED4	maverick_name_call	tweaks	tweaks-index.tsv:51	held	interior of g_playthrough_state (+0x4): names an X4_EngineObj member, not a symbol; waits for the struct homing (x4.h generated), lead kept	tweaks-index.tsv:51
+SLUS_013.95	0x800CCF5F	boss_fight_level	tweaks	tweaks-index.tsv:80	held	interior of g_playthrough_state (+0x8F): names an X4_EngineObj member, not a symbol; waits for the struct homing (x4.h generated), lead kept	tweaks-index.tsv:80
+SLUS_013.95	0x800CD30A	nightmare_effect_current	tweaks	tweaks-index.tsv:100	held	interior of g_playthrough_state (+0x43A): names an X4_EngineObj member, not a symbol; waits for the struct homing (x4.h generated), lead kept	tweaks-index.tsv:100
+# B11 2.6 T14: movement pass 2 (T14.props.final.tsv after refute T14.c6): 43 admitted, 34 held with a queue key, 54 held as comments here; 44 leads judged in place above (derived.tsv lines kept), 63 B10c comments superseded; 33 keyed rows below
+# held SLUS_013.95 0x80073C10 D_80073C10: role guessed: ceiling dash rests on the retail word [2]=end_ceiling_dash, no tracked line; action 13 not reached in T6
+# held SLUS_013.95 0x80036800 func_80036800: role unread: start_walk (T7) names only its exit; what action 5 is for character != 0 is unread
+# held SLUS_013.95 0x80037220 func_80037220: role unread: phase 0 of an action not reached; table unnamed
+# held SLUS_013.95 0x800372DC func_800372DC: role guessed: a dash step (check_dash_end at 80037130.c:106), but which dash rests on the retail word D_80073C10[2]
+# held SLUS_013.95 0x80037B10 func_80037B10: a name would only restate the y_vel store; its role inside hurt type 5 (func_80037920) is unread
+# held SLUS_013.95 0x80037BC4 func_80037BC4: role unread: no datapoint; hover_timer word unconfirmed in X6 (movement.md Hover)
+# held SLUS_013.95 0x80037C74 func_80037C74: role unread: no datapoint; what enters action 19 unread
+# held SLUS_013.95 0x80037CB4 func_80037CB4: role unread: no datapoint; action 19 unidentified
+# held SLUS_013.95 0x80037D68 func_80037D68: role unread: action 19 unidentified (body read, a plain fall-to-land)
+# held SLUS_013.95 0x80037E1C func_80037E1C: no caller found (no jal, not in player_action_handlers); role unread
+# held SLUS_013.95 0x80037E88 func_80037E88: role unread: no datapoint; func_8003A678 and +0xF unnamed
+# held SLUS_013.95 0x80037FD4 func_80037FD4: role unread: what enters action 23 unread; update_control_lock names only its exit
+# held SLUS_013.95 0x80038144 func_80038144: no datapoint, no named anchor (func_8003B954 still routed to x4names)
+# held SLUS_013.95 0x800382C8 func_800382C8: no datapoint (phase 2 never reached, movement.md Open: ceiling cling); slot from a retail table word
+# held SLUS_013.95 0x80038310 func_80038310: role guessed: ceiling dash start; not reached, slot from a retail table word
+# held SLUS_013.95 0x80038390 func_80038390: role guessed: ceiling dash step; a dash by check_dash_end, but on the ceiling only through a retail table word; not reached
+# held SLUS_013.95 0x80038594 func_80038594: role guessed: overhead tile classes 0x25-0x2F unnamed; action 28 unobserved
+# held SLUS_013.95 0x80038788 func_80038788: role guessed: overhead tile 0x2E unnamed; action 27 unobserved
+# held SLUS_013.95 0x800389B4 func_800389B4: role guessed: action 27 unobserved; tile 0x2E unnamed
+# held SLUS_013.95 0x80038BA8 func_80038BA8: role guessed: vertical dash in action 27 unobserved; tile 0x2E unnamed
+# held SLUS_013.95 0x80038CD0 func_80038CD0: role guessed: action 28 unobserved; tile classes unnamed
+# held SLUS_013.95 0x80038F64 func_80038F64: role guessed: horizontal dash in action 28 unobserved; tile classes unnamed
+# held SLUS_013.95 0x8003605C func_8003605C: role guessed: a vertical climb loop on tile 0x2E; no datapoint, no named anchor
+# held SLUS_013.95 0x8003A678 func_8003A678: role guessed: walk to a scripted mark; no dp, no named anchor
+# held SLUS_013.95 0x8003B870 func_8003B870: role guessed: stage exit; +0xF bits unnamed
+# held SLUS_013.95 0x8003CDF0 func_8003CDF0: role unread: a field reset with no named caller tying it to a state
+# held SLUS_013.95 0x8003F700 func_8003F700: role read: a guard on try_fire_shot, but +0xD3 is unnamed, so no word says what it guards
+SLUS_013.95	0x80097420	main_bss_state	derived	derived.tsv:151	held	no new basis: the 2.5 T7 decision keeps the head D_80097420 (struct base, members named)	-
+# held SLUS_013.95 0x8002ABA8 func_8002ABA8: role guessed: per-stage table reload into D_80090C90 row 1; neither buffer nor table named
+SLUS_013.95	0x800358D4	update_dash_phase1	derived	derived.tsv:152	admitted	-	code:src/SLUS_013.95/dash/dash.c:16 via=dash_phase_table
+SLUS_013.95	0x8003A980	cancel_player_attack	derived	derived.tsv:153	admitted	-	code:src/SLUS_013.95/8003A980.c:18 via=clear_flash_palette
+SLUS_013.95	0x8003B298	start_air_dash_motion	derived	derived.tsv:154	held	role guessed: air-dash entry values, but the dps show action 35 and action 13 is unread	xref:caller=start_falcon_dash
+SLUS_013.95	0x8003C7D8	spawn_dash_tile24_visual	derived	derived.tsv:155	admitted	-	xref:caller=player_spawn_dash_spark; code:src/SLUS_013.95/8003C7D8.c:23 via=get_tile_attr_bottom; code:src/SLUS_013.95/dash/spawn_dash_spark.c:14 via=player_spawn_dash_spark
+SLUS_013.95	0x8003C964	spawn_wall_jump_visual	derived	derived.tsv:156	admitted	-	xref:caller=start_wall_jump; code:src/SLUS_013.95/cling/wall_jump_8003B440.c:13 via=start_wall_jump
+SLUS_013.95	0x8003F3DC	refresh_weapon_state	derived	derived.tsv:157	admitted	-	xref:callee=set_shot_types; code:src/SLUS_013.95/8003F3DC.c:17 via=set_shot_types
+SLUS_013.95	0x80073C1C	ladder_phase_handlers	derived	derived.tsv:158	held	no new basis since T7: slots 2-4 named before T7, slots 0-1 unread, no ladder dp; a ladder word on the table of a 416-member shared body is the apply step's call	-
+# held SLUS_013.95 0x80035BDC func_80035BDC: role guessed: a hurt-end routine; dps show update_hurt_knockback calling check_low_health (mv_wall-0024), not this; no new basis
+SLUS_013.95	0x8003744C	update_ladder	derived	derived.tsv:159	held	no new basis since T7 (slots and grab_ladder named before T7; no ladder dp); a ladder name on the generic shared body would also become the template name of 415 non-ladder members	-
+SLUS_013.95	0x80039C9C	check_crouch_input	derived	derived.tsv:160	admitted	-	docs/leads/tweaks-index.tsv:259; refs/leads/tweaks/Autocrouch.tsv:1466-1467
+# held SLUS_013.95 0x8003A1C8 func_8003A1C8: role unread: action 19 unobserved and its handler func_80037C74 still unnamed
+# held SLUS_013.95 0x8003A268 func_8003A268: role unread: action 18 unobserved and its handler func_80037BC4 still unnamed; hover_timer reads 0 in hover (mv_hover2-0040)
+# held SLUS_013.95 0x8003A628 func_8003A628: role guessed: an override check; func_8003B870, func_8003AAD0, D_800CCEDF and +0xD0 all still unnamed
+SLUS_013.95	0x8003B7B4	player_enter_ladder_climb_up	derived	derived.tsv:161	admitted	-	xref:caller=update_ladder_climb_down; code:src/SLUS_013.95/ladder/ladder_climb_80037610.c:68 via=update_ladder_climb_down
+SLUS_013.95	0x8003B810	player_enter_ladder_climb_down	derived	derived.tsv:162	admitted	-	xref:caller=update_ladder_climb_up; code:src/SLUS_013.95/ladder/ladder_climb_80037610.c:16 via=update_ladder_climb_up
+# held SLUS_013.95 0x8003C3C8 func_8003C3C8: role guessed: hitbox or hurtbox per frame; +0x54 unnamed; no new basis
+SLUS_013.95	0x8003CCBC	set_pose_size	derived	derived.tsv:163	admitted	-	docs/leads/tweaks-index.tsv:255; refs/leads/tweaks/Autocrouch.tsv:690-691
+# held SLUS_013.95 0x8003F508 func_8003F508: role guessed: frame-keeping switch to and from the shooting variant, not told apart in words from player_set_animation_shooting (0x8003F4C4); anchors predate T7, no new basis
+SLUS_013.95	0x8003FFF4	update_special_charge	derived	derived.tsv:164	admitted	-	code:src/SLUS_013.95/8003FFF4.c:30 via=special_charge_timer
+rock_01	0x801EA254	check_yammar_option_input	derived	derived.tsv:165	admitted	-	docs/leads/tweaks-index.tsv:222; refs/leads/tweaks/ZeroSkills.tsv:104-105
+SLUS_013.95	0x801EA254	check_yammar_option_input	derived	derived.tsv:166	held	cross-program token; rock_01 name check_yammar_option_input exists; the exe side links by address only (Makefile:111-118 PROVIDEs SLUS names only) and rock_00/rock_01 share the address	docs/leads/tweaks-index.tsv:222; refs/leads/tweaks/ZeroSkills.tsv:104-105
+rock_01	0x801EA454	check_sentsuizan_input	derived	derived.tsv:167	admitted	-	docs/leads/tweaks-index.tsv:235; refs/leads/tweaks/ZeroSkills.tsv:1754-1755
+SLUS_013.95	0x801EA454	check_sentsuizan_input	derived	derived.tsv:168	held	cross-program token; rock_01 name check_sentsuizan_input exists; the exe side links by address only (Makefile:111-118 PROVIDEs SLUS names only) and rock_00/rock_01 share the address	docs/leads/tweaks-index.tsv:235; refs/leads/tweaks/ZeroSkills.tsv:1754-1755
+rock_01	0x801EA560	check_ensuizan_input	derived	derived.tsv:169	admitted	-	docs/leads/tweaks-index.tsv:235; refs/leads/tweaks/ZeroSkills.tsv:1825,1912-1913
+SLUS_013.95	0x801EA560	check_ensuizan_input	derived	derived.tsv:170	held	cross-program token; rock_01 name check_ensuizan_input exists; the exe side links by address only (Makefile:111-118 PROVIDEs SLUS names only) and rock_00/rock_01 share the address	docs/leads/tweaks-index.tsv:235; refs/leads/tweaks/ZeroSkills.tsv:1825,1912-1913
+# held rock_00 0x801EACA0 func_801EACA0: game word without a glossary row: the workbook identifies "wall saber" but docs/glossary.md has none; add the row, then admit tweaks
+# held rock_01 0x801EACAC func_801EACAC: role unread: state routine of the Z-Buster start; its caller is unnamed and Z-Buster has no glossary row
+SLUS_013.95	0x801EB61C	update_x_stand_animation	derived	derived.tsv:171	held	cross-program token; rock_00 name update_x_stand_animation exists; the exe side links by address only (Makefile:111-118 PROVIDEs SLUS names only) and rock_00/rock_01 share the address	xref:callee=set_stand_animation_by_hp; code:src/rock_00/801EA0C4.c:736 via=set_stand_animation_by_hp; code:src/SLUS_013.95/player/stand.c:14 via=update_stand
+SLUS_013.95	0x801EB6E8	player_enter_ladder_shoot	derived	derived.tsv:172	held	cross-program token; rock_00 name player_enter_ladder_shoot exists; the exe side links by address only (Makefile:111-118 PROVIDEs SLUS names only) and rock_00/rock_01 share the address	xref:caller=try_shoot_on_ladder; code:src/SLUS_013.95/weapon/shoot_on_ladder.c:12 via=try_shoot_on_ladder
+rock_00	0x801EB7C8	update_hover	derived	derived.tsv:173	admitted	-	oracle:docs/systems/movement.md mv_hover2-0037 mv_hover2-0038 mv_hover2-0039
+SLUS_013.95	0x801EBE04	try_start_rekkoha	derived	derived.tsv:174	held	cross-program token; rock_01 name try_start_rekkoha exists; the exe side needs a SLUS PROVIDE of it (C0251/C0287) before the exe uses can carry it	-
+# held rock_01 0x801EBE54 func_801EBE54: role unread: callee func_801ECCD4 (Z-Saber input #2 per tweaks-index:232 and ZeroSkills.tsv:1156) is unnamed; name it first, then these per-state starts become xref
+rock_01	0x801EBEDC	check_z_buster_input	derived	derived.tsv:175	held	game word without a glossary row: the workbook identifies Z-Buster but docs/glossary.md has none; add the row, then admit tweaks	-
+# held rock_01 0x801EBF94 func_801EBF94: role unread: callee func_801ECCD4 (Z-Saber input per tweaks-index:232) is unnamed; name it first
+# held rock_01 0x801EC028 func_801EC028: role unread: two uses (start and stop-motion test), callees func_801EA34C and func_801ECCD4 unnamed; actions 0x32/0x36 unobserved
+# held rock_01 0x801EC178 func_801EC178: role unread: callee func_801ECCD4 (Z-Saber input per tweaks-index:232) is unnamed; name it first
+SLUS_013.95	0x801EC298	try_start_air_jump	derived	derived.tsv:176	held	cross-program token; rock_01 name try_start_air_jump exists; the exe side needs a SLUS PROVIDE (C0251/C0287)	-
+# held rock_01 0x801EC334 func_801EC334: role unread: no dp, no named anchor
+rock_01	0x801EC86C	check_shoenzan_input	derived	derived.tsv:177	admitted	-	docs/leads/tweaks-index.tsv:235; refs/leads/tweaks/ZeroSkills.tsv:1692-1693
+SLUS_013.95	0x801EC86C	check_shoenzan_input	derived	derived.tsv:178	held	cross-program token; rock_01 name check_shoenzan_input exists; the exe side links by address only (Makefile:111-118 PROVIDEs SLUS names only) and rock_00/rock_01 share the address	docs/leads/tweaks-index.tsv:235; refs/leads/tweaks/ZeroSkills.tsv:1692-1693
+SLUS_013.95	0x801EC9C4	update_zero_stand_animation	derived	derived.tsv:179	held	cross-program token; rock_01 name update_zero_stand_animation exists; the exe side links by address only (Makefile:111-118 PROVIDEs SLUS names only) and rock_00/rock_01 share the address	xref:caller=update_stand; code:src/rock_01/801EC68C.c:172 via=g_playthrough_state; code:src/SLUS_013.95/player/stand.c:14 via=update_stand
+SLUS_013.95	0x80074074	shot_limits	derived	derived.tsv:180	admitted	-	code:src/SLUS_013.95/weapon/fire_shot.c:17 via=try_fire_shot; code:include/mmx6/player.h:113 via=shot_count
+# held SLUS_013.95 0x800740B4 D_800740B4: role partly read: which part bit 0x40000 is is unsourced; no name without a hedge
+# held SLUS_013.95 0x800741F4 D_800741F4: neighbour func_800400F4 held (object unidentified)
+# held SLUS_013.95 0x800762C8 D_800762C8: role unread: object of 800472D0.c unidentified; no slot named since T7
+# held SLUS_013.95 0x800970A8 D_800970A8: field of g_Player +0x08 (x_pos)
+SLUS_013.95	0x8002D230	apply_object_motion	derived	derived.tsv:181	admitted	-	code:src/SLUS_013.95/8002D0D8.c:80 via=gravity
+# held SLUS_013.95 0x8003040C func_8003040C: role unread: asm-only, boundary callee; no new basis
+# held SLUS_013.95 0x80039984 func_80039984: role guessed: overhead-tile states 27/28 unobserved, their handlers func_8003605C/func_800361D4 still unnamed
+SLUS_013.95	0x8003A0E8	check_dash_end_no_release	derived	derived.tsv:182	admitted	-	code:src/SLUS_013.95/8003A0E8.c:34 via=dash_timer; code:src/SLUS_013.95/dash/dash_end.c:12 via=check_dash_end
+# held SLUS_013.95 0x8003B9AC func_8003B9AC: no datapoint for action 26; its handler func_80035D38 and func_8003A628 still unnamed
+# held SLUS_013.95 0x8003E06C func_8003E06C: role read, state unread: callers func_8003605C/func_800361D4 (actions 27/28) unidentified
+SLUS_013.95	0x800400B4	get_shot_limit	derived	derived.tsv:183	admitted	-	code:src/SLUS_013.95/weapon/fire_shot.c:17 via=try_fire_shot; code:include/mmx6/player.h:113 via=shot_count
+# held SLUS_013.95 0x800400F4 func_800400F4: role guessed: knock-back of an unidentified object; no caller, no datapoint
+# held SLUS_013.95 0x80040290 func_80040290: role unread: asm-only
+# held SLUS_013.95 0x800472D0 func_800472D0: role unread: object unidentified; no new basis
+# held SLUS_013.95 0x80047394 func_80047394: role unread: object unidentified; no new basis
+# held SLUS_013.95 0x800473EC func_800473EC: role unread: object unidentified; no new basis

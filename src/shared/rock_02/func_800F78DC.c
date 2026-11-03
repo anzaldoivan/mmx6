@@ -6,10 +6,10 @@
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 
 void func_800F78DC(void* arg0) {
-    ((void (*)(void*))func_80017A04)(arg0);
+    ((void (*)(void*))animate_object)(arg0);
     if (M2C_FIELD(arg0, s8*, 0x45) == 1) {
         ((void (*)(s32, s32, void*))play_sound)(2, 0x1E, arg0);
         M2C_FIELD(arg0, s16*, 0x7C) = 0;

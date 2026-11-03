@@ -1,10 +1,10 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 play_sound(s32, s32, void*);
 void func_800139F4(s32);
 #include "mmx6/state.h"
-extern u16 g_pad1_buttons[];
 
 void func_8001F778(struct X4_GameInfo* arg0) {
     s8* p = (s8*)&D_80097420;

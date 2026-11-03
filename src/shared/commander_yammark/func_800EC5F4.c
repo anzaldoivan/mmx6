@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 extern s32 D_800970A8;
 
 void func_800EC5F4(void* arg0) {
@@ -19,6 +19,6 @@ void func_800EC5F4(void* arg0) {
         }
         M2C_FIELD(arg0, u8*, 0x67) = 0;
     } else {
-        func_8002D230(arg0);
+        apply_object_motion(arg0);
     }
 }

@@ -24,12 +24,15 @@ void func_800EE6C0(void* self) {
         if (M2C_FIELD(self, s8*, 0x2) == 0) {
             v = M2C_FIELD(self, s8*, 0x5);
             if (v == 1) {
+                // !FAKE: flag chain order; || if/else moved bytes
                 goto zero;
             }
             if (v == 2) {
+                // !FAKE: flag chain order; || if/else moved bytes
                 goto zero;
             }
             if (v == 5) {
+                // !FAKE: flag chain order; || if/else moved bytes
                 goto zero;
             }
         one:
@@ -37,21 +40,27 @@ void func_800EE6C0(void* self) {
         } else {
             v = M2C_FIELD(self, s8*, 0x5);
             if (v == 0) {
+                // !FAKE: flag chain order; || if/else moved bytes
                 goto one;
             }
             if (v == 1) {
+                // !FAKE: flag chain order; || if/else moved bytes
                 goto zero;
             }
             if (v == 2) {
+                // !FAKE: flag chain order; || if/else moved bytes
                 goto zero;
             }
             if (v == 5) {
+                // !FAKE: flag chain order; || if/else moved bytes
                 goto zero;
             }
             if (v == 4) {
+                // !FAKE: flag chain order; || if/else moved bytes
                 goto zero;
             }
             if (v != 12) {
+                // !FAKE: flag chain order; || if/else moved bytes
                 goto one;
             }
         zero:

@@ -1,6 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20 (*(s32**)0x1F800020)
@@ -12,16 +13,13 @@ M2C_UNK func_8002CA14();
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 void func_8002F288(struct X4_PlayerObj*);
 void func_80051828(struct X4_PlayerObj* arg0, s8 arg1, s8 arg2);
-extern s32 D_80075B9C;
 extern s32 D_80078DF8;
 extern s32 D_80078E00;
-extern u8 capsule_parts[];
 extern s8 D_80078E10[];
 extern s32 D_800791A0;
 extern u32* D_80095098;
 extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
-extern u8 D_800CCF2F;
 
 // 0x80051158 init_capsule: capsule appearance checks parts.
 // basis: community tweaks-index.tsv:219
@@ -36,7 +34,7 @@ void init_capsule(struct X4_MainObj* self) {
     p = &g_Player;
     f = 0;
     if (self->unk2 == 8) {
-        if (p->unk2 == 0) {
+        if (p->character == 0) {
             if (D_800CCF2F & 8) {
                 f = 1;
             }
@@ -110,7 +108,7 @@ void init_capsule(struct X4_MainObj* self) {
     }
     t = self->unk2;
     if (t == 8) {
-        if (g_Player.unk2 == 0) {
+        if (g_Player.character == 0) {
             func_80051828(self, 0x23, 0x10);
         } else {
             func_80051828(self, 0x23, 0x11);
@@ -118,7 +116,7 @@ void init_capsule(struct X4_MainObj* self) {
     } else {
         func_80051828(self, 0x23, D_80078E10[t]);
     }
-    self->unk5 = 0;
+    self->action = 0;
     self->state++;
     func_8002CCB0(self, 0x88, 0x88);
 }

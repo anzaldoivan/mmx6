@@ -1,11 +1,11 @@
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 s32 set_animation(void*, s32);
-M2C_UNK func_80017A04(); /* extern */
-extern u8 D_800CCF38;
+M2C_UNK animate_object(); /* extern */
 
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))
 #define FU8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -16,7 +16,7 @@ void func_800EC7F0(u8* arg0) {
     u8* temp_s1;
 
     temp_s1 = FP(arg0, 0x7C);
-    ((void (*)(void))func_80017A04)();
+    ((void (*)(void))animate_object)();
     if (F16(arg0, 0x80) == 0) {
         if (F8(arg0, 2) == 0xE) {
             set_animation(arg0, 0x1C);

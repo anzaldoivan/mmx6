@@ -1,11 +1,11 @@
 #include "common.h"
 #define M2C_UNK s32
 
-s32 func_8003015C();
+s32 get_tile_attr_origin();
 M2C_UNK func_8003AFF4(s32);
 
 s32 func_8003A5D8(u8* arg0) {
-    if (func_8003015C(arg0) == 0x20 && !(*(u16*)(arg0 + 0x80) & 0x80)) {
+    if (get_tile_attr_origin(arg0) == 0x20 && !(*(u16*)(arg0 + 0x80) & 0x80)) {
         return 0;
     }
     func_8003AFF4((s32)arg0);
@@ -14,10 +14,10 @@ s32 func_8003A5D8(u8* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_8003AAD0();
 void func_8003B870(struct X4_PlayerObj* self);
-extern s8 D_800CCEDF;
 
 s32 func_8003A628(void* arg0) {
     if (D_800CCEDF != 0) {
@@ -39,7 +39,7 @@ s32 func_8003A628(void* arg0) {
 #include "mmx6/x4.h"
 
 extern struct X4_BackgroundObj background_objects[3];
-M2C_UNK func_8003D10C(void*); /* extern */
+M2C_UNK set_stand_animation_by_hp(void*); /* extern */
 
 void func_8003A678(void* arg0) {
     s16 d;
@@ -63,7 +63,7 @@ void func_8003A678(void* arg0) {
         var_a2 = 1;
     }
     if (var_a2 != 0) {
-        func_8003D10C(arg0);
+        set_stand_animation_by_hp(arg0);
         {
             u16 x = background_objects[M2C_FIELD(arg0, s8*, 0x14)].x_pos.u.hi;
             M2C_FIELD(arg0, s8*, 0xD0) = -1;
@@ -75,15 +75,17 @@ void func_8003A678(void* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/x4.h"
 #define M2C_UNK s32
 
-s32 func_8002FE30(void*);
-M2C_UNK func_8003AF1C(void*);
-M2C_UNK func_8003AFF4(s32);
+s32 get_tile_attr_above(void*);
 
 #define B(o) (*(s8*)((u8*)self + (o)))
 #define H(o) (*(u16*)((u8*)self + (o)))
 
+// 0x8003A764 func_8003A764: exit test of actions 27 and 28: leaves by tile attribute, timer +0xD0 or jump press; returns 1 when it leaves.
+// basis: none
+// callers: func_8003605C, func_800361D4
 s32 func_8003A764(void* arg0) {
     void* self = arg0;
     // !FAKE: pin: the shared call's argument stays in the first argument register (C0161)
@@ -96,7 +98,7 @@ s32 func_8003A764(void* arg0) {
         // !FAKE: goto: positive-timer arm shares the out-of-range call (C0115)
         goto tail;
     }
-    if ((u8)(func_8002FE30(self) - 0x25) >= 0xB) {
+    if ((u8)(get_tile_attr_above(self) - 0x25) >= 0xB) {
         B(0xE3) = 4;
         a = (s32)self;
     tail:
@@ -109,7 +111,7 @@ s32 func_8003A764(void* arg0) {
     if (H(0x7C) & 8) {
         ((void (*)(void*))func_8003AFF4)(self);
     } else {
-        func_8003AF1C(self);
+        start_jump(self);
     }
     B(0xE3) = 4;
     return 1;
@@ -119,6 +121,9 @@ s32 func_8003A764(void* arg0) {
 
 #include "common.h"
 
+// 0x8003A814 func_8003A814: maps a tile attribute and the facing to an animation offset 0, 1 or 2.
+// basis: none
+// callers: func_800361D4, func_80038CD0, rock_01 func_801EA124
 s32 func_8003A814(void* arg0, s32 arg1) {
     s32 v;
 

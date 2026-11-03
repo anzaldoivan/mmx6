@@ -4,9 +4,9 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 extern struct X4_MainObj* D_800F7DEC;
 
 void func_800F3FB0(void* arg0) {
@@ -39,8 +39,8 @@ void func_800F3FB0(void* arg0) {
         M2C_FIELD(arg0, s8*, 0x6) = 0;
         play_sound(2, 0x14, arg0);
     }
-    func_80017A04(arg0);
-    func_8002D230(arg0);
+    animate_object(arg0);
+    apply_object_motion(arg0);
     p = D_800F7DEC;
     if (M2C_FIELD(p, u8*, 0x17) == 0) {
         func_8002CCB0(arg0, 0x40, 0x20);

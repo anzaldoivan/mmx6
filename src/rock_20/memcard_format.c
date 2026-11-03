@@ -1,13 +1,13 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s8 func_8001C1AC(u8);
 s32 func_8001C5EC(u8);
 s32 memcard_format(s32 device_num);
 M2C_UNK reset_level();
 #include "mmx6/state.h"
-extern struct X4_MiscObj D_800E2F90;
 extern s8 D_800E30EA;
 
 // 0x800EB964 update_memcard_format: memory card format screen step: checks the card, formats and clears 8 save slots, or resets on failure.

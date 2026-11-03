@@ -9,13 +9,13 @@ void func_800F5F04();
 void func_800F955C(struct X4_PlayerObj* self) {
     s8 temp_s1;
 
-    temp_s1 = self->unk7;
+    temp_s1 = self->action_timer;
     if (temp_s1 == 1) {
         func_800F5F04(self, 1);
         play_sound(2, 0x50, self);
         ((void (*)(void*, s32))set_animation)(self, 0);
         self->on_screen = temp_s1;
-        self->unk7 = 0;
-        self->unk6++;
+        self->action_timer = 0;
+        self->action_phase++;
     }
 }

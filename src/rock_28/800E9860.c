@@ -11,13 +11,13 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", D_800E9860);
 #undef D_800F79D0
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK clear_object_slot(void*, void*); /* extern */
 extern u16 D_80097214;
-extern s8 D_800CCEED;
 
 void func_800E98C4(void* arg0) {
     if (D_800CCEED == 1) {
@@ -95,10 +95,10 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EA06C);
 // clang-format on
 
 #define func_800EA0EC func_800EA254
-#define D_800C1220 D_800C1220
+#define g_class4_slots g_class4_slots
 #include "../shared/rock_06/func_800EA0EC.c"
 #undef func_800EA0EC
-#undef D_800C1220
+#undef g_class4_slots
 
 // clang-format off
 INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EA398);
@@ -468,9 +468,8 @@ void func_800F089C();
 extern M2C_UNK g_Player;
 extern s16 D_80097202;
 #include "mmx6/state.h"
+#include "mmx6/globals.h"
 #define P ((struct X4_PlayerObj*)&g_Player)
-extern struct X4_RideArmorObj D_800CD340;
-extern u16 D_800E3142;
 extern u16 D_800F35EC;
 
 void func_800F0984(struct X4_PlayerObj* self) {
@@ -489,7 +488,7 @@ void func_800F0984(struct X4_PlayerObj* self) {
     if (pl->nova_strike_active == 2) {
         return;
     }
-    if (pl->unk5 == 0x14) {
+    if (pl->action == 0x14) {
         if (self->bg_offset != 0) {
             play_sound(5, 3, 0);
             self->bg_offset = 0;
@@ -511,12 +510,12 @@ void func_800F0984(struct X4_PlayerObj* self) {
         D_800F35EC++;
         func_800F089C(P);
     }
-    if (P->unk5 != 0x14 && pl->state == 1 && pl->hp != 0) {
-        if (P->unk68 != 0) {
-            if (func_80030234(
-                    pl, pl->x_pos.i.hi,
-                    (s16)(pl->unk68->unk1 + (pl->y_pos.i.hi + pl->unk68->unk3)),
-                    pl->unk68) == 0x3A) {
+    if (P->action != 0x14 && pl->state == 1 && pl->hp != 0) {
+        if (P->terrain_box != 0) {
+            if (func_80030234(pl, pl->x_pos.i.hi,
+                              (s16)(pl->terrain_box->unk1 +
+                                    (pl->y_pos.i.hi + pl->terrain_box->unk3)),
+                              pl->terrain_box) == 0x3A) {
                 pl->x_pos.i.hi--;
             }
         }
@@ -532,10 +531,10 @@ void func_800F0984(struct X4_PlayerObj* self) {
 #undef P
 
 #define func_800ECAB8 func_800F0BF0
-#define D_800C1220 D_800C1220
+#define g_class4_slots g_class4_slots
 #include "../shared/rock_06/func_800ECAB8.c"
 #undef func_800ECAB8
-#undef D_800C1220
+#undef g_class4_slots
 
 // clang-format off
 INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F0D24);

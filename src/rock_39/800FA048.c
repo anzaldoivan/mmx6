@@ -15,7 +15,7 @@ INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FA744);
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80012D9C(M2C_UNK);
+M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object();
@@ -51,7 +51,7 @@ void func_800FA924(struct X4_AnimatedObj* arg0) {
         if (ABS(OFS_Y - (arg0->y_pos.i.hi - background_objects[0].y_pos.i.hi)) <
             6) {
             play_sound(2, 0x55, arg0);
-            func_80012D9C(6);
+            start_pad_vibration(6);
             arg0->x_pos.i.hi = background_objects[0].x_pos.i.hi + OFS_X;
             arg0->y_pos.i.hi = background_objects[0].y_pos.i.hi + OFS_Y;
             cnt = U7 + 1;
@@ -68,7 +68,7 @@ void func_800FA924(struct X4_AnimatedObj* arg0) {
                 }
                 st = U6 - 1;
             }
-            arg0->unk6 = st;
+            arg0->action_phase = st;
         }
     }
 }
@@ -192,7 +192,7 @@ void func_800FC704(struct X4_AnimatedObj* arg0) {
         F(u16, 0x92) = F(u16, 0x8A) - background_objects[0].y_pos.i.hi;
         break;
     }
-    arg0->unk6++;
+    arg0->action_phase++;
 }
 
 // clang-format off
@@ -260,8 +260,8 @@ INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FD348);
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK func_8002D230(void*);               /* extern */
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK); /* extern */
+M2C_UNK apply_object_motion(void*);         /* extern */
 
 void func_800FD87C(void* arg0) {
     u16 temp_v0;
@@ -274,8 +274,8 @@ void func_800FD87C(void* arg0) {
         M2C_FIELD(arg0, s32*, 0x24) = 0;
         M2C_FIELD(arg0, s32*, 0x2C) = 0x4200;
     }
-    func_8002D230(arg0);
-    if (func_8002CBFC(arg0, 0x40, 0x40) == 0) {
+    apply_object_motion(arg0);
+    if (is_off_screen(arg0, 0x40, 0x40) == 0) {
         temp_v0 = M2C_FIELD(arg0, u16*, 0x7C);
         M2C_FIELD(arg0, u16*, 0x7C) = (u16)(temp_v0 + 1);
         if (temp_v0 & 1) {
@@ -817,8 +817,8 @@ void func_800FF9DC(void) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK func_8002D230(void*);               /* extern */
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK); /* extern */
+M2C_UNK apply_object_motion(void*);         /* extern */
 
 void func_800FFBD8(void* arg0) {
     u16 temp_v0;
@@ -831,8 +831,8 @@ void func_800FFBD8(void* arg0) {
         M2C_FIELD(arg0, s32*, 0x24) = 0;
         M2C_FIELD(arg0, s32*, 0x2C) = 0x4200;
     }
-    func_8002D230(arg0);
-    if (func_8002CBFC(arg0, 0x40, 0x40) == 0) {
+    apply_object_motion(arg0);
+    if (is_off_screen(arg0, 0x40, 0x40) == 0) {
         temp_v0 = M2C_FIELD(arg0, u16*, 0x88);
         M2C_FIELD(arg0, u16*, 0x88) = (u16)(temp_v0 + 1);
         if (temp_v0 & 1) {

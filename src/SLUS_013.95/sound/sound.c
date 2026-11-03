@@ -1,13 +1,10 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 key_on_sfx_voices(u8 arg0, u8 arg1, struct X4_AnimatedObj* arg2);
 s32 play_sfx_sequence(u8 arg0);
 extern u8 D_8006E354[];
-extern s8 D_80090D50[6];
-extern u8* D_80097738[];
-extern s32* D_80097778[];
-extern u8* D_800E155C;
 
 // 0x80016C48 play_sound: VAB play #1.
 // basis: community tweaks-index.tsv:324

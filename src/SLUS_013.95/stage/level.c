@@ -1,26 +1,14 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 func_8002B2F8(s32);
-extern struct X4_AbcObj D_8008EAF0;
-extern s8 g_enemies[];
 extern s8 D_80090D56;
-extern u8 D_800911A8[];
-extern u8 D_80091298[];
 #include "mmx6/projectile.h"
 extern s8 D_800950A0[];
-extern u8 D_800964A0[];
 #define M2C_UNK s32
 extern M2C_UNK g_Player;
-extern struct X4_UnkObj D_800972F8[3];
 extern s8 D_8009742C;
-extern struct X4_EffectObj D_8009B7B0[0x20];
-extern u8 D_8009C9B0[];
-extern s32 D_800C1220[];
-extern struct X4_LayerObj D_800C4778[4];
-extern struct X4_RideArmorObj D_800CD340;
-extern struct X4_MiscObj g_displayed_sprites[];
-extern u8 D_800CF810[];
 extern s8 D_800CF850;
 
 #define CLRV(p, n, v)                                                          \
@@ -81,10 +69,10 @@ void reset_level(void) {
         CLR(&D_80091298[j * 0x70], 0x70);
     }
     for (j = 0; j < 0x60; j++) {
-        CLR(&D_8009B7B0[j], 0x30);
+        CLR(&g_class3_slots[j], 0x30);
     }
     for (j = 0; j < 0x50; j++) {
-        CLR((u8*)D_800C1220 + j * 0xA4, 0xA4);
+        CLR((u8*)g_class4_slots + j * 0xA4, 0xA4);
     }
     for (j = 0; j < 0x60; j++) {
         CLR(&g_displayed_sprites[j], 0x60);
@@ -93,10 +81,10 @@ void reset_level(void) {
         CLR(&D_800964A0[j * 0x60], 0x60);
     }
     for (j = 0; j < 4; j++) {
-        CLR(&D_800C4778[j], 0x30);
+        CLR(&g_class7_slots[j], 0x30);
     }
     for (j = 0; j < 0x40; j++) {
-        CLR(&D_8009C9B0[j * 0x60], 0x60);
+        CLR(&g_class6_slots[j * 0x60], 0x60);
     }
     CLR(&D_800CD340, 0xB0);
     CLR(D_800CF810, 0x3C);

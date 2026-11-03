@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 #include "mmx6/projectile.h"
 extern struct X4_PlayerObj g_Player;
 
@@ -19,12 +19,12 @@ void func_800ECA2C(struct X4_AnimatedObj* self) {
     } else {
         self->unk15 = 0x40;
     }
-    func_80017A04(self);
+    animate_object(self);
     t = *(u16*)((u8*)self + 0x7C);
     *(u16*)((u8*)self + 0x7C) = t + 1;
     if ((s16)t >= 0x3D) {
         if (self->on_screen != 0) {
-            if (g_Player.unk2 != 0) {
+            if (g_Player.character != 0) {
                 d = g_Player.x_pos.i.hi - self->x_pos.i.hi;
                 if ((d >= 0)
                         ? (d < 0x40)
@@ -33,15 +33,16 @@ void func_800ECA2C(struct X4_AnimatedObj* self) {
                 } else {
                     v = 3;
                 }
-                self->unk5 = v;
+                self->action = v;
                 n = 0;
-                for (p = (u8*)g_projectiles; p < (u8*)g_projectiles + 0x1400; p += 0xA0) {
+                for (p = (u8*)g_projectiles; p < (u8*)g_projectiles + 0x1400;
+                     p += 0xA0) {
                     if (*(s8*)p != 0 && (*(s32*)p & 0xFFFF00) == 0x21B00) {
                         n++;
                     }
                 }
                 if (n >= 4) {
-                    self->unk5 = 3;
+                    self->action = 3;
                 }
             } else {
                 d = g_Player.x_pos.i.hi - self->x_pos.i.hi;
@@ -52,18 +53,19 @@ void func_800ECA2C(struct X4_AnimatedObj* self) {
                 } else {
                     v = 4;
                 }
-                self->unk5 = v;
+                self->action = v;
                 n = 0;
-                for (p = (u8*)g_projectiles; p < (u8*)g_projectiles + 0x1400; p += 0xA0) {
+                for (p = (u8*)g_projectiles; p < (u8*)g_projectiles + 0x1400;
+                     p += 0xA0) {
                     if (*(s8*)p != 0 && (*(s32*)p & 0xFFFF00) == 0x21B00) {
                         n++;
                     }
                 }
                 if (n >= 4) {
-                    self->unk5 = 2;
+                    self->action = 2;
                 }
             }
         }
-        self->unk6 = 0;
+        self->action_phase = 0;
     }
 }

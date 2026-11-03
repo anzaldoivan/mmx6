@@ -1,10 +1,10 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 #include "mmx6/state.h"
-extern u16 g_pad1_buttons[];
 
 void func_800EAD70(u8* arg0) {
     u8 v;
@@ -92,9 +92,9 @@ void func_800EAE98(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
-extern u16 g_pad1_buttons[];
 
 void func_800EAFD4(u8* arg0) {
     u8 cur;
@@ -131,10 +131,10 @@ void func_800EAFD4(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK func_800139F4(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
-extern u16 g_pad1_buttons[];
 
 void func_800EB0CC(u8* arg0) {
     u8 cur;
@@ -176,6 +176,7 @@ void func_800EB0CC(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_80013BD0(s32, s32);
 M2C_UNK reset_level();
@@ -184,7 +185,6 @@ struct X4_QuadObj* alloc_class6_slot(void);
 M2C_UNK func_800F03B8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK);
 extern struct X4_BackgroundObj background_objects[3];
 extern M2C_UNK* D_800B91B8;
-extern struct X4_MiscObj D_800E2F90;
 
 void func_800EB1CC(u8* arg0) {
     u8* bg;
@@ -231,6 +231,7 @@ void func_800EB1CC(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s8 func_8001C1AC(u8);
 s32 memcard_read_save_file(s32, u8, s32);
@@ -243,9 +244,6 @@ void func_800ED45C();
 void func_800F02A0(u8, s8, s32, s16);
 M2C_UNK func_800F0324(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK, s32);
 void func_800F07B4(void*);
-extern u8 D_8006D620;
-extern struct X4_MiscObj D_800E2F90;
-extern u8 D_800E2FA0[];
 extern u8 D_800E9860[];
 
 #define F8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -318,6 +316,7 @@ void func_800EB2D4(u8* arg0) {
                                                    D_800E2F90.unk6,
                                                    0x2000) == 0) {
                             func_8001C8C4(((u8*)D_800E2F90.y_pos.val));
+                            // !FAKE: goto shares reset tail; copy moved bytes
                             goto block_29;
                         }
                     } else {
@@ -400,13 +399,13 @@ void func_800EB2D4(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_20.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8001C5EC(u8);
 void* alloc_sprite_slot();
 extern u16 D_800C4570;
-extern struct X4_MiscObj D_800E2F90;
-extern u8 D_800F366C[];
 
 void func_800EB69C(u8* arg0) {
     s32 ret;
@@ -454,6 +453,8 @@ void func_800EB69C(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_20.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8001C5EC(u8);
@@ -461,10 +462,7 @@ M2C_UNK reset_level();
 void* alloc_sprite_slot();
 struct X4_QuadObj* alloc_class6_slot(void);
 M2C_UNK func_800F03B8(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK);
-extern u16 g_pad1_buttons[];
 extern struct X4_EngineObj g_playthrough_state;
-extern struct X4_MiscObj D_800E2F90;
-extern u8 D_800F366C[];
 
 void func_800EB78C(u8* arg0) {
     s32 ret;

@@ -4,11 +4,11 @@
 #define NULL ((void*)0)
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
-M2C_UNK silence_sound(M2C_UNK, M2C_UNK);     /* extern */
-s32 func_8002A47C(s32);                      /* extern */
-void* func_8002C32C();                       /* extern */
-struct X4_VisualObj* func_8002C398(void);    /* extern */
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);     /* extern */
+M2C_UNK silence_sound(M2C_UNK, M2C_UNK);         /* extern */
+s32 func_8002A47C(s32);                          /* extern */
+void* func_8002C32C();                           /* extern */
+struct X4_VisualObj* find_free_visual_obj(void); /* extern */
 
 void func_800EE344(void* arg0) {
     s32 m;
@@ -46,7 +46,7 @@ void func_800EE344(void* arg0) {
             M2C_FIELD(arg0, u8*, 0x94) = 2;
             if (M2C_FIELD(arg0, s8*, 2) != 0 &&
                 (M2C_FIELD(arg0, volatile u16*, 0x96) & 0xC000) == 0x4000) {
-                void* o = func_8002C398();
+                void* o = find_free_visual_obj();
                 if (o != NULL) {
                     M2C_FIELD(o, u8*, 0) = 0x41;
                     M2C_FIELD(o, u8*, 1) = 0x16;

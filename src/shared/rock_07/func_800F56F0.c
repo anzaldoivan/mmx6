@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80012D9C(M2C_UNK);
+M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK move_object(void*);
@@ -12,7 +12,7 @@ M2C_UNK move_object(void*);
 void func_800F56F0(void* arg0) {
     if (F8(arg0, 0x70) & 8) {
         play_sound(2, 0x5E, arg0);
-        func_80012D9C(5);
+        start_pad_vibration(5);
         set_animation(arg0, 0x20);
         {
             // !FAKE: pin the byte increment temp to the first return register

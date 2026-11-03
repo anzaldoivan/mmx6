@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK move_object();
 s32 func_8002D354(void* arg0, s32 arg1, s32 arg2);
 void set_velocity_from_angle(void*, s32);
@@ -12,10 +12,10 @@ extern s32 g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_800EC9D0(struct X4_MainObj* self) {
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     if (--self->unk7C == 0) {
-        self->unk5 = 8;
-        self->unk6 = 0;
+        self->action = 8;
+        self->action_phase = 0;
     }
     M2C_FIELD(self, s32*, 0x90) = M2C_FIELD(self, s32*, 0x90) + 1;
     M2C_FIELD(self, s32*, 0x90) = M2C_FIELD(self, u8*, 0x90) & 3;

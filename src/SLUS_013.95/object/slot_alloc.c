@@ -1,8 +1,7 @@
 #include "common.h"
 #include "mmx6/object.h"
 
-extern s8 g_enemies[];
-extern s32 D_800C1220[];
+#include "mmx6/globals.h"
 
 // 0x8002BBF4 enemy_slot_alloc: first free 0x9C slot of the enemy object array g_enemies[48], cleared; returns it or 0.
 // basis: xref objects.tsv:338 (origin type 0/1, 7 frames)
@@ -38,7 +37,7 @@ void* enemy_slot_alloc(void) {
             for (k = 0; k < 0x50; k++) {
                 // struct Class4Obj enemy_bits (include/mmx6/class4.h); the field spelling moves bytes (docs/types/lift.md)
                 s32 off = k * 0xA4 + 0x98;
-                *(s32*)((s8*)D_800C1220 + off + m) &= bit;
+                *(s32*)((s8*)g_class4_slots + off + m) &= bit;
             }
             return p;
         }

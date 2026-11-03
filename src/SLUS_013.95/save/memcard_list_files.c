@@ -2,8 +2,8 @@
 // Shared file: included by src/SLUS_013.95/120A0.c, between memcard_read_save_file and func_8001C5EC.
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern const struct X4_MemcardPath D_800100AC;
 extern u8 D_800E2F96;
 s32 func_8001C5EC(s32);
 #include "psyq/libc.h"

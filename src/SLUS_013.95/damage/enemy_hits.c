@@ -1,8 +1,8 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern s32 D_800741FC[];
-extern s32 D_8007429C;
 extern s8 D_800950A0[];
 extern struct X4_EngineObj g_playthrough_state;
 

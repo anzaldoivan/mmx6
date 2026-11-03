@@ -7,26 +7,13 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001494C);
 #include "psyq/libetc.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_80014E60(s32, s32);
 u8 func_80016570(void);
 s32 func_80064894(s32, s32);
 X4_CdlCB func_800648B4(X4_CdlCB func);
-extern u8 D_8008EC08;
-extern u8 D_8009509C;
 extern M2C_UNK* D_800B91B8;
-extern s32 D_800E01A8;
-extern u8* D_800E01AC;
-extern s32 D_800E01B0;
-extern s32 D_800E01B4;
-extern s32 D_800E01C0;
-extern s32 D_800E0374;
-extern u8 D_800E0379;
-extern s32 D_800E037C;
-extern u32 D_800E0380;
-extern u8 rock_bin_file_table[];
-extern M2C_UNK* D_800E0D30;
-extern s32 D_800E0D34;
 
 s32 func_80014B78(void) {
     u8 sp10;
@@ -89,10 +76,8 @@ s32 func_80014B78(void) {
 #include "common.h"
 #include "psyq/libds.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 int func_800617A4(X4_CdlLOC* p);
-extern u8* D_800E01AC;
-extern s32 D_800E01B4;
-extern s32 D_800E01A8;
 extern u8 D_800DF9A8[0x800];
 extern X4_CdlLOC D_800E0388;
 
@@ -135,16 +120,13 @@ s8 func_80014D50(void) {
 #include "psyq/libetc.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_8001531C(void);
 void func_800165A4(void);
 void func_800646E4(s32, u8*);
 s32 func_80064894(s32, s32);
 X4_CdlCB func_800648B4(X4_CdlCB func);
-extern u8 D_8009509C;
-extern s32 D_800E01B4;
-extern s32 D_800E01C0;
-extern s32 D_800E01D0;
 extern u8 D_800E01D8;
 
 void func_80014E60(s32 arg0, s32 arg1) {
@@ -160,12 +142,10 @@ void func_80014E60(s32 arg0, s32 arg1) {
         D_800E01B4 = t;
     }
     do {
-    loop_1:
-        while (func_80064894(1, 0) != 0) {
-        }
-        if (CdControl(0xE, (s32)&sp10, 0) == 0) {
-            goto loop_1;
-        }
+        do {
+            while (func_80064894(1, 0) != 0) {
+            }
+        } while (CdControl(0xE, (s32)&sp10, 0) == 0);
         VSync(3);
     } while (CdControl(2, (s32)&D_800E01D8, 0) == 0);
     if (D_800E01C0 == 0) {
@@ -189,6 +169,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80015230);
 #include "psyq/libds.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 int func_800617A4(X4_CdlLOC* p);
 s32 func_80064894(s32, s32);
@@ -196,21 +177,11 @@ X4_CdlCB func_800648B4(X4_CdlCB func);
 
 extern s32 D_80010038[4];
 extern u8** D_8006E27C[];
-extern u8 D_8009509C;
-extern s32 D_8009B798;
 extern M2C_UNK* D_800B91B8;
-extern s32 D_800E01A8;
-extern s32 D_800E01B0;
-extern s32 D_800E01B4;
 extern s32* D_800E01B8;
-extern u32 D_800E01BC;
 extern s32 D_800E01C4;
-extern u8 D_800E01CD;
-extern s32 D_800E01D0;
-extern u8* D_800E0368;
 extern s32 D_800E036C;
 extern u8* D_800E0370;
-extern s32 D_800E0374;
 extern X4_CdlLOC D_800E0388;
 extern s32 D_800E0D40[];
 
@@ -235,13 +206,15 @@ void func_8001531C(void) {
     }
     ret = func_80064894(1, 0);
     if (ret != 1) {
-        goto fail;
+        func_800648B4(0);
+        CdControlB(9, 0, 0);
+        D_8009509C = stop;
+        return;
     }
     if (D_800E01D0 == 0) {
         D_800E01B8 = D_800E0D40;
         DsGetSector(&D_800E0388, 3);
         if (func_800617A4(&D_800E0388) != D_800E01B4) {
-        fail:
             func_800648B4(0);
             CdControlB(9, 0, 0);
             D_8009509C = stop;
@@ -287,15 +260,8 @@ void func_8001531C(void) {
 #include "mmx6/x4.h"
 s8 func_80014D50();
 #include "psyq/libsnd.h"
+#include "mmx6/globals.h"
 X4_CdlCB func_800648B4(X4_CdlCB func);
-extern s8 D_80090D50[6];
-extern s8 D_80090D64[];
-extern u8 D_8009509C;
-extern s32 D_800E01A8;
-extern u8* D_800E01AC;
-extern u32 D_800E01BC;
-extern u8 D_800E01CD;
-extern u8* D_800E0368;
 
 void func_80015630(void) {
     s8* p;
@@ -330,24 +296,15 @@ void func_80015630(void) {
 #include "psyq/libcd.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 s8 func_80014D50();
 X4_CdlCB func_800648B4(X4_CdlCB func);
 extern u16 D_8006E2EC[][2];
-extern u8 D_8008EC08;
-extern u8 D_8009509C;
 extern u16 D_800CF988[];
 extern u16 D_800CF98A[];
 #define X_ D_800CF988[0]
 #define Y_ D_800CF98A[0]
 extern u16 D_800CF98C;
-extern union X4_CdSectorBuffer D_800CF998;
-extern u8 D_800DF999;
-extern u8* D_800E01AC;
-extern u32 D_800E01BC;
-extern u8 D_800E01CD;
-extern u16 D_800E01D4;
-extern u16 D_800E01D6;
-extern struct X4_CdCompletionSlot D_800E01E8[16];
 
 void func_8001574C(void) {
     u16 t;
@@ -355,7 +312,10 @@ void func_8001574C(void) {
 
     D_800E01D6++;
     if (D_800E01D6 - D_800E01D4 >= 0x20) {
-        goto fail;
+        func_800648B4(0);
+        CdControlB(9, 0, 0);
+        D_8009509C = 0x80;
+        return;
     }
     if (D_800E01CD != 0) {
         D_800E01CD = 0;
@@ -367,7 +327,6 @@ void func_8001574C(void) {
     }
     D_800E01AC = D_800CF998.sectors[D_800DF999];
     if (func_80014D50() == -1) {
-    fail:
         func_800648B4(0);
         CdControlB(9, 0, 0);
         D_8009509C = 0x80;

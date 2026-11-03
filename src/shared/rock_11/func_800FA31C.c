@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 
 #define SRC_W80(o) (*(s32*)((u8*)(o) + 0x80))
 #define SRC_H86(o) (*(u16*)((u8*)(o) + 0x86))
@@ -12,7 +12,7 @@ void func_800FA31C(void* arg0) {
     // !FAKE: depin: dropping it breaks the match (56/63)
     register s32 x asm("$2");
 
-    obj = func_8002C398();
+    obj = find_free_visual_obj();
     if (obj != 0) {
         obj->active = 0x41;
         obj->id = 0xA;

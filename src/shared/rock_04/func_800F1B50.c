@@ -6,7 +6,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
-M2C_UNK func_80012D9C(M2C_UNK);
+M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK move_object(void*);
 extern struct X4_BackgroundObj background_objects[3];
@@ -45,6 +45,7 @@ void func_800F1B50(void* arg0) {
             ABS(M2C_FIELD(arg0, s16*, 0x86) -
                 (M2C_FIELD(arg0, s16*, 0xE) - background_objects[0].unk2A)) <
                 6) {
+            // !FAKE: dup hit body matched but adds a register pin
             goto hit;
         }
     }
@@ -54,12 +55,13 @@ void func_800F1B50(void* arg0) {
         // !FAKE: depin: dropping it breaks the match (76/104)
         register u8 t asm("$3") = f;
         if (f == 0 && (M2C_FIELD(arg0, u8*, 0x70) & 2)) {
+            // !FAKE: || fold matched only beside the pinned dup body
             goto hit;
         }
         if (t == 0x40 && (M2C_FIELD(arg0, u8*, 0x70) & 1)) {
         hit:
             play_sound(2, 0x12, arg0);
-            func_80012D9C(8);
+            start_pad_vibration(8);
             {
                 // !FAKE: depin: dropping it breaks the match (101/104)
                 register s32 c asm("$2") = M2C_FIELD(arg0, u8*, 0x6);

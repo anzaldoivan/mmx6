@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern s32 D_800C1220[];
+extern s32 g_class4_slots[];
 
 void func_80042D98(s8* arg0) {
     s8* p;
@@ -11,7 +11,7 @@ void func_80042D98(s8* arg0) {
 
     *(s8**)(arg0 + 0x80) = 0;
     best = 1000000;
-    for (p = (s8*)D_800C1220; p < (s8*)D_800C1220 + 0x3340; p += 0xA4) {
+    for (p = (s8*)g_class4_slots; p < (s8*)g_class4_slots + 0x3340; p += 0xA4) {
         if (p[0] != 0 && p[1] == 4 && p[3] != 0 && p[7] == 1) {
             dx = *(s16*)(arg0 + 0xA) - *(s16*)(p + 0xA);
             dy = *(s16*)(arg0 + 0xE) - *(s16*)(p + 0xE);
@@ -71,8 +71,8 @@ void func_80042EB4(void* arg0, u8 arg1, s32 arg2) {
 /* func_80042F20: table lookup by stage/substage. TU 32208. Our own C. */
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u8 D_80075FE8[];
 extern struct X4_EngineObj g_playthrough_state;
 
 u8 func_80042F20(void) {
@@ -81,8 +81,7 @@ u8 func_80042F20(void) {
 }
 
 #include "common.h"
-
-extern u8 D_80075FE8[];
+#include "mmx6/globals.h"
 
 u8 func_80042F50(s8 stage, s8 substage) {
     return D_80075FE8[substage + stage * 2];
@@ -103,17 +102,17 @@ void func_80042F7C(s8 arg0, s8* arg1, s8* arg2) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();                                            /* extern */
-s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2); /* extern */
+M2C_UNK animate_object();                                           /* extern */
+s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2); /* extern */
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);    /* extern */
 M2C_UNK move_object(void*);                                         /* extern */
 M2C_UNK func_80030ECC(void*);                                       /* extern */
 
 void func_80042FA8(void* arg0) {
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     move_object(arg0);
     func_80030ECC(arg0);
-    if (func_8002CBFC(arg0, 0x20, 0x20) == 0) {
+    if (is_off_screen(arg0, 0x20, 0x20) == 0) {
         func_8002CCB0(arg0, 0x10, 0x10);
         return;
     }
@@ -167,7 +166,7 @@ void func_80043038(void* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();                                         /* extern */
+M2C_UNK animate_object();                                        /* extern */
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2); /* extern */
 extern void (*D_800760E0[])(void*);
 
@@ -179,7 +178,7 @@ void func_800430D0(void* arg0) {
     }
     func_8002CCB0(arg0, 0x10, 0x10);
     D_800760E0[M2C_FIELD(arg0, s8*, 5)](arg0);
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
 }
 
 #include "common.h"
@@ -332,8 +331,8 @@ s16 func_800434BC(s16 arg0, s16 arg1) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 s32 play_sound(s32 a0, s32 a1, void* arg2);
-M2C_UNK func_8003F0BC(void*);
-M2C_UNK func_8003F480();
+M2C_UNK react_to_weapon_change(void*);
+void player_reset_charge();
 extern struct X4_PlayerObj g_Player;
 extern void (*D_80076118[])(void*);
 
@@ -368,9 +367,9 @@ void func_800434E0(void* self) {
             s32 m = UH(0x80) & 0x600;
             if (a == 0x600 || m == 0x600) {
                 UB(0x93) = 0;
-                func_8003F480(p);
+                player_reset_charge(p);
                 play_sound(0, 0xC, 0);
-                func_8003F0BC(p);
+                react_to_weapon_change(p);
                 f = 1;
             }
         }

@@ -18,18 +18,18 @@ void check_box_collision(struct X4_PlayerObj* a, struct X4_PlayerObj* b,
     s16 t;
 
     r = 0;
-    if (a->unk15 == 0x40) {
-        ax = a->x_pos.i.hi - a->unk68->unk0;
+    if (a->facing == 0x40) {
+        ax = a->x_pos.i.hi - a->terrain_box->unk0;
     } else {
-        ax = a->x_pos.i.hi + a->unk68->unk0;
+        ax = a->x_pos.i.hi + a->terrain_box->unk0;
     }
-    ay = a->y_pos.i.hi + a->unk68->unk1;
-    if (b->unk15 == 0x40) {
-        bx = b->x_pos.i.hi - b->unk68->unk0;
+    ay = a->y_pos.i.hi + a->terrain_box->unk1;
+    if (b->facing == 0x40) {
+        bx = b->x_pos.i.hi - b->terrain_box->unk0;
     } else {
-        bx = b->x_pos.i.hi + b->unk68->unk0;
+        bx = b->x_pos.i.hi + b->terrain_box->unk0;
     }
-    by = b->y_pos.i.hi + b->unk68->unk1;
+    by = b->y_pos.i.hi + b->terrain_box->unk1;
 
     d = ay - by;
     if (d >= 0) {
@@ -38,14 +38,14 @@ void check_box_collision(struct X4_PlayerObj* a, struct X4_PlayerObj* b,
         t = by - ay;
     }
     dx = ax - bx;
-    w1 = a->unk68->unk3;
-    if (t == b->unk68->unk3 + w1) {
+    w1 = a->terrain_box->unk3;
+    if (t == b->terrain_box->unk3 + w1) {
         if (dx >= 0) {
             t = dx;
         } else {
             t = bx - ax;
         }
-        y = a->unk68->unk2 + b->unk68->unk2;
+        y = a->terrain_box->unk2 + b->terrain_box->unk2;
         if (t < y) {
             r = 8;
             if (ay < by) {
@@ -58,15 +58,15 @@ void check_box_collision(struct X4_PlayerObj* a, struct X4_PlayerObj* b,
     } else {
         t = bx - ax;
     }
-    w2 = a->unk68->unk2;
-    if (t == b->unk68->unk2 + w2) {
+    w2 = a->terrain_box->unk2;
+    if (t == b->terrain_box->unk2 + w2) {
         d = ay - by;
         if (d >= 0) {
             t = d;
         } else {
             t = by - ay;
         }
-        y = a->unk68->unk3 + b->unk68->unk3;
+        y = a->terrain_box->unk3 + b->terrain_box->unk3;
         if (t < y) {
             if (ax < bx) {
                 r |= 2;
@@ -103,7 +103,7 @@ void check_box_collision(struct X4_PlayerObj* a, struct X4_PlayerObj* b,
     } else {
         switch ((u32)mode) {
         case 0:
-            if ((r & 4) && (b->unk5 == 0x1F || b->unk5 == 0x3F)) {
+            if ((r & 4) && (b->action == 0x1F || b->action == 0x3F)) {
                 a->unk76 = 1;
             } else {
                 a->unk76 = 0;

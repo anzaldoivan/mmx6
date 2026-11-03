@@ -3,9 +3,9 @@
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
-M2C_UNK func_80017A04(void*);
+M2C_UNK animate_object(void*);
 void general_dust_end(struct X4_ShotObj* self) {
-    ((void (*)())func_80017A04)(self);
+    ((void (*)())animate_object)(self);
     if (self->animation_step.fields.relative_step == 0) {
         self->state++;
     }

@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-s32 func_8002CBFC(s32, M2C_UNK, M2C_UNK);
+s32 is_off_screen(s32, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002F288(M2C_UNK*);
 M2C_UNK func_80030ECC(void*);
@@ -40,7 +40,7 @@ void func_800EBF6C(s8* arg0) {
         *(u16*)(arg0 + 0x42) |= 0x8000;
     }
     D_800F7414[arg0[6]](arg0);
-    if (func_8002CBFC((s32)arg0, 0x40, 0x40) == 0) {
+    if (is_off_screen((s32)arg0, 0x40, 0x40) == 0) {
         func_8002CCB0(arg0, 0x20, 0x20);
     } else {
         arg0[4] = 3;

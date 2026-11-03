@@ -5,8 +5,8 @@ ObjectHeader	0x01	1	s	id	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gat
 ObjectHeader	0x02	1	s	unk2	none	-	proven-at-gate	-
 ObjectHeader	0x03	1	s	on_screen	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
 ObjectHeader	0x04	1	s	state	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
-ObjectHeader	0x05	1	s	unk5	none	-	proven-at-gate	-
-ObjectHeader	0x06	1	s	unk6	none	-	proven-at-gate	-
+ObjectHeader	0x05	1	s	action	code	code:src/SLUS_013.95/80040388.c:871 via=action; code:src/SLUS_013.95/object/object_slot.c:15 via=action	proven-at-gate	-
+ObjectHeader	0x06	1	s	action_phase	code	code:src/SLUS_013.95/80040388.c:875 via=D_8007606C; code:src/SLUS_013.95/object/object_slot.c:16 via=action_phase	proven-at-gate	-
 ObjectHeader	0x07	1	s	unk7	none	-	proven-at-gate	-
 ObjectHeader	0x08	4	-	x_pos	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
 ObjectHeader	0x0C	4	-	y_pos	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
@@ -16,8 +16,8 @@ BaseObj	0x01	1	s	id	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
 BaseObj	0x02	1	s	unk2	none	-	proven-at-gate	-
 BaseObj	0x03	1	s	on_screen	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
 BaseObj	0x04	1	s	state	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
-BaseObj	0x05	1	s	unk5	none	-	proven-at-gate	-
-BaseObj	0x06	1	s	unk6	none	-	proven-at-gate	-
+BaseObj	0x05	1	s	action	code	code:src/rock_06/800E9860.c:448 via=D_800F37D8	proven-at-gate	-
+BaseObj	0x06	1	s	action_phase	code	code:src/rock_05/800EC580.c:2929 via=action_phase	proven-at-gate	-
 BaseObj	0x07	1	s	unk7	none	-	proven-at-gate	-
 BaseObj	0x08	4	-	x_pos	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
 BaseObj	0x0C	4	-	y_pos	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
@@ -31,8 +31,8 @@ AnimatedObj	0x01	1	s	id	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate
 AnimatedObj	0x02	1	s	unk2	none	-	proven-at-gate	-
 AnimatedObj	0x03	1	s	on_screen	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
 AnimatedObj	0x04	1	s	state	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
-AnimatedObj	0x05	1	s	unk5	none	-	proven-at-gate	-
-AnimatedObj	0x06	1	s	unk6	none	-	proven-at-gate	-
+AnimatedObj	0x05	1	s	action	code	code:src/rock_15/800EDE88.c:2577 via=D_800F70D0	proven-at-gate	-
+AnimatedObj	0x06	1	s	action_phase	code	code:src/rock_07/800EB87C.c:2471 via=action_phase	proven-at-gate	-
 AnimatedObj	0x07	1	s	unk7	none	-	proven-at-gate	-
 AnimatedObj	0x08	4	-	x_pos	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
 AnimatedObj	0x0C	4	-	y_pos	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
@@ -58,10 +58,10 @@ AnimatedObj	0x48	1	u	previous_animation_index	x4	x4.h@807a01b; docs/x4-compare.m
 MainObj	0x00	1	s	active	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	held: 0x41 when live (flags) (oracle 2.5 T5.c1, .run/redux/logs/fields-20261101-174647.log, C0316); second-width readers: 1u by func_800E9CF8 (+2); 1s by drop_item
 MainObj	0x01	1	s	id	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
 MainObj	0x02	1	s	unk2	none	-	proven-at-gate	second-width readers: 1u by func_800EC17C (+1); 1s by clamp_player_to_ceiling
-MainObj	0x03	1	s	on_screen	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	second-width readers: 1u by func_800EB554 (+3); 1s by func_8003674C
+MainObj	0x03	1	s	on_screen	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	second-width readers: 1u by func_800EB554 (+3); 1s by update_move_off_screen
 MainObj	0x04	1	s	state	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	held: state 0..4 (oracle 2.5 T5.c1, .run/redux/logs/fields-20261101-174647.log, C0316); second-width readers: 1u by func_800F5B90 (+1); 1s by clamp_player_to_ceiling
-MainObj	0x05	1	s	unk5	none	-	proven-at-gate	-
-MainObj	0x06	1	s	unk6	none	-	proven-at-gate	-
+MainObj	0x05	1	s	action	code	code:src/rock_22/800E9BD8.c:168 via=D_800FB714	proven-at-gate	-
+MainObj	0x06	1	s	action_phase	code	code:src/rock_02/800E9B90.c:148 via=action_phase	proven-at-gate	-
 MainObj	0x07	1	s	unk7	none	-	proven-at-gate	-
 MainObj	0x08	4	-	x_pos	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	second-width readers: 2u@+2 by func_800EC17C (+1); 4- by drop_item
 MainObj	0x0C	4	-	y_pos	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	second-width readers: 2u@+2 by func_800EC17C (+1); 4- by drop_item
@@ -123,25 +123,25 @@ MainObj	0x7E	2	s	unk7E	none	-	proven-at-gate	-
 MainObj	0x80	28	-	ext	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	held: +0x84 0 (ext) (oracle 2.5 T5.c1, .run/redux/logs/fields-20261101-174647.log, C0316); sub-offset readers: 2s by func_800EF85C, 4- by func_800F78AC; 28- by drop_item
 PlayerObj	0x00	1	s	active	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
 PlayerObj	0x01	1	s	id	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
-PlayerObj	0x02	1	s	unk2	none	-	proven-at-gate	held: current character, X or Zero (Tweaks IngameTable, docs/leads/tweaks-index.tsv:104)
+PlayerObj	0x02	1	s	character	code	code:src/SLUS_013.95/player/armor.c:18 via=character; code:src/SLUS_013.95/weapon/giga_attack.c:20 via=character; code:src/SLUS_013.95/weapon/weapon_switch.c:16 via=character	proven-at-gate	Tweaks IngameTable current character, X or Zero (docs/leads/tweaks-index.tsv:104); load_armor_and_parts loads equipped_parts from a per-value s32 slot of the save (g_playthrough_state +0x74 + it * 4); 0 alone may giga-attack (check_giga_attack) and cycles weapons (update_weapon_switch), nonzero takes switch_weapon; was held: current character, X or Zero (Tweaks IngameTable, docs/leads/tweaks-index.tsv:104)
 PlayerObj	0x03	1	s	on_screen	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	Tweaks hide character (104-105), agrees
 PlayerObj	0x04	1	s	state	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	second-width readers: 4s by update_dust; 1s by func_8001D60C
-PlayerObj	0x05	1	s	unk5	none	-	proven-at-gate	held: action/function id (Tweaks IngameTable, docs/leads/tweaks-index.tsv:106)
-PlayerObj	0x06	1	s	unk6	none	-	proven-at-gate	held: action phase (Tweaks IngameTable, docs/leads/tweaks-index.tsv:106)
-PlayerObj	0x07	1	s	unk7	none	-	proven-at-gate	held: action timer (Tweaks IngameTable, docs/leads/tweaks-index.tsv:106)
+PlayerObj	0x05	1	s	action	none	src/SLUS_013.95/player/player.c:50 D_80073ACC[p->action](p) handler index; Tweaks IngameTable docs/leads/tweaks-index.tsv:106 agree	proven-at-gate	-
+PlayerObj	0x06	1	s	action_phase	none	zeroed on action entry (start_hover), stepped by script_vanish; Tweaks IngameTable docs/leads/tweaks-index.tsv:106 agree	proven-at-gate	-
+PlayerObj	0x07	1	s	action_timer	code	code:src/SLUS_013.95/cling/ceiling_jump_800381F0.c:39 via=action_timer; code:src/SLUS_013.95/800365D4.c:41 via=action_timer	proven-at-gate	Tweaks IngameTable action timer (docs/leads/tweaks-index.tsv:106); frame count of the current action: end_ceiling_jump and func_800365D4 count it down and end the action at 0 (action 7, end_dash), perform_ceiling_jump counts it up; was held: action timer (Tweaks IngameTable, docs/leads/tweaks-index.tsv:106)
 PlayerObj	0x08	4	-	x_pos	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	Tweaks +0x0A X pos (107): the integer half, agrees; second-width readers: 4s by func_800400F4 (+19), 2s@+2 by func_80029598 (+212); 4- by EA0EC_hit
 PlayerObj	0x0C	4	-	y_pos	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	Tweaks +0x0E Y pos (107): the integer half, agrees; second-width readers: 4s by func_801EFDA8 (+2), 2s@+2 by func_80029658 (+19); 4- by EA0EC_hit
 PlayerObj	0x10	4	-	backref	x4	x4.h@807a01b; docs/x4-compare.md agree	lead	-
-PlayerObj	0x14	1	s	bg_offset	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	second-width readers: 1u by func_8003D480 (+46); 1s by func_8003015C
-PlayerObj	0x15	1	u	unk15	none	-	proven-at-gate	held: facing (Tweaks IngameTable, docs/leads/tweaks-index.tsv:108)
+PlayerObj	0x14	1	s	bg_offset	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	second-width readers: 1u by func_8003D480 (+46); 1s by get_tile_attr_origin
+PlayerObj	0x15	1	u	facing	code	code:src/SLUS_013.95/ladder/ladder_climb_80037610.c:32 via=facing; code:src/SLUS_013.95/ladder/ladder_climb_80037610.c:35 via=facing; code:src/SLUS_013.95/damage/damage_80039228.c:87 via=hit_facing	proven-at-gate	0 or 0x40 from the pressed direction (pressed_input bits 2/1, 80037610.c:30-34), saved to hit_facing (+0xA5); Tweaks IngameTable facing agrees (docs/leads/tweaks-index.tsv:108)
 PlayerObj	0x16	1	u	unk16	none	-	proven-at-gate	held: sprite layer (Tweaks IngameTable, docs/leads/tweaks-index.tsv:108)
 PlayerObj	0x17	1	u	unk17	none	-	proven-at-gate	held: animation id (Tweaks IngameTable, docs/leads/tweaks-index.tsv:109)
 PlayerObj	0x18	4	-	unk18	none	-	proven-at-gate	second-width readers: 4s by func_801EFDA8 (+2); 4- by collide_solid_object
 PlayerObj	0x1C	4	-	unk1C	none	-	proven-at-gate	second-width readers: 4s by func_801EFDA8 (+2); 4- by collide_solid_object
 PlayerObj	0x20	4	-	x_vel	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	Tweaks X step (110), agrees
 PlayerObj	0x24	4	-	y_vel	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	Tweaks Y step (110), agrees
-PlayerObj	0x28	4	s	unk28	none	-	proven-at-gate	-
-PlayerObj	0x2C	4	s	unk2C	none	-	proven-at-gate	-
+PlayerObj	0x28	4	s	x_accel	x4	x4.h@807a01b MainObj +0x28; func_8002CFB0 integrates it as func_8002D230 MainObj.x_accel	proven-at-gate	-
+PlayerObj	0x2C	4	s	gravity	x4	x4.h@807a01b MainObj +0x2C; func_8002CFB0 integrates it as func_8002D230 MainObj.gravity	proven-at-gate	-
 PlayerObj	0x30	4	-	animation_table	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
 PlayerObj	0x34	4	-	animation_cursor	x4	x4.h@807a01b; docs/x4-compare.md agree	lead	Tweaks anim related (111), agrees
 PlayerObj	0x38	4	-	unk38	none	-	proven-at-gate	-
@@ -168,10 +168,10 @@ PlayerObj	0x64	1	s	unk64	none	-	lead	-
 PlayerObj	0x65	1	s	unk65	none	-	proven-at-gate	-
 PlayerObj	0x66	1	s	unk66	none	-	lead	-
 PlayerObj	0x67	1	s	air_state	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	Tweaks in air (114), agrees
-PlayerObj	0x68	4	-	unk68	none	-	proven-at-gate	Tweaks +0x68 current pose size (114): our readers use a 4-byte pointer, not judged a byte
+PlayerObj	0x68	4	-	terrain_box	code	code:src/shared/rock_07/func_800F0CF4.c:35 via=terrain_box; code:src/shared/rock_07/func_800F0CF4.c:34 via=probe_tile; code:src/SLUS_013.95/collision/box_collision.c:22 via=terrain_box	proven-at-gate	box record (struct X4_Unk_unk68: x half-width +0, y offsets +1/+3) added to the player's position for tile probes and box overlap; same type and role as MainObj +0x68 terrain_box; Tweaks +0x68 pose size (114) is a byte, not judged
 PlayerObj	0x6C	2	s	unk6C	none	-	proven-at-gate	-
 PlayerObj	0x6E	2	s	unk6E	none	-	proven-at-gate	-
-PlayerObj	0x70	1	u	unk70	none	-	proven-at-gate	held: terrain contact bits R/L/top/ground (Tweaks IngameTable, docs/leads/tweaks-index.tsv:115)
+PlayerObj	0x70	1	u	collision_flags	code	code:src/SLUS_013.95/8002E47C.c:263 via=func_80030B80; code:src/SLUS_013.95/8002E47C.c:264 via=collision_flags; code:src/SLUS_013.95/player/player.c:23 via=collision_flags	proven-at-gate	terrain contact bits: func_8002F418 clears it and sets 2/1/8/4 from four func_80030B80 tile probes around the box; update_player latches it into latched_collision_flags (+0x89); same name as MainObj +0x70; Tweaks terrain contact bits R/L/top/ground agree (docs/leads/tweaks-index.tsv:115)
 PlayerObj	0x71	1	s	unk71	none	-	proven-at-gate	held: death flag (Tweaks IngameTable, docs/leads/tweaks-index.tsv:116)
 PlayerObj	0x72	1	u	unk72	none	-	proven-at-gate	-
 PlayerObj	0x73	1	u	unk73	none	-	proven-at-gate	-
@@ -189,11 +189,12 @@ PlayerObj	0x84	1	s	dash_momentum	x4	x4.h@807a01b; docs/x4-compare.md agree	prove
 PlayerObj	0x85	1	s	dash_timer	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	Tweaks dash timer (118), agrees
 PlayerObj	0x86	1	s	air_action	x4	x4.h@807a01b; docs/x4-compare.md agree	lead	Tweaks air move status (118), agrees
 PlayerObj	0x87	1	s	double_tap_dash	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	Tweaks double-tap timer (118), agrees
-PlayerObj	0x88	2	-	unk88	none	-	proven-at-gate	-
+PlayerObj	0x88	1	s	double_tap_timer	code	code:src/SLUS_013.95/dash/double_tap_dash.c:16 via=double_tap_timer; code:src/SLUS_013.95/dash/double_tap_dash.c:25 via=double_tap_dash	proven-at-gate	split from mmx4 union X4_PlayerUnk88 (T5.c6); update_double_tap_dash arms it to 0xC on a direction press (into double_tap_direction), counts it down, and sets double_tap_dash when the same direction is pressed before it runs out
+PlayerObj	0x89	1	u	latched_collision_flags	code	code:src/SLUS_013.95/player/player.c:23 via=latched_collision_flags	proven-at-gate	split from mmx4 union X4_PlayerUnk88 (T5.c6); update_player copies collision_flags (+0x70, ORed with +0x71) into it before the action handler; movement code tests its wall/ceiling/ground bits 1/2/4/8 instead of collision_flags
 PlayerObj	0x8A	1	u	unk8A	none	-	lead	split from mmx4 union X4_PlayerUnk8A (T9.c1)
 PlayerObj	0x8B	1	s	wall_cling_delay	none	-	lead	our reader (T9.c1): handle_jump_rise tries try_enter_wall_cling only at 0, else decrements it
 PlayerObj	0x8C	1	s	afterimage	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	Tweaks dash shadow (118), agrees
-PlayerObj	0x8D	1	u	unk8D	none	-	lead	-
+PlayerObj	0x8D	1	u	low_health_timer	code	code:src/SLUS_013.95/player/low_health.c:23 via=0x78; code:src/SLUS_013.95/player/low_health.c:11 via=check_low_health; code:src/SLUS_013.95/player/player.c:41 via=low_health_timer	lead	check_low_health arms it to 0x78 when 0 and hp (+0x5C) is under a third of a per-character playthrough byte; update_player counts it down to -1 (held there); Tweaks: 0x8003D014 low health voice clip site (docs/leads/tweaks-index.tsv:328)
 PlayerObj	0x8E	1	s	attacking	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	Tweaks Zero technique in progress (119), agrees
 PlayerObj	0x8F	1	s	shot_fired	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
 PlayerObj	0x90	1	s	attack_ended	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
@@ -235,16 +236,21 @@ PlayerObj	0xC4	1	s	capsule_state	x4	x4.h@807a01b; docs/x4-compare.md agree	lead	
 PlayerObj	0xC5	1	s	ride_state	x4	x4.h@807a01b; docs/x4-compare.md agree	lead	-
 PlayerObj	0xC6	1	s	unkC6	none	-	lead	-
 PlayerObj	0xC7	1	s	death_timer	x4	x4.h@807a01b; docs/x4-compare.md agree	lead	-
-PlayerObj	0xC8	7	-	padC8	none	-	lead	replaces mmx4 weapon_06_slots[3] (T9.c1): X6 byte readers at +0xC9 (Tweaks beaten stages copy, 124), +0xCC; second-width readers: 1u@+1 by build_mission_report_list (+2), 1s@+4 by func_8002935C (+2)
-PlayerObj	0xCF	1	s	unkCF	none	-	lead	written 0 per frame by update_player (T9.c1)
+PlayerObj	0xC8	1	s	padC8	none	-	lead	replaces mmx4 weapon_06_slots[3] (T9.c1); split at +0xC9 (T9.c2)
+PlayerObj	0xC9	1	u	beaten_stages	none	-	lead	Tweaks beaten stages / weapons available (docs/leads/tweaks-index.tsv:124); switch_weapon tests it against the weapon mask D_80073EC0[i] (T9.c2); second-width reader 1u by build_mission_report_list
+PlayerObj	0xCA	1	s	unkCA	none	-	lead	void* arg0 raw (3R 0W) by func_800379AC,update_player_damage; carved from a pad (2.6 T5.c1, .run scan player-offsets)
+PlayerObj	0xCB	3	-	padCB	none	-	lead	second-width reader 1s@+1 (+0xCC) by func_8002935C (T9.c2 split)
+PlayerObj	0xCE	1	s	unkCE	none	-	lead	void* arg0 raw (2R 0W) by update_stage_entry; carved from a pad (2.6 T5.c1, .run scan player-offsets)
+PlayerObj	0xCF	1	s	unkCF	none	-	lead	held (T14.c8): set 1 by start_hurt (damage/hurt_8003963C.c:30), written 0 per frame by update_player (player/player.c:20, T9.c1); read by overlay attack objects (rock_00/801ED898.c:31, rock_00/shadow_armor.c:41, rock_01/801ECBE8.c:353 M2C_FIELD 0xCF), each clears its own slot when set; no datapoint names the role
 PlayerObj	0xD0	1	s	unkD0	none	-	lead	1s by func_800EC9FC, 8004FF7C, 80037FD4 (-1); 1u by update_player (T9.c1)
-PlayerObj	0xD1	2	-	padD1	none	-	lead	-
+PlayerObj	0xD1	1	s	padD1	none	-	lead	-
+PlayerObj	0xD2	1	u	unkD2	none	-	lead	void* arg0 raw (1R 0W) by func_80037E88; carved from a pad (2.6 T5.c1, .run scan player-offsets)
 PlayerObj	0xD3	1	s	move_lock	none	-	lead	our readers (T9.c1): nonzero zeroes the rise speed (handle_jump_rise) and ends the slide (handle_slide_down); update_player sets it from +0xD0 | ride_animation | g_playthrough_state.unkF; Tweaks +0xD3 move enable (125)
 PlayerObj	0xD4	1	s	ride_animation	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
-PlayerObj	0xD5	1	u	hover_timer	x4	x4.h@807a01b; docs/x4-compare.md agree	lead	-
+PlayerObj	0xD5	1	u	hover_timer	x4	x4.h@807a01b; docs/x4-compare.md agree	lead	held: nonzero holds action 18 (func_80037BC4 ends it at 0) and blocks fire (weapon.c:21); >0 enters action 18 phase 1 and is negated (func_8003A268); the rock_06 object func_800EFFCC clears it; name unconfirmed in X6: reads 0 through the whole hover (mv_hover2-0037, mv_hover2-0040; docs/systems/movement.md:538)
 PlayerObj	0xD6	1	u	hover_bob	x4	x4.h@807a01b; docs/x4-compare.md agree	lead	-
 PlayerObj	0xD7	1	s	voice_timer	x4	x4.h@807a01b; docs/x4-compare.md agree	lead	-
-PlayerObj	0xD8	1	s	-	none	-	lead	-
+PlayerObj	0xD8	1	u	unkD8	none	-	lead	void* arg0 raw (1R 0W) by func_80037BC4; carved from a pad (2.6 T5.c1, .run scan player-offsets)
 PlayerObj	0xD9	1	s	is_clone	x4	x4.h@807a01b; docs/x4-compare.md agree	lead	-
 PlayerObj	0xDA	2	u	clone_timer	x4	x4.h@807a01b; docs/x4-compare.md agree	lead	-
 PlayerObj	0xDC	1	s	padDC	none	-	lead	replaces mmx4 clone_offset (T9.c1)
@@ -254,22 +260,37 @@ PlayerObj	0xDF	1	s	unkDF	none	-	lead	-
 PlayerObj	0xE0	1	s	nova_strike_active	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
 PlayerObj	0xE1	1	s	nova_strike_timer	x4	x4.h@807a01b; docs/x4-compare.md agree	lead	-
 PlayerObj	0xE2	1	u	item_step	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	second-width readers: 1s by func_80051490 (+2); 1u by func_80051C68
-PlayerObj	0xE3	1	s	-	none	-	lead	-
+PlayerObj	0xE3	1	u	unkE3	none	-	lead	void* arg0 raw (2R 0W) by func_80039984; carved from a pad (2.6 T5.c1, .run scan player-offsets)
 PlayerObj	0xE4	1	u	unkE4	none	-	proven-at-gate	X6 only; mmx4-size (&g_Player)[1].active writers rewritten as g_Player.unkE4 (2.5 T6.c1)
 PlayerObj	0xE5	1	u	unkE5	none	-	proven-at-gate	-
-PlayerObj	0xE6	1	u	unkE6	none	-	proven-at-gate	-
-PlayerObj	0xE7	1	u	unkE7	none	-	proven-at-gate	-
+PlayerObj	0xE6	1	u	hit_damage	code	code:src/SLUS_013.95/damage/damage_80039228.c:77 via=hit_damage; code:src/SLUS_013.95/collision/box_collision.c:121 via=D_80097186; code:src/SLUS_013.95/cling/player_to_ceiling.c:141 via=hit_damage	proven-at-gate	the player hit handler update_player_damage subtracts it from hp; check_box_collision sets it (as D_80097186 = g_Player+0xE6) from the touching object's +0x60 contact_damage; clamp_player_to_ceiling sets 0x7F (crush)
+PlayerObj	0xE7	1	u	armor	none	-	proven-at-gate	Tweaks character/armor (docs/leads/tweaks-index.tsv:127); giga_attack and get_weapon_energy_cost branch on values 1..4 (T9)
 PlayerObj	0xE8	4	-	padE8	none	-	lead	-
-PlayerObj	0xEC	4	s	unkEC	none	-	proven-at-gate	-
-PlayerObj	0xF0	12	-	padF0	none	-	lead	-
+PlayerObj	0xEC	4	s	equipped_parts	none	-	lead	Tweaks equipped parts (docs/leads/tweaks-index.tsv:128); bit 0x20 halves weapon energy cost (get_weapon_energy_cost), 0x100000 halves the special charge time (charge_special_weapon) (T9.c2)
+PlayerObj	0xF0	4	s	walk_start_speed	code	code:src/SLUS_013.95/player/walk_start_80039CFC.c:23 via=walk_start_speed	lead	check_walk_start_input (walk start, action 3) sets x_vel +-walk_start_speed; set_base_move_stats inits 0x8000 (8003D598.c:27); mv_walk-0021, mv_walk-0024 action 3 x_vel +-0x8000; part 4 adds 0x4000 (move_stats.c:28); game word walk: docs/glossary.md:419 (T14.c8)
+PlayerObj	0xF4	4	s	walk_speed	code	code:src/SLUS_013.95/player/walk_80039D7C.c:23 via=walk_speed	lead	check_walk_input sets x_vel +-walk_speed; init k0 0x20000 (8003D598.c:11,28); mv_walk-0023 x_vel 0x20000 when walking; Tweaks movement lengths +0xF4.. lists walk first (docs/leads/tweaks-index.tsv:129); also the x kick of start_wall_jump and start_slide_down (mv_wall-0101 x_vel -0x20000); game word walk: docs/glossary.md:419 (T14.c8)
+PlayerObj	0xF8	4	s	jump_speed	code	code:src/SLUS_013.95/cling/ceiling_jump_8003A870.c:32 via=jump_speed	lead	start_jump loads y_vel from +0xF8 (8003AED4.c:37); init k2 0x5D000 (8003D598.c:14,32); mv_jump-0021 y_vel 0x58E00 = 0x5D000 - gravity 0x4200 on the first rise frame; mv_ceiling2-0023 y_vel 0xBA000 = 2 x 0x5D000 (check_ceiling_jump doubles it); Tweaks movement lengths: jump second (tweaks-index.tsv:129) (T14.c8)
 PlayerObj	0xFC	4	s	unkFC	none	-	proven-at-gate	-
-PlayerObj	0x100	4	-	pad100	none	-	lead	-
-PlayerObj	0x104	4	s	unk104	none	-	proven-at-gate	-
-PlayerObj	0x108	52	-	pad108	none	-	lead	-
+PlayerObj	0x100	4	s	base_gravity	code	code:src/SLUS_013.95/dash/dash_8003B114.c:46 via=gravity; code:src/SLUS_013.95/8003D598.c:30 via=base_gravity	lead	every reader reloads gravity (+0x2C) from it (end_dash, end_ceiling_dash, end_ceiling_jump, check_giga_attack ...); set_base_move_stats sets it 0x4200; check_giga_attack copies it to +0x2C for the armor-4 giga (T9.c2); inside Tweaks movement lengths +0xF4..+0x110 (docs/leads/tweaks-index.tsv:129)
+PlayerObj	0x104	4	s	dash_speed	code	code:src/SLUS_013.95/dash/dash_input.c:23 via=dash_speed; code:src/SLUS_013.95/dash/air_dash.c:32 via=dash_speed	proven-at-gate	check_dash_input and the air dash set x_vel = +-it; set_base_move_stats sets 0x68000, init_move_stats adds 0x1A000 for equipped_parts bit 0x10
+PlayerObj	0x108	4	s	dash_base_speed	code	code:src/SLUS_013.95/8003A0E8.c:26 via=dash_base_speed	lead	check_dash_end and check_dash_end_no_release hold x_vel at least dash_base_speed; init k5 0x42000 (8003D598.c:20,35); mv_dash-0024 dash phase 2 x_vel 0x42000 after the 0x68000 dash_speed start (mv_dash-0021); Tweaks movement lengths: dash start, dash base (tweaks-index.tsv:129); also the dash-momentum wall-jump x kick (wall_jump_8003B440.c:35,42); part 0x10 adds 0x10800 with dash_speed (move_stats.c:22-23) (T14.c8)
+PlayerObj	0x10C	4	s	unk10C	none	-	lead	void* arg0 raw (0R 2W) by set_base_move_stats,init_move_stats; carved from a pad (2.6 T5.c1, .run scan player-offsets)
+PlayerObj	0x110	4	s	slide_down_speed	code	code:src/SLUS_013.95/8003B548.c:22 via=slide_down_speed	lead	start_slide_down starts action 11 (slide-down, handle_slide_down: docs/glossary.md:284) with y_vel slide_down_speed; init k6 -0x17000 (8003D598.c:22,36); mv_wall-0097 action 11 y_vel -0x17000; Tweaks: slide-down (tweaks-index.tsv:129); armor 2 sets 0 (move_stats.c:18) (T14.c8)
+PlayerObj	0x114	4	s	wall_jump_y_speed	code	code:src/SLUS_013.95/cling/wall_jump_8003B440.c:49 via=wall_jump_y_speed	lead	start_wall_jump loads y_vel from it, its only C reader; init k7 0x5A000 (8003D598.c:24,37); mv_wall-0101 action 10 y_vel 0x5A000; game word: docs/glossary.md:425 wall jump (T14.c8)
+PlayerObj	0x118	4	s	unk118	none	-	lead	void* arg0 raw (1R 1W) by grab_ladder,set_base_move_stats; carved from a pad (2.6 T5.c1, .run scan player-offsets)
+PlayerObj	0x11C	4	s	unk11C	none	-	lead	void* arg0 raw (0R 1W) by set_base_move_stats; carved from a pad (2.6 T5.c1, .run scan player-offsets)
+PlayerObj	0x120	4	s	unk120	none	-	lead	void* arg0 raw (0R 1W) by set_base_move_stats; carved from a pad (2.6 T5.c1, .run scan player-offsets)
+PlayerObj	0x124	4	s	unk124	none	-	lead	void* arg0 raw (6R 1W) by func_80038594,func_80038CD0,set_base_move_stats; carved from a pad (2.6 T5.c1, .run scan player-offsets)
+PlayerObj	0x128	4	s	unk128	none	-	lead	void* arg0 raw (4R 1W) by func_80038788_turn,func_800389B4,set_base_move_stats; carved from a pad (2.6 T5.c1, .run scan player-offsets)
+PlayerObj	0x12C	4	s	unk12C	none	-	lead	void* arg0 raw (4R 2W) by func_80038594,func_80038F64,set_base_move_stats,init_move_stats; carved from a pad (2.6 T5.c1, .run scan player-offsets)
+PlayerObj	0x130	4	s	unk130	none	-	lead	void* arg0 raw (2R 2W) by func_80038BA8,set_base_move_stats,init_move_stats; carved from a pad (2.6 T5.c1, .run scan player-offsets)
+PlayerObj	0x134	4	s	jump_gravity	code	code:src/SLUS_013.95/cling/wall_jump_8003B440.c:50 via=jump_gravity	lead	every jump start loads gravity from it: start_wall_jump, start_jump (8003AED4.c:38), start_dash dash jump (dash/dash_8003A9C4.c:33); init 0x4200 as base_gravity (+0x100, 8003D598.c:29-30) but a separate slot: base_gravity is the one restored on fall/let-go; part 8 lowers only this one by 0x1080 (move_stats.c:15); mv_jump-0021 action 6 gravity 0x4200 (T14.c8)
+PlayerObj	0x138	4	-	pad138	none	-	lead	-
 PlayerObj	0x13C	4	s	unk13C	none	-	proven-at-gate	-
 PlayerObj	0x140	4	-	pad140	none	-	lead	-
-PlayerObj	0x144	4	s	unk144	none	-	proven-at-gate	-
-PlayerObj	0x148	4	-	pad148	none	-	lead	-
+PlayerObj	0x144	4	s	timed_item	none	-	proven-at-gate	-
+PlayerObj	0x148	2	-	pad148	none	-	lead	-
+PlayerObj	0x14A	2	s	giga_energy_max	none	-	lead	check_giga_attack requires weapon_energy[0] (s16 @+0xA8, Tweaks ammo array giga attack first, docs/leads/tweaks-index.tsv:123) == this before a giga attack (T9.c2)
 PlayerObj	0x14C	2	s	unk14C	none	-	proven-at-gate	-
 PlayerObj	0x14E	2	-	pad14E	none	-	lead	-
 PlayerObj	0x150	1	s	unk150	none	-	proven-at-gate	-
@@ -279,8 +300,8 @@ ProjectileObj	0x01	1	s	id	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-ga
 ProjectileObj	0x02	1	s	unk2	none	-	proven-at-gate	-
 ProjectileObj	0x03	1	s	on_screen	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
 ProjectileObj	0x04	1	s	state	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	-
-ProjectileObj	0x05	1	s	unk5	none	-	proven-at-gate	-
-ProjectileObj	0x06	1	s	unk6	none	-	lead	-
+ProjectileObj	0x05	1	s	action	code	code:src/SLUS_013.95/80049670.c:115 via=action; code:src/SLUS_013.95/weapon/guard_shell.c:99 via=action	proven-at-gate	-
+ProjectileObj	0x06	1	s	action_phase	none	family slot (+0x05 action stepped); no projectile reader yet	lead	-
 ProjectileObj	0x07	1	s	unk7	none	-	lead	-
 ProjectileObj	0x08	4	-	x_pos	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	second-width readers: 2s@+2 by func_800EFAEC; 4- by func_80049854
 ProjectileObj	0x0C	4	-	y_pos	x4	x4.h@807a01b; docs/x4-compare.md agree	proven-at-gate	second-width readers: 2s@+2 by func_800EFAEC; 4- by func_80049854

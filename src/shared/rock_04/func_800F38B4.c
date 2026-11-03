@@ -1,11 +1,11 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
 s32 random_byte();
-extern s16 D_8009721E;
 
 void func_800F38B4(struct X4_MainObj* self) {
     u8 r;
@@ -32,6 +32,6 @@ void func_800F38B4(struct X4_MainObj* self) {
             *(s16*)((u8*)self + 0x84) = 0x10;
         }
         *(s16*)((u8*)self + 0x86) = 0x80;
-        self->unk6++;
+        self->action_phase++;
     }
 }

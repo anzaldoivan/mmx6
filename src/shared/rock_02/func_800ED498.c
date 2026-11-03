@@ -5,12 +5,12 @@
 void func_800ED498(struct X4_MainObj* self) {
     struct X4_MainObj* work = SP_CUR_MAIN_OBJ;
     if (3 <= work->ext.main_48.unk82) {
-        self->unk6++;
+        self->action_phase++;
         SP_CUR_MAIN_OBJ->ext.main_48.unk82 = 0;
         SP_CUR_MAIN_OBJ->ext.main_48.unk80 = 0x14;
     } else {
         if (--work->ext.main_48.unk80 == 0) {
-            self->unk6--;
+            self->action_phase--;
         }
     }
 }

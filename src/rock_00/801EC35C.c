@@ -2,8 +2,6 @@
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8003AFF4(s32);
-
 s32 func_801EC35C(struct X4_PlayerObj* self) {
     u32 var_v1;
     s32 t;

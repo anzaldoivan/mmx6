@@ -1,7 +1,7 @@
 /* Adapted from sozud/mmx4 @807a01b src/main/object_update.c:func_80021D20, AGPL-3.0; proven shared with X6 by exact signature 95cf5435ad21 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
-extern struct X4_AbcObj D_8008EAF0;
+#include "mmx6/globals.h"
 void open_text_box(u16, u8, u8);
 void update_text_box(struct X4_AbcObj*);
 

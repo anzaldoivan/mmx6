@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void* func_8002C458();
 
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -13,7 +13,7 @@ void* func_8002C458();
 void func_800ED9B8(void* arg0) {
     void* p;
 
-    func_80017A04();
+    animate_object();
     if (F8(arg0, 0x45) == 1) {
         p = func_8002C458();
         if (p != 0) {

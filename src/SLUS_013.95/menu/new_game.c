@@ -1,11 +1,8 @@
 #include "common.h"
+#include "mmx6/globals.h"
 
-extern u8 g_temp_options;
-extern u8 default_options;
-extern u8 D_8006D5FC[];
 extern s32 D_8006D634[];
 #include "mmx6/state.h"
-extern s32 D_800E3130[];
 
 // 0x8001E088 init_new_game: new game status init.
 // basis: community tweaks-index.tsv:302

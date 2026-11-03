@@ -1,10 +1,10 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK); /* extern */
-extern u8 D_800CCF5F;
 
 void func_800F6618(void* arg0) {
     ((void (*)(void*, s32))set_animation)(arg0, 7);

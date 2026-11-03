@@ -6,7 +6,7 @@
 #define SPAD20_800F74D8 (*(s32**)0x1F800020)
 
 s32 func_8002A47C(s32);
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 
 extern s8 D_800CCEDC;
 #define D_800CCEDC (*(s8*)&D_800CCEDC)
@@ -20,7 +20,7 @@ void func_800F74D8(void* arg0, s16 arg1, s16 arg2, u8 arg3) {
     s32 b;
     u8 t14;
 
-    o = func_8002C398();
+    o = find_free_visual_obj();
     if (o != 0) {
         O(u8, 0x0) = 0x41;
         O(u8, 0x1) = 5;

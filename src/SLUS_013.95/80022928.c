@@ -11,27 +11,18 @@ M2C_UNK func_80022928(s32 arg0, s32 arg1) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define SCR_BUF (*(s32*)0x1F800000)
 #define SCR_PTR(off) (*(u8**)(0x1F800000 + (off)))
 #define ONS(p) (((s8*)(p))[3])
 
-extern s8 g_enemies[];
-extern u8 D_800911A8[];
-extern u8 D_80091298[];
 #include "mmx6/projectile.h"
 extern s8 D_800950A0[];
-extern u8 D_800964A0[];
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern u8 D_800973B8[];
 #include "mmx6/state.h"
-extern u8 D_8009C9B0[];
-extern u8 D_800A51B8[];
-extern s32 D_800C1220[];
-extern u8 D_800C4858[];
-extern struct X4_RideArmorObj D_800CD340;
-extern struct X4_MiscObj g_displayed_sprites[];
 extern u8 D_800E3420[];
 extern u8 D_800E3C20[];
 extern u8 D_800E4020[];
@@ -44,7 +35,7 @@ void func_800241D4(void*);
 void func_800244C0(void);
 void func_80026128(void);
 void func_8002619C(u8* arg0);
-s32 func_8002FE30(void*);
+s32 get_tile_attr_above(void*);
 
 void func_80022960(void) {
     struct X4_PlayerObj* pl;
@@ -68,18 +59,18 @@ void func_80022960(void) {
     pl = &g_Player;
     if (pl->on_screen != 0) {
         savedX = pl->x_pos.i.hi;
-        if (pl->unk5 == 0x1B ||
-            (pl->unk5 == 0x3D && func_8002FE30(pl) == 0x2E)) {
-            if (pl->unk2 == 0) {
-                if (pl->unk15 == 0x40) {
+        if (pl->action == 0x1B ||
+            (pl->action == 0x3D && get_tile_attr_above(pl) == 0x2E)) {
+            if (pl->character == 0) {
+                if (pl->facing == 0x40) {
                     pl->x_pos.i.hi++;
                 }
-            } else if (pl->unk15 == 0x40) {
+            } else if (pl->facing == 0x40) {
                 pl->x_pos.i.hi--;
             }
         }
         func_800232D4(pl);
-        if (pl->unk2 == 0) {
+        if (pl->character == 0) {
             e7 = ((u8*)pl)[0xE7];
             if (e7 == 3 || e7 == 1 || e7 == 2 || e7 == 4) {
                 func_8002619C(pl);
@@ -87,7 +78,7 @@ void func_80022960(void) {
         }
         pl->x_pos.i.hi = savedX;
     }
-    if (pl->unk2 == 0) {
+    if (pl->character == 0) {
         p = D_800911A8;
         if (ONS(p) != 0) {
             func_800232D4(p);
@@ -126,7 +117,7 @@ void func_80022960(void) {
             func_800232D4(p);
         }
     }
-    for (p = (u8*)D_800C1220; p < (u8*)D_800C1220 + 0x3340; p += 0xA4) {
+    for (p = (u8*)g_class4_slots; p < (u8*)g_class4_slots + 0x3340; p += 0xA4) {
         if (ONS(p) != 0) {
             func_800232D4(p);
         }
@@ -148,7 +139,7 @@ void func_80022960(void) {
     if (D_800CD340.on_screen != 0) {
         func_800232D4(&D_800CD340);
     }
-    for (p = D_8009C9B0; p < D_8009C9B0 + 0x1800; p += 0x60) {
+    for (p = g_class6_slots; p < g_class6_slots + 0x1800; p += 0x60) {
         if (ONS(p) != 0) {
             if (*p & 2) {
                 func_800241D4(p);
@@ -164,16 +155,13 @@ void func_80022960(void) {
 /* Adapted from sozud/mmx4 @807a01b src/main/14A60.c:func_80024260, AGPL-3.0; proven shared with X6 by exact signature ce7e7513ad74 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
-extern X4_P_TAG* D_8008EB08[2][4][8];
-extern X4_P_TAG* D_80090D70[2][4][8];
-extern struct X4_DrawInfo* g_cur_draw_info;
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 /* libgpu ordering-table link helpers: read or write a primitive's next-pointer */
 #ifndef setaddr
 #define setaddr(p, a) (((X4_P_TAG*)(p))->addr = (X4_u_long)(a))
 #define getaddr(p) (X4_u_long)(((X4_P_TAG*)(p))->addr)
 #endif
-extern M2C_UNK D_800CD3F0;
 #define D_800CD3F0 (*(s8(*)[4]) & D_800CD3F0)
 
 void func_80022E44(void) {
@@ -199,10 +187,9 @@ void func_80022E44(void) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern X4_P_TAG* D_8008EB08[2][4][8];
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_DrawInfo* g_cur_draw_info;
 
 #define SCR_BUF (*(s32*)0x1F800000)
 #define SCR_PRIM (*(u8**)0x1F800100)
@@ -330,10 +317,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800239CC);
 #include "common.h"
 #include "psyq/libgpu.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern X4_P_TAG* D_8008EB08[2][4][8];
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_DrawInfo* g_cur_draw_info;
 
 #define SCR_BUF (*(s32*)0x1F800000)
 #define SCR_PRIM (*(u8**)0x1F800100)
@@ -412,8 +398,8 @@ void func_80023ED8(u8* arg0) {
 #include "common.h"
 #include "psyq/libgpu.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern X4_P_TAG* D_8008EB08[2][4][8];
 extern struct X4_BackgroundObj background_objects[3];
 extern u8 D_80071414[];
 
@@ -543,7 +529,8 @@ void func_800244C0(void) {
                 if (v >= 0xD4) {
                     v = 0xD3;
                 }
-                goto call;
+                func_80024CC0(a0, v);
+                return;
             }
             if (e->unk25 == 1) {
                 v = (B8(e, 0x8C) - 0x20) / 2;
@@ -551,7 +538,6 @@ void func_800244C0(void) {
                 if (v >= 0x31) {
                     v = 0x30;
                 }
-            call:
                 func_80024CC0(a0, v);
                 return;
             }
@@ -566,13 +552,13 @@ void func_800244C0(void) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_80024CC0(s32 arg0, u8 arg1);
 void func_800253AC(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4, u32 arg5,
                    u32 arg6);
 s32 get_weapon_energy_cost(void* arg0, s32 arg1);
 extern u8 D_80071DBC[];
-extern s8 D_800970A2;
 extern struct X4_EngineObj g_playthrough_state;
 
 #define FB(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -632,13 +618,13 @@ void func_800246B4(void* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_80024CC0(s32 arg0, u8 arg1);
 void func_800253AC(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4, u32 arg5,
                    u32 arg6);
 s32 get_weapon_energy_cost(void* arg0, s32 arg1);
 extern u8 D_80071DC4[];
-extern s8 D_800970A2;
 extern struct X4_EngineObj g_playthrough_state;
 
 #define FB(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -693,9 +679,9 @@ void func_800249D4(void* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern s16 D_80071DCC[][3];
-extern struct X4_DrawInfo* g_cur_draw_info;
 extern struct X4_EngineObj g_playthrough_state;
 
 #define SP_1C (*(u8**)SP(0x01C))
@@ -790,13 +776,13 @@ void func_80024CC0(s32 arg0, u8 arg1) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_800253AC(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4, u32 arg5,
                    u32 arg6);
 extern s16 D_80071E40[][2];
 #define M2C_UNK s32
 extern M2C_UNK g_Player;
-extern s8 D_800970A2;
 extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CCF5C;
 
@@ -950,10 +936,10 @@ u32 func_80025248(u16 arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 u32 func_80025248(u16);
 extern u16 D_80071E48[][4];
-extern struct X4_DrawInfo* g_cur_draw_info;
 
 #define PRIM_NEXT (*(u8**)SP(0x110))
 #define PB(p, o) (*(u8*)((p) + (o)))
@@ -1043,11 +1029,10 @@ void func_80025F34() {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-
-extern M2C_UNK D_800CD3F0;
 
 void func_80025F84(void) {
     M2C_FIELD(&D_800CD3F0, s8*, 0) = 5;

@@ -15,7 +15,8 @@
          declaration is refused, or under --dry-run.
   Library: sync_text(..., force=True) (gate.py's `tusync`) refuses nothing and also rewrites a top-level
       `extern <type> <func>;` object declaration to the definition's prototype; unit_files(prog, start) follows the
-      #include closure of the given files only (one TU).
+      #include closure of the given files only (one TU); header_decls(files, func) lists func's column-0 prototypes in
+      the .h files that closure reaches (`#include` resolved relative, then under include/, then src/).
   declsync.py --self-test
       -> in memory: width-compatible prototype synced, width-incompatible (`s16` param) refused, cast removed;
          force: the `s16` prototype and an extern object synced; an unprototyped cast of other arity left as
@@ -108,6 +109,30 @@ def unit_files(prog, start=None):
                 q = os.path.relpath(os.path.normpath(os.path.join(os.path.dirname(p), rel)))
                 if q.startswith("src" + os.sep):
                     todo.append(q)
+    return sorted(out)
+
+
+def header_decls(files, func):
+    """[(header, line, ret, params text)] of the column-0 prototypes of func in the .h files reached from files by
+    `#include "<rel>"` (relative to the includer, then include/, then src/; transitively), sorted."""
+    proto = re.compile(rf"^(?:extern\s+)?({TYPE})\s*\b{re.escape(func)}\s*\(([^;{{}}()]*)\)\s*;", re.M)
+    seen, todo, out = set(), list(files), []
+    while todo:
+        p = todo.pop()
+        if p in seen or not os.path.isfile(p):
+            continue
+        seen.add(p)
+        with open(p, errors="replace") as f:
+            text = f.read()
+        if p.endswith(".h"):
+            out += [(p, text.count("\n", 0, m.start()) + 1, m.group(1).strip(), m.group(2).strip())
+                    for m in proto.finditer(text)]
+        for rel in INCL_RE.findall(text):
+            for q in (os.path.join(os.path.dirname(p), rel), os.path.join("include", rel), os.path.join("src", rel)):
+                q = os.path.relpath(os.path.normpath(q))
+                if os.path.isfile(q):
+                    todo.append(q)
+                    break
     return sorted(out)
 
 

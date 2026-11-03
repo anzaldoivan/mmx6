@@ -6,7 +6,7 @@
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
-M2C_UNK func_80017A04();                     /* extern */
+M2C_UNK animate_object();                    /* extern */
 void* func_8002C32C();                       /* extern */
 s32 random_byte();
 extern M2C_UNK g_Player;
@@ -64,10 +64,11 @@ void func_800EFDB0(void* arg0) {
     if (!(f97 & 2)) {
         if ((a8 & 3) || (M2C_FIELD(arg0, u8*, 0x45) & 1)) {
             if ((s8)cnt >= 0) {
-                goto add;
+                M2C_FIELD(arg0, s32*, 8) += M2C_FIELD(arg0, s32*, 0x20);
+            } else {
+                M2C_FIELD(arg0, s8*, 5) = 8;
+                M2C_FIELD(arg0, s8*, 6) = 0;
             }
-            M2C_FIELD(arg0, s8*, 5) = 8;
-            M2C_FIELD(arg0, s8*, 6) = 0;
         } else {
             if (!(f97 & 8)) {
                 mask = 2;
@@ -87,12 +88,11 @@ void func_800EFDB0(void* arg0) {
                 }
             }
             if (t != 0) {
-            add:
                 M2C_FIELD(arg0, s32*, 8) += M2C_FIELD(arg0, s32*, 0x20);
             }
         }
-        ((M2C_UNK(*)())func_80017A04)(arg0);
+        ((M2C_UNK(*)())animate_object)(arg0);
     } else {
-        ((M2C_UNK(*)())func_80017A04)(arg0);
+        ((M2C_UNK(*)())animate_object)(arg0);
     }
 }

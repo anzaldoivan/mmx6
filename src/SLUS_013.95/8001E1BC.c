@@ -1,6 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK func_800139A0(s8);
 void func_80013D10(void);
@@ -19,12 +20,6 @@ void func_8002A3E8(void);
 void reset_level(void);
 void func_8002C2B8();
 void func_8003BD24(void);
-extern u8 D_8006D5F9;
-extern struct X4_AbcObj D_8008EAF0;
-extern s32 D_8008EC0C;
-extern s16 D_8009741A;
-extern u8 D_800CC868;
-extern s8 D_800CCEED;
 
 void func_8001E1BC(u8* arg0) {
     u8* p;

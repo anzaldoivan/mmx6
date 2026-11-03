@@ -5,14 +5,14 @@
 #define SPAD4C (*(u8**)0x1F80004C)
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s32 func_8002A47C(s32);
 void* func_8002C458();
 
 void func_800F370C(void* arg0) {
     void* child;
 
-    func_80017A04(arg0);
+    animate_object(arg0);
     if (M2C_FIELD(arg0, s8*, 0x45) == 1) {
         play_sound(2, 0x7E, arg0);
         if (!(SPAD4C[0x8A] & 1)) {

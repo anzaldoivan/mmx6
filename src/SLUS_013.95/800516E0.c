@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 void func_80051FE8(void* arg0, void* arg1);
@@ -23,7 +23,7 @@ void func_800516E0(s8* arg0) {
         clear_object_slot(arg0, temp_a1);
         return;
     } else {
-        ((M2C_UNK(*)())func_80017A04)(arg0, temp_a1);
+        ((M2C_UNK(*)())animate_object)(arg0, temp_a1);
     }
     func_8002CCB0((struct X4_BaseObj*)arg0, 0x88, 0x88);
 }
@@ -34,7 +34,7 @@ void func_800516E0(s8* arg0) {
 #include "mmx6/x4.h"
 
 s32 play_sound(s32 a0, s32 a1, void* arg2);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 void func_80051FE8(void* arg0, void* arg1);
@@ -53,7 +53,7 @@ void func_80051780(s8* arg0) {
         clear_object_slot(arg0, temp_a1);
         return;
     } else {
-        ((void (*)())func_80017A04)(arg0, temp_a1);
+        ((void (*)())animate_object)(arg0, temp_a1);
         (*(s16*)(arg0 + 0x54))--;
     }
     func_8002CCB0((struct X4_BaseObj*)arg0, 0x88, 0x88);
@@ -62,12 +62,12 @@ void func_80051780(s8* arg0) {
 #include "common.h"
 #include "mmx6/x4.h"
 
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 
 void func_80051828(struct X4_PlayerObj* arg0, s8 arg1, s8 arg2) {
     struct X4_VisualObj* obj;
 
-    obj = func_8002C398();
+    obj = find_free_visual_obj();
     if (obj != 0) {
         obj->active = 0x49;
         obj->id = arg1;
@@ -80,20 +80,20 @@ void func_80051828(struct X4_PlayerObj* arg0, s8 arg1, s8 arg2) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void func_80031F4C(struct X4_PlayerObj*);
 M2C_UNK func_8003208C();
 s32 func_80032B34(struct X4_PlayerObj*);
 extern void (*D_80078E18[])(struct X4_PlayerObj*);
-extern u8 D_80097185;
 
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 void collide_solid_object(struct X4_MainObj*);
 s8 func_80032BE8(struct X4_PlayerObj* arg0);
 M2C_UNK func_80051890(struct X4_PlayerObj* self) {
-    ((M2C_UNK(*)())func_80017A04)();
-    D_80078E18[self->unk5](self);
+    ((M2C_UNK(*)())animate_object)();
+    D_80078E18[self->action](self);
     func_80032B34(self);
     if (D_80097185 == 0) {
         ((M2C_UNK(*)())collide_solid_object)(self);
@@ -141,17 +141,17 @@ void func_80051924(struct X4_PlayerObj* arg0) {
         if (dx > 0) {
             func_8003D308(0x14, 0);
             dx = 0x40;
-            arg0->unk15 = dx;
+            arg0->facing = dx;
         } else {
             func_8003D308(0x14, 0x40);
-            arg0->unk15 = 0;
+            arg0->facing = 0;
         }
         g_playthrough_state.unk16 = 1;
         g_playthrough_state.unk12 = 1;
         g_playthrough_state.unk13 = 1;
         g_playthrough_state.unk17 = 1;
-        arg0->unk6 = 0;
-        arg0->unk5++;
+        arg0->action_phase = 0;
+        arg0->action++;
     }
 }
 
@@ -199,9 +199,9 @@ void func_80051AC8(s8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
-extern u8 D_8008EAFC;
 M2C_UNK set_animation(void*, M2C_UNK);
 
 void func_80051B28(u8* arg0) {
@@ -213,12 +213,12 @@ void func_80051B28(u8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
 void play_stage_bgm(void);
 M2C_UNK func_80018774(M2C_UNK);
-extern u8 D_8008EAFC;
 extern u8 D_800CD40C;
 
 void func_80051B74(s8* arg0) {
@@ -258,7 +258,7 @@ void func_80051C08(s8* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
@@ -270,8 +270,8 @@ void func_80051C68(struct X4_PlayerObj* arg0) {
     if (arg0->unk72 & 8) {
         ((void (*)(void*, s32))set_animation)(arg0, 1);
         player = &g_Player;
-        func_8003D308(0x18, player->unk15);
-        obj = func_8002C398();
+        func_8003D308(0x18, player->facing);
+        obj = find_free_visual_obj();
         if (obj != 0) {
             obj->active = 0x49;
             obj->id = 0x24;
@@ -288,14 +288,14 @@ void func_80051C68(struct X4_PlayerObj* arg0) {
             g_playthrough_state.unk17 = 1;
             player->x_pos.val = x;
         }
-        arg0->unk5++;
+        arg0->action++;
     }
 }
 
 #include "common.h"
 #include "mmx6/x4.h"
 
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 extern struct X4_PlayerObj g_Player;
 
 void func_80051D28(struct X4_PlayerObj* arg0) {
@@ -311,7 +311,7 @@ void func_80051D28(struct X4_PlayerObj* arg0) {
     player->x_pos.val = arg0->x_pos.val;
     if (step == 2) {
         id = 0x25;
-        obj1 = func_8002C398();
+        obj1 = find_free_visual_obj();
         if (obj1 != 0) {
             obj1->active = 0x49;
             obj1->id = id;
@@ -319,7 +319,7 @@ void func_80051D28(struct X4_PlayerObj* arg0) {
             obj1->bg_offset = arg0->bg_offset;
             obj1->unk50 = arg0;
         }
-        obj2 = func_8002C398();
+        obj2 = find_free_visual_obj();
         if (obj2 != 0) {
             obj2->active = 0x49;
             obj2->id = id;
@@ -327,7 +327,7 @@ void func_80051D28(struct X4_PlayerObj* arg0) {
             obj2->bg_offset = arg0->bg_offset;
             obj2->unk50 = arg0;
         }
-        obj3 = func_8002C398();
+        obj3 = find_free_visual_obj();
         if (obj3 != 0) {
             obj3->active = 0x49;
             obj3->id = id;
@@ -335,7 +335,7 @@ void func_80051D28(struct X4_PlayerObj* arg0) {
             obj3->bg_offset = arg0->bg_offset;
             obj3->unk50 = arg0;
         }
-        obj4 = func_8002C398();
+        obj4 = find_free_visual_obj();
         if (obj4 != 0) {
             obj4->active = 0x49;
             obj4->id = id;
@@ -343,7 +343,7 @@ void func_80051D28(struct X4_PlayerObj* arg0) {
             obj4->bg_offset = arg0->bg_offset;
             obj4->unk50 = arg0;
         }
-        arg0->unk5++;
+        arg0->action++;
     }
 }
 
@@ -361,7 +361,7 @@ void func_80051E40(struct X4_PlayerObj* arg0) {
     if (p->item_step == 3) {
         ((void (*)(void*, s32))set_animation)(arg0, 2);
         *(s32*)((u8*)arg0 + 0x7C) = 0x28;
-        arg0->unk5++;
+        arg0->action++;
     }
 }
 

@@ -4,11 +4,11 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 extern s32 D_800F4148;
 
 void func_800F2218(void* arg0) {
-    ((void (*)(void*))func_80017A04)(arg0);
+    ((void (*)(void*))animate_object)(arg0);
     if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
         M2C_FIELD(arg0, s32*, 0x20) = 0x60000;
         M2C_FIELD(arg0, s32*, 0x24) = 0;

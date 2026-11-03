@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 extern void (*D_800FCFE0[])(void*);
 
 void func_800FA710(u8* arg0) {
@@ -13,6 +13,6 @@ void func_800FA710(u8* arg0) {
         arg0[4]++;
         return;
     }
-    func_80017A04(arg0);
+    animate_object(arg0);
     (*(void (**)(void*))(((s8)arg0[5] << 2) + (s32)D_800FCFE0))(arg0);
 }

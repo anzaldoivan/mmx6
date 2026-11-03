@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern s32 D_800C1220[];
+extern s32 g_class4_slots[];
 
 static inline u8 ECAB8_hit(struct X4_PlayerObj* o, struct X4_Unk_unk68* h,
                            s16 x, s16 y) {
@@ -10,7 +10,7 @@ static inline u8 ECAB8_hit(struct X4_PlayerObj* o, struct X4_Unk_unk68* h,
     s16 cx;
     s16 cy;
 
-    if (o->unk15 == 0x40) {
+    if (o->facing == 0x40) {
         // !FAKE: depin: dropping it breaks the match (21/77)
         register s8 d asm("$3") = h->unk0;
         cx = o->x_pos.i.hi - d;
@@ -42,10 +42,10 @@ s32 func_800ECAB8(struct X4_PlayerObj* arg0, s16 arg1, s16 arg2) {
     u8 r;
 
     i = 0;
-    p = (struct X4_PlayerObj*)D_800C1220;
+    p = (struct X4_PlayerObj*)g_class4_slots;
     for (; i < 0x50; i++, p = (struct X4_PlayerObj*)((u8*)p + 0xA4)) {
         if (p != arg0 && p->active != 0 && p->shot_palette_timer != 0 &&
-            (h = p->unk68) != NULL) {
+            (h = p->terrain_box) != NULL) {
             r = ECAB8_hit(p, h, arg1, arg2);
             if (r != 0) {
                 return r;

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
 void* func_8002C458();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
-extern s8 D_800CCEDF;
 
 void func_800F4220(u8* arg0) {
     u8* obj;

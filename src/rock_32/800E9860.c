@@ -258,8 +258,8 @@ void func_800EC404(void) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();                        /* extern */
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);     /* extern */
+M2C_UNK animate_object();                       /* extern */
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);     /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK move_object(void*);                     /* extern */
 M2C_UNK func_8002EE10(void*);                   /* extern */
@@ -267,7 +267,7 @@ M2C_UNK func_80030ECC(void*);                   /* extern */
 M2C_UNK func_80049D90(void*);                   /* extern */
 
 void func_800EC5E4(void* arg0) {
-    func_80017A04();
+    animate_object();
     move_object(arg0);
     func_80030ECC(arg0);
     if ((M2C_FIELD(arg0, u8*, 0x70) != 0) ||
@@ -276,7 +276,7 @@ void func_800EC5E4(void* arg0) {
         M2C_FIELD(arg0, u8*, 4) = (u8)(M2C_FIELD(arg0, u8*, 4) + 1);
         return;
     }
-    if (func_8002CBFC(arg0, 0x18, 0x18) == 0) {
+    if (is_off_screen(arg0, 0x18, 0x18) == 0) {
         func_8002CCB0(arg0, 0x10, 0x10);
         return;
     }
@@ -406,11 +406,11 @@ void func_800ED42C(void* arg0) {
 
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04(); /* extern */
-M2C_UNK move_object();   /* extern */
+M2C_UNK animate_object(); /* extern */
+M2C_UNK move_object();    /* extern */
 
 void func_800ED480(s32 arg0) {
-    func_80017A04();
+    animate_object();
     move_object(arg0);
 }
 
@@ -421,12 +421,12 @@ void func_800ED480(s32 arg0) {
 #undef D_80075FD8
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_800ED524(); /* extern */
-extern s8 D_800972A4;
 
 void func_800ED4E8(void* arg0) {
     M2C_FIELD(arg0, s8*, 0x15) = 0;

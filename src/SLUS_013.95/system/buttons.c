@@ -1,7 +1,9 @@
+// prog SLUS_013.95 | system system | range 0x8003D7AC-0x8003D84C
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u16 D_8006D600[];
+// kept here: the objfields census types g_Player.m only from a file-scope declaration
 extern struct X4_PlayerObj g_Player;
 
 // 0x8003D7AC map_buttons: read input subroutine.
@@ -17,7 +19,7 @@ u16 map_buttons(u16 arg0) {
     result = 0;
     bit = 1;
     i = 0;
-    p = D_8006D600;
+    p = button_map;
     do {
         if (*p & arg0) {
             result |= bit;
@@ -32,7 +34,7 @@ u16 map_buttons(u16 arg0) {
     if ((result & 0xC) == 0xC) {
         result &= 0xFFF3;
     }
-    if (g_Player.unk2 == 0) {
+    if (g_Player.character == 0) {
         v = (result * 2) & 0x20;
         if (result & 0x20) {
             v |= 0x10;

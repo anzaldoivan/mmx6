@@ -1,6 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
@@ -11,10 +12,8 @@ s32 func_80032B34(struct X4_PlayerObj*);
 s8 func_80032BE8(struct X4_PlayerObj* arg0);
 void init_capsule(struct X4_MainObj* self);
 M2C_UNK func_80051890();
-extern s32 D_80075B9C;
 extern s32 D_80078DFC;
 extern s32 D_80078E04;
-extern u8 D_80097185;
 
 void collide_solid_object(struct X4_MainObj*);
 // 0x800515B4 update_capsule: capsule object update: init on state 0, else its step; part 0x10 follows its link as a solid box.

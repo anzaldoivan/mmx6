@@ -3,12 +3,12 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 extern M2C_UNK D_800F7448;
 extern M2C_UNK D_800F744C;
 
 void func_800ED924(void* arg0) {
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     {
         // !FAKE: call arg set before the test lands in the branch delay slot
         register void* a asm("$4") = arg0;

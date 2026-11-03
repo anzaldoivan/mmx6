@@ -5,7 +5,7 @@
 #define SPAD20_800F6C1C (*(s32*)0x1F800020)
 #define SPAD4C_800F6C1C (*(s8**)0x1F80004C)
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s32 func_8002A47C(s32);
 void* func_8002C458();
 
@@ -20,7 +20,7 @@ void func_800F6C1C(void* self) {
     if (sp[0x89] == 0) {
         sp[0x89] = 0x78;
     }
-    func_80017A04(self);
+    animate_object(self);
     if (M2C_FIELD(self, s8*, 0x45) == 1) {
         obj = func_8002C458();
         if (obj != 0) {

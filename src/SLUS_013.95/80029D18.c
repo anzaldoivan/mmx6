@@ -29,8 +29,7 @@ void func_80029D18(void) {
 
 #include "common.h"
 #include "mmx6/x4.h"
-
-extern u8 D_800CCF38;
+#include "mmx6/globals.h"
 
 s32 func_80029E7C(struct X4_StageObjectRecord* rec, s16 arg1, s16 arg2,
                   s16 arg3) {
@@ -73,10 +72,10 @@ s32 func_80029E7C(struct X4_StageObjectRecord* rec, s16 arg1, s16 arg2,
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
-extern struct X4_StageObjectRecord* D_8007349C[][2];
 extern s16 D_800733B8[];
 extern u32* D_80095098;
 s32 func_80029E7C(struct X4_StageObjectRecord*, s16, s16, s16);
@@ -186,9 +185,9 @@ void func_80029F38(s16 arg0, s16 arg1, s16 arg2, s16 arg3, u8 arg4) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern struct X4_EngineObj g_playthrough_state;
-extern struct X4_StageObjectRecord* D_8007349C[][2];
 
 void func_8002A33C(void) {
     struct X4_StageObjectRecord* rec;

@@ -1,10 +1,10 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 struct X4_EffectObj* alloc_class3_slot(void);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
-extern s8 D_800970A5;
 extern struct X4_EngineObj g_playthrough_state;
 
 void func_800F94C4(struct X4_MainObj* self) {
@@ -21,6 +21,6 @@ void func_800F94C4(struct X4_MainObj* self) {
             *(void**)&self->ext = p;
         }
         self->unk7C = 0x1E;
-        self->unk6++;
+        self->action_phase++;
     }
 }

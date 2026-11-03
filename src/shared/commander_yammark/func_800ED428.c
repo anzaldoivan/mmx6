@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK move_object(s32);
 s32 func_80030CCC(void*, s16, s16);
 
@@ -15,7 +15,7 @@ void func_800ED428(void* arg0) {
     s16 x;
     u16 t;
 
-    func_80017A04();
+    animate_object();
     move_object((s32)arg0);
     t = FU8(arg0, 0x15);
     if (t != 0) {
@@ -31,11 +31,14 @@ void func_800ED428(void* arg0) {
         0xFF) {
         if (FU8(arg0, 0x15) == 0) {
             if (FU8(arg0, 0x70) & 2) {
+                // !FAKE: flip block order; || condition moved bytes
                 goto flip;
             }
+            // !FAKE: flip block order; || condition moved bytes
             goto end;
         }
         if (!(FU8(arg0, 0x70) & 1)) {
+            // !FAKE: flip block order; || condition moved bytes
             goto end;
         }
     }

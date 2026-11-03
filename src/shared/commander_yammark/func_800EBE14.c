@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 
 #define SP64 (*(u8**)(0x1F800064))
 #define B(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -21,7 +21,7 @@ void func_800EBE14(u8* arg0) {
         UB(arg0, 4) = UB(arg0, 4) + 1;
         return;
     }
-    func_80017A04(arg0);
+    animate_object(arg0);
     par = P50(arg0);
     UB(arg0, 0x15) = UB(par, 0x15);
     UH(arg0, 0xA) = UH(par, 0xA);
@@ -29,6 +29,7 @@ void func_800EBE14(u8* arg0) {
     val = UB(par, 0x88);
     if (UB(SP64, 0x54) != val) {
         if (val == mode) {
+            // !FAKE: goto shares the case arm; dup arm moved bytes
             goto same;
         }
         switch (val) {

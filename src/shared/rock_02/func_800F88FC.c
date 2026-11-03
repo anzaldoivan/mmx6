@@ -1,10 +1,10 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD28 (*(s32*)0x1F800028)
 
 M2C_UNK func_8002B54C(M2C_UNK*, M2C_UNK*, M2C_UNK, u16);
-extern u8 D_800C4560;
 
 void func_800F88FC(void* arg0) {
     s32 base;

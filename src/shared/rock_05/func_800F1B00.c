@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern u8 D_800CCF5F;
+#include "mmx6/globals.h"
 
 void func_800F1B00(u8* arg0) {
     u8 v = D_800CCF5F;

@@ -2,12 +2,12 @@
 #include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 extern struct X4_PlayerObj g_Player;
-extern u8 D_800CCF38;
 
 void func_800EDD88(void* arg0) {
     s32 angle;
@@ -15,7 +15,7 @@ void func_800EDD88(void* arg0) {
     s32 t;
     u16 c;
 
-    func_80017A04();
+    animate_object();
     {
         // !FAKE: depin: dropping it breaks the match (53/60)
         register s32 cc asm("$2") = M2C_FIELD(arg0, u16*, 0x8C);

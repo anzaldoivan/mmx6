@@ -29,7 +29,7 @@ INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FA984);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20 (*(s32*)0x1F800020)
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8002A47C(s32);
 void* func_8002C458();
@@ -42,7 +42,7 @@ void func_800FAC10(void* arg0) {
     s8 k;
 
     move_object((s32)arg0);
-    ((void (*)(void*))func_80017A04)(arg0);
+    ((void (*)(void*))animate_object)(arg0);
     if (M2C_FIELD(arg0, s16*, 0xE) > background_objects[0].unk2A + 0x60) {
         p = func_8002C458();
         if (p != 0) {
@@ -97,7 +97,7 @@ INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FB18C);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD4C (*(u8**)0x1F80004C)
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK move_object(void*);
 extern struct X4_BackgroundObj background_objects[3];
 
@@ -119,7 +119,7 @@ void func_800FB2AC(void* arg0) {
             sp[0x8B] = 0x78;
         }
     }
-    ((void (*)(void*))func_80017A04)(arg0);
+    ((void (*)(void*))animate_object)(arg0);
     if (M2C_FIELD(arg0, s8*, 0x45) != 0) {
         M2C_FIELD(arg0, s32*, 0x68) = 0;
         ((void (*)(void*))move_object)(arg0);
@@ -194,7 +194,7 @@ void func_800FBA8C(void* arg0) {
             self->unk15 = 0x40;
             ((void (*)(s32, s32, void*))play_sound)(2, 0x23, self);
             ((void (*)(void*, s32))set_animation)(self, 0x12);
-            self->unk6++;
+            self->action_phase++;
         }
     } else {
         if (self->x_pos.i.hi >= background_objects[0].unk1C + 0xD0 &&
@@ -206,7 +206,7 @@ void func_800FBA8C(void* arg0) {
             self->unk15 = 0;
             ((void (*)(s32, s32, void*))play_sound)(2, 0x23, self);
             ((void (*)(void*, s32))set_animation)(self, 0x12);
-            self->unk6++;
+            self->action_phase++;
         }
     }
 }
@@ -295,7 +295,7 @@ INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FC808);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_8009721A;
 
@@ -305,7 +305,7 @@ void func_800FCF48(void* arg0) {
     u8 t;
 
     parent = M2C_FIELD(arg0, void**, 0x7C);
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     ((M2C_UNK(*)())move_object)(arg0);
     t = M2C_FIELD(arg0, u8*, 0x8D);
     if (t == 0) {
@@ -389,7 +389,7 @@ INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FD0F4);
 #define SPAD20 (*(s32*)0x1F800020)
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s32 func_8002A47C(s32);
 void* func_8002C458();
 M2C_UNK move_object(void*);
@@ -400,7 +400,7 @@ void func_800FD214(void* arg0) {
     s32 base;
 
     parent = M2C_FIELD(arg0, void**, 0x7C);
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     move_object((s32)arg0);
     if (M2C_FIELD(parent, s8*, 5) == 0x11) {
         if (M2C_FIELD(arg0, s8*, 2) == 9) {

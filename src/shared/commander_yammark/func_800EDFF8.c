@@ -1,16 +1,16 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK move_object(s32);
-extern u8 D_800CCF38;
 
 void func_800EDFF8(void* arg0) {
     s32 v;
 
-    func_80017A04();
+    animate_object();
     ((void (*)(s32))move_object)((s32)arg0);
     if (M2C_FIELD(arg0, u8*, 0x70) & 8) {
         v = 0xFFFE8000;

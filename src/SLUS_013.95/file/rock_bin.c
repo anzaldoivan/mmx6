@@ -1,24 +1,12 @@
 #include "common.h"
 #include "psyq/libcd.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 void func_80014E60(s32, s32);
 u8 func_80016570(void);
 s32 func_80064894(s32, s32);
-extern u8 D_8009509C;
 extern M2C_UNK* D_800B91B8;
-extern s32 D_800E01A8;
-extern u8* D_800E01AC;
-extern s32 D_800E01B0;
-extern s32 D_800E01B4;
-extern s32 D_800E01C0;
-extern s32 D_800E0374;
-extern u8 D_800E0379;
-extern s32 D_800E037C;
-extern u32 D_800E0380;
-extern u8 rock_bin_file_table[];
-extern M2C_UNK* D_800E0D30;
-extern s32 D_800E0D34;
 
 // 0x80016858 read_rock_bin_member: reads ROCK_X6.BIN member arg0 into buffer arg1 from rock_bin_file_table[arg0] (lba, size).
 // basis: oracle assets.tsv:3:iso/ROCK_X6.BIN

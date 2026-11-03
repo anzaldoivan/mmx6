@@ -1,9 +1,9 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-struct X4_VisualObj* func_8002C398(void);
-extern u8 D_800970B4;
+struct X4_VisualObj* find_free_visual_obj(void);
 
 M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
                             M2C_UNK arg3) {
@@ -13,7 +13,7 @@ M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
     u8* obj;
 
     obj = (u8*)((struct X4_VisualObj * (*)())
-                    func_8002C398)(arg0 << 24, arg1 << 24, arg2 << 24);
+                    find_free_visual_obj)(arg0 << 24, arg1 << 24, arg2 << 24);
     if (obj != 0) {
         obj[0] = a0;
         obj[1] = a1;

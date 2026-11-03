@@ -1,19 +1,17 @@
 #include "../shared/commander_yammark/func_800F56B4.c"
 
 #include "common.h"
+#include "mmx6/rock_03.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 M2C_UNK func_80030ECC(void*);
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
-extern s32 D_800F7DE4;
-extern s32 D_800F7DE8;
-extern s32 D_800F7E30;
 
 void func_800F56F8(void* arg0) {
     if (D_800F7DE4 != 0 || D_800F7DE8 != 0 || D_800F7E30 != 0) {
@@ -23,8 +21,8 @@ void func_800F56F8(void* arg0) {
         func_80049E50(arg0);
         M2C_FIELD(arg0, u8*, 4) = 2;
     } else {
-        func_80017A04(arg0);
-        func_8002D230(arg0);
+        animate_object(arg0);
+        apply_object_motion(arg0);
         func_8002CCB0(arg0, 0x10, 0x10);
     }
 }
@@ -92,20 +90,20 @@ void func_800F58C8(void) {
 #include "../shared/commander_yammark/func_800F58E8.c"
 
 #include "common.h"
+#include "mmx6/rock_03.h"
 #define M2C_UNK s32
 
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
 M2C_UNK func_80049E50(void*);
-extern s32 D_800F7DE4;
-extern s32 D_800F7DE8;
-extern s32 D_800F7E30;
 
 void func_800F59A8(u8* arg0) {
     if (D_800F7DE4 != 0) {
+        // !FAKE: goto shares the set2 and call blocks across the switch; merged tests with copied stores moved bytes
         goto set2;
     }
     if (D_800F7DE8 != 0 || D_800F7E30 != 0) {
+        // !FAKE: goto shares the set2 and call blocks across the switch; merged tests with copied stores moved bytes
         goto set2;
     }
     switch (*(s8*)(arg0 + 5)) {
@@ -117,6 +115,7 @@ void func_800F59A8(u8* arg0) {
         break;
     case 1:
         if ((s8)++arg0[7] != 0x1E) {
+            // !FAKE: goto shares the set2 and call blocks across the switch; merged tests with copied stores moved bytes
             goto call;
         }
     set2:
@@ -154,18 +153,17 @@ void func_800F5B70(void) {
 #include "../shared/commander_yammark/func_800F5B90.c"
 
 #include "common.h"
+#include "mmx6/rock_03.h"
 #define M2C_UNK s32
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D230(void*);
-extern s32 D_800F7DE4;
-extern s32 D_800F7DE8;
-extern s32 D_800F7E30;
+M2C_UNK apply_object_motion(void*);
 
 void func_800F5C78(u8* arg0) {
     if (*(s8*)(arg0 + 0x46) == 0) {
+        // !FAKE: goto keeps the 0x46 test as its own branch to set2; one merged || test moved bytes
         goto set2;
     }
     if (D_800F7DE4 != 0 || D_800F7DE8 != 0 || D_800F7E30 != 0) {
@@ -176,8 +174,8 @@ void func_800F5C78(u8* arg0) {
     if ((s8)++arg0[6] == 0x16) {
         play_sound(2, 0x31, arg0);
     }
-    func_80017A04(arg0);
-    func_8002D230(arg0);
+    animate_object(arg0);
+    apply_object_motion(arg0);
     func_8002CCB0(arg0, 0x60, 0x60);
 }
 

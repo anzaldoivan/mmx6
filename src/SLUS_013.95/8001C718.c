@@ -3,9 +3,7 @@
 #define M2C_UNK s32
 
 #include "psyq/libapi.h"
-extern s32 D_800E2F80;
-extern s32 D_800E2F84;
-extern s32 D_800E2F88;
+#include "mmx6/globals.h"
 
 s32 func_8001C718(s32 arg0) {
     s32 tries;
@@ -50,10 +48,7 @@ s32 func_8001C718(s32 arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "psyq/libapi.h"
-extern s32 D_800E2F70;
-extern s32 D_800E2F74;
-extern s32 D_800E2F78;
-extern s32 D_800E2F7C;
+#include "mmx6/globals.h"
 
 s32 func_8001C824(void) {
     const long MAX_LOOPS = 250000;
@@ -115,10 +110,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001C938);
 #define M2C_UNK s32
 
 #include "psyq/libapi.h"
-extern s32 D_800E2F70;
-extern s32 D_800E2F74;
-extern s32 D_800E2F78;
-extern s32 D_800E2F7C;
+#include "mmx6/globals.h"
 
 void func_8001CA0C(void) {
     TestEvent(D_800E2F70);
@@ -132,9 +124,7 @@ void func_8001CA0C(void) {
 #define M2C_UNK s32
 
 #include "psyq/libapi.h"
-extern s32 D_800E2F80;
-extern s32 D_800E2F84;
-extern s32 D_800E2F88;
+#include "mmx6/globals.h"
 
 void func_8001CA64(void) {
     TestEvent(D_800E2F80);
@@ -147,9 +137,7 @@ void func_8001CA64(void) {
 #define M2C_UNK s32
 
 #include "psyq/libapi.h"
-extern s32 D_800E2F80;
-extern s32 D_800E2F84;
-extern s32 D_800E2F88;
+#include "mmx6/globals.h"
 
 s32 func_8001CAAC(void) {
     s32 i;
@@ -172,6 +160,7 @@ s32 func_8001CAAC(void) {
 #include "psyq/libgpu.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void func_8001447C(void);
@@ -180,7 +169,6 @@ void func_8001CBE0(void);
 M2C_UNK func_80013DE8();
 void func_8001344C();
 void func_8001D0E4(void);
-extern s32 D_8008EC0C;
 extern struct X4_EngineObj g_playthrough_state;
 extern M2C_UNK D_800CD3F8;
 
@@ -302,10 +290,9 @@ void func_8001CC1C(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 play_sound(s32 a0, s32 a1, void* arg2);
-extern u16 g_pad1_buttons[];
-extern s32 D_800E3130[];
 
 void func_8001CD5C(struct X4_EngineObj* arg0) {
     switch (D_800E3130[0]) {
@@ -339,10 +326,9 @@ void func_8001CD5C(struct X4_EngineObj* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 play_sound(s32 a0, s32 a1, void* arg2);
-extern u16 g_pad1_buttons[];
-extern s32 D_800E3130[];
 
 void func_8001CE68(struct X4_EngineObj* arg0) {
     switch (D_800E3130[1]) {
@@ -383,7 +369,7 @@ void stop_cd_audio(void);
 void func_8001CD5C(struct X4_EngineObj*);
 void func_8001CE68(struct X4_EngineObj*);
 #include "mmx6/state.h"
-extern u16 g_pad1_buttons[];
+#include "mmx6/globals.h"
 
 void func_8001CF78(struct X4_EngineObj* arg0) {
     if (D_80097420.transition.active == 0) {
@@ -432,6 +418,7 @@ void func_8001CF78(struct X4_EngineObj* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
@@ -444,7 +431,6 @@ void func_80025F84(void);
 void reset_level(void);
 void func_8002C2B8();
 extern void (*D_800710E8[])(void*);
-extern u16 g_pad1_buttons[];
 extern M2C_UNK D_800CD3F8;
 void func_800139F4(s32);
 void func_8001D0E4(void) {
@@ -900,6 +886,7 @@ void func_8001D930(struct X4_GameInfo* arg0) {
 #include "../shared/save_file/func_8001D9CC.c"
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
@@ -909,7 +896,6 @@ s32 func_8002B2F8(s32);
 void reset_level(void);
 void* alloc_sprite_slot();
 extern u8 D_800710E0[];
-extern s32 D_800E3130[];
 
 void func_8001DA20(void* arg0) {
     u8* obj;
@@ -941,7 +927,7 @@ void func_8001DA20(void* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK create_task(M2C_UNK, M2C_UNK*); /* extern */
-M2C_UNK func_800133A0();                  /* extern */
+M2C_UNK func_800133A0();                /* extern */
 void func_8002C1DC();
 extern struct X4_EngineObj g_playthrough_state;
 void func_8001E6E4(void);
@@ -1021,7 +1007,7 @@ void func_8001DC04(void* arg0) {
 
 void set_resolution(s32 arg0);                    /* extern */
 M2C_UNK func_80014F70(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-void pump_file_loads(void);                         /* extern */
+void pump_file_loads(void);                       /* extern */
 void reset_level(void);                           /* extern */
 
 void silence_sound(u8, u8);
@@ -1085,7 +1071,7 @@ void func_8001DD74(u8* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK create_task(M2C_UNK, M2C_UNK*); /* extern */
-M2C_UNK func_800133A0();                  /* extern */
+M2C_UNK func_800133A0();                /* extern */
 void func_8001E6E4(void);
 
 void func_8001DDB0(void) {
@@ -1098,7 +1084,7 @@ void func_8001DDB0(void) {
 #define M2C_UNK s32
 
 M2C_UNK create_task(M2C_UNK, M2C_UNK*); /* extern */
-M2C_UNK func_800133A0();                  /* extern */
+M2C_UNK func_800133A0();                /* extern */
 void func_8001E6E4(void);
 
 void func_8001DDE0(void) {

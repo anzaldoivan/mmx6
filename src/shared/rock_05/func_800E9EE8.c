@@ -25,6 +25,7 @@ void func_800E9EE8(u8* arg0) {
             if ((s8)temp_v1 < 8) {
                 SCRATCH_4C[0x85] = temp_v1;
                 *(s16*)(arg0 + 0x7C) = 0xE;
+                // !FAKE: skips random arm; && if/else moved bytes
                 goto end;
             }
         }

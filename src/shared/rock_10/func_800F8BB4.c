@@ -17,7 +17,7 @@ void func_800F8BB4(struct X4_AnimatedObj* self) {
         self->unk15 = 0x40;
         self->x_pos.i.hi = background_objects[0].x_pos.i.hi + 0xA0;
         self->y_pos.i.hi = background_objects[0].y_pos.i.hi + 0x40;
-        self->unk6++;
+        self->action_phase++;
     } else if (mode == 2) {
         play_sound(2, 0x59, self);
     } else if (mode == 3) {

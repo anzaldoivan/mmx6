@@ -83,8 +83,8 @@ void func_800E9958(s32 arg0) {
 
 #include "common.h"
 #include "psyq/libgpu.h"
+#include "mmx6/globals.h"
 
-extern u16 g_pad1_buttons[];
 extern s32 D_800EA760[];
 
 void func_800133A0();
@@ -301,12 +301,12 @@ void func_800E9F14(void* arg0) {
 #undef F
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04(); /* extern */
-extern s8 D_800CCF08;
+M2C_UNK animate_object(); /* extern */
 
 void func_800EA000(struct ObjectHeader* arg0) {
     if (D_800CCF08 == 0) {
@@ -314,14 +314,14 @@ void func_800EA000(struct ObjectHeader* arg0) {
     } else {
         arg0->on_screen = 0;
     }
-    func_80017A04();
+    animate_object();
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
-extern s8 D_800CCF08;
+M2C_UNK animate_object();
 
 void func_800EA03C(s8* arg0) {
     s32 v = D_800CCF08;
@@ -331,7 +331,7 @@ void func_800EA03C(s8* arg0) {
     } else {
         arg0[3] = 0;
     }
-    func_80017A04();
+    animate_object();
 }
 
 #include "../shared/rock_19/func_800EA078.c"

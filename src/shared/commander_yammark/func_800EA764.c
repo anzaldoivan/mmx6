@@ -1,8 +1,8 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-extern u8 D_800CCF38;
 
 void func_800EA764(u8* arg0) {
     s8 t;

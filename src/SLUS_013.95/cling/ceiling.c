@@ -1,42 +1,39 @@
+// prog SLUS_013.95 | system cling | range 0x80047460-0x80047558
 #include "common.h"
+#include "mmx6/globals.h"
+#include "mmx6/x4.h"
+#include "mmx6/movement.h"
+#include "mmx6/sound.h"
 #define M2C_UNK s32
-
-s32 play_sound(s32 a0, s32 a1, void* arg2);
-M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
-extern s8 D_800CCEF6;
-
-#define F_U8(p, o) (*(u8*)((u8*)(p) + (o)))
-#define F_U16(p, o) (*(u16*)((u8*)(p) + (o)))
-#define F_S16(p, o) (*(s16*)((u8*)(p) + (o)))
-#define F_S32(p, o) (*(s32*)((u8*)(p) + (o)))
 
 // 0x80047460 move_ceiling: ceiling movement step.
 // basis: community tweaks-index.tsv:253
 // callers: none known
 void move_ceiling(void* arg0) {
+    struct X4_MainObj* self = arg0;
 
     if (D_800CCEF6 != 0) {
         s32 v;
 
         func_80029478(0x3C, 2, 2);
-        v = F_S32(arg0, 0x18);
-        F_S16(arg0, 0x16) = 0x500000 / (v < 0 ? -v : v);
-        F_U8(arg0, 5) = 5;
-        F_S32(arg0, 0x18) = -0x10000;
-        F_U16(arg0, 0x14) = 0x32;
-        F_S32(arg0, 0x20) = F_S32(arg0, 0x1C);
+        v = self->unk18.val;
+        *(s16*)&self->unk16 = 0x500000 / (v < 0 ? -v : v);
+        self->action = 5;
+        self->unk18.val = -0x10000;
+        *(u16*)&self->bg_offset = 0x32;
+        self->x_speed = self->unk1C.val;
         return;
     }
-    if (--F_S16(arg0, 0x14) == 0) {
+    if (--*(s16*)&self->bg_offset == 0) {
         s32 a;
 
-        a = F_S32(arg0, 0x18);
-        F_S16(arg0, 0x16) = 0x500000 / (a < 0 ? -a : a);
+        a = self->unk18.val;
+        *(s16*)&self->unk16 = 0x500000 / (a < 0 ? -a : a);
         if (a > 0) {
-            F_U8(arg0, 5) = 2;
+            self->action = 2;
             return;
         }
-        F_U8(arg0, 5) = 3;
+        self->action = 3;
         play_sound(2, 0x22, arg0);
     }
 }

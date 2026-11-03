@@ -26,7 +26,7 @@ void func_800EACFC(struct X4_MainObj* arg0) {
     }
     if ((s16)arg0->unk7C++ > 0x3C) {
         arg0->unk7C = 0;
-        arg0->unk6++;
+        arg0->action_phase++;
         func_8002943C(0x3C, 3, 2);
         func_8003D330();
     }

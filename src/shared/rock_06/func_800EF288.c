@@ -1,14 +1,14 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
-M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
-struct X4_VisualObj* func_8002C398(void);    /* extern */
-M2C_UNK func_8002D230(void*);                /* extern */
+M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);     /* extern */
+M2C_UNK set_animation(void*, M2C_UNK);           /* extern */
+struct X4_VisualObj* find_free_visual_obj(void); /* extern */
+M2C_UNK apply_object_motion(void*);              /* extern */
 extern M2C_UNK g_Player;
-extern s8 D_800970FC;
 
 void func_800EF288(void* arg0) {
     void* o;
@@ -27,7 +27,7 @@ void func_800EF288(void* arg0) {
         M2C_FIELD(arg0, s32*, 0x28) = 0;
         M2C_FIELD(arg0, u8*, 0x67) = 1;
         if (M2C_FIELD(arg0, s8*, 2) == 0) {
-            o = func_8002C398();
+            o = find_free_visual_obj();
             if (o != 0) {
                 M2C_FIELD(o, u8*, 0) = M2C_FIELD(arg0, u8*, 0);
                 M2C_FIELD(o, u8*, 1) = 0xC;
@@ -73,10 +73,12 @@ void func_800EF288(void* arg0) {
         if (M2C_FIELD(arg0, u16*, 0x8A) & 0x80) {
             play_sound(2, 0x25, 0);
             h = 1;
+            // !FAKE: h flag order; if/else and h=0 init moved bytes
             goto h_done;
         }
     } else if (D_800970FC == -0x80) {
         h = 1;
+        // !FAKE: h flag order; if/else and h=0 init moved bytes
         goto h_done;
     }
     h = 0;
@@ -109,7 +111,7 @@ h_done:
     }
     if (!(M2C_FIELD(arg0, u8*, 0xA8) & 4) && M2C_FIELD(arg0, s32*, 0x24) >= 0 &&
         (M2C_FIELD(arg0, u16*, 0x88) & 0x80)) {
-        func_8002D230(arg0);
+        apply_object_motion(arg0);
         return;
     }
     M2C_FIELD(arg0, u8*, 5) = 0xC;

@@ -1,11 +1,11 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-extern s32 D_8007429C;
 extern M2C_UNK D_8007433C;
 
 void func_800F70B8(void* arg0) {

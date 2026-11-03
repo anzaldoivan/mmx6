@@ -13,7 +13,7 @@
 struct TransitionState {
     s8 active; // +0x00 read by exit_stage_from_menu
     s8 fade_amount; // +0x01 read by func_80053B6C
-    s8 suspended; // +0x02 read by func_80012D9C
+    s8 suspended; // +0x02 read by start_pad_vibration
     u8 selection; // +0x03 read by func_8001F0C8
 };
 

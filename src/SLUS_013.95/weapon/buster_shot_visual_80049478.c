@@ -1,12 +1,11 @@
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK clear_object_slot(void*, void*);                /* extern */
-void init_buster_shot_visual(struct X4_VisualObj*); /* extern */
-M2C_UNK func_80049800(void*, void*);                /* extern */
-extern s8 D_800970A5;
+#include "mmx6/pilot_globals.h"
+#include "mmx6/weapon.h"
 
 // 0x80049478 update_buster_shot_visual: buster shot visual object update: freed on the stage-exit mode, init on state 0, else its step.
 // basis: xref init_buster_shot_visual (docs/leads/derived.tsv:25)

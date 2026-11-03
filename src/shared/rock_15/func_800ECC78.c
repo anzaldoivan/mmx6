@@ -1,4 +1,5 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define FX(p, type, off) (*(type*)((u8*)(p) + (off)))
@@ -7,7 +8,6 @@
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_8002CB50();
 s32 random_byte();
-extern M2C_UNK D_80077E34;
 
 void func_800ECC78(void* arg0) {
     u8* s;

@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 
 void func_800F9F7C(void* arg0, M2C_UNK arg1, M2C_UNK arg2) {
     struct X4_VisualObj* self = arg0;
@@ -10,7 +10,7 @@ void func_800F9F7C(void* arg0, M2C_UNK arg1, M2C_UNK arg2) {
     u8 kind = arg1;
     s16 angle = arg2;
 
-    obj = func_8002C398();
+    obj = find_free_visual_obj();
     if (obj != 0) {
         obj->active = 0x41;
         obj->id = 0xA;

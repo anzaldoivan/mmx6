@@ -1,13 +1,13 @@
 #include "common.h"
 
-s32 func_80017A04();
+s32 animate_object();
 void* func_8002C458();
 
 void func_800EDB00(u8* arg0) {
     s8 s;
     u8* o;
 
-    func_80017A04();
+    animate_object();
     s = ((s8*)arg0)[0x45];
     if (s == 1) {
         o = func_8002C458();

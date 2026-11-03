@@ -1,14 +1,14 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_80030ECC(void*);
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern M2C_UNK D_8007433C;
-extern M2C_UNK D_8007555C;
 extern void (*D_800F96F4[])(void*);
 
 void func_800F2EE4(void* arg0) {
@@ -20,7 +20,7 @@ void func_800F2EE4(void* arg0) {
         M2C_FIELD(arg0, u8*, 3) = 0;
         return;
     }
-    func_80017A04(arg0);
+    animate_object(arg0);
     {
         // !FAKE: depin: dropping it breaks the match (73/76)
         register void** tbl asm("$2") = (void**)D_800F96F4;

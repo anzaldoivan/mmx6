@@ -488,10 +488,10 @@ void func_800FE09C(void) {
 
 #define M2C_UNK s32
 
-M2C_UNK func_8002D230(); /* extern */
+M2C_UNK apply_object_motion(); /* extern */
 
 void func_800FE0F8(void) {
-    func_8002D230();
+    apply_object_motion();
 }
 
 #define func_8003744C func_800FE118

@@ -15,7 +15,7 @@ void play_stage_bgm(void) {
     if (*(u16*)&e->stage != 0x10F) {
         ((void (*)(M2C_UNK, M2C_UNK, void*))play_bgm_xa_track)(
             g_stage_bgm_tracks[(e->stage * 8 + e->substage * 4) +
-                       *(s8*)&e->controlled_player * 2],
+                               *(s8*)&e->controlled_player * 2],
             0x63, e);
     }
 }

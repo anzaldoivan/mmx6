@@ -18,13 +18,13 @@ struct ProjectileObj {
     s8 unk2; // +0x02 read by func_80049854
     s8 on_screen; // +0x03 read by func_8002012C
     s8 state; // +0x04 written by func_800F65DC
-    s8 unk5; // +0x05 written by func_80049854
-    s8 unk6; // +0x06 unreferenced
+    s8 action; // +0x05 written by func_80049854
+    s8 action_phase; // +0x06 unreferenced
     s8 unk7; // +0x07 unreferenced
     X4_f32 x_pos; // +0x08 read by func_80049854
     X4_f32 y_pos; // +0x0C read by func_80049854
     void* backref; // +0x10 unreferenced
-    s8 bg_offset; // +0x14 unreferenced
+    s8 bg_offset; // +0x14 written by player_spawn_weapon
     u8 unk15; // +0x15 read by func_80049854
     u8 unk16; // +0x16 read by func_80049854
     u8 unk17; // +0x17 unreferenced
@@ -36,7 +36,7 @@ struct ProjectileObj {
     s32 unk2C; // +0x2C written by func_800EB1F4
     u32** animation_table; // +0x30 read by func_80049854
     u32* animation_cursor; // +0x34 unreferenced
-    void* unk38; // +0x38 unreferenced
+    void* unk38; // +0x38 read by update_guard_shell
     void* unk3C; // +0x3C read by func_80049854
     u16 unk40; // +0x40 read by func_80049854
     u16 unk42; // +0x42 read by func_80049854

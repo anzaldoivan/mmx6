@@ -9,7 +9,7 @@ void func_800F1D54(struct X4_MainObj* self) {
 
     self->unk7C--;
     if (self->unk7C == 0) {
-        self->unk5 = 2;
+        self->action = 2;
         effect = alloc_class3_slot();
         if (effect != NULL) {
             effect->active = 1;

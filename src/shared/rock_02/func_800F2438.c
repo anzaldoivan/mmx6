@@ -5,14 +5,14 @@
 #define SPAD20 (*(s8**)0x1F800020)
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s32 func_8002A47C(s32);
 void* func_8002C458();
 
 void func_800F2438(void* arg0) {
     void* child;
 
-    func_80017A04(arg0);
+    animate_object(arg0);
     if (M2C_FIELD(arg0, s8*, 0x45) == 8) {
         child = func_8002C458();
         if (child != 0) {

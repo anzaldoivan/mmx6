@@ -1,13 +1,13 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
-M2C_UNK func_80017A04();                     /* extern */
+M2C_UNK animate_object();                    /* extern */
 extern M2C_UNK g_Player;
-extern s8 D_800970FC;
 
 #define SET(k)                                                                 \
     {                                                                          \
@@ -47,10 +47,12 @@ void func_800EEC50(void* arg0) {
         if (M2C_FIELD(arg0, u16*, 0x8A) & 0x80) {
             play_sound(2, 0x25, 0);
             h = 1;
+            // !FAKE: h flag order; if/else h=0 arms moved bytes
             goto h_done;
         }
     } else if (D_800970FC == -0x80) {
         h = 1;
+        // !FAKE: h flag order; if/else h=0 arms moved bytes
         goto h_done;
     }
     h = 0;
@@ -73,10 +75,12 @@ h_done:
             v = 0;
         }
         if (v) {
+            // !FAKE: SETC goto: shared call tail; dup call moved bytes
             SETC(2);
         }
         m = M2C_FIELD(arg0, u16*, 0x8A);
         if (m & 0x80) {
+            // !FAKE: SETC goto: shared call tail; dup call moved bytes
             SETC(4);
         }
         if (m & 0x30) {
@@ -88,12 +92,13 @@ h_done:
             t = 0;
         }
         if (t) {
+            // !FAKE: SETC goto: shared call tail; dup call moved bytes
             SETC(3);
         }
     call:
-        ((void (*)(void*))func_80017A04)(arg0);
+        ((void (*)(void*))animate_object)(arg0);
     } else {
-        ((void (*)(void*))func_80017A04)(arg0);
+        ((void (*)(void*))animate_object)(arg0);
     }
 }
 #undef SET

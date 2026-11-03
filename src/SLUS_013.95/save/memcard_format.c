@@ -3,8 +3,8 @@
 // Shared file: included by src/SLUS_013.95/120A0.c, between func_8001C5EC and func_8001C718.
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 #include "psyq/libapi.h"
-extern const struct X4_MemcardPath D_800100AC;
 
 // 0x8001C6C0 memcard_format: formats the memory card in the given slot.
 // basis: string strings.tsv:6:SLUS_013.95:0x800100AC

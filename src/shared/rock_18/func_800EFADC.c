@@ -5,7 +5,7 @@
 
 M2C_UNK clear_object_slot(void*, void*); /* extern */
 #include "mmx6/state.h"
-extern s8 D_800CCED1;
+#include "mmx6/globals.h"
 
 void func_800EFADC(void* arg0) {
     M2C_FIELD(arg0, s8*, 3) = 1;

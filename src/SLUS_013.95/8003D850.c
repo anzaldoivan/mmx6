@@ -3,17 +3,17 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 s32 play_sound(s32, s32, void*);
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 
 void func_8003D850(struct X4_PlayerObj* self) {
-    func_8003BA04(self, 1);
+    player_set_animation(self, 1);
     ((s32(*)())play_sound)(1, 0xD, self);
     self->x_vel.val = 0;
-    self->unk28 = 0;
+    self->x_accel = 0;
     self->y_vel.val = FIXED(-8);
-    self->unk2C = 0;
+    self->gravity = 0;
     self->air_state = -1;
-    self->unk5 = PLAYER_BEAM_IN;
+    self->action = PLAYER_BEAM_IN;
 }
 
 #include "common.h"
@@ -21,15 +21,15 @@ void func_8003D850(struct X4_PlayerObj* self) {
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void func_80012D9C(s32);
+void start_pad_vibration(s32);
 void silence_sound(u8, u8);
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 extern struct X4_EngineObj g_playthrough_state;
 
 void func_8003D8A8(void* arg0) {
     silence_sound(1, 5);
     silence_sound(1, 7);
-    func_80012D9C(0);
+    start_pad_vibration(0);
     if (M2C_FIELD(arg0, s8*, 0xD5) != 0) {
         M2C_FIELD(arg0, s8*, 0x3) = 0;
         M2C_FIELD(arg0, s8*, 0xD7) = 1;
@@ -45,7 +45,7 @@ void func_8003D8A8(void* arg0) {
         e->unk19 = 1;
         e->unk1A = 1;
         M2C_FIELD(arg0, s8*, 0xD7) = 8;
-        func_8003BA04(arg0, 0x21);
+        player_set_animation(arg0, 0x21);
     }
     M2C_FIELD(arg0, u8*, 0x5) += 1;
 }

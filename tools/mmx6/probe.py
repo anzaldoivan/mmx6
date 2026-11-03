@@ -211,10 +211,21 @@ def find_extent(prog, func, root="."):
                     vrams.append(int(m.group(1), 16))
             if vrams:
                 return vrams[0], len(vrams)
-    # Banked as C in src/<prog>/ (splat writes no .s): [func's vram, next function start); retail_words trims (C0021).
-    # Every name's vram comes from the symbols file / corpus (sym_vram), never from its spelling.
+    # Banked as C: the linked build's corpus row is the exact extent (2.6 T15: the neighbour scan overran
+    # one-function member files); also the only source for a body reached through an #include (src/shared, T5).
+    if os.path.isfile(os.path.join(root, CORPUS)):
+        with open(os.path.join(root, CORPUS)) as f:
+            for line in f:
+                r = json.loads(line)
+                if r["prog"] == prog and r["name"] == func:
+                    lo = int(r["vram"], 16)
+                    return lo, (int(r["end"], 16) - lo) // 4
+    # No corpus row, banked as C in src/<prog>/ (splat writes no .s): [func's vram, next function start);
+    # retail_words trims (C0021). Every name's vram comes from the symbols file / corpus (sym_vram), never from its
+    # spelling; every known function start (symbols file + corpus) is a possible end.
     lo = sym_vram(prog, func, root)
     if lo is not None:
+        starts.update(symtab(prog, root)[1])
         for d, dirs, files in os.walk(os.path.join(root, f"src/{prog}")):
             for name in files:
                 if name.endswith(".c"):
@@ -230,14 +241,6 @@ def find_extent(prog, func, root="."):
                     hi = min((a for a in starts if a > lo), default=None)
                     if hi is not None:
                         return lo, (hi - lo) // 4
-    # A body reached through an #include (src/shared, T5: no .s, no def text under its name): its corpus row extent.
-    if os.path.isfile(os.path.join(root, CORPUS)):
-        with open(os.path.join(root, CORPUS)) as f:
-            for line in f:
-                r = json.loads(line)
-                if r["prog"] == prog and r["name"] == func:
-                    lo = int(r["vram"], 16)
-                    return lo, (int(r["end"], 16) - lo) // 4
     sys.exit(f"probe: {func} not found under {asm}/ (a C body's vram needs config/symbols.{prog}.txt or {CORPUS})")
 
 

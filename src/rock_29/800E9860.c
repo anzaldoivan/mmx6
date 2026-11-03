@@ -52,12 +52,12 @@ void func_800EA13C(struct ObjectHeader* arg0) {
 
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();    /* extern */
-M2C_UNK func_8002D230(s32); /* extern */
+M2C_UNK animate_object();         /* extern */
+M2C_UNK apply_object_motion(s32); /* extern */
 
 void func_800EA17C(s32 arg0) {
-    func_80017A04();
-    func_8002D230(arg0);
+    animate_object();
+    apply_object_motion(arg0);
 }
 
 #define func_8003744C func_800EA1A8
@@ -207,19 +207,19 @@ INCLUDE_ASM("asm/rock_29/nonmatchings/E9860", func_800EB0B0);
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(s32, M2C_UNK, M2C_UNK);
+M2C_UNK animate_object();
+s32 is_off_screen(s32, M2C_UNK, M2C_UNK);
 void func_8002CCB0(struct X4_BaseObj*, s32, s32);
 M2C_UNK move_object(void*);
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800EB164(void* arg0) {
-    func_80017A04();
+    animate_object();
     ((void (*)(s32))move_object)((s32)arg0);
     if (M2C_FIELD(arg0, s16*, 0xA) >= background_objects[0].x_pos.i.hi - 0x10 &&
         background_objects[0].y_pos.i.hi + 0x100 >=
             M2C_FIELD(arg0, s16*, 0xE) &&
-        func_8002CBFC(arg0, 0x150, 0x30) == 0) {
+        is_off_screen(arg0, 0x150, 0x30) == 0) {
         func_8002CCB0(arg0, 0x20, 0x20);
         return;
     }

@@ -2,14 +2,14 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F5A60(void* arg0) {
     struct X4_MainObj* self = arg0;
     s16 x;
 
-    ((void (*)(void*))func_8002D230)(arg0);
+    ((void (*)(void*))apply_object_motion)(arg0);
     if (background_objects[0].unk22 - 0x40 >= self->y_pos.i.hi) {
         self->y_pos.i.hi = background_objects[0].unk22 - 0x40;
         if (self->unk15 != 0) {
@@ -25,6 +25,6 @@ void func_800F5A60(void* arg0) {
         self->x_speed = 0;
         self->y_speed = 0;
         self->gravity = 0;
-        self->unk6++;
+        self->action_phase++;
     }
 }

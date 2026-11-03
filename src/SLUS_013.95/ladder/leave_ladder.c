@@ -1,35 +1,36 @@
+// prog SLUS_013.95 | system ladder | range 0x8003A514-0x8003A5D4
 #include "common.h"
+#include "mmx6/x4.h"
+#include "mmx6/collision.h"
+#include "mmx6/ladder.h"
+#include "mmx6/movement.h"
+#include "mmx6/weapon.h"
 #define M2C_UNK s32
 
-s32 func_8003015C();
-void func_8003B6B4(void*);
-void player_enter_ladder_step_off_bottom(void*);
-M2C_UNK func_8003BA04(void*, M2C_UNK);
-
 // 0x8003A514 try_leave_ladder: while climbing: steps off at the floor, tops out on tile 0x21, or falls when off the ladder tiles or on a button.
-// basis: xref player_enter_ladder_step_off_bottom (docs/leads/derived.tsv:19)
-// callers: func_80037610, func_80037704
-s32 try_leave_ladder(u8* arg0) {
+// basis: xref derived.tsv:19; xref:caller=player_enter_ladder_step_off_bottom
+// callers: update_ladder_climb_up, update_ladder_climb_down
+s32 try_leave_ladder(struct X4_PlayerObj* arg0) {
     s32 v;
     s32 t;
 
-    v = func_8003015C(arg0);
-    if (arg0[0x89] & 8) {
+    v = get_tile_attr_origin(arg0);
+    if (arg0->latched_collision_flags & 8) {
         player_enter_ladder_step_off_bottom(arg0);
         return 1;
     }
-    if ((*(u16*)(arg0 + 0x7C) & 4) && v == 0x21) {
-        func_8003B6B4(arg0);
+    if ((arg0->input.buttons.held & 4) && v == 0x21) {
+        reach_ladder_top(arg0);
         return 1;
     }
     t = (u8)(v - 0x20) >= 2;
-    if (*(u16*)(arg0 + 0x80) & 0x80) {
+    if (arg0->pressed_input & 0x80) {
         t = 1;
     }
     if (t != 0) {
-        func_8003BA04(arg0, 0x1E);
-        arg0[5] = 0xE;
-        arg0[6] = 4;
+        player_set_animation(arg0, 0x1E);
+        arg0->action = 0xE;
+        arg0->action_phase = 4;
         return 1;
     }
     return 0;

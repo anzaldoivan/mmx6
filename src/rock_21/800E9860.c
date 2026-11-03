@@ -777,6 +777,7 @@ void func_800EC1A4(void* self) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
@@ -1123,6 +1124,7 @@ void func_800EC95C(void* arg0) {
 #undef func_800EC918
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -1131,7 +1133,6 @@ M2C_UNK create_task(M2C_UNK, M2C_UNK*);
 M2C_UNK func_800133A0();
 void stop_cd_audio();
 extern M2C_UNK D_8001D0E4;
-extern s32 D_8008EC0C;
 extern M2C_UNK D_800CD3F8;
 extern s8 D_800F2246;
 
@@ -1169,10 +1170,9 @@ void func_800ECAF8(void* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-
-extern s8 D_800CCED1;
 
 void func_800ECB50(void* arg0) {
     if ((D_800CCED1 >= 0x28) && ((u32)(M2C_FIELD(arg0, u8*, 2) - 0x28) >= 3U)) {

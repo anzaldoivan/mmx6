@@ -1,13 +1,13 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void* func_8002C458();
 
 void func_800F31A8(u8* arg0) {
     u8* p;
 
-    func_80017A04();
+    animate_object();
     p = func_8002C458();
     if (p != 0) {
         p[0] = 0x41;

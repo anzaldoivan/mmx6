@@ -5,7 +5,7 @@ s32 set_animation(void*, s32);
 
 void func_800ED2F4(struct X4_MainObj* self) {
     s32 velocity;
-    self->unk6++;
+    self->action_phase++;
     self->air_state = 0;
     if ((self->unk2 & 0xF) == 2) {
         self->x_speed = 0;

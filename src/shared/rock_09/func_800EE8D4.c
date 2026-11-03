@@ -7,10 +7,10 @@
 #endif
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 
 void func_800EE8D4(void* arg0) {
-    func_80017A04(arg0);
+    animate_object(arg0);
     if (M2C_FIELD(M2C_FIELD(arg0, void**, 0x50), s8*, 6) >= 5) {
         set_animation(arg0, 6);
         {

@@ -7,7 +7,7 @@ extern struct X4_PlayerObj g_Player;
 extern void (*D_80077BE8[])(void*, struct X4_PlayerObj*);
 
 void func_80049410(struct ObjectHeader* arg0) {
-    if (g_Player.unk5 == 0x14) {
+    if (g_Player.action == 0x14) {
         ((void (*)())clear_object_slot)(arg0, &g_Player);
         return;
     }

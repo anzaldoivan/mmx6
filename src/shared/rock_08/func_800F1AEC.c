@@ -37,10 +37,9 @@ void func_800F1AEC(void* arg0) {
             }
         }
         if (FX(arg0, s8, 0x94) != 0) {
-            goto inc;
+            FX(arg0, u8, 0x95)++;
         }
     } else {
-    inc:
         FX(arg0, u8, 0x95)++;
     }
     if (FX(arg0, u8, 0x95) >= 0x79) {

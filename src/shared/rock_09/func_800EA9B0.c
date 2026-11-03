@@ -1,9 +1,10 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+M2C_UNK animate_object();
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(s32);
 M2C_UNK func_8002EE10(void*);
@@ -12,8 +13,6 @@ s32 check_enemy_hits(void*);
 M2C_UNK func_80049D90(void*);
 M2C_UNK func_80049E50(void*);
 extern s16 D_800970AA;
-extern s16 D_800970AE;
-extern u8 D_800CCF38;
 
 #define B(p, o) (*(s8*)((u8*)(p) + (o)))
 #define UB(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -22,7 +21,7 @@ extern u8 D_800CCF38;
 #define W(p, o) (*(s32*)((u8*)(p) + (o)))
 
 void func_800EA9B0(void* arg0) {
-    func_80017A04(arg0);
+    animate_object(arg0);
     move_object((s32)arg0);
     switch (B(arg0, 7)) {
     case 0:
@@ -62,7 +61,7 @@ void func_800EA9B0(void* arg0) {
             UB(arg0, 4)++;
             return;
         }
-        if (func_8002CBFC(arg0, 0x20, 0x20) == 0) {
+        if (is_off_screen(arg0, 0x20, 0x20) == 0) {
             func_8002CCB0(arg0, 0x10, 0x10);
             return;
         }

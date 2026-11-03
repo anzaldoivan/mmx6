@@ -1,12 +1,12 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
-M2C_UNK func_8002D230(void*);
+M2C_UNK animate_object();
+M2C_UNK apply_object_motion(void*);
 
 void func_800EC7A4(u8* arg0) {
-    func_80017A04();
-    func_8002D230(arg0);
+    animate_object();
+    apply_object_motion(arg0);
     {
         // !FAKE: keep the decremented counter in the first return register
         register s32 t asm("$2") = arg0[0x80] - 1;

@@ -1,10 +1,10 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s32 random_byte();
-extern s8 D_800970A2;
 
 #define B(p, o) (*(s8*)((u8*)(p) + (o)))
 #define UH(p, o) (*(u16*)((u8*)(p) + (o)))
@@ -12,7 +12,7 @@ extern s8 D_800970A2;
 void func_800EA554(void* arg0) {
     u16 t;
 
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
     t = UH(arg0, 0x7C);
     UH(arg0, 0x7C) = t + 1;
     if ((s16)t >= 0x3D) {

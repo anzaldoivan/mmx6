@@ -3,12 +3,12 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 
 void func_800F52AC(void* arg0, u8 arg1) {
     void* v;
 
-    v = func_8002C398();
+    v = find_free_visual_obj();
     if (v != 0) {
         M2C_FIELD(v, u8*, 0x0) = 0x41;
         M2C_FIELD(v, u8*, 0x1) = 8;

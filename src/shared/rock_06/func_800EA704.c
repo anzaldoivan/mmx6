@@ -37,8 +37,8 @@ void func_800EA704(struct X4_BaseObj* self) {
             }
         }
         if (M2C_FIELD(self, u8*, 0x81) >= 0x3D) {
-            self->unk5 = 4;
-            self->unk6 = 0;
+            self->action = 4;
+            self->action_phase = 0;
             set_animation(self, 7);
             M2C_FIELD(self, u8*, 0x81) = 0;
             M2C_FIELD(self, u8*, 0x80) |= 2;

@@ -1,11 +1,10 @@
 #include "common.h"
 #include "psyq/libspu.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #include "psyq/libsnd.h"
 extern struct X4_BackgroundObj background_objects[3];
-extern u8* D_800E155C;
-extern s8 D_800E25E0[];
 
 // 0x80016D34 key_on_sfx_voices: keys on the SPU voices of a sound entry with per-voice priority and pan from the source object's screen x.
 // basis: xref play_sound (docs/leads/derived.tsv:7)

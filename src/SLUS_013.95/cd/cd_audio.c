@@ -5,13 +5,9 @@
 
 void func_800187A0(s32 arg0); /* extern */
 #include "psyq/libsnd.h"
+#include "mmx6/globals.h"
 extern s8 D_800CD40C;
-extern u8 D_800E2E14;
-extern s32 D_800E2E18;
-extern s16 D_800E2E48;
-extern s32 D_800E2E4C;
 extern s8 D_800E2E50;
-extern s32 D_800E2E5C;
 
 // 0x800186A8 stop_cd_audio: pauses CD audio playback and turns off the serial audio input.
 // basis: code src/shared/SLUS_013.95/stop_cd_audio.c:33 via=SsSetSerialAttr

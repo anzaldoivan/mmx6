@@ -34,7 +34,7 @@ void setup_pause_menu(u8* arg0) {
     func_800139A0(0x20);
     arg0[5] = 2;
     arg0[0x14] = 0;
-    if (pl->unk2 == 0) {
+    if (pl->character == 0) {
         arg0[0x16] = 1;
         i = 1;
         p = arg0 + 0x16;
@@ -101,7 +101,7 @@ void setup_pause_menu(u8* arg0) {
             }
         }
     }
-    if (g_Player.unk2 == 0) {
+    if (g_Player.character == 0) {
         for (i = 0; i < 8; i++) {
             if (pl->weapon == D_8007397C[i]) {
                 break;
@@ -161,7 +161,7 @@ void setup_pause_menu(u8* arg0) {
     }
     {
         u8* e = (u8*)&g_playthrough_state;
-        e -= -pl->unk2;
+        e -= -pl->character;
         arg0[0x2C] = e[0x8D];
     }
     D_800E4430 = g_Player.weapon;

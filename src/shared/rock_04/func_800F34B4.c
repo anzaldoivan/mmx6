@@ -18,6 +18,6 @@ void func_800F34B4(struct X4_MainObj* self) {
         self->x_speed = v;
         do {
         } while (0);
-        self->unk6++;
+        self->action_phase++;
     }
 }

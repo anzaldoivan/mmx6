@@ -10,6 +10,7 @@ void func_800FEA04(void) {
 #undef D_80073C1C
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define NULL ((void*)0)
 #define M2C_UNK s32
@@ -17,8 +18,6 @@ void func_800FEA04(void) {
 
 void* alloc_class3_slot();               /* extern */
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK); /* extern */
-extern s8 D_800970A5;
-extern s8 D_8009723F;
 
 void func_800FEA48(void* arg0) {
     void* temp_v0;

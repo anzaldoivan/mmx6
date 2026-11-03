@@ -5,6 +5,7 @@ INCLUDE_ASM("asm/rock_49/nonmatchings/FA000", func_800FA004);
 // clang-format on
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 void func_80025F34();
@@ -15,7 +16,6 @@ M2C_UNK reset_level();
 void func_8002C2B8();
 extern s8 D_80090D56;
 extern s8 D_8009742C;
-extern s8 D_800CCF08;
 extern s8 D_800CF850;
 extern u8 D_800EA510[];
 extern u8 D_800FA46C[];
@@ -104,9 +104,9 @@ void func_800FA21C(struct X4_BackgroundObj* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern struct X4_BackgroundObj background_objects[3];
-extern s8 D_800CCF08;
 
 void func_800FA29C(struct X4_BackgroundObj* arg0) {
     s32 temp_v0;
@@ -131,10 +131,10 @@ void func_800FA29C(struct X4_BackgroundObj* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 func_800EA480(s8* arg0);
 extern struct X4_BackgroundObj background_objects[3];
-extern s8 D_800CCF08;
 
 void func_800FA320(struct X4_BackgroundObj* arg0) {
     // !FAKE: pin the first store value to the first return register

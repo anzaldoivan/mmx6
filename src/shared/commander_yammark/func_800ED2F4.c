@@ -2,7 +2,7 @@
 #include "psyq/libgte.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK move_object(s32);
 
 #define FU8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -28,7 +28,7 @@ void func_800ED2F4(void* arg0) {
     F32(arg0, 0x20) = m * 2 + m;
     m = -rsin(ang) * 0x10;
     F32(arg0, 0x24) = m * 2 + m;
-    func_80017A04(arg0);
+    animate_object(arg0);
     move_object((s32)arg0);
     if (ABS(x - F16(arg0, 0xA)) < 0x10 && ABS(y - F16(arg0, 0xE)) < 0x10) {
         FU8(t, 0x7) = 1;

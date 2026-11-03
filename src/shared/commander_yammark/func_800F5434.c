@@ -1,8 +1,8 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-extern M2C_UNK D_80074BFC;
 extern M2C_UNK D_800F7954;
 extern s32 D_800F7DE8;
 

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 func_800F054C(void);
-extern u8 D_80097169;
 extern struct X4_EngineObj g_playthrough_state;
 
 #define ENG ((u8*)&g_playthrough_state)

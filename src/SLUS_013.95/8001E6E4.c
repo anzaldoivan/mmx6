@@ -45,6 +45,7 @@ void func_8001E78C(void) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern struct X4_EngineObj g_playthrough_state;
 void set_resolution(s32 arg0);
@@ -132,12 +133,12 @@ void func_8001E908(s8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_80013DE8(); /* extern */
-extern u8 D_800CC868;
 extern u16 D_800E3142;
 
 void func_8001E914(void* arg0) {
@@ -196,8 +197,8 @@ void func_8001E914(void* arg0) {
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 #include "mmx6/state.h"
+#include "mmx6/globals.h"
 extern u16 D_800C4570;
-extern u8 D_800CF920[];
 
 void func_80013008(void);
 void func_800139F4(s32);
@@ -234,6 +235,7 @@ void func_8001EA28(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_80013008(void);
 void silence_sound(u8, u8);
@@ -243,9 +245,7 @@ void func_80020C40(void);
 void func_80025FB0();
 void func_8002B29C(void);
 
-extern s32 D_8008EC0C;
 extern u8 D_80097184;
-extern u8 D_800C4560;
 extern struct X4_EngineObj g_playthrough_state;
 
 void func_8001EB48(void* arg0) {
@@ -707,8 +707,8 @@ void func_8001F320(void* arg) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
-extern u16 g_pad1_buttons[];
 s32 play_sound(s32 a0, s32 a1, void* arg2);
 
 void func_8001F5A0(void* arg0, s32 arg1) {
@@ -821,10 +821,10 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001FB3C);
 // clang-format on
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 s8* func_8002C590(void);
 extern s32 D_8007120C;
-extern s8 D_800CCF08;
 
 void func_8001FB90(u8* t, s16 arg1) {
     s8* p;
@@ -907,6 +907,7 @@ void func_8001FD10(u8* arg0) {
             if (D_80097420.transition.selection == 0) {
                 func_800139F4(0x20);
                 v = 2;
+                // !FAKE: goto keeps the arg0[7] store block after the else arm; if/else inversion moved bytes
                 goto set;
             }
             *(s32*)(arg0 + 0x34) = 1;
@@ -941,9 +942,9 @@ void func_8001FD10(u8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 s8* func_8002C590(void);
-extern s8 D_800CCF08;
 
 void func_8001FE74(void) {
     s8* p;
@@ -1025,12 +1026,12 @@ void func_8001FFC0(struct X4_EngineObj* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define SPAD (*(s8**)0x1F80004C)
 #define SPAD_TBL (*(void (***)(s8*))0x1F800080)
 
 M2C_UNK func_8002CD6C(void*);
-extern s8 g_enemies[];
 extern M2C_UNK g_Player;
 extern struct X4_EngineObj g_playthrough_state;
 
@@ -1134,9 +1135,9 @@ void func_80020258(void) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK func_8002CD6C(void*);
-extern u8 D_80091298[];
 extern struct X4_EngineObj g_playthrough_state;
 
 #define CUR (*(s8**)SP(0x54))
@@ -1151,12 +1152,11 @@ void func_80020378(void) {
             if (p[0] == 0) {
                 continue;
             }
-            goto call;
+            FTBL[p[1]](p);
         } else {
             p = CUR;
             if (p[0] != 0) {
                 if ((u8)p[0] & 8) {
-                call:
                     FTBL[p[1]](p);
                 } else if (p[3] != 0) {
                     func_8002CD6C(p);
@@ -1168,8 +1168,8 @@ void func_80020378(void) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern struct X4_EffectObj D_8009B7B0[0x20];
 extern struct X4_EngineObj g_playthrough_state;
 
 #define SPAD5C (*(s8**)0x1F80005C)
@@ -1178,7 +1178,7 @@ extern struct X4_EngineObj g_playthrough_state;
 void func_8002048C(void) {
     s8* p;
 
-    for (SPAD5C = (s8*)D_8009B7B0; SPAD5C < (s8*)&D_8009B7B0[0x60];
+    for (SPAD5C = (s8*)g_class3_slots; SPAD5C < (s8*)&g_class3_slots[0x60];
          SPAD5C += 0x30) {
         if (g_playthrough_state.unk15 == 0) {
             p = SPAD5C;
@@ -1199,9 +1199,9 @@ void func_8002048C(void) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern M2C_UNK g_Player;
-extern s32 D_800C1220[];
 extern struct X4_EngineObj g_playthrough_state;
 M2C_UNK func_8002CD6C(void*);
 
@@ -1214,8 +1214,8 @@ void func_800205A0(void) {
 
     s8* pl0 = (s8*)&g_Player;
     if (pl0[0xCC] == 0) {
-        SP_OBJ_CUR = (u8*)D_800C1220;
-        if ((u8*)D_800C1220 < (u8*)D_800C1220 + 0x3340) {
+        SP_OBJ_CUR = (u8*)g_class4_slots;
+        if ((u8*)g_class4_slots < (u8*)g_class4_slots + 0x3340) {
             do {
                 obj = SP_OBJ_CUR;
                 flags = obj[0];
@@ -1231,7 +1231,7 @@ void func_800205A0(void) {
                     }
                 }
                 SP_OBJ_CUR += 0xA4;
-            } while (SP_OBJ_CUR < (u8*)D_800C1220 + 0x3340);
+            } while (SP_OBJ_CUR < (u8*)g_class4_slots + 0x3340);
         }
     }
 }
@@ -1242,12 +1242,12 @@ void func_800205A0(void) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define CUR (*(struct X4_MiscObj**)0x1F800064)
 #define FTBL (*(void (***)(struct X4_MiscObj*))0x1F800090)
 
 extern struct X4_EngineObj g_playthrough_state;
-extern struct X4_MiscObj g_displayed_sprites[];
 
 M2C_UNK func_8002CD6C(void*);
 
@@ -1260,12 +1260,11 @@ void func_800206C0(void) {
             if (p->active == 0) {
                 continue;
             }
-            goto call;
+            FTBL[p->id](p);
         } else {
             p = CUR;
             if (p->active != 0) {
                 if ((u8)p->active & 8) {
-                call:
                     FTBL[p->id](p);
                 } else if (p->on_screen != 0) {
                     func_8002CD6C(p);
@@ -1277,16 +1276,16 @@ void func_800206C0(void) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u8 D_8009C9B0[];
 extern struct X4_EngineObj g_playthrough_state;
 
 #define SP_OBJ_CUR (*(s8**)SP(0x068))
 #define SP_OBJ_FUNCS (*(void (***)())SP(0x098))
 
 void func_800207D4(void) {
-    for (SP_OBJ_CUR = (s8*)D_8009C9B0; SP_OBJ_CUR < (s8*)D_8009C9B0 + 0x1800;
-         SP_OBJ_CUR += 0x60) {
+    for (SP_OBJ_CUR = (s8*)g_class6_slots;
+         SP_OBJ_CUR < (s8*)g_class6_slots + 0x1800; SP_OBJ_CUR += 0x60) {
         if (g_playthrough_state.unk18 == 0) {
             if (SP_OBJ_CUR[0]) {
                 SP_OBJ_FUNCS[SP_OBJ_CUR[1]](SP_OBJ_CUR);

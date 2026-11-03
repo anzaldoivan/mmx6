@@ -1,9 +1,12 @@
 /* Adapted from sozud/mmx4 @807a01b src/main/object_motion.c:set_velocity_from_angle, AGPL-3.0; proven shared with X6 by exact signature e92a2af1038e (see THIRD_PARTY.md). */
+// prog SLUS_013.95 | system object | range 0x8002D3B4-0x8002D450
 #include "common.h"
 #include "mmx6/x4.h"
-extern s32 D_80073760[];
-extern s32 D_80073784[];
+#include "mmx6/globals.h"
 
+// 0x8002D3B4 set_velocity_from_angle: sets x_vel and y_vel from the speed tables for a 32-step angle.
+// basis: x4 exact e92a2af1038e
+// callers: init_shuriken_buster
 void set_velocity_from_angle(struct X4_MovingObj* arg0, X4_arg_u8 arg1) {
     u8 angle;
     s16 var_a2, var_v0;
@@ -29,6 +32,6 @@ void set_velocity_from_angle(struct X4_MovingObj* arg0, X4_arg_u8 arg1) {
             var_v0 = 1;
         }
     }
-    arg0->x_vel.val = D_80073760[var_v1] * var_v0;
-    arg0->y_vel.val = D_80073784[var_v1] * var_a2;
+    arg0->x_vel.val = g_angle_x_speeds[var_v1] * var_v0;
+    arg0->y_vel.val = g_angle_y_speeds[var_v1] * var_a2;
 }

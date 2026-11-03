@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_8002D230();
+M2C_UNK apply_object_motion();
 
 void func_800F36C8(void* arg0) {
     if (--*(s16*)((u8*)arg0 + 0x7C) == 0) {
@@ -11,5 +11,5 @@ void func_800F36C8(void* arg0) {
         ((u8*)arg0)[6]++;
         return;
     }
-    func_8002D230(arg0);
+    apply_object_motion(arg0);
 }

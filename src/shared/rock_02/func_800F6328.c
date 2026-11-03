@@ -4,7 +4,7 @@
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 
 void func_800F6328(u8* arg0) {
     u8* sp = SPAD;
@@ -20,7 +20,7 @@ void func_800F6328(u8* arg0) {
             *(u16*)(arg0 + 0x42) &= 0x7FFF;
         }
     }
-    func_80017A04(arg0);
+    animate_object(arg0);
     t2 = *(u16*)(arg0 + 0x7C) - 1;
     *(s16*)(arg0 + 0x7C) = t2;
     if ((s16)t2 == 0) {

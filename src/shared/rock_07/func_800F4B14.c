@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 extern struct X4_PlayerObj g_Player;
 
 void func_800F4B14(struct X4_MainObj* self) {
@@ -29,6 +29,6 @@ void func_800F4B14(struct X4_MainObj* self) {
         self->unk15 = 0;
         self->x_speed = -0x200000 / d30;
     }
-    ((void (*)(void*))func_8002D230)(self);
-    self->unk6++;
+    ((void (*)(void*))apply_object_motion)(self);
+    self->action_phase++;
 }

@@ -13,21 +13,17 @@ void func_800F0258(void* arg0) {
 
     x = M2C_FIELD(arg0, u8*, 0x81);
     if ((u32)(x - 9) < 15) {
-        if (M2C_FIELD(arg0, u8*, 0x15) == 0) {
-            goto skip;
+        if (M2C_FIELD(arg0, u8*, 0x15) != 0) {
+            M2C_FIELD(arg0, u16*, 0x7C) = 0xA;
+            M2C_FIELD(arg0, u8*, 6) = M2C_FIELD(arg0, u8*, 6) + 1;
         }
     } else {
         y = x - 8;
-        if ((u8)y < 17) {
-            goto skip;
-        }
-        if (M2C_FIELD(arg0, u8*, 0x15) != 0) {
-            goto skip;
+        if ((u8)y >= 17 && M2C_FIELD(arg0, u8*, 0x15) == 0) {
+            M2C_FIELD(arg0, u16*, 0x7C) = 0xA;
+            M2C_FIELD(arg0, u8*, 6) = M2C_FIELD(arg0, u8*, 6) + 1;
         }
     }
-    M2C_FIELD(arg0, u16*, 0x7C) = 0xA;
-    M2C_FIELD(arg0, u8*, 6) = M2C_FIELD(arg0, u8*, 6) + 1;
-skip:
     if (M2C_FIELD(arg0, s8*, 6) != 4) {
         set_animation(arg0, 4);
         temp_v0 = func_8002C458();

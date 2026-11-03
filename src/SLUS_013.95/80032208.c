@@ -15,7 +15,7 @@ s32 func_80032208(struct X4_MainObj* self, struct X4_PlayerObj* tgt) {
     s32 dx;
     s32 dy;
 
-    if (tgt->unk68 == 0) {
+    if (tgt->terrain_box == 0) {
         return 1;
     }
     if (self->unk66 == 0) {
@@ -84,7 +84,7 @@ s32 func_800323D4(struct X4_MainObj* self, struct X4_PlayerObj* tgt) {
     s32 dx;
     s32 dy;
 
-    if (tgt->unk68 == 0) {
+    if (tgt->terrain_box == 0) {
         return 0;
     }
     if (func_8002DCF4(self, tgt) != 0) {
@@ -169,7 +169,7 @@ void func_800324C8(struct X4_MainObj* a, struct X4_MainObj* b, u8 flags) {
             }
         }
     } else if (flags & 4) {
-        if ((b->unk5 == 0x1F && b->unk6 < 4) || b->unk5 == 0x3F) {
+        if ((b->action == 0x1F && b->action_phase < 4) || b->action == 0x3F) {
             d = a->x_pos.i.hi - a->unk18.i.hi;
             if (d != 0 && (pl = &g_Player, PL_138 == 0)) {
                 PL_138 = d;
@@ -180,8 +180,8 @@ void func_800324C8(struct X4_MainObj* a, struct X4_MainObj* b, u8 flags) {
             b->y_pos.i.hi =
                 tb->unk3 + (ta->unk3 + (a->y_pos.i.hi + ta->unk1)) - tb->unk1;
         }
-    } else if (b->unk5 == 0xB || b->unk5 == 0x34 || b->unk5 == 9 ||
-               b->unk5 == 0x2F) {
+    } else if (b->action == 0xB || b->action == 0x34 || b->action == 9 ||
+               b->action == 0x2F) {
         d = a->x_pos.i.hi - a->unk18.i.hi;
         if (d != 0) {
             if (flags & 2) {

@@ -4,10 +4,10 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+M2C_UNK animate_object();
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 M2C_UNK func_8002EE10();
 M2C_UNK func_80030ECC(void*);
 s32 check_enemy_hits(void*);
@@ -23,8 +23,8 @@ void func_800EB950(void* arg0) {
     s32 b;
     s32 a;
 
-    func_80017A04();
-    ((void (*)(void*))func_8002D230)(arg0);
+    animate_object();
+    ((void (*)(void*))apply_object_motion)(arg0);
     b = M2C_FIELD(arg0, s32*, 0x84) - 1;
     M2C_FIELD(arg0, s32*, 0x84) = b;
     if (b == 0 && M2C_FIELD(arg0, u8*, 0x17) != 4) {
@@ -45,6 +45,7 @@ void func_800EB950(void* arg0) {
     }
     if (check_enemy_hits(arg0) < 0) {
         func_80049E50(arg0);
+        // !FAKE: goto keeps the shared tail block order; inlining or duplicating the tail moved bytes
         goto block_17;
     }
     ((void (*)(void*))func_80030ECC)(arg0);
@@ -52,9 +53,10 @@ void func_800EB950(void* arg0) {
         (func_8002EE10(arg0), M2C_FIELD(arg0, u8*, 0x70) != 0)) {
         func_80049E50(arg0);
         b = 2;
+        // !FAKE: goto keeps the shared tail block order; inlining or duplicating the tail moved bytes
         goto block_18;
     }
-    if (func_8002CBFC(arg0, 0x20, 0x20) == 0) {
+    if (is_off_screen(arg0, 0x20, 0x20) == 0) {
         func_8002CCB0(arg0, 0x20, 0x20);
         return;
     }

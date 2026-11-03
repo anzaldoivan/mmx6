@@ -10,7 +10,8 @@ void func_800F78C8(u8* arg0) {
     if (--*(s16*)(arg0 + 0x88) == 0) {
         s32 state;
 
-        ((void (*)())set_animation_frame)(arg0, 0x1B, (random_byte() & 3) * 2 + 2);
+        ((void (*)())set_animation_frame)(arg0, 0x1B,
+                                          (random_byte() & 3) * 2 + 2);
         state = arg0[6];
         *(s16*)(arg0 + 0x88) = 0x28;
         arg0[6] = state + 1;

@@ -1,8 +1,8 @@
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-extern u8 D_800CCF5F;
 extern u8 D_800E9A70[];
 
 void func_800F5CD8(void* arg0) {

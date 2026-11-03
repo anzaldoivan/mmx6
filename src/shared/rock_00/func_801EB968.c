@@ -2,9 +2,9 @@
 #include "common.h"
 #include "mmx6/x4.h"
 extern void (*D_801F3738[])(struct X4_MainObj*);
-void func_80017A04(struct X4_AnimatedObj*);
+void animate_object(struct X4_AnimatedObj*);
 
 void func_801EB968(struct X4_MainObj* self) {
-    func_80017A04(self);
-    D_801F3738[self->unk6](self);
+    animate_object(self);
+    D_801F3738[self->action_phase](self);
 }

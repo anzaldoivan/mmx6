@@ -1,4 +1,5 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20 (*(s32*)0x1F800020)
@@ -10,8 +11,6 @@ M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_8007523C;
 extern M2C_UNK g_Player;
-extern s8 D_800CCEF6;
-extern u8 D_800CCF5F;
 extern s32 D_800FB2F0;
 extern s32 D_800FB2F8;
 extern s32 D_800FB7B4;

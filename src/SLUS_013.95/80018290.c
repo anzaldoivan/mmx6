@@ -1,4 +1,5 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK func_80018524(u8);
@@ -12,15 +13,10 @@ extern s8 D_80097418;
 extern s8 D_800CC869;
 #define D_800CC869 (*(u8*)&D_800CC869)
 extern u32 D_800E2E00;
-extern M2C_UNK D_800E2E10;
-extern u8 D_800E2E14;
-extern u8 D_800E2E15;
 extern s8 D_800E2E16;
 #define D_800E2E16 (*(u8*)&D_800E2E16)
-extern s32 D_800E2E18;
 extern s32 D_800E2E1C;
 extern u8 D_800E2E51;
-extern s32 D_800E2E5C;
 
 s32 func_80018290(void) {
     u32 temp_v1;
@@ -83,21 +79,16 @@ s32 func_80018290(void) {
 #undef D_800E2E16
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK func_80018524(u8);
 extern s8 D_80097418;
 extern u8 D_80097770;
-extern u8 D_800A21B4;
 extern s8 D_800CC869;
-extern u8 D_800E2E14;
 extern s8 D_800E2E16;
-extern s32 D_800E2E18;
-extern s32 D_800E2E4C;
 extern u8 D_800E2E51;
 extern s32 D_800E2E58;
-extern s32 D_800E2E5C;
-extern u8 D_800E2E60;
 
 void func_80018444(void) {
     ((void (*)(u8))func_80018524)(0);
@@ -116,12 +107,12 @@ void func_80018444(void) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 
 M2C_UNK func_80018524(u8); /* extern */
 extern s8 D_800CC869;
-extern u8 D_800E2E14;
 
 void func_800184C8(void) {
     D_800CC869 = 0;
@@ -130,8 +121,8 @@ void func_800184C8(void) {
 
 /* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:func_800163EC, AGPL-3.0; proven shared with X6 by exact signature 65b2d7edf418 (see THIRD_PARTY.md). */
 #include "common.h"
+#include "mmx6/globals.h"
 extern s8 D_800CC869;
-extern u8 D_800E2E14;
 
 void func_800184F4(void) {
     D_800CC869 = 1;
@@ -139,10 +130,10 @@ void func_800184F4(void) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 void func_800187A0(s32 arg0);
-extern u8 D_800E2E14;
 
 M2C_UNK func_80018524(u8 arg0) {
     D_800E2E14 = arg0;

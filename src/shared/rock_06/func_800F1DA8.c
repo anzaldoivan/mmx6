@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern s8 D_800970FC;
 extern struct X4_BackgroundObj background_objects[3];
 
 #define F1DA8_S8(p, o) (*(s8*)((u8*)(p) + (o)))

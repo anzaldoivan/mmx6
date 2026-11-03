@@ -19,7 +19,7 @@ void func_800F2BE4(void* arg0) {
     M2C_FIELD(arg0, s32*, 0x68) = 0;
     M2C_FIELD(arg0, s32*, 0x54) = 0;
     M2C_FIELD(arg0, s32*, 0x50) = 0;
-    if (g_Player.unk5 == 0x14) {
+    if (g_Player.action == 0x14) {
         set_animation(arg0, 2);
         M2C_FIELD(arg0, u8*, 0x15) = 0;
         if (background_objects[0].unk1E + 0x50 < g_Player.x_pos.i.hi) {

@@ -12,7 +12,7 @@ void func_800F2E84(struct X4_MainObj* self) {
     s0 = *(s8**)&self->unk7C;
     self->unk42 &= 0x7FFF;
     ((void (*)())func_80030ECC)();
-    D_800F4458[self->unk5](self);
+    D_800F4458[self->action](self);
     if (s0[4] == 2) {
         self->on_screen = 0;
         clear_object_slot(self);

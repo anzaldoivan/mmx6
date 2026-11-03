@@ -1,6 +1,6 @@
 #include "common.h"
+#include "mmx6/globals.h"
 
-extern u8 g_temp_options;
 extern u8 option_values[];
 
 void func_800F0770(u8* arg0) {

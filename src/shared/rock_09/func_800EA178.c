@@ -1,11 +1,12 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+M2C_UNK animate_object();
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object();
 M2C_UNK func_8002EE10(void*);
@@ -13,7 +14,6 @@ M2C_UNK func_8002F288(void*);
 s32 func_80030ECC(void*);
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
-extern s16 D_800970AE;
 
 #define FLAGS self->collision_flags
 #define XPOS self->y_pos.i.hi
@@ -27,11 +27,11 @@ void func_800EA178(struct X4_MainObj* self) {
     u16 g;
 
     self->unk42 &= 0x7FFF;
-    if (self->unk6 != 0) {
-        self->unk6--;
+    if (self->action_phase != 0) {
+        self->action_phase--;
         return;
     }
-    func_80017A04(self);
+    animate_object(self);
     move_object(self);
     r = check_enemy_hits(self);
     if (self->unk2 == 0) {
@@ -50,16 +50,19 @@ void func_800EA178(struct X4_MainObj* self) {
             }
             f = g = FLAGS;
             if (!(g & 8)) {
+                // !FAKE: goto shares set2; copied tail+return moved bytes
                 goto set2;
             }
         }
         if ((f & 2) || (f & 1)) {
+            // !FAKE: goto shares set2; copied tail+return moved bytes
             goto set2;
         }
-        if (func_8002CBFC(self, 0x20, 0x20) != 0) {
+        if (is_off_screen(self, 0x20, 0x20) != 0) {
             self->state = 2;
             return;
         }
+        // !FAKE: goto shares approach; copied call+return moved bytes
         goto approach;
     } else if (self->unk2 == 1) {
         t = M2C_FIELD(self, s16*, 0x8C);
@@ -77,16 +80,20 @@ void func_800EA178(struct X4_MainObj* self) {
         if (func_80030ECC(self) != 0) {
         turn:
             func_80049E50(self);
+            // !FAKE: goto shares set2; copied tail+return moved bytes
             goto set2;
         }
         if (r < 0 || FLAGS != 0) {
+            // !FAKE: goto keeps the retail block order; folding the tests into one || moved bytes
             goto turn;
         }
         func_8002EE10(self);
         if (FLAGS != 0) {
+            // !FAKE: goto keeps the retail block order; folding the tests into one || moved bytes
             goto turn;
         }
-        if (func_8002CBFC(self, 0x20, 0x20) != 0) {
+        if (is_off_screen(self, 0x20, 0x20) != 0) {
+            // !FAKE: goto shares set2; copied tail+return moved bytes
             goto set2;
         }
     approach:
@@ -102,7 +109,7 @@ void func_800EA178(struct X4_MainObj* self) {
             self->state = 2;
             return;
         }
-        if (func_8002CBFC(self, 0x20, 0x20) == 1) {
+        if (is_off_screen(self, 0x20, 0x20) == 1) {
             self->state = 2;
         }
     }

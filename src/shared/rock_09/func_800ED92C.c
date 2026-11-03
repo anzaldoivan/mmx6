@@ -1,4 +1,5 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -7,7 +8,6 @@
 s32 func_8002A47C(s32);
 M2C_UNK func_8002CA14();
 extern u32* D_80095098;
-extern s8 D_800CCEED;
 
 void func_800ED92C(s8* self) {
     if (D_800CCEED >= 4) {

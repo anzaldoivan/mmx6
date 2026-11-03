@@ -1,13 +1,12 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 s32 set_animation(void*, s32);
-M2C_UNK func_80017A04();
-
-extern s8 D_800970A2;
+M2C_UNK animate_object();
 
 void func_800EC8BC(struct X4_PlayerObj* self) {
     s8* p;
@@ -15,17 +14,19 @@ void func_800EC8BC(struct X4_PlayerObj* self) {
     register s32 m asm("$2");
 
     p = M2C_FIELD(self, s8**, 0x7C);
-    func_80017A04();
+    animate_object();
     m = M2C_FIELD(self, u8*, 0x45) & 0xF;
     if (m == 1) {
         if (D_800970A2 == 0) {
-            if (self->unk2 == 0xE) {
+            if (self->character == 0xE) {
+                // !FAKE: goto keeps the retail block order; folding the tests into one || moved bytes
                 goto f;
             }
+            // !FAKE: goto keeps the retail block order; folding the tests into one || moved bytes
             goto e;
         }
         if (p[0x5C] < 3) {
-            if (self->unk2 == 0xE) {
+            if (self->character == 0xE) {
             f:
                 ((void (*)(void*, s32))set_animation)(self, 0xF);
                 M2C_FIELD(self, u8*, 0x86) = 0;
@@ -35,13 +36,13 @@ void func_800EC8BC(struct X4_PlayerObj* self) {
                 M2C_FIELD(self, u8*, 0x86) = 0;
             }
         } else {
-            if (self->unk2 == 0xE) {
+            if (self->character == 0xE) {
                 set_animation(self, 0xA);
             } else {
                 set_animation(self, 9);
             }
             M2C_FIELD(self, u8*, 0x86) = 1;
         }
-        self->unk7++;
+        self->action_timer++;
     }
 }

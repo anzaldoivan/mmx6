@@ -8,5 +8,5 @@ void func_800F98A0(struct X4_MainObj* self) {
     ((void (*)(void*, M2C_UNK))set_animation)(self, 5);
     *((u8*)self + 0x8A) = 1;
     self->on_screen = 1;
-    self->unk6++;
+    self->action_phase++;
 }

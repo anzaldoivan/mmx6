@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-void func_80017A04(struct X4_AnimatedObj*);
+void animate_object(struct X4_AnimatedObj*);
 void* func_8003D480(M2C_UNK, s8, s8, void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
@@ -12,7 +12,7 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define F_8C(p) (*(s8*)((u8*)(p) + 0x8C))
 
 void func_801F1B64(struct X4_WeaponObj* arg0) {
-    func_80017A04(ANIMATED_OBJECT(arg0));
+    animate_object(ANIMATED_OBJECT(arg0));
     if (F_45(arg0) & 0x40) {
         F_45(arg0) = 0;
         if (func_8003D480(arg0->active, arg0->id, arg0->unk2 + 1, arg0) != 0) {

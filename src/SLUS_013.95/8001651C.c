@@ -1,9 +1,9 @@
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 
 void func_80015C5C(void); /* extern */
-extern u8 D_8008EC08;
 
 void func_8001651C(void) {
     if (D_8008EC08 != 0) {
@@ -12,8 +12,7 @@ void func_8001651C(void) {
 }
 
 #include "common.h"
-
-extern s32 rock_dat_file_table[][2];
+#include "mmx6/globals.h"
 
 s32 func_80016548(s32 arg0, s32* arg1) {
     s32* p = rock_dat_file_table[arg0];
@@ -39,17 +38,12 @@ u8 func_80016570(void) {
 #include "psyq/libcd.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s8 func_80014D50();
 s32 func_80064894(s32, s32);
 X4_CdlCB func_800648B4(X4_CdlCB func);
-extern u8 D_8009509C;
-extern s32 D_8009B798;
 extern M2C_UNK* D_800B91B8;
-extern s32 D_800E01A8;
-extern s32 D_800E01D0;
-extern u8* D_800E0368;
-extern s32 D_800E0374;
 
 void func_800165A4(void) {
     if (D_8009509C != 0) {
@@ -79,11 +73,8 @@ void func_800165A4(void) {
 #include "psyq/libcd.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 X4_CdlCB func_800648B4(X4_CdlCB func);
-extern u8* D_800E0368;
-extern u8 D_8009509C;
-extern u8* D_800E01AC;
-extern u8 D_800E01CD;
 s8 func_80014D50();
 
 void func_8001668C(void) {
@@ -105,10 +96,8 @@ void func_800166FC(void) {
 #include "psyq/libgpu.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u8 D_800DF998;
-extern union X4_CdSectorBuffer D_800CF998;
-extern struct X4_CdCompletionSlot D_800E01E8[16];
 extern X4_RECT D_800E01E0;
 
 void func_80016704(void) {

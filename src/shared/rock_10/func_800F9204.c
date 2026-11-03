@@ -18,6 +18,6 @@ void func_800F9204(struct X4_PlayerObj* self) {
         self->unk50 = &D_800FC734;
         self->unk54 = (const u32*)&D_800FC738;
         M2C_FIELD(self, s16*, 0x7C) = 0x14;
-        self->unk6++;
+        self->action_phase++;
     }
 }

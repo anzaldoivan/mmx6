@@ -4,8 +4,18 @@
 D_801EA000 = 0x801EA000;
 // basis: first code word after header (+0xc4)
 func_801EA0C4 = 0x801EA0C4; // type:func size:0x1F4
+// basis: name: xref derived.tsv:141; xref:callee=set_stand_animation_by_hp; code:src/rock_00/801EA0C4.c:736 via=set_stand_animation_by_hp; code:src/SLUS_013.95/player/stand.c:14 via=update_stand
+update_x_stand_animation = 0x801EB61C; // type:func
+// basis: name: xref derived.tsv:142; xref:caller=try_shoot_on_ladder; code:src/SLUS_013.95/weapon/shoot_on_ladder.c:12 via=try_shoot_on_ladder
+player_enter_ladder_shoot = 0x801EB6E8; // type:func
 // basis: name: x4 exact 543816517dc7 sozud/mmx4@6a6b455 src/main/player_special.c:player_ladder_shoot; corroborator callee src/main/player_special:player_ladder_shoot SLUS_013.95:0x80017A04
 player_ladder_shoot = 0x801EB730; // type:func
+// basis: name: oracle derived.tsv:173; oracle:docs/systems/movement.md mv_hover2-0037 mv_hover2-0038 mv_hover2-0039
+update_hover = 0x801EB7C8; // type:func
+// basis: name: oracle derived.tsv:143; oracle:docs/systems/movement.md mv_airdash-0031 mv_falcon-0035 mv_ladder2-0053
+update_air_dash = 0x801EB8B8; // type:func
+// basis: name: xref derived.tsv:145; xref:caller=player_hover_set_direction; code:src/rock_00/801EB7C8.c:341 via=player_hover_set_direction
+player_hover_idle = 0x801EC020; // type:func
 // basis: name: x4 exact 2140a7d039ea sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_hold; corroborator callee src/main/player_special:player_hover_hold rock_00:0x801EC0C0
 player_hover_hold = 0x801EC0C0; // type:func
 // basis: name: x4 exact ecb393d0593c sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_forward; corroborator callee src/main/player_special:player_hover_forward SLUS_013.95:0x8003F4C4

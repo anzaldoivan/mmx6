@@ -22,24 +22,16 @@ void func_800EBC08(u8* self) {
         py = g_Player.y_pos.i.hi;
         sy = M2C_FIELD(self, s16*, 0xE) + 8;
         d = py - sy;
-        if (d >= 0) {
-            if (d < 3) {
-                M2C_FIELD(self, s32*, 0x24) = 0;
-            } else {
-                goto far;
-            }
-        } else if (sy - py >= 3) {
-        far:
+        if (d >= 0 ? d >= 3 : sy - py >= 3) {
             if (g_Player.y_pos.i.hi - 8 >= M2C_FIELD(self, s16*, 0xE)) {
                 M2C_FIELD(self, s32*, 0x24) = 0xFFFE0000;
             } else {
                 M2C_FIELD(self, s32*, 0x24) = 0x20000;
             }
         } else {
-            goto zero;
+            M2C_FIELD(self, s32*, 0x24) = 0;
         }
     } else {
-    zero:
         M2C_FIELD(self, s32*, 0x24) = 0;
     }
     if (self[0x8E] != 0) {

@@ -3,7 +3,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK); /* extern */
-s32 random_byte();                   /* extern */
+s32 random_byte();                     /* extern */
 
 void func_800F3988(void* arg0) {
     s32 a;

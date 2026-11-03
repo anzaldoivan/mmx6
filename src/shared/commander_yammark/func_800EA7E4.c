@@ -5,11 +5,11 @@
 
 void func_800EA7E4(struct X4_MainObj* arg0) {
     if (SPAD[0x87] == 1) {
-        arg0->unk5 = 6;
-        arg0->unk6 = 0;
+        arg0->action = 6;
+        arg0->action_phase = 0;
     }
     if (--arg0->unk7C == 0) {
-        arg0->unk5 = 4;
-        arg0->unk6 = 0;
+        arg0->action = 4;
+        arg0->action_phase = 0;
     }
 }

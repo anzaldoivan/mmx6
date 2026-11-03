@@ -10,5 +10,5 @@ void func_800F5DF8(struct X4_MainObj* arg0) {
     arg0->hurt_box = &D_800F90BC;
     arg0->unk7C = 0x32;
     func_800F6E48(arg0);
-    arg0->unk6++;
+    arg0->action_phase++;
 }

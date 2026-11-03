@@ -1,12 +1,9 @@
 #include "common.h"
 
 #include "psyq/libsnd.h"
-extern s8 D_80090D50[6];
-extern s8 D_80090D64[];
+#include "mmx6/globals.h"
 extern u8 D_800E1550;
 extern s32 D_800E1560;
-extern s8 D_800E25E0[];
-extern u8 D_800E25F8[];
 
 void func_80016950(void) {
     u8 i;
@@ -33,10 +30,9 @@ void func_80016950(void) {
 #include "common.h"
 
 #include "psyq/libsnd.h"
+#include "mmx6/globals.h"
 void func_80058574(void);
 void func_8005BA04(void);
-extern s8 D_80090D50[6];
-extern s8 D_80090D64[];
 
 void func_80016A4C(void) {
     s8 i;
@@ -63,10 +59,7 @@ void func_80016A4C(void) {
 #include "common.h"
 
 #include "psyq/libsnd.h"
-extern s8 D_80090D50[6];
-extern s8 D_80090D64[];
-extern s8 D_800E25E0[];
-extern u8 D_800E25F8[];
+#include "mmx6/globals.h"
 
 void func_80016B3C(void) {
     s8 i;

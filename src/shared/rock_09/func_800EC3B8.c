@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK move_object();
 s32 func_8002D354(void* arg0, s32 arg1, s32 arg2);
 void set_velocity_from_angle(void*, s32);
@@ -14,7 +14,7 @@ void func_800EC3B8(struct X4_MainObj* self) {
     s32 v;
     s32 dx;
 
-    func_80017A04();
+    animate_object();
     move_object(self);
     pl = &g_Player;
     set_velocity_from_angle(
@@ -28,8 +28,8 @@ void func_800EC3B8(struct X4_MainObj* self) {
         dx = self->x_pos.val - pl->x_pos.val;
     }
     if (v >= dx || --self->unk7C == 0) {
-        self->unk5 = 3;
-        self->unk6 = 0;
+        self->action = 3;
+        self->action_phase = 0;
     }
 }
 #undef g_Player

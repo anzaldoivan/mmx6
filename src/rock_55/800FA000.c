@@ -7,6 +7,7 @@ INCLUDE_ASM("asm/rock_55/nonmatchings/FA000", func_800FA004);
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK func_800139A0(s8);
 void func_80025F34();
@@ -19,7 +20,6 @@ struct X4_QuadObj* alloc_class6_slot(void);
 extern s8 D_80090D56;
 extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_8009742C;
-extern s8 D_800CCF08;
 extern s8 D_800CF850;
 extern u8 D_800EA510[];
 extern u8 D_800FA930[];
@@ -74,7 +74,7 @@ void func_800FA0E8(u8* arg0) {
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 extern struct X4_BackgroundObj background_objects[3];
 #include "mmx6/state.h"
-extern s8 D_800CCF08;
+#include "mmx6/globals.h"
 
 void func_800FA1E8(u8* arg0) {
     if (D_80097420.transition.active == 0) {
@@ -113,9 +113,9 @@ void func_800FA270(s8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern struct X4_BackgroundObj background_objects[3];
-extern s8 D_800CCF08;
 
 void func_800FA2C4(s8* arg0) {
     s8* p = arg0;
@@ -199,10 +199,10 @@ void func_800FA3E0(u8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 extern s16 D_80090D5C;
 extern s16 D_80097430;
-extern s8 D_800CCF08;
 extern s16 D_800CF854;
 
 void func_800FA478(u8* arg0) {
@@ -235,11 +235,11 @@ void func_800FA478(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern s16 D_80090D5C;
 extern struct X4_BackgroundObj background_objects[3];
 extern s16 D_80097430;
-extern s8 D_800CCF08;
 extern s16 D_800CF854;
 
 void func_800FA57C(u8* arg0) {
@@ -265,13 +265,13 @@ void func_800FA57C(u8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 s32 func_8002B2F8(s32);
 extern s8 D_80090D56;
 extern s16 D_80090D5C;
 extern s8 D_8009742C;
 extern s16 D_80097430;
-extern s8 D_800CCF08;
 extern s8 D_800CF850;
 extern s16 D_800CF854;
 
@@ -297,12 +297,12 @@ void func_800FA618(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 s32 func_800EA480(s8* arg0);
 extern s8 D_8008EAB0;
 extern struct X4_BackgroundObj background_objects[3];
-extern s8 D_800CCF08;
 
 #define BG(t, off) (*(t*)(bg + (off)))
 
@@ -335,9 +335,9 @@ void func_800FA6C0(s8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern struct X4_BackgroundObj background_objects[3];
-extern s8 D_800CCF08;
 
 void func_800FA768(u8* arg0) {
     if (*(s16*)(arg0 + 4) >= 0x78) {
@@ -359,10 +359,10 @@ void func_800FA768(u8* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 func_800EA480(s8* arg0);
 extern struct X4_BackgroundObj background_objects[3];
-extern s8 D_800CCF08;
 
 void func_800FA7DC(struct X4_BackgroundObj* arg0) {
     // !FAKE: pin the first store value to the first return register

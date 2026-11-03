@@ -50,6 +50,7 @@ void func_800348B0(s8* arg0) {
 #undef FAMILY_FIELD
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -57,7 +58,6 @@ void func_800348B0(s8* arg0) {
 M2C_UNK func_800139F4(M2C_UNK); /* extern */
 void silence_sound(u8, u8);     /* extern */
 M2C_UNK func_80025FB0();        /* extern */
-extern s16 D_800971EC;
 
 void func_800349D8(void* arg0) {
     silence_sound(0xFF, 0);
@@ -165,17 +165,17 @@ void func_80034C94(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK func_800139A0(s8);
 void func_80020C40(void);
-M2C_UNK func_8003DF58(void*);
-M2C_UNK func_8003F0BC(void*);
-M2C_UNK func_8003F480();
+M2C_UNK set_shot_types(void*);
+M2C_UNK react_to_weapon_change(void*);
+void player_reset_charge();
 M2C_UNK func_8003F58C();
 M2C_UNK func_801ECBE8();
 
 extern struct X4_PlayerObj g_Player;
-extern u8 D_800C4560;
 extern u8 D_800E4430;
 #define D_800E4430 (*(s8*)&D_800E4430)
 
@@ -184,15 +184,15 @@ void func_80034CD0(u8* arg0) {
 
     pl = &g_Player;
     if (*(void**)(arg0 + 0x38) == 0) {
-        if (pl->unk2 == 0) {
+        if (pl->character == 0) {
             func_8003F58C();
             if (D_800E4430 != pl->weapon) {
                 *(s16*)((u8*)pl + 0x14C) = 2;
-                func_8003F480(pl);
+                player_reset_charge(pl);
             }
-            func_8003DF58(pl);
+            set_shot_types(pl);
             if (D_800E4430 != pl->weapon) {
-                func_8003F0BC(pl);
+                react_to_weapon_change(pl);
             }
         } else if (pl->weapon == 4) {
             func_801ECBE8(pl);
@@ -212,10 +212,10 @@ void func_80034CD0(u8* arg0) {
 #include "common.h"
 #include "psyq/libetc.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
-extern u8 D_800C4568;
 extern u8 D_800CCF37;
 extern u8 D_80073A1C[];
 extern u8 D_80073A6C[];
@@ -253,12 +253,12 @@ void func_80034DCC(void) {
                 p->y_pos.u.hi += 8;
             }
         } else {
-            if (D_80073A1C[p->unk5 & 0x3F] != 0 && D_800CCF37 != 0) {
+            if (D_80073A1C[p->action & 0x3F] != 0 && D_800CCF37 != 0) {
                 if (D_80097420.frame_counter & 1) {
                     VSync(0);
                 }
             }
-            if (D_80073A6C[p->unk5 & 0x3F] != 0) {
+            if (D_80073A6C[p->action & 0x3F] != 0) {
                 struct X4_EngineObj* e = &g_playthrough_state;
                 EW(0x90)++;
                 EW(0xCC)++;

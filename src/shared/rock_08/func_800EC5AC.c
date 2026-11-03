@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern s8 D_80097174;
 extern void (*D_800F5600[])(struct X4_AnimatedObj*);
 
 void func_800EC5AC(struct X4_AnimatedObj* arg0) {

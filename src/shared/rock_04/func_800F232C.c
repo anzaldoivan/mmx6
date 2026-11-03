@@ -1,6 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
@@ -10,7 +11,6 @@ M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern s32 D_80090C90[];
 extern s8 D_80090D56;
 extern s8 D_8009742C;
-extern u8 D_800C4560;
 extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CF850;
 extern u8 D_800E9B2C[];

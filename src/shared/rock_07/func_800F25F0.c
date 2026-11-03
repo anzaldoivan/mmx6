@@ -28,21 +28,14 @@ void func_800F25F0(void* arg0) {
         B(arg0, 0x15) = 0;
     }
     move_object(arg0);
-    if (((H(arg0, 0x84) - H(arg0, 0xA)) >= 0
-             ? (H(arg0, 0x84) - H(arg0, 0xA))
-             : (H(arg0, 0xA) - H(arg0, 0x84))) < 9 &&
-        ((H(arg0, 0x86) - H(arg0, 0xE)) >= 0
-             ? (H(arg0, 0x86) - H(arg0, 0xE))
-             : (H(arg0, 0xE) - H(arg0, 0x86))) < 9) {
-        goto hit;
-    }
-    f = B(arg0, 0x70);
-    if (f & 4) {
-        goto hit;
-    }
-    dir = B(arg0, 0x15);
-    if ((dir == 0 && (f & 2)) || (dir == 0x40 && (f & 1))) {
-    hit:
+    if ((((H(arg0, 0x84) - H(arg0, 0xA)) >= 0
+              ? (H(arg0, 0x84) - H(arg0, 0xA))
+              : (H(arg0, 0xA) - H(arg0, 0x84))) < 9 &&
+         ((H(arg0, 0x86) - H(arg0, 0xE)) >= 0
+              ? (H(arg0, 0x86) - H(arg0, 0xE))
+              : (H(arg0, 0xE) - H(arg0, 0x86))) < 9) ||
+        ((f = B(arg0, 0x70)) & 4) ||
+        (((dir = B(arg0, 0x15)) == 0 && (f & 2)) || (dir == 0x40 && (f & 1)))) {
         set_animation(arg0, 0xB);
         {
             // !FAKE: depin: dropping it breaks the match (77/82)

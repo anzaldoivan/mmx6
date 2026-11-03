@@ -3,6 +3,7 @@
 #include "psyq/libgpu.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_80012A34(void);
 void func_8001ACC4(s32, s32, s32, s32);
@@ -14,20 +15,10 @@ void func_8001B7A8(void);
 void func_8001B90C(u32 arg0);
 void func_8001B984(s32);
 
-extern u16 str_movie_table[];
-extern u16 g_pad1_buttons[];
-extern u8 g_draw_info_buffers[];
 #define DB_DISP(i) (*(X4_DISPENV*)(g_draw_info_buffers + (i) * 0xF0))
 extern s8 D_800CC869;
 #define D_800CC869 (*(u8*)&D_800CC869)
-extern s32 D_800CD408;
-extern s8 D_800E2E65;
 extern s32 D_800E2E68;
-extern s32 D_800E2E70;
-extern s32 D_800E2E74;
-extern s32 D_800E2E78;
-extern s32 D_800E2E7C;
-extern X4_DISPENV D_800E2E88[];
 extern M2C_UNK func_80012FE4;
 
 // 0x8001A6CC play_str_movie: plays movie str_movie_table[arg0] (stride 12, word 0 = dat slot) via func_8001B6D0 + VSync/PutDispEnv loop.

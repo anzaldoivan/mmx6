@@ -1,6 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 play_sound(s32 a0, s32 a1, void* arg2);
 s32 random_byte();
@@ -10,7 +11,6 @@ void set_reploid_status(u8, s32);
 extern u8 D_80078BE8[];
 extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
-extern struct X4_RideArmorObj D_800CD340;
 
 #define F8(p, o) (*(u8*)((u8*)(p) + (o)))
 #define S8(p, o) (*(s8*)((u8*)(p) + (o)))

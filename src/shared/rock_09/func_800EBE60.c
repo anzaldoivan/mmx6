@@ -3,10 +3,10 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+M2C_UNK animate_object();
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 M2C_UNK func_80030ECC(void*);
 
 void func_800EBE60(void* arg0) {
@@ -31,9 +31,9 @@ void func_800EBE60(void* arg0) {
         return;
     }
     func_80030ECC(arg0);
-    if (func_8002CBFC(arg0, 0x30, 0x40) == 0) {
+    if (is_off_screen(arg0, 0x30, 0x40) == 0) {
         func_8002CCB0(arg0, 0x30, 0x40);
     }
-    func_8002D230(arg0);
-    func_80017A04(arg0);
+    apply_object_motion(arg0);
+    animate_object(arg0);
 }

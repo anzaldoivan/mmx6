@@ -1,6 +1,5 @@
 #include "common.h"
-
-extern u16 D_80090E70;
+#include "mmx6/globals.h"
 
 s32 func_8002D30C(void) {
     s32 r;

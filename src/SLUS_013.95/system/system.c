@@ -6,6 +6,7 @@
 #include "psyq/libpad.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_80012FA0(void* arg0);
 void func_80013008(void);
@@ -21,17 +22,6 @@ void func_800698C4(void);
 void func_8001CB3C(void);
 
 extern X4_RECT D_8006D87C;
-extern s32 D_8008EC0C;
-extern u16 g_wide_mode;
-extern u16 D_80090E70;
-extern s16 D_8009741A;
-extern u16 g_screen_width;
-extern struct X4_DrawInfo* g_cur_draw_info;
-extern u8 D_800C458C[];
-extern u8 D_800CF870[];
-extern u8 D_800CF908[];
-extern u8 D_800CF920[];
-extern u8 D_800CF948[];
 
 #define SCRATCH0 (*(s32*)0x1F800000)
 

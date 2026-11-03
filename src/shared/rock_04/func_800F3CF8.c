@@ -12,5 +12,5 @@ void func_800F3CF8(struct X4_MainObj* self) {
     self->x_accel = 0;
     self->y_speed = 0;
     self->gravity = 0;
-    self->unk6++;
+    self->action_phase++;
 }

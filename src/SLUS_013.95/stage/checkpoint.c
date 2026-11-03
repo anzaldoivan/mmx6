@@ -29,7 +29,7 @@ void init_checkpoint_positions(void) {
         g_Player.y_pos.val = v1;
         g_Player.unk1C.val = v1;
     }
-    g_Player.unk15 = ((u8*)src)[0x18];
+    g_Player.facing = ((u8*)src)[0x18];
     bg = background_objects;
     bg->x_pos.i.hi = src[2];
     bg->unk14.i.hi = src[2];

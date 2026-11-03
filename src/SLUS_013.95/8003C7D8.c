@@ -1,16 +1,16 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 func_8002A47C(s32);
-struct X4_VisualObj* func_8002C398(void);
-s32 func_8002FF70();
+struct X4_VisualObj* find_free_visual_obj(void);
+s32 get_tile_attr_bottom();
 extern s16 D_80073D68[];
-extern u32* D_8007789C[];
 extern u32* D_80095098;
 
 #define SCRATCH_20 (*(u8**)0x1F800020)
 
-void func_8003C7D8(void* arg0) {
+void spawn_dash_tile24_visual(void* arg0) {
     struct X4_VisualObj* self = arg0;
     struct X4_VisualObj* obj;
     u8* tbl;
@@ -20,8 +20,8 @@ void func_8003C7D8(void* arg0) {
     s32 k;
     u8 bg;
 
-    if (func_8002FF70() == 0x24) {
-        obj = func_8002C398();
+    if (get_tile_attr_bottom() == 0x24) {
+        obj = find_free_visual_obj();
         k = 0x8B;
         if (obj != 0) {
             obj->active = 0x41;
@@ -29,7 +29,7 @@ void func_8003C7D8(void* arg0) {
             obj->unk2 = 8;
             bg = self->bg_offset;
             obj->unk16 = 1;
-            obj->animation_table = D_8007789C;
+            obj->animation_table = g_visual_animation_tables;
             obj->bg_offset = bg;
             a = func_8002A47C(k);
             tbl = SCRATCH_20;
@@ -52,14 +52,17 @@ void func_8003C7D8(void* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-struct X4_VisualObj* func_8002C398(void);
-extern u32* D_8007789C[];
+struct X4_VisualObj* find_free_visual_obj(void);
 extern s16 D_80073D6C[][2];
 
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 
-void func_8003C964(void* arg0) {
+// 0x8003C964 spawn_wall_jump_visual: spawns visual object 3/1 at a per-character offset from the object.
+// basis: xref derived.tsv:156; xref:caller=start_wall_jump
+// callers: start_wall_jump
+void spawn_wall_jump_visual(void* arg0) {
     struct X4_VisualObj* self = arg0;
     struct X4_VisualObj* obj;
     u8* tbl;
@@ -67,7 +70,7 @@ void func_8003C964(void* arg0) {
     u8 f;
     u8 bg;
 
-    obj = func_8002C398();
+    obj = find_free_visual_obj();
     if (obj != 0) {
         obj->active = 0x21;
         obj->id = 3;
@@ -80,7 +83,7 @@ void func_8003C964(void* arg0) {
         obj->bg_offset = bg;
         tbl = SCRATCH_1C;
         off = *(s32*)(tbl + 4);
-        obj->animation_table = D_8007789C;
+        obj->animation_table = g_visual_animation_tables;
         obj->unk40 = 0;
         obj->unk42 = 0x7802;
         obj->unk16 = 0;
@@ -99,14 +102,14 @@ void func_8003C964(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 s32 play_sound(s32 a0, s32 a1, void* arg2);
 s32 func_8002A47C(s32);
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 u8 func_80030234(struct X4_PlayerObj*, s16, s16);
-extern u32* D_8007789C[];
 extern u32* D_80095098;
 
 #define SCRATCH_20 (*(u8**)0x1F800020)
@@ -124,7 +127,7 @@ s32 func_8003CA70(void* arg0, s16 arg1) {
     if (func_80030234(self, self->x_pos.i.hi, arg1) == 0x24 &&
         M2C_FIELD(self, s8*, 0xDF) == 0) {
         M2C_FIELD(self, s8*, 0xDF) = 1;
-        obj = func_8002C398();
+        obj = find_free_visual_obj();
         if (obj != 0) {
             obj->active = 0x41;
             obj->id = 3;
@@ -132,7 +135,7 @@ s32 func_8003CA70(void* arg0, s16 arg1) {
             obj->bg_offset = self->bg_offset;
             k = 0x8B;
             obj->unk16 = 1;
-            obj->animation_table = D_8007789C;
+            obj->animation_table = g_visual_animation_tables;
             a = func_8002A47C(k);
             tbl = SCRATCH_20;
             obj->unk3C = tbl + *(s32*)(tbl + a * 4);
@@ -140,7 +143,7 @@ s32 func_8003CA70(void* arg0, s16 arg1) {
             a = func_8002A47C(0x8B);
             b = func_8002A47C(0x8B);
             obj->unk42 = (a * 4 + 0x20) % 16 | ((b + 8) / 4 + 0x1E0) << 6;
-            f = self->unk15;
+            f = self->facing;
             obj->unk15 = f;
             x = self->x_pos.i.hi;
             obj->y_pos.i.hi = arg1 - 8;
@@ -186,7 +189,7 @@ void func_8003CCB4(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003CCBC);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", set_pose_size);
 // clang-format on
 
 #include "common.h"

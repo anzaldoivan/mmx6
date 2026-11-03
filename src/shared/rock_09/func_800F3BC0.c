@@ -13,7 +13,7 @@ void func_800F3BC0(struct X4_MainObj* self) {
         }
         self->x_speed =
             (g_Player.x_pos.i.hi > self->x_pos.i.hi) ? 0x40000 : -0x40000;
-        self->unk6 = 0xF;
+        self->action_phase = 0xF;
     }
 }
 #undef g_Player

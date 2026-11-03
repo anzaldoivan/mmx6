@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_80030ECC();
 s32 check_enemy_hits(void*);
 extern void (*D_800FCE10[])(void*);
@@ -22,7 +22,7 @@ void func_800F7BF0(void* self) {
     }
     G(s32, 0x18) = G(s32, 0x8);
     G(s32, 0x1C) = G(s32, 0xC);
-    func_80017A04(self);
+    animate_object(self);
     D_800FCE10[G(s8, 5)](self);
     G(u8, 0x88) = 0;
     if (check_enemy_hits(self) != 0) {

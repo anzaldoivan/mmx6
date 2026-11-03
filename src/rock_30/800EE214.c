@@ -17,6 +17,7 @@ void func_800EE260(void) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD20_EE280 (*(s32*)0x1F800020)
@@ -25,17 +26,15 @@ M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 M2C_UNK clear_object_slot();
 s32 random_byte();
-extern s8 D_800CD30A;
 extern u32* D_80095098;
 extern s32 g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s16 D_800970AA;
 extern s32 D_800F0050;
-extern s32 D_8007497C;
 
 #define START(self)                                                            \
     {                                                                          \
-        M2C_FIELD(self, s16*, 0x7C) = (random_byte() % 3 + 1) * 100 + 200;   \
+        M2C_FIELD(self, s16*, 0x7C) = (random_byte() % 3 + 1) * 100 + 200;     \
         M2C_FIELD(self, u8*, 5) = 1;                                           \
         M2C_FIELD(self, u8*, 3) = 0;                                           \
         flag = 1;                                                              \

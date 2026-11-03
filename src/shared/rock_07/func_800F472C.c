@@ -5,11 +5,11 @@
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 extern struct X4_EngineObj g_playthrough_state;
 
 void func_800F472C(struct X4_PlayerObj* arg0) {
-    if (arg0->unk70 & 8) {
+    if (arg0->collision_flags & 8) {
         ((void (*)(s32, s32, void*))play_sound)(2, 0x5C, arg0);
         ((void (*)(void*, s32))set_animation)(arg0, 7);
         {
@@ -20,8 +20,8 @@ void func_800F472C(struct X4_PlayerObj* arg0) {
                 e->character_state.bytes[8] = 1;
             }
         }
-        arg0->unk6++;
+        arg0->action_phase++;
         return;
     }
-    func_8002D230(arg0);
+    apply_object_motion(arg0);
 }

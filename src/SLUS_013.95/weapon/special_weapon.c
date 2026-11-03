@@ -1,18 +1,16 @@
+// prog SLUS_013.95 | system weapon | range 0x8003EEE4-0x8003EFFC
 #include "common.h"
 #define M2C_UNK s32
+#include "mmx6/x4.h"
 
-s32 play_sound(s32 a0, s32 a1, void* arg2);
-s32 get_weapon_energy_cost(void* arg0, s32 arg1);
-
-#define F_S8(p, o) (*(s8*)((u8*)(p) + (o)))
-#define F_U8(p, o) (*(u8*)((u8*)(p) + (o)))
-#define F_U16(p, o) (*(u16*)((u8*)(p) + (o)))
-#define F_U32(p, o) (*(u32*)((u8*)(p) + (o)))
+#include "mmx6/sound.h"
+#include "mmx6/weapon.h"
 
 // 0x8003EEE4 charge_special_weapon: charging special weapons by armor.
 // basis: community tweaks-index.tsv:207
-// callers: func_8003EC78
-void charge_special_weapon(void* arg0) {
+// callers: update_player_charge
+void charge_special_weapon(void* self) {
+    struct X4_PlayerObj* arg0 = self;
     // !FAKE: depin: dropping it breaks the match (62/71)
     register s16* hp asm("$16");
     s32 n;
@@ -23,45 +21,45 @@ void charge_special_weapon(void* arg0) {
     s32 m;
     u8 k;
 
-    if (F_S8(arg0, 0x93) == 0) {
-        F_S8(arg0, 0x9B) = 0;
+    if (arg0->weapon == 0) {
+        arg0->charge_state[0] = 0;
         return;
     }
-    if (!(F_U16(arg0, 0x7C) & 0x10)) {
+    if (!(arg0->input.buttons.held & 0x10)) {
         return;
     }
-    if (F_S8(arg0, 0x9B) == 2) {
+    if (arg0->charge_state[0] == 2) {
         return;
     }
-    k = F_U8(arg0, 0xE7);
+    k = arg0->armor;
     if (k != 1 && k != 4) {
         x = 0x5A;
         if (k != 3) {
             return;
         }
     }
-    hp = (s16*)((u8*)arg0 + 0xA8);
-    hp += F_S8(arg0, 0x93);
-    if (get_weapon_energy_cost(arg0, (s8)(F_U8(arg0, 0x93) + 9)) > *hp) {
+    hp = (s16*)arg0->weapon_energy;
+    hp += arg0->weapon;
+    if (get_weapon_energy_cost(arg0, (s8)(9 + *(u8*)&arg0->weapon)) > *hp) {
         return;
     }
     b = x;
-    c = F_U8(arg0, 0x9D) + 1;
-    F_U8(arg0, 0x9D) = c;
+    c = arg0->charge_timer + 1;
+    arg0->charge_timer = c;
     n = 0x19;
     do {
     } while (0);
-    if (F_U32(arg0, 0xEC) & 0x100000) {
+    if (arg0->equipped_parts & 0x100000) {
         b >>= 1;
         n = 0xC;
     }
     m = c & 0xFF;
     if (m == n) {
         play_sound(1, 7, arg0);
-        F_S8(arg0, 0x9B) = 1;
+        arg0->charge_state[0] = 1;
         return;
     }
     if (m == b) {
-        F_S8(arg0, 0x9B) = 2;
+        arg0->charge_state[0] = 2;
     }
 }

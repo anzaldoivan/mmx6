@@ -6,9 +6,9 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(struct X4_BaseObj*, s32, s32))func_8002CCB0)
 s32 func_8002CAB4(struct X4_BaseObj*);
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void func_800EDCE0(struct X4_MiscObj* self) {
-    func_80017A04(ANIMATED_OBJECT(self));
+    animate_object(ANIMATED_OBJECT(self));
     if (func_8002CAB4(BASE_OBJECT(self)) == 0) {
         func_8002CCB0(BASE_OBJECT(self), 0x30, 0x10);
         if (self->animation_step.fields.relative_step != 0) {

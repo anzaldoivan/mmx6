@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 extern M2C_UNK D_800FB310;
 
 #define SB(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -16,7 +16,7 @@ void func_800F87FC(void* arg0) {
     s32 e;
     s32 e2;
 
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     t = P(arg0, 0x7C);
     if (SB(arg0, 0x45) == 1) {
         P(arg0, 0x50) = &D_800FB310;

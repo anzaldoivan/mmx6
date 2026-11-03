@@ -496,36 +496,36 @@ rock_07	0x800EB80C	init_nightmare_pressure	community	tweaks-index.tsv:182; corro
 rock_11	0x800F2390	init_illumina	community	tweaks-index.tsv:183; corroborator on D_800970A5==0x14: boss ptr +0x20=self, bar size +0x8C=0x40	consistent-with-bytes
 rock_17	0x800E9E2C	tick_boss_intro	community	tweaks-index.tsv:329; corroborator copies 8 bytes from D_800E9860+4 (= workbook sound table 0x800E9864), timer +...	consistent-with-bytes
 rock_20	0x800EE6F4	build_mission_report_list	community	tweaks-index.tsv:344; corroborator reads MR fields D_800CCED0+0x26/+0x27, D_80097169, offset 0x43B, calls func_8...	consistent-with-bytes
-SLUS_013.95	0x80013300	create_task	code	code:src/SLUS_013.95/task/task.c:13 via=OpenTh	consistent-with-bytes
-SLUS_013.95	0x80013360	task_yield	code	code:src/SLUS_013.95/task/task_yield.c:13 via=ChangeTh	consistent-with-bytes
-SLUS_013.95	0x800133F4	end_task_slot	code	code:src/SLUS_013.95/task/task_800133F4.c:15 via=CloseTh	consistent-with-bytes
-SLUS_013.95	0x80016178	pump_file_loads	code	code:src/SLUS_013.95/file/file_loads.c:65 via=rock_dat_file_table	consistent-with-bytes
+SLUS_013.95	0x80013300	create_task	code	code:src/SLUS_013.95/task/task.c:16 via=OpenTh	consistent-with-bytes
+SLUS_013.95	0x80013360	task_yield	code	code:src/SLUS_013.95/task/task_yield.c:14 via=ChangeTh	consistent-with-bytes
+SLUS_013.95	0x800133F4	end_task_slot	code	code:src/SLUS_013.95/task/task_slot.c:18 via=CloseTh	consistent-with-bytes
+SLUS_013.95	0x80016178	pump_file_loads	code	code:src/SLUS_013.95/file/file_loads.c:51 via=rock_dat_file_table	consistent-with-bytes
 SLUS_013.95	0x8001750C	silence_sound	code	code:src/SLUS_013.95/sound/sound_8001750C.c:18 via=SsUtKeyOffV	consistent-with-bytes
 SLUS_013.95	0x800179D0	set_animation_frame	code	code:src/SLUS_013.95/graphics/animation.c:27 via=arg1	consistent-with-bytes
 SLUS_013.95	0x8001854C	play_stage_bgm	code	code:src/SLUS_013.95/stage/stage.c:17 via=g_stage_bgm_tracks	consistent-with-bytes
-SLUS_013.95	0x800186A8	stop_cd_audio	code	code:src/SLUS_013.95/cd/cd_audio.c:33 via=SsSetSerialAttr	consistent-with-bytes
+SLUS_013.95	0x800186A8	stop_cd_audio	code	code:src/SLUS_013.95/cd/cd_audio.c:29 via=SsSetSerialAttr	consistent-with-bytes
 SLUS_013.95	0x80029B8C	init_checkpoint_positions	code	code:src/SLUS_013.95/stage/checkpoint.c:20 via=checkpoint	consistent-with-bytes
-SLUS_013.95	0x8002C3F8	alloc_class3_slot	code	code:src/SLUS_013.95/object/class3_slot.c:15 via=D_8009B7B0	consistent-with-bytes
-SLUS_013.95	0x8002C4C4	alloc_class4_slot	code	code:src/SLUS_013.95/object/class4_slot.c:14 via=D_800C1220	consistent-with-bytes
-SLUS_013.95	0x8002C7F0	alloc_class6_slot	code	code:src/SLUS_013.95/object/class6_slot.c:14 via=D_8009C9B0	consistent-with-bytes
-SLUS_013.95	0x8002C950	alloc_class7_slot	code	code:src/SLUS_013.95/object/class7_slot.c:14 via=D_800C4778	consistent-with-bytes
-SLUS_013.95	0x8002C9B0	clear_object_slot	code	code:src/SLUS_013.95/object/object_slot.c:9 via=arg0	consistent-with-bytes
-SLUS_013.95	0x8002D2D4	random_byte	code	code:src/SLUS_013.95/system/random_byte.c:13 via=D_80090E70	consistent-with-bytes
+SLUS_013.95	0x8002C3F8	alloc_class3_slot	code	code:src/SLUS_013.95/object/class3_slot.c:18 via=g_class3_slots	consistent-with-bytes
+SLUS_013.95	0x8002C4C4	alloc_class4_slot	code	code:src/SLUS_013.95/object/class4_slot.c:18 via=g_class4_slots	consistent-with-bytes
+SLUS_013.95	0x8002C7F0	alloc_class6_slot	code	code:src/SLUS_013.95/object/class6_slot.c:17 via=g_class6_slots	consistent-with-bytes
+SLUS_013.95	0x8002C950	alloc_class7_slot	code	code:src/SLUS_013.95/object/class7_slot.c:15 via=g_class7_slots	consistent-with-bytes
+SLUS_013.95	0x8002C9B0	clear_object_slot	code	code:src/SLUS_013.95/object/object_slot.c:8 via=arg0	consistent-with-bytes
+SLUS_013.95	0x8002D2D4	random_byte	code	code:src/SLUS_013.95/system/random_byte.c:12 via=D_80090E70	consistent-with-bytes
 SLUS_013.95	0x8004FF00	set_reploid_status	code	code:src/SLUS_013.95/item/reploid.c:37 via=set_reploid_status	consistent-with-bytes
-SLUS_013.95	0x8004FF4C	get_reploid_status	code	code:src/SLUS_013.95/80018774.c:350 via=get_reploid_status	consistent-with-bytes
-SLUS_013.95	0x800533F4	is_text_box_seen	code	code:src/rock_11/800F23D8.c:22 via=is_text_box_seen	consistent-with-bytes
-SLUS_013.95	0x80053440	set_text_box_seen	code	code:src/rock_11/800F23D8.c:24 via=set_text_box_seen	consistent-with-bytes
+SLUS_013.95	0x8004FF4C	get_reploid_status	code	code:src/SLUS_013.95/80018774.c:335 via=get_reploid_status	consistent-with-bytes
+SLUS_013.95	0x800533F4	is_text_box_seen	code	code:src/rock_11/800F23D8.c:20 via=is_text_box_seen	consistent-with-bytes
+SLUS_013.95	0x80053440	set_text_box_seen	code	code:src/rock_11/800F23D8.c:22 via=set_text_box_seen	consistent-with-bytes
 SLUS_013.95	0x8007093C	g_stage_bgm_tracks	code	code:src/SLUS_013.95/stage/stage.c:17 via=g_stage_bgm_tracks	consistent-with-bytes
 SLUS_013.95	0x8007112C	g_playthrough_state_handlers	code	code:src/SLUS_013.95/8001E6E4.c:11 via=g_playthrough_state_handlers	consistent-with-bytes
 SLUS_013.95	0x80073ABC	g_player_state_handlers	code	code:src/SLUS_013.95/80034830.c:270 via=g_player_state_handlers	consistent-with-bytes
-SLUS_013.95	0x8008EC10	g_tilemap_layer_stride	code	code:src/SLUS_013.95/80026028.c:987 via=g_tilemap_layer_stride	consistent-with-bytes
-SLUS_013.95	0x8009B7A0	g_cur_draw_info	code	code:src/SLUS_013.95/800120A0.c:47 via=g_cur_draw_info	consistent-with-bytes
-SLUS_013.95	0x800B91C0	g_bg_sprite_prims	code	code:src/SLUS_013.95/80026028.c:191 via=g_bg_sprite_prims	consistent-with-bytes
+SLUS_013.95	0x8008EC10	g_tilemap_layer_stride	code	code:src/SLUS_013.95/80026028.c:985 via=g_tilemap_layer_stride	consistent-with-bytes
+SLUS_013.95	0x8009B7A0	g_cur_draw_info	code	code:src/SLUS_013.95/800120A0.c:44 via=g_cur_draw_info	consistent-with-bytes
+SLUS_013.95	0x800B91C0	g_bg_sprite_prims	code	code:src/SLUS_013.95/80026028.c:189 via=g_bg_sprite_prims	consistent-with-bytes
 SLUS_013.95	0x800C456C	g_pad1_buttons	code	code:src/SLUS_013.95/80012A34.c:47 via=g_pad1_buttons	consistent-with-bytes
-SLUS_013.95	0x800C4578	g_draw_info_buffers	code	code:src/SLUS_013.95/800120A0.c:47 via=g_draw_info_buffers	consistent-with-bytes
+SLUS_013.95	0x800C4578	g_draw_info_buffers	code	code:src/SLUS_013.95/800120A0.c:45 via=g_draw_info_buffers	consistent-with-bytes
 SLUS_013.95	0x800C4758	g_pad2_buttons	code	code:src/SLUS_013.95/80012A34.c:84 via=g_pad2_buttons	consistent-with-bytes
-SLUS_013.95	0x800CD338	g_tilemap_width	code	code:src/SLUS_013.95/80026028.c:984 via=g_tilemap_width	consistent-with-bytes
-SLUS_013.95	0x800CD339	g_tilemap_height	code	code:src/SLUS_013.95/80026028.c:984 via=g_tilemap_height	consistent-with-bytes
+SLUS_013.95	0x800CD338	g_tilemap_width	code	code:src/SLUS_013.95/80026028.c:982 via=g_tilemap_width	consistent-with-bytes
+SLUS_013.95	0x800CD339	g_tilemap_height	code	code:src/SLUS_013.95/80026028.c:982 via=g_tilemap_height	consistent-with-bytes
 rock_02	0x800EFED0	update_d1000	community	refs/leads/tweaks/BossHealth.tsv:234 word 0x800EFF4C match; code:src/rock_02/d1000.c:19 via=D_800FB198	consistent-with-bytes
 rock_02	0x800F5170	update_high_max_intro	community	refs/leads/tweaks/BossHealth.tsv:284 word 0x800F21B0 match; code:src/rock_02/high_max_800F5170.c:2 via=update_high_max_intro	consistent-with-bytes
 rock_03	0x800F40C8	update_commander_yammark	community	refs/leads/tweaks/BossHealth.tsv:1346 word 0x800EF810 match; code:src/rock_03/commander_yammark.c:2 via=update_commander_yammark	consistent-with-bytes
@@ -541,28 +541,149 @@ rock_34	0x800FB9E4	update_blizzard_wolfang_boss_rush	community	refs/leads/tweaks
 rock_37	0x800FBCC8	update_ground_scaravich_boss_rush	community	refs/leads/tweaks/BossHealth.tsv:3414 word 0x800FCBE0 match; code:src/rock_37/ground_scaravich.c:5 via=D_800FD8C4	consistent-with-bytes
 rock_43	0x800FC128	update_nightmare_zero	community	refs/leads/tweaks/BossHealth.tsv:2571 word 0x800FA000 match (data, Values table); code:src/rock_43/nightmare_zero.c:5 via=D_800FE134	consistent-with-bytes
 rock_44	0x800FDA98	update_high_max_hidden_area	community	refs/leads/tweaks/BossHealth.tsv:2761 word 0x800FAAD8 match; code:src/rock_44/hidden_area.c:2 via=update_high_max_hidden_area	consistent-with-bytes
-SLUS_013.95	0x80012658	init_system	xref	derived.tsv:5; xref:caller=load_rock_dat_file_table; code:src/SLUS_013.95/system/system.c:96 via=load_rock_dat_file_table	consistent-with-bytes
+SLUS_013.95	0x80012658	init_system	xref	derived.tsv:5; xref:caller=load_rock_dat_file_table; code:src/SLUS_013.95/system/system.c:86 via=load_rock_dat_file_table	consistent-with-bytes
 SLUS_013.95	0x80015EC0	wait_for_file_load	xref	derived.tsv:6; xref:caller=init_loading_screen; code:src/SLUS_013.95/file/file_load.c:5 via=wait_for_file_load	consistent-with-bytes
-SLUS_013.95	0x80016D34	key_on_sfx_voices	xref	derived.tsv:7; xref:callee=play_sound; code:src/SLUS_013.95/sound/sound.c:43 via=key_on_sfx_voices	consistent-with-bytes
-SLUS_013.95	0x80017008	play_sfx_sequence	xref	derived.tsv:8; xref:callee=play_sound; code:src/SLUS_013.95/sound/sound.c:41 via=play_sfx_sequence	consistent-with-bytes
-SLUS_013.95	0x8001731C	load_player_sound_seqs	xref	derived.tsv:9; xref:callee=load_player_files; code:src/SLUS_013.95/file/player_files.c:48 via=load_player_sound_seqs	consistent-with-bytes
+SLUS_013.95	0x80016D34	key_on_sfx_voices	xref	derived.tsv:7; xref:callee=play_sound; code:src/SLUS_013.95/sound/sound.c:40 via=key_on_sfx_voices	consistent-with-bytes
+SLUS_013.95	0x80017008	play_sfx_sequence	xref	derived.tsv:8; xref:callee=play_sound; code:src/SLUS_013.95/sound/sound.c:38 via=play_sfx_sequence	consistent-with-bytes
+SLUS_013.95	0x8001731C	load_player_sound_seqs	xref	derived.tsv:9; xref:callee=load_player_files; code:src/SLUS_013.95/file/player_files.c:47 via=load_player_sound_seqs	consistent-with-bytes
 SLUS_013.95	0x80020D18	run_text_box	xref	derived.tsv:11; xref:caller=update_text_box; code:src/SLUS_013.95/text/text_box.c:13 via=update_text_box	consistent-with-bytes
-SLUS_013.95	0x80022838	load_speaker_palette	xref	derived.tsv:12; xref:callee=open_text_box; code:src/SLUS_013.95/text/text_box_80021760.c:124 via=load_speaker_palette	consistent-with-bytes
-SLUS_013.95	0x80031DA8	collide_solid_object	xref	derived.tsv:14; xref:caller=check_box_collision; code:src/SLUS_013.95/collision/solid_object.c:32 via=check_box_collision	consistent-with-bytes
-SLUS_013.95	0x80034FBC	update_player	xref	derived.tsv:15; xref:caller=player_update_flash; code:src/SLUS_013.95/player/player.c:68 via=player_update_flash	consistent-with-bytes
-SLUS_013.95	0x8003A2CC	try_enter_wall_cling	xref	derived.tsv:17; xref:caller=player_enter_wall_cling; code:src/SLUS_013.95/cling/enter_wall_cling.c:23 via=player_enter_wall_cling	consistent-with-bytes
+SLUS_013.95	0x80022838	load_speaker_palette	xref	derived.tsv:12; xref:callee=open_text_box; code:src/SLUS_013.95/text/text_box_80021760.c:123 via=load_speaker_palette	consistent-with-bytes
+SLUS_013.95	0x80031DA8	collide_solid_object	xref	derived.tsv:14; xref:caller=check_box_collision; code:src/SLUS_013.95/collision/solid_object.c:31 via=check_box_collision	consistent-with-bytes
+SLUS_013.95	0x80034FBC	update_player	xref	derived.tsv:15; xref:caller=player_update_flash; code:src/SLUS_013.95/player/player.c:58 via=player_update_flash	consistent-with-bytes
+SLUS_013.95	0x8003A2CC	try_enter_wall_cling	xref	derived.tsv:17; xref:caller=player_enter_wall_cling; code:src/SLUS_013.95/cling/enter_wall_cling.c:25 via=player_enter_wall_cling	consistent-with-bytes
 SLUS_013.95	0x8003A3DC	try_enter_ladder	xref	derived.tsv:18; xref:caller=player_enter_ladder_climb_on_top; code:src/SLUS_013.95/ladder/enter_ladder.c:30 via=player_enter_ladder_climb_on_top	consistent-with-bytes
-SLUS_013.95	0x8003A514	try_leave_ladder	xref	derived.tsv:19; xref:caller=player_enter_ladder_step_off_bottom; code:src/SLUS_013.95/ladder/leave_ladder.c:18 via=player_enter_ladder_step_off_bottom	consistent-with-bytes
-SLUS_013.95	0x8003F048	update_weapon_switch	xref	derived.tsv:22; xref:caller=switch_weapon; code:src/SLUS_013.95/weapon/weapon_switch.c:18 via=switch_weapon	consistent-with-bytes
-SLUS_013.95	0x8003F32C	try_start_air_dash	xref	derived.tsv:23; xref:callee=select_air_dash; code:src/SLUS_013.95/dash/air_dash.c:57 via=try_start_air_dash	consistent-with-bytes
+SLUS_013.95	0x8003A514	try_leave_ladder	xref	derived.tsv:19; xref:caller=player_enter_ladder_step_off_bottom; code:src/SLUS_013.95/ladder/leave_ladder.c:19 via=player_enter_ladder_step_off_bottom	consistent-with-bytes
+SLUS_013.95	0x8003F048	update_weapon_switch	xref	derived.tsv:22; xref:caller=switch_weapon; code:src/SLUS_013.95/weapon/weapon_switch.c:17 via=switch_weapon	consistent-with-bytes
+SLUS_013.95	0x8003F32C	try_start_air_dash	xref	derived.tsv:23; xref:callee=select_air_dash; code:src/SLUS_013.95/dash/air_dash.c:56 via=try_start_air_dash	consistent-with-bytes
 SLUS_013.95	0x8003F864	start_player_attack	xref	derived.tsv:24; xref:caller=start_saber; code:src/SLUS_013.95/attack/player_attack.c:5 via=start_player_attack	consistent-with-bytes
-SLUS_013.95	0x80049478	update_buster_shot_visual	xref	derived.tsv:25; xref:caller=init_buster_shot_visual; code:src/SLUS_013.95/weapon/buster_shot_visual_80049478.c:20 via=init_buster_shot_visual	consistent-with-bytes
-SLUS_013.95	0x800515B4	update_capsule	xref	derived.tsv:28; xref:caller=init_capsule; code:src/SLUS_013.95/item/capsule_800515B4.c:31 via=init_capsule	consistent-with-bytes
+SLUS_013.95	0x80049478	update_buster_shot_visual	xref	derived.tsv:25; xref:caller=init_buster_shot_visual; code:src/SLUS_013.95/weapon/buster_shot_visual_80049478.c:19 via=init_buster_shot_visual	consistent-with-bytes
+SLUS_013.95	0x800515B4	update_capsule	xref	derived.tsv:28; xref:caller=init_capsule; code:src/SLUS_013.95/item/capsule_800515B4.c:30 via=init_capsule	consistent-with-bytes
 rock_01	0x801EC614	update_rekkoha	xref	derived.tsv:30; xref:callee=start_rekkoha; code:src/rock_01/rekkoha.c:49 via=update_rekkoha	consistent-with-bytes
 rock_01	0x801ECA50	try_hyoroga_from_ceiling	xref	derived.tsv:31; xref:caller=attack_hyoroga_from_ceiling; code:src/rock_01/hyoroga_from_ceiling.c:25 via=attack_hyoroga_from_ceiling	consistent-with-bytes
-rock_03	0x800F5664	step_commander_yammark	xref	derived.tsv:32; xref:callee=update_commander_yammark; code:src/shared/commander_yammark/step_commander_yammark.c:12 via=step_commander_yammark	consistent-with-bytes
+rock_03	0x800F5664	step_commander_yammark	xref	derived.tsv:32; xref:callee=update_commander_yammark; code:src/shared/commander_yammark/step_commander_yammark.c:13 via=step_commander_yammark	consistent-with-bytes
 rock_12	0x800EA324	start_demo_xa_track	xref	derived.tsv:33; xref:caller=play_demo_xa_track; code:src/rock_12/demo_xa.c:17 via=play_demo_xa_track	consistent-with-bytes
 rock_20	0x800EAC28	init_mission_report	xref	derived.tsv:34; xref:caller=build_mission_report_list; code:src/rock_20/mission_report.c:33 via=build_mission_report_list	consistent-with-bytes
 rock_20	0x800EB964	update_memcard_format	xref	derived.tsv:35; xref:caller=memcard_format; code:src/rock_20/memcard_format.c:63 via=memcard_format	consistent-with-bytes
 rock_16	0x800F0EDC	part_slots_by_rank	community	tweaks-index.tsv:148; corroborator func_800EBEA8 indexes it by the playthrough rank byte (g_playthrough_state +0x8D) and tests != 0; func_800EC1FC returns an entry	consistent-with-bytes
 rock_16	0x800F1CB0	menu_armor_slots	community	tweaks-index.tsv:269; corroborator func_800E9898 fills it with slot ids 0,1,5,2,3,4 from selectable_characters bits (+0x5F), count in D_800F1CEB; func_800EB080 reads it	consistent-with-bytes
+SLUS_013.95	0x8009B7B0	g_class3_slots	code	code:src/SLUS_013.95/object/class3_slot.c:18 via=g_class3_slots; pool of 0x60 0x30-byte slots scanned for active == 0; objects.tsv:341	consistent-with-bytes
+SLUS_013.95	0x800C1220	g_class4_slots	code	code:src/SLUS_013.95/object/class4_slot.c:18 via=g_class4_slots; pool of 0x50 0xA4-byte slots scanned for active == 0; objects.tsv:342	consistent-with-bytes
+SLUS_013.95	0x8009C9B0	g_class6_slots	code	code:src/SLUS_013.95/object/class6_slot.c:17 via=g_class6_slots; pool of X4_QuadObj slots scanned for active == 0; objects.tsv:344	consistent-with-bytes
+SLUS_013.95	0x800C4778	g_class7_slots	code	code:src/SLUS_013.95/object/class7_slot.c:15 via=g_class7_slots; pool of 4 X4_LayerObj slots scanned for active == 0; objects.tsv:345	consistent-with-bytes
+SLUS_013.95	0x80073760	g_angle_x_speeds	code	code:src/SLUS_013.95/object/velocity_from_angle.c:35 via=g_angle_x_speeds; 9 s32 indexed by angle distance, times sign, stored to x_vel	consistent-with-bytes
+SLUS_013.95	0x80073784	g_angle_y_speeds	code	code:src/SLUS_013.95/object/velocity_from_angle.c:36 via=g_angle_y_speeds; 9 s32 indexed by angle distance, times sign, stored to y_vel	consistent-with-bytes
+SLUS_013.95	0x801F8100	g_task_slots	code	code:src/SLUS_013.95/task/task.c:15 via=g_task_slots; 4 struct TaskSlot (0x80) indexed by slot << 7, OpenTh/CloseTh per slot	consistent-with-bytes
+SLUS_013.95	0x801F8300	g_cur_task_slot	code	code:src/SLUS_013.95/task/task_yield.c:12 via=g_cur_task_slot; struct TaskSlot pointer whose wait/status task_yield sets before ChangeTh to the main thread	consistent-with-bytes
+SLUS_013.95	0x8006D600	button_map	code	code:src/SLUS_013.95/system/buttons.c:12 via=map_buttons; derived.tsv:37	consistent-with-bytes
+SLUS_013.95	0x80073ACC	player_action_handlers	oracle	derived.tsv:38; oracle:docs/systems/movement.md mv_walk-0005 mv_walk-0008 mv_jump-0021	consistent-with-bytes
+SLUS_013.95	0x80073C04	dash_phase_table	oracle	derived.tsv:39; oracle:docs/systems/movement.md mv_dash-0021 mv_dash-0023 mv_dash-0024	consistent-with-bytes
+SLUS_013.95	0x80073C58	ceiling_jump_phase_table	oracle	derived.tsv:41; oracle:docs/systems/movement.md mv_ceiling2-0023 mv_ceiling2-0024 mv_ceiling2-0027	consistent-with-bytes
+SLUS_013.95	0x80073C78	hurt_motion_table	code	code:src/SLUS_013.95/damage/hurt_8003963C.c:38 via=x_vel; derived.tsv:43	consistent-with-bytes
+SLUS_013.95	0x80073CD8	hurt_invincibility_times	code	code:src/SLUS_013.95/damage/hurt_8003963C.c:56 via=invincibility_timer; derived.tsv:44	consistent-with-bytes
+SLUS_013.95	0x80073D60	dash_spark_offsets	code	code:src/SLUS_013.95/dash/spawn_dash_spark.c:46 via=dash_spark_offsets; derived.tsv:45	consistent-with-bytes
+SLUS_013.95	0x80073EC0	switch_weapon_stage_masks	code	code:src/SLUS_013.95/weapon/weapon.c:47 via=beaten_stages; derived.tsv:47	consistent-with-bytes
+SLUS_013.95	0x80073EC8	switch_weapon_slot_weapons	code	code:src/SLUS_013.95/weapon/weapon.c:60 via=weapon; derived.tsv:48	consistent-with-bytes
+SLUS_013.95	0x80073ED0	switch_weapon_weapon_slots	code	code:src/SLUS_013.95/weapon/weapon.c:39 via=weapon; derived.tsv:49	consistent-with-bytes
+SLUS_013.95	0x800762C0	ceiling_state_table	xref	derived.tsv:53; xref:callee=clamp_player_to_ceiling; code:src/SLUS_013.95/cling/player_to_ceiling.c:44 via=state	consistent-with-bytes
+SLUS_013.95	0x8007789C	g_visual_animation_tables	code	code:src/SLUS_013.95/dash/spawn_dash_spark.c:37 via=animation_table; derived.tsv:54	consistent-with-bytes
+SLUS_013.95	0x80012D9C	start_pad_vibration	code	code:src/SLUS_013.95/system/pad.c:30 via=PadInfoMode; derived.tsv:55	consistent-with-bytes
+SLUS_013.95	0x80017A04	animate_object	code	code:src/SLUS_013.95/player/script_vanish.c:14 via=animation_step; derived.tsv:56	consistent-with-bytes
+SLUS_013.95	0x8002C398	find_free_visual_obj	code	code:src/SLUS_013.95/effect/dust.c:15 via=active; derived.tsv:59	consistent-with-bytes
+SLUS_013.95	0x8002CBFC	is_off_screen	code	code:src/SLUS_013.95/title/screen_8002CBFC.c:17 via=background_objects; derived.tsv:60	consistent-with-bytes
+SLUS_013.95	0x8002CFB0	apply_player_motion	code	code:src/SLUS_013.95/player/player_motion.c:35 via=gravity; derived.tsv:61	consistent-with-bytes
+SLUS_013.95	0x8002D5D0	move_by_velocity	xref	derived.tsv:62; xref:callee=handle_slide_down; code:src/SLUS_013.95/player/slide_down.c:33 via=handle_slide_down	consistent-with-bytes
+SLUS_013.95	0x8002FD3C	get_tile_attr_top	code	code:src/SLUS_013.95/collision/tile_attr_top.c:12 via=terrain_box; derived.tsv:63	consistent-with-bytes
+SLUS_013.95	0x8002FE30	get_tile_attr_above	code	code:src/SLUS_013.95/collision/tile_attr_above.c:34 via=bg_offset; derived.tsv:64	consistent-with-bytes
+SLUS_013.95	0x8002FF70	get_tile_attr_bottom	code	code:src/SLUS_013.95/collision/tile_attr_bottom.c:22 via=bg_offset; derived.tsv:65	consistent-with-bytes
+SLUS_013.95	0x80030068	get_tile_attr_below	code	code:src/SLUS_013.95/collision/tile_attr_below.c:12 via=terrain_box; derived.tsv:66	consistent-with-bytes
+SLUS_013.95	0x8003015C	get_tile_attr_origin	code	code:src/SLUS_013.95/collision/tile_attr_origin.c:20 via=bg_offset; derived.tsv:67	consistent-with-bytes
+SLUS_013.95	0x80035274	update_stand	oracle	derived.tsv:70; oracle:docs/systems/movement.md mv_walk-0008 mv_walk-0023 mv_jump-0038	consistent-with-bytes
+SLUS_013.95	0x800368FC	update_fall	oracle	derived.tsv:75; oracle:docs/systems/movement.md mv_jump-0028 mv_jump-0041 mv_hover2-0040	consistent-with-bytes
+SLUS_013.95	0x80036A04	update_landing	oracle	derived.tsv:76; oracle:docs/systems/movement.md mv_jump-0035 mv_jump-0042 mv_dash-0049	consistent-with-bytes
+SLUS_013.95	0x800370B0	update_dash	oracle	derived.tsv:82; oracle:docs/systems/movement.md mv_dash-0021 mv_dash-0023 mv_dash-0024	consistent-with-bytes
+SLUS_013.95	0x80037610	update_ladder_climb_up	xref	derived.tsv:84; xref:caller=try_leave_ladder; code:src/SLUS_013.95/ladder/ladder_climb_80037610.c:22 via=try_leave_ladder	consistent-with-bytes
+SLUS_013.95	0x80037704	update_ladder_climb_down	xref	derived.tsv:85; xref:caller=try_leave_ladder; code:src/SLUS_013.95/ladder/ladder_climb_80037610.c:74 via=try_leave_ladder	consistent-with-bytes
+SLUS_013.95	0x80037880	update_hurt_knockback	oracle	derived.tsv:86; oracle:docs/systems/movement.md mv_wall-0021 mv_wall-0023 mv_wall-0024 mv_lowhp-0044	consistent-with-bytes
+SLUS_013.95	0x80037A60	move_x_backward	code	code:src/SLUS_013.95/player/x_backward.c:31 via=facing; derived.tsv:87	consistent-with-bytes
+SLUS_013.95	0x80037DC4	update_control_lock	oracle	derived.tsv:88; oracle:docs/systems/movement.md mv_walk-0007 mv_hover2-0009 mv_ceiling2-0009	consistent-with-bytes
+SLUS_013.95	0x800381F0	update_ceiling_jump	oracle	derived.tsv:89; oracle:docs/systems/movement.md mv_ceiling2-0023 mv_ceiling2-0024 mv_ceiling2-0027	consistent-with-bytes
+SLUS_013.95	0x80038248	end_ceiling_jump	code	code:src/SLUS_013.95/cling/ceiling_jump_800381F0.c:46 via=base_gravity; derived.tsv:90	consistent-with-bytes
+SLUS_013.95	0x80039228	update_player_damage	code	code:src/SLUS_013.95/damage/damage_80039228.c:119 via=invincibility_timer; derived.tsv:91	consistent-with-bytes
+SLUS_013.95	0x8003963C	start_hurt	code	code:src/SLUS_013.95/damage/hurt_8003963C.c:35 via=hurt_type; derived.tsv:92	consistent-with-bytes
+SLUS_013.95	0x800397F8	snap_to_tile_slope	code	code:src/SLUS_013.95/collision/to_tile_slope.c:58 via=y_pos; derived.tsv:93	consistent-with-bytes
+SLUS_013.95	0x80039DFC	check_floor_lost	code	code:src/SLUS_013.95/player/floor_lost.c:23 via=latched_collision_flags; derived.tsv:97	consistent-with-bytes
+SLUS_013.95	0x80039F78	update_double_tap_dash	code	code:src/SLUS_013.95/dash/double_tap_dash.c:25 via=double_tap_dash; derived.tsv:98	consistent-with-bytes
+SLUS_013.95	0x80039FFC	check_dash_end	code	code:src/SLUS_013.95/dash/dash_end.c:40 via=dash_timer; derived.tsv:99	consistent-with-bytes
+SLUS_013.95	0x8003A33C	try_wall_jump	code	code:src/SLUS_013.95/cling/wall_jump_8003A33C.c:18 via=wall_climbable; derived.tsv:100	consistent-with-bytes
+SLUS_013.95	0x8003A394	is_pressing_into_wall	xref	derived.tsv:101; xref:callee=try_enter_wall_cling; code:src/SLUS_013.95/cling/pressing_into_wall.c:17 via=latched_collision_flags	consistent-with-bytes
+SLUS_013.95	0x8003A488	try_grab_ladder_from_air	code	code:src/SLUS_013.95/ladder/grab_ladder_from_air.c:24 via=attacking; derived.tsv:102	consistent-with-bytes
+SLUS_013.95	0x8003A9C4	start_dash	code	code:src/SLUS_013.95/dash/dash_8003A9C4.c:50 via=dash_timer; derived.tsv:103	consistent-with-bytes
+SLUS_013.95	0x8003AE8C	start_walk	code	code:src/SLUS_013.95/player/walk_8003AE8C.c:19 via=action; derived.tsv:105	consistent-with-bytes
+SLUS_013.95	0x8003B054	player_land	xref	derived.tsv:109; xref:caller=player_check_dash_jump_walk; code:src/SLUS_013.95/player/land.c:26 via=player_check_dash_jump_walk	consistent-with-bytes
+SLUS_013.95	0x8003B63C	grab_ladder	xref	derived.tsv:112; xref:callee=try_enter_ladder; code:src/SLUS_013.95/ladder/ladder.c:23 via=x_pos	consistent-with-bytes
+SLUS_013.95	0x8003BB94	player_set_animation_frame	xref	derived.tsv:116; xref:caller=set_animation_frame; code:src/SLUS_013.95/graphics/set_animation_frame.c:61 via=set_animation_frame	consistent-with-bytes
+SLUS_013.95	0x8003C4EC	player_load_weapon_palette	xref	derived.tsv:117; xref:caller=load_palette; code:src/SLUS_013.95/weapon/load_weapon_palette.c:39 via=load_palette	consistent-with-bytes
+SLUS_013.95	0x8003CE30	clear_flash_palette	code	code:include/mmx6/player.h:121 via=flash_palette; derived.tsv:120	consistent-with-bytes
+SLUS_013.95	0x8003CF24	load_buffered_palette	code	code:src/SLUS_013.95/graphics/buffered_palette.c:10 via=load_palette; derived.tsv:121	consistent-with-bytes
+SLUS_013.95	0x8003CF54	load_player_palette	code	code:src/SLUS_013.95/graphics/player_palette.c:13 via=load_palette; derived.tsv:122	consistent-with-bytes
+SLUS_013.95	0x8003D10C	set_stand_animation_by_hp	code	code:src/SLUS_013.95/graphics/animation_8003D10C.c:13 via=g_playthrough_state; derived.tsv:124	consistent-with-bytes
+SLUS_013.95	0x8003D18C	set_air_x_velocity	xref	derived.tsv:125; xref:callee=handle_jump_rise; code:src/SLUS_013.95/player/jump_rise.c:17 via=handle_jump_rise	consistent-with-bytes
+SLUS_013.95	0x8003D630	init_move_stats	code	code:src/SLUS_013.95/player/move_stats.c:14 via=equipped_parts; derived.tsv:127	consistent-with-bytes
+SLUS_013.95	0x8003DF58	set_shot_types	code	code:src/SLUS_013.95/weapon/shot_types.c:41 via=shot_types; derived.tsv:130	consistent-with-bytes
+SLUS_013.95	0x8003E174	try_shoot_in_air	xref	derived.tsv:131; xref:caller=start_player_attack; code:src/SLUS_013.95/weapon/shoot_in_air.c:47 via=start_player_attack	consistent-with-bytes
+SLUS_013.95	0x8003E260	try_shoot_on_ladder	xref	derived.tsv:132; xref:caller=start_player_attack; code:src/SLUS_013.95/weapon/shoot_on_ladder.c:40 via=start_player_attack	consistent-with-bytes
+SLUS_013.95	0x8003E614	try_fire_shot	xref	derived.tsv:133; xref:caller=use_weapon_energy; code:src/SLUS_013.95/weapon/fire_shot.c:114 via=use_weapon_energy	consistent-with-bytes
+SLUS_013.95	0x8003EC78	update_player_charge	xref	derived.tsv:21; xref:caller=charge_special_weapon; code:src/SLUS_013.95/weapon/player_charge.c:51 via=charge_special_weapon	consistent-with-bytes
+SLUS_013.95	0x8003F0BC	react_to_weapon_change	xref	derived.tsv:135; xref:callee=update_weapon_switch; code:src/SLUS_013.95/weapon/to_weapon_change.c:17 via=player_spawn_visual	consistent-with-bytes
+SLUS_013.95	0x8003F13C	try_start_attack	xref	derived.tsv:136; xref:caller=start_player_attack; code:src/SLUS_013.95/attack/start_attack.c:38 via=start_player_attack	consistent-with-bytes
+SLUS_013.95	0x8003F644	try_start_shot_attack	xref	derived.tsv:138; xref:caller=start_player_attack; code:src/SLUS_013.95/attack/start_shot_attack.c:39 via=start_player_attack	consistent-with-bytes
+SLUS_013.95	0x8003FF90	player_set_charge_flash	code	code:src/SLUS_013.95/weapon/set_charge_flash.c:41 via=flash_palette; derived.tsv:140	consistent-with-bytes
+rock_00	0x801EB8B8	update_air_dash	oracle	derived.tsv:143; oracle:docs/systems/movement.md mv_airdash-0031 mv_falcon-0035 mv_ladder2-0053	consistent-with-bytes
+rock_01	0x801EBE04	try_start_rekkoha	xref	derived.tsv:144; xref:caller=start_rekkoha; code:src/rock_01/801EA7A4.c:817 via=start_rekkoha	consistent-with-bytes
+rock_00	0x801EC020	player_hover_idle	xref	derived.tsv:145; xref:caller=player_hover_set_direction; code:src/rock_00/801EB7C8.c:341 via=player_hover_set_direction	consistent-with-bytes
+rock_01	0x801EC298	try_start_air_jump	xref	derived.tsv:147; xref:callee=select_air_dash; code:src/SLUS_013.95/dash/air_dash.c:40 via=select_air_dash	consistent-with-bytes
+SLUS_013.95	0x8003B440	start_wall_jump	code	code:src/SLUS_013.95/cling/wall_jump_8003B440.c:52 via=action; glossary.md:425 (wall jump); derived.tsv:110	consistent-with-bytes
+SLUS_013.95	0x8006D674	part_by_reploid	community	tweaks-index.tsv:353; corroborator s32 table read [row*16+slot] (rock_16 800E9898.c:2920) and tested against a part bit (rock_20 800EE878.c:1226)	consistent-with-bytes
+SLUS_013.95	0x80035144	update_stage_entry	code	code:src/SLUS_013.95/player/stage_entry.c:44 via=init_move_stats; derived.tsv:69	consistent-with-bytes
+SLUS_013.95	0x800353C0	update_walk_start	code	code:src/SLUS_013.95/player/walk_8003AE8C.c:19 via=action; derived.tsv:71	consistent-with-bytes
+SLUS_013.95	0x8003674C	update_move_off_screen	code	code:src/SLUS_013.95/800365D4.c:88 via=is_off_screen; derived.tsv:74	consistent-with-bytes
+SLUS_013.95	0x80036B10	update_wall_cling	code	code:src/SLUS_013.95/cling/wall_cling.c:30 via=try_wall_jump; derived.tsv:77	consistent-with-bytes
+SLUS_013.95	0x80036C28	update_wall_jump	code	code:src/SLUS_013.95/cling/wall_jump_8003B440.c:52 via=action; derived.tsv:78	consistent-with-bytes
+SLUS_013.95	0x80036C68	update_wall_jump_push	code	code:src/SLUS_013.95/cling/wall_jump_8003B440.c:53 via=action_phase; derived.tsv:79	consistent-with-bytes
+SLUS_013.95	0x80036D4C	update_wall_jump_rise	code	code:src/SLUS_013.95/cling/wall_jump.c:105 via=y_vel; derived.tsv:80	consistent-with-bytes
+SLUS_013.95	0x80036E70	update_slide_down	xref	derived.tsv:16; xref:callee=handle_slide_down; code:src/SLUS_013.95/player/slide_down.c:15 via=handle_slide_down	consistent-with-bytes
+SLUS_013.95	0x80036FBC	update_slide_down_let_go	code	code:src/SLUS_013.95/player/slide_down.c:60 via=is_pressing_into_wall; derived.tsv:81	consistent-with-bytes
+SLUS_013.95	0x80039CFC	check_walk_start_input	xref	derived.tsv:95; xref:caller=update_stand; code:src/SLUS_013.95/player/stand.c:28 via=start_walk	consistent-with-bytes
+SLUS_013.95	0x80039D7C	check_walk_input	xref	derived.tsv:96; xref:caller=player_check_dash_jump_walk; code:src/SLUS_013.95/player/walk.c:12 via=player_check_dash_jump_walk	consistent-with-bytes
+SLUS_013.95	0x8003AF1C	start_jump	code	code:src/SLUS_013.95/player/walk.c:17 via=PLAYER_INPUT_JUMP; derived.tsv:107	consistent-with-bytes
+SLUS_013.95	0x800358D4	update_dash_phase1	code	code:src/SLUS_013.95/dash/dash.c:16 via=dash_phase_table; derived.tsv:152	consistent-with-bytes
+SLUS_013.95	0x8003A980	cancel_player_attack	code	code:src/SLUS_013.95/8003A980.c:18 via=clear_flash_palette; derived.tsv:153	consistent-with-bytes
+SLUS_013.95	0x8003C7D8	spawn_dash_tile24_visual	xref	derived.tsv:155; xref:caller=player_spawn_dash_spark; code:src/SLUS_013.95/8003C7D8.c:23 via=get_tile_attr_bottom; code:src/SLUS_013.95/dash/spawn_dash_spark.c:14 via=player_spawn_dash_spark	consistent-with-bytes
+SLUS_013.95	0x8003C964	spawn_wall_jump_visual	xref	derived.tsv:156; xref:caller=start_wall_jump; code:src/SLUS_013.95/cling/wall_jump_8003B440.c:13 via=start_wall_jump	consistent-with-bytes
+SLUS_013.95	0x8003CD9C	player_clear_dash	code	code:src/SLUS_013.95/8003CD9C.c:5 via=dash_momentum; derived.tsv:118	consistent-with-bytes
+SLUS_013.95	0x8003CFE0	play_sound_unless_low_health	xref	derived.tsv:123; xref:callee=play_sound; code:src/SLUS_013.95/8003CFE0.c:9 via=play_sound; code:src/SLUS_013.95/cling/wall_jump_8003B440.c:13 via=start_wall_jump	consistent-with-bytes
+SLUS_013.95	0x8003F3DC	refresh_weapon_state	xref	derived.tsv:157; xref:callee=set_shot_types; code:src/SLUS_013.95/8003F3DC.c:17 via=set_shot_types	consistent-with-bytes
+SLUS_013.95	0x80039C9C	check_crouch_input	community	docs/leads/tweaks-index.tsv:259; refs/leads/tweaks/Autocrouch.tsv:1466-1467; derived.tsv:160	consistent-with-bytes
+SLUS_013.95	0x8003B7B4	player_enter_ladder_climb_up	xref	derived.tsv:161; xref:caller=update_ladder_climb_down; code:src/SLUS_013.95/ladder/ladder_climb_80037610.c:68 via=update_ladder_climb_down	consistent-with-bytes
+SLUS_013.95	0x8003B810	player_enter_ladder_climb_down	xref	derived.tsv:162; xref:caller=update_ladder_climb_up; code:src/SLUS_013.95/ladder/ladder_climb_80037610.c:16 via=update_ladder_climb_up	consistent-with-bytes
+SLUS_013.95	0x8003BA04	player_set_animation	xref	derived.tsv:115; xref:callee=set_animation; code:src/SLUS_013.95/8003B7B4.c:169 via=set_animation	consistent-with-bytes
+SLUS_013.95	0x8003CCBC	set_pose_size	community	docs/leads/tweaks-index.tsv:255; refs/leads/tweaks/Autocrouch.tsv:690-691; derived.tsv:163	consistent-with-bytes
+SLUS_013.95	0x8003CDBC	player_clear_attack	code	code:src/SLUS_013.95/8003CD9C.c:18 via=attacking; derived.tsv:119	consistent-with-bytes
+SLUS_013.95	0x8003D598	set_base_move_stats	xref	derived.tsv:126; xref:caller=init_move_stats; code:src/SLUS_013.95/player/move_stats.c:10 via=init_move_stats; code:src/SLUS_013.95/8003D598.c:34 via=dash_speed	consistent-with-bytes
+SLUS_013.95	0x8003F480	player_reset_charge	code	code:src/SLUS_013.95/8003F3DC.c:41 via=charge_timer; derived.tsv:137	consistent-with-bytes
+SLUS_013.95	0x8003FFF4	update_special_charge	code	code:src/SLUS_013.95/8003FFF4.c:30 via=special_charge_timer; derived.tsv:164	consistent-with-bytes
+rock_01	0x801EA254	check_yammar_option_input	community	docs/leads/tweaks-index.tsv:222; refs/leads/tweaks/ZeroSkills.tsv:104-105; derived.tsv:165	consistent-with-bytes
+rock_01	0x801EA454	check_sentsuizan_input	community	docs/leads/tweaks-index.tsv:235; refs/leads/tweaks/ZeroSkills.tsv:1754-1755; derived.tsv:167	consistent-with-bytes
+rock_01	0x801EA560	check_ensuizan_input	community	docs/leads/tweaks-index.tsv:235; refs/leads/tweaks/ZeroSkills.tsv:1825,1912-1913; derived.tsv:169	consistent-with-bytes
+rock_00	0x801EB61C	update_x_stand_animation	xref	derived.tsv:141; xref:callee=set_stand_animation_by_hp; code:src/rock_00/801EA0C4.c:736 via=set_stand_animation_by_hp; code:src/SLUS_013.95/player/stand.c:14 via=update_stand	consistent-with-bytes
+rock_00	0x801EB6E8	player_enter_ladder_shoot	xref	derived.tsv:142; xref:caller=try_shoot_on_ladder; code:src/SLUS_013.95/weapon/shoot_on_ladder.c:12 via=try_shoot_on_ladder	consistent-with-bytes
+rock_00	0x801EB7C8	update_hover	oracle	derived.tsv:173; oracle:docs/systems/movement.md mv_hover2-0037 mv_hover2-0038 mv_hover2-0039	consistent-with-bytes
+rock_01	0x801EC86C	check_shoenzan_input	community	docs/leads/tweaks-index.tsv:235; refs/leads/tweaks/ZeroSkills.tsv:1692-1693; derived.tsv:177	consistent-with-bytes
+rock_01	0x801EC9C4	update_zero_stand_animation	xref	derived.tsv:148; xref:caller=update_stand; code:src/rock_01/801EC68C.c:172 via=g_playthrough_state; code:src/SLUS_013.95/player/stand.c:14 via=update_stand	consistent-with-bytes
+SLUS_013.95	0x80074074	shot_limits	code	code:src/SLUS_013.95/weapon/fire_shot.c:17 via=try_fire_shot; code:include/mmx6/player.h:113 via=shot_count; derived.tsv:180	consistent-with-bytes
+SLUS_013.95	0x8002D230	apply_object_motion	code	code:src/SLUS_013.95/8002D0D8.c:80 via=gravity; derived.tsv:181	consistent-with-bytes
+SLUS_013.95	0x8003A0E8	check_dash_end_no_release	code	code:src/SLUS_013.95/8003A0E8.c:34 via=dash_timer; code:src/SLUS_013.95/dash/dash_end.c:12 via=check_dash_end; derived.tsv:182	consistent-with-bytes
+SLUS_013.95	0x8003B548	start_slide_down	code	code:src/SLUS_013.95/8003B548.c:24 via=action; derived.tsv:20	consistent-with-bytes
+SLUS_013.95	0x8003B6B4	reach_ladder_top	xref	derived.tsv:113; xref:callee=try_leave_ladder; code:src/SLUS_013.95/ladder/leave_ladder.c:13 via=try_leave_ladder; code:src/SLUS_013.95/ladder/enter_ladder.c:30 via=player_enter_ladder_climb_on_top	consistent-with-bytes
+SLUS_013.95	0x8003D718	load_armor_and_parts	code	code:src/SLUS_013.95/player/armor.c:16 via=armor; code:src/SLUS_013.95/player/armor.c:17 via=equipped_parts; derived.tsv:128	consistent-with-bytes
+SLUS_013.95	0x800400B4	get_shot_limit	code	code:src/SLUS_013.95/weapon/fire_shot.c:17 via=try_fire_shot; code:include/mmx6/player.h:113 via=shot_count; derived.tsv:183	consistent-with-bytes

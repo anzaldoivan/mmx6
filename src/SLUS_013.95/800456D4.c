@@ -1,9 +1,9 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-extern u8 D_80076194[][2];
 extern void (*D_800761A8[])();
 extern struct X4_PlayerObj g_Player;
 
@@ -15,7 +15,7 @@ void func_800456D4(struct X4_WeaponObj* arg0) {
 
     if (arg0->unk2 != 0 && arg0->id == 7) {
         player = &g_Player;
-        if (player->unk15 != 0) {
+        if (player->facing != 0) {
             arg0->x_pos.i.hi =
                 player->x_pos.i.hi - (s8)D_80076194[arg0->unk2 - 1][0];
         } else {
@@ -96,7 +96,7 @@ s32 play_sound(s32 a0, s32 a1, void* arg2);
 #define play_sound ((void (*)(s32, s32, void*))play_sound)
 M2C_UNK set_animation(void*, M2C_UNK);
 #define set_animation ((void (*)(void*, s32))set_animation)
-void func_8003CF24(s32, s32, s32);
+void load_buffered_palette(s32, s32, s32);
 void* func_8003D480(s8 arg0, s8 arg1, s8 arg2, s32 arg3);
 M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
                             M2C_UNK arg3);
@@ -136,7 +136,7 @@ void func_80045928(struct X4_WeaponObj* arg0) {
             arg0->unk7++;
         }
         player_spawn_visual(1, 0x1B, 0xB, 0);
-        func_8003CF24(0x1E, 1, 1);
+        load_buffered_palette(0x1E, 1, 1);
         {
             // !FAKE: depin: dropping it breaks the match (67/187)
             register s32 t asm("$3") = (u8)arg0->state + 1;
@@ -190,7 +190,7 @@ void func_80045928(struct X4_WeaponObj* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04(); /* extern */
+M2C_UNK animate_object(); /* extern */
 extern s16 D_800761FC[];
 extern u8 D_8007620C[];
 
@@ -208,7 +208,7 @@ void func_80045C14(void* arg0) {
         M2C_FIELD(arg0, u8*, 4) = 3;
         return;
     }
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
     i = (M2C_FIELD(arg0, s8*, 2) - 1) * 4;
     a = *(s16*)(i + (u8*)D_800761FC);
     b = *(s16*)((u8*)D_800761FC + i + 2);
@@ -248,16 +248,16 @@ void func_80045D68(struct ObjectHeader* arg0) {
     if (PL_S8(p, 0xD4) != 0) {
         var_a1 = 1;
     }
-    if ((p->unk2 == 1) && (p->stock_charge != 2)) {
+    if ((p->character == 1) && (p->stock_charge != 2)) {
         var_a1 = 1;
     }
-    if (((u8)p->unk2 == 0) && (p->weapon != 7)) {
+    if (((u8)p->character == 0) && (p->weapon != 7)) {
         var_a1 = 1;
     }
     if (PL_S8(p, 0xD5) != 0) {
         var_a1 = 1;
     }
-    if (((u8)p->unk2 == 0) && (p->shot_type == 0x10)) {
+    if (((u8)p->character == 0) && (p->shot_type == 0x10)) {
         var_a1 = 1;
     }
     if (p->hp == 0) {
@@ -298,11 +298,10 @@ void func_80045E58(s8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
-
-extern u8 D_80076194[][2];
+#include "mmx6/globals.h"
 
 void func_80045ED4(struct X4_WeaponObj* arg0, struct X4_PlayerObj* arg1) {
-    if (arg1->unk15 != 0) {
+    if (arg1->facing != 0) {
         arg0->x_pos.i.hi = arg1->x_pos.i.hi - (s8)D_80076194[arg0->unk2 - 1][0];
     } else {
         arg0->x_pos.i.hi = arg1->x_pos.i.hi + (s8)D_80076194[arg0->unk2 - 1][0];
@@ -325,7 +324,7 @@ void func_80045F78(void* arg0) {
     s32 hit = 0;
     s32 v;
 
-    if (p->unk2 != 0) {
+    if (p->character != 0) {
         s16 w = F5F78(p, s16, 0xB0);
 
         hit = w < get_weapon_energy_cost(p, 4);
@@ -336,7 +335,7 @@ void func_80045F78(void* arg0) {
             hit = 1;
         }
     }
-    if (p->unk2 == 0 && (F5F78(p, u16, 0x80) & 0x10)) {
+    if (p->character == 0 && (F5F78(p, u16, 0x80) & 0x10)) {
         hit = 1;
     }
     if (hit != 0) {
@@ -351,14 +350,14 @@ void func_80045F78(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 extern s32 D_8007618C;
 extern s32 D_80076190;
 
 void func_8004605C(u8* arg0) {
     s32* var_v0;
 
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     if (*(s8*)(arg0 + 0x45) != 0) {
         if (*(s8*)(arg0 + 2) < 3) {
             var_v0 = &D_8007618C;
@@ -377,10 +376,10 @@ void func_8004605C(u8* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 
 void func_800460C8(void* arg0) {
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     if (M2C_FIELD(arg0, u8*, 0x9C) & 2) {
         M2C_FIELD(arg0, s8*, 0x8F) = 1;
         if (M2C_FIELD(arg0, s8*, 0x2) < 3) {
@@ -396,21 +395,22 @@ void func_800460C8(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
+M2C_UNK animate_object();
+s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
 M2C_UNK move_object(void*);
 M2C_UNK func_8002EE10(void*);
 void func_80049D90(void*);
 
 void func_80046148(u8* arg0) {
-    if (func_8002CBFC(arg0, 0x20, 0x20) == 0) {
+    if (is_off_screen(arg0, 0x20, 0x20) == 0) {
         arg0[3] = 1;
-        func_80017A04(arg0);
+        animate_object(arg0);
         move_object(arg0);
         {
             // !FAKE: depin: dropping it breaks the match (36/38)
             register s32 t asm("$2") = *(s8*)(arg0 + 0x98);
             if (t != 0) {
+                // !FAKE: goto skips to the shared state store; nesting the tail under t == 0 added an epilogue
                 goto block_5;
             }
         }
@@ -430,9 +430,9 @@ block_5:
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-M2C_UNK func_80017A04();
-extern u8 D_80076194[][2];
+M2C_UNK animate_object();
 extern struct X4_PlayerObj g_Player;
 
 #define F_S8(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -441,7 +441,7 @@ void func_800461E0(struct X4_WeaponObj* arg0) {
     struct X4_PlayerObj* player;
 
     player = &g_Player;
-    if (player->unk15 != 0) {
+    if (player->facing != 0) {
         arg0->x_pos.i.hi =
             player->x_pos.i.hi - (s8)D_80076194[arg0->unk2 - 1][0];
     } else {
@@ -449,7 +449,7 @@ void func_800461E0(struct X4_WeaponObj* arg0) {
             player->x_pos.i.hi + (s8)D_80076194[arg0->unk2 - 1][0];
     }
     arg0->y_pos.i.hi = player->y_pos.i.hi + (s8)D_80076194[arg0->unk2 - 1][1];
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
     if (F_S8(arg0, 0x46) == 0) {
         arg0->on_screen = 0;
         arg0->state = 3;
@@ -467,20 +467,19 @@ extern struct X4_PlayerObj g_Player;
 void func_800462C0(void* arg0) {
     struct X4_PlayerObj* p = &g_Player;
 
-    if (p->unk5 != 0x2A) {
+    if (p->action != 0x2A) {
         M2C_FIELD(arg0, s8*, 0x91) = 1;
         M2C_FIELD(arg0, s8*, 0x4) = 3;
         return;
     }
     if (M2C_FIELD(arg0, s8*, 0x8C) == 4) {
-        p->unk6 = 1;
+        p->action_phase = 1;
         M2C_FIELD(arg0, u8*, 0x5) += 1;
     }
 }
 
 #include "common.h"
-
-extern u16 D_80097120;
+#include "mmx6/globals.h"
 
 void func_80046318(s8* arg0) {
     if (arg0[0x90] == 0 || --arg0[0x90] == 0) {
@@ -543,11 +542,11 @@ void func_80046440(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 extern s32 D_800761A4;
 
 void func_80046478(u8* arg0) {
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     if (*(s8*)(arg0 + 0x45) & 0x80) {
         *(s32**)(arg0 + 0x50) = &D_800761A4;
         arg0[5] = arg0[5] + 1;
@@ -559,16 +558,16 @@ void func_80046478(u8* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();               /* extern */
+M2C_UNK animate_object();              /* extern */
 s32 func_8002CB50(struct X4_BaseObj*); /* extern */
 #define func_8002CB50 func_8002CB50
-s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2); /* extern */
+s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2); /* extern */
 M2C_UNK move_object(void*);                                         /* extern */
 
 void func_800464C4(struct ObjectHeader* arg0) {
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     move_object(arg0);
-    if (func_8002CBFC(arg0, 0x10, 0x10) != 0) {
+    if (is_off_screen(arg0, 0x10, 0x10) != 0) {
         arg0->state = 3;
     }
     func_8002CB50(arg0);
@@ -675,6 +674,7 @@ void func_800466C4(void* arg0) {
         M2C_FIELD(arg0, u16*, 0xA) = (u16)M2C_FIELD(temp_a1, u16*, 0xA);
         M2C_FIELD(arg0, u16*, 0xE) = (u16)M2C_FIELD(temp_a1, u16*, 0xE);
         if (M2C_FIELD(arg0, s8*, 2) != 0) {
+            // !FAKE: goto shares the state store with the else arm; duplicating the store moved bytes
             goto block_3;
         }
     } else {
@@ -722,7 +722,7 @@ void func_8004672C(struct X4_WeaponObj* self) {
     }
     index = self->unk2;
     if ((D_80076270[index] == owner->unk17) &&
-        (D_80076278[index] == owner->unk5) && (owner->state == 1)) {
+        (D_80076278[index] == owner->action) && (owner->state == 1)) {
         event = self->animation_step.fields.event;
         if (event == 0) {
             self->unk50 = NULL;
@@ -886,11 +886,9 @@ void func_80046AD0(void* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 func_8002CB50(struct X4_BaseObj*);
-extern u16 D_8006D600[];
-extern u16 D_80073610[];
-extern u16 D_80073620[];
 extern u8 D_80076298[];
 
 void func_80046B00(struct X4_BaseObj* arg0) {
@@ -920,7 +918,7 @@ void func_80046B00(struct X4_BaseObj* arg0) {
             }
         }
     }
-    btn = D_8006D600[sel];
+    btn = button_map[sel];
     for (i = 0; i < 8; i++) {
         if (btn == D_80073620[i]) {
             ((u8*)arg0)[0x47] = D_80076298[i];
@@ -932,8 +930,8 @@ void func_80046B00(struct X4_BaseObj* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u8 g_temp_options;
 extern u8 option_values[];
 s32 func_8002CB50(struct X4_BaseObj*);
 

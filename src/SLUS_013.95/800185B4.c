@@ -2,18 +2,15 @@
 #include "psyq/libcd.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void stop_cd_audio(void);
 int func_800617A4(X4_CdlLOC* p);
 s32 func_800647F4();
 s8 func_80064874(M2C_UNK, u8*);
-extern s32 D_800E2E18;
 extern u32 D_800E2E24;
 extern u32 D_800E2E2C;
-extern u8 D_800E2E40;
-extern s16 D_800E2E48;
 extern s8 D_800E2E50;
-extern s32 D_800E2E5C;
 #define D_800E2E50 (*(u8*)&D_800E2E50)
 
 void func_800185B4(void) {

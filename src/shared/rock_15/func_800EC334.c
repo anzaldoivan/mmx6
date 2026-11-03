@@ -2,10 +2,10 @@
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 
 void func_800EC334(u8* arg0) {
-    func_80017A04();
+    animate_object();
     set_animation(arg0, 6);
     {
         // !FAKE: depin: dropping it breaks the match (12/17)

@@ -1,14 +1,12 @@
 #include "common.h"
+#include "mmx6/rock_03.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void* func_8002C458();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 M2C_UNK func_80030ECC(void*);
-extern s32 D_800F7DE4;
-extern s32 D_800F7DE8;
-extern s32 D_800F7E30;
 
 #define B(p, o) (*(u8*)((u8*)(p) + (o)))
 #define H(p, o) (*(s16*)((u8*)(p) + (o)))
@@ -50,8 +48,8 @@ void func_800F3DE4(void* arg0) {
     if (W(arg0, 0x24) < -0x30000) {
         W(arg0, 0x24) = -0x30000;
     }
-    func_80017A04(arg0);
-    func_8002D230(arg0);
+    animate_object(arg0);
+    apply_object_motion(arg0);
     func_8002CCB0(arg0, 4, 0x10);
 }
 

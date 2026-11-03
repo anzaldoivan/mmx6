@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern s8 g_enemies[];
-extern s32 D_800C1220[];
+extern s32 g_class4_slots[];
 
 #define CLEAR_OBJ(p, BODY)                                                     \
     {                                                                          \
@@ -36,7 +36,7 @@ void* func_8002BCCC(void* arg0, s32 arg1) {
             if (*p == 0) {
                 CLEAR_OBJ(p, {
                     s32 off = k * 0xA4 + 0x98;
-                    *(s32*)((s8*)D_800C1220 + off + m * 4) &=
+                    *(s32*)((s8*)g_class4_slots + off + m * 4) &=
                         ~(1 << (idx & 0x1F));
                 });
             }
@@ -54,7 +54,7 @@ void* func_8002BCCC(void* arg0, s32 arg1) {
             if (*p == 0) {
                 CLEAR_OBJ(p, {
                     s32 off = 0x98 + m * 4;
-                    *(s32*)((s8*)D_800C1220 + k * 0xA4 + off) &=
+                    *(s32*)((s8*)g_class4_slots + k * 0xA4 + off) &=
                         ~(1 << (idx & 0x1F));
                 });
             }
@@ -64,10 +64,10 @@ void* func_8002BCCC(void* arg0, s32 arg1) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 extern s8 D_800950A0[];
 extern s8 D_80096400[];
-extern u8 D_800964A0[];
 
 s8* func_8002BEC4(s8* p, s32 dir) {
     s8* q;
@@ -121,10 +121,9 @@ s8* func_8002BEC4(s8* p, s32 dir) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
-extern s32 D_800C1220[];
 extern s32 D_800C44BC[];
-extern u8 D_800C4560;
 
 #define CLEAR_OBJ(p)                                                           \
     {                                                                          \
@@ -144,7 +143,7 @@ void* func_8002BFD0(void* arg0, s32 arg1) {
 
     if (arg1 == 0) {
         if (p == 0) {
-            p = (s8*)D_800C1220;
+            p = (s8*)g_class4_slots;
         } else {
             p += 0xA4;
         }
@@ -157,12 +156,12 @@ void* func_8002BFD0(void* arg0, s32 arg1) {
         if (p == 0) {
             p = (s8*)D_800C44BC;
         } else {
-            if (p == (s8*)D_800C1220) {
+            if (p == (s8*)g_class4_slots) {
                 return 0;
             }
             p -= 0xA4;
         }
-        for (; p >= (s8*)D_800C1220; p -= 0xA4) {
+        for (; p >= (s8*)g_class4_slots; p -= 0xA4) {
             if (*p == 0) {
                 CLEAR_OBJ(p);
             }
@@ -173,7 +172,7 @@ void* func_8002BFD0(void* arg0, s32 arg1) {
 
 #include "common.h"
 #include "mmx6/x4.h"
-extern struct X4_EffectObj D_8009B7B0[0x20];
+#include "mmx6/globals.h"
 
 void func_8002C0DC(s32 arg0, s32 arg1_) {
     s8 id = arg0;
@@ -183,7 +182,7 @@ void func_8002C0DC(s32 arg0, s32 arg1_) {
 
     if (id >= 0) {
         for (i = 0; i < 0x20; i++) {
-            effect = &D_8009B7B0[i];
+            effect = &g_class3_slots[i];
             if (effect->active != 0 && effect->id == id &&
                 effect->unk2 == arg1) {
                 effect->active = 0;
@@ -199,7 +198,7 @@ void func_8002C0DC(s32 arg0, s32 arg1_) {
     } else {
         id &= 0x7F;
         for (i = 0; i < 0x20; i++) {
-            effect = &D_8009B7B0[i];
+            effect = &g_class3_slots[i];
             if (effect->active != 0 && effect->id == id) {
                 effect->active = 0;
                 effect->id = 0;
@@ -246,8 +245,8 @@ void func_8002C208(s8* arg0) {
 
 #include "common.h"
 
-extern s8 g_enemies[];
 #include "mmx6/projectile.h"
+#include "mmx6/globals.h"
 
 void func_8002C22C(void) {
     u32 i;
@@ -311,27 +310,6 @@ s8* func_8002C32C(void) {
             *(s32*)(p + 0x54) = 0;
             *(s32*)(p + 0x68) = 0;
             return p;
-        }
-    }
-    return 0;
-}
-
-#include "common.h"
-#include "mmx6/x4.h"
-
-extern u8 D_80091298[];
-
-struct X4_VisualObj* func_8002C398(void) {
-    u8* p;
-
-    for (p = D_80091298; p < D_80091298 + 0x2A00; p += 0x70) {
-        if (*(s8*)p == 0) {
-            s8* q = (s8*)p;
-            s32 k;
-            for (k = 0x6F; k != -1; k--) {
-                *q++ = 0;
-            }
-            return (struct X4_VisualObj*)p;
         }
     }
     return 0;

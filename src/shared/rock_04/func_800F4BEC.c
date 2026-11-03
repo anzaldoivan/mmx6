@@ -1,12 +1,11 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_80040498();
-extern s32 D_80090C98;
-extern u8 D_800C4560;
 
 void func_800F4BEC(void* arg0) {
     if (func_80040498() == 0) {

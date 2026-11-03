@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK move_object(void*);
 extern struct X4_PlayerObj g_Player;
 #include "mmx6/state.h"
@@ -48,6 +48,6 @@ void func_800EA224(void* arg0) {
             EA_S16(arg0, 0xE) += rsin(t << 7) / 2096;
         }
     }
-    func_80017A04(arg0);
+    animate_object(arg0);
     move_object(arg0);
 }

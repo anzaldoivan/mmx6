@@ -1,7 +1,7 @@
 #include "common.h"
+#include "mmx6/globals.h"
 
 s8* func_8002BEC4(s8* p, s32 dir);
-extern u8 D_800970B4;
 
 void* func_8003D480(s8 arg0, s8 arg1, s8 arg2, s32 arg3) {
     u8* p;

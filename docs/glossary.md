@@ -151,6 +151,7 @@ The check is `python3 tools/mmx6/gamestr.py check`.
 | sound effect | - | - | - | se | docs/leads/ram.tsv:20 |
 | music track | - | stage_music_init | - | bgm | docs/leads/ram.tsv:22 |
 | task | - | - | - | task | docs/leads/ram.tsv:28 |
+| task slot | - | - | - | task_slot | docs/leads/ram.tsv:32 |
 | pad buttons | - | - | - | pad | docs/leads/ram.tsv:33 |
 | frame counter | - | - | - | frame_count | docs/leads/ram.tsv:40 |
 | save block | - | - | - | save | docs/leads/ram.tsv:42 |
@@ -414,6 +415,25 @@ The check is `python3 tools/mmx6/gamestr.py check`.
 | memory card format update | - | - | - | update_memcard_format | docs/leads/derived.tsv:35 |
 | wait for a file load | - | - | - | file_load | docs/leads/derived.tsv:6 |
 | key on the sound-effect voices | - | - | - | sfx_voices | docs/leads/derived.tsv:7 |
+| standing state | - | - | - | stand | docs/leads/derived.tsv:70 |
+| walking state | - | - | - | walk | docs/leads/derived.tsv:105 |
+| falling state | - | - | - | fall | docs/leads/derived.tsv:75 |
+| landing state | - | - | - | landing | docs/leads/derived.tsv:76 |
+| ladder climb | - | - | - | ladder_climb | docs/leads/derived.tsv:84 |
+| hurt knockback | - | - | - | hurt_knockback | docs/leads/derived.tsv:86 |
+| control lock (no input) | - | - | - | control_lock | docs/leads/derived.tsv:88 |
+| wall jump | - | - | - | wall_jump | docs/leads/derived.tsv:100 |
+| double-tap dash | - | - | - | double_tap_dash | docs/leads/derived.tsv:98 |
+| air jump | - | - | - | air_jump | docs/leads/derived.tsv:147 |
+| stage entry state (action 0) | - | - | - | stage_entry | docs/leads/derived.tsv:69 |
+| walk start state (action 3) | - | - | - | walk_start | docs/leads/derived.tsv:71 |
+| move off screen state (action 1) | - | - | - | move_off_screen | docs/leads/derived.tsv:74 |
+| wall cling state (action 9) | - | - | - | wall_cling | docs/leads/derived.tsv:77 |
+| slide-down state (action 11) | - | - | - | slide_down | docs/leads/derived.tsv:16 |
+| top of a ladder | - | - | - | ladder_top | docs/leads/derived.tsv:113 |
+| hover state (action 33, Blade armor) | - | - | - | hover | docs/leads/derived.tsv:173 |
+| X (character 0) | - | - | - | x | docs/leads/derived.tsv:141 |
+| Zero (character 1) | - | - | - | zero | docs/leads/derived.tsv:148 |
 
 ## SLUS systems
 

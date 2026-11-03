@@ -2,8 +2,8 @@
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
-M2C_UNK func_8002D230(void*);
+M2C_UNK animate_object();
+M2C_UNK apply_object_motion(void*);
 
 void func_800EA750(u8* arg0) {
     if ((arg0[0x70] & 8) && ((s8)arg0[0x45] == 2)) {
@@ -15,7 +15,7 @@ void func_800EA750(u8* arg0) {
         arg0[0x67] = 0;
         set_animation(arg0, 1);
     } else {
-        func_8002D230(arg0);
+        apply_object_motion(arg0);
     }
-    func_80017A04(arg0);
+    animate_object(arg0);
 }

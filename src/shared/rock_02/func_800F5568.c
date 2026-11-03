@@ -3,18 +3,18 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80012D9C(M2C_UNK);
+M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 
 void func_800F5568(void* arg0) {
     s32 t;
 
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     if (M2C_FIELD(arg0, s16*, 0x7C) == 0xA) {
         play_sound(2, 0x1D, arg0);
-        func_80012D9C(7);
+        start_pad_vibration(7);
     }
     t = M2C_FIELD(arg0, u16*, 0x7C);
     M2C_FIELD(arg0, s16*, 0x7C) = t + 1;

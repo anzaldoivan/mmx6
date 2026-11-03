@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 s32 get_weapon_energy_cost(void* arg0, s32 arg1);
 void use_weapon_energy(void*, s32);
 void attack_hyoroga_from_ceiling(u8* arg0);
@@ -14,7 +14,7 @@ s32 func_801ECCD4(void*);
 s32 try_hyoroga_from_ceiling(u8* p) {
     if (get_weapon_energy_cost(p, 1) <= *(s16*)(p + 0xAA)) {
         if (func_801ECCD4(p) != 0) {
-            func_8003BA04(p, 0x64);
+            player_set_animation(p, 0x64);
             play_sound(1, 0x14, p);
             p[0x84] = 0;
             p[0x86] = 0;
@@ -33,9 +33,9 @@ s32 try_hyoroga_from_ceiling(u8* p) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void* func_8002C32C();
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 M2C_UNK func_801ECD54();
 
 // 0x801ECAF0 attack_hyoroga_from_ceiling: Hyoroga attack from ceiling.
@@ -52,7 +52,7 @@ void attack_hyoroga_from_ceiling(u8* arg0) {
         if (((s8*)arg0)[7] != 0) {
             arg0[7]--;
         }
-        func_80017A04(arg0);
+        animate_object(arg0);
         func_801ECD54(arg0, 0x30);
         bits = arg0[0x45];
         if (bits & 0x40) {
@@ -71,7 +71,7 @@ void attack_hyoroga_from_ceiling(u8* arg0) {
         }
     }
     if (((s8*)arg0)[0x46] == 0) {
-        func_8003BA04(arg0, 0x54);
+        player_set_animation(arg0, 0x54);
         arg0[0x8E] = 0;
         arg0[5] = 0x1F;
         arg0[6] = 3;

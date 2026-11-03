@@ -22,6 +22,7 @@ INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FAB18);
 #include "psyq/libgte.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define OB(p, o) (*(s8*)((u8*)(p) + (o)))
 #define OUB(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -39,13 +40,11 @@ s32 random_byte();
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_80074D3C;
 extern M2C_UNK D_80074DDC;
-extern M2C_UNK D_80075B9C;
 extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
 extern struct X4_EngineObj g_playthrough_state;
 #define g_playthrough_state ((s8*)&g_playthrough_state)
 extern s8 D_800CCEDC;
-extern u8 D_800CCF5F;
 extern M2C_UNK D_800FD9B0;
 extern u8 D_800FD9B4[];
 extern u8 D_800FD9C8[];
@@ -105,7 +104,7 @@ void func_800FAC3C(struct X4_MainObj* self) {
         self->y_pos.i.hi += 6;
         set_animation(self, 6);
         self->terrain_box = &D_800FD9B0;
-        self->unk5 = 0;
+        self->action = 0;
     } else if (self->unk2 < 5) {
         s8* eng = g_playthrough_state;
         self->unk40 = parent->unk40 + 0x100;
@@ -139,7 +138,7 @@ void func_800FAC3C(struct X4_MainObj* self) {
         self->hp = D_800FDC18[self->unk2][1];
         self->unk16 = 5;
         self->terrain_box = 0;
-        self->unk5 = 1;
+        self->action = 1;
     } else if (self->unk2 == 5) {
         self->unk40 = parent->unk40 + 0x100;
         if (D_800CCEDC != 0xC) {
@@ -167,7 +166,7 @@ void func_800FAC3C(struct X4_MainObj* self) {
         self->unk16 = 5;
         set_animation(self, self->unk2 - 1);
         self->terrain_box = 0;
-        self->unk5 = 6;
+        self->action = 6;
     } else if (self->unk2 == 6) {
         self->unk40 = parent->unk40 + 0x100;
         if (D_800CCEDC != 0xC) {
@@ -189,7 +188,7 @@ void func_800FAC3C(struct X4_MainObj* self) {
         self->unk16 = 5;
         set_animation(self, 1);
         self->terrain_box = 0;
-        self->unk5 = 7;
+        self->action = 7;
     }
     OH(self, 0x92) = parent->y_pos.i.hi - (s8)D_800FDC18[self->unk2][3];
     OB(self, 0x94) = 0;
@@ -199,7 +198,7 @@ void func_800FAC3C(struct X4_MainObj* self) {
     self->hurt_box = D_800FD9B4 + self->unk2 * 4;
     self->attack_box = D_800FD9C8 + self->unk2 * 4;
     self->state = 1;
-    self->unk6 = 0;
+    self->action_phase = 0;
 }
 #undef g_playthrough_state
 
@@ -210,7 +209,7 @@ void func_800FAC3C(struct X4_MainObj* self) {
 
 #define FLD(p, type, off) (*(type*)((u8*)(p) + (off)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s32 random_byte();
 M2C_UNK func_80030ECC(void*);
 s32 check_enemy_hits(void*);
@@ -254,7 +253,7 @@ void func_800FB33C(void* arg0) {
     }
     t = FLD(parent, s8, 0x45);
     if (t == 1) {
-        func_80017A04(arg0);
+        animate_object(arg0);
     } else if (t == 2) {
         r = random_byte();
         FLD(arg0, u8, 0x6) = 0;

@@ -3,12 +3,12 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 
 void func_800F1C48(void* self) {
-    ((void (*)(void*))func_80017A04)(self);
+    ((void (*)(void*))animate_object)(self);
     if (F(s8, 7) != 0) {
         F(s8, 7) = 0;
         if (F(s16, 0x7E) != 0) {

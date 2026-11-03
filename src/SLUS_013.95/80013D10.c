@@ -1,13 +1,12 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern struct X4_EngineObj g_playthrough_state;
 extern u16 D_8006D9DC[];
 extern u16 D_8006D9EC[];
-extern s32 D_80097760;
 extern M2C_UNK* D_800B91B8;
-extern u8 D_800CC868;
 #define SCRATCH30 (*(s32*)0x1F800030)
 
 void func_8001494C(void);
@@ -42,7 +41,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013DE8);
 #define M2C_UNK s32
 
 M2C_UNK func_80014F70(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-void pump_file_loads(void);                         /* extern */
+void pump_file_loads(void);                       /* extern */
 
 void func_8001447C(void) {
     func_80014F70(0x4A, 0, 0);
@@ -54,7 +53,7 @@ void func_8001447C(void) {
 #define M2C_UNK s32
 
 M2C_UNK func_80014F70(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-void pump_file_loads(void);                         /* extern */
+void pump_file_loads(void);                       /* extern */
 
 void func_800144AC(void) {
     func_80014F70(0, 0, 0);

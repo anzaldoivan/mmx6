@@ -1,7 +1,7 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
-extern u8 D_8008EAFC;
 M2C_UNK func_800F82C0();
 
 void func_800F64FC(u8* arg0) {

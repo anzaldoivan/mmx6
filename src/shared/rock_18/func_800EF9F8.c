@@ -1,7 +1,6 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-
-extern s16 D_800CCEDA;
 
 void func_800EF9F8(void* arg0) {
     M2C_FIELD(arg0, u8*, 3) = 1;

@@ -1,55 +1,54 @@
+// prog SLUS_013.95 | system dash | range 0x8003906C-0x80039224
 #include "common.h"
 #define M2C_UNK s32
-#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-
-M2C_UNK func_8003B298(void*);
-s32 start_hover(struct X4_PlayerObj* self);
-s32 start_falcon_dash(void*);
-s32 try_start_air_dash(void*);
-s32 func_801EC298(void*);
+#include "mmx6/x4.h"
+#include "mmx6/dash.h"
+#include "mmx6/movement.h"
 
 static inline s32 func_8003906C_inl(void* arg0) {
-    if (M2C_FIELD(arg0, s8*, 0xD3) != 0) {
+    struct X4_PlayerObj* self = arg0;
+
+    if (self->move_lock != 0) {
         return 0;
     }
-    if (M2C_FIELD(arg0, s8*, 0x87) == 0 &&
-        !(M2C_FIELD(arg0, u16*, 0x80) & 0x100)) {
+    if (self->double_tap_dash == 0 && !(self->pressed_input & 0x100)) {
         return 0;
     }
-    if (M2C_FIELD(arg0, u16*, 0x7C) & 1) {
-        M2C_FIELD(arg0, u8*, 0x15) = 0x40;
+    if (self->input.buttons.held & 1) {
+        self->facing = 0x40;
     }
-    if (M2C_FIELD(arg0, u16*, 0x7C) & 2) {
-        M2C_FIELD(arg0, u8*, 0x15) = 0;
+    if (self->input.buttons.held & 2) {
+        self->facing = 0;
     }
-    if (M2C_FIELD(arg0, u8*, 0x15) != 0) {
-        if (M2C_FIELD(arg0, u8*, 0x89) & 1) {
+    if (self->facing != 0) {
+        if (self->latched_collision_flags & 1) {
             return 0;
         }
-        M2C_FIELD(arg0, s32*, 0x20) = M2C_FIELD(arg0, s32*, 0x104);
+        self->x_vel.val = self->dash_speed;
     } else {
-        if (M2C_FIELD(arg0, u8*, 0x89) & 2) {
+        if (self->latched_collision_flags & 2) {
             return 0;
         }
-        M2C_FIELD(arg0, s32*, 0x20) = -M2C_FIELD(arg0, s32*, 0x104);
+        self->x_vel.val = -self->dash_speed;
     }
     return 1;
 }
 
 // 0x8003906C select_air_dash: air dash picked by armor.
 // basis: community tweaks-index.tsv:216
-// callers: func_800368FC, func_80036D4C, func_801EAA38, func_801EB324 and others
+// callers: handle_jump_rise
 s32 select_air_dash(void* arg0) {
+    struct X4_PlayerObj* self = arg0;
     u8 t;
 
-    if (M2C_FIELD(arg0, s8*, 0xD3) != 0) {
+    if (self->move_lock != 0) {
         return 0;
     }
-    if (M2C_FIELD(arg0, s8*, 0x86) != 0) {
+    if (self->air_action != 0) {
         return 0;
     }
-    if (M2C_FIELD(arg0, s8*, 2) == 0) {
-        t = M2C_FIELD(arg0, u8*, 0xE7);
+    if (self->character == 0) {
+        t = self->armor;
         if (t == 1) {
             return start_falcon_dash(arg0) != 0;
         }
@@ -63,11 +62,11 @@ s32 select_air_dash(void* arg0) {
     } else if (func_801EC298(arg0) != 0) {
         return 1;
     }
-    if (M2C_FIELD(arg0, s8*, 2) == 0) {
-        if (M2C_FIELD(arg0, u8*, 0x92) != 0) {
+    if (self->character == 0) {
+        if (self->shot_cooldown != 0) {
             return 0;
         }
-        if (M2C_FIELD(arg0, u8*, 0xE7) != 4) {
+        if (self->armor != 4) {
             return 0;
         }
     }

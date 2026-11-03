@@ -10,5 +10,5 @@ void func_800F1F18(struct X4_MainObj* self) {
     if (!(self->collision_flags & 1)) {
         set_animation(self, 2);
     }
-    self->unk6++;
+    self->action_phase++;
 }

@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void* func_8002C458();
 #include "mmx6/projectile.h"
 
@@ -16,10 +16,11 @@ void func_800ECC38(void* arg0) {
     // !FAKE: depin: dropping it breaks the match (101/103)
     register u16 t asm("$2");
 
-    func_80017A04();
+    animate_object();
     t = M2C_FIELD(arg0, u16*, 0x7C);
     M2C_FIELD(arg0, u16*, 0x7C) = t + 1;
     if ((s16)t >= 0xA1) {
+        // !FAKE: fail block between tests; dup tail moved bytes
         goto fail;
     }
     p = (s8*)g_projectiles;

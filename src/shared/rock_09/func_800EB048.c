@@ -1,9 +1,9 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD4C (*(u8**)0x1F80004C)
 
 void func_800EB284();
-extern s16 D_800970AE;
 
 void func_800EB048(void* arg0) {
     s32 g;

@@ -2,19 +2,19 @@
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s32 func_80039C40(void*);
-M2C_UNK func_8003BB94(void*, M2C_UNK, s8);
-M2C_UNK func_8003CCBC();
+M2C_UNK player_set_animation_frame(void*, M2C_UNK, s8);
+M2C_UNK set_pose_size();
 void func_8003CD00(void* arg0);
 M2C_UNK func_801ECD54(void*, M2C_UNK);
 
 void func_801EC68C(void* arg0) {
-    func_8003CCBC(arg0);
+    set_pose_size(arg0);
     if (M2C_FIELD(arg0, s8*, 0x6) == 0) {
         M2C_FIELD(arg0, u8*, 0x6) = M2C_FIELD(arg0, u8*, 0x6) + 1;
     } else {
-        func_80017A04(arg0);
+        animate_object(arg0);
         func_801ECD54(arg0, 0x25);
     }
     if (M2C_FIELD(arg0, u16*, 0x80) & 2) {
@@ -32,7 +32,7 @@ void func_801EC68C(void* arg0) {
     }
     if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
         M2C_FIELD(arg0, u8*, 0x8E) = 0;
-        ((void (*)())func_8003BB94)(arg0, 0x51, 2);
+        ((void (*)())player_set_animation_frame)(arg0, 0x51, 2);
         M2C_FIELD(arg0, u8*, 0x5) = 0x1A;
         M2C_FIELD(arg0, u8*, 0x6) = 1;
     }
@@ -42,9 +42,9 @@ void func_801EC68C(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
-s32 func_8002FE30(void*);
-M2C_UNK func_8003AF1C(void*);
+M2C_UNK animate_object();
+s32 get_tile_attr_above(void*);
+M2C_UNK start_jump(void*);
 M2C_UNK func_801ECD54(void*, M2C_UNK);
 
 #define U16(o) (*(u16*)(p + (o)))
@@ -55,7 +55,7 @@ void func_801EC76C(s8* p) {
     if (p[6] == 0) {
         p[6]++;
     } else {
-        func_80017A04(p);
+        animate_object(p);
         func_801ECD54(p, (s8)((p[0x45] & 0x7F) + 0x26));
     }
     if (U16(0x80) & 2) {
@@ -67,14 +67,14 @@ void func_801EC76C(s8* p) {
     if (p[0xD3] == 0) {
         p[0x8E] = 0;
         if (U16(0x80) & 0x80) {
-            func_8003AF1C(p);
+            start_jump(p);
             return;
         }
         p[0x8E] = 1;
     }
     if (p[0x46] == 0) {
         p[0x8E] = 0;
-        v = func_8002FE30(p);
+        v = get_tile_attr_above(p);
         if (v == 0x2E) {
             v = 0x1B;
         } else {
@@ -89,9 +89,9 @@ void func_801EC76C(s8* p) {
 #define M2C_UNK s32
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_8003BA04(void*, M2C_UNK);
-M2C_UNK func_8003CD9C();
-M2C_UNK func_8003CFE0(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
+M2C_UNK player_clear_dash();
+M2C_UNK play_sound_unless_low_health(void*, M2C_UNK);
 M2C_UNK func_801EC95C(void*);
 M2C_UNK func_801ECD3C(void*);
 M2C_UNK func_801ECD90(void*, M2C_UNK);
@@ -100,7 +100,7 @@ M2C_UNK func_801ECD90(void*, M2C_UNK);
 #define F_U8(p, o) (*(u8*)((u8*)(p) + (o)))
 #define F_U16(p, o) (*(u16*)((u8*)(p) + (o)))
 
-s32 func_801EC86C(void* arg0) {
+s32 check_shoenzan_input(void* arg0) {
     if (F_S8(arg0, 0xD3) != 0) {
         return 0;
     }
@@ -114,13 +114,13 @@ s32 func_801EC86C(void* arg0) {
         return 0;
     }
     F_U8(arg0, 0x8E) = 1;
-    func_8003BA04(arg0, 0x5A);
+    player_set_animation(arg0, 0x5A);
     func_801ECD90(arg0, 0x1A);
     func_801ECD90(arg0, 0x22);
     play_sound(1, 7, arg0);
     play_sound(1, 0x16, arg0);
-    func_8003CFE0(arg0, 5);
-    func_8003CD9C(arg0);
+    play_sound_unless_low_health(arg0, 5);
+    player_clear_dash(arg0);
     F_U8(arg0, 0x5) = 0x37;
     F_U8(arg0, 0x6) = 0;
     func_801ECD3C(arg0);
@@ -135,7 +135,7 @@ s32 func_801EC86C(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK end_dash(s32);
 void func_801ECE60(void* arg0);
 
@@ -151,7 +151,7 @@ M2C_UNK func_801EC95C(void* arg0) {
     if (F_S8(arg0, 0x6) == 0) {
         F_U8(arg0, 0x6) = F_U8(arg0, 0x6) + 1;
     } else {
-        func_80017A04(arg0);
+        animate_object(arg0);
     }
     func_801ECE60(arg0);
 }
@@ -163,17 +163,17 @@ M2C_UNK func_801EC95C(void* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80017A04();
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK animate_object();
+M2C_UNK player_set_animation(void*, M2C_UNK);
 extern struct X4_EngineObj g_playthrough_state;
 
-void func_801EC9C4(s8* p) {
+void update_zero_stand_animation(s8* p) {
     if ((u8)p[0x17] == 6) {
         u8* g = (u8*)&g_playthrough_state;
         if (p[0x5C] >= (s8)((s8)(g - -p[2])[0x5B] / 3)) {
-            func_8003BA04(p, 5);
+            player_set_animation(p, 5);
             return;
         }
     }
-    func_80017A04(p);
+    animate_object(p);
 }

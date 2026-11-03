@@ -1,16 +1,15 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_80013008(void);
 void silence_sound(u8, u8);
 void stop_cd_audio();
 M2C_UNK func_80025FB0();
 
-extern s32 D_8008EC0C;
 #include "mmx6/state.h"
 extern struct X4_EngineObj g_playthrough_state;
-extern s8 D_800CCED1;
 extern s8 D_800E3140;
 extern u8 D_800E3141;
 

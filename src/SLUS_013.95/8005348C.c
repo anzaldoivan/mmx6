@@ -1,8 +1,8 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u8 D_8008EAFC;
 extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
 M2C_UNK func_8003D330();
@@ -186,7 +186,7 @@ void func_8005389C(void) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void func_80012D9C(s32);
+void start_pad_vibration(s32);
 void stop_cd_audio();
 void func_8002C0DC(s32, s32);
 struct X4_QuadObj* alloc_class6_slot(void);
@@ -238,13 +238,13 @@ void func_800538BC(void* arg0) {
         ((s32(*)())stop_cd_audio)();
         D_800CCEEB = 0;
     }
-    func_80012D9C(0xA);
+    start_pad_vibration(0xA);
 }
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u16 D_80090E70;
 s32 func_80013AA4(s8 arg0);
 struct X4_QuadObj* alloc_class6_slot(void);
 s32 random_byte();
@@ -305,10 +305,8 @@ struct X4_QuadObj* alloc_class6_slot(void);
 s32 random_byte();
 s32 func_8002D30C();
 void func_80049F98();
-extern u16 D_80090E70;
 #include "mmx6/state.h"
-extern u8 D_800C4560;
-extern s8 D_800CCEF4;
+#include "mmx6/globals.h"
 
 void func_80053B6C(struct X4_EffectObj* self) {
     struct X4_QuadObj* q;
@@ -364,14 +362,14 @@ void func_80053B6C(struct X4_EffectObj* self) {
 #undef D_80075FD8
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define NULL ((void*)0)
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 struct X4_QuadObj* alloc_class6_slot(void); /* extern */
-s32 random_byte();                        /* extern */
-extern u16 D_80090E70;
+s32 random_byte();                          /* extern */
 
 void func_80053D18(void* arg0) {
     void* temp_v0;
@@ -414,12 +412,12 @@ void func_80053D18(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 struct X4_QuadObj* alloc_class6_slot(void);
 s32 random_byte();
 s32 func_8002D30C();
 void func_80049F98();
-extern u16 D_80090E70;
 
 void func_80053E44(struct X4_EffectObj* self) {
     struct X4_QuadObj* q;
@@ -488,11 +486,11 @@ void func_80053FB8(void* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 
 M2C_UNK clear_object_slot(); /* extern */
-extern s8 D_800CCEEC;
 
 void func_80053FE4(void) {
     D_800CCEEC = 1;
@@ -502,6 +500,7 @@ void func_80053FE4(void) {
 /* Adapted from sozud/mmx4 @807a01b src/main/effects/effect_27_teleport_intro.c:teleport_intro_spawn_quads, AGPL-3.0; proven shared with X6 by exact signature 6c6bde588dbe (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/system.h"
 struct X4_QuadObj* alloc_class6_slot(void);
 
 void func_8005400C(struct X4_EffectObj* self) {

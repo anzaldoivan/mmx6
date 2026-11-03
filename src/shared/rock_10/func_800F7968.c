@@ -15,7 +15,7 @@ void func_800F7968(void* arg0) {
     play_sound(2, 0x20, arg0);
     p = &g_Player;
     M2C_FIELD(p, u8*, 0xCA) = 0;
-    func_8003D308(0x14, p->unk15);
+    func_8003D308(0x14, p->facing);
     set_animation(arg0, 0x12);
     M2C_FIELD(arg0, s8*, 5) = 1;
     M2C_FIELD(arg0, s16*, 0x7C) = 0x7F;

@@ -4,7 +4,7 @@
 
 #define FX(p, type, off) (*(type*)((u8*)(p) + (off)))
 
-struct X4_VisualObj* func_8002C398(void);
+struct X4_VisualObj* find_free_visual_obj(void);
 s32 func_8002D30C();
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 void func_8004E654(struct X4_BaseObj* arg0, s8 arg1);
@@ -23,7 +23,7 @@ void func_800EAEF8(void* arg0) {
         if (FX(arg0, s16, 0x80) != 0) {
             FX(arg0, s16, 0x80)--;
             if (!(FX(arg0, u8, 0x80) & 7)) {
-                v = func_8002C398();
+                v = find_free_visual_obj();
                 if (v != 0) {
                     FX(v, u8, 0x0) = 0x21;
                     FX(v, u8, 0x1) = 4;

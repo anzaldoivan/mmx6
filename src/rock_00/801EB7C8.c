@@ -2,18 +2,16 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-void func_80017A04(struct X4_AnimatedObj*);
-M2C_UNK func_8003AFF4(s32);
-s32 func_8003E174(void*);
+void animate_object(struct X4_AnimatedObj*);
 extern void (*D_801F36F8[])(void*);
 
-void func_801EB7C8(s8* arg0) {
+void update_hover(s8* arg0) {
     if (arg0[0xD3] != 0) {
         ((void (*)())func_8003AFF4)();
         return;
     }
-    if (func_8003E174(arg0) == 0) {
-        func_80017A04((struct X4_AnimatedObj*)arg0);
+    if (try_shoot_in_air(arg0) == 0) {
+        animate_object((struct X4_AnimatedObj*)arg0);
         D_801F36F8[arg0[6]](arg0);
     }
 }
@@ -22,19 +20,19 @@ void func_801EB7C8(s8* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-void func_80017A04(struct X4_AnimatedObj*);
+void animate_object(struct X4_AnimatedObj*);
 M2C_UNK end_dash(s32);
-M2C_UNK func_8003C4EC();
+M2C_UNK player_load_weapon_palette();
 extern void (*D_801F3724[])(void*);
 
 void func_801EB844(s8* arg0) {
     if (arg0[0xD3] != 0) {
         arg0[0xE0] = 0;
-        ((void (*)())func_8003C4EC)();
+        ((void (*)())player_load_weapon_palette)();
         end_dash((s32)arg0);
         return;
     }
-    func_80017A04((struct X4_AnimatedObj*)arg0);
+    animate_object((struct X4_AnimatedObj*)arg0);
     D_801F3724[arg0[6]](arg0);
 }
 
@@ -42,16 +40,13 @@ void func_801EB844(s8* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-void func_80017A04(struct X4_AnimatedObj*);
-s32 func_80039984(void*);
+void animate_object(struct X4_AnimatedObj*);
 s32 try_enter_ladder(void*);
-M2C_UNK func_8003AFF4(s32);
-M2C_UNK func_8003B054(void*);
 extern void (*D_801F3730[])(s8*);
 
-void func_801EB8B8(s8* p) {
+void update_air_dash(s8* p) {
     if (((u8*)p)[0x89] & 8) {
-        func_8003B054(p);
+        player_land(p);
         return;
     }
     if (p[0xD3] != 0) {
@@ -59,7 +54,7 @@ void func_801EB8B8(s8* p) {
         return;
     }
     if ((func_80039984(p) == 0) && (try_enter_ladder(p) == 0)) {
-        func_80017A04((struct X4_AnimatedObj*)p);
+        animate_object((struct X4_AnimatedObj*)p);
         D_801F3730[p[6]](p);
     }
 }
@@ -77,7 +72,7 @@ void func_801EB8B8(s8* p) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void func_80017A04(struct X4_AnimatedObj*);
+void animate_object(struct X4_AnimatedObj*);
 void* func_8002C32C();
 M2C_UNK end_dash(s32);
 void func_801EC6D0(void*, s32);
@@ -93,7 +88,7 @@ void func_801EB9EC(u8* arg0) {
         end_dash((s32)arg0);
         return;
     }
-    func_80017A04((struct X4_AnimatedObj*)arg0);
+    animate_object((struct X4_AnimatedObj*)arg0);
     if (((s8*)arg0)[7] == 0) {
         func_801EC6D0(arg0, 0x32);
     } else {
@@ -119,10 +114,10 @@ void func_801EB9EC(u8* arg0) {
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void func_80017A04(struct X4_AnimatedObj*);
+void animate_object(struct X4_AnimatedObj*);
 void* func_8002C32C();
 s32 func_80039C40(void*);
-s32 func_80039C9C(void*);
+s32 check_crouch_input(void*);
 M2C_UNK end_dash(s32);
 
 void func_801EBAE0(u8* arg0) {
@@ -136,7 +131,7 @@ void func_801EBAE0(u8* arg0) {
         // !FAKE: goto: shared call block inlined where retail lays it (C0115)
         goto call;
     }
-    func_80017A04((struct X4_AnimatedObj*)arg0);
+    animate_object((struct X4_AnimatedObj*)arg0);
     if (((s8*)arg0)[0x45] & 0x80) {
         arg0[0x45] &= 0x7F;
         obj = func_8002C32C();
@@ -155,7 +150,7 @@ void func_801EBAE0(u8* arg0) {
     }
     if (((s8*)arg0)[0x93] == 0 && (arg0[0x45] & 0x40) &&
         func_80039C40(arg0) == 0) {
-        func_80039C9C(arg0);
+        check_crouch_input(arg0);
     }
 }
 
@@ -165,7 +160,7 @@ void func_801EBAE0(u8* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void func_80017A04(struct X4_AnimatedObj*);
+void animate_object(struct X4_AnimatedObj*);
 M2C_UNK end_dash(s32);
 extern void (*D_801F3778[])(void*);
 
@@ -174,7 +169,7 @@ void func_801EBBEC(void* arg0) {
         end_dash((s32)arg0);
         return;
     }
-    func_80017A04((struct X4_AnimatedObj*)arg0);
+    animate_object((struct X4_AnimatedObj*)arg0);
     D_801F3778[M2C_FIELD(arg0, s8*, 6)](arg0);
 }
 
@@ -182,23 +177,23 @@ void func_801EBBEC(void* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-void func_80017A04(struct X4_AnimatedObj*);
-struct X4_VisualObj* func_8002C398(void);
+void animate_object(struct X4_AnimatedObj*);
+struct X4_VisualObj* find_free_visual_obj(void);
 M2C_UNK end_dash(s32);
 
 void func_801EBC58(struct X4_MainObj* self) {
     struct X4_VisualObj* v;
 
-    func_80017A04((struct X4_AnimatedObj*)self);
-    if (self->unk6 == 0 && (self->animation_step.fields.event & 0x80)) {
-        v = func_8002C398();
+    animate_object((struct X4_AnimatedObj*)self);
+    if (self->action_phase == 0 && (self->animation_step.fields.event & 0x80)) {
+        v = find_free_visual_obj();
         if (v != 0) {
             v->active = 9;
             v->id = 0x17;
             v->unk2 = 0;
             v->animation_step.fields.frame_index = 3;
         }
-        self->unk6++;
+        self->action_phase++;
     }
     if (self->animation_step.fields.relative_step == 0) {
         end_dash((s32)self);
@@ -209,13 +204,13 @@ void func_801EBC58(struct X4_MainObj* self) {
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 
-void func_80017A04(struct X4_AnimatedObj*);
+void animate_object(struct X4_AnimatedObj*);
 M2C_UNK end_dash(s32);
 
 void func_801EBCF4(s8* arg0) {
     s32 var_a0;
 
-    func_80017A04((struct X4_AnimatedObj*)arg0);
+    animate_object((struct X4_AnimatedObj*)arg0);
     var_a0 = 0;
     if ((arg0[0x99] == 0) || (arg0[0x93] != 3)) {
         var_a0 = 1;
@@ -240,13 +235,13 @@ void func_801EBCF4(s8* arg0) {
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 
-void func_80017A04(struct X4_AnimatedObj*);
+void animate_object(struct X4_AnimatedObj*);
 M2C_UNK end_dash(s32);
 
 void func_801EBE28(s8* arg0) {
     s32 var_a0;
 
-    func_80017A04((struct X4_AnimatedObj*)arg0);
+    animate_object((struct X4_AnimatedObj*)arg0);
     var_a0 = 0;
     if ((arg0[0x99] == 0) || (arg0[0x93] != 7)) {
         var_a0 = 1;
@@ -276,18 +271,18 @@ void func_801EBE28(s8* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 extern u8 func_801F3698[];
 
 // str 0x801F3698 sha1=4f9ab48fb4b5a74dbaff79949a7171d7221c076e = "printable byte run: data, not text"
 M2C_UNK func_801EBF28(void* arg0) {
-    func_8003BA04(arg0, func_801F3698[M2C_FIELD(arg0, s8*, 0x96)]);
+    player_set_animation(arg0, func_801F3698[M2C_FIELD(arg0, s8*, 0x96)]);
 }
 
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 extern u8 D_801F36C8[];
 
 // str 0x801F36C8 sha1=05619cf61313e05817cc31351c1b4dda443ee78a = "printable byte run: data, not text"
@@ -295,19 +290,19 @@ M2C_UNK func_801EBF5C(void* arg0) {
     u8 v;
 
     v = D_801F36C8[*(s8*)((u8*)arg0 + 0x97)];
-    ((void (*)(void*, s32))func_8003BA04)(arg0, v);
+    ((void (*)(void*, s32))player_set_animation)(arg0, v);
     if (v == 0x5D) {
         *(u8*)((u8*)arg0 + 0x44) = *(u8*)((u8*)arg0 + 0x91) - 8;
     }
 }
 
 #include "common.h"
+#include "mmx6/x4.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK player_spawn_visual(M2C_UNK, M2C_UNK, s8, M2C_UNK);
-M2C_UNK func_8003F508(void*, M2C_UNK); /* extern */
 
 void func_801EBFBC(void* arg0) {
     ((void (*)(void*, s32))func_8003F508)(arg0, 0x15);
@@ -319,25 +314,24 @@ void func_801EBFBC(void* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/x4.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 check_dash_input(void*);           /* extern */
-s32 try_enter_wall_cling(void*);              /* extern */
-M2C_UNK func_8003B298(void*);          /* extern */
-M2C_UNK func_8003F508(void*, M2C_UNK); /* extern */
-s32 func_801EC35C();                   /* extern */
-s32 func_801EC3AC(void*);              /* extern */
+s32 check_dash_input(void*);     /* extern */
+s32 try_enter_wall_cling(void*); /* extern */
+M2C_UNK func_8003B298(void*);    /* extern */
+s32 func_801EC35C();             /* extern */
+s32 func_801EC3AC(void*);        /* extern */
 void player_hover_set_direction(struct X4_PlayerObj* self,
                                 s32 direction); /* extern */
 
-void func_801EC020(struct PlayerObj* arg0) {
+void player_hover_idle(struct PlayerObj* arg0) {
     s32 temp_v0;
 
     if ((func_801EC35C() == 0) && (try_enter_wall_cling(arg0) == 0)) {
-        if ((check_dash_input(arg0) != 0) &&
-            (arg0->shot_cooldown == 0)) {
+        if ((check_dash_input(arg0) != 0) && (arg0->shot_cooldown == 0)) {
             func_8003B298(arg0);
             return;
         }

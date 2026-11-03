@@ -1,13 +1,13 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
-M2C_UNK func_80017A04();                     /* extern */
+M2C_UNK animate_object();                    /* extern */
 extern M2C_UNK g_Player;
-extern s8 D_800970FC;
 
 void func_800F0EA4(void* arg0) {
     s32 flag;
@@ -40,6 +40,7 @@ void func_800F0EA4(void* arg0) {
     }
     if ((M2C_FIELD(arg0, u16*, 0x88) & 7) == 4) {
         if (!(M2C_FIELD(arg0, u16*, 0x8A) & 0x80)) {
+            // !FAKE: goto enters the shared flag-clear arm; duplicating the clear store moved bytes (setcc)
             goto clear;
         }
         play_sound(2, 0x25, 0);
@@ -53,9 +54,11 @@ void func_800F0EA4(void* arg0) {
     }
     if (flag != 0) {
         st = 0xB;
+        // !FAKE: goto shares store; copied store+return moved bytes
         goto store;
     }
     if (M2C_FIELD(arg0, u8*, 0x97) & 2) {
+        // !FAKE: goto shares call2; copied call+return moved bytes
         goto call2;
     }
     cond = 0;
@@ -68,10 +71,12 @@ void func_800F0EA4(void* arg0) {
     if (cond) {
         M2C_FIELD(arg0, s8*, 5) = 0x10;
         M2C_FIELD(arg0, s8*, 6) = 0;
+        // !FAKE: goto shares call; copied call+return moved bytes
         goto call;
     }
     if (M2C_FIELD(arg0, u8*, 0xA8) & 3) {
         st = 0xC;
+        // !FAKE: goto shares store; copied store+return moved bytes
         goto store;
     }
     if (!(M2C_FIELD(arg0, u8*, 0x97) & 8)) {
@@ -86,20 +91,21 @@ void func_800F0EA4(void* arg0) {
             m = 1;
         }
         t = M2C_FIELD(arg0, u16*, 0x88);
-        if (t & m) {
-            goto move;
+        v = t & m;
+        if (v == 0) {
+            v = (u16)(t & 0x100);
         }
-        v = (u16)(t & 0x100);
     }
     if (v == 0) {
         st = 0xC;
+        // !FAKE: goto shares store; copied store+return moved bytes
         goto store;
     }
-move:
     c = M2C_FIELD(arg0, u8*, 0x90);
     M2C_FIELD(arg0, s32*, 8) += M2C_FIELD(arg0, s32*, 0x20);
     M2C_FIELD(arg0, u8*, 0x90) = c - 1;
     if ((s8)c >= 0) {
+        // !FAKE: goto shares call; copied call+return moved bytes
         goto call;
     }
     st = 0xC;
@@ -108,8 +114,8 @@ store:
     M2C_FIELD(arg0, s8*, 6) = 0;
     return;
 call:
-    func_80017A04(arg0);
+    animate_object(arg0);
     return;
 call2:
-    func_80017A04(arg0);
+    animate_object(arg0);
 }

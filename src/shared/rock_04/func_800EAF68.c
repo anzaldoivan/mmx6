@@ -4,10 +4,10 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+M2C_UNK animate_object();
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D230();
+M2C_UNK apply_object_motion();
 M2C_UNK func_80030ECC(void*);
 extern s32 D_800F6AB4;
 
@@ -46,14 +46,15 @@ void func_800EAF68(void* self) {
             break;
         case 2:
             if (M2C_FIELD(self, s8*, 0x46) == 0) {
-                goto next;
+                M2C_FIELD(self, s8*, 4)++;
+                return;
             }
             break;
         }
         func_80030ECC(self);
-        func_80017A04(self);
-        func_8002D230(self);
-        if (func_8002CBFC(self, 0x20, 0x20) == 0) {
+        animate_object(self);
+        apply_object_motion(self);
+        if (is_off_screen(self, 0x20, 0x20) == 0) {
             func_8002CCB0(self, 0x20, 0x20);
             return;
         }
@@ -61,6 +62,5 @@ void func_800EAF68(void* self) {
             return;
         }
     }
-next:
     M2C_FIELD(self, s8*, 4)++;
 }

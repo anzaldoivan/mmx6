@@ -1,9 +1,9 @@
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-extern s16 D_8009721E;
 extern M2C_UNK D_800FCEFC;
 
 void func_800F8454(void* arg0) {

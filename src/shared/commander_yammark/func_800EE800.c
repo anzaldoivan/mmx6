@@ -37,6 +37,6 @@ void func_800EE800(u8* arg0) {
         g_playthrough_state.unk16 = 0;
         g_playthrough_state.unk17 = 0;
         g_playthrough_state.unk19 = 0;
-        g_Player.unk68 = t;
+        g_Player.terrain_box = t;
     }
 }

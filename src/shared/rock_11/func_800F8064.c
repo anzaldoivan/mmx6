@@ -4,8 +4,8 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+M2C_UNK animate_object();
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
@@ -19,17 +19,17 @@ void func_800F8064(struct X4_BaseObj* self) {
         self->on_screen = 0;
         return;
     }
-    func_80017A04(self);
-    (*(void (**)(void*))((self->unk5 << 2) + (s32)D_800FD438))(self);
+    animate_object(self);
+    (*(void (**)(void*))((self->action << 2) + (s32)D_800FD438))(self);
     if (check_enemy_hits(self) < 0) {
         func_80049E50(self);
         self->on_screen = 0;
         self->state = 6;
-        self->unk5 = 0;
+        self->action = 0;
         return;
     }
     func_80030ECC(self);
-    if (func_8002CBFC(self, 0x20, 0x20) == v) {
+    if (is_off_screen(self, 0x20, 0x20) == v) {
         self->on_screen = 0;
         self->state = 6;
     }

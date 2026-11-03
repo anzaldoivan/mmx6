@@ -1,6 +1,6 @@
 #include "common.h"
+#include "mmx6/globals.h"
 
-extern s32* D_80097778[];
 #include "psyq/libsnd.h"
 
 // 0x8001750C silence_sound: zeroes the volume of and keys off a range of sound voices (all 24 for 0xFF).

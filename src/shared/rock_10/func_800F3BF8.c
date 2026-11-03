@@ -26,8 +26,6 @@ void func_800F3BF8(void* arg0) {
             M2C_FIELD(arg0, u8*, 0x85) = (u8)(temp_v0 - 1);
             return;
         }
-        goto block_7;
     }
-block_7:
     func_8002CA14(arg0);
 }

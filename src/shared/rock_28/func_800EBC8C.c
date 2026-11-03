@@ -6,7 +6,7 @@ void func_800EBC8C(struct X4_ShotObj* arg0) {
 
     if (!(arg0->unk70 & 8) && (arg0->unk67 == 0)) {
         t = 3;
-        arg0->unk5 = t;
+        arg0->action = t;
         t = 0x4200;
         arg0->unk2C = t;
         t = 1;

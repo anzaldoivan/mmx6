@@ -39,9 +39,7 @@ void func_800E9EF0(u8* arg0) {
 }
 
 #include "common.h"
-
-extern s16 D_800EA2C8[];
-extern s8 D_800EAACC;
+#include "mmx6/rock_17.h"
 
 void func_800E9F7C(u8* arg0) {
     ((void (**)(u8*)) & D_800EA2C8[0x154])[(s8)arg0[5]](arg0);
@@ -175,6 +173,7 @@ void func_800EA234(void) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/rock_17.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 

@@ -4,12 +4,12 @@ INCLUDE_ASM("asm/rock_17/nonmatchings/E9860", D_800E9860);
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_17.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 extern struct X4_BackgroundObj background_objects[3];
-extern s8 D_800CCEF6;
-extern s16 D_800EA2C8[];
 
 void func_800E986C(void* arg0) {
     s16* p;
@@ -39,12 +39,12 @@ void func_800E986C(void* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_17.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 extern struct X4_BackgroundObj background_objects[3];
-extern s8 D_800CCEF6;
-extern s16 D_800EA2C8[];
 
 void func_800E9900(void* arg0) {
     s16* p;
@@ -132,6 +132,7 @@ void func_800E9994(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/rock_17.h"
 
 void func_80020378(void);
 void func_8002048C(void);
@@ -140,7 +141,6 @@ void func_800207D4(void);
 void func_80025FB0();
 void func_8002ACA8();
 extern struct X4_BackgroundObj background_objects[3];
-extern s16 D_800EA2C8[];
 
 void func_800E9A88(struct X4_MainObj* arg0) {
     background_objects[0].unk14 = background_objects[0].x_pos;
@@ -155,16 +155,16 @@ void func_800E9A88(struct X4_MainObj* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/rock_17.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80025F34(); /* extern */
-M2C_UNK func_800280F4(); /* extern */
+M2C_UNK func_80025F34();             /* extern */
+M2C_UNK func_800280F4();             /* extern */
 M2C_UNK init_checkpoint_positions(); /* extern */
-M2C_UNK reset_level();   /* extern */
-M2C_UNK func_8002C2B8(); /* extern */
-extern s8 D_800EAACC;
+M2C_UNK reset_level();               /* extern */
+M2C_UNK func_8002C2B8();             /* extern */
 
 void func_800E9B0C(void* arg0) {
     reset_level();
@@ -258,6 +258,8 @@ void func_800E9CB0(void* arg0) {
 #include "../shared/rock_17/func_800E9D04.c"
 
 #include "common.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_17.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -267,10 +269,8 @@ extern s8 D_80090D56;
 extern s16 D_80090D5C;
 extern s8 D_8009742C;
 extern s16 D_80097430;
-extern u8 D_800C4560;
 extern s8 D_800CF850;
 extern s16 D_800CF854;
-extern s8 D_800EAACC;
 
 void func_800E9D38(void* arg0) {
     func_8002B36C(0);
@@ -287,12 +287,12 @@ void func_800E9D38(void* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/rock_17.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 s32 func_8002B2F8(s32);
-extern s8 D_800EAACC;
 
 void func_800E9DC8(void* arg0) {
     if (--M2C_FIELD(arg0, s16*, 4) == 0) {

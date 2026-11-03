@@ -34,6 +34,7 @@ s32 memcard_write_save_file(u8* arg0, s32 arg1, u32 arg2) {
         do {
             fd = open(name, 2);
             if (fd != -1) {
+                // !FAKE: goto leaves the retry loop on success; break would need an extra counter test
                 goto opened;
             }
             VSync(2);
@@ -43,6 +44,7 @@ s32 memcard_write_save_file(u8* arg0, s32 arg1, u32 arg2) {
         i = 30;
         do {
             if (write(fd, arg0, arg2) == arg2) {
+                // !FAKE: goto leaves the retry loop on success; break would need an extra counter test
                 goto written;
             }
             VSync(2);

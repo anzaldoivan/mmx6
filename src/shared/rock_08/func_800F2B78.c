@@ -1,12 +1,12 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void set_boss_level();
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
-extern s8 D_80097240;
 extern struct X4_EngineObj g_playthrough_state;
 
 void func_800F2B78(void* arg0) {

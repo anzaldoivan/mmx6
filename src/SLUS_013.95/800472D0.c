@@ -1,66 +1,63 @@
+// prog SLUS_013.95 | system movement | range 0x800472D0-0x8004745C
 #include "common.h"
 #include "mmx6/x4.h"
-
-extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_EngineObj g_playthrough_state;
+#include "mmx6/engine_state.h"
+#include "mmx6/globals.h"
 
 #define F8(p, o) (*(u8*)((u8*)(p) + (o)))
-#define F16(p, o) (*(s16*)((u8*)(p) + (o)))
-#define F32(p, o) (*(s32*)((u8*)(p) + (o)))
 
+// 0x800472D0 func_800472D0: object init: speed and timer by stage, difficulty and checkpoint.
+// basis: none
+// callers: none known
 void func_800472D0(struct X4_MainObj* arg0) {
-    s16 var_v0;
     s16 var_v0_3;
 
-    F32(arg0, 0x1C) = 0;
-    F32(arg0, 0x18) = 0x20000;
+    arg0->unk1C.val = 0;
+    arg0->unk18.val = 0x20000;
     if (g_playthrough_state.stage >= 0x13) {
-        var_v0 = 0x10;
-        // !FAKE: shared store block placed between the two tests, as retail orders it
-        goto block_4;
-    }
-    if (g_playthrough_state.stage == 4) {
-        var_v0 = 8;
-    block_4:
-        F16(arg0, 0x16) = var_v0;
-        F16(arg0, 0x14) = 0;
-        F8(arg0, 5) = 0;
+        *(s16*)&arg0->unk16 = 0x10;
+        *(s16*)&arg0->bg_offset = 0;
+        arg0->action = 0;
+    } else if (g_playthrough_state.stage == 4) {
+        *(s16*)&arg0->unk16 = 8;
+        *(s16*)&arg0->bg_offset = 0;
+        arg0->action = 0;
     } else {
         background_objects[1].unk4 = 9;
         background_objects[1].unk4C = 1;
         if (F8(&g_playthrough_state, 0x68) >= 2U) {
-            F32(arg0, 0x18) = 0xFFFEC000;
+            arg0->unk18.val = 0xFFFEC000;
         } else {
-            F32(arg0, 0x18) = 0xFFFF0000;
+            arg0->unk18.val = 0xFFFF0000;
         }
         var_v0_3 = 0x32;
         if (g_playthrough_state.checkpoint == 0) {
             var_v0_3 = 0x78;
         }
-        F16(arg0, 0x14) = var_v0_3;
-        F8(arg0, 5) = 1;
-        F16(arg0, 0x16) = 0;
+        *(s16*)&arg0->bg_offset = var_v0_3;
+        arg0->action = 1;
+        *(s16*)&arg0->unk16 = 0;
     }
-    F8(arg0, 4) = F8(arg0, 4) + 1;
+    (*(u8*)&arg0->state)++;
 }
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern void (*D_800762C8[])(struct X4_MainObj*);
-extern s8 D_80097180;
-extern s8 D_800CCEF7;
-
+// 0x80047394 func_80047394: object step: runs the D_800762C8 action handler unless 0x80097180 is 2.
+// basis: none
+// callers: none known
 void func_80047394(struct X4_MainObj* arg0) {
     D_800CCEF7 = 0;
     if (D_80097180 != 2) {
-        D_800762C8[arg0->unk5](arg0);
+        D_800762C8[arg0->action](arg0);
     }
 }
 
-extern s8 D_800970A5;
-extern u8 D_800CCF38;
-
+// 0x800473EC func_800473EC: object action: adds speed while the player acts, resets by difficulty.
+// basis: none
+// callers: none known
 void func_800473EC(Probe800473EC* arg0) {
     if (D_800970A5 != 0) {
         arg0->unk1C += arg0->unk18;

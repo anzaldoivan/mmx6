@@ -5,7 +5,7 @@
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_8002D230();
+M2C_UNK apply_object_motion();
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 
@@ -15,7 +15,7 @@ void func_800F51F0(void* self) {
         ((void (*)(void*, s32))set_animation)(self, 7);
         F(u8, 6)++;
     }
-    func_8002D230(self);
+    apply_object_motion(self);
 }
 
 #undef F

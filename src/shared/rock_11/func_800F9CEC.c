@@ -1,19 +1,19 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80012D9C(M2C_UNK);
+M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002D230(void*);
+M2C_UNK apply_object_motion(void*);
 
 void func_800F9CEC(u8* arg0) {
     u8 v;
 
-    func_8002D230(arg0);
+    apply_object_motion(arg0);
     v = arg0[0x15];
     if ((v == 0 && (arg0[0x70] & 1)) || (v == 0x40 && (arg0[0x70] & 2))) {
         play_sound(2, 0x4E, arg0);
-        func_80012D9C(5);
+        start_pad_vibration(5);
         func_8002943C(0x14, 6, 2);
         {
             // !FAKE: depin: dropping it breaks the match (35/40)

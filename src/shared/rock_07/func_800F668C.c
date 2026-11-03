@@ -6,12 +6,12 @@
 #define HU(p, o) M2C_FIELD(p, u16*, o)
 #define H(p, o) M2C_FIELD(p, s16*, o)
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 
 void func_800F668C(void* arg0) {
     if (HU(arg0, 0x7C) & 1) {
         B(arg0, 0x3) = 1;
-        func_80017A04();
+        animate_object();
     } else {
         B(arg0, 0x3) = 0;
     }

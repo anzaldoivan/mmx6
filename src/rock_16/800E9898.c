@@ -183,12 +183,12 @@ INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EA3FC);
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void func_80027BA0(s32, s32, s32, void*);
 void func_800F0DDC();
 extern struct X4_BackgroundObj background_objects[3];
-extern u16 g_pad1_buttons[];
 extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F0BAC[];
 extern u8 D_800F0BC4[][6][8];
@@ -436,6 +436,7 @@ void func_800EAEF8(void* arg0) {
         FX(arg0, s16, 0xA) = n;
         if (D_800F1CA9 >= 9) {
             if ((s16)n >= 5) {
+                // !FAKE: goto shares the counter reset between both thresholds; a copied reset moved bytes
                 goto block;
             }
             return;
@@ -451,9 +452,9 @@ void func_800EAEF8(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-extern u16 g_pad1_buttons[];
 extern struct X4_EngineObj g_playthrough_state;
 extern u8 menu_armor_slots[];
 extern u8 D_800F1CEB;
@@ -677,6 +678,7 @@ void func_800EBACC(u8* arg0) {
         ++*(s16*)(arg0 + 0xA);
         if (D_800F1CA9 >= 9) {
             if (*(s16*)(arg0 + 0xA) >= 5) {
+                // !FAKE: goto shares the counter reset between both thresholds; a copied reset moved bytes
                 goto block;
             }
             return;
@@ -691,10 +693,10 @@ void func_800EBACC(u8* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_80027BA0(s32, s32, s32, void*);
 extern struct X4_BackgroundObj background_objects[3];
-extern s8 D_800CCEF7;
 extern u8 D_800F0BC4[][6][8];
 extern s16 D_800F0DA4[][3];
 extern s8 D_800F1CA0[];
@@ -759,12 +761,12 @@ void func_800EBD6C(struct X4_EngineObj* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void func_80027BA0(s32, s32, s32, void*);
 extern struct X4_BackgroundObj background_objects[3];
 extern s8 D_80097244;
-extern u16 g_pad1_buttons[];
 extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F0E2C[];
 extern u8 D_800F0E44[];
@@ -944,16 +946,19 @@ void func_800EC35C(void* arg0) {
             if (a & b) {
                 *p = a & ~b;
                 D_800F1CEA = 1;
+                // !FAKE: goto keeps retail block order of the toggle arms (C0173); nested if/else reorders blocks
                 goto after;
             }
             if (EC35C_ENG_2A >= 0x12
                     ? D_800F1CD0[EC35C_ENG_29][4] == -1
                     : D_800F1C80[EC35C_ENG_29] <
                           D_800F0ED4[((s8*)arg0 + EC35C_ENG_29)[0x8D]]) {
+                // !FAKE: goto keeps retail block order of the toggle arms (C0173); nested if/else reorders blocks
                 goto orarm;
             }
         }
         D_800F1CEA = 2;
+        // !FAKE: goto keeps retail block order of the toggle arms (C0173); nested if/else reorders blocks
         goto after;
     orarm:
         *p = a | b;
@@ -975,11 +980,11 @@ void func_800EC35C(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void func_800EC28C(void*);
 void func_800EC35C(void* arg0);
-extern u16 g_pad1_buttons[];
 extern u8 D_800F1CC4[];
 
 void func_800EC508(struct X4_EngineObj* arg0) {
@@ -1054,9 +1059,9 @@ void func_800EC634(struct X4_EngineObj* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-extern u16 g_pad1_buttons[];
 extern s8 D_800CCEFB;
 extern u8 D_800F1CC4[];
 extern s8 D_800F1CCA[];
@@ -1161,6 +1166,7 @@ INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EC96C);
 
 #include "common.h"
 #include "psyq/libgpu.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK reset_level();
@@ -1170,7 +1176,6 @@ void func_800280F4(void);
 M2C_UNK func_80025F34();
 
 extern M2C_UNK* D_800B91B8;
-extern u8 D_800CC868;
 extern M2C_UNK D_800F0EE4;
 extern u8 D_800F1CB6;
 extern u8 D_800F1CB7;
@@ -1271,8 +1276,8 @@ void func_800ECB90(void* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern s8 D_800CCEF6;
 extern u8 D_800F1CF9;
 
 void func_800ECC2C(struct X4_EngineObj* arg0) {
@@ -1359,10 +1364,10 @@ void func_800ECD80(u8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK func_800139F4(M2C_UNK);
-extern s8 D_800CCF01;
 
 void func_800ECDE4(u8* arg0) {
     if ((s16)++ * (u16*)(arg0 + 8) >= 8) {
@@ -1683,10 +1688,9 @@ void func_800ED49C(void* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-
-extern u8 D_8008EAFC;
 
 void func_800ED508(void* arg0) {
     if (D_8008EAFC == 0) {
@@ -1722,10 +1726,9 @@ void func_800ED570(void* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-
-extern u8 D_8008EAFC;
 
 void func_800ED5DC(void* arg0) {
     if (D_8008EAFC == 0) {
@@ -1765,10 +1768,9 @@ void func_800ED648(void* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-
-extern u8 D_8008EAFC;
 
 void func_800ED6B4(void* arg0) {
     if (D_8008EAFC == 0) {
@@ -1860,18 +1862,18 @@ void func_800EDC30(struct X4_AnimatedObj* self) {
         D_800F10F8[g_playthrough_state.character_state.bytes[1]][1];
     if (g_playthrough_state.character_state.bytes[0] != 0) {
         set_animation(self, 4);
-        self->unk6++;
+        self->action_phase++;
     }
     func_8002CB50(self);
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_8002CB50(); /* extern */
-extern s8 D_800CCEF6;
 
 void func_800EDCC0(void* arg0) {
     if (D_800CCEF6 != 0) {
@@ -1893,7 +1895,7 @@ extern struct X4_EngineObj g_playthrough_state;
 void func_800EDD04(struct X4_AnimatedObj* self) {
     if ((*(s32*)&g_playthrough_state & 0xFFFF00) == 0x400) {
         set_animation(self, 0);
-        self->unk6 = 0;
+        self->action_phase = 0;
         func_8002CB50(self);
     }
 }
@@ -1938,10 +1940,10 @@ void func_800EDD90(void* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK func_8002CB50();
-extern s8 D_800CCEF7;
 extern u16 D_800F111C[][2];
 extern u8 D_800F1CF0[];
 
@@ -2153,12 +2155,12 @@ void func_800EE2B8(s8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 extern s8 D_800CCEF8;
-extern s8 D_800CCF01;
 extern u8 D_800F124C[];
 
 #define E310_S8(o) (*(s8*)((s8*)arg0 + (o)))
@@ -2206,10 +2208,10 @@ void func_800EE408(void) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
-extern s8 D_800CCF01;
 
 void func_800EE410(void* arg0) {
     set_animation_frame(arg0, 1, D_800CCF01);
@@ -2287,14 +2289,14 @@ void func_800EE460(void* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
 extern u16 D_800F128C[][2];
 
 void func_800EE5AC(struct X4_AnimatedObj* self) {
-    func_80017A04();
+    animate_object();
     if (g_playthrough_state.character_state.bytes[3] != self->unk7) {
         self->x_pos.i.hi =
             D_800F128C[g_playthrough_state.character_state.bytes[3]][0];
@@ -2303,10 +2305,10 @@ void func_800EE5AC(struct X4_AnimatedObj* self) {
         set_animation(self, g_playthrough_state.character_state.bytes[3]);
         self->unk7 = g_playthrough_state.character_state.bytes[3];
     }
-    if (self->unk6 == 0) {
+    if (self->action_phase == 0) {
         if (g_playthrough_state.unk1 == 6) {
             self->on_screen = 0;
-            self->unk6++;
+            self->action_phase++;
             return;
         }
         func_8002CCB0(self, 0xA0, 0x10);
@@ -2316,7 +2318,7 @@ void func_800EE5AC(struct X4_AnimatedObj* self) {
         }
     } else if (g_playthrough_state.unk1 == 5 ||
                background_objects[self->bg_offset].x_pos.i.hi >= 0x400) {
-        self->unk6--;
+        self->action_phase--;
     }
 }
 
@@ -2331,13 +2333,13 @@ void func_800EE5AC(struct X4_AnimatedObj* self) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 extern struct X4_EngineObj g_playthrough_state;
 extern u16 D_800F128C[][2];
 
 void func_800EE744(struct X4_AnimatedObj* self) {
-    func_80017A04();
+    animate_object();
     if (g_playthrough_state.character_state.bytes[3] != self->unk7) {
         self->x_pos.i.hi =
             D_800F128C[g_playthrough_state.character_state.bytes[3]][0] + 0x600;
@@ -2547,13 +2549,13 @@ void func_800EEDA0(void* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK func_8002CB50();
 extern struct X4_EngineObj g_playthrough_state;
 extern u16 D_800F12A8[][2];
 
 void func_800EEE80(void* arg0) {
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     if (*(s8*)((u8*)arg0 + 2) == 0x26) {
         *(u16*)((u8*)arg0 + 0xA) =
             D_800F12A8[g_playthrough_state.character_state.bytes[4]][0];
@@ -2590,8 +2592,8 @@ void func_800EEF78(void* arg0) {
     u16 v;
 
     set_animation_frame(arg0, 6,
-                  D_800F1CE0[g_playthrough_state.character_state.bytes[3]]
-                            [*(s8*)((u8*)arg0 + 2)]);
+                        D_800F1CE0[g_playthrough_state.character_state.bytes[3]]
+                                  [*(s8*)((u8*)arg0 + 2)]);
     *(u16*)((u8*)arg0 + 0xA) = D_800F1328[*(s8*)((u8*)arg0 + 2)][0];
     v = D_800F1328[*(s8*)((u8*)arg0 + 2)][1];
     *(u16*)((u8*)arg0 + 0xE) = v;
@@ -2844,10 +2846,10 @@ void func_800EF690(void) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 s32 get_reploid_status();
-extern s32 D_8006D674[];
 extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CCEFB;
 extern s32 D_800F0E74[];
@@ -2915,7 +2917,8 @@ void func_800EF6B0(void* arg0) {
         F6B0_S16(0x42) = 0x78C2;
         F6B0_S8(2) = u - 0x22;
         r = get_reploid_status(F6B0_ENG2B * 16 + F6B0_S8(2));
-        if (r == 2 && (w = D_8006D674[F6B0_ENG2B * 16 + F6B0_S8(2)]) != 0) {
+        if (r == 2 &&
+            (w = part_by_reploid[F6B0_ENG2B * 16 + F6B0_S8(2)]) != 0) {
             if (w == 1) {
                 i = 0x18;
                 r = 0;
@@ -2925,6 +2928,7 @@ void func_800EF6B0(void* arg0) {
             } else {
                 for (i = 0; i < 0x18; i++) {
                     if (D_800F0E74[i] == w) {
+                        // !FAKE: goto skips the not-found reset; break plus an index test moved bytes
                         goto found;
                     }
                 }
@@ -3002,7 +3006,7 @@ void func_800EFAB4(struct X4_AnimatedObj* self) {
     }
     func_8002CCB0(self, 0x40, 0x10);
     if (get_reploid_status(g_playthrough_state.character_state.bytes[5] * 16 +
-                      self->unk2) >= 2) {
+                           self->unk2) >= 2) {
         self->animation_step.fields.frame_index =
             self->unk2 + g_playthrough_state.character_state.bytes[5] * 16;
         return;
@@ -3029,7 +3033,7 @@ void func_800EFB94(struct X4_AnimatedObj* self) {
     ((void (*)(void*, s32, s32))set_animation_frame)(
         self, 2,
         get_reploid_status(g_playthrough_state.character_state.bytes[5] * 16 +
-                      self->unk2));
+                           self->unk2));
     t = D_800F1688[self->unk2][0];
     x = t + 0x59;
     self->x_pos.i.hi = x;
@@ -3038,8 +3042,8 @@ void func_800EFB94(struct X4_AnimatedObj* self) {
     if (background_objects[t].x_pos.i.hi < 0x400) {
         self->x_pos.i.hi = x - 0x600;
     }
-    switch (get_reploid_status(g_playthrough_state.character_state.bytes[5] * 16 +
-                          self->unk2)) {
+    switch (get_reploid_status(
+        g_playthrough_state.character_state.bytes[5] * 16 + self->unk2)) {
     case 0:
     case 1:
         self->unk42 = 0x7905;
@@ -3060,11 +3064,11 @@ void func_800EFB94(struct X4_AnimatedObj* self) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 s32 get_reploid_status(s32);
-extern s32 D_8006D674[];
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
 extern s32 D_800F0E74[];
@@ -3088,10 +3092,10 @@ void func_800EFCC0(struct X4_AnimatedObj* self) {
     }
     func_8002CCB0(self, 0x40, 0x10);
     r = get_reploid_status(g_playthrough_state.character_state.bytes[5] * 16 +
-                      self->unk2);
+                           self->unk2);
     if (r == 2 &&
-        (w = D_8006D674[g_playthrough_state.character_state.bytes[5] * 16 +
-                        self->unk2]) != 0) {
+        (w = part_by_reploid[g_playthrough_state.character_state.bytes[5] * 16 +
+                             self->unk2]) != 0) {
         if (w == 1) {
             i = 0x18;
         } else if (w == r) {
@@ -3099,6 +3103,7 @@ void func_800EFCC0(struct X4_AnimatedObj* self) {
         } else {
             for (i = 0; i < 0x18; i++) {
                 if (D_800F0E74[i] == w) {
+                    // !FAKE: goto skips the not-found reset; break plus an index test moved bytes
                     goto found;
                 }
             }
@@ -3128,8 +3133,8 @@ void func_800EFE10(struct X4_AnimatedObj* self) {
     count = 0;
     i = 0;
     do {
-        if (get_reploid_status(g_playthrough_state.character_state.bytes[5] * 0x10 +
-                          i) == 2) {
+        if (get_reploid_status(
+                g_playthrough_state.character_state.bytes[5] * 0x10 + i) == 2) {
             count++;
         }
         i++;
@@ -3161,7 +3166,8 @@ extern u16 D_800F16C8[][2];
 
 void func_800EFF60(struct X4_AnimatedObj* self) {
     if (self->unk2 != 0) {
-        set_animation_frame(self, 5, g_playthrough_state.character_state.bytes[5]);
+        set_animation_frame(self, 5,
+                            g_playthrough_state.character_state.bytes[5]);
         self->x_pos.i.hi =
             D_800F16C8[g_playthrough_state.character_state.bytes[5]][0] + 0x782;
         self->y_pos.i.hi =

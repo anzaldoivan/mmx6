@@ -3,6 +3,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80018774);
 // clang-format on
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -11,8 +12,6 @@ M2C_UNK func_80064C94(M2C_UNK*, u32); /* extern */
 #define func_80064C94 ((M2C_UNK(*)(M2C_UNK*, u8))func_80064C94)
 extern s8 D_800CC869;
 #define D_800CC869 (*(u8*)&D_800CC869)
-extern M2C_UNK D_800E2E10;
-extern u8 D_800E2E15;
 
 void func_800187A0(s32 arg0) {
     u32 temp_v1;
@@ -38,10 +37,9 @@ void func_800187A0(s32 arg0) {
 #undef func_80064C94
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 extern s8 D_80097418;
-extern s32 D_800E2E4C;
-extern s32 D_800E2E5C;
 
 void func_8001881C(void) {
     D_80097418 = 0;
@@ -51,13 +49,12 @@ void func_8001881C(void) {
 
 #include "common.h"
 #include "psyq/libcd.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 
 s8 func_80064874(M2C_UNK, u8*); /* extern */
 extern s8 D_800CD40C;
-extern s32 D_800E2E18;
-extern u8 D_800E2E40;
 
 void func_80018838(void) {
     s8 temp_v0;
@@ -72,14 +69,11 @@ void func_80018838(void) {
 
 #include "common.h"
 #include "psyq/libcd.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 
-extern u8 D_800A21B4;
 extern s8 D_800E2E16;
-extern s32 D_800E2E18;
-extern u8 D_800E2E40;
-extern s16 D_800E2E48;
 
 void func_800188BC(void) {
     if (D_800E2E48 & D_800A21B4) {
@@ -95,16 +89,12 @@ void func_800188BC(void) {
 
 #include "common.h"
 #include "psyq/libcd.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 
 s8 func_80064874(M2C_UNK, u8*); /* extern */
-extern u8 D_800A21B4;
 extern s8 D_800E2E16;
-extern s32 D_800E2E18;
-extern u8 D_800E2E40;
-extern s16 D_800E2E48;
-extern s32 D_800E2E4C;
 
 void func_80018948(void) {
     s32 temp_v0;
@@ -126,10 +116,8 @@ void func_80018948(void) {
 
 void func_800187A0(s32 arg0);
 #include "psyq/libsnd.h"
+#include "mmx6/globals.h"
 s8 func_80064874(M2C_UNK, u8*);
-extern u8 D_800E2E14;
-extern s32 D_800E2E18;
-extern s32 D_800E2E4C;
 
 void func_800189E4(void) {
     s32 temp_v0;
@@ -155,14 +143,12 @@ void func_800189E4(void) {
 
 #include "common.h"
 #include "psyq/libcd.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 
 s8 func_80064874(M2C_UNK, u8*); /* extern */
 extern M2C_UNK D_800E2E04;
-extern s32 D_800E2E18;
-extern s32 D_800E2E4C;
-extern u8 D_800E2E60;
 
 void func_80018A90(void) {
     s32 var_v0;
@@ -182,11 +168,11 @@ void func_80018A90(void) {
 
 #include "common.h"
 #include "psyq/libcd.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 
 s8 func_80064874(M2C_UNK, u8*); /* extern */
-extern s32 D_800E2E18;
 extern M2C_UNK D_800E2E64;
 
 void func_80018B10(void) {
@@ -200,10 +186,9 @@ void func_80018B10(void) {
 #include "psyq/libcd.h"
 #include "psyq/libetc.h"
 #include "mmx6/x4.h"
-extern u8 D_800E2E40;
+#include "mmx6/globals.h"
 #define D_800E2E40 (*(u8(*)[]) & D_800E2E40)
 extern s8 D_800E2E16;
-extern s32 D_800E2E18;
 
 #define M2C_UNK s32
 /* libcd command, status and mode bits used here (values as in the SDK's libcd.h) */
@@ -362,9 +347,9 @@ void func_80018F98(void) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_8001A330(u8, s32, s32, s32, s32, s32);
-extern s8 D_800970A2;
 extern struct X4_EngineObj g_playthrough_state;
 
 void func_800190FC(void) {
@@ -389,10 +374,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800192CC);
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern u8 D_80070C84[][6];
-extern u8 D_8008EAFC;
-extern X4_P_TAG* D_8008EB08[2][4][8];
 u32 func_800260C4(s32 arg0, s32 arg1, s32 arg2);
 u8 func_8002624C(u8, u8, s32, s32);
 
@@ -584,9 +568,9 @@ void func_8001A604(s8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 void clear_object_slot(void* arg0);
-extern s8 D_800CCED1;
 extern void (*D_80070C7C[])(s8*);
 
 void func_8001A674(s8* arg0) {

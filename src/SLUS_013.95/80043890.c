@@ -37,15 +37,14 @@ void func_80043890(struct X4_MainObj* self) {
         }
     } else {
         flag = 0;
-        if (player->unk2 != 0) {
+        if (player->character != 0) {
             if (player->input.buttons.held & 4) {
                 if (player->pressed_input & 0x20) {
                     player->weapon = 3;
-                    goto set;
+                    flag = 1;
                 }
             }
         } else if (player->pressed_input & 0x10) {
-        set:
             flag = 1;
         }
         if (flag == 1 && UB(0x8D) != 7) {
@@ -53,10 +52,11 @@ void func_80043890(struct X4_MainObj* self) {
             b = 1;
             do {
                 if (!((UB(0x8D) >> i) & 1)) {
-                    if (player->unk2 != 0) {
+                    if (player->character != 0) {
                         if (ENERGY(player, 3) >=
                             get_weapon_energy_cost(player, 3)) {
                             arg = player->weapon;
+                            // !FAKE: goto shares give; copied call+pin moved
                             goto give;
                         }
                     } else {
@@ -98,17 +98,17 @@ void func_80043890(struct X4_MainObj* self) {
                         UB(0x8D) = s;
                     }
                     v = 2;
-                    goto store;
+                    UB(0x93) = v;
+                    return;
                 }
             }
-            if (player->unk2 != 0) {
+            if (player->character != 0) {
                 t = player->pressed_input & 0x30;
             } else {
                 t = player->pressed_input & 0x10;
             }
             if (t != 0) {
                 v = 1;
-            store:
                 UB(0x93) = v;
             }
         }
@@ -235,7 +235,7 @@ void func_80043DBC(s8* arg0) {
                 F_U8(arg0, 0x64)++;
             }
             pl = &g_Player;
-            F_U8(arg0, 0x15) = pl->unk15;
+            F_U8(arg0, 0x15) = pl->facing;
             {
                 s32 off = (arg0[2] - 1) * 0x555 + 0xE00;
                 ang = (F_U16(parent, 0x94) + off) & 0xFFF;
@@ -279,7 +279,7 @@ void func_80043F8C(s8* arg0) {
         player = &g_Player;
         player->shot_count--;
         player->special_shot_count--;
-        if (player->unk2 != 0 && player->stock_charge == 1) {
+        if (player->character != 0 && player->stock_charge == 1) {
             player->stock_charge = 0;
         }
         p = (s8*)player;
@@ -318,13 +318,13 @@ void func_80044058(u8* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK); /* extern */
-M2C_UNK func_80017A04();               /* extern */
+M2C_UNK animate_object();              /* extern */
 extern s32 D_80076108;
 
 void func_80044094(void* arg0) {
     void* temp_a0;
 
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
         temp_a0 = M2C_FIELD(arg0, void**, 0x7C);
         if (M2C_FIELD(temp_a0, s16*, 0x94) == 0x1000) {
@@ -343,7 +343,7 @@ void func_80044094(void* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void func_80043B90(s8* arg0, s16 arg1);
 
 void func_80044118(s8* arg0) {
@@ -354,7 +354,7 @@ void func_80044118(s8* arg0) {
         arg0[5] = 7;
         return;
     }
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
     if (arg0[0x98] != 0) {
         arg0[0x98] = 0;
         t = ++*(u16*)(arg0 + 0x8A);
@@ -373,12 +373,12 @@ void func_80044118(s8* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 
 void func_800441D4(void* arg0) {
     u8* temp_a1;
 
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
     if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
         temp_a1 = M2C_FIELD(arg0, u8**, 0x7C);
         temp_a1[0x8D] &= ~(1 << (M2C_FIELD(arg0, s8*, 2) - 1));
@@ -390,6 +390,7 @@ void func_800441D4(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
 
@@ -407,11 +408,11 @@ void func_80044238(struct X4_WeaponObj* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 extern s32 D_80076108;
 
 void func_80044294(s8* arg0) {
-    ((void (*)())func_80017A04)();
+    ((void (*)())animate_object)();
     if (arg0[0x46] == 0) {
         *(s32**)(arg0 + 0x50) = &D_80076108;
         arg0[0x98] = 0;
@@ -431,7 +432,7 @@ void func_80044294(s8* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void func_80043B90(s8* arg0, s16 arg1);
 extern s32 D_80076108;
 
@@ -439,7 +440,7 @@ void func_8004431C(s8* arg0) {
     u8* t;
     s32 v;
 
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
     t = *(u8**)(arg0 + 0x7C);
     if (!(t[0x93] & 2)) {
         ((void (*)(void*, s32))set_animation)(arg0, 1);
@@ -453,28 +454,28 @@ void func_8004431C(s8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();                                            /* extern */
-s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2); /* extern */
+M2C_UNK animate_object();                                           /* extern */
+s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2); /* extern */
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);    /* extern */
 M2C_UNK move_object(void*);                                         /* extern */
 M2C_UNK func_8002EE10(void*);                                       /* extern */
 void func_800383F8(void*);                                          /* extern */
 void func_80044590(void* arg0);                                     /* extern */
-extern s8 D_800970A2;
 
 void func_800443C4(void* arg0) {
     s8 temp_s0;
 
-    if (func_8002CBFC(arg0, 0x20, 0x20) == 0) {
+    if (is_off_screen(arg0, 0x20, 0x20) == 0) {
         if (M2C_FIELD(arg0, s8*, 0x98) != 0) {
             func_80044590(arg0);
             return;
         }
-        func_80017A04(arg0);
+        animate_object(arg0);
         move_object(arg0);
         {
             // !FAKE: first flag read lands in the first return register
@@ -574,7 +575,7 @@ M2C_UNK set_animation(void*, M2C_UNK);
 #define set_animation ((void (*)(void*, s32))set_animation)
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 #define func_8002CCB0 func_8002CCB0
-void func_8003CF24(s32, s32, s32);
+void load_buffered_palette(s32, s32, s32);
 M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
                             M2C_UNK arg3);
 #define player_spawn_visual player_spawn_visual
@@ -596,25 +597,25 @@ void func_800445A8(struct X4_WeaponObj* arg0) {
     arg0->unk64 = 1;
     arg0->animation_table = (u32**)D_80077A0C;
     player = &g_Player;
-    if (player->unk2 != 0) {
+    if (player->character != 0) {
         arg0->unk38 = SCRATCH_14 + *(s32*)(SCRATCH_14 + 0xC);
         arg0->unk3C = SCRATCH_1C + *(s32*)(SCRATCH_1C + 0x20);
         arg0->unk42 = 0x7848;
-        func_8003CF24(0x50, 0x18, 1);
+        load_buffered_palette(0x50, 0x18, 1);
     } else {
         arg0->unk38 = SCRATCH_14 + *(s32*)(SCRATCH_14 + 0x14);
         arg0->unk3C = SCRATCH_1C + *(s32*)(SCRATCH_1C + 0x34);
         arg0->unk42 = 0x7801;
-        func_8003CF24(0xF, 1, 1);
+        load_buffered_palette(0xF, 1, 1);
     }
     arg0->unk40 = 0x520;
     arg0->unk16 = 1;
-    arg0->unk15 = player->unk15;
+    arg0->unk15 = player->facing;
     arg0->unk67 = 1;
     F_S8(arg0, 0x9C) = 1;
     F_S8(arg0, 0x9D) = 1;
     if (arg0->unk2 == 0) {
-        if (player->unk2 != 0) {
+        if (player->character != 0) {
             if (arg0->unk15 != 0) {
                 arg0->x_pos.i.hi = player->x_pos.i.hi + 0xF;
             } else {
@@ -630,7 +631,7 @@ void func_800445A8(struct X4_WeaponObj* arg0) {
             arg0->x_vel.val = -0x18000;
         }
         arg0->unk28.val = 0;
-        if (player->unk2 != 0) {
+        if (player->character != 0) {
             arg0->y_vel.val = 0x30000;
             arg0->unk2C = 0x2000;
         } else {
@@ -657,10 +658,10 @@ void func_800445A8(struct X4_WeaponObj* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-M2C_UNK func_8002D230();
+M2C_UNK apply_object_motion();
 extern struct X4_PlayerObj g_Player;
-extern s8 D_800970A2;
 
 #define U8F(p, o) (*(u8*)((u8*)(p) + (o)))
 #define S8F(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -672,13 +673,13 @@ void func_800447CC(void* arg0) {
     u8 t;
     u8 flags;
 
-    func_8002D230(arg0);
+    apply_object_motion(arg0);
     flags = U8F(arg0, 0x8F);
     if (flags != 0) {
         if (flags & 4) {
             S32F(arg0, 0x24) = 0xFFFD0000;
         } else if (flags & 8) {
-            if (g_Player.unk2 != 0) {
+            if (g_Player.character != 0) {
                 S32F(arg0, 0x24) = 0x30000;
                 S32F(arg0, 0x2C) = 0x2000;
             } else {
@@ -694,12 +695,12 @@ void func_800447CC(void* arg0) {
         }
         S32F(arg0, 0x8) = S32F(arg0, 0x18);
         S32F(arg0, 0xC) = S32F(arg0, 0x1C);
-        func_8002D230(arg0);
+        apply_object_motion(arg0);
         {
             // !FAKE: depin: dropping it breaks the match (52/82)
             register s32 t asm("$2") = U8F(arg0, 0x90);
             U8F(arg0, 0x90) = t + 1;
-            if (g_Player.unk2 != 0) {
+            if (g_Player.character != 0) {
                 U8F(arg0, 0x90)++;
             }
         }
@@ -716,20 +717,20 @@ void func_800447CC(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
 #define set_animation ((void (*)(void*, s32))set_animation)
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 #define func_8002CCB0 func_8002CCB0
 s32 random_byte();
-void func_8003CF24(s32, s32, s32);
+void load_buffered_palette(s32, s32, s32);
 M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
                             M2C_UNK arg3);
 #define player_spawn_visual player_spawn_visual
 extern s32 D_8007616C[];
 extern s32 D_80077A0C[];
 extern struct X4_PlayerObj g_Player;
-extern u8 D_800970B5;
 extern struct X4_BackgroundObj background_objects[3];
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
@@ -787,7 +788,7 @@ void func_80044914(struct X4_WeaponObj* arg0) {
     arg0->unk3C = p;
     set_animation(arg0, 4);
     player_spawn_visual(1, 0x1B, 3, 0);
-    func_8003CF24(0x12, 1, 1);
+    load_buffered_palette(0x12, 1, 1);
     arg0->state++;
     func_8002CCB0(arg0, 0x30, 0x40);
 }
@@ -804,7 +805,7 @@ void func_80044914(struct X4_WeaponObj* arg0) {
 #define PTR(p, off) (*(void**)((u8*)(p) + (off)))
 
 extern struct X4_BackgroundObj background_objects[3];
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s8* func_8002BEC4(s8* p, s32 dir);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 M2C_UNK move_object(void*);
@@ -838,7 +839,7 @@ void func_80044D04(struct X4_BaseObj* self) {
         if (!(D_80097420.frame_counter & 3)) {
             UB(self, 0x64)++;
         }
-        func_80017A04(self);
+        animate_object(self);
         move_object(self);
         out = 0;
         dx = self->x_pos.i.hi - background_objects[self->bg_offset].x_pos.i.hi;
@@ -879,7 +880,7 @@ void func_80044EA0(struct X4_PlayerObj* self) {
     if (p->ride_animation != 0) {
         flag = 1;
     }
-    if (p->unk2 == 0) {
+    if (p->character == 0) {
         if (p->weapon != 4) {
             flag = 1;
         }
@@ -890,7 +891,7 @@ void func_80044EA0(struct X4_PlayerObj* self) {
     if (flag != 0) {
         self->state = 2;
     }
-    self->shot_fired = self->unk70 | self->unk71;
+    self->shot_fired = self->collision_flags | self->unk71;
     D_80076170[self->state](self);
     func_8002F288((M2C_UNK*)self);
     self->unk71 = 0;
@@ -916,7 +917,7 @@ void func_80044F78(struct X4_PlayerObj* arg0) {
     if (p->weapon != 4) {
         var_a1 = 1;
     }
-    if (p->unk5 != 0x28) {
+    if (p->action != 0x28) {
         var_a1 = 1;
     }
     if (var_a1 != 0) {
@@ -931,8 +932,8 @@ void func_80044F78(struct X4_PlayerObj* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
+M2C_UNK animate_object();
+s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
 void func_80049E50(struct X4_MainObj* self);
 extern s32 D_80076160;
 extern void (*D_8007617C[])(void*);
@@ -940,8 +941,8 @@ extern void (*D_8007617C[])(void*);
 void func_80045018(void* arg0) {
     u8 temp_a0;
 
-    if (func_8002CBFC(arg0, 0x20, 0x20) == 0) {
-        func_80017A04(arg0);
+    if (is_off_screen(arg0, 0x20, 0x20) == 0) {
+        animate_object(arg0);
         if (M2C_FIELD(arg0, s8*, 0x45) == 1) {
             M2C_FIELD(arg0, void**, 0x50) = &D_80076160;
         }
@@ -972,7 +973,7 @@ void func_800450E0(void* arg0) {
 
     M2C_FIELD(arg0, s32*, 0x50) = 0;
     M2C_FIELD(arg0, s32*, 0x68) = 0;
-    if (p->unk2 == 0) {
+    if (p->character == 0) {
         M2C_FIELD(p, u8*, 0x98) -= 1;
         M2C_FIELD(p, u8*, 0x99) -= 1;
     }
@@ -1014,6 +1015,7 @@ void func_80045138(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 play_sound(s32 a0, s32 a1, void* arg2);
 #define play_sound ((void (*)(s32, s32, void*))play_sound)
@@ -1022,11 +1024,10 @@ M2C_UNK set_animation(void*, M2C_UNK);
 void func_80017B04(u8*, s16, s16);
 #define func_80017B04 func_80017B04
 s8* func_8002BEC4(s8* p, s32 dir);
-void func_8003CF24(s32, s32, s32);
+void load_buffered_palette(s32, s32, s32);
 M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
                             M2C_UNK arg3);
 #define player_spawn_visual player_spawn_visual
-extern u8 D_80076194[][2];
 extern s32 D_80077A40[];
 extern struct X4_PlayerObj g_Player;
 
@@ -1047,7 +1048,7 @@ void func_800451B8(struct X4_WeaponObj* arg0) {
         kind = 3;
         {
             // !FAKE: depin: dropping it breaks the match (179/181)
-            register s32 t asm("$3") = player->unk2;
+            register s32 t asm("$3") = player->character;
             if (t == 0) {
                 kind = 1;
                 if (!(player->input.buttons.held & 4)) {
@@ -1067,7 +1068,7 @@ void func_800451B8(struct X4_WeaponObj* arg0) {
             F_U8(arg0, 0x8C)++;
         }
         arg0->state++;
-        if (player->unk2 != 0) {
+        if (player->character != 0) {
             F_U8(arg0, 0x48) = 0xFF;
             F_S8(arg0, 0x47) = 0;
             arg0->unk49 = 1;
@@ -1076,11 +1077,11 @@ void func_800451B8(struct X4_WeaponObj* arg0) {
                 arg0->unk38 = q + *(s32*)(q + 0x14);
             }
             func_80017B04(arg0, 0x140, 0x40);
-            func_8003CF24(0x52, 0x19, 1);
+            load_buffered_palette(0x52, 0x19, 1);
         }
         return;
     }
-    if (player->unk2 != 0) {
+    if (player->character != 0) {
         u8* a = SCRATCH_14;
         u8* b;
         arg0->unk38 = a + *(s32*)(a + 0x14);
@@ -1097,14 +1098,14 @@ void func_800451B8(struct X4_WeaponObj* arg0) {
         arg0->unk40 = 0x520;
         arg0->unk42 = 0x7801;
         player_spawn_visual(1, 0x1B, 4, 0);
-        func_8003CF24(0x1B, 1, 1);
+        load_buffered_palette(0x1B, 1, 1);
     }
     arg0->animation_table = (u32**)D_80077A40;
     arg0->unk16 = 1;
     F_S8(arg0, 0x9C) = 1;
     arg0->on_screen = 1;
     arg0->unk15 = 0;
-    if (player->unk15 != 0) {
+    if (player->facing != 0) {
         arg0->x_pos.i.hi =
             player->x_pos.i.hi - (s8)D_80076194[arg0->unk2 - 1][0];
     } else {

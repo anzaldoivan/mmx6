@@ -1,10 +1,10 @@
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 extern u16 D_80097202;
 #define D_80097202 (*(s16*)&D_80097202)
-extern s16 D_80097206;
 
 // 0x8002D868 check_attack_hit: player attack hit detection.
 // basis: community tweaks-index.tsv:277

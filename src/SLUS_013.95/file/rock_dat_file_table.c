@@ -4,12 +4,12 @@
 #include "psyq/libcd.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 int func_800617A4(X4_CdlLOC* p);
 
 extern u8 D_80010004[];
 extern u8 rock_dat_cd_file_names[][22];
-extern s32 rock_dat_file_table[][2];
 
 // 0x800147D0 load_rock_dat_file_table: reads the ROCK_X6.DAT file table (0xF3 entries) into rock_dat_file_table, plus 4 files.
 // basis: string strings.tsv:3:SLUS_013.95:0x80010004

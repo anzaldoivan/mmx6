@@ -1,10 +1,10 @@
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-extern u8 D_800CCF99;
 extern u8 D_800CD40C;
 
 void func_800EA394(void* arg0) {
@@ -16,13 +16,15 @@ void func_800EA394(void* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK stop_cd_audio(); /* extern */
-extern u8 D_8008EAFC;
-extern u8 D_800C4570;
+extern u16 D_800C4570;
+#define D_800C4570                                                             \
+    (*(u8*)&D_800C4570) /* C0270: retail reads the low byte (lbu) */
 extern u8 D_800CD40C;
 
 void func_800EA3F8(void* arg0) {
@@ -39,6 +41,7 @@ void func_800EA3F8(void* arg0) {
         }
     }
 }
+#undef D_800C4570
 
 #include "common.h"
 

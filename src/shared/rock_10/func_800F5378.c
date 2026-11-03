@@ -55,7 +55,9 @@ void func_800F5378(struct X4_AnimatedObj* arg0) {
         case 0:
             x = 0x120;
             y = 0x20;
-            goto store;
+            M2C_FIELD(arg0, s16*, 0x84) = x;
+            M2C_FIELD(arg0, s16*, 0x86) = y;
+            break;
         case 1:
             M2C_FIELD(arg0, s16*, 0x84) = 0x20;
             M2C_FIELD(arg0, s16*, 0x86) = 0x20;
@@ -63,16 +65,17 @@ void func_800F5378(struct X4_AnimatedObj* arg0) {
         case 2:
             x = 0x20;
             y = 0x90;
-            goto store;
+            M2C_FIELD(arg0, s16*, 0x84) = x;
+            M2C_FIELD(arg0, s16*, 0x86) = y;
+            break;
         case 3:
             x = 0x120;
             y = 0x90;
-        store:
             M2C_FIELD(arg0, s16*, 0x84) = x;
             M2C_FIELD(arg0, s16*, 0x86) = y;
             break;
         }
         M2C_FIELD(arg0, s16*, 0x7C) = 0x32;
-        arg0->unk6++;
+        arg0->action_phase++;
     }
 }

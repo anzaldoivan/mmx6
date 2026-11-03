@@ -8,13 +8,14 @@ extern s32 D_80077A98;
 extern s32 D_801F3858[];
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-void func_80017A04(struct X4_AnimatedObj*);
+void animate_object(struct X4_AnimatedObj*);
 M2C_UNK func_80017B04(M2C_UNK*, M2C_UNK, M2C_UNK);
 void* func_8002C32C();
 M2C_UNK clear_object_slot();
-#define clear_object_slot ((void (*)(struct X4_ObjectHeader * arg0)) clear_object_slot)
+#define clear_object_slot                                                      \
+    ((void (*)(struct X4_ObjectHeader * arg0)) clear_object_slot)
 s32 random_byte();
-M2C_UNK func_8003CFE0(void*, M2C_UNK);
+M2C_UNK play_sound_unless_low_health(void*, M2C_UNK);
 #define SCRATCH_14 (*(u8**)0x1F800014)
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 
@@ -44,19 +45,20 @@ void update_shadow_armor_attack(struct X4_WeaponObj* arg0) {
         var_a1 = 1;
     }
     if (var_a1 != 0) {
-        goto block_30;
+        clear_object_slot(OBJECT_HEADER(arg0));
+        return;
     }
     {
         if (arg0->state == 0) {
             arg0->state++;
             arg0->on_screen = 1;
             arg0->unk40 = 0x590;
-            if ((player->weapon != 3) || (player->unk5 == 0x4C)) {
-                if (player->unk5 == 0x25) {
+            if ((player->weapon != 3) || (player->action == 0x4C)) {
+                if (player->action == 0x25) {
                     play_sound(1, 0x12, player);
-                } else if (player->unk5 == 0x26) {
+                } else if (player->action == 0x26) {
                     play_sound(1, 9, player);
-                } else if (player->unk5 == 0x4D) {
+                } else if (player->action == 0x4D) {
                 } else {
                     play_sound(1, 0xE, player);
                 }
@@ -80,9 +82,9 @@ void update_shadow_armor_attack(struct X4_WeaponObj* arg0) {
             M2C_FIELD(arg0, u32*, 0x8C) = 0;
             M2C_FIELD(arg0, s32*, 0x90) = 0;
             arg0->unk49 = 0;
-            if (player->unk5 == 0x2F) {
+            if (player->action == 0x2F) {
                 if (random_byte() & 4) {
-                    func_8003CFE0(player, 8);
+                    play_sound_unless_low_health(player, 8);
                 }
                 if (M2C_FIELD(player, u8*, 0xE7) != 2) {
                     set_animation(arg0, 4);
@@ -95,18 +97,17 @@ void update_shadow_armor_attack(struct X4_WeaponObj* arg0) {
                 set_animation(arg0, arg0->id - 0x30);
             }
         } else {
-            func_80017A04(ANIMATED_OBJECT(arg0));
+            animate_object(ANIMATED_OBJECT(arg0));
             if (arg0->animation_step.fields.relative_step == 0) {
-            block_30:
                 clear_object_slot(OBJECT_HEADER(arg0));
                 return;
             }
         }
         arg0->x_pos.val = player->x_pos.val;
         arg0->y_pos.val = player->y_pos.val;
-        arg0->unk15 = player->unk15;
+        arg0->unk15 = player->facing;
         func_80017B04((M2C_UNK*)arg0, 0x140, 0x90);
-        if ((player->unk5 == 0x4D) &&
+        if ((player->action == 0x4D) &&
             (arg0->animation_step.fields.event & 0x40)) {
             spawn = func_8002C32C();
             if (spawn != 0) {

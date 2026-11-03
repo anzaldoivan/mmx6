@@ -3,6 +3,7 @@
 #include "psyq/libgpu.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_80012A34(void);
 void func_8001ACC4(s32, s32, s32, s32);
@@ -15,17 +16,8 @@ void func_8001B90C(u32 arg0);
 void func_8001B984(s32);
 
 extern X4_RECT D_80010090;
-extern u16 str_movie_table[];
-extern u16 g_pad1_buttons[];
-extern u8 g_draw_info_buffers[];
 #define DB_DISP(i) (*(X4_DISPENV*)(g_draw_info_buffers + (i) * 0xF0))
-extern s8 D_800E2E65;
 extern s32 D_800E2E6C;
-extern s32 D_800E2E70;
-extern s32 D_800E2E74;
-extern s32 D_800E2E78;
-extern s32 D_800E2E7C;
-extern X4_DISPENV D_800E2E88[];
 
 void func_8001A9B0(void) {
     X4_RECT rect = D_80010090;
@@ -93,10 +85,9 @@ void func_8001A9B0(void) {
 #include "psyq/libgpu.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u8 g_draw_info_buffers[];
 #define DB_DISP(i) (*(X4_DISPENV*)(g_draw_info_buffers + (i) * 0xF0))
-extern X4_DISPENV D_800E2E88[];
 
 void func_8001ACC4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     X4_RECT rect;
@@ -529,11 +520,9 @@ void func_8001BA04(void) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern struct X4_EngineObj g_playthrough_state;
-extern u8 g_temp_options;
-extern u16 D_8006D600[];
-extern u16 D_80071080[];
 void func_800122A4();
 
 #define B(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -558,7 +547,7 @@ void func_8001BA1C(u8* arg0) {
     W(e, 0x6C) = W(arg0, 0x10);
     H(e, 0x6A) = H(arg0, 0x14);
     for (i = 0; i < 16; i++) {
-        u8* d = (u8*)D_8006D600;
+        u8* d = (u8*)button_map;
         u8* s = arg0 + 0x16;
         s32 o = i * 2;
         *(u16*)(o + d) = *(u16*)(s + o);
@@ -634,9 +623,8 @@ void func_8001BA1C(u8* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u16 D_8006D600[];
-extern s32 D_80070CC4[];
 extern s8 D_800CC869;
 extern struct X4_EngineObj g_playthrough_state;
 
@@ -665,7 +653,7 @@ void func_8001BD40(void) {
     H(a, 0x14) = H(e, 0x6A);
     for (i = 0; i < 16; i++) {
         u8* d = a + 0x16;
-        u8* s = (u8*)D_8006D600;
+        u8* s = (u8*)button_map;
         s32 o = i * 2;
         *(u16*)(d + o) = *(u16*)(o + s);
     }
@@ -737,13 +725,7 @@ void func_8001BD40(void) {
 #define M2C_UNK s32
 
 #include "psyq/libapi.h"
-extern s32 D_800E2F70;
-extern s32 D_800E2F74;
-extern s32 D_800E2F78;
-extern s32 D_800E2F7C;
-extern s32 D_800E2F80;
-extern s32 D_800E2F84;
-extern s32 D_800E2F88;
+#include "mmx6/globals.h"
 
 void func_8001C024(void) {
     EnterCriticalSection();
@@ -773,10 +755,7 @@ void func_8001C024(void) {
 s32 func_8001C824(void);
 void func_8001C938(s32);
 #include "psyq/libapi.h"
-extern s32 D_800E2F70;
-extern s32 D_800E2F74;
-extern s32 D_800E2F78;
-extern s32 D_800E2F7C;
+#include "mmx6/globals.h"
 
 static inline s32 func_8001C1AC_try(s32 port) {
     s32 i = 3;

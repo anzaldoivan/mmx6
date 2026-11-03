@@ -1,8 +1,8 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(s32, M2C_UNK, M2C_UNK);
+M2C_UNK animate_object();
+s32 is_off_screen(s32, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK move_object(s32);
 M2C_UNK func_8002EE10(void*);
@@ -12,7 +12,7 @@ M2C_UNK func_80049D90(void*);
 M2C_UNK func_80049E50(void*);
 
 void func_800EACE0(u8* arg0) {
-    func_80017A04();
+    animate_object();
     move_object((s32)arg0);
     if (check_enemy_hits(arg0) < 0) {
         func_80049E50(arg0);
@@ -29,17 +29,18 @@ void func_800EACE0(u8* arg0) {
         // !FAKE: depin: dropping it breaks the match (57/59)
         register s32 f asm("$2") = arg0[0x70];
         if (f != 0) {
-            goto H;
+            func_80049D90(arg0);
+            arg0[4]++;
+            return;
         }
     }
     func_8002EE10(arg0);
     if (arg0[0x70] != 0) {
-    H:
         func_80049D90(arg0);
         arg0[4]++;
         return;
     }
-    if (func_8002CBFC((s32)arg0, 0x20, 0x20) == 0) {
+    if (is_off_screen((s32)arg0, 0x20, 0x20) == 0) {
         func_8002CCB0(arg0, 0x10, 0x10);
         return;
     }

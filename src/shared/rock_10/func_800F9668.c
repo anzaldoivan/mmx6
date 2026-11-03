@@ -18,6 +18,6 @@ void func_800F9668(struct X4_MainObj* self) {
             open_text_box(0, 0xFF, M2C_FIELD(e, u8*, 0x2E));
             M2C_FIELD(e, u8*, 0x2E) = st;
         }
-        self->unk6++;
+        self->action_phase++;
     }
 }

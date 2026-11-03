@@ -13,7 +13,9 @@
          verbatim.check; bank.bank on the body copy; on a bank stop R1-R4 the recovery ladder (`define`, `declsync`, `cast`,
          `tudecl`; R2 `tusync` when a first-stop/attempt log names the body's own func (`conflicting types for|
          redefinition of|previous declaration of 'func'`, `'func' redeclared as different kind of symbol`): every other
-         file of the TU (unit .c + its #include closure) declaring func gets the definition's spelling (declsync force),
+         file of the TU (unit .c + its #include closure) declaring func gets the definition's spelling (declsync force;
+         when a header reached from the unit declares func: compatible -> the .c prototypes of func removed, conflicting
+         -> `TUSYNC HEADER <hdr>:<line> <func>`, nothing edited),
          tried with tudecl's start text then its variants A, B; a failed attempt restores those files byte-exact +
          rebuild; R4 `rodata needs placement (+N bytes)` -> `rodata`: `carve.py rodata <prog> <vram> --bytes N`, re-split
          (the snapshot's asm/<prog> hardlinks broken first) + rebuild, bank; a carve refusal is no bank attempt; a bank
@@ -38,7 +40,9 @@
          <tu> -> <role>`): case A's member with its unit a layout.role_tree plant, banked into its own role file reached
          through the plant (`role-tree control A ok`); cases F, I, M undo a bank by turning the body's chunk of its role
          file (layout.locate, from its `#include "common.h"` head) into its INCLUDE_ASM line; bodies at
-         layout.new_body, INCLUDE_ASM lines layout.asm_line; /work restored byte-exact after; last line
+         layout.new_body, INCLUDE_ASM lines layout.asm_line; tusync-header(-conflict): tusync_step on a planted tree
+         whose header declares func (compatible: the .c prototype removed; conflicting: TUSYNC HEADER, nothing
+         edited); /work restored byte-exact after; last line
          `GATE CONTROL OK` (rc 0), else `GATE CONTROL FAIL <case>` (rc 1). docs/ops/campaign.md ## Gate, ## Recovery.
 Firewall G12: names, addresses, counts, labels and our own C only.
 """
@@ -356,9 +360,15 @@ def tudecl_fix(body, text, log, func, orig=None):
 def tusync_step(pv, prog, func, dname, tu, body, texts, defs, say):
     """(rc, out) of the `tusync` step: per body text (first that banks wins) the other files of the TU declaring func
     (prototype, extern object, call-site cast) get the text's definition spelling (declsync.sync_text force), bank;
-    a stop restores those files byte-exact and rebuilds prog."""
+    a stop restores those files byte-exact and rebuilds prog. When a header reached from the unit (declsync.header_decls)
+    declares func: compatible with the text's definition (same signature, or `()` with the same return) -> the TU's
+    column-0 .c prototypes/extern objects of func are removed, never synced; else `TUSYNC HEADER <hdr>:<line> <func>`,
+    rc 1, nothing edited (a header is never edited)."""
     files = [p for p in declsync.unit_files(prog, [f"src/{prog}/{tu}.c"])
              if os.path.abspath(p) != os.path.abspath(body)]
+    hd = declsync.header_decls(files + [body], func)
+    cdecl = re.compile(rf"^(?:extern\s+)?{declsync.TYPE}\s*\b{re.escape(func)}\s*(?:\([^;{{}}()]*\))?\s*;[ \t]*\n?",
+                       re.M)
     saved = {p: open(p, "rb").read() for p in files}
     orig = open(body).read()
     rc, out, tried = 1, "", []
@@ -368,10 +378,16 @@ def tusync_step(pv, prog, func, dname, tu, body, texts, defs, say):
         if t in tried or not sd:
             continue
         tried.append(t)
+        want = declsync.sig(sd[0][1], sd[0][2])
+        for h, ln, r, ps in hd:
+            if declsync.sig(r, ps) != want and (ps or declsync.norm(r) != want[0]):
+                out = f"TUSYNC HEADER {h}:{ln} {func}"
+                say(out)
+                return 1, out
         edits = {}
         for p in files:
             src = open(p, errors="replace").read()
-            new, _, _ = declsync.sync_text(p, src, sd, force=True)
+            new, _, _ = declsync.sync_text(p, cdecl.sub("", src) if hd else src, sd, force=True)
             if new != src:
                 edits[p] = new
         if not edits:
@@ -1047,6 +1063,35 @@ def self_test():
                 or not any(x.startswith(f"STOPPED {lpv} R2: ") for x in lines[li:]) or rc_l.get("label") != "R2" \
                 or {p: file_sha(p) for p in ltu} != lsum or os.path.exists(layout.new_body(L[0], lfn)):
             fail("L")
+        # tusync with a header (T10.c3, planted tree under SELFTEST/hdr, bank.bank stubbed): a header reached from the
+        # unit (u.c -> include/t.h -> mmx6/v.h) declares func compatibly -> r.c's stale prototype removed, none written,
+        # the header untouched; a conflicting header -> `TUSYNC HEADER`, rc 1, nothing edited, no bank
+        here, real_bank, banked, hroot = os.getcwd(), bank.bank, [], os.path.join(SELFTEST, "hdr")
+        shutil.rmtree(hroot, ignore_errors=True)
+        try:
+            os.makedirs(hroot)
+            os.chdir(hroot)
+            bank.bank = lambda *a, **k: banked.append(a) or (0, "")
+            hb, rsrc = "src/shared/P/func_T.c", "void func_T(s16);\nvoid g(void) {\n}\n"
+            write("src/P/u.c", '#include "t.h"\n#include "r.c"\n')
+            write("include/t.h", '#include "mmx6/v.h"\n')
+            for case, vh in (("tusync-header", "void func_T(s32);\n"), ("tusync-header-conflict", "void func_T(s16 a);\n")):
+                write(hb, "void func_T(s32 a) {\n}\n")
+                write("src/P/r.c", rsrc)
+                write("include/mmx6/v.h", vh)
+                nb = len(banked)
+                hrc, hout = tusync_step("P/func_T", "P", "func_T", "func_T", "u", hb, ["void func_T(s32 a) {\n}\n"],
+                                        [], lambda s: None)
+                r_now, v_now = open("src/P/r.c").read(), open("include/mmx6/v.h").read()
+                ok = (hrc == 0 and len(banked) == nb + 1 and r_now == "void g(void) {\n}\n") if case == "tusync-header" \
+                    else (hrc == 1 and hout == "TUSYNC HEADER include/mmx6/v.h:1 func_T" and len(banked) == nb
+                          and r_now == rsrc and open(hb).read() == "void func_T(s32 a) {\n}\n")
+                if not ok or v_now != vh:
+                    fail(case)
+        finally:
+            bank.bank = real_bank
+            os.chdir(here)
+            shutil.rmtree(hroot, ignore_errors=True)
         # the call path of cast_fix on a planted text: an arity conflict on the draft's own call
         write(os.path.join(SELFTEST, "cast.c"), "M2C_UNK func_A();  /* extern */\nvoid f(void) { func_A(); }\n")
         if cast_fix(exe, os.path.join(SELFTEST, "cast.c"), "x/f.c:1: too few arguments to function `func_A'", "f") != \

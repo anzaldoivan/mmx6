@@ -78,15 +78,13 @@ void func_800F0794(void* self) {
                 if (e3[0x68] >= 2) {
                     s32 g = OB(self, 0x88);
                     if (g == 3) {
-                        goto zero;
-                    }
-                    if (g == 4) {
+                        OUB(self, 0x87) = 0;
+                    } else if (g == 4) {
                         OUB(self, 0x87) = 3;
                     }
                 } else {
                     s32 h = OB(self, 0x88);
                     if (h == 3) {
-                    zero:
                         OUB(self, 0x87) = 0;
                     } else if (h == 4) {
                         OUB(self, 0x87) = h;

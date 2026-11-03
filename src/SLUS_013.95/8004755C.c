@@ -1,13 +1,16 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
-void func_80012D9C(s32);
+void start_pad_vibration(s32);
 s32 play_sound(s32 a0, s32 a1, void* arg2);
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
-extern s8 D_800CCEF6;
 
 #define UNK20(p) (*(s32*)((u8*)(p) + 0x20))
 
+// 0x8004755C func_8004755C: state 2 of the D_800762C8 object: moves until a countdown or flag, then shakes the screen and changes state.
+// basis: none
+// callers: D_800762C8[2] in func_80047394
 void func_8004755C(Probe800473EC* arg0) {
     if (D_800CCEF6 != 0) {
         s32 q;
@@ -21,7 +24,7 @@ void func_8004755C(Probe800473EC* arg0) {
         arg0->unk16 = q;
         UNK20(arg0) = arg0->unk1C;
         play_sound(2, 0x23, 0);
-        func_80012D9C(5);
+        start_pad_vibration(5);
         {
             // !FAKE: depin: dropping it breaks the match (68/70)
             register s32 c asm("$2") = -0x10000;
@@ -38,7 +41,7 @@ void func_8004755C(Probe800473EC* arg0) {
         func_80029478(0x3C, 2, 2);
         arg0->unk5 = 4;
         play_sound(2, 0x23, 0);
-        func_80012D9C(5);
+        start_pad_vibration(5);
         {
             s32 t = arg0->unk1C;
             // !FAKE: depin: dropping it breaks the match (64/70)
@@ -58,6 +61,9 @@ void func_8004755C(Probe800473EC* arg0) {
 
 extern struct X4_EngineObj g_playthrough_state;
 
+// 0x80047674 func_80047674: state 3 of the D_800762C8 object: moves for a countdown, then sets speed and state 1.
+// basis: none
+// callers: D_800762C8[3] in func_80047394
 void func_80047674(u8* arg0) {
     u8* eng;
     s32 var_v0;
@@ -91,6 +97,9 @@ void func_80047674(u8* arg0) {
 
 extern struct X4_EngineObj g_playthrough_state;
 
+// 0x800476E0 func_800476E0: state 4 of the D_800762C8 object: waits a countdown, then resets position and sets state 1.
+// basis: none
+// callers: D_800762C8[4] in func_80047394
 void func_800476E0(u8* self) {
     if (--*(s16*)(self + 0x14) == 0) {
         {
@@ -116,10 +125,13 @@ void func_800476E0(u8* self) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 s32 play_sound(s32 a0, s32 a1, void* arg2);
-extern u8 D_800CCF38;
 
+// 0x80047760 func_80047760: state 5 of the D_800762C8 object: waits a countdown, plays a sound, then sets state 3.
+// basis: none
+// callers: D_800762C8[5] in func_80047394
 void func_80047760(u8* arg0) {
     if (--*(s16*)(arg0 + 0x14) == 0) {
         if (D_800CCF38 >= 2) {
@@ -223,7 +235,7 @@ void func_800478F0(u8 count, u8* src, void* parent, u16 kind, s32 arg4,
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void* alloc_sprite_slot(); /* extern */
-s32 random_byte();       /* extern */
+s32 random_byte();         /* extern */
 
 void func_80047A0C(s32 arg0, u8* arg1, void* arg2, s32 arg3, s32 arg4) {
     s32 var_s1;
@@ -244,9 +256,8 @@ void func_80047A0C(s32 arg0, u8* arg1, void* arg2, s32 arg3, s32 arg4) {
                 M2C_FIELD(temp_v0, s8*, 4) = 0;
                 M2C_FIELD(temp_v0, s8*, 5) = 0;
                 M2C_FIELD(temp_v0, s8*, 6) = 0;
-                M2C_FIELD(temp_v0, s32*, 8) =
-                    (s32)(M2C_FIELD(arg2, s32*, 8) + (random_byte() & 3) +
-                          arg3);
+                M2C_FIELD(temp_v0, s32*, 8) = (s32)(M2C_FIELD(arg2, s32*, 8) +
+                                                    (random_byte() & 3) + arg3);
                 M2C_FIELD(temp_v0, s32*, 0xC) =
                     (s32)(M2C_FIELD(arg2, s32*, 0xC) + (random_byte() & 3) +
                           arg4);
@@ -279,13 +290,13 @@ void func_80047AF4(struct ObjectHeader* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002CB50(struct X4_BaseObj*);
 s32 random_byte();
-extern u8 D_800970B4;
 extern s32 D_80077AE0[];
 extern s32 D_80077B00[];
 
@@ -319,7 +330,7 @@ void func_80047B34(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80047C30);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80047C30);
 // clang-format on
 
 #include "common.h"
@@ -371,12 +382,12 @@ void func_80047C98(u8 count, u8* src, void* parent, s32 kind, s32 arg4) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 M2C_UNK move_object(void*);
 void set_velocity_from_angle(void*, s32);
-extern u32* D_8007789C[];
 extern s8 D_80077B20[];
 extern struct X4_PlayerObj g_Player;
 
@@ -401,7 +412,7 @@ void func_80047E34(u8* arg0) {
     F32(arg0, 0x38) = 0;
     sp = SCRATCH_1C;
     off = *(s32*)(sp + 4);
-    FP(arg0, 0x30) = D_8007789C;
+    FP(arg0, 0x30) = g_visual_animation_tables;
     F16(arg0, 0x40) = 0;
     F16(arg0, 0x42) = 0x7802;
     F8(arg0, 0x16) = 0x10;
@@ -448,10 +459,11 @@ void func_80047F78(struct ObjectHeader* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80047FB8);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80047FB8);
 // clang-format on
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
@@ -461,8 +473,6 @@ extern u8 D_80077B5C[];
 extern u16 D_80077B64[];
 extern u16 D_80077B70[];
 extern u8 D_80077B7C[];
-extern u8 D_800C4560;
-extern s8 D_800CCF08;
 extern u16 D_800E4450[];
 
 #define SCRATCH_1C (*(u8**)0x1F80001C)
@@ -605,7 +615,7 @@ void func_80048268(void* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK load_palette(M2C_UNK, M2C_UNK*, M2C_UNK);
-M2C_UNK func_8002D230();
+M2C_UNK apply_object_motion();
 extern s8 D_800CCEEE;
 extern u16 D_800E4450[];
 
@@ -655,7 +665,7 @@ void func_80048380(void* arg0) {
         D_800CCEEE = 1;
         return;
     }
-    func_8002D230(arg0);
+    apply_object_motion(arg0);
 }
 
 #include "common.h"
@@ -663,11 +673,11 @@ void func_80048380(void* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002D230(); /* extern */
+M2C_UNK apply_object_motion(); /* extern */
 
 void func_80048498(void* arg0) {
     if (M2C_FIELD(arg0, s8*, 3) != 0) {
-        func_8002D230();
+        apply_object_motion();
         return;
     }
     M2C_FIELD(arg0, s8*, 4) = 2;
@@ -704,7 +714,7 @@ void func_80048560(struct ObjectHeader* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80048584);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80048584);
 // clang-format on
 
 #include "common.h"
@@ -736,7 +746,7 @@ void func_800485BC(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80048628);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80048628);
 // clang-format on
 
 #define func_80046C64 func_80048980
@@ -894,6 +904,7 @@ void func_80048C68(u8* arg0) {
         v = ((s8)(n1 % 4) + 0x10) | ((n1 / 4 + 0x1F0) << 6);
     } break;
     case 2:
+        // !FAKE: goto from case 2 shapes the case tree (C0176); merged case 2/3 labels moved bytes
         goto arm23;
     case 3:
     arm23:
@@ -918,13 +929,13 @@ void func_80048C68(u8* arg0) {
 #include "../shared/d1000/func_80048DC8.c"
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK clear_object_slot();               /* extern */
+M2C_UNK clear_object_slot();           /* extern */
 s32 func_8002CB50(struct X4_BaseObj*); /* extern */
-extern s8 D_800CCED1;
 
 void func_80048E14(void* arg0) {
     ((s32(*)())func_8002CB50)();
@@ -944,10 +955,9 @@ void func_80048E14(void* arg0) {
 #undef D_80077BC0
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define FB_BASE ((s32*)0x801F3000)
-
-extern u8 D_800CCED3;
 
 void func_80048EC8(u8* arg0) {
     s32 t;
@@ -1018,9 +1028,9 @@ void func_80049030(void) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 extern u16 D_80077BD4[][2];
-extern u8 D_800CCED3;
 
 void func_80049050(u8* arg0) {
     s32 idx;
@@ -1032,9 +1042,9 @@ void func_80049050(u8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 extern u16 D_80077BD4[][2];
-extern s16 D_800CCEDA;
 
 void func_80049090(u8* arg0) {
     s32 idx;
@@ -1061,13 +1071,13 @@ void func_800490DC(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
 s32 func_8002CB50(struct X4_BaseObj*);
 void func_80049748(struct X4_BaseObj* arg0, struct X4_BaseObj* arg1);
-extern u32* D_8007789C[];
 extern struct X4_PlayerObj g_Player;
 
 #define SCRATCH_1C (*(u8**)0x1F80001C)
@@ -1077,7 +1087,7 @@ void func_80049100(struct X4_VisualObj* arg0) {
     u8* p;
     s32 off;
 
-    if (g_Player.unk5 == 0x14) {
+    if (g_Player.action == 0x14) {
         ((void (*)())clear_object_slot)();
         return;
     }
@@ -1086,7 +1096,7 @@ void func_80049100(struct X4_VisualObj* arg0) {
         arg0->unk38 = 0;
         p = SCRATCH_1C;
         off = *(s32*)(p + 4);
-        arg0->animation_table = D_8007789C;
+        arg0->animation_table = g_visual_animation_tables;
         arg0->unk40 = 0;
         arg0->unk42 = 0x7802;
         arg0->unk16 = 3;
@@ -1095,7 +1105,7 @@ void func_80049100(struct X4_VisualObj* arg0) {
         ((void (*)())set_animation)(arg0, 2);
         arg0->state++;
     } else {
-        ((void (*)())func_80017A04)(arg0);
+        ((void (*)())animate_object)(arg0);
         ((void (*)())func_80049748)(arg0, &g_Player);
         var_v1 = 0;
         if (g_Player.dash_momentum > 0) {

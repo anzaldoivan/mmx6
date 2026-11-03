@@ -5,7 +5,7 @@ s32 set_animation(void*, s32);
 
 void func_800ED1F8(struct X4_MainObj* self) {
     self->air_state = 1;
-    self->unk6++;
+    self->action_phase++;
     self->x_speed = self->unk15 != 0 ? FIXED(0.5) : -FIXED(0.5);
     self->x_accel = 0;
     self->y_speed = 0;

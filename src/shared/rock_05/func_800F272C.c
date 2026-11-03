@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 M2C_UNK move_object(void*);
 void func_800F2B4C();
 
@@ -15,7 +15,7 @@ void func_800F272C(void* arg0) {
     register s32 v asm("$2");
 
     ((void (*)())move_object)();
-    func_80017A04(arg0);
+    animate_object(arg0);
     func_800F2B4C(arg0);
     {
         // !FAKE: the tested byte shares the first return register with v

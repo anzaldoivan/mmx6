@@ -7,10 +7,10 @@
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8002B6B0();
 s32 func_8002D654(s8*, u8*);
-M2C_UNK func_8003C4EC();
+M2C_UNK player_load_weapon_palette();
 M2C_UNK func_8003CDF0();
-M2C_UNK func_8003CE30(void*);
-M2C_UNK func_8003F3DC(void*);
+M2C_UNK clear_flash_palette(void*);
+M2C_UNK refresh_weapon_state(void*);
 extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
@@ -40,10 +40,10 @@ void func_800EB298(void* arg0) {
         M2C_FIELD(arg0, s32*, 0x88) = M2C_FIELD(p, s32*, 0x68);
         M2C_FIELD(p, s32*, 0x68) = 0;
         M2C_FIELD(p, s8*, 5) = 2;
-        func_8003F3DC(p);
+        refresh_weapon_state(p);
         func_8003CDF0(p);
-        func_8003CE30(p);
-        func_8003C4EC(p);
+        clear_flash_palette(p);
+        player_load_weapon_palette(p);
         func_8002B6B0();
         M2C_FIELD(arg0, s16*, 0x80) = 0;
         M2C_FIELD(arg0, s16*, 0x84) = M2C_FIELD(arg0, s16*, 0x82) =

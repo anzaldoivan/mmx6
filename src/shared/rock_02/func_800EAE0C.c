@@ -1,14 +1,14 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void* func_8002C458();
 extern s16 D_800970AA;
-extern u8 D_800CCF38;
 
 void func_800EAE0C(void* arg0) {
     s32 d;
@@ -17,6 +17,7 @@ void func_800EAE0C(void* arg0) {
     d = M2C_FIELD(arg0, s16*, 0xA) - D_800970AA;
     if (d >= 0) {
         if (d >= 0x71) {
+            // !FAKE: C0144 range test joins sign arms; abs folds
             goto far;
         }
     } else if ((D_800970AA - M2C_FIELD(arg0, s16*, 0xA)) >= 0x71) {
@@ -59,5 +60,5 @@ void func_800EAE0C(void* arg0) {
         M2C_FIELD(arg0, u8*, 5) = 1;
         M2C_FIELD(arg0, u8*, 6) = 0;
     }
-    func_80017A04(arg0);
+    animate_object(arg0);
 }

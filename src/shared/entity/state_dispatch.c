@@ -5,6 +5,9 @@
 
 extern void (*D_80073C1C[])(s8*);
 
+// 0x8003744C func_8003744C: calls the phase routine D_80073C1C[obj[6]] with the object.
+// basis: none
+// callers: player_action_handlers[action 14] in update_player
 void func_8003744C(s8* arg0) {
     D_80073C1C[arg0[6]](arg0);
 }

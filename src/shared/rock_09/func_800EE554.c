@@ -3,11 +3,11 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 extern void (*D_800F62F8[])(struct X4_MainObj*);
-M2C_UNK func_80017A04(void*);
+M2C_UNK animate_object(void*);
 M2C_UNK func_8002CB50();
 
 void func_800EE554(struct X4_MainObj* self) {
-    D_800F62F8[self->unk6](self);
-    func_80017A04(ANIMATED_OBJECT(self));
+    D_800F62F8[self->action_phase](self);
+    animate_object(ANIMATED_OBJECT(self));
     func_8002CB50(MOVING_OBJECT(self));
 }

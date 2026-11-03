@@ -4,6 +4,7 @@
 #include "psyq/libgpu.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 void func_800123D0(void);
 void init_system(void);
@@ -20,10 +21,6 @@ void func_800185B4(void);
 void func_80027A50(void);
 
 #include "mmx6/state.h"
-extern struct X4_DrawInfo* g_cur_draw_info;
-extern u8 g_draw_info_buffers[];
-extern u8 D_800CF908[];
-extern u8 D_800CF948[];
 
 #define SCRATCH0 (*(s32*)0x1F800000)
 #define SCRATCH70 (*(s32*)0x1F800070)
@@ -44,7 +41,8 @@ void func_800120A0(void) {
         PutDrawEnv((u8*)g_cur_draw_info + 0x14);
         DrawOTag((u8*)g_cur_draw_info + 0xEC);
         SCRATCH0 ^= 1;
-        g_cur_draw_info = (struct X4_DrawInfo*)(g_draw_info_buffers + SCRATCH0 * 0xF0);
+        g_cur_draw_info =
+            (struct X4_DrawInfo*)(g_draw_info_buffers + SCRATCH0 * 0xF0);
         ClearOTagR((s32)((u8*)g_cur_draw_info + 0x70), 0x20);
         func_800123D0();
         SETADDR(D_800CF948 + SCRATCH0 * 0xC, GETADDR(OT_E4));
@@ -73,12 +71,9 @@ void func_800120A0(void) {
 #include "common.h"
 #include "psyq/libgpu.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u8 D_8006D5FC[];
-extern u16 g_screen_width;
 extern struct X4_EngineObj g_playthrough_state;
-extern u8 D_800CF908[];
-extern u8 D_800CF948[];
 
 void func_800122A4(s8 arg0, s8 arg1) {
     s16 r[4];
@@ -121,9 +116,8 @@ void func_800122A4(s8 arg0, s8 arg1) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u16 g_screen_width;
-extern struct X4_DrawInfo* g_cur_draw_info;
 extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800CF8A0[];
 extern u8 D_800CF8B8[];

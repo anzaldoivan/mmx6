@@ -4,10 +4,24 @@
 D_801EA000 = 0x801EA000; // type:s32
 // basis: first code word after header (+0x4)
 func_801EA004 = 0x801EA004; // type:func size:0x120
+// basis: name: community docs/leads/tweaks-index.tsv:222; refs/leads/tweaks/ZeroSkills.tsv:104-105; derived.tsv:165
+check_yammar_option_input = 0x801EA254; // type:func
+// basis: name: community docs/leads/tweaks-index.tsv:235; refs/leads/tweaks/ZeroSkills.tsv:1754-1755; derived.tsv:167
+check_sentsuizan_input = 0x801EA454; // type:func
+// basis: name: community docs/leads/tweaks-index.tsv:235; refs/leads/tweaks/ZeroSkills.tsv:1825,1912-1913; derived.tsv:169
+check_ensuizan_input = 0x801EA560; // type:func
 // basis: name: community tweaks-index.tsv:226
 start_rekkoha = 0x801EA680; // type:func
+// basis: name: xref derived.tsv:144; xref:caller=start_rekkoha; code:src/rock_01/801EA7A4.c:817 via=start_rekkoha
+try_start_rekkoha = 0x801EBE04; // type:func
+// basis: name: xref derived.tsv:147; xref:callee=select_air_dash; code:src/SLUS_013.95/dash/air_dash.c:40 via=select_air_dash
+try_start_air_jump = 0x801EC298; // type:func
 // basis: name: xref derived.tsv:30; xref:callee=start_rekkoha; code:src/rock_01/rekkoha.c:49 via=update_rekkoha
 update_rekkoha = 0x801EC614; // type:func
+// basis: name: community docs/leads/tweaks-index.tsv:235; refs/leads/tweaks/ZeroSkills.tsv:1692-1693; derived.tsv:177
+check_shoenzan_input = 0x801EC86C; // type:func
+// basis: name: xref derived.tsv:148; xref:caller=update_stand; code:src/rock_01/801EC68C.c:172 via=g_playthrough_state; code:src/SLUS_013.95/player/stand.c:14 via=update_stand
+update_zero_stand_animation = 0x801EC9C4; // type:func
 // basis: name: xref derived.tsv:31; xref:caller=attack_hyoroga_from_ceiling; code:src/rock_01/hyoroga_from_ceiling.c:25 via=attack_hyoroga_from_ceiling
 try_hyoroga_from_ceiling = 0x801ECA50; // type:func
 // basis: name: community tweaks-index.tsv:194

@@ -1,9 +1,7 @@
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
-extern u8 D_800A51B8[];
-extern u8 D_800C4858[];
-extern M2C_UNK D_800CD3F0;
 #define D_800CD3F0 (*(s8(*)[4]) & D_800CD3F0)
 
 void func_800192CC(void);
@@ -59,8 +57,7 @@ u32 func_800260C4(s32 arg0, s32 arg1, s32 arg2) {
 /* Adapted from sozud/mmx4 @807a01b src/main/144A4.c:func_800241E8, AGPL-3.0; proven shared with X6 by exact signature df4775baa321 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
-extern X4_P_TAG* D_8008EB08[2][4][8];
-extern X4_P_TAG* D_80090D70[2][4][8];
+#include "mmx6/globals.h"
 
 void func_80026128(void) {
     u32 buffer;
@@ -120,9 +117,8 @@ u8 func_8002624C(u8 from, u8 to, s32 den, s32 t) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u16 g_tilemap_layer_stride;
-extern u8 g_tilemap_width;
 extern u8 g_tilemap_height;
 
 void func_800262EC(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
@@ -146,7 +142,8 @@ void func_800262EC(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     if (col >= g_tilemap_width || row >= g_tilemap_height) {
         t = 0;
     } else {
-        t = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
+        t = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride +
+              g_tilemap_width * row + col);
     }
     tile = t;
     col2 = arg1 / 256;
@@ -154,16 +151,17 @@ void func_800262EC(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     if (col2 >= g_tilemap_width || row2 >= g_tilemap_height) {
         t = 0;
     } else {
-        t = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride + g_tilemap_width * row2 + col2);
+        t = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride +
+              g_tilemap_width * row2 + col2);
     }
     *(SP_BG_TILE_PIXELS + t * 256 + dy * 16 + dx) =
         *(SP_BG_TILE_PIXELS + tile * 256 + sy * 16 + sx);
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 extern s8 D_8008EAB0;
-extern u16 g_wide_mode;
 extern u8 D_80097438[];
 extern u8 g_bg_sprite_prims[];
 extern u8 D_800CC870[];
@@ -265,8 +263,8 @@ void func_8002649C(s32 arg0, s32 arg1) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u16 g_wide_mode;
 extern struct X4_BackgroundObj background_objects[3];
 void func_80027D6C(u32, s32, s32);
 
@@ -299,12 +297,10 @@ void func_800268B0(s32 arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u16 g_tilemap_layer_stride;
-extern u16 g_wide_mode;
 extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800A21B8[3][32][64];
-extern u8 g_tilemap_width;
 extern u8 g_tilemap_height;
 
 void func_800269F4(u8 arg0) {
@@ -358,7 +354,8 @@ void func_800269F4(u8 arg0) {
         if (col >= g_tilemap_width || row >= g_tilemap_height) {
             t = 0;
         } else {
-            t = *(*tm + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
+            t = *(*tm + arg0 * g_tilemap_layer_stride + g_tilemap_width * row +
+                  col);
         }
         tile = t;
         for (i = 0; i < n; i++) {
@@ -373,7 +370,8 @@ void func_800269F4(u8 arg0) {
                 if (col >= g_tilemap_width || row >= g_tilemap_height) {
                     t = 0;
                 } else {
-                    t = *(*tm + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
+                    t = *(*tm + arg0 * g_tilemap_layer_stride +
+                          g_tilemap_width * row + col);
                 }
                 tile = t;
             }
@@ -487,13 +485,13 @@ void func_80026E20(s32 arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern u32* D_8008EC18[2][102];
 #define EC18(b, l, i)                                                          \
     (*(u32**)((u8*)D_8008EC18 + (i) * 4 + (l) * 68 + (b) * 408))
 extern u32 D_80090E78[2][6][17];
 extern struct X4_BackgroundObj background_objects[3];
-extern struct X4_DrawInfo* g_cur_draw_info;
 extern u8 D_800CC870[];
 #define D_800CC870 (*(X4_P_TAG(*)[2][6][17]) & D_800CC870)
 #define SETADDR(p, a) (((X4_P_TAG*)(p))->addr = (u32)(a))
@@ -539,9 +537,9 @@ void func_80026ECC(s32 arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern u32* D_8008EC18[2][102];
-extern u16 g_wide_mode;
 extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800A21B8[3][32][64];
 
@@ -643,9 +641,9 @@ void func_800270D0(s32 arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern struct X4_BackgroundObj background_objects[3];
-extern u16 g_screen_width;
 
 void func_800274A0(s32 arg0, s32 arg1, s32 arg2);
 void func_80027780(s32 arg0, s32 arg1, s32 arg2);
@@ -678,11 +676,10 @@ void func_800273E4(void) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u16 g_tilemap_layer_stride;
 extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800A21B8[3][32][64];
-extern u8 g_tilemap_width;
 extern u8 g_tilemap_height;
 
 void func_800274A0(s32 arg0, s32 arg1, s32 arg2) {
@@ -746,7 +743,8 @@ void func_800274A0(s32 arg0, s32 arg1, s32 arg2) {
         if (col >= g_tilemap_width || row >= g_tilemap_height) {
             t = 0;
         } else {
-            t = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
+            t = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride +
+                  g_tilemap_width * row + col);
         }
         tile = t;
         tm = &SP_BG_TILEMAP;
@@ -763,7 +761,8 @@ void func_800274A0(s32 arg0, s32 arg1, s32 arg2) {
                     t = 0;
                     t2 = t;
                 } else {
-                    t = *(*tm + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
+                    t = *(*tm + arg0 * g_tilemap_layer_stride +
+                          g_tilemap_width * row + col);
                     t2 = t;
                 }
                 tile = t2;
@@ -774,11 +773,9 @@ void func_800274A0(s32 arg0, s32 arg1, s32 arg2) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u16 g_tilemap_layer_stride;
-extern u16 g_wide_mode;
 extern u16 D_800A21B8[3][32][64];
-extern u8 g_tilemap_width;
 extern u8 g_tilemap_height;
 
 void func_80027780(s32 arg0, s32 arg1, s32 arg2) {
@@ -809,7 +806,8 @@ void func_80027780(s32 arg0, s32 arg1, s32 arg2) {
         if (col >= g_tilemap_width || row >= g_tilemap_height) {
             t = 0;
         } else {
-            t = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
+            t = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride +
+                  g_tilemap_width * row + col);
         }
         tile = t;
         tm = &SP_BG_TILEMAP;
@@ -826,7 +824,8 @@ void func_80027780(s32 arg0, s32 arg1, s32 arg2) {
                     t = 0;
                     t2 = t;
                 } else {
-                    t = *(*tm + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
+                    t = *(*tm + arg0 * g_tilemap_layer_stride +
+                          g_tilemap_width * row + col);
                     t2 = t;
                 }
                 tile = t2;
@@ -837,9 +836,9 @@ void func_80027780(s32 arg0, s32 arg1, s32 arg2) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern u8* D_800762E0[][2];
-extern u16 g_tilemap_layer_stride;
 extern struct X4_EngineObj g_playthrough_state;
 extern u8* D_800EA514[];
 
@@ -873,12 +872,12 @@ void func_8002798C(void) {
 
 #include "common.h"
 #include "psyq/libgpu.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 extern s16 D_80071E70[][4];
 extern s8 D_8008EAB0;
 #define D_8008EAB0 (*(u8*)&D_8008EAB0)
-extern u16 g_wide_mode;
 
 #define SCRATCH_44 (*(M2C_UNK**)0x1F800044)
 
@@ -959,10 +958,9 @@ void func_80027C98(s32 arg0, s16 arg1, s16 arg2, u16* arg3) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u16 g_tilemap_layer_stride;
 extern u16 D_800A21B8[3][32][64];
-extern u8 g_tilemap_width;
 extern u8 g_tilemap_height;
 
 void func_80027D6C(u32 arg0, s32 arg1, s32 arg2) {
@@ -984,7 +982,8 @@ void func_80027D6C(u32 arg0, s32 arg1, s32 arg2) {
     if (col >= g_tilemap_width || row >= g_tilemap_height) {
         t = 0;
     } else {
-        t = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
+        t = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride +
+              g_tilemap_width * row + col);
     }
     tile = t;
     D_800A21B8[arg0][ry][rx] = *(SP_BG_TILE_PIXELS + tile * 256 + py * 16 + px);
@@ -992,10 +991,9 @@ void func_80027D6C(u32 arg0, s32 arg1, s32 arg2) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u16 g_tilemap_layer_stride;
 extern u16 D_800A21B8[3][32][64];
-extern u8 g_tilemap_width;
 extern u8 g_tilemap_height;
 
 void func_80027E84(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
@@ -1016,16 +1014,16 @@ void func_80027E84(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     if (col >= g_tilemap_width || row >= g_tilemap_height) {
         tile = 0;
     } else {
-        tile = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
+        tile = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride +
+                 g_tilemap_width * row + col);
     }
     D_800A21B8[arg0][ry][rx] = *(SP_BG_TILE_PIXELS + tile * 256 + py * 16 + px);
 }
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u16 g_tilemap_layer_stride;
-extern u8 g_tilemap_width;
 extern u8 g_tilemap_height;
 
 void func_80027FA4(s32 arg0, s32 arg1, s32 arg2) {
@@ -1042,15 +1040,15 @@ void func_80027FA4(s32 arg0, s32 arg1, s32 arg2) {
     if (col >= g_tilemap_width || row >= g_tilemap_height) {
         tile = 0;
     } else {
-        tile = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride + g_tilemap_width * row + col);
+        tile = *(SP_BG_TILEMAP + arg0 * g_tilemap_layer_stride +
+                 g_tilemap_width * row + col);
     }
     *(SP_BG_TILE_PIXELS + tile * 256 + py * 16 + px) = 0;
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
-extern u16 g_tilemap_layer_stride;
-extern u8 g_tilemap_width;
 extern u8 g_tilemap_height;
 
 #define SCRATCH_04 (*(u8**)0x1F800004)
@@ -1061,19 +1059,19 @@ s32 func_80028078(s32 arg0, s32 arg1, u32 arg2) {
     if ((x >= g_tilemap_width) || (arg2 >= g_tilemap_height)) {
         return 0;
     }
-    return *(SCRATCH_04 + (arg0 * g_tilemap_layer_stride) + (g_tilemap_width * arg2) + x);
+    return *(SCRATCH_04 + (arg0 * g_tilemap_layer_stride) +
+             (g_tilemap_width * arg2) + x);
 }
 
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern u8 D_80071EE0[];
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
-extern u8 g_tilemap_width;
 extern u8 g_tilemap_height;
-extern M2C_UNK D_800CD3F0;
 #define D_800CD3F0 (*(u8(*)[4]) & D_800CD3F0)
 
 void func_800280F4(void) {
@@ -1112,12 +1110,12 @@ void func_800280F4(void) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_EngineObj g_playthrough_state;
-extern s8 D_800CCEDF;
 
 void func_8002820C(struct X4_BackgroundObj* arg0) {
     s16 lim;
@@ -1445,10 +1443,9 @@ void func_80028EBC(struct X4_BackgroundObj* arg0) {
                 t = x + spd1;
                 if (t >= arg0->unk26) {
                     arg0->unk1E = arg0->unk26;
-                    goto block2;
+                } else {
+                    arg0->unk1E = t;
                 }
-                arg0->unk1E = t;
-                goto block2;
             } else {
                 t = g_Player.x_pos.i.hi;
                 t = t - pos1;
@@ -1464,16 +1461,14 @@ void func_80028EBC(struct X4_BackgroundObj* arg0) {
                     } else {
                         arg0->unk1E = arg0->unk26;
                     }
-                    goto block2;
                 } else {
                     arg0->unk1E = arg0->unk26;
-                    goto block2;
                 }
             }
+        } else {
+            arg0->unk1E = arg0->unk26;
         }
-        arg0->unk1E = arg0->unk26;
     }
-block2:
     if (arg0->unk24 != arg0->unk1C) {
         d = arg0->unk24 - arg0->unk1C;
         if (d < 0) {
@@ -1487,8 +1482,10 @@ block2:
                 t = x - spd2;
                 if (t < arg0->unk24) {
                     arg0->unk1C = arg0->unk24;
+                    // !FAKE: goto keeps the shared unk1C store tails; full if/else nesting flipped a branch
                     goto block3;
                 }
+                // !FAKE: goto keeps the shared unk1C store tails; full if/else nesting flipped a branch
                 goto store2;
             }
             t = g_Player.x_pos.i.hi;
@@ -1505,9 +1502,11 @@ block2:
                 if (arg0->unk24 < t) {
                 store2:
                     arg0->unk1C = t;
+                    // !FAKE: goto keeps the shared unk1C store tails; full if/else nesting flipped a branch
                     goto block3;
                 }
                 arg0->unk1C = arg0->unk24;
+                // !FAKE: goto keeps the shared unk1C store tails; full if/else nesting flipped a branch
                 goto block3;
             }
         }
@@ -1523,36 +1522,35 @@ block3:
         spd3 = arg0->unk47;
         if (spd3 >= d) {
             arg0->unk22 = arg0->unk2A;
-            goto block4;
-        }
-        x = arg0->y_pos.i.hi;
-        pos3 = (u16)arg0->y_pos.i.hi;
-        if (arg0->unk2A >= x) {
-            t = x + spd3;
-            if (t < arg0->unk2A) {
-                arg0->unk22 = t;
+        } else {
+            x = arg0->y_pos.i.hi;
+            pos3 = (u16)arg0->y_pos.i.hi;
+            if (arg0->unk2A >= x) {
+                t = x + spd3;
+                if (t < arg0->unk2A) {
+                    arg0->unk22 = t;
+                } else {
+                    arg0->unk22 = arg0->unk2A;
+                }
             } else {
-                arg0->unk22 = arg0->unk2A;
+                t = g_Player.y_pos.i.hi;
+                t = t - pos3;
+                t = t - arg0->unk2C;
+                if (t < 0) {
+                    t = g_Player.y_pos.i.hi - g_Player.unk1C.i.hi;
+                    if (t >= 0) {
+                        t = 0;
+                    }
+                    t = t + pos3;
+                    t = t - spd3;
+                    if (t < arg0->unk2A) {
+                        t = arg0->unk2A;
+                    }
+                }
+                arg0->unk22 = t;
             }
-            goto block4;
         }
-        t = g_Player.y_pos.i.hi;
-        t = t - pos3;
-        t = t - arg0->unk2C;
-        if (t < 0) {
-            t = g_Player.y_pos.i.hi - g_Player.unk1C.i.hi;
-            if (t >= 0) {
-                t = 0;
-            }
-            t = t + pos3;
-            t = t - spd3;
-            if (t < arg0->unk2A) {
-                t = arg0->unk2A;
-            }
-        }
-        arg0->unk22 = t;
     }
-block4:
     if (arg0->unk28 != arg0->unk20) {
         x = arg0->y_pos.i.hi;
         pos4 = (u16)arg0->y_pos.i.hi;
@@ -1604,7 +1602,7 @@ void func_8002927C(void) {
     if (bg->unk44 != 0) {
         p = &g_Player;
         if (*(s8*)((u8*)p + 0xCC) == 0 &&
-            (p->unk2 == 0 || p->nova_strike_active == 0)) {
+            (p->character == 0 || p->nova_strike_active == 0)) {
             D_80071E80[bg->unk4](bg);
             if (p->ride_animation != -2) {
                 if (bg->unk34 & 0x10) {
@@ -1658,6 +1656,9 @@ void func_8002943C(s8 arg0, s8 arg1, s8 arg2) {
 #include "mmx6/x4.h"
 extern struct X4_BackgroundObj background_objects[3];
 
+// 0x80029478 func_80029478: sets the vertical shake fields and flag 1 of background object 0 (mmx4 start_screen_shake_y shape).
+// basis: none
+// callers: func_8004755C, move_ceiling, overlay callers in rock_01, rock_02, rock_05, rock_07, rock_09, rock_15 and others
 void func_80029478(s8 arg0, s8 arg1, s8 arg2) {
     background_objects[0].unk37 = arg0;
     background_objects[0].unk46 = arg1;
@@ -1668,8 +1669,7 @@ void func_80029478(s8 arg0, s8 arg1, s8 arg2) {
 }
 
 #include "common.h"
-
-extern s8 D_800970A2;
+#include "mmx6/globals.h"
 
 void func_800294B4(u8* arg0) {
     s16 v;
@@ -1756,8 +1756,7 @@ void func_800295E8(struct X4_BackgroundObj* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
-
-extern s16 D_800970AE;
+#include "mmx6/globals.h"
 
 void func_80029658(struct X4_BackgroundObj* arg0) {
     s16 delta;

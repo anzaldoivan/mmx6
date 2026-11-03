@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80012D9C(M2C_UNK);
+M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 void* enemy_slot_alloc();
 s32 random_byte();
@@ -58,7 +58,7 @@ void func_800EF160(void* arg0) {
     }
     if (SB(arg0, 0x82) == 0) {
         SB(arg0, 0x82) = 1;
-        func_80012D9C(8);
+        start_pad_vibration(8);
     }
     k = UH(arg0, 0x7E);
     UH(arg0, 0x7E) = k + 1;

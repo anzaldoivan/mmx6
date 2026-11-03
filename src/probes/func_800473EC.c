@@ -1,8 +1,6 @@
 /* Probe (phase 1.4 T6): lb of an s8 global, sltiu, halfword decrement. Game TU 120A0. */
 #include "common.h"
-
-extern s8 D_800970A5;
-extern u8 D_800CCF38;
+#include "mmx6/globals.h"
 
 void func_800473EC(Probe800473EC* arg0) {
     if (D_800970A5 != 0) {

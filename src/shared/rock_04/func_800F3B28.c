@@ -13,6 +13,7 @@ void func_800F3B28(u8* a) {
     f = a[0x70];
     if (f & 8) {
         v = 7;
+        // !FAKE: shared store; dup store moved bytes
         goto store;
     }
     if ((f & 4) || (((v = a[0x15]), (t = v), v == 0) && (f & 2)) ||

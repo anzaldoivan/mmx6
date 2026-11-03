@@ -1,19 +1,10 @@
 #include "common.h"
 #include "psyq/libcd.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 void func_80014E60(s32, s32);
 s32 func_80064894(s32, s32);
-extern u8 D_8009509C;
-extern s32 D_800E01A8;
-extern u8* D_800E01AC;
-extern s32 D_800E01B0;
-extern s32 D_800E01B4;
-extern s32 D_800E01C0;
-extern u8 D_800E0379;
-extern s32 D_800E037C;
-extern u32 D_800E0380;
-extern s32 rock_dat_file_table[][2];
 
 // 0x8001642C read_dat_file: reads a DAT file by index.
 // basis: community tweaks-index.tsv:33

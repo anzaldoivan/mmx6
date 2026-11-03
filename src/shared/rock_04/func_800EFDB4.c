@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
 s32 check_enemy_hits(void*);
 extern void (*D_800F6DD8[])(void*);
@@ -28,7 +28,7 @@ void func_800EFDB4(void* arg0) {
         return;
     }
     func_80030ECC(arg0);
-    if (func_8002CBFC(arg0, 0x80, 0x80) == 1 && (u32)(UB(arg0, 2) - 0xA) < 2) {
+    if (is_off_screen(arg0, 0x80, 0x80) == 1 && (u32)(UB(arg0, 2) - 0xA) < 2) {
         SB(arg0, 4) = 3;
     }
 }

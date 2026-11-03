@@ -7,6 +7,7 @@
 #define MMX6_TASK_H
 
 #include "common.h"
+#include "addr.h" /* g_task_slots, g_cur_task_slot, MAIN_THREAD_ID */
 
 struct TaskSlot {
     u16 status; // +0x00 0 free, 1 waiting (task_yield), 2 running (create_task); bit 0x40 set by func_80013480

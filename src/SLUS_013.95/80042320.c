@@ -1,14 +1,14 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8002D230();
+M2C_UNK apply_object_motion();
 
 void func_80042320(void* arg0) {
     s8 v;
     // !FAKE: pins the 0xE value to the first return register as retail allocates it
     register s32 e asm("$2");
 
-    func_8002D230(arg0);
+    apply_object_motion(arg0);
     e = *(s16*)((u8*)arg0 + 0xE);
     if (*(s16*)((u8*)arg0 + 0x86) <= e) {
         *(s16*)((u8*)arg0 + 0xE) = *(s16*)((u8*)arg0 + 0x86);
@@ -74,7 +74,7 @@ void func_80042420(struct X4_MainObj* self) {
     if (--self->unk7C == 0) {
         if ((self->unk2 & 0xF0) == 0x30) {
             self->unk7C = 0x1E;
-            self->unk6 = 6;
+            self->action_phase = 6;
             return;
         }
         M2C_FIELD(self, u8*, 0x8E) = 0;
@@ -85,13 +85,14 @@ void func_80042420(struct X4_MainObj* self) {
         self->unk7 = 0;
         func_80042A9C(self, 0);
         func_80042A9C(self, 1);
-        self->unk6++;
+        self->action_phase++;
     }
 }
 
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
 void func_80042C18(struct X4_MainObj* self);
@@ -115,14 +116,12 @@ void func_800424E0(void* arg0) {
 #undef F24E0_S16
 
 #include "common.h"
+#include "mmx6/globals.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_800429D4();
-extern s32 D_80075EDC;
-extern s32 D_80075EE4;
-extern u8 D_800CCF38;
 
 void func_80042538(void* self) {
     if (M2C_FIELD(self, u16*, 0x7C) & 1) {
@@ -262,11 +261,11 @@ void func_8004283C(void* arg0) {
 #undef D_80073C1C
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 extern s16 D_800970AA;
-extern s16 D_80097206;
 
 void func_800428D8(void* arg0) {
     u16 y = D_80097206;
@@ -297,26 +296,26 @@ void func_800428D8(void* arg0) {
 
 extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
-M2C_UNK func_8002D230();
+M2C_UNK apply_object_motion();
 s32 play_sound(s32, s32, void*);
 
 void func_8004292C(struct X4_BaseObj* self) {
     struct X4_EngineObj* e;
     u16* p;
 
-    ((void (*)(void*))func_8002D230)(self);
+    ((void (*)(void*))apply_object_motion)(self);
     if (self->y_pos.i.hi >= g_Player.y_pos.i.hi) {
         u8* b;
         s32 i;
         e = &g_playthrough_state;
-        i = g_Player.unk2 * 2;
+        i = g_Player.character * 2;
         b = (u8*)e + 0xD2;
         p = (u16*)(i + b);
         *p += *(u16*)((u8*)self + 0x8A);
         play_sound(0, 0x29, self);
         e->unkF = 0x10;
         self->on_screen = 0;
-        self->unk6++;
+        self->action_phase++;
     }
 }
 
@@ -419,8 +418,8 @@ void func_80042B68(void* arg0, u8 arg1) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern struct X4_StageObjectRecord* D_8007349C[][2];
 extern struct X4_EngineObj g_playthrough_state;
 
 s32 func_80042C48(struct X4_BaseObj* self) {
@@ -446,8 +445,8 @@ s32 func_80042C48(struct X4_BaseObj* self) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u8 D_80075FE8[];
 extern struct X4_EngineObj g_playthrough_state;
 
 s32 func_80042CE8(void* arg0) {

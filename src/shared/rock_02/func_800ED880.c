@@ -4,7 +4,7 @@
 s32 set_animation(void*, s32);
 
 void func_800ED880(struct X4_MainObj* self) {
-    self->unk6++;
+    self->action_phase++;
     self->x_speed = 0;
     self->x_accel = 0;
     self->y_speed = FIXED(2);

@@ -1,12 +1,8 @@
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 extern void (*D_8006E348[])();
-extern u8 D_8008EC08;
-extern u8 D_800DF998;
-extern u16 D_800E01D4;
-extern u16 D_800E01D6;
-extern struct X4_CdCompletionSlot D_800E01E8[16];
 
 void func_80015C5C(void) {
     while (D_800E01E8[D_800DF998].pending != 0) {
@@ -27,11 +23,7 @@ void func_80015C5C(void) {
 #include "common.h"
 #include "mmx6/x4.h"
 #include "psyq/libsnd.h"
-extern s8 D_80090D50[6];
-extern u8 D_800DF998;
-extern union X4_CdSectorBuffer D_800CF998;
-extern struct X4_CdCompletionSlot D_800E01E8[16];
-extern u32 D_800E01C8;
+#include "mmx6/globals.h"
 
 void func_80015DA0(void) {
     s16 temp_v0;

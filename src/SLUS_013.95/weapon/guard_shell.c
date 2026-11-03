@@ -2,52 +2,43 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-s32 play_sound(s32 a0, s32 a1, void* arg2);
+#include "mmx6/globals.h"
+#include "mmx6/sound.h"
+#include "mmx6/graphics.h"
+#include "mmx6/weapon.h"
 #define play_sound ((void (*)(s32, s32, void*))play_sound)
-M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_80017A04();
-s8* func_8002BEC4(s8* p, s32 dir);
-s32 get_weapon_energy_cost(void* arg0, s32 arg1);
-void use_weapon_energy(void*, s32);
-extern s32 D_8007619C;
-extern s32 D_800761A0;
-extern struct X4_PlayerObj g_Player;
-
-#define F_S8(p, o) (*(s8*)((u8*)(p) + (o)))
-#define F_U8(p, o) (*(u8*)((u8*)(p) + (o)))
-#define F_S16(p, o) (*(s16*)((u8*)(p) + (o)))
-#define F_PTR(p, o) (*(void**)((u8*)(p) + (o)))
+#include "mmx6/pilot_globals.h"
 
 // 0x8004548C update_guard_shell: Guard Shell activation and ammo use.
 // basis: community tweaks-index.tsv:228
 // callers: none known
-void update_guard_shell(struct X4_WeaponObj* arg0) {
+void update_guard_shell(struct ProjectileObj* arg0) {
     struct X4_PlayerObj* player;
-    struct X4_WeaponObj* child;
-    u8* parent;
+    struct ProjectileObj* child;
+    struct X4_WeaponObj* parent;
     s8 kind;
     s32 hp;
     u16 y;
     s32 v;
 
-    ((void (*)())func_80017A04)();
-    if (--F_S8(arg0, 0x8E) == 0) {
+    ((void (*)())animate_object)();
+    if (--*(s8*)&arg0->unk8C.bytes[2] == 0) {
         player = &g_Player;
         kind = 4;
-        if (player->unk2 == 0) {
-            kind = F_S8(player, 0x93);
+        if (player->character == 0) {
+            kind = player->weapon;
         }
-        hp = F_S16((u8*)&g_Player + (kind << 1), 0xA8);
+        hp = ((s16*)g_Player.weapon_energy)[kind];
         if (hp >= get_weapon_energy_cost(player, kind)) {
-            if (player->unk2 != 0) {
-                F_S8(player, 0x93) = 4;
+            if (player->character != 0) {
+                player->weapon = 4;
                 use_weapon_energy(player, 4);
             } else {
                 use_weapon_energy(player, arg0->id);
             }
-            parent = F_PTR(arg0, 0x7C);
-            F_U8(arg0, 0x8F) = 0;
-            child = (struct X4_WeaponObj*)func_8002BEC4((s8*)parent, 0);
+            parent = arg0->unk7C;
+            arg0->unk8C.bytes[3] = 0;
+            child = (struct ProjectileObj*)func_8002BEC4((s8*)parent, 0);
             if (child != 0) {
                 play_sound(1, 0x1F, arg0);
                 {
@@ -56,7 +47,7 @@ void update_guard_shell(struct X4_WeaponObj* arg0) {
                     child->active = one;
                     child->id = 0x35;
                     child->unk2 = 5;
-                    F_PTR(child, 0x7C) = parent;
+                    child->unk7C = parent;
                     child->unk38 = arg0->unk38;
                     child->unk3C = arg0->unk3C;
                     child->animation_table = arg0->animation_table;
@@ -65,15 +56,16 @@ void update_guard_shell(struct X4_WeaponObj* arg0) {
                     child->unk16 = arg0->unk16;
                     child->x_pos.i.hi = arg0->x_pos.i.hi;
                     y = arg0->y_pos.i.hi;
-                    F_PTR(child, 0x68) = &D_800761A0;
-                    F_PTR(child, 0x50) = &D_8007619C;
+                    child->unk68 = (struct X4_Unk_unk68*)&D_800761A0;
+                    child->unk50.data = (const u8*)&D_8007619C;
                     child->on_screen = one;
                     child->state = one;
-                    child->unk5 = 4;
+                    child->action = 4;
                     child->y_pos.i.hi = y;
                     ((void (*)())set_animation)(child, 6, 1, y);
                     if (arg0->unk2 == 1) {
                         v = 0x30000;
+                        // !FAKE: goto shares the velocity store tail; duplicating the tail grew the function
                         goto set;
                     }
                     if (arg0->unk2 == 2) {
@@ -84,17 +76,18 @@ void update_guard_shell(struct X4_WeaponObj* arg0) {
                     } else if (arg0->unk2 == 3) {
                         child->x_vel.val = -0x30000;
                         child->y_vel.val = 0;
+                        // !FAKE: goto shares the velocity store tail; duplicating the tail grew the function
                         goto neg;
                     } else {
                         child->x_vel.val = -0x30000;
                         child->y_vel.val = 0;
                     neg:
-                        if (player->unk15 != 0) {
+                        if (player->facing != 0) {
                             child->x_vel.val = -child->x_vel.val;
                         }
                     }
                 }
-                F_U8(parent, 0x8C)++;
+                parent->ext.raw[0]++;
             }
         }
         if (arg0->unk2 < 3) {
@@ -102,8 +95,8 @@ void update_guard_shell(struct X4_WeaponObj* arg0) {
         } else {
             ((void (*)(void*, s32))set_animation)(arg0, 1);
         }
-        F_U8(arg0, 0x9C) &= 0xFD;
-        arg0->unk5--;
+        *(u8*)&arg0->unk9C &= 0xFD;
+        arg0->action--;
     }
 }
 #undef play_sound

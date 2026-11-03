@@ -1,8 +1,8 @@
 #include "common.h"
+#include "mmx6/object.h"
+#include "mmx6/globals.h"
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-
-extern s8 D_800CCF08;
 
 void func_800EA078(struct ObjectHeader* arg0) {
     if (D_800CCF08 == 0) {

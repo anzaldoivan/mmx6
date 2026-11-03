@@ -1,6 +1,6 @@
 #include "common.h"
 #define M2C_UNK s32
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void* func_8002C458();
 
 #define B(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -17,7 +17,7 @@ void func_800EA5FC(void* arg0) {
     void* o;
     s32 t;
 
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
     if (B(arg0, 0x45) == 1) {
         n = 1;
         if (B(arg0, 6) == 0) {

@@ -25,6 +25,7 @@ s32 memcard_read_save_file(s32 arg0, s32 arg1, s32 arg2) {
     do {
         fd = open(name, 1);
         if (fd != -1) {
+            // !FAKE: retry loop exits by goto so return 1 stays the fall-through; break merges both exits
             goto opened;
         }
         VSync(2);
@@ -33,6 +34,7 @@ s32 memcard_read_save_file(s32 arg0, s32 arg1, s32 arg2) {
 opened:
     for (i = 30; i != 0; i--) {
         if (read(fd, (u8*)arg0, 0x2000) == 0x2000) {
+            // !FAKE: goto keeps the got_data block after return 2; an in-loop return would reorder blocks
             goto got_data;
         }
         VSync(2);

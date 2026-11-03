@@ -3,9 +3,9 @@
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 void func_800EC380(struct X4_MainObj* self) {
-    ((void (*)())func_80017A04)(ANIMATED_OBJECT(self));
+    ((void (*)())animate_object)(ANIMATED_OBJECT(self));
     self->unk7C = 0xC8;
-    self->unk6++;
+    self->action_phase++;
 }

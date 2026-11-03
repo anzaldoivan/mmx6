@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 extern void (*func_801EE39C[])(void*);
 
 #define F_S8(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -12,7 +12,7 @@ extern void (*func_801EE39C[])(void*);
 // basis: xref start_rekkoha (docs/leads/derived.tsv:30)
 // callers: start_rekkoha
 M2C_UNK update_rekkoha(void* arg0) {
-    ((void (*)())func_80017A04)(arg0);
+    ((void (*)())animate_object)(arg0);
     if (F_S8(arg0, 0x45) & 0x80) {
         play_sound(1, 0x1B, arg0);
         F_U8(arg0, 0x45) &= 0x7F;

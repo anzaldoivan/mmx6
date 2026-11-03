@@ -10,8 +10,8 @@ void func_800E9D68(struct X4_BaseObj* self) {
     p = *(struct X4_BaseObj**)(SPAD + 0x80);
     t = p->state;
     if (t == 2) {
-        self->unk5 = 5;
-        self->unk6 = 0;
+        self->action = 5;
+        self->action_phase = 0;
         return;
     }
     if (t == 3) {
@@ -19,8 +19,8 @@ void func_800E9D68(struct X4_BaseObj* self) {
         return;
     }
     if (*((u8*)p + 0x88) == 1) {
-        self->unk5 = 4;
-        self->unk6 = 0;
+        self->action = 4;
+        self->action_phase = 0;
     }
     if (p->unk15 == 0) {
         switch (self->unk2) {

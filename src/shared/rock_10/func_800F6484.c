@@ -1,8 +1,8 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_80017A04();
-s32 func_8002CBFC(void*, M2C_UNK, M2C_UNK);
+M2C_UNK animate_object();
+s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_80030ECC(void*);
 s32 check_enemy_hits(void*);
@@ -35,7 +35,7 @@ void func_800F6484(void* arg0) {
     }
     W(arg0, 0x18) = W(arg0, 8);
     W(arg0, 0x1C) = W(arg0, 0xC);
-    func_80017A04(arg0);
+    animate_object(arg0);
     ((void (**)(void*)) & D_800FCF50)[B(arg0, 5)](arg0);
     if (B(arg0, 4) != state) {
         B(arg0, 3) = 0;
@@ -49,7 +49,8 @@ void func_800F6484(void* arg0) {
             func_80049E50(a);
         }
         u = 3;
-        goto set3;
+        B(arg0, 4) = u;
+        return;
     }
     if (func_80030ECC(arg0) != 0) {
         t = B(arg0, 2) & 0xF0;
@@ -61,12 +62,11 @@ void func_800F6484(void* arg0) {
                 func_80049D90(a);
             }
             u = 3;
-        set3:
             B(arg0, 4) = u;
             return;
         }
     }
-    if (func_8002CBFC(arg0, 0x20, 0x20) == 0) {
+    if (is_off_screen(arg0, 0x20, 0x20) == 0) {
         func_8002CCB0(arg0, 0x10, 0x10);
         return;
     }

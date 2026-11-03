@@ -2,11 +2,11 @@
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
-M2C_UNK func_8003BA04(void*, M2C_UNK);
+M2C_UNK player_set_animation(void*, M2C_UNK);
 
 void player_set_animation_shooting(struct X4_PlayerObj* self, s32 animation) {
-    if (self->unk2 == 0 && self->attacking != 0) {
+    if (self->character == 0 && self->attacking != 0) {
         animation += 0x70;
     }
-    func_8003BA04(self, animation);
+    player_set_animation(self, animation);
 }

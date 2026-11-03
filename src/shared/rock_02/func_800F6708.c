@@ -5,7 +5,7 @@
 #define SPAD20_800F6708 (*(s32*)0x1F800020)
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK func_80017A04();
+M2C_UNK animate_object();
 s32 func_8002A47C(s32);
 void* func_8002C458();
 extern M2C_UNK D_8007433C;
@@ -17,7 +17,7 @@ void func_800F6708(void* self) {
     s32 base;
     u16 ang;
 
-    ((M2C_UNK(*)())func_80017A04)();
+    ((M2C_UNK(*)())animate_object)();
     if (M2C_FIELD(self, s8*, 0x45) == 1) {
         play_sound(2, 0x7B, self);
         i = 0;

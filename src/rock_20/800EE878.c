@@ -51,6 +51,8 @@ INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800EE97C);
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_20.h"
 
 void func_80025F34();
 s32 func_800280F4();
@@ -61,7 +63,6 @@ extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800E3140;
 extern u8 D_800E3141;
-extern u8 D_800F366C[];
 
 void func_800EEA1C(u8* arg0) {
     struct X4_EngineObj* e = &g_playthrough_state;
@@ -82,7 +83,7 @@ void func_800EEA1C(u8* arg0) {
     {
         struct X4_PlayerObj* pl = &g_Player;
         ((u8*)pl)[0xC9] = arg0[0x60];
-        pl->unk2 = *(u8*)(D_800F366C + 0x128A);
+        pl->character = *(u8*)(D_800F366C + 0x128A);
     }
     arg0[2]++;
 }
@@ -131,8 +132,7 @@ void func_800EEB44(void* arg0) {
 #undef FAMILY_FIELD
 
 #include "common.h"
-
-extern u8 D_800F366C[];
+#include "mmx6/rock_20.h"
 
 void func_800EEB94(u8* arg0) {
     u16* p;
@@ -167,8 +167,7 @@ void func_800EEC9C(u8* arg0) {
 #include "../shared/rock_20/func_800EECD8.c"
 
 #include "common.h"
-
-extern s8 D_800CCEF6;
+#include "mmx6/globals.h"
 
 void func_800EED04(u8* arg0) {
     if ((u32)((u8)D_800CCEF6 - 1) < 8U) {
@@ -206,11 +205,11 @@ INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800EEDAC);
 #include "../shared/rock_20/func_800EEE70.c"
 
 #include "common.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_20.h"
 #define M2C_UNK s32
 
 M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
-extern s8 D_800CCEF6;
-extern u8 D_800F366C[];
 
 void func_800EEE9C(u8* arg0) {
     s32 i;
@@ -222,10 +221,10 @@ void func_800EEE9C(u8* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_20.h"
 
-extern u8 D_8008EAFC;
 extern struct X4_EngineObj g_playthrough_state;
-extern u8 D_800F366C[];
 
 void func_800EEEFC(u8* arg0) {
     if (D_8008EAFC == 0) {
@@ -246,10 +245,10 @@ void func_800EEEFC(u8* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/rock_20.h"
 
 void func_800F02A0(u8, s8, s32, s16);
 extern struct X4_EngineObj g_playthrough_state;
-extern u8 D_800F366C[];
 
 void func_800EEF84(u8* arg0) {
     u8* p;
@@ -272,11 +271,11 @@ void func_800EEF84(u8* arg0) {
 #undef func_800EEE70
 
 #include "common.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_20.h"
 #define M2C_UNK s32
 
 M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
-extern s8 D_800CCEF6;
-extern u8 D_800F366C[];
 
 void func_800EF060(u8* arg0) {
     s32 i;
@@ -290,12 +289,12 @@ void func_800EF060(u8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/globals.h"
 
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-extern u8 D_8008EAFC;
 extern s8 D_800CCEF8;
 
 void func_800EF0C0(void* arg0) {
@@ -327,11 +326,11 @@ void func_800EF118(void* arg0) {
 #undef FAMILY_FIELD
 
 #include "common.h"
+#include "mmx6/rock_20.h"
 
 extern u8 D_800F48F2;
 extern u8 D_800F48F3;
 extern u8 D_800F48F5;
-extern u8 D_800F48F7;
 
 void func_800EF170(u8* arg0) {
     D_800F48F2 = 0;
@@ -393,13 +392,13 @@ void func_800EF230(u8* arg0) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/rock_20.h"
 
 extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F48F2;
 extern u8 D_800F48F3;
 extern u8 D_800F48F4;
 extern u8 D_800F48F5;
-extern u8 D_800F48F8;
 
 void func_800EF288(u8* arg0) {
     u8* e = (u8*)&g_playthrough_state;
@@ -451,9 +450,9 @@ void func_800EF2EC(u8* arg0) {
 #undef D_800F48F5
 
 #include "common.h"
+#include "mmx6/rock_20.h"
 
 s32 func_800F0668(void);
-extern u8 D_800F366C[];
 
 void func_800EF38C(u8* arg0) {
     s32 t = func_800F0668();
@@ -466,14 +465,11 @@ void func_800EF38C(u8* arg0) {
 }
 
 #include "common.h"
+#include "mmx6/rock_20.h"
 
 void func_800F02A0(u8, s8, s32, s16);
 extern s8 D_800CCEF8;
-extern u16 D_800F36CC;
-extern u8 D_800F3844[];
 extern u16 D_800F48EC;
-extern s16 D_800F48EE;
-extern s16 D_800F48F0;
 extern u8 D_800F48F9;
 
 void func_800EF3D8(u8* arg0) {
@@ -524,12 +520,12 @@ void func_800EF4DC(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
+#include "mmx6/rock_20.h"
 
 void func_800F0784(s32);
 M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
-extern u8 D_80097169;
 extern struct X4_EngineObj g_playthrough_state;
-extern u8 D_800F366C[];
 
 #define ENG37 ((u8*)&g_playthrough_state)
 
@@ -953,11 +949,11 @@ void func_800EFF80(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8001C5EC(u8);
 extern u16 D_800C4570;
-extern struct X4_MiscObj D_800E2F90;
 
 void func_800F0030(u8* arg0_) {
     u8* arg0 = arg0_;
@@ -994,11 +990,11 @@ void func_800F0030(u8* arg0_) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 s32 func_8001C5EC(u8);
 void func_800EE19C(void);
 void func_800EE878(struct X4_MiscObj*);
-extern struct X4_MiscObj D_800E2F90;
 
 void func_800F0100(u8* arg0) {
     s32 ret;
@@ -1042,12 +1038,12 @@ void func_800F0100(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8001C5EC(u8);
 M2C_UNK reset_level();
 extern u16 D_800C4570;
-extern struct X4_MiscObj D_800E2F90;
 
 void func_800F01DC(u8* arg0) {
     s32 ret;
@@ -1118,8 +1114,8 @@ void func_800F04C8(void* arg0, u8 arg1, s8 arg2, s32 arg3, s32 arg4) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/globals.h"
 
-extern u8 D_80097169;
 extern struct X4_EngineObj g_playthrough_state;
 
 #define ENG48 ((u8*)&g_playthrough_state)
@@ -1139,8 +1135,7 @@ s32 func_800F054C(void) {
 }
 
 #include "common.h"
-
-extern u8 D_800F366C[];
+#include "mmx6/rock_20.h"
 
 s32 func_800F05AC(s32 arg0) {
     s32 i;
@@ -1219,8 +1214,7 @@ s32 func_800F06F4(s32 arg0) {
 }
 
 #include "common.h"
-
-extern s32 D_8006D674[];
+#include "mmx6/globals.h"
 
 s32 func_800F0724(u8 arg0, s32 arg1) {
     u8 i;
@@ -1229,7 +1223,7 @@ s32 func_800F0724(u8 arg0, s32 arg1) {
     n = 0;
     i = 0;
     do {
-        if (D_8006D674[i] & arg1) {
+        if (part_by_reploid[i] & arg1) {
             n++;
         }
         i++;
@@ -1242,9 +1236,9 @@ s32 func_800F0724(u8 arg0, s32 arg1) {
 
 #include "common.h"
 #include "mmx6/x4.h"
+#include "mmx6/rock_20.h"
 
 extern struct X4_BackgroundObj background_objects[3];
-extern u8 D_800F366C[];
 
 void func_800F0784(s32 arg0) {
     arg0 &= 0xFF;
@@ -1597,6 +1591,7 @@ INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800F3610);
 #define func_80041AB8 func_800F3630
 #define D_80075FD8 D_800F43A4
 #include "../shared/save_file/func_80041AB8.c"
+#include "mmx6/rock_20.h"
 #undef func_80041AB8
 #undef D_80075FD8
 

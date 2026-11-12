@@ -6,3 +6,4 @@ rock_05 0x800e98bc truncation data-tail header table entry, data word before the
 rock_05 0x800e98c0 phantom ghidra-missed-start real start after the header table entry (T15.c1)
 rock_27 0x800e9878 truncation data-tail header table entry, data word before the prologue; family twin of rock_05 (T15.c1)
 rock_27 0x800e987c phantom ghidra-missed-start real start after the header table entry (T15.c1)
+SLUS_013.95 0x80013788 phantom ghidra-missed-start fused-symbol split, by-address callback start (T29)

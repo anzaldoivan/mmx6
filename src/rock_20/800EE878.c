@@ -610,7 +610,7 @@ void func_800EF674(void* arg0) {
 
 #include "../shared/rock_20/func_800EF6D0.c"
 
-/* Adapted from sozud/mmx4 @807a01b src/main/engine.c:func_8001F9DC, AGPL-3.0; proven shared with X6 by exact signature 8d45f66608cd (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/engine.c:func_8001F9DC, AGPL-3.0; proven shared with X6 by exact signature 8d45f66608cd (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 /* siblings in the same TU declare it as struct X4_EngineObj; view it as the upstream state block */
@@ -841,7 +841,7 @@ void func_800EFC1C(u8* arg0) {
     } while (++i < 0x10);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/menu.c:func_8001C5A8, AGPL-3.0; proven shared with X6 by exact signature e4a5fdbaa049 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/menu.c:func_8001C5A8, AGPL-3.0; proven shared with X6 by exact signature e4a5fdbaa049 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern u8 D_800F3C00[32];

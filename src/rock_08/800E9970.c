@@ -4,7 +4,7 @@
 #undef func_80041AB8
 #undef D_80075FD8
 
-/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_13_ride_chaser_jet.c:ride_chaser_jet_init, AGPL-3.0; proven shared with X6 by exact signature 561f8a99cfb3 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/visuals/visual_13_ride_chaser_jet.c:ride_chaser_jet_init, AGPL-3.0; proven shared with X6 by exact signature 561f8a99cfb3 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 s32 set_animation(void*, s32);
@@ -18,7 +18,7 @@ void func_800E99AC(struct X4_VisualObj* arg0) {
     set_animation(arg0, 0x15);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_13_ride_chaser_jet.c:ride_chaser_jet_main, AGPL-3.0; proven shared with X6 by exact signature ca898a8565aa (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/visuals/visual_13_ride_chaser_jet.c:ride_chaser_jet_main, AGPL-3.0; proven shared with X6 by exact signature ca898a8565aa (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
@@ -69,7 +69,7 @@ void func_800E9AB0(void) {
 #undef func_80041AB8
 #undef D_80075FD8
 
-/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_15_ride_chaser_flash.c:ride_chaser_flash_init, AGPL-3.0; proven shared with X6 by exact signature 339a3fd19fc8 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/visuals/visual_15_ride_chaser_flash.c:ride_chaser_flash_init, AGPL-3.0; proven shared with X6 by exact signature 339a3fd19fc8 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 s32 set_animation(void*, s32);
@@ -82,7 +82,7 @@ void func_800E9B0C(struct X4_VisualObj* arg0) {
     set_animation(arg0, 0x19);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_15_ride_chaser_flash.c:ride_chaser_flash_main, AGPL-3.0; proven shared with X6 by exact signature d83d6ae99f8d (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/visuals/visual_15_ride_chaser_flash.c:ride_chaser_flash_main, AGPL-3.0; proven shared with X6 by exact signature d83d6ae99f8d (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void func_8002CCB0(struct X4_BaseObj*, s32, s32);
@@ -104,7 +104,7 @@ void func_800E9B48(struct X4_VisualObj* arg0) {
         if (arg0->unk54 == 0) {
             arg0->state = 2;
         }
-        func_8002CCB0(arg0, 0x10, 0x10);
+        ((void (*)())func_8002CCB0)(arg0, 0x10, 0x10);
     }
 }
 
@@ -1244,43 +1244,7 @@ extern s16 D_800F5910[][16];
 #define F16(p, o) (*(s16*)((u8*)(p) + (o)))
 #define FU16(p, o) (*(u16*)((u8*)(p) + (o)))
 
-void func_800ED4B0(u8* arg0) {
-    s32 a;
-    s32 b;
-    u8* q;
-
-    F16(arg0, 0x7C)++;
-    a = FU16(arg0, 0x80) - 1;
-    FU16(arg0, 0x80) = a;
-    b = FU16(arg0, 0x82) + 1;
-    FU16(arg0, 0x82) = b;
-    if (!(D_80097420.frame_counter & 1)) {
-        g_Player.x_pos.i.hi = a;
-    } else {
-        g_Player.x_pos.i.hi = b;
-    }
-    if (F16(arg0, 0x7C) >= 0x1D) {
-        background_objects[0].unk44 = 1;
-        background_objects[1].unk44 = 1;
-        background_objects[2].unk44 = 1;
-        g_Player.x_pos.i.hi =
-            D_800F5910[g_playthrough_state.character_state.bytes[9]][0];
-        g_Player.terrain_box = *(void**)(arg0 + 0x84);
-        func_8003AD18(&g_Player);
-        q = (u8*)&g_playthrough_state;
-        q[0x10] = 0;
-        q[0x11] = 0;
-        q[0x12] = 0;
-        q[0x13] = 0;
-        q[0x14] = 0;
-        q[0x15] = 0;
-        q[0x16] = 0;
-        q[0x17] = 0;
-        q[0x19] = 0;
-        arg0[0] &= 0xF7;
-        arg0[6]++;
-    }
-}
+#include "../shared/rock_08/func_800ED4B0.c"
 
 #define func_800EA1D8 func_800ED5C4
 #define D_800FAA64 D_800F58F0

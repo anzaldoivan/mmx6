@@ -33,7 +33,7 @@ void func_80013D10(void) {
 #undef SCRATCH30
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013DE8);
+#include "../shared/SLUS_013.95/func_80013DE8.c"
 // clang-format on
 
 #include "common.h"
@@ -61,5 +61,5 @@ void func_800144AC(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800144DC);
+#include "../shared/SLUS_013.95/func_800144DC.c"
 // clang-format on

@@ -222,7 +222,7 @@ void func_800EAD24(void) {
 #undef func_800EB1E4
 
 #define func_80042C18 func_800EADCC
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_65_magma_dragoon.c:magma_dragoon_face_player, AGPL-3.0; proven shared with X6 by exact signature 3d82c3af21bb (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_65_magma_dragoon.c:magma_dragoon_face_player, AGPL-3.0; proven shared with X6 by exact signature 3d82c3af21bb (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern s32 g_Player;
@@ -591,7 +591,7 @@ INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EC4C0);
 #undef g_Player
 
 #define func_800F32A8 func_800EC5B8
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_13_heavy_mech.c:heavy_mech_face_player, AGPL-3.0; proven shared with X6 by exact signature d7798d86256f (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_13_heavy_mech.c:heavy_mech_face_player, AGPL-3.0; proven shared with X6 by exact signature d7798d86256f (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern s32 g_Player;

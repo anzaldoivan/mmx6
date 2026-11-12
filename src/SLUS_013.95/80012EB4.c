@@ -55,7 +55,7 @@ void func_80012FA0(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80012FE4);
+#include "../shared/SLUS_013.95/func_80012FE4.c"
 // clang-format on
 
 #include "common.h"

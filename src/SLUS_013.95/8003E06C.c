@@ -45,7 +45,7 @@ s32 func_8003E06C(void* arg0) {
         ((void (*)(void*))func_8003AFF4)(arg0);
         start_player_attack(arg0, 1);
     } else {
-        ((void (*)(void*, s32))start_player_attack)(arg0, 0);
+        start_player_attack(arg0, 0);
     }
     return 1;
 }

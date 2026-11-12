@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @807a01b src/main/player_special.c:player_ladder_shoot, AGPL-3.0; proven shared with X6 by exact signature 543816517dc7 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/player_special.c:player_ladder_shoot, AGPL-3.0; proven shared with X6 by exact signature 543816517dc7 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void player_set_animation_frame(struct X4_PlayerObj*, s32, s32);

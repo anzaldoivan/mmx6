@@ -59,7 +59,7 @@ u8 func_80040498(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_800404D8);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/40388", func_800404D8);
 // clang-format on
 
 #include "common.h"
@@ -388,7 +388,7 @@ void func_80040E3C(struct X4_MainObj* self) {
 #undef PTR
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80040FB4);
+#include "../shared/SLUS_013.95/func_80040FB4.c"
 // clang-format on
 
 #include "common.h"

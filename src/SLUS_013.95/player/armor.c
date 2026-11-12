@@ -14,8 +14,7 @@ M2C_UNK load_armor_and_parts(void* arg0) {
     u8 m = g_playthrough_state.sub_tanks[2];
 
     self->armor = m;
-    self->equipped_parts =
-        *(s32*)((u8*)&g_playthrough_state + 0x74 + self->character * 4);
+    self->equipped_parts = g_playthrough_state.unk74[self->character];
     if (m == 2) {
         self->beaten_stages = 0;
         player_spawn_visual(1, 0x1B, 5, 0);

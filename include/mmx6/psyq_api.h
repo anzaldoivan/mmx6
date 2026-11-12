@@ -76,4 +76,14 @@ typedef struct {
     X4_u_char code;
 } X4_P_TAG;
 
+/* 20 bytes: textured sprite primitive; header, colour and code, xy, uv and clut, width and height */
+typedef struct {
+    X4_u_long tag;
+    X4_u_char r0, g0, b0, code;
+    short x0, y0;
+    X4_u_char u0, v0;
+    X4_u_short clut;
+    short w, h;
+} X4_SPRT;
+
 #endif /* MMX6_PSYQ_API_H */

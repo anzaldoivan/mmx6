@@ -3,7 +3,7 @@
 #include "mmx6/globals.h"
 
 s32 play_sound(s32, s32, void*);
-void func_800139F4(s32);
+s32 func_800139F4(s32);
 extern u8 option_values[];
 #include "mmx6/state.h"
 
@@ -21,7 +21,7 @@ void func_8002A76C(void) {
         if ((g_pad1_buttons[2] & 0x800) ||
             ((g_pad1_buttons[2] & 0x40) && CUR == 0xB)) {
             play_sound(0, 0x22, 0);
-            func_800139F4(0x20);
+            ((void (*)(s32))func_800139F4)(0x20);
             D_800E4188++;
             return;
         }

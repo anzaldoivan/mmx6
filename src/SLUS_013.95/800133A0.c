@@ -1,3 +1,3 @@
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800133A0);
+#include "../shared/SLUS_013.95/func_800133A0.c"
 // clang-format on

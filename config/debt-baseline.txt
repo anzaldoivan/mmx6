@@ -26,14 +26,29 @@ raise protected 1 2026-10-14 psxdecomp 0.6.0: the guard hook fails closed (upgra
 raise protected 1 2026-10-16 own gate dropped: fleet runs in dev CI, land_check and the milestone gate, not on push
 raise protected 1 2026-10-24 1.9/T6 no-rom audits: README lint + 6 no-game self-tests
 raise protected 1 2026-10-25 2.0 no-rom: gamestr check + badges --check
+raise protected 1 2026-11-06 2.6 T31 mmx4 repin to 4e16dfc: campaign.md:556,563,597 pin text
 raise placeholder 8 2026-11-02 T9: 8 movement asm bodies banked to C bring their func_ names into the count
+raise placeholder 3 2026-11-03 2.6 boot bank func_8001344C func_800139F4 func_800EDBA8
+raise placeholder 25 2026-11-06 2026-11-06 2.6 T26 front-end bank: 28 asm bodies banked to C bring their func_ names into the count
+raise placeholder 2 2026-11-07 2.6 T27 front-end bank: func_8001AE44, func_8003BD24
+raise placeholder 4 2026-11-07 2.6 T28-T30 boot banks: func_80014F70, func_80013530, func_80013788, func_80013DE8
+raise placeholder 2 2026-11-07 2.7 T1 boot bank: func_8001494C and its inline lookup helper
+raise placeholder 1 2026-11-07 2.7 T1 boot bank: func_800144DC
+raise placeholder 1 2026-11-07 2.7 T1 boot bank: func_800144DC
+raise placeholder 1 2026-11-07 2.7 T9 func_8004A2B4 bank
+raise placeholder 1 2026-11-07 2.7 T9 func_8002234C bank
+raise placeholder 1 2026-11-08 2.7 T9 func_80052F64 bank
+raise placeholder 1 2026-11-08 2.7 T9 func_8002E84C bank
+raise placeholder 2 2026-11-08 2.7 T11 func_8002F9DC and func_800232D4 banks
+raise placeholder 3 2026-11-08 3.0 T2 bank of three 2E47C dispatchers
+raise placeholder 14 2026-11-12 T15: Bank the 3.1 pilot wave W302: 19 of 27 pin-free rows
 820 pin
-350 goto
-31441 offset
-1892 address
+355 goto
+32151 offset
+1993 address
 70 cast
-5496 field
-4785 placeholder
-20110 placeholder-use
-13078 extern
-961 filename
+5768 field
+4845 placeholder
+21192 placeholder-use
+13524 extern
+1032 filename

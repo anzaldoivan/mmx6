@@ -130,7 +130,7 @@ void func_80034A88(s8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80034B70);
+#include "../shared/SLUS_013.95/func_80034B70.c"
 // clang-format on
 
 #include "common.h"

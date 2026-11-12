@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:clear_vram_rect_ptrs, AGPL-3.0; proven shared with X6 by exact signature fd1585f50292 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/55C4.c:clear_vram_rect_ptrs, AGPL-3.0; proven shared with X6 by exact signature fd1585f50292 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_RectPtrPair D_800C11C0[];
@@ -21,7 +21,7 @@ void func_80017A48(void) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:load_vram_rect_ptrs, AGPL-3.0; proven shared with X6 by exact signature d1adcd118b38 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/55C4.c:load_vram_rect_ptrs, AGPL-3.0; proven shared with X6 by exact signature d1adcd118b38 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "psyq/libgpu.h"
 #define M2C_UNK s32
@@ -131,7 +131,7 @@ void func_80017CD8(void) {
     __builtin_memcpy(D_8009E1B0, (void*)SPAD28, 0x4000);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:func_800160AC, AGPL-3.0; proven shared with X6 by exact signature 8cc804b315e5 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/55C4.c:func_800160AC, AGPL-3.0; proven shared with X6 by exact signature 8cc804b315e5 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern u16* D_800A21B0;

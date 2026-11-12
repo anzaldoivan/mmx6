@@ -16,6 +16,13 @@
             ".include \"" FOLDER "/" #NAME ".s\"\n"                            \
             "\t.set pop\n")
 
+/* INCLUDE_RODATA(FOLDER, NAME): a const data run splat writes to FOLDER/NAME.s (a carve.py `data`
+ * row, T28.c1), placed in .rodata at its rodata-order position in the unit. */
+#define INCLUDE_RODATA(FOLDER, NAME)                                           \
+    __asm__(".section .rodata\n"                                               \
+            ".include \"" FOLDER "/" #NAME ".s\"\n"                            \
+            ".section .text\n")
+
 /* Label macros (glabel, endlabel, ...) for the included .s, once per unit. */
 __asm__(".include \"macro.inc\"\n");
 

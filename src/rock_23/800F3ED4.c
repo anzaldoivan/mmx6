@@ -591,7 +591,7 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6764);
 // clang-format off
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6A04);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6AA4);
+#include "../shared/rock_23/func_800F6AA4.c"
 
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6B70);
 // clang-format on

@@ -181,7 +181,7 @@ void func_80018B10(void) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:func_80016E84, AGPL-3.0; proven shared with X6 by exact signature adc4ba01bdcd (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/55C4.c:func_80016E84, AGPL-3.0; proven shared with X6 by exact signature adc4ba01bdcd (see THIRD_PARTY.md). */
 #include "common.h"
 #include "psyq/libcd.h"
 #include "psyq/libetc.h"
@@ -205,7 +205,7 @@ void func_80018B60(void) {
 
     if (((int (*)())func_80064874)(1, 0) == CdlComplete) {
         sp10 = CdlModeSpeed | CdlModeRT | CdlModeSF;
-        if (((int (*)())CdControl)(CdlSetmode, &sp10, &D_800E2E40) != 0) {
+        if (CdControl(CdlSetmode, &sp10, &D_800E2E40) != 0) {
             VSync(3);
             D_800E2E18 = 6;
             if (D_800E2E40[0] & 0x10) {
@@ -214,6 +214,7 @@ void func_80018B60(void) {
         }
     }
 }
+
 #undef D_800E2E40
 
 #include "common.h"
@@ -461,7 +462,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80019C84);
 extern struct X4_MiscObj g_displayed_sprites[];
 
 void func_800232D4(void*);
-void func_800239CC(void*);
+void func_800239CC(struct X4_AnimatedObj* arg0);
 
 void func_8001A278(void) {
     struct X4_MiscObj* p;

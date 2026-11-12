@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @807a01b src/main/player.c:player_hurt, AGPL-3.0; proven shared with X6 by exact signature 94a81587fc1f (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/player.c:player_hurt, AGPL-3.0; proven shared with X6 by exact signature 94a81587fc1f (see THIRD_PARTY.md). */
 // prog SLUS_013.95 | system player | range 0x80037838-0x8003787C
 // Shared file: included by src/SLUS_013.95/32208.c, between player_ladder_let_go and update_hurt_knockback.
 #include "common.h"

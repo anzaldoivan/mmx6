@@ -158,7 +158,7 @@ void func_800499A0(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80049A14);
+#include "../shared/SLUS_013.95/func_80049A14.c"
 // clang-format on
 
 #include "common.h"
@@ -335,7 +335,7 @@ M2C_UNK func_8004A0C0(s8 arg0, s16 arg1, s16 arg2, s32 arg3) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8004A194(); /* extern */
+void func_8004A194();    /* extern */
 M2C_UNK func_8004A250(); /* extern */
 
 void func_8004A154(struct ObjectHeader* arg0) {
@@ -347,7 +347,7 @@ void func_8004A154(struct ObjectHeader* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004A194);
+#include "../shared/SLUS_013.95/func_8004A194.c"
 // clang-format on
 
 #include "common.h"
@@ -373,9 +373,9 @@ M2C_UNK func_8004A250(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004A2B4);
+#include "../shared/SLUS_013.95/func_8004A2B4.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004A768);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/4228C", func_8004A768);
 // clang-format on
 
 #include "common.h"
@@ -882,7 +882,7 @@ void func_8004B614(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004B634);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/4228C", func_8004B634);
 // clang-format on
 
 #include "common.h"
@@ -2102,7 +2102,7 @@ void func_8004D75C(void) {
 #undef D_80075FD8
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004D7B8);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/4228C", func_8004D7B8);
 // clang-format on
 
 #include "common.h"
@@ -2251,7 +2251,7 @@ void func_8004DCB8(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004DDD4);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/4228C", func_8004DDD4);
 // clang-format on
 
 #include "common.h"
@@ -2326,7 +2326,7 @@ void func_8004E0A8(u8* arg0, u8 arg1, s32 arg2) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004E26C);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/4228C", func_8004E26C);
 // clang-format on
 
 #include "common.h"

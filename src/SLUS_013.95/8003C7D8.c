@@ -189,7 +189,7 @@ void func_8003CCB4(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", set_pose_size);
+#include "../shared/SLUS_013.95/set_pose_size.c"
 // clang-format on
 
 #include "common.h"

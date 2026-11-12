@@ -139,66 +139,7 @@ extern struct X4_PlayerObj g_Player;
 #define UH(p, o) (*(u16*)((u8*)(p) + (o)))
 #define W(p, o) (*(s32*)((u8*)(p) + (o)))
 
-void func_800F1CF0(void* arg0) {
-    move_object(arg0);
-    {
-        // !FAKE: depin: dropping it breaks the match (110/112)
-        register s32 f asm("$2") = UB(arg0, 0x15);
-        if (f == 0) {
-            if (g_Player.x_pos.i.hi >= SH(arg0, 0xA) || (UB(arg0, 0x70) & 2)) {
-                set_animation(arg0, 0x17);
-                {
-                    // !FAKE: depin: dropping it breaks the match (24/112)
-                    register s32 k asm("$2") = 0xFFFA0000;
-                    W(arg0, 0x20) = k;
-                }
-                UH(arg0, 0x7C) = 8;
-                {
-                    // !FAKE: depin: dropping it breaks the match (26/112)
-                    register s32 c asm("$3") = UB(arg0, 6);
-                    UB(arg0, 6) = c + 1;
-                }
-                return;
-            }
-            if (SH(arg0, 0x84) >= SH(arg0, 0xA)) {
-                SH(arg0, 0x84) =
-                    UH(arg0, 0xA) - ((random_byte() & 0x1F) | 0x20);
-                func_800F513C(arg0, 0x10);
-            }
-        } else {
-            if (g_Player.x_pos.i.hi <= SH(arg0, 0xA) || (UB(arg0, 0x70) & 1)) {
-                set_animation(arg0, 0x17);
-                {
-                    // !FAKE: depin: dropping it breaks the match (25/112)
-                    register s32 k asm("$2") = 0x60000;
-                    W(arg0, 0x20) = k;
-                }
-                UH(arg0, 0x7C) = 8;
-                {
-                    // !FAKE: depin: dropping it breaks the match (27/112)
-                    register s32 c asm("$3") = UB(arg0, 6);
-                    UB(arg0, 6) = c + 1;
-                }
-                return;
-            }
-            if (SH(arg0, 0xA) >= SH(arg0, 0x84)) {
-                SH(arg0, 0x84) =
-                    UH(arg0, 0xA) + ((random_byte() & 0x1F) | 0x20);
-                func_800F513C(arg0, 0x10);
-            }
-        }
-    }
-    if (g_Player.action == 9 || g_Player.action == 0xB ||
-        g_Player.action == 0x34) {
-        SB(arg0, 5) = 9;
-        SB(arg0, 6) = 0;
-        return;
-    }
-    if (--SH(arg0, 0x7C) == 0) {
-        UH(arg0, 0x7C) = 8;
-        func_800F5360(arg0, 1);
-    }
-}
+#include "../shared/rock_04/func_800F1CF0.c"
 
 #include "../shared/rock_04/func_800F1EB0.c"
 
@@ -360,51 +301,7 @@ void func_800F51F0(struct X4_AnimatedObj* arg0, u8 arg1);
 extern s16 D_800970AA;
 extern u16 D_800F70DC;
 
-void func_800F2464(void* arg0) {
-    s8 a;
-    s16 y;
-    s32 d;
-
-    a = M2C_FIELD(M2C_FIELD(arg0, s8**, 0x80), s8*, 5);
-    if (M2C_FIELD(arg0, s8*, 0x84) != a && a == 3 && (random_byte() & 1)) {
-        if (M2C_FIELD(arg0, s8*, 2) == 0x12) {
-            M2C_FIELD(arg0, u16**, 0x68) = &D_800F70DC;
-            M2C_FIELD(arg0, s32*, 0x20) = 0;
-            M2C_FIELD(arg0, s32*, 0x28) = 0;
-            M2C_FIELD(arg0, s32*, 0x24) = 0;
-            M2C_FIELD(arg0, s32*, 0x2C) = 0x4CCC;
-            M2C_FIELD(arg0, u8*, 5) += 1;
-        } else {
-            func_80049D90(arg0);
-            func_800F51F0(arg0, 0x10);
-            func_800F51F0(arg0, 0x11);
-            func_800F51F0(arg0, 0x12);
-            M2C_FIELD(arg0, u8*, 4) = 5;
-        }
-        return;
-    }
-    if (M2C_FIELD(arg0, s8*, 2) == 0x12) {
-        y = M2C_FIELD(arg0, s16*, 0xA);
-        d = y - D_800970AA;
-        if (d < 0) {
-            d = D_800970AA - y;
-        }
-        if (d < 0x21 || --M2C_FIELD(arg0, s16*, 0x7C) == 0) {
-            M2C_FIELD(arg0, u16**, 0x68) = &D_800F70DC;
-            M2C_FIELD(arg0, s32*, 0x20) = 0;
-            M2C_FIELD(arg0, s32*, 0x28) = 0;
-            M2C_FIELD(arg0, s32*, 0x24) = 0;
-            M2C_FIELD(arg0, s32*, 0x2C) = 0x4CCC;
-            M2C_FIELD(arg0, u8*, 5) += 1;
-        }
-    } else if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
-        func_80049D90(arg0);
-        func_800F51F0(arg0, 0x10);
-        func_800F51F0(arg0, 0x11);
-        func_800F51F0(arg0, 0x12);
-        M2C_FIELD(arg0, u8*, 4) = 5;
-    }
-}
+#include "../shared/rock_04/func_800F2464.c"
 
 // clang-format off
 INCLUDE_ASM("asm/rock_04/nonmatchings/E9860", func_800F25A0);

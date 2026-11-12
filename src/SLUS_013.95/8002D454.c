@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @807a01b src/main/object_motion.c:func_8002B9F0, AGPL-3.0; proven shared with X6 by exact signature 5e8e8871519a (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/object_motion.c:func_8002B9F0, AGPL-3.0; proven shared with X6 by exact signature 5e8e8871519a (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/globals.h"
 
@@ -42,7 +42,7 @@ s32 func_8002D4F4(void) {
     return var_v0;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/object_motion.c:get_layout_screen, AGPL-3.0; proven shared with X6 by exact signature b57657e8090d (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/object_motion.c:get_layout_screen, AGPL-3.0; proven shared with X6 by exact signature b57657e8090d (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #include "mmx6/globals.h"

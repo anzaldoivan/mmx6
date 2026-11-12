@@ -54,7 +54,7 @@ u32 func_800260C4(s32 arg0, s32 arg1, s32 arg2) {
     return v & 0xFFFF;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/144A4.c:func_800241E8, AGPL-3.0; proven shared with X6 by exact signature df4775baa321 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/144A4.c:func_800241E8, AGPL-3.0; proven shared with X6 by exact signature df4775baa321 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #include "mmx6/globals.h"
@@ -928,7 +928,7 @@ void func_80027AA8(s32 arg0, s16 arg1, s16 arg2, u16* arg3) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80027BA0);
+#include "../shared/SLUS_013.95/func_80027BA0.c"
 // clang-format on
 
 #include "common.h"
@@ -1617,7 +1617,7 @@ void func_8002927C(void) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/background.c:func_80027D40, AGPL-3.0; proven shared with X6 by exact signature 6ee72b467391 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/background.c:func_80027D40, AGPL-3.0; proven shared with X6 by exact signature 6ee72b467391 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_PlayerObj D_800970B0;
@@ -1634,10 +1634,10 @@ void func_8002935C(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800293CC);
+#include "../shared/SLUS_013.95/func_800293CC.c"
 // clang-format on
 
-/* Adapted from sozud/mmx4 @807a01b src/main/stage_objects.c:start_screen_shake_x, AGPL-3.0; proven shared with X6 by exact signature 43e71a929bf8 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/stage_objects.c:start_screen_shake_x, AGPL-3.0; proven shared with X6 by exact signature 43e71a929bf8 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_BackgroundObj background_objects[3];
@@ -1651,7 +1651,7 @@ void func_8002943C(s8 arg0, s8 arg1, s8 arg2) {
     background_objects[0].unk34 |= 0x10;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/stage_objects.c:start_screen_shake_y, AGPL-3.0; proven shared with X6 by exact signature 503943cdb46f (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/stage_objects.c:start_screen_shake_y, AGPL-3.0; proven shared with X6 by exact signature 503943cdb46f (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_BackgroundObj background_objects[3];
@@ -1693,7 +1693,7 @@ void func_800294B4(u8* arg0) {
     arg0[4]++;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/background.c:func_80027974, AGPL-3.0; proven shared with X6 by exact signature a09eb2b42e5f (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/background.c:func_80027974, AGPL-3.0; proven shared with X6 by exact signature a09eb2b42e5f (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void func_80029598(struct X4_BackgroundObj*);
@@ -1733,7 +1733,7 @@ void func_80029598(struct X4_BackgroundObj* arg0) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/background.c:func_80027AFC, AGPL-3.0; proven shared with X6 by exact signature 3108906f66dd (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/background.c:func_80027AFC, AGPL-3.0; proven shared with X6 by exact signature 3108906f66dd (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
@@ -1838,7 +1838,7 @@ void func_800297BC(void* arg0) {
 
 #include "../shared/mugshot/func_800297F8.c"
 
-/* Adapted from sozud/mmx4 @807a01b src/main/background.c:func_80027FA8, AGPL-3.0; proven shared with X6 by exact signature 8a39aba72637 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/background.c:func_80027FA8, AGPL-3.0; proven shared with X6 by exact signature 8a39aba72637 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
@@ -1969,7 +1969,7 @@ void func_800299E8(struct X4_BackgroundObj* arg0) {
 #include "../shared/mugshot/func_800297F8.c"
 #undef func_800297F8
 
-/* Adapted from sozud/mmx4 @807a01b src/main/background.c:update_screen_shake_x, AGPL-3.0; proven shared with X6 by exact signature 53e7a3858f9c (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/background.c:update_screen_shake_x, AGPL-3.0; proven shared with X6 by exact signature 53e7a3858f9c (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
@@ -1987,7 +1987,7 @@ void func_80029A6C(struct X4_BackgroundObj* arg0) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/background.c:update_screen_shake_y, AGPL-3.0; proven shared with X6 by exact signature a0d9f0b7dd5c (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/background.c:update_screen_shake_y, AGPL-3.0; proven shared with X6 by exact signature a0d9f0b7dd5c (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 

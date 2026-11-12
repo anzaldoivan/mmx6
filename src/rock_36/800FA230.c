@@ -293,7 +293,7 @@ INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FCBE4);
 // clang-format off
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FCCC8);
 
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FCD4C);
+#include "../shared/rock_36/func_800FCD4C.c"
 // clang-format on
 
 #define func_8003744C func_800FCD88
@@ -373,7 +373,7 @@ INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FD208);
 #undef func_800F4FA8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FD344);
+#include "../shared/rock_36/func_800FD344.c"
 
 INCLUDE_ASM("asm/rock_36/nonmatchings/FA000", func_800FD39C);
 // clang-format on

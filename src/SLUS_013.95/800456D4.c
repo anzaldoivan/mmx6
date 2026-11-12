@@ -398,7 +398,7 @@ void func_800460C8(void* arg0) {
 M2C_UNK animate_object();
 s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
 M2C_UNK move_object(void*);
-M2C_UNK func_8002EE10(void*);
+M2C_UNK func_8002EE10(struct X4_PlayerObj* arg0);
 void func_80049D90(void*);
 
 void func_80046148(u8* arg0) {
@@ -693,7 +693,7 @@ void func_8004670C(void) {
     clear_object_slot();
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/weapons/weapon_61_ride_armor_punch.c:ride_armor_punch_main, AGPL-3.0; proven shared with X6 by exact signature e7d22a6ee35c (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/weapons/weapon_61_ride_armor_punch.c:ride_armor_punch_main, AGPL-3.0; proven shared with X6 by exact signature e7d22a6ee35c (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
@@ -740,7 +740,7 @@ void func_8004672C(struct X4_WeaponObj* self) {
 #undef func_80041AB8
 #undef D_80075FD8
 
-/* Adapted from sozud/mmx4 @807a01b src/main/weapons/weapon_61_ride_armor_punch.c:ride_armor_punch_init, AGPL-3.0; proven shared with X6 by exact signature ef5dce611697 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/weapons/weapon_61_ride_armor_punch.c:ride_armor_punch_init, AGPL-3.0; proven shared with X6 by exact signature ef5dce611697 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void func_8004672C(struct X4_WeaponObj*);

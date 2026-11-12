@@ -13,7 +13,13 @@ INCLUDE_ASM("asm/rock_29/nonmatchings/E9860", func_800E98D4);
 // clang-format off
 INCLUDE_ASM("asm/rock_29/nonmatchings/E9860", func_800E9BE8);
 
-INCLUDE_ASM("asm/rock_29/nonmatchings/E9860", func_800E9E40);
+#define func_800ED4B0 func_800E9E40
+#define D_80097420 D_80097420
+#define D_800F5910 D_800EC400
+#include "../shared/rock_08/func_800ED4B0.c"
+#undef func_800ED4B0
+#undef D_80097420
+#undef D_800F5910
 // clang-format on
 
 #define func_800EA1D8 func_800E9F54

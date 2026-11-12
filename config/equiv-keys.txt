@@ -1,0 +1,33 @@
+# config/equiv-keys.txt -- keys of propagate.py --equiv (per-key vs grouped dry run); written by propagate.py --equiv-pick, never by hand.
+# Picked from config/dedup_registry.txt (rows: non-comment, >= 5 fields, field 6 != family) in 4 strata (any SLUS_013.95 member? x any refused row?);
+# pool per stratum: keys with a non-exemplar member row (field 6 != exemplar) -- refused strata: >= 1 refused row and >= 1 gated non-exemplar row,
+# else (no such key in the stratum) >= 1 refused row; gated strata: >= 1 gated non-exemplar row;
+# per stratum the first 6 pool keys by (row count, key) ascending. Deterministic: a re-run on the same registry gives this file.
+# stratum slus=yes refused=yes: 6 of 6 pool keys (refused+gated; 18 in stratum)
+ffde10626a32f1d66176a682150de1412c4c33e3
+590ed0325c72277467183ee61d9754ac680efcd0
+83f25a3faba9d1a448dcab6ccfeea86c476053a3
+3d82c3af21bbb95d722f3fba2cb6c1f7823838ca
+7f693e46b2295478282394980377f04c2f3d08dc
+7678540574197b420f17571673856a74783eb9d5
+# stratum slus=yes refused=no: 6 of 16 pool keys (gated non-exemplar; 990 in stratum)
+06483f913cfe05b6bf7b80b764d9026302d53842
+13eadbb18aec7e36f42f1206f58c78d8baebe327
+2c6861354e9c298cc6115108f980aec5f7369fd4
+2f3293edcc48b5832a50e98b93b0a9bb7301a889
+49fdb7c3ee5bdaf1bb5955abb210bf0b1235ef26
+558a1fc14a5c79ac58c75b27ef0182f651f25b26
+# stratum slus=no refused=yes: 6 of 32 pool keys (refused+gated; 549 in stratum)
+2c345a097994a7b8a299812b12944ef63970cb4e
+62c2970f9acd8f1c0fc818122cf6dfa1eff1c9df
+6adf5feb44e78a9c7e0ec32aae7255d3656638ed
+cc2c363673c5c893b85b4735c8899c10ff83a3d2
+01e331a933cab1cc9de64cc1c5411e32528392b8
+19ca55179aa2ca0b87f72de86827eeb4314bbaa7
+# stratum slus=no refused=no: 6 of 683 pool keys (gated non-exemplar; 2191 in stratum)
+002132255ceca8775b2eac2fbdcaa327bfbeebb3
+0038f70f3fa4f86fa8c9d71c78988e525580a88d
+0043de0526d18de59b341a61fd06cbd569a489b2
+0086ea9196fe750158ba488e5e97b8f62fb3a0ad
+00ee22c977fc6bf255f18114f4b9351ef47ea851
+018e5a46d1f22fc51ca32dc229a7f4d0cc2619d0

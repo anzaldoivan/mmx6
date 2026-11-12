@@ -78,7 +78,7 @@ void func_800FEF98(void) {
 #undef D_800F7C30
 
 // clang-format off
-INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FF004);
+#include "../shared/rock_33/func_800FF004.c"
 // clang-format on
 
 #include "common.h"
@@ -167,7 +167,7 @@ void func_800FF59C(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_33/nonmatchings/FA000", func_800FF5D0);
+#include "../shared/rock_33/func_800FF5D0.c"
 // clang-format on
 
 #define D_800F7BA0 D_801009D4

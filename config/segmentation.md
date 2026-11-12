@@ -49,6 +49,17 @@ The consumer is `tools/mmx6/boundcheck.py`. Every forced edge below is a subsegm
   table of a unit merges the unit's rows into one contiguous range in TU function order. There is one row per
   table, the trailing zero pad < alignment is included, and other bytes refuse `foreign-rodata` (T44.c1).
 
+  `data <lo> <hi> <tu>` (2.6 T28.c1, `carve.py data <prog> <lo>`): A same-unit const data run joins `<tu>`'s
+  rodata. `lo` is a dlabel in the rodata block. `hi` is the next asm symbol after it, else its file's last word + 4.
+  `<tu>` must be the one TU of every reference to a `D_` or `jtbl_` name in `[lo, hi)`. The scan reads the asm .s
+  of every program and the src C with comments stripped. Another TU's reference, or none, refuses `foreign-rodata`.
+
+  The run must touch a table row of `<tu>` (`jtbl`, `rodata`, `data`), or a boundaries jtbl row whose dispatcher
+  is in `<tu>`. Else it refuses `not-adjacent`, and then the jtbl refusals apply. The row merges with the unit's
+  tables like a `rodata` row. Its bytes come from `INCLUDE_RODATA("asm/<prog>/nonmatchings/<tu>", <sym>);`
+  (include/common.h). You place that line by hand in the unit's C, at its rodata-order position. Example:
+  D_80010038 goes to 120A0, after func_80014F70's INCLUDE_ASM in src/SLUS_013.95/8001494C.c.
+
   The exe rodata block is `[0x80010000, 0x800120A0)`. The overlay rodata block is `[base, first text function)`
   when its first TU is a c unit holding `INCLUDE_ASM(..., D_<base>)`. An overlay's first carve drops that line. It
   strips the `D_<base>` attributes in `config/symbols.<prog>.txt` (a sized symbol hides the block's jump tables

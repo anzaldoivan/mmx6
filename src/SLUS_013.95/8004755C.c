@@ -276,8 +276,8 @@ void func_80047A0C(s32 arg0, u8* arg1, void* arg2, s32 arg3, s32 arg4) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-void func_80047B34();    /* extern */
-M2C_UNK func_80047C30(); /* extern */
+void func_80047B34(); /* extern */
+void func_80047C30(); /* extern */
 
 void func_80047AF4(struct ObjectHeader* arg0) {
     if (arg0->state == 0) {
@@ -330,7 +330,7 @@ void func_80047B34(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80047C30);
+#include "../shared/SLUS_013.95/func_80047C30.c"
 // clang-format on
 
 #include "common.h"
@@ -459,7 +459,7 @@ void func_80047F78(struct ObjectHeader* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80047FB8);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/4228C", func_80047FB8);
 // clang-format on
 
 #include "common.h"
@@ -566,7 +566,7 @@ void func_80048248(void) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 s32 play_sound(s32 a0, s32 a1, void* arg2);
-M2C_UNK func_80048584(void*, u8);
+void func_80048584(void*, s32);
 extern u8 D_80077B44[];
 
 void func_80048268(void* arg0) {
@@ -714,7 +714,7 @@ void func_80048560(struct ObjectHeader* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80048584);
+#include "../shared/SLUS_013.95/func_80048584.c"
 // clang-format on
 
 #include "common.h"
@@ -746,7 +746,7 @@ void func_800485BC(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80048628);
+#include "../shared/SLUS_013.95/func_80048628.c"
 // clang-format on
 
 #define func_80046C64 func_80048980

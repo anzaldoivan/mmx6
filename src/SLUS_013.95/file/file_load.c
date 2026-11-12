@@ -2,5 +2,5 @@
 // basis: xref init_loading_screen (docs/leads/derived.tsv:6)
 // callers: load_player_files, func_80013D10, func_80013DE8
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", wait_for_file_load);
+#include "../../shared/SLUS_013.95/wait_for_file_load.c"
 // clang-format on

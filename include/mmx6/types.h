@@ -29,4 +29,10 @@ typedef struct {
     s32 unk1C;
 } Probe800473EC;
 
+// evidence: func_800144DC (src/shared/SLUS_013.95/func_800144DC.c, matched): D_8006E1D4[idx] at idx*8, lhu +0/+2, lbu +4..+7
+struct LoadingSprtRow {
+    s16 x, y;
+    u8 uv, w, h, clut; // uv and clut pack two 16-px cells in their nibbles; w and h count 16-px cells
+};
+
 #endif /* MMX6_TYPES_H */

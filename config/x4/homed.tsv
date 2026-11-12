@@ -8,3 +8,4 @@ X4_PlayerObj	include/mmx6/player.h	PlayerObj
 X4_ShotObj	include/mmx6/projectile.h	ProjectileObj
 X4_TransitionState	include/mmx6/state.h	TransitionState
 X4_MainBssState	include/mmx6/state.h	MainBssState
+X4_EngineObj	include/mmx6/engine.h	EngineObj

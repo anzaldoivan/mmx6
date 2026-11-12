@@ -229,9 +229,9 @@ def ghidra_view(p, recs):
     return v
 
 
-def func_at(v, a):
+def func_at(v, a, starts=None):
     best = None
-    for s in v["fstarts"]:
+    for s in (v["fstarts"] if starts is None else starts):
         if s > a:
             break
         best = s
@@ -417,6 +417,18 @@ def jal_misses(p, v, starts, tlo, thi):
     return calls
 
 
+def owner_starts(p, v, fst):
+    """Starts that own a jr: Ghidra func starts plus functions Ghidra missed (2.7 T2, I51), i.e. an address right
+    after `jr ra; <delay>` that is an fstart jal target or opens with `addiu sp,sp,-N`."""
+    def after_ret(t):
+        return p.inimg(t - 8) and p.word(t - 8) == 0x03E00008
+    extra = {t for t, *_ in fst if after_ret(t)}
+    for a in range(p.code_lo + 8, p.code_hi - 3, 4):
+        if p.inimg(a) and (p.word(a) >> 15) == (0x27BD << 1 | 1) and after_ret(a):
+            extra.add(a)
+    return sorted(set(v["fstarts"]) | extra)
+
+
 def fstart_rows(p, v, extern=None):
     """In-program jal targets that are not func starts; extern = Counter of overlay jals into this text."""
     calls = jal_misses(p, v, set(v["fstarts"]), p.code_lo, p.code_hi)
@@ -430,11 +442,13 @@ def boundaries(p, v, psyq_dir, extern=None):
     hits, rejects = scan(p)
     rows, unexplained = [], 0
     cnt = Counter()
+    fst = fstart_rows(p, v, extern)
+    owners = owner_starts(p, v, fst)
     for tlo in sorted(set(hits) | set(v["switch"])):
         gh = v["switch"].get(tlo, "absent") if tlo in v["switch"] else "absent"
         if tlo in hits:
             for j, thi, bound in sorted(hits[tlo]):
-                fs = func_at(v, j)
+                fs = func_at(v, j, owners)
                 fn = h(fs) if fs is not None else "-"
                 if tlo in v["switch"]:
                     note = ""
@@ -470,7 +484,6 @@ def boundaries(p, v, psyq_dir, extern=None):
     for lo, hi, why, n in opts:
         rows.append(("optcand", lo, f"optcand {h(lo)} {h(hi)} {why} funcs={n}"))
     ofuncs = sum(n for *_, n in opts)
-    fst = fstart_rows(p, v, extern)
     for a, n, *m in fst:
         ovl = f" ovl_calls={m[0]}" if m else ""
         rows.append(("fstart", a, f"fstart {h(a)} calls={n}{ovl}"))
@@ -542,7 +555,13 @@ def self_test():
     code += [enc_i(0x09, SP, SP, -8), enc_i(0x2B, SP, FP, 0), enc_r(SP, 0, FP, 0, 0x21), enc_i(0x2B, FP, A0, 24),
              JR_RA, NOP]
     f4 = base + 4 * len(code)
-    code += [(3 << 26) | ((cases & 0x0FFFFFFF) >> 2), NOP, JR_RA, NOP]  # jal into f1's case code (not a start)
+    f5 = base + 4 * (len(code) + 4)
+    code += [(3 << 26) | ((cases & 0x0FFFFFFF) >> 2), (3 << 26) | ((f5 & 0x0FFFFFFF) >> 2), JR_RA, NOP]  # jal case code; jal f5
+    code += [enc_r(V0, 0, 0, 0, 8), NOP, JR_RA, NOP]  # f5 (missed by "Ghidra"): a jr inside it
+    j5 = base + 4 * (len(code) - 4)
+    f6 = base + 4 * len(code)
+    code += [enc_i(0x09, SP, SP, -16), enc_r(V0, 0, 0, 0, 8), NOP]  # f6: never called, opens with a frame
+    j6 = base + 4 * (len(code) - 2)
     img = bytearray(0x280)
     for i, w in enumerate(code):
         struct.pack_into("<I", img, 4 * i, w)
@@ -553,6 +572,7 @@ def self_test():
     p = Prog("synthetic", base, bytes(img), base, base + 4 * len(code))
     hits, rejects = scan(p)
     v = {"fstarts": [f1, f3, f4], "bodies": [(f1, f3), (f3, f4), (f4, f4 + 16)]}
+    owners = owner_starts(p, v, fstart_rows(p, v))
     checks = [
         ("form A found exact", hits.get(t1) == [(j1, t1 + 20, "sltiu")]),
         ("form B found exact", hits.get(t2) == [(j2, t2 + 12, "words")]),
@@ -560,7 +580,10 @@ def self_test():
         ("lw t9,0(a0); jr t9 rejected", any(w == "base-not-addu" for _, w, _ in rejects)),
         ("jr v0 without lui base rejected", any(w == "target-not-lw" for _, w, _ in rejects)),
         ("optcand fp-frame+arg-spill", optcand_rows(p, v) == [(f3, f4, "fp-frame+arg-spill", 1)]),
-        ("fstart jal target", fstart_rows(p, v) == [(cases, 1)]),
+        ("fstart jal targets", fstart_rows(p, v) == [(cases, 1), (f5, 1)]),
+        ("missed called func after jr ra owns its jr (I51)", func_at(v, j5, owners) == f5),
+        ("missed uncalled framed func owns its jr (I51)", owners == [f1, f3, f4, f5, f6] and func_at(v, j6, owners) == f6),
+        ("case-code jal target owns nothing", func_at(v, cases, owners) == f1),
     ]
     fails = [n for n, ok in checks if not ok]
     for n in fails:

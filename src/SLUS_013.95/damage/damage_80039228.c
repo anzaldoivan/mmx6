@@ -13,8 +13,6 @@
 #include "mmx6/movement.h"
 #include "mmx6/weapon.h"
 
-#define ENG_98 M2C_FIELD(e, s32*, 0x98)
-
 // 0x80039228 update_player_damage: damage pass each frame: crush and spike deaths, hit damage, invincibility countdown; a pending hurt (hp bit 7) runs start_hurt and refills energy.
 // basis: code via=invincibility_timer; derived.tsv:91
 // callers: update_player
@@ -37,17 +35,11 @@ top:
         return;
     }
     if ((self->collision_flags & 0xC) == 0xC) {
-        {
-            void* e = &g_playthrough_state;
-            ENG_98 += *(u8*)&self->hp & 0x7F;
-        }
+        g_playthrough_state.unk98 += *(u8*)&self->hp & 0x7F;
         self->hp = -0x80;
     }
     if ((self->collision_flags & 3) == 3) {
-        {
-            void* e = &g_playthrough_state;
-            ENG_98 += *(u8*)&self->hp & 0x7F;
-        }
+        g_playthrough_state.unk98 += *(u8*)&self->hp & 0x7F;
         self->hp = -0x80;
     }
     if (self->hp != -0x80 && ((self->latched_collision_flags & 0xC) == 0xC ||
@@ -67,10 +59,7 @@ top:
             u8 b;
             b = *(u8*)& self->hp &= 0x7F;
             if (*(s8*)&self->hit_damage >= b) {
-                {
-                    void* e = &g_playthrough_state;
-                    ENG_98 += b;
-                }
+                g_playthrough_state.unk98 += b;
             }
         }
         p = (struct Class4Obj*)g_class4_slots;
@@ -88,20 +77,14 @@ top:
             if ((u32)(self->armor - 1) < 4) {
                 self->hurt_type = 4;
             }
-            {
-                void* e = &g_playthrough_state;
-                ENG_98 += *(s8*)&self->hit_damage;
-            }
+            g_playthrough_state.unk98 += *(s8*)&self->hit_damage;
         } else {
             self->hp = -0x80;
         }
     }
     if (self->touching_spikes != 0 && self->invincibility_timer == 0 &&
         self->spike_immune != 1) {
-        {
-            void* e = &g_playthrough_state;
-            ENG_98 += (u8)D_800970FC & 0x7F;
-        }
+        g_playthrough_state.unk98 += (u8)D_800970FC & 0x7F;
         self->hp = -0x80;
     }
     if (self->hp == -0x80) {

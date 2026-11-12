@@ -1,7 +1,19 @@
 // clang-format off
 INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", D_800FA000);
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FA008);
+#define init_wolfang_ice_spike func_800FA008
+#define D_800F70B0 D_800FE7A8
+#define D_800F70B4 D_800FE7AC
+#define D_800F70B8 D_800FE7B0
+#define D_800F7478 D_800FEB70
+#define D_800F7840 D_800FEDE4
+#include "../rock_04/wolfang_ice_spike.c"
+#undef init_wolfang_ice_spike
+#undef D_800F70B0
+#undef D_800F70B4
+#undef D_800F70B8
+#undef D_800F7478
+#undef D_800F7840
 
 INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FA290);
 
@@ -41,7 +53,13 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FAD40);
 #undef D_800E9B2C
 
 // clang-format off
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FAFBC);
+#define func_800F2464 func_800FAFBC
+#define D_800F70DC D_800FE7D4
+#define func_800F51F0 func_800FDD48
+#include "../shared/rock_04/func_800F2464.c"
+#undef func_800F2464
+#undef D_800F70DC
+#undef func_800F51F0
 
 INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FB0F8);
 

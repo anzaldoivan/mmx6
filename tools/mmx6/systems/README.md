@@ -16,3 +16,6 @@ They have no self-tests. Each was checked by reproducing its 2.6 scratch output 
   The count was 91 at 2.6 T4 and 84 after T9 banked its targets.
 - `stalled_compile.sh POP.tsv`: compile-only each draft of the population in the container (`mx.sh sync` first).
   Its log fed `docs/ops/stalled-drafts.tsv` (2.6 T4.c1). The join script of that step was one-off and is not kept.
+- `props_check.py PROPS.tsv TOKENS.tsv`: checks a naming-proposal TSV (10 columns) against its token list (C0368, 2.6 T14).
+  One row per token, a basis on every admit, anchors whole words on the cited line, names snake_case, unique, unused in
+  src/include. Prints `PROPS OK n` (rc 0) or `PROPS FAIL` lines (rc 1). Kept by 2.6 T12.1, cmp-equal to the scratch copy.

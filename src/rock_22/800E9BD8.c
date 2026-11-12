@@ -1224,7 +1224,7 @@ INCLUDE_ASM("asm/rock_22/nonmatchings/E9860", func_800EDC50);
 #undef func_800EB29C
 
 // clang-format off
-INCLUDE_ASM("asm/rock_22/nonmatchings/E9860", func_800EDF08);
+#include "../shared/rock_22/func_800EDF08.c"
 // clang-format on
 
 #define func_800EB5A0 func_800EE0E0
@@ -3028,7 +3028,7 @@ void func_800F39E8(struct X4_MainObj* self) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_19_surface_hopper.c:surface_hopper_update, AGPL-3.0; proven shared with X6 by exact signature a46c53ea4229 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_19_surface_hopper.c:surface_hopper_update, AGPL-3.0; proven shared with X6 by exact signature a46c53ea4229 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern void (*D_800FC674[])(struct X4_MainObj*);
@@ -3052,7 +3052,7 @@ void func_800F3BB0(void) {
     ((M2C_UNK(*)())func_8002CA14)();
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_19_surface_hopper.c:surface_hopper_appear, AGPL-3.0; proven shared with X6 by exact signature 279ef0018214 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_19_surface_hopper.c:surface_hopper_appear, AGPL-3.0; proven shared with X6 by exact signature 279ef0018214 (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
@@ -3078,7 +3078,7 @@ void func_800F3BD0(struct X4_MainObj* self) {
     animate_object(ANIMATED_OBJECT(self));
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_19_surface_hopper.c:surface_hopper_crawl, AGPL-3.0; proven shared with X6 by exact signature 6c2ea09cdb15 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_19_surface_hopper.c:surface_hopper_crawl, AGPL-3.0; proven shared with X6 by exact signature 6c2ea09cdb15 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern void (*D_800FC6A8[])(struct X4_MainObj*);
@@ -3088,7 +3088,7 @@ void func_800F3C64(struct X4_MainObj* self) {
     D_800FC6A8[self->action_phase](self);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_19_surface_hopper.c:surface_hopper_crawl_turn, AGPL-3.0; proven shared with X6 by exact signature c738d9c59df1 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_19_surface_hopper.c:surface_hopper_crawl_turn, AGPL-3.0; proven shared with X6 by exact signature c738d9c59df1 (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
@@ -3107,7 +3107,7 @@ void func_800F3CAC(struct X4_MainObj* self) {
     animate_object(ANIMATED_OBJECT(self));
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_19_surface_hopper.c:surface_hopper_crawl_turn_end, AGPL-3.0; proven shared with X6 by exact signature f1c046e43f2b (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_19_surface_hopper.c:surface_hopper_crawl_turn_end, AGPL-3.0; proven shared with X6 by exact signature f1c046e43f2b (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
@@ -3199,7 +3199,7 @@ void func_800F3E6C(u8* arg0) {
 #undef func_8003744C
 #undef D_80073C1C
 
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_19_surface_hopper.c:surface_hopper_leap_start, AGPL-3.0; proven shared with X6 by exact signature f3e8264e3395 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_19_surface_hopper.c:surface_hopper_leap_start, AGPL-3.0; proven shared with X6 by exact signature f3e8264e3395 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern u8 D_800FC6D4[];
@@ -3265,7 +3265,7 @@ s32 func_800F3FF8(struct X4_MainObj* self, s32 a1, s32 a2) {
     return r;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_19_surface_hopper.c:surface_hopper_probe_tile, AGPL-3.0; proven shared with X6 by exact signature bc88cc45895f (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_19_surface_hopper.c:surface_hopper_probe_tile, AGPL-3.0; proven shared with X6 by exact signature bc88cc45895f (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 u8 func_80030234(struct X4_PlayerObj*, s16, s16);
@@ -3276,7 +3276,7 @@ u8 func_800F4094(struct X4_PlayerObj* self, s16 arg1, s16 arg2) {
     return func_80030234(self, arg1, arg2);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_19_surface_hopper.c:surface_hopper_set_launch, AGPL-3.0; proven shared with X6 by exact signature 636a950af3be (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_19_surface_hopper.c:surface_hopper_set_launch, AGPL-3.0; proven shared with X6 by exact signature 636a950af3be (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_Unk_unk68* D_800FC644[4];

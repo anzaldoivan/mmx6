@@ -353,7 +353,17 @@ INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800EAFC0);
 #undef D_80075FD8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800EB29C);
+#define func_800EB37C func_800EB29C
+#define D_800F7180 D_800EF7F4
+#define D_800F7184 D_800EF7F8
+#define D_800F7234 D_800EF8A8
+#define func_800EBABC func_800EB9DC
+#include "../shared/rock_03/func_800EB37C.c"
+#undef func_800EB37C
+#undef D_800F7180
+#undef D_800F7184
+#undef D_800F7234
+#undef func_800EBABC
 
 INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800EB3B0);
 // clang-format on

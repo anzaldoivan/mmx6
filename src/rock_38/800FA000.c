@@ -391,7 +391,13 @@ void func_800FD020(void) {
 #undef func_800F3450
 
 // clang-format off
-INCLUDE_ASM("asm/rock_38/nonmatchings/FA000", func_800FD0D4);
+#define func_800F3498 func_800FD0D4
+#define D_800E98C4 D_800FA008
+#define func_800F0434 func_800FA070
+#include "../shared/rock_09/func_800F3498.c"
+#undef func_800F3498
+#undef D_800E98C4
+#undef func_800F0434
 // clang-format on
 
 #define func_800F3578 func_800FD1B4

@@ -968,7 +968,7 @@ void func_800FBC84(void* arg0) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_65_magma_dragoon.c:magma_dragoon_breath, AGPL-3.0; proven shared with X6 by exact signature 98a46ba8d11d (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_65_magma_dragoon.c:magma_dragoon_breath, AGPL-3.0; proven shared with X6 by exact signature 98a46ba8d11d (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"

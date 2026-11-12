@@ -1,4 +1,5 @@
 # Project Architect 3.0
+.claude-state/journal/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/
 /.run/*
 __pycache__/
 

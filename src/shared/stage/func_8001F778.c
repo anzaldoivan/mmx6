@@ -3,7 +3,7 @@
 #include "mmx6/globals.h"
 
 s32 play_sound(s32, s32, void*);
-void func_800139F4(s32);
+s32 func_800139F4(s32);
 #include "mmx6/state.h"
 
 void func_8001F778(struct X4_GameInfo* arg0) {
@@ -32,7 +32,7 @@ void func_8001F778(struct X4_GameInfo* arg0) {
         }
         if (g_pad1_buttons[2] & 0x40) {
             play_sound(0, 0x22, 0);
-            func_800139F4(8);
+            ((void (*)(s32))func_800139F4)(8);
             arg0->mode++;
         }
     }

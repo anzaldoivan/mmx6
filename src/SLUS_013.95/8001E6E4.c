@@ -201,7 +201,7 @@ extern M2C_UNK g_Player;
 extern u16 D_800C4570;
 
 void func_80013008(void);
-void func_800139F4(s32);
+s32 func_800139F4(s32);
 void func_80020C40(void);
 void func_80025FB0();
 void func_8002B29C(void);
@@ -221,7 +221,7 @@ void func_8001EA28(void* arg0) {
     }
     if (g_Player.state == 3) {
         M2C_FIELD(arg0, u8*, 1) = M2C_FIELD(arg0, u8*, 1) + 1;
-        func_800139F4(8);
+        ((void (*)(s32))func_800139F4)(8);
     }
     random_byte();
     func_80020C40();
@@ -611,7 +611,7 @@ void func_8001F1C8(void* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_800133A0();
+void func_800133A0();
 M2C_UNK func_800139A0(s8);
 void func_8001D218(void);
 void func_8001D25C(void);
@@ -880,8 +880,8 @@ void func_8001FB90(u8* t, s16 arg1) {
 #include "psyq/libgpu.h"
 #define M2C_UNK s32
 
-M2C_UNK func_800133A0();
-void func_800139F4(s32);
+void func_800133A0();
+s32 func_800139F4(s32);
 void func_80016B3C();
 s32 play_sound(s32 a0, s32 a1, void* arg2);
 void func_8001D218();
@@ -905,7 +905,7 @@ void func_8001FD10(u8* arg0) {
         if (D_800C4570 & 0x40) {
             play_sound(0, 0x22, 0);
             if (D_80097420.transition.selection == 0) {
-                func_800139F4(0x20);
+                ((void (*)(s32))func_800139F4)(0x20);
                 v = 2;
                 // !FAKE: goto keeps the arg0[7] store block after the else arm; if/else inversion moved bytes
                 goto set;

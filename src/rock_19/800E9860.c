@@ -88,7 +88,7 @@ void func_800E9958(s32 arg0) {
 extern s32 D_800EA760[];
 
 void func_800133A0();
-void func_800139F4(s32);
+s32 func_800139F4(s32);
 s32 play_sound(s32, s32, void*);
 void func_8001D218();
 void func_8001D25C(void);
@@ -128,7 +128,7 @@ void func_800E9A50(u8* arg0) {
     }
     if (g_pad1_buttons[2] & 0x840) {
         arg0[1]++;
-        func_800139F4(8);
+        ((void (*)(s32))func_800139F4)(8);
         play_sound(5, 1, 0);
         t = F38;
         if (D_800EA760[t] == 0xB) {

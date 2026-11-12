@@ -1,7 +1,7 @@
 // clang-format off
 INCLUDE_ASM("asm/rock_46/nonmatchings/FA000", D_800FA000);
 
-INCLUDE_ASM("asm/rock_46/nonmatchings/FA000", func_800FA004);
+#include "../shared/rock_46/func_800FA004.c"
 // clang-format on
 
 #include "common.h"

@@ -25,10 +25,10 @@ void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002CD6C);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/21BF4", func_8002CD6C);
 // clang-format on
 
-/* Adapted from sozud/mmx4 @807a01b src/main/objects.c:func_8002B468, AGPL-3.0; proven shared with X6 by exact signature 824e92a3c988 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/objects.c:func_8002B468, AGPL-3.0; proven shared with X6 by exact signature 824e92a3c988 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #include "mmx6/globals.h"

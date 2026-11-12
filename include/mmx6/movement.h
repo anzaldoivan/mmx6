@@ -43,7 +43,7 @@ void func_8003B954(struct X4_PlayerObj* self);
 s32 func_8003B9AC(void*);
 void spawn_dash_tile24_visual(void* arg0);
 void spawn_wall_jump_visual(void* arg0);
-s32 set_pose_size();
+void set_pose_size();
 void player_clear_dash();
 void player_clear_attack();
 s32 func_8003D26C(void*);
@@ -66,7 +66,7 @@ s32 func_801EC9C4(void*);
 s32 func_801ECA50(void*);
 s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
 void start_pad_vibration(s32);
-s32 start_player_attack(void*, s32);
+void start_player_attack(void*, s32);
 s32 try_start_attack(void*);
 
 #endif /* MMX6_MOVEMENT_H */

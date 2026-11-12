@@ -44,7 +44,7 @@ s32 func_8001C718(s32 arg0) {
     return ret;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/memcard.c:func_8001CEDC, AGPL-3.0; proven shared with X6 by exact signature a1a1bb6682a3 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/memcard.c:func_8001CEDC, AGPL-3.0; proven shared with X6 by exact signature a1a1bb6682a3 (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "psyq/libapi.h"
@@ -205,7 +205,7 @@ void func_8001CB3C(void) {
 
 void set_resolution(s32 arg0); /* extern */
 void func_8001A9B0(void);      /* extern */
-extern M2C_UNK func_80012FE4;
+void func_80012FE4();
 
 void func_8001CBE0(void) {
     set_resolution(0);
@@ -363,7 +363,7 @@ void func_8001CE68(struct X4_EngineObj* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-void func_800139F4(s32);
+s32 func_800139F4(s32);
 s32 play_sound(s32 a0, s32 a1, void* arg2);
 void stop_cd_audio(void);
 void func_8001CD5C(struct X4_EngineObj*);
@@ -393,7 +393,7 @@ void func_8001CF78(struct X4_EngineObj* arg0) {
         func_8001CE68(arg0);
         if (g_pad1_buttons[2] & 0x840) {
             play_sound(0, 0x22, 0);
-            func_800139F4(8);
+            ((void (*)(s32))func_800139F4)(8);
             stop_cd_audio();
             {
                 // !FAKE: depin: dropping it breaks the match (88/91)
@@ -404,7 +404,7 @@ void func_8001CF78(struct X4_EngineObj* arg0) {
         if (g_pad1_buttons[2] == 0) {
             if (++arg0->unk4 > 0x4650) {
                 stop_cd_audio();
-                func_800139F4(8);
+                ((void (*)(s32))func_800139F4)(8);
                 arg0->unk4 = 0;
                 {
                     s32 t = (u8)arg0->unk1 + 2;
@@ -432,7 +432,7 @@ void reset_level(void);
 void func_8002C2B8();
 extern void (*D_800710E8[])(void*);
 extern M2C_UNK D_800CD3F8;
-void func_800139F4(s32);
+s32 func_800139F4(s32);
 void func_8001D0E4(void) {
     s32 mask;
 
@@ -479,7 +479,7 @@ void func_8001D0E4(void) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/game_info.c:func_8001D134, AGPL-3.0; proven shared with X6 by exact signature 6643b2ef34c8 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/game_info.c:func_8001D134, AGPL-3.0; proven shared with X6 by exact signature 6643b2ef34c8 (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 void reset_level(void);
@@ -649,7 +649,7 @@ void func_80025F34();
 void func_800280F4(void);
 void func_8002927C(void);
 void func_8002935C(void);
-M2C_UNK func_800293CC();
+void func_800293CC();
 void init_checkpoint_positions(void);
 void func_8002A33C(void);
 void func_8002A3E8(void);
@@ -699,7 +699,7 @@ void func_8001D51C(u8* arg0) {
 extern M2C_UNK g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
-void func_800139F4(s32);
+s32 func_800139F4(s32);
 void func_80021500(void);
 void func_8002163C(void);
 void func_80025FB0();
@@ -711,7 +711,7 @@ void func_8001D60C(struct X4_EngineObj* arg0) {
         arg0->substage = 0;
     }
     if (--arg0->unk4 == 0 || g_Player.active == 0 || g_Player.state == 3) {
-        func_800139F4(8);
+        ((void (*)(s32))func_800139F4)(8);
         func_8002163C();
         {
             // !FAKE: increment temp lives in the second return register in retail
@@ -757,7 +757,7 @@ void func_8001D6D8(struct X4_GameInfo* arg0) {
     func_80025FB0();
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/game_info.c:func_8001D57C, AGPL-3.0; proven shared with X6 by exact signature 57aab085cb3c (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/game_info.c:func_8001D57C, AGPL-3.0; proven shared with X6 by exact signature 57aab085cb3c (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
@@ -820,19 +820,19 @@ void func_8001D7AC(void* arg0) {
     M2C_FIELD(arg0, u8*, 1) += 1;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/game_info.c:func_8001D64C, AGPL-3.0; proven shared with X6 by exact signature 370ee8910a36 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/game_info.c:func_8001D64C, AGPL-3.0; proven shared with X6 by exact signature 370ee8910a36 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
-void func_800139F4(s32);
+s32 func_800139F4(s32);
 
 void func_8001D8A0(struct X4_GameInfo* arg0) {
     if (--arg0->unk4 == 0) {
         arg0->mode++;
-        func_800139F4(8);
+        ((void (*)())func_800139F4)(8);
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/game_info.c:func_8001D698, AGPL-3.0; proven shared with X6 by exact signature 08f62733c4aa (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/game_info.c:func_8001D698, AGPL-3.0; proven shared with X6 by exact signature 08f62733c4aa (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
@@ -848,7 +848,7 @@ void func_8001D8EC(struct X4_GameInfo* arg0) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/game_info.c:func_8001D6DC, AGPL-3.0; proven shared with X6 by exact signature 07619b425e9d (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/game_info.c:func_8001D6DC, AGPL-3.0; proven shared with X6 by exact signature 07619b425e9d (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 /* siblings in the same TU declare it as s32; view it as the upstream state block */
@@ -927,7 +927,7 @@ void func_8001DA20(void* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK create_task(M2C_UNK, M2C_UNK*); /* extern */
-M2C_UNK func_800133A0();                /* extern */
+void func_800133A0();                   /* extern */
 void func_8002C1DC();
 extern struct X4_EngineObj g_playthrough_state;
 void func_8001E6E4(void);
@@ -1033,7 +1033,7 @@ void func_8001DC6C(void* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-void func_800139F4(s32);
+s32 func_800139F4(s32);
 extern u16 D_800C4570;
 
 void func_8001DCF8(u8* arg0) {
@@ -1071,7 +1071,7 @@ void func_8001DD74(u8* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK create_task(M2C_UNK, M2C_UNK*); /* extern */
-M2C_UNK func_800133A0();                /* extern */
+void func_800133A0();                   /* extern */
 void func_8001E6E4(void);
 
 void func_8001DDB0(void) {
@@ -1084,7 +1084,7 @@ void func_8001DDB0(void) {
 #define M2C_UNK s32
 
 M2C_UNK create_task(M2C_UNK, M2C_UNK*); /* extern */
-M2C_UNK func_800133A0();                /* extern */
+void func_800133A0();                   /* extern */
 void func_8001E6E4(void);
 
 void func_8001DDE0(void) {

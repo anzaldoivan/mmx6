@@ -67,7 +67,7 @@ struct AnimatedObj {
     s32 unk28; // +0x28 written by func_800445A8
     s32 unk2C; // +0x2C written by func_800445A8
     u32** animation_table; // +0x30 read by func_800F5088
-    u32* animation_cursor; // +0x34 unreferenced
+    u32* animation_cursor; // +0x34 read by animate_object
     void* unk38; // +0x38 read by func_800F2014
     void* unk3C; // +0x3C read by func_800F2014
     u16 unk40; // +0x40 read by func_800F5088
@@ -117,7 +117,7 @@ struct MainObj {
     const void* hurt_box; // +0x54 read by func_80040800
     const void* collision_data; // +0x58 written by func_80041290
     s8 hp; // +0x5C read by func_800EFE14
-    s8 unk5D; // +0x5D unreferenced
+    s8 unk5D; // +0x5D read by func_80049A14
     s8 unk5E; // +0x5E unreferenced
     s8 drain_hold_timer; // +0x5F unreferenced
     s8 contact_damage; // +0x60 written by func_80040800

@@ -11,20 +11,23 @@ triage table's TODOs (container, stdlib only; reads only, tools/cookbook_add.sh 
         row title == the entry's line-1 title (else TITLE);
         an entry whose tags (row field 3 or line 2) include `idiom` has >= 1 `sym-<slug>` tag of the vocabulary
         (the slugs ending the tell cells of D/C0002.md's table) (else NOSYMPTOM);
-        D/C0002.md holds no `TODO` (else TODO C0002).
-      -> per defect `COOKBOOK ORPHAN|DANGLING|DUP|TITLE|NOSYMPTOM|TODO <id>` rc 1;
+        D/C0002.md holds no `TODO` (else TODO C0002);
+        no entry's id also names an archived D/gen*/<id>.md (else ARCHIVED: a live id reusing a retired one).
+      -> per defect `COOKBOOK ORPHAN|DANGLING|DUP|TITLE|NOSYMPTOM|TODO|ARCHIVED <id>` rc 1;
          else `COOKBOOK OK <e> entries, <r> rows, 0 orphans, 0 dangling` rc 0.
-  cookbook_check.py --entry <path>... [--dir D]   (tools/commit_task.sh runs it on staged cookbook/C*.md)
-      reads only the named entries + D/INDEX.md; per entry:
+  cookbook_check.py --entry <path>... [--dir D]   (run by hand on new entries; tools-health runs --self-test, --check)
+      reads only the named entries, D/INDEX.md and the D/gen*/ file names; per entry:
+        its id names no archived D/gen*/<id>.md (else ARCHIVED);
         line 1 `# <stem> — <title>` (else HEAD);
         line 2 `tags: <t>(,<t>)* · date: YYYY-MM-DD · phase/task: <x> · origin: <y>`, tags without spaces (else TAGS);
         exactly one row for the id, its title/tags/date/phase-task/origin == lines 1-2 (else ROW).
-      -> per defect `COOKBOOK HEAD|TAGS|ROW <id> <why>` rc 1; else `COOKBOOK ENTRY OK <n> entries` rc 0.
+      -> per defect `COOKBOOK ARCHIVED|HEAD|TAGS|ROW <id> <why>` rc 1; else `COOKBOOK ENTRY OK <n> entries` rc 0.
   cookbook_check.py --self-test
       scratch copies of D under .run/cookbook-selftest/<plant>/ (C0054; never the real cookbook/): the unplanted
       copy must pass first (C0066), then plants orphan file, dangling row, title mismatch, idiom entry without a
-      symptom tag, duplicate row, TODO in C0002, each refused with its token; then --entry passes every entry of
-      the clean copy and refuses a broken line 1 (HEAD) and a broken line 2 (TAGS).
+      symptom tag, duplicate row, TODO in C0002, a live entry copied into gen2/ (ARCHIVED), each refused with its
+      token; then --entry passes every entry of the clean copy and refuses a broken line 1 (HEAD), a broken line 2
+      (TAGS) and the gen2/ copy plant (ARCHIVED).
       Ends `COOKBOOK CONTROL OK`, else `COOKBOOK CONTROL FAIL <why>` rc 1.
 Firewall G12: our own docs only; prints ids and counts, never retail bytes.
 """
@@ -49,6 +52,11 @@ def _read(path):
 
 def _tags(field):
     return {t.strip() for t in field.split(',') if t.strip()}
+
+
+def archived_ids(d):
+    """Ids of the archived entries D/gen*/C<nnnn>.md."""
+    return {os.path.basename(p)[:-3] for p in glob.glob(os.path.join(d, 'gen*', 'C[0-9][0-9][0-9][0-9].md'))}
 
 
 def check(d):
@@ -81,7 +89,10 @@ def check(d):
             m = SYM_RE.search(cells[0].strip()) if cells else None
             if m:
                 vocab.add(m.group(1))
+    archived = archived_ids(d)
     for eid, (title, tags) in sorted(entries.items()):
+        if eid in archived:
+            defects.append('COOKBOOK ARCHIVED ' + eid)
         rs = rows.get(eid, [])
         if not rs:
             defects.append('COOKBOOK ORPHAN ' + eid)
@@ -120,8 +131,12 @@ def entry_defects(paths, d):
             f = line.split(' | ')
             rows.setdefault(f[0], []).append(f)
     defects = []
+    archived = archived_ids(d)
     for p in paths:
         eid = os.path.basename(p)[:-3] if p.endswith('.md') else os.path.basename(p)
+        if eid in archived:
+            defects.append('COOKBOOK ARCHIVED %s id also names an archived D/gen*/%s.md' % (eid, eid))
+            continue
         lines = _read(p) if os.path.isfile(p) else []
         m = HEAD_RE.match(lines[0]) if lines else None
         if not m or m.group(1) != eid or not m.group(2).strip():
@@ -193,10 +208,14 @@ def self_test(src):
     def p_todo(d):
         _append(os.path.join(d, 'C0002.md'), '\nTODO planted\n')
 
+    def p_archived(d):
+        os.makedirs(os.path.join(d, 'gen2'), exist_ok=True)
+        shutil.copyfile(os.path.join(d, 'C0003.md'), os.path.join(d, 'gen2', 'C0003.md'))
+
     plants = [('clean', None, None), ('orphan', p_orphan, 'COOKBOOK ORPHAN C9999'),
               ('dangling', p_dangling, 'COOKBOOK DANGLING C9998'), ('title', p_title, 'COOKBOOK TITLE C0003'),
               ('nosymptom', p_nosym, 'COOKBOOK NOSYMPTOM C0075'), ('dup', p_dup, 'COOKBOOK DUP C0003'),
-              ('todo', p_todo, 'COOKBOOK TODO C0002')]
+              ('todo', p_todo, 'COOKBOOK TODO C0002'), ('archived', p_archived, 'COOKBOOK ARCHIVED C0003')]
     for name, plant, token in plants:
         d = os.path.join(base, name)
         if os.path.exists(d):
@@ -228,7 +247,8 @@ def self_test(src):
         _sub(c3(d), line, line.replace(',', ' ', 1) if ',' in line else line.replace(' · date:', ' date:', 1))
 
     for name, plant, token in [('entry-head', p_head, 'COOKBOOK HEAD C0003'),
-                               ('entry-tags', p_tags, 'COOKBOOK TAGS C0003')]:
+                               ('entry-tags', p_tags, 'COOKBOOK TAGS C0003'),
+                               ('entry-archived', p_archived, 'COOKBOOK ARCHIVED C0003')]:
         d = os.path.join(base, name)
         if os.path.exists(d):
             shutil.rmtree(d)

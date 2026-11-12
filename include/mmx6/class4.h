@@ -11,7 +11,13 @@
 
 struct Class4Obj {
     s8 active; // +0x00 read by alloc_class4_slot
-    s8 pad01[0x50 - 0x01]; // +0x01 cleared by alloc_class4_slot
+    s8 pad01[0x0A - 0x01]; // +0x01 cleared by alloc_class4_slot
+    s16 x; // +0x0A read by func_8002E84C
+    s8 pad0C[0x0E - 0x0C]; // +0x0C cleared by alloc_class4_slot
+    s16 y; // +0x0E read by func_8002E84C
+    s8 pad10[0x15 - 0x10]; // +0x10 cleared by alloc_class4_slot
+    u8 dir; // +0x15 read by func_8002E84C
+    s8 pad16[0x50 - 0x16]; // +0x16 cleared by alloc_class4_slot
     const void* attack_box; // +0x50 written by alloc_class4_slot
     const void* hurt_box; // +0x54 written by alloc_class4_slot
     s8 pad58[0x68 - 0x58]; // +0x58 cleared by alloc_class4_slot
@@ -22,7 +28,9 @@ struct Class4Obj {
     s8 unk76; // +0x76 written by update_player_damage
     s8 pad77[0x98 - 0x77]; // +0x77 cleared by alloc_class4_slot
     s32 enemy_bits[2]; // +0x98 one bit per g_enemies slot, cleared by enemy_slot_alloc
-    s8 padA0[0xA4 - 0xA0]; // +0xA0 cleared by alloc_class4_slot
+    s8 padA0[0xA2 - 0xA0]; // +0xA0 cleared by alloc_class4_slot
+    s8 alive; // +0xA2 read by func_8002E84C
+    s8 padA3[0xA4 - 0xA3]; // +0xA3 cleared by alloc_class4_slot
 };
 
 #endif /* MMX6_CLASS4_H */

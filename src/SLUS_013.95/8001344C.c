@@ -1,8 +1,8 @@
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001344C);
+#include "../shared/SLUS_013.95/func_8001344C.c"
 // clang-format on
 
-/* Adapted from sozud/mmx4 @807a01b src/main/2824.c:func_800128EC, AGPL-3.0; proven shared with X6 by exact signature ea1f214c77bc (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/2824.c:func_800128EC, AGPL-3.0; proven shared with X6 by exact signature ea1f214c77bc (see THIRD_PARTY.md). */
 #include "common.h"
 
 void func_80013480(s32 arg0) {
@@ -12,7 +12,7 @@ void func_80013480(s32 arg0) {
     *temp_a0 |= 0x40;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/2824.c:func_80012910, AGPL-3.0; proven shared with X6 by exact signature 56ff4cada450 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/2824.c:func_80012910, AGPL-3.0; proven shared with X6 by exact signature 56ff4cada450 (see THIRD_PARTY.md). */
 #include "common.h"
 
 void func_800134A4(s32 arg0) {
@@ -47,7 +47,9 @@ void func_800134D8(void) {
 #undef SLOT_PTR
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013530);
+#include "../shared/SLUS_013.95/func_80013530.c"
+
+#include "../shared/SLUS_013.95/func_80013788.c"
 // clang-format on
 
 #include "common.h"
@@ -57,7 +59,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013530);
 M2C_UNK create_task(M2C_UNK, M2C_UNK*); /* extern */
 #include "mmx6/state.h"
 extern s8 D_800C8861;
-extern M2C_UNK func_80013530;
+void func_80013530(void);
 
 M2C_UNK func_800139A0(s8 arg0) {
     if (D_80097420.transition.active == 0) {
@@ -68,7 +70,7 @@ M2C_UNK func_800139A0(s8 arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800139F4);
+#include "../shared/SLUS_013.95/func_800139F4.c"
 // clang-format on
 
 #include "common.h"
@@ -76,14 +78,14 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_800139F4);
 #define M2C_UNK s32
 
 M2C_UNK create_task(M2C_UNK, M2C_UNK*); /* extern */
-extern M2C_UNK D_80013788;
+void func_80013788(void);
 extern s8 D_80090C8D;
 
 void func_80013A48(s8 arg0) {
     D_80097420.transition.fade_amount = 1;
     if (arg0 < 0) {
         D_80090C8D = -arg0;
-        create_task(3, &D_80013788);
+        create_task(3, &func_80013788);
         return;
     }
     D_80090C8D = arg0;
@@ -94,13 +96,13 @@ void func_80013A48(s8 arg0) {
 #define M2C_UNK s32
 
 M2C_UNK create_task(M2C_UNK, M2C_UNK*); /* extern */
-extern M2C_UNK D_80013788;
+void func_80013788(void);
 extern s8 D_80090C8D;
 
 void func_80013AA4(s8 arg0) {
     D_80097420.transition.fade_amount = -1;
     D_80090C8D = arg0;
-    create_task(3, &D_80013788);
+    create_task(3, &func_80013788);
 }
 
 // clang-format off

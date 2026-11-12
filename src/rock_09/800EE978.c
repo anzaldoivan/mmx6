@@ -1462,27 +1462,7 @@ s32 random_byte();
 void func_800F0434(s8* self, u32 arg1);
 extern u8 D_800E98C4[];
 
-void func_800F3498(void* arg0) {
-    u8 tbl[4];
-
-    __builtin_memcpy(tbl, D_800E98C4, 4);
-    if (++M2C_FIELD(arg0, s16*, 0x7C) == 8) {
-        s16 n = M2C_FIELD(arg0, s16*, 0x7E);
-        if (n == tbl[D_800CCF5F]) {
-            func_800F0434(arg0, 0xA);
-            M2C_FIELD(arg0, s16*, 0x7C) = 0;
-            M2C_FIELD(arg0, u8*, 6) += 1;
-            return;
-        }
-        if (n == 0) {
-            play_sound(2, 0x22, arg0);
-            func_800F0434(arg0, 0x13);
-        }
-        M2C_FIELD(arg0, u8*, 7) = random_byte() & 1;
-        M2C_FIELD(arg0, s16*, 0x7C) = 0;
-        M2C_FIELD(arg0, s16*, 0x7E) += 1;
-    }
-}
+#include "../shared/rock_09/func_800F3498.c"
 
 #include "../shared/rock_09/func_800F3578.c"
 

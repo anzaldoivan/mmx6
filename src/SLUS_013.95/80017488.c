@@ -11,7 +11,7 @@ void func_80017488(void) {
     SsSetSerialVol(0, 0x7F, 0x7F);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:func_800153D4, AGPL-3.0; proven shared with X6 by exact signature 3313a3f0820f (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/55C4.c:func_800153D4, AGPL-3.0; proven shared with X6 by exact signature 3313a3f0820f (see THIRD_PARTY.md). */
 #include "common.h"
 #include "psyq/libsnd.h"
 

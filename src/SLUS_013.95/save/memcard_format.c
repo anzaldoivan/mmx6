@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @807a01b src/main/memcard.c:func_8001CE84, AGPL-3.0; proven shared with X6 by exact signature e642975dc52e (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/memcard.c:func_8001CE84, AGPL-3.0; proven shared with X6 by exact signature e642975dc52e (see THIRD_PARTY.md). */
 // prog SLUS_013.95 | system memcard | range 0x8001C6C0-0x8001C714
 // Shared file: included by src/SLUS_013.95/120A0.c, between func_8001C5EC and func_8001C718.
 #include "common.h"

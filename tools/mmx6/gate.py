@@ -1057,7 +1057,8 @@ def self_test():
         # L: its tusync attempt compiled and stopped R5 hash red (not a compile stop), then STOPPED R2, TU byte-exact
         lpv, lfn = cases["L"][0], L[1][1]["name"]
         li = lines.index(f"LADDER {lpv} tusync") if f"LADDER {lpv} tusync" in lines else len(lines)
-        lr = next((x for x in lines[li:] if x.startswith(f"RECONCILE {lfn} ")), "")
+        lr = next((x for x in lines[li:] if x.startswith(f"RECONCILE {lfn} ")
+                   and not re.fullmatch(rf"RECONCILE {lfn} xkey \d+ accepted", x)), "")  # T2.c3: the verdict line
         rc_l = {r["pv"]: r for r in journal.records(jp)}.get(lpv, {}) if os.path.isfile(jp) else {}
         if not re.match(rf"RECONCILE {lfn} stopped R5: .*whole-binary hash red", lr) \
                 or not any(x.startswith(f"STOPPED {lpv} R2: ") for x in lines[li:]) or rc_l.get("label") != "R2" \

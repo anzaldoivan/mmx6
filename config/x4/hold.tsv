@@ -1,2 +1,9 @@
 # config/x4/hold.tsv -- files x4port --repin never rewrites (phase 2.1 T2; causes R2.1-004, 1.10 T4).
 # path	pin	blocker
+src/SLUS_013.95/8001A9B0.c	807a01b1b8928811908a33367b964cf22f5ce799	compile: @4e16dfc conflicting types for 'func_8001B6D0'
+src/SLUS_013.95/80039C40.c	29b62af	compile: @4e16dfc conflicting types for 'func_80039C40'
+src/SLUS_013.95/80049670.c	807a01b1b8928811908a33367b964cf22f5ce799	compile: @4e16dfc too few arguments to function 'clear_object_slot'
+src/SLUS_013.95/ladder/ladder_climb.c	807a01b1b8928811908a33367b964cf22f5ce799	hash: @4e16dfc SLUS_013.95 sha fails alone (upstream dropped the ((void (*)())f)(...) call casts, C0258)
+src/SLUS_013.95/ladder/ladder_let_go.c	807a01b1b8928811908a33367b964cf22f5ce799	hash: @4e16dfc SLUS_013.95 sha fails alone (upstream dropped the ((void (*)())f)(...) call casts, C0258)
+src/SLUS_013.95/ladder/ladder_step_off_bottom.c	807a01b1b8928811908a33367b964cf22f5ce799	hash: @4e16dfc SLUS_013.95 sha fails alone (upstream dropped the ((void (*)())f)(...) call casts, C0258)
+src/SLUS_013.95/player/script_vanish.c	807a01b1b8928811908a33367b964cf22f5ce799	hash: @4e16dfc SLUS_013.95 sha fails alone (upstream dropped the ((void (*)())animate_object)(...) call cast, C0258)

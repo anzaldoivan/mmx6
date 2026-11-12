@@ -17,7 +17,9 @@ W=waves/WCTL
 PROG=SLUS_013.95
 rm -rf "$OUT" && mkdir -p "$OUT"
 
-cleanup() { rm -rf "$W"; "${MX[@]}" run rm -rf "/work/$W" >/dev/null 2>&1 || true; }
+# The control probes its pack several times per run: its probe-cap counter (cards.py, waves/.probes/) is cleared too.
+clear_probes() { "${MX[@]}" run sh -c 'rm -f /work/waves/.probes/waves__WCTL__*.log'; }
+cleanup() { rm -rf "$W"; "${MX[@]}" run rm -rf "/work/$W" >/dev/null 2>&1 || true; clear_probes >/dev/null 2>&1 || true; }
 fail() { echo "PACK CONTROL FAIL $*"; cleanup; exit 1; }
 prep() { "${MX[@]}" run bash -c "make -s extract build/split/$PROG.stamp" > "$OUT/prep$1.log" 2>&1 || fail "prep$1 rc $?"; }
 csha() { "${MX[@]}" run sha1sum "/work/$1" | cut -d' ' -f1; }
@@ -38,12 +40,13 @@ held_sync() {
 
 "${MX[@]}" sync > "$OUT/sync0.log" 2>&1 || fail "sync0 rc $?"
 "${MX[@]}" run rm -rf "/work/$W"
+clear_probes
 prep 0
 "${MX[@]}" run bash -c '
 set -e; P='"$PROG"'; W='"$W"'
 for s in $(ls asm/$P/nonmatchings/*/func_*.s | sort); do
   f=$(basename "$s" .s); tu=$(basename "$(dirname "$s")")
-  [ -f "src/$P/$tu.c" ] && grep -q "INCLUDE_ASM(\"asm/$P/nonmatchings/$tu\", $f);" "src/$P/$tu.c" || continue
+  grep -q "INCLUDE_ASM(\"asm/$P/nonmatchings/$tu\", $f);" src/$P/*.c || continue  # any TU file holds it
   [ -f "drafts/$P/$f.c" ] && continue
   n=$(grep -c "^ */\* [0-9A-F]* [0-9A-F]\{8\} [0-9A-F]\{8\} \*/" "$s" || true)
   [ "$n" -ge 8 ] && [ "$n" -le 40 ] || continue

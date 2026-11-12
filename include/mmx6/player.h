@@ -164,7 +164,7 @@ struct PlayerObj {
     s8 padDC; // +0xDC unreferenced
     s8 unkDD; // +0xDD written by update_player
     s8 controlling_clone; // +0xDE unreferenced
-    s8 unkDF; // +0xDF unreferenced
+    s8 unkDF; // +0xDF written by func_80049A14
     s8 nova_strike_active; // +0xE0 read by clamp_player_to_ceiling
     s8 nova_strike_timer; // +0xE1 written by check_giga_attack
     u8 item_step; // +0xE2 read by func_80051D28

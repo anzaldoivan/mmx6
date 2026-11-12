@@ -73,7 +73,7 @@ void func_800E9F18(void* arg0) {
 #undef func_80041AB8
 #undef D_80075FD8
 
-/* Adapted from sozud/mmx4 @807a01b src/main/misc/misc_00_static_sprite.c:spawn_common_effect, AGPL-3.0; proven shared with X6 by exact signature 1d1542c14e9b (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/misc/misc_00_static_sprite.c:spawn_common_effect, AGPL-3.0; proven shared with X6 by exact signature 1d1542c14e9b (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 struct X4_MiscObj* alloc_sprite_slot(void);
@@ -92,7 +92,7 @@ void func_800EA068(struct X4_MainObj* self, s8 arg1) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/misc/misc_01_common_effect.c:common_effect_animate, AGPL-3.0; proven shared with X6 by exact signature ed471c96b830 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/misc/misc_01_common_effect.c:common_effect_animate, AGPL-3.0; proven shared with X6 by exact signature ed471c96b830 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32

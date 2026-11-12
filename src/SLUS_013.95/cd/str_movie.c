@@ -19,7 +19,7 @@ void func_8001B984(s32);
 extern s8 D_800CC869;
 #define D_800CC869 (*(u8*)&D_800CC869)
 extern s32 D_800E2E68;
-extern M2C_UNK func_80012FE4;
+void func_80012FE4();
 
 // 0x8001A6CC play_str_movie: plays movie str_movie_table[arg0] (stride 12, word 0 = dat slot) via func_8001B6D0 + VSync/PutDispEnv loop.
 // basis: oracle assets.tsv:256:dat:244

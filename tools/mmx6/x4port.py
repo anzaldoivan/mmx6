@@ -108,6 +108,7 @@ HEADER = ("/* Adapted from sozud/mmx4 @{pin} {src}:{func}, AGPL-3.0; proven shar
 X4H = "include/mmx6/x4.h"
 HOLD = "config/x4/hold.tsv"  # `path|prog:func pin blocker`: functions --repin never rewrites (x4.h included)
 HOMED = "config/x4/homed.tsv"  # `x4_tag home x6_tag`: blocks x4.h never emits; their hand-written home defines x6_tag
+FIELDS = "config/types/fields.tsv"  # `struct offset width signedness name ...`: the homed structs' members (objfields.py)
 PSYQ = "include/psy-q-4.0/"  # mmx4's copies of the Sony SDK headers: never emitted; include/mmx6/psyq_api.h instead
 X4H_HEADER = ("/* Adapted from sozud/mmx4 @{pin} {srcs}, AGPL-3.0; proven shared with X6 by the exact signature each "
               "including draft names (see THIRD_PARTY.md). */")
@@ -737,12 +738,13 @@ def port(ctx, prog, row, key, src, xf, tamper=None):
         if pick.idx in inline:
             g = "X4_D_" + sorted(pick.names)[0]
             out.append(f"#ifndef {g}\n#define {g}\n{rename(text, idmap, tmap)}\n#endif\n")
-    out.append("\n" + rename(body, idmap, tmap).rstrip() + "\n")
+    fbody, refuse = homed_members(rename(body, idmap, tmap), "".join(ext))
+    out.append("\n" + fbody.rstrip() + "\n")
     draft = "\n".join(x.rstrip("\n") for x in out) + "\n"
     ok, why, _ = verbatim.check(draft)
     if not ok:
         raise Skip(f"verbatim {why}")
-    notes = [f"x4 port {src}:{xf} ({how})"] + (["new " + " ".join(sorted(new))] if new else []) + bad
+    notes = [f"x4 port {src}:{xf} ({how})"] + (["new " + " ".join(sorted(new))] if new else []) + bad + refuse
     return draft, "; ".join(notes), hblocks
 
 
@@ -767,6 +769,51 @@ def homed(path=HOMED):
 def homed_out(blocks, home):
     """The guards of blocks whose tag the homed list homes (`t X4_D_<name>` with X4_<name> a homed tag)."""
     return sorted(g for g in blocks if g.startswith("t X4_D_") and "X4_" + g[7:] in home)
+
+
+MEMBER = re.compile(r"(?<![\w.>])([A-Za-z_]\w*)\s*(->|\.)\s*(unk([0-9A-Fa-f]+))\b")
+DECLX4 = re.compile(r"\bstruct\s+(X4_\w+)\s*(\**)\s*([A-Za-z_]\w*)\s*(\[?)")
+
+
+def homed_members(body, decls="", home=None, fields=FIELDS):
+    """(body, refusals): each `v->unkNN` / `v.unkNN` whose v the body or decls declare `struct X4_T*` / `struct X4_T`
+    (X4_T homed to T) and T lacks unkNN, rewritten to T's one member at +0xNN (fields.tsv, else a `// +0xNN` comment
+    of the home's struct T). Refusals (`member: T.unkNN no homed member at +0xNN` | `... ambiguous`) leave it as is;
+    an untyped base is never touched (2.6 T31.c2: upstream 4e16dfc spells our homed role names unk5, unk6, ...)."""
+    home = homed() if home is None else home
+    rows = [x.rstrip("\n").split("\t") for x in open(fields) if x.strip() and not x.startswith("#")] if os.path.isfile(fields) else []
+    typ = {}
+    tops = "\n".join(x for x in decls.split("\n") if "(" not in x)  # objects only: a prototype's parameters type nothing
+    for m in list(DECLX4.finditer(body)) + list(DECLX4.finditer(tops)):  # the body's own declarations first
+        if m.group(1) in home:
+            typ.setdefault(m.group(3), (home[m.group(1)], len(m.group(2)) + (m.group(4) == "[")))
+    refuse = []
+
+    def one(m):
+        v, op, nm, hx = m.groups()
+        if v not in typ or typ[v][1] != (op == "->"):
+            return m.group(0)
+        (hpath, tag), _ = typ[v]
+        off = int(hx, 16)
+        names = {r[4] for r in rows if r[0] == tag}
+        cand = sorted({r[4] for r in rows if r[0] == tag and int(r[1], 16) == off})
+        if hpath and os.path.isfile(hpath):
+            t = Path(hpath).read_text()
+            sm = re.search(rf"\bstruct\s+{tag}\s*\{{(.*?)\n\}};", t, re.S)
+            for ln in (sm.group(1).split("\n") if sm else []):
+                dm = re.match(r"\s*[^/;]*?\b([A-Za-z_]\w*)\s*(?:\[[^\]]*\])?\s*;(?:\s*//\s*\+0x([0-9A-Fa-f]+))?", ln)
+                if dm:
+                    names.add(dm.group(1))
+                    if not rows or tag not in {r[0] for r in rows}:
+                        if dm.group(2) and int(dm.group(2), 16) == off:
+                            cand = sorted(set(cand) | {dm.group(1)})
+        if nm in names:
+            return m.group(0)
+        if len(cand) != 1:
+            refuse.append(f"member: {tag}.{nm} " + ("ambiguous" if cand else f"no homed member at +0x{off:02X}"))
+            return m.group(0)
+        return f"{v}{op}{cand[0]}"
+    return MEMBER.sub(one, body), sorted(set(refuse))
 
 
 def x4h(blocks, home=None):
@@ -1080,7 +1127,9 @@ def repin(hold=HOLD, root=".", dry=False):
                         why.append(f"{src}:{fn} {e}")
                 if got is None:
                     raise Skip("; ".join(why))
-                src, fn, draft, _, hb = got
+                src, fn, draft, pnotes, hb = got
+                if hw is None and not keep and "member: " in pnotes:  # an unmapped homed unkNN: cc1 would refuse it
+                    raise Skip("; ".join(x for x in pnotes.split("; ") if x.startswith("member: ")))
                 old, fdef = "\n".join(lines[a.dfirst - 1:a.dlast]), cards.body_of(draft, name)
                 if not fdef:
                     raise Skip(f"no definition of {name} in the draft")
@@ -1339,6 +1388,13 @@ def self_test():
     print(f"X4PORT self control: homed tag kept out of x4.h, alias and home include emitted {home}")
     if not home:
         fails.append("homed")
+    # control: an upstream `unkNN` on a typed homed base becomes the homed member at +0xNN; an unmapped offset is refused
+    mb, mr = homed_members("void f(struct X4_PlayerObj* self) {\n    self->unk5 = 1;\n    self->unkFFF = 2;\n}")
+    mapped = "self->action = 1;" in mb and "self->unkFFF = 2;" in mb and "unk5" not in mb and \
+        mr == ["member: PlayerObj.unkFFF no homed member at +0xFFF"]
+    print(f"X4PORT self control: homed unk5 -> action, unmapped +0xFFF refused and kept {mapped} ({mr})")
+    if not mapped:
+        fails.append("member")
     # control: on a planted unit tree (plain, then as a layout.role_tree) a whole-file `path` hold, a `prog:func` hold in
     # a two-function file and a held x4.h are never rewritten by --repin; the file's other function is its own line
     mini, x4h0 = os.path.abspath(f"{SELFTEST}/tree"), Path(X4H).read_bytes() if os.path.isfile(X4H) else None

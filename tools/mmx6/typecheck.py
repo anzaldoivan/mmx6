@@ -10,7 +10,8 @@
       -> in memory ({path: text} over the real files + planted texts, no disk writes): real set passes; planted dup
          (Probe800473EC's shape, new name, include/mmx6/), raw cast (src/SLUS_013.95/), outside (struct in src/),
          unkeyable (fn-pointer typedef) each alone rc 1 with the right reason; a header sorting before types.h (its
-         types, X4_ types, a full-width bitfield) keys with no refusal. Ends `TYPES CONTROL OK`.
+         types, X4_ types, a full-width bitfield) keys with no refusal; x4.h's packed union X4_EngineCharacterState
+         keys at 16 bytes (2.6 T16). Ends `TYPES CONTROL OK`.
 
 Refusals: `TYPES REFUSE <dup|outside|raw-cast|unkeyable> <path>:<line> <name/text>`.
   dup       a definition whose shape (or name) an earlier one already has (include/mmx6/ is read first).
@@ -23,7 +24,8 @@ refused, and its shapes are not registered (an X4_ type may share a shape with o
             refused with the reason, never skipped.
 Shape key: scalar typedef = (width, signed); struct = (size, ((offset, width) per member)), PSX MIPS natural
 alignment (1/2/4, pointer 4, array = elem x count, hex/dec counts, known types resolved; struct align = max member
-align, size padded); union = members at offset 0; an inline nested struct/union is keyed as its member's type; a
+align, size padded); union = members at offset 0; an inline nested struct/union is keyed as its member's type (with
+`} __attribute((packed)) name` laid out packed: no padding, align 1, so x4.h's union X4_EngineCharacterState keys); a
 bitfield `T [name] : N` with N = T's width is a T member at the next offset. Member types resolve across all files
 whatever their order (2.5 T5). `extern` declarations and prototypes are not definitions.
 """
@@ -40,6 +42,7 @@ QUALIFIERS = {"const", "volatile", "register", "static", "extern"}
 SCALAR_WORDS = {"unsigned", "signed", "char", "short", "int", "long", "float", "double"}
 TOKEN = re.compile(r"\[[^\]]*\]|\w+|\S")
 DEF_START = re.compile(r"\btypedef\b|\b(?:struct|union)\b(?:\s+\w+)?\s*\{")
+PACKED = re.compile(r"^\s*__attribute(?:__)?\s*\(\(\s*(?:__)?packed(?:__)?\s*\)\)")
 RAW_CAST = re.compile(r"\*\s*\(\s*[A-Za-z_]\w*(?:\s+[A-Za-z_]\w*)*\s*(?:\*\s*)+\)\s*0[xX][0-9A-Fa-f]+")
 
 
@@ -162,7 +165,7 @@ def member_layout(base, depth, dims):
     return size, align
 
 
-def struct_key(kind, body, known):
+def struct_key(kind, body, known, packed=False):
     members, off, align = [], 0, 1
     for decl in split_top(body, ";"):
         toks = TOKEN.findall(decl)
@@ -174,15 +177,19 @@ def struct_key(kind, body, known):
             head = TOKEN.findall(decl[:ob])
             if not head or head[0] not in ("struct", "union") or len(head) > 2:
                 raise Unkeyable("inline nested head '%s'" % " ".join(head))
-            known["_inline_member"] = struct_key(head[0], decl[ob + 1:cb], known)
+            tail = decl[cb + 1:]
+            pk = PACKED.match(tail)  # `} __attribute((packed)) name`: GCC packed layout, no padding, align 1 (2.6 T16)
+            tail = tail[pk.end():] if pk else tail
+            known["_inline_member"] = struct_key(head[0], decl[ob + 1:cb], known, packed=bool(pk))
             try:
-                base, _, decls = parse_decl(["_inline_member"] + TOKEN.findall(decl[cb + 1:]), known, need_base=False)
+                base, _, decls = parse_decl(["_inline_member"] + TOKEN.findall(tail), known, need_base=False)
             finally:
                 del known["_inline_member"]
         else:
             base, _, decls = parse_decl(toks, known, need_base=False)
         for _, depth, dims in decls:
             size, a = member_layout(base, depth, dims)
+            a = 1 if packed else a
             align = max(align, a)
             if kind == "struct":
                 off = (off + a - 1) // a * a
@@ -341,7 +348,7 @@ def self_test():
     refusals, summary, d, s = check(real)
     assert not refusals, (refusals, summary)
     d_x4 = sum(1 for p in X4H for _ in defs_of(strip(real[p]), {}))
-    assert d - d_x4 == s == 17, summary  # ours: 7 + object.h's 4 (2.5 T5) + player.h's 1 + projectile.h's 1 (2.5 T6) + state.h's 2 (2.5 T7) + task.h's 1 + class4.h's 1 (2.5 T9.c1); X4_ types never registered
+    assert d - d_x4 == s == 19, summary  # was 18; ours: 7 + object.h's 4 (2.5 T5) + player.h's 1 + projectile.h's 1 (2.5 T6) + state.h's 2 (2.5 T7) + task.h's 1 + class4.h's 1 (2.5 T9.c1) + engine.h's 1 (2.6 T16) + types.h's LoadingSprtRow (2.7 T1.c3); X4_ types never registered
     known = {}  # as check(): member types resolve across all files (player.h's, projectile.h's members come from x4.h)
     while True:
         before = len(known)
@@ -350,12 +357,16 @@ def self_test():
                 pass
         if len(known) == before:
             break
-    sizes = {n: k[1] for p in (HOME + "object.h", HOME + "player.h", HOME + "projectile.h", HOME + "state.h")
+    u = known["union X4_EngineCharacterState"]  # x4.h union, packed inline struct (2.6 T16): keys, 16 bytes, align 1
+    assert u == (("union", 0x10, ((0, 0x10), (0, 0x10))), 0x10, 1), u
+    print("control x4-union: union X4_EngineCharacterState keys %r" % (u,))
+    sizes = {n: k[1] for p in (HOME + "object.h", HOME + "player.h", HOME + "projectile.h", HOME + "state.h",
+                               HOME + "engine.h")
              for _, n, k, _ in defs_of(strip(real[p]), known)}
     want = {"struct " + n: z for n, z in (("ObjectHeader", 0x14), ("BaseObj", 0x18), ("AnimatedObj", 0x4C),
                                           ("MainObj", 0x9C), ("PlayerObj", 0x158), ("ProjectileObj", 0xA0),
-                                          ("TransitionState", 0x4), ("MainBssState", 0xC))}
-    assert sizes == want, sizes  # the homed structs keyed at their sizes (2.5 T5.c3, T6.c1, T6.c2, T7.c1)
+                                          ("TransitionState", 0x4), ("MainBssState", 0xC), ("EngineObj", 0x9C))}
+    assert sizes == want, sizes  # the homed structs keyed at their sizes (2.5 T5.c3, T6.c1, T6.c2, T7.c1; 2.6 T16)
     known = {}
     probe = [k for _, n, k, _ in defs_of(strip(real[HOME + "types.h"]), known) if n == "Probe800473EC"]
     assert probe == [("struct", 0x20, ((0, 5), (5, 1), (6, 14), (0x14, 2), (0x16, 2), (0x18, 4), (0x1C, 4)))], probe

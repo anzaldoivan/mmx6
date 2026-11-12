@@ -3,19 +3,29 @@
 
     carve.py jtbl <prog> <table_lo>                         table = config/boundaries.txt `jtbl` row lo
     carve.py rodata <prog> <func_vram> [--bytes N]          tables = retail words of the rodata block inside func
+    carve.py data <prog> <lo>                               same-unit const data run at a dlabel lo (T28.c1)
     carve.py opt <prog> <tu> <split vram> [--cflags "<f>"] [--gate]  split <tu> at a corpus function start
     carve.py --check                                        every record still valid (fail-closed)
     carve.py --self-test                                    planted refusals on a scratch copy under .run/
 
 Record config/carve.<prog>.txt (tracked, written only here): `jtbl <table_lo> <tu>` | `rodata <lo> <hi> <tu>` |
-`block <hi>` | `opt <tu> <vram> <newtu> [cflags...]`, newtu = vram hex without 0x80. tools/mmx6/segment.py applies it to
+`data <lo> <hi> <tu>` | `block <hi>` | `opt <tu> <vram> <newtu> [cflags...]`, newtu = vram hex without 0x80. tools/mmx6/segment.py applies it to
 the generated yaml block: an opt row is a text edge (TU <newtu>, kind of its parent); a jtbl row cuts the rodata block
 at [lo, hi) into `.rodata <tu>`, which splat pairs with unit <tu> (the table migrates into its dispatcher's INCLUDE_ASM
 .s). rodata: the table ranges are the maximal runs (>= 2 words) of retail words in the rodata block whose values all
 lie in [func, func end) (corpus); --bytes N asserts their byte sum T (T + pad P = N, 0 <= P < the unit object's
 .rodata alignment; T44.c1); one `rodata` row per run. Several tables of one unit: the unit's rows are merged into one
 contiguous range in TU function order, one row per table (its trailing zero pad < alignment included); any other byte
-in that range refuses `foreign-rodata` (T44.c1). Rodata block: exe
+in that range refuses `foreign-rodata` (T44.c1). jtbl: a gap between the table and the unit's carved piece made only of
+boundaries jtbl tables whose dispatchers are corpus functions of the unit (each followed by zero pad < alignment) is
+carved with it, one row per table in address order (`jtbl <lo> <tu>`, or `rodata <lo> <hi+pad> <tu>` when padded) and
+one `CARVE jtbl OK` line each; any other byte in the gap refuses `non-contiguous` (T11.c1). data (T28.c1): [lo, hi) = the dlabel at lo to the next asm symbol
+(asm/<prog>); tu = the TU of every reference to a D_/jtbl_ name inside [lo, hi): asm .s of every program outside
+asm/<prog>/nonmatchings/<tu>/ (dlabel/enddlabel/.size lines are the definition) and src C (comments stripped) outside
+<tu>'s include closure; none, or any foreign one, refuses `foreign-rodata`. The run must touch a `jtbl`/`rodata`/`data`
+row of tu or a boundaries jtbl row whose dispatcher is in tu (else `not-adjacent`), then the jtbl refusals; the row merges
+with the unit's tables like a `rodata` row (its bytes: INCLUDE_RODATA in the unit's C at its rodata-order position, by
+hand). Rodata block: exe
 [0x80010000, 0x800120A0); overlay [base, first text function) when its first TU is a c unit whose .c holds
 `INCLUDE_ASM(..., D_<base>)`: the first carve of an overlay drops that line and records `block <hi>` (hi = the first
 text function), from which segment.py cuts [base, hi) and starts the unit at hi. On a c parent, opt moves the
@@ -33,8 +43,9 @@ re-splits, rebuilds the program clean and runs `sha1sum -c config/check.<prog>.s
 `carve-red`. config/carve.<prog>.mk (generated from the record, included by the Makefile) sets the per-unit cc1 flags
 `CFLAGS_<newtu>`. Inputs: build/corpus/functions.jsonl (corpus.py --all) for function starts and TUs.
 Retail words: extracted/retail/iso/SLUS_013.95 | extracted/retail/rock/NN.bin.
-Prints `CARVE jtbl OK <prog> 0x<lo>` / `CARVE rodata OK <prog> 0x<func> 0x<lo>-0x<hi> <bytes>` (per range) /
-`CARVE opt OK <prog> <tu>@0x<vram>`; --check prints those per verified row (rodata: `CARVE rodata OK <prog> 0x<lo>-0x<hi>`) and
+Prints `CARVE jtbl OK <prog> 0x<lo>` / `CARVE data OK <prog> 0x<lo>-0x<hi> <tu>` / `CARVE rodata OK <prog> 0x<func> 0x<lo>-0x<hi> <bytes>` (per range) /
+`CARVE opt OK <prog> <tu>@0x<vram>`; --check prints those per verified row (rodata: `CARVE rodata OK <prog> 0x<lo>-0x<hi>`; data:
+`CARVE data OK <prog> 0x<lo>-0x<hi>`) and
 ends `CARVE CHECK OK <n> carves`; --self-test ends `CARVE CONTROL OK`. A refusal prints `CARVE REFUSE <code> ...`, rc 1.
 """
 import json
@@ -210,7 +221,7 @@ def read_record(root, prog):
 def write_record(root, prog, rows):
     with open(cfg(root, "carve.%s.txt" % prog), "w") as f:
         f.write("# config/carve.%s.txt -- carves of %s, written only by tools/mmx6/carve.py (config/segmentation.md).\n"
-                "# jtbl <table_lo> <tu> | rodata <lo> <hi> <tu> | block <hi> | opt <tu> <vram> <newtu> [cflags...]\n"
+                "# jtbl <table_lo> <tu> | rodata <lo> <hi> <tu> | data <lo> <hi> <tu> | block <hi> | opt <tu> <vram> <newtu> [cflags...]\n"
                 % (prog, prog))
         f.writelines(" ".join(r) + "\n" for r in rows)
 
@@ -259,12 +270,158 @@ def carve_jtbl(root, prog, lo):
     blo, bhi, unit = rodata_block(root, prog, rec)
     _, jt, ro, _ = segment.read_carves(prog)
     carved = segment.carved_rodata(prog, jt, ro)
-    fn = corpus(prog).get(func)
+    fns = corpus(prog)
+    fn = fns.get(func)
     if fn is None:
         refuse("no-function", "%s dispatcher 0x%08X is not a corpus function start" % (prog, func))
-    placement_refusals(prog, [(lo, hi)], fn[1], carved, blo, bhi)
-    place(root, prog, rec, unit, bhi, [["jtbl", "0x%08X" % lo, fn[1]]])
-    print("CARVE jtbl OK %s 0x%08X" % (prog, lo))
+    tables = bridge(prog, lo, hi, fn[1], carved, rows, fns) or [(lo, hi, hi)]
+    placement_refusals(prog, [(a, p) for a, _, p in tables], fn[1], carved, blo, bhi)
+    place(root, prog, rec, unit, bhi, [["jtbl", "0x%08X" % a, fn[1]] if p == b else
+                                       ["rodata", "0x%08X" % a, "0x%08X" % p, fn[1]] for a, b, p in tables])
+    for a, b, p in tables:
+        print("CARVE jtbl OK %s 0x%08X%s" % (prog, a, "" if p == b else " as rodata 0x%08X-0x%08X (pad)" % (a, p)))
+
+
+def bridge(prog, lo, hi, tu, carved, rows, fns):
+    """T11.c1: [(lo, hi, hi_with_pad)] in address order of the target and the gap tables between it and tu's carved
+    piece, when that gap is only boundaries jtbl tables whose dispatchers are corpus functions of tu, each followed by
+    zero pad < the unit object's .rodata alignment; None when there is no gap or it holds anything else
+    (placement_refusals then decides: overlaps-carve, straddles, non-contiguous)."""
+    own = [(a, b) for a, b, t in carved if t == tu]
+    if len(own) != 1 or not (hi <= own[0][0] or own[0][1] <= lo):
+        return None
+    glo, ghi = (hi, own[0][0]) if hi <= own[0][0] else (own[0][1], lo)
+    if glo == ghi:
+        return None
+    align, words = unit_align(prog, tu), dict(retail_words(prog, glo, ghi))
+    out, p = [[lo, hi, hi]] if hi <= own[0][0] else [], glo
+    while p < ghi:
+        if p in rows:
+            h, f = rows[p][0], rows[p][1]
+            if f is None or "label-inside-scan-table" in rows[p][3] or fns.get(f, (0, None))[1] != tu or h > ghi:
+                break
+            out.append([p, h, h])
+            p = h
+            continue
+        q = p
+        while q < ghi and q not in rows and words.get(q) == 0:
+            q += 4
+        if not out or q == p or q - p >= align or (q < ghi and q not in rows):
+            break
+        out[-1][2] = q
+        p = q
+    if p < ghi:  # not bridgeable: placement_refusals refuses (straddles, ..., non-contiguous) as before T11.c1
+        return None
+    if not out or out[0][0] != lo:
+        out.append([lo, hi, hi])
+    return [tuple(x) for x in out]
+
+
+# ---- data ----------------------------------------------------------------------------------------------------------
+
+ASM = os.path.join(ROOT, "asm")
+NAME_RE = re.compile(r"\b(?:D|jtbl)_([0-9A-F]{8})\b")
+LABEL_RE = re.compile(r"^\s*(dlabel|glabel|jlabel)\s+(\w+)")
+WORD_RE = re.compile(r"^\s*/\*\s*[0-9A-F]+\s+([0-9A-F]{8})\s")
+DEF_RE = re.compile(r"^\s*(dlabel|enddlabel|nonmatching|\.size)\b")
+
+
+def asm_files(prog=None):
+    """Every .s path under asm/ (asm/<prog>/ when prog is given), sorted."""
+    top = os.path.join(ASM, prog) if prog else ASM
+    return sorted(os.path.join(d, n) for d, _, ns in os.walk(top) for n in ns if n.endswith(".s"))
+
+
+def data_hi(prog, lo):
+    """hi of the data run at the dlabel lo: the next asm symbol after it in its .s, else the file's last word + 4."""
+    for path in asm_files(prog):
+        with open(path, errors="replace") as f:
+            lines = f.read().split("\n")
+        at = [i for i, l in enumerate(lines) if (lambda m: m and m.group(1) == "dlabel" and
+                                                 NAME_RE.fullmatch(m.group(2)) and int(m.group(2)[-8:], 16) == lo)(LABEL_RE.match(l))]
+        if not at:
+            continue
+        hi = None
+        for l in lines[at[0] + 1:]:
+            m, w = LABEL_RE.match(l), WORD_RE.match(l)
+            if m and m.group(1) != "jlabel" and re.search(r"_([0-9A-F]{8})$", m.group(2)) and int(m.group(2)[-8:], 16) > lo:
+                return int(m.group(2)[-8:], 16)
+            if w:
+                hi = int(w.group(1), 16) + 4
+        if hi is not None:
+            return hi
+    refuse("no-symbol", "%s no `dlabel` at 0x%08X in asm/%s (split first)" % (prog, lo, prog))
+
+
+def unit_closure(root, prog, tu):
+    """Repo paths of src/<prog>/<tu>.c and every file it includes (transitively)."""
+    tree, seen = layout.Tree(root), set()
+    todo = [tree.unit_rel(prog, tu)]
+    while todo:
+        r = todo.pop()
+        if r in seen or not tree.exists(r):
+            continue
+        seen.add(r)
+        todo += [e.target if e.target.startswith("src/") else layout.norm(r, e.target)
+                 for e in layout.parse(tree.lines(r)) if e.kind == "inc"]
+    return seen
+
+
+def data_refs(root, prog, lo, hi):
+    """[("path:line", tu | None)] of the references to a D_/jtbl_ name inside [lo, hi): asm .s of every program
+    (definition lines skipped; tu = <x> under asm/<prog>/nonmatchings/<x>/, else None) and src C (comments stripped;
+    tu = each unit of prog whose include closure holds the file, None when none does)."""
+    out = []
+    hit = lambda l: any(lo <= int(x, 16) < hi for x in NAME_RE.findall(l))
+    mine = os.path.join(ASM, prog, "nonmatchings") + os.sep
+    for path in asm_files():
+        with open(path, errors="replace") as f:
+            for i, l in enumerate(f, 1):
+                if hit(l) and not DEF_RE.match(l):
+                    tu = path[len(mine):].split(os.sep)[0] if path.startswith(mine) else None
+                    out.append(("%s:%d" % (os.path.relpath(path, ROOT), i), tu))
+    closures = [(t, unit_closure(root, prog, t)) for _, t in layout.Tree(root).units(prog)]
+    for d, _, ns in os.walk(os.path.join(root, "src")):
+        for n in sorted(ns):
+            if not n.endswith((".c", ".h")):
+                continue
+            rel = os.path.relpath(os.path.join(d, n), root)
+            with open(os.path.join(d, n), errors="replace") as f:
+                t = re.sub(r"/\*.*?\*/", lambda m: "\n" * m.group(0).count("\n"), f.read(), flags=re.S)
+            for i, l in enumerate(t.split("\n"), 1):
+                if hit(l.split("//", 1)[0]):
+                    out += [("%s:%d" % (rel, i), u) for u in ([u for u, c in closures if rel in c] or [None])]
+    return out
+
+
+def data_adjacent(prog, lo, hi, tu, rec, fns):
+    """True when [lo, hi) touches a `jtbl`/`rodata`/`data` row of tu, or a boundaries jtbl row whose dispatcher is in tu."""
+    rows = jtbl_rows(prog)
+    ranges = [(int(r[1], 16), rows.get(int(r[1], 16), (0,))[0]) for r in rec if r[0] == "jtbl" and r[2] == tu]
+    ranges += [(int(r[1], 16), int(r[2], 16)) for r in rec if r[0] in ("rodata", "data") and r[3] == tu]
+    ranges += [(a, b) for a, (b, f, _, n) in rows.items() if f is not None and "label-inside-scan-table" not in n
+               and fns.get(f, (None, None))[1] == tu]
+    return any(b == lo or a == hi for a, b in ranges)
+
+
+def carve_data(root, prog, lo, tu=None, hi=None):
+    """Carve the const data run at the dlabel lo into the rodata of the one TU that references it (tu: asserted, hi: given
+    instead of read from asm/; the self-test's plants)."""
+    rec = read_record(root, prog)
+    blo, bhi, unit = rodata_block(root, prog, rec)
+    hi = data_hi(prog, lo) if hi is None else hi
+    refs = data_refs(root, prog, lo, hi)
+    tus = sorted({u or "-" for _, u in refs})
+    if len(tus) != 1 or tus[0] == "-" or tu not in (None, tus[0]):
+        refuse("foreign-rodata", "%s [0x%08X,0x%08X) referenced from TUs %s: %s" % (
+            prog, lo, hi, " ".join(tus) or "none", " ".join("%s(%s)" % (p, u or "-") for p, u in refs) or "no reference"))
+    tu = tus[0]
+    if not data_adjacent(prog, lo, hi, tu, rec, corpus(prog)):
+        refuse("not-adjacent", "%s [0x%08X,0x%08X) touches no table of TU %s" % (prog, lo, hi, tu))
+    _, jt, ro, _ = segment.read_carves(prog)
+    placement_refusals(prog, [(lo, hi)], tu, segment.carved_rodata(prog, jt, ro), blo, bhi)
+    place(root, prog, rec, unit, bhi, [["data", "0x%08X" % lo, "0x%08X" % hi, tu]])
+    print("CARVE data OK %s 0x%08X-0x%08X %s" % (prog, lo, hi, tu))
 
 
 # ---- rodata --------------------------------------------------------------------------------------------------------
@@ -299,29 +456,36 @@ def unit_align(prog, tu):
     return 1
 
 
-def unit_layout(prog, tu, lo, hi, align):
+def unit_layout(prog, tu, lo, hi, align, data=()):
     """[(lo, hi_with_pad, owner)] of the tables of tu's functions tiling [lo, hi), each followed by its zero pad
-    (< align bytes); refuse foreign-rodata on any other byte, a table of another TU, or tables out of TU order."""
+    (< align bytes); refuse foreign-rodata on any other byte, a table of another TU, or tables out of TU order.
+    data = tu's recorded `data` runs [(lo, hi)] (T28.c1): tiles with owner None, no pad after them."""
     fns = corpus(prog)
     starts = {}
     for v, (_, t, e) in fns.items():
         for a, b in table_runs(prog, lo, hi, v, e):
             starts[a] = (b, v, t)
+    dstarts = dict(data)
     words = dict(retail_words(prog, lo, hi))
     out, p = [], lo
     while p < hi:
+        if p in dstarts:
+            out.append([p, dstarts[p], None])
+            p = dstarts[p]
+            continue
         if p in starts:
             b, v, t = starts[p]
-            if t != tu or (out and v < out[-1][2]):
+            last = [x[2] for x in out if x[2] is not None]
+            if t != tu or (last and v < last[-1]):
                 refuse("foreign-rodata", "%s [0x%08X,0x%08X) holds 0x%08X-0x%08X, a table of 0x%08X (TU %s)%s" % (
                     prog, lo, hi, p, b, v, t, "" if t != tu else " out of TU function order"))
             out.append([p, b, v])
             p = b
             continue
         q = p
-        while q < hi and q not in starts and words.get(q) == 0:
+        while q < hi and q not in starts and q not in dstarts and words.get(q) == 0:
             q += 4
-        if not out or q == p or q - p >= align or q >= hi or q not in starts:
+        if not out or out[-1][2] is None or q == p or q - p >= align or q >= hi or (q not in starts and q not in dstarts):
             refuse("foreign-rodata", "%s [0x%08X,0x%08X) holds 0x%08X-0x%08X, neither a table of TU %s nor pad < %d" % (
                 prog, lo, hi, p, max(q, p + 4), tu, align))
         out[-1][1] = q
@@ -353,9 +517,10 @@ def carve_rodata(root, prog, func, nbytes):
         for clo, chi, ctu in carved:
             if lo < chi and clo < hi:
                 refuse("overlaps-carve", "%s [0x%08X,0x%08X) overlaps carved [0x%08X,0x%08X) %s" % (prog, lo, hi, clo, chi, ctu))
-    own = [(a, b) for a, b, t in ro if t == tu]
+    own = [(a, b) for a, b, t in ro if t == tu]  # its `rodata` and `data` rows (segment.read_carves)
+    data = [(int(r[1], 16), int(r[2], 16)) for r in rec if r[0] == "data" and r[3] == tu]
     mlo, mhi = min([a for a, _ in runs + own]), max([b for _, b in runs + own])
-    layout = unit_layout(prog, tu, mlo, mhi, align)
+    layout = [x for x in unit_layout(prog, tu, mlo, mhi, align, data) if x[2] is not None]
     placement_refusals(prog, [(mlo, mhi)], tu, segment.carved_rodata(prog, jt, [r for r in ro if r[2] != tu]), blo, bhi)
     keep = [r for r in rec if not (r[0] == "rodata" and r[3] == tu)]
     place(root, prog, keep, unit, bhi, [["rodata", "0x%08X" % a, "0x%08X" % b, tu] for a, b, _ in layout])
@@ -669,6 +834,14 @@ def check(root, quiet=False):
                 else:
                     n += 1
                     say("CARVE rodata OK %s %s-%s" % (prog, r[1], r[2]))
+            elif r[0] == "data" and len(r) == 4:  # T28.c1: kinds here; contiguity with the unit's tables below
+                lo, hi = int(r[1], 16), int(r[2], 16)
+                if r[3] not in cset or lo % 4 or hi <= lo or not data_adjacent(prog, lo, hi, r[3], rec, fns):
+                    errs.append("%s data %s %s: not a 4-aligned run of c-unit TU %s touching one of its tables" % (
+                        prog, r[1], r[2], r[3]))
+                else:
+                    n += 1
+                    say("CARVE data OK %s %s-%s" % (prog, r[1], r[2]))
             elif r[0] == "block" and len(r) == 2:
                 base = segment.read_programs(segment.BOUNDARIES)[prog][0]
                 tus = text_tus(prog)
@@ -683,7 +856,7 @@ def check(root, quiet=False):
                         prog, r[1], d_line(prog, base), src, sym))
             else:
                 errs.append("%s: malformed record row %s" % (prog, " ".join(r)))
-        if prog != segment.EXE["name"] and any(r[0] in ("jtbl", "rodata") for r in rec) and \
+        if prog != segment.EXE["name"] and any(r[0] in ("jtbl", "rodata", "data") for r in rec) and \
                 not any(r[0] == "block" for r in rec):
             errs.append("%s: rodata carves without a `block` row" % prog)
         _, jt, ro, _ = segment.read_carves(prog)
@@ -746,6 +919,28 @@ def expect(code, fn, *a):
         return ok
     print("control %-15s NOT refused" % code)
     return False
+
+
+def noncontig_target(root, prog):
+    """First uncarved jtbl row lo of prog (address order) that carve_jtbl would refuse non-contiguous on the live carve
+    record, probed without placing (T15.c3: a fixed address goes stale once a wave carves it); None when there is none."""
+    rows = jtbl_rows(prog)
+    blo, bhi, _ = rodata_block(root, prog, read_record(root, prog))
+    _, jt, ro, _ = segment.read_carves(prog)
+    carved = segment.carved_rodata(prog, jt, ro)
+    fns = corpus(prog)
+    for lo in sorted(rows):
+        hi, func, _, note = rows[lo]
+        fn = fns.get(func)
+        if func is None or "label-inside-scan-table" in note or fn is None or jtbl_carved(prog, lo):
+            continue
+        try:
+            tables = bridge(prog, lo, hi, fn[1], carved, rows, fns) or [(lo, hi, hi)]
+            placement_refusals(prog, [(a, p) for a, _, p in tables], fn[1], carved, blo, bhi)
+        except Refuse as e:
+            if " non-contiguous " in str(e) + " ":
+                return lo
+    return None
 
 
 def plant_target(fns):
@@ -832,8 +1027,12 @@ def self_test():
     ok &= expect("no-dispatcher", carve_jtbl, SCRATCH, EXE, 0x80011E40)
     ok &= expect("straddles", carve_jtbl, SCRATCH, EXE, 0x80012090)
     ok &= expect("overlaps-carve", carve_jtbl, SCRATCH, EXE, 0x80011380)
-    # TU 32208 gap: jtbl-carved [..11394) vs 11398; the merged rodata record [..113AC) vs 113B0 (T35.c53)
-    ok &= expect("non-contiguous", carve_jtbl, SCRATCH, EXE, 0x800113B0 if jtbl_carved(EXE, 0x80011398) else 0x80011398)
+    # was TU 32208's gap at 0x80011398 / 0x800113B0 (T35.c53), carved by W301; now probed from the live record (T15.c3)
+    nc = noncontig_target(SCRATCH, EXE)
+    t = nc is not None
+    print("control non-contiguous target %s" % ("0x%08X" % nc if t else "NONE"))
+    ok &= t and expect("non-contiguous", carve_jtbl, SCRATCH, EXE, nc)
+    ok &= bridge_controls()
     hit01 = layout.find_asm("rock_01", d_line("rock_01", 0x801EA000), SCRATCH)  # unit or L-B role file (T16.c4)
     c01 = os.path.join(SCRATCH, hit01[0]) if hit01 else os.path.join(SCRATCH, "src", "rock_01", "1EA000.c")
     # plant: a first c unit without its D_<base> line
@@ -858,11 +1057,15 @@ def self_test():
     with open(c4) as f:
         c4s = f.read()
     y4 = open(cfg(SCRATCH, "rock_04.yaml")).read()
+    _, jt0, ro0, _ = segment.read_carves(EXE)  # the 120A0 piece holding 0x8001004C (its jtbl/data rows widen it, T28.c1)
+    p120 = [a for a, b, t in segment.carved_rodata(EXE, jt0, ro0) if t == "120A0" and a <= 0x8001004C < b]
+    off120 = p120[0] - segment.EXE["rodata_lo"] + segment.EXE["header"] if p120 else -1
     d4 = d_line("rock_04", 0x800E9860)  # the overlay's data-chunk name, as carve itself spells it
     t = (d4 not in c4s and ["block", "0x800E9B30"] in read_record(SCRATCH, "rock_04")
          and "\n%s = 0x800E9860;\n" % d4 in open(cfg(SCRATCH, "symbols.rock_04.txt")).read()
          and "- [0x34, .rodata, E9860]\n" in y4 and "- [0x2D0, c, E9860]\n" in y4
-         and "- [0x84C, .rodata, 120A0]\n" in open(cfg(SCRATCH, EXE + ".yaml")).read() and check(SCRATCH, quiet=True) == 0)
+         and "- [0x%X, .rodata, 120A0]\n" % off120 in open(cfg(SCRATCH, EXE + ".yaml")).read()
+         and check(SCRATCH, quiet=True) == 0)
     print("control rodata-carve  %s" % ("placed" if t else "WRONG"))
     ok &= t
     t = jtbl_carved(EXE, 0x8001004C)  # planted (T35.c53): boundaries jtbl row inside the exe `rodata` row just placed
@@ -905,6 +1108,7 @@ def self_test():
          and check(SCRATCH, quiet=True) == 0)
     print("control rodata-merge  %s" % ("placed" if t else "WRONG"))
     ok &= t
+    ok &= data_controls()
     fns = corpus(EXE)
     tgt, tu, role = plant_target(fns)  # through the current layout (T15.c2): never a fixed address
     nt = segment.hexname(tgt)
@@ -976,6 +1180,99 @@ def self_test():
     return 0
 
 
+def bridge_controls():
+    """T11.c1: a jtbl carve bridging a gap of same-TU tables. Target through the record and boundaries (C0307): the
+    first exe TU whose record rows are jtbl/rodata rows, one of them (the cut; any row, T11.c3) followed by a chain (>= 2)
+    of tables of its dispatchers' TU (zero pad < alignment between); the scratch record keeps the TU's rows up to the cut,
+    the chain's last table is carved. A gap dispatcher planted into another TU refuses non-contiguous; as is, one row per
+    table."""
+    global CORPUS
+    rec, rows, fns = read_record(SCRATCH, EXE), jtbl_rows(EXE), corpus(EXE)
+    tus = []
+    for r in rec:
+        if r[0] in ("jtbl", "rodata", "data") and r[-1] not in tus:
+            tus.append(r[-1])
+    found = None
+    for t in tus:
+        tr = sorted([r for r in rec if r[0] in ("jtbl", "rodata", "data") and r[-1] == t], key=lambda r: int(r[1], 16))
+        if any(r[0] == "data" for r in tr):
+            continue
+        align = unit_align(EXE, t)
+        for i, cut in enumerate(tr):
+            if int(cut[1], 16) not in rows:
+                continue
+            # a rodata row's hi already carries its pad; a jtbl row ends at its boundaries hi
+            chain, p = [], int(cut[2], 16) if cut[0] == "rodata" else rows[int(cut[1], 16)][0]
+            while p in rows and rows[p][1] is not None and fns.get(rows[p][1], (0, None))[1] == t:
+                chain.append(p)
+                q = rows[p][0]
+                while q not in rows and q - rows[p][0] < align and dict(retail_words(EXE, q, q + 4)).get(q) == 0:
+                    q += 4
+                p = q
+            gap = [g for g in chain[:-1] if rows[g][1] != rows[chain[-1]][1]] if len(chain) >= 2 else []
+            if gap:
+                found = (t, tr[:i + 1], tr[i + 1:], chain, gap)
+                break
+        if found:
+            break
+    if not found:
+        print("control bridge target  NOT FOUND")
+        return False
+    t, kept, tr, chain, gap = found
+    print("control bridge target  %s 0x%08X <- 0x%08X (%d gap tables)" % (t, int(kept[-1][1], 16), chain[-1], len(chain) - 1))
+    regenerate(SCRATCH, EXE, [r for r in rec if r not in tr])
+    real, CORPUS = CORPUS, os.path.join(SCRATCH, "functions.jsonl")
+    with open(real) as f, open(CORPUS, "w") as g:
+        for line in f:
+            j = json.loads(line)
+            if j["prog"] == EXE and int(j["vram"], 16) == rows[gap[0]][1]:
+                j["tu"] = "PLANT"
+                line = json.dumps(j) + "\n"
+            g.write(line)
+    ok = expect("non-contiguous", carve_jtbl, SCRATCH, EXE, chain[-1])  # a foreign-TU table in the gap
+    CORPUS = real
+    carve_jtbl(SCRATCH, EXE, chain[-1])
+    got = sorted(int(r[1], 16) for r in read_record(SCRATCH, EXE) if r[0] in ("jtbl", "rodata") and r[-1] == t)
+    t2 = got == [int(r[1], 16) for r in kept] + chain and check(SCRATCH, quiet=True) == 0
+    print("control jtbl-bridge    %s" % ("placed" if t2 else "WRONG %s" % " ".join("0x%08X" % v for v in got)))
+    regenerate(SCRATCH, EXE, rec)
+    return ok and t2
+
+
+def data_controls():
+    """T28.c1: a same-unit run between two of a unit's exe tables (a middle `rodata` row dropped, a C reference planted
+    in the unit) carves `data` as one block; the same run referenced from another unit's C refuses `foreign-rodata`.
+    The record and the C files are restored after."""
+    rec0 = read_record(SCRATCH, EXE)
+    ro = [(int(r[1], 16), int(r[2], 16), r[3]) for r in rec0 if r[0] == "rodata"]
+    mid = [m for m in ro if any(a[1] == m[0] and a[2] == m[2] for a in ro) and any(b[0] == m[1] and b[2] == m[2] for b in ro)]
+    if not mid:
+        print("control data-plant    WRONG: no unit with three adjacent exe rodata rows")
+        return False
+    lo, hi, tu = mid[0]
+    other = [t for _, t in layout.Tree(SCRATCH).units(EXE) if t != tu][0]
+    paths = [os.path.join(SCRATCH, "src", EXE, x + ".c") for x in (tu, other)]
+    saved = [open(x).read() for x in paths]
+    regenerate(SCRATCH, EXE, [r for r in rec0 if r[:3] != ["rodata", "0x%08X" % lo, "0x%08X" % hi]])
+    with open(paths[0], "a") as f:
+        f.write("extern s32 D_%08X[];\n" % lo)
+    with open(paths[1], "a") as f:
+        f.write("extern s32 D_%08X[];\n" % lo)
+    ok = expect("foreign-rodata", carve_data, SCRATCH, EXE, lo, tu, hi)
+    with open(paths[1], "w") as f:
+        f.write(saved[1])
+    carve_data(SCRATCH, EXE, lo, tu, hi)
+    _, jt, ro2, _ = segment.read_carves(EXE)
+    pieces = [(a, b) for a, b, t in segment.carved_rodata(EXE, jt, ro2) if t == tu]
+    t = (["data", "0x%08X" % lo, "0x%08X" % hi, tu] in read_record(SCRATCH, EXE) and len(pieces) == 1
+         and pieces[0][0] < lo and hi < pieces[0][1] and check(SCRATCH, quiet=True) == 0)
+    print("control data-merge    %s %s 0x%08X-0x%08X" % ("placed" if t else "WRONG", tu, lo, hi))
+    with open(paths[0], "w") as f:
+        f.write(saved[0])
+    regenerate(SCRATCH, EXE, rec0)
+    return ok and t
+
+
 def preamble_control():
     """T23: a declaration between chunks of the head, and a member body's file-scope extern/prototype (the block's
     #defines applied), reach the tail's preamble (a comment there does not); the head is written unchanged."""
@@ -1033,6 +1330,9 @@ def main(argv):
         use_root(ROOT)
         if len(argv) == 3 and argv[0] == "jtbl":
             carve_jtbl(ROOT, argv[1], int(argv[2], 16))
+            return 0
+        if len(argv) == 3 and argv[0] == "data":
+            carve_data(ROOT, argv[1], int(argv[2], 16))
             return 0
         if len(argv) in (3, 5) and argv[0] == "rodata" and (len(argv) == 3 or argv[3] == "--bytes"):
             carve_rodata(ROOT, argv[1], int(argv[2], 16), int(argv[4], 0) if len(argv) == 5 else None)

@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @807a01b src/main/object_update.c:func_80021C14, AGPL-3.0; proven shared with X6 by exact signature cac1f7cae392 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/object_update.c:func_80021C14, AGPL-3.0; proven shared with X6 by exact signature cac1f7cae392 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #include "mmx6/globals.h"
@@ -109,10 +109,10 @@ M2C_UNK func_80020D74();           /* extern */
 void func_80020DC8(void);          /* extern */
 void func_8002927C(void);          /* extern */
 void func_8002935C(void);          /* extern */
-M2C_UNK func_800293CC();           /* extern */
+void func_800293CC();              /* extern */
 void func_80029D18(void);          /* extern */
-void func_8002ACA8();    /* extern; was M2C_UNK (W14 regate of 2ACA8) */
-M2C_UNK func_8002E84C(); /* extern */
+void func_8002ACA8();     /* extern; was M2C_UNK (W14 regate of 2ACA8) */
+void func_8002E84C(void); /* extern */
 void func_8002F288(struct X4_PlayerObj*); /* extern */
 void func_80034DCC(void);                 /* extern */
 M2C_UNK read_player_input();              /* extern */

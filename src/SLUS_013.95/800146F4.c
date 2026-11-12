@@ -3,7 +3,7 @@
 #include "mmx6/state.h"
 #include "mmx6/globals.h"
 
-void func_800139F4(s32);
+s32 func_800139F4(s32);
 void set_resolution(s32 arg0);
 void task_yield(s32);
 void func_80017E6C(void);
@@ -16,7 +16,7 @@ void func_800146F4(void) {
     s32 buf;
     u8 i;
 
-    func_800139F4(0x10);
+    ((void (*)(s32))func_800139F4)(0x10);
     while (1) {
         if (D_80097420.transition.active == 0) {
             break;

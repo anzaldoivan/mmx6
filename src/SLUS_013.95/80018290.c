@@ -119,7 +119,7 @@ void func_800184C8(void) {
     func_80018524(D_800E2E14);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:func_800163EC, AGPL-3.0; proven shared with X6 by exact signature 65b2d7edf418 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/55C4.c:func_800163EC, AGPL-3.0; proven shared with X6 by exact signature 65b2d7edf418 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/globals.h"
 extern s8 D_800CC869;

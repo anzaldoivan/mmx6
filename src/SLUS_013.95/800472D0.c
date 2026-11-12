@@ -4,8 +4,6 @@
 #include "mmx6/engine_state.h"
 #include "mmx6/globals.h"
 
-#define F8(p, o) (*(u8*)((u8*)(p) + (o)))
-
 // 0x800472D0 func_800472D0: object init: speed and timer by stage, difficulty and checkpoint.
 // basis: none
 // callers: none known
@@ -25,7 +23,7 @@ void func_800472D0(struct X4_MainObj* arg0) {
     } else {
         background_objects[1].unk4 = 9;
         background_objects[1].unk4C = 1;
-        if (F8(&g_playthrough_state, 0x68) >= 2U) {
+        if (g_playthrough_state.unk68 >= 2U) {
             arg0->unk18.val = 0xFFFEC000;
         } else {
             arg0->unk18.val = 0xFFFF0000;

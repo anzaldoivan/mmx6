@@ -1,6 +1,6 @@
 // prog SLUS_013.95 | system movement | range 0x8003BD24-0x8003C4E8
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003BD24);
+#include "../shared/SLUS_013.95/func_8003BD24.c"
 // clang-format on
 
 #include "common.h"
@@ -10,7 +10,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_8003BD24);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 void func_8003AD18(void* arg0);
-M2C_UNK set_pose_size();
+void set_pose_size();
 void load_buffered_palette(s32, s32, s32);
 M2C_UNK player_spawn_visual(M2C_UNK arg0, M2C_UNK arg1, M2C_UNK arg2,
                             M2C_UNK arg3);

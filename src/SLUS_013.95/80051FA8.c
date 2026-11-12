@@ -618,7 +618,7 @@ void func_80052E44(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80052F64);
+#include "../shared/SLUS_013.95/func_80052F64.c"
 // clang-format on
 
 #include "common.h"

@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @807a01b src/main/player_check.c:player_check_dash_jump_walk, AGPL-3.0; proven shared with X6 by exact signature 67a670686326 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/player_check.c:player_check_dash_jump_walk, AGPL-3.0; proven shared with X6 by exact signature 67a670686326 (see THIRD_PARTY.md). */
 // prog SLUS_013.95 | system player | range 0x80039BC4-0x80039C3C
 #include "common.h"
 #define M2C_UNK s32

@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_init, AGPL-3.0; proven shared with X6 by exact signature 4a86628af3e4 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_init, AGPL-3.0; proven shared with X6 by exact signature 4a86628af3e4 (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"

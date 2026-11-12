@@ -188,16 +188,16 @@ checked  = "2026-10-14"
 [[ref]]
 name     = "mmx4"
 url      = "https://github.com/sozud/mmx4"
-ref      = "807a01b1b8928811908a33367b964cf22f5ce799"
+ref      = "4e16dfc7c06597fd5719dd112654d8cf85d343c2"
 licence  = "AGPL-3.0"
 class    = "copyleft"
 tier     = "optional"
-when     = "a function shared by the X4 and X6 engines: partners and names (x4share.py, x4names.py); the port lane (x4port.py: PIN = this ref; --repin) follows it, except the files config/x4/hold.tsv holds (path, pin, blocker; no rows since 2.3 T1, x4.h at this ref; homed structs: config/x4/homed.tsv, 2.5 T5) (THIRD_PARTY.md rows; phase-ends 2.1 T2)"
+when     = "a function shared by the X4 and X6 engines: partners and names (x4share.py, x4names.py); the port lane (x4port.py: PIN = this ref; --repin) follows it, except the files config/x4/hold.tsv holds (path, pin, blocker; 7 rows, 21 of 159 units, since 2.6 T31: 80049670.c clear_object_slot arity 12, 8001A9B0.c/80039C40.c conflicting types 5, ladder/ 3 + player/script_vanish.c 1 hash (C0258 cast drops); x4.h at this ref; homed structs: config/x4/homed.tsv, 2.5 T5) (THIRD_PARTY.md rows; phase-ends 2.1 T2)"
 covers   = "Mega Man X4 (SLUS_005.61 US / JP / EU) main exe only; PsyQ 4.0 headers; not X6's addresses or its libraries"
 topics   = ["sibling", "capcom-engine", "x4-partners", "x4-names", "gcc-2.7.2", "aspsx-2.56", "expand-div", "splat-config"]
 paths    = ["LICENSE", "build.py", "compiler.sh", "config", "include", "src"]
-used_by  = "mmx6 T7 (the X4 lane, campaign/x4/partners.tsv; 158 adapted src/shared files + include/mmx6/x4.h, THIRD_PARTY.md: all at this ref since 2.3 T1; --repin 2.5 T5: 158 same, 0 held) and config/x4/names.tsv (docs/x4-names.md); fetched by tools/mmx6/x4core.py ensure_clone into .run/mmx4, never copied outside the lane"
-checked  = "2026-10-25"
+used_by  = "mmx6 T7 (the X4 lane, campaign/x4/partners.tsv; 159 adapted function units + include/mmx6/x4.h, THIRD_PARTY.md: at this ref since 2.6 T31 except the hold rows; --repin 2.6 T31: 138 same, 21 held) and config/x4/names.tsv (docs/x4-names.md); fetched by tools/mmx6/x4core.py ensure_clone into .run/mmx4, never copied outside the lane"
+checked  = "2026-11-06"
 
 # ---- byo: never fetched -------------------------------------------------------------------------------------------
 

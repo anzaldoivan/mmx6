@@ -19,7 +19,7 @@ void func_80015C5C(void) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/3D88.c:func_80014968, AGPL-3.0; proven shared with X6 by exact signature 587b9efb8c19 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/3D88.c:func_80014968, AGPL-3.0; proven shared with X6 by exact signature 587b9efb8c19 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #include "psyq/libsnd.h"

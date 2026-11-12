@@ -143,13 +143,13 @@ s32 func_8002E664(void* arg0, void* arg1) {
 #undef HB_H
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002E84C);
+#include "../shared/SLUS_013.95/func_8002E84C.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002E974);
+#include "../shared/SLUS_013.95/func_8002E974.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002EE10);
+#include "../shared/SLUS_013.95/func_8002EE10.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002F06C);
+#include "../shared/SLUS_013.95/func_8002F06C.c"
 // clang-format on
 
 #include "common.h"
@@ -331,7 +331,7 @@ void func_8002F71C(struct X4_PlayerObj* arg0) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/1CF60.c:func_8002CDD4, AGPL-3.0; proven shared with X6 by exact signature 35842cc5ea2e (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/1CF60.c:func_8002CDD4, AGPL-3.0; proven shared with X6 by exact signature 35842cc5ea2e (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern s16 D_800E4192;
@@ -384,7 +384,7 @@ void func_8002F840(struct X4_PlayerObj* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8002F9DC);
+#include "../shared/SLUS_013.95/func_8002F9DC.c"
 // clang-format on
 
 #include "common.h"

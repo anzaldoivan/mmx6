@@ -211,7 +211,7 @@ s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 M2C_UNK apply_object_motion(struct X4_MainObj* self);
 M2C_UNK move_object(void*);
-M2C_UNK func_8002EE10(void*);
+M2C_UNK func_8002EE10(struct X4_PlayerObj* arg0);
 M2C_UNK func_80030ECC(void*);
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049D90_r(
@@ -537,7 +537,7 @@ void func_8004FE50(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004FE58);
+#include "../shared/SLUS_013.95/func_8004FE58.c"
 // clang-format on
 
 #include "common.h"

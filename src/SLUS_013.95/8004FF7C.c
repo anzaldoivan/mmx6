@@ -27,7 +27,7 @@ void func_8004FF7C(void* arg0, s32 arg1) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_8004FFF8);
+#include "../shared/SLUS_013.95/func_8004FFF8.c"
 // clang-format on
 
 #include "common.h"
@@ -250,7 +250,7 @@ void func_80050540(void* arg0, void* arg1, void* arg2) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80050670);
+#include "../shared/SLUS_013.95/func_80050670.c"
 // clang-format on
 
 #include "common.h"
@@ -314,7 +314,7 @@ join:
 }
 #undef PA4
 
-/* Adapted from sozud/mmx4 @807a01b src/main/items/item_08_boss_door.c:boss_door_update, AGPL-3.0; proven shared with X6 by exact signature 3841861bc21e (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/items/item_08_boss_door.c:boss_door_update, AGPL-3.0; proven shared with X6 by exact signature 3841861bc21e (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern void (*D_80078DD4[])(struct X4_ItemObj*);
@@ -350,7 +350,7 @@ extern s8 D_8008EAB0;
 extern struct X4_BackgroundObj background_objects[3];
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK set_pose_size();
+void set_pose_size();
 
 void func_80050EA0(u8* arg0, s32 arg1, u8* arg2) {
     *(s32*)(arg2 + 8) += *(s32*)(arg0 + 0x84);
@@ -445,7 +445,7 @@ void func_800510C4(void* arg0) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/items/item_08_boss_door.c:boss_door_block_player, AGPL-3.0; proven shared with X6 by exact signature 37a985cf43c2 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/items/item_08_boss_door.c:boss_door_block_player, AGPL-3.0; proven shared with X6 by exact signature 37a985cf43c2 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_PlayerObj g_Player;

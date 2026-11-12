@@ -1,0 +1,33 @@
+#include "common.h"
+#define M2C_UNK s32
+
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
+#define SPAD4C (*(u8**)0x1F80004C)
+
+M2C_UNK animate_object();
+void func_800F6FC8();
+extern u8 D_800F9920[];
+
+void func_800F6AA4(void* arg0) {
+    s32 t;
+    s32 v;
+
+    ((M2C_UNK(*)())animate_object)();
+    func_800F6FC8(arg0);
+    if (SPAD4C[0x88] != 0 && M2C_FIELD(arg0, s8*, 0x45) == 1) {
+        SPAD4C[0x88] = 0;
+        {
+            u8* q = SPAD4C;
+            t = q[0x85] + 1;
+            q[0x85] = t;
+        }
+        v = D_800F9920[(t & 3) + SPAD4C[0x84] * 4];
+        M2C_FIELD(arg0, u8*, 6) = 0;
+        M2C_FIELD(arg0, u8*, 5) = v;
+        return;
+    }
+    if (SPAD4C[0x8A] != 0x11) {
+        M2C_FIELD(arg0, u8*, 6) = 5;
+        M2C_FIELD(arg0, s16*, 0x7C) = 0;
+    }
+}

@@ -267,7 +267,6 @@ C0264 | ROCK_X6.DAT slot joins: three readers of D_800E0398, packed records, byt
 C0265 | Per-stage object dispatch tables: locate via the scratchpad setter, prove with table[id]==fn at runtime | object,dispatch,scratchpad,overlay,redux,breakpoint,table | 2026-10-25 | 2.2/T5 | mmx6 T5.c1
 C0266 | Proto-only functions: census the build side, pair in order between held anchors, mask-ratio 0.6 | proto,census,pairing,oracle,debug,anchors,difflib | 2026-10-25 | 2.2/T6 | mmx6 T6.c1
 C0267 | Check a community address list against the function census (strict starts, overlay group by base) | address,census,leads,overlay,control | 2026-10-26 | 2.2/T7 | mmx6 T7.c1
-C0268 | Survey a platform port vs the PSX image: Rich header, string kinds, 32-byte window data overlap, sector sha1 | port,pe,oracle,data,survey | 2026-10-26 | 2.2/T8 | mmx6 PC port survey
 C0269 | Host function-start census from tracked files: Ghidra JSONL + src func_ definitions | census,function-start,ghidra,jsonl,host,regex | 2026-10-26 | 2.2/T11 | mmx6 T11.c2
 C0270 | Upstream retyped global clashing with sibling decls: local self-alias macro | x4,repin,port,preamble,extern,alias | 2026-10-26 | 2.3/T1 | 2.3 T1.c1
 C0271 | x4port --repin/--self-test after sync: rerun extract, build, corpus, census, sig, x4share | x4,repin,port,sync,corpus,container | 2026-10-26 | 2.3/T1 | 2.3 T1.c1
@@ -371,3 +370,79 @@ C0368 | Parallel naming drafts: read-only drafters, one proposal TSV each, one m
 C0369 | Never name a shared-body exemplar (src/shared) from one member's use | naming,shared,exemplar,define,template,hold | 2026-11-03 | 2.6/T14 | mmx6 T14.c3
 C0370 | A new x4 struct home fails th-types: typecheck rejects x4 unions and fixes the shape count | x4,home,homed,typecheck,self-test,struct,lift,wall | 2026-11-03 | 2.6/T14 | mmx6 T14.c8
 C0371 | Scope a layout propose to a task's files: merge rows, add refused stems first | layout,propose,merge,scope,stem,filename,debt,banner | 2026-11-03 | 2.6/T14 | mmx6 T14.c9
+C0372 | permute.py target overshoots in a one-function C file: run the pinned original as a 0 control first | permuter,probe,extent,control,find_extent | 2026-11-03 | 2.6/T15 | mmx6 T15.c1
+C0373 | A seeded permute.py walk dies to inf within ~70 iterations: split the cap into short multi-seed runs | permuter,seed,random,inf,cap | 2026-11-03 | 2.6/T15 | mmx6 T15.c2
+C0374 | permute.py reuses its run dir: in a seed loop, save best.c on the first score 0 | permuter,seed,best,overwrite | 2026-11-03 | 2.6/T15 | mmx6 T15.c3
+C0375 | A recorded 'pin cannot drop' goes stale: score the unpinned draft first, base 0 means drop it | pin,depin,stale,permuter,names-verdicts,anchor | 2026-11-03 | 2.6/T15 | mmx6 T15.c3
+C0376 | Overlay bps armed only while the member is resident (BinSeek + ready callback) | pcsx-redux,lua,breakpoint,overlay,residency,binseek,oracle | 2026-11-03 | 2.6/T19 | 2.6 T19.c1
+C0377 | Prototype unification reddens callers: one int prototype + void casts at call sites | prototype,declsync,tusync,return-type,caller,regalloc,M2C_UNK | 2026-11-03 | 2.6/T20 | mmx6 T20.c1
+C0378 | Two-global %hi reload after a join: first-reloaded takes first %hi reg, ladder inert | regalloc,plateau,hi-lo,permuter,wall | 2026-11-03 | 2.6/T21 | mmx6 T21
+C0380 | Loop-invariant masks hoist in first-use order: operand order of (a&M1)|(b&M2) picks the lui order | lever,loop,invariant,hoist,mask,sched,order | 2026-11-06 | 2.6/T23 | mmx6 T23.c2
+C0381 | Splitting a fused asm symbol at a callback start trips th-bound2 phantom and th-ledger missing row | split,boundaries,bound2,ledger,symbols,fleet,asm | 2026-11-06 | 2.6/T23 | mmx6 T23.c2
+C0382 | Repin to a new mmx4 pin: refetch the clone by hand, and expect homed member names to hold most files | x4,repin,mmx4,clone,homed,hold,hash | 2026-11-06 | 2.6/T31 | 2.6 T31.c1
+C0383 | x4port types a base from body declarations only, and a repin line shift breaks code anchors | x4,x4port,repin,homed,anchor,namesqueue | 2026-11-06 | 2.6/T31 | 2.6 T31.c2
+C0384 | An Exec bp on a dispatch jalr hides the entry bp at its overlay target. Count from the jalr | pcsx-redux,lua,breakpoint,jalr,dispatch,overlay,oracle | 2026-11-06 | 2.6/T25 | 2.6 T25.c1
+C0385 | Carving in SLUS unit 120A0 ahead of 0x8001E78C reddens five tool self-test controls | carve,self-test,control,120A0,x4share,bank | 2026-11-06 | 2.6/T26 | mmx6 T26.c1
+C0386 | declsync compares return width only: a width-compatible call-site cast clears R3 | declsync,cast,r3,prototype,width,M2C_UNK | 2026-11-06 | 2.6/T26 | mmx6 T26.c1
+C0387 | Mid-file R4 foreign-rodata: carve the whole role file into its own unit, then re-key drifted rows | carve,rodata,r4,foreign-rodata,role,unit,registry | 2026-11-06 | 2.6/T26 | mmx6 T26.c2
+C0388 | Probe MATCH but gate R5: probe masks address halves, so diagnose with asm-differ in place | probe,r5,hash,mask,asm-differ,regalloc,macro | 2026-11-06 | 2.6/T26 | mmx6 T26.c2
+C0389 | A jtbl-uncarved verdict can be stale: check the table words against the function span first | jtbl,boundaries,carve,ledger,verdict,m2c,rodata | 2026-11-06 | 2.6/T26 | mmx6 T26.c3
+C0390 | Regalloc cues: a leftover arg register means a shorter call, a hoisted %hi means in-loop code | regalloc,call,cast,pin,hoist,loop,m2c | 2026-11-06 | 2.6/T26 | mmx6 T26.c3/c4
+C0391 | Callers disagree on arity (2-param prototypes vs a 3-param cast): every definition refused R2/R3 | declsync,cast,arity,prototype,r3,r2,gate | 2026-11-06 | 2.6/T27 | mmx6 T27.c1
+C0392 | mx.sh sync wipes container drafts/: th-ledger red until the ledger is rebuilt from restored drafts | ledger,th-ledger,sync,drafts,fleet,workflow | 2026-11-06 | 2.6/T27 | mmx6 T27.c1
+C0394 | s-reg swap against a block-0 %hi pseudo: move that global's first-use store in the block. Then fix zero-store order in place | regalloc,local-alloc,priority,hi,store-position,sw-zero,probe-mask | 2026-11-07 | 2.6/T27 | mmx6 T27.c3 func_8001AE44
+C0395 | Replace pins in a constant block: hill-climb store order by probe score, then sweep position pairs of the swapped two | pin,constant-block,sched1,store-order,sweep,registry,harvest | 2026-11-07 | 2.6/T27 | mmx6 T27.c3 func_8003BD24
+C0396 | 120A0 jtbl function first in its role file: opt cut, rebuild, then jtbl carve. Reload spill reg follows liveness | carve,jtbl,opt,120A0,reload,spill,regalloc,liveness | 2026-11-07 | 2.6/T27 | mmx6 T27.c4
+C0397 | Same-unit const data between a unit's tables: carve.py data + INCLUDE_RODATA, then jtbl | carve,jtbl,rodata,data,INCLUDE_RODATA,120A0,non-contiguous | 2026-11-07 | 2.6/T28 | mmx6 T28.c1 func_80014F70
+C0398 | Bank under a caller-fixed M2C_UNK prototype: u8 param andi via a local initialised at declaration | prototype,M2C_UNK,u8,andi,prologue,declsync,store-order | 2026-11-07 | 2.6/T28 | mmx6 T28.c2 func_80014F70
+C0399 | OT link words: P_TAG bitfield setaddr fixes the 0xFFFFFF/0xFF000000 hoist order | lever,bitfield,setaddr,P_TAG,ordering-table,mask,hoist,loop | 2026-11-07 | 2.6/T29 | mmx6 T29.c1
+C0400 | Two hoisted %hi pseudos tie in greg: symbol names order them via the gcse hash | regalloc,gcse,greg,hi-lo,hash,names,lever,dumps | 2026-11-07 | 2.6/T30 | mmx6 T30 func_80013DE8
+C0401 | Standalone match, red hash in unit: chained-assignment store order, diff the planted exe | bank,hash,store-order,chained-assignment,plant,R5 | 2026-11-07 | 2.6/T30 | mmx6 T30.c1 func_80013DE8
+C0402 | Stale cite with no unique old text: exact, reflow-join, nearest dup, scoped anchor (repoint R1-R4) | layout,repoint,cite,cite-anchor,clang-format,stale | 2026-11-07 | 2.6/T17 | mmx6 T17.c2 290d209e
+C0403 | A $2 pin after a call: call through a void cast to free v0 | lever,pin,depin,call,cast,void,v0,return | 2026-11-07 | 2.6/T32 | mmx6 T32.c2 wait_for_file_load
+C0404 | local-alloc stretches lifetimes by one insn: read sched1 order, not source order | regalloc,lreg,local-alloc,sched1,dumps,asm-differ,r5,in-place | 2026-11-07 | 2.6/T32 | mmx6 T32.c1-c2 func_800144DC, wait_for_file_load
+C0405 | sched1 hazard tie: stores beat arg copies, so call args need pins | regalloc,sched1,sched,hazard,call,argument,pin,dumps | 2026-11-07 | 2.6/T32 | mmx6 T32.c3 func_8001494C
+C0406 | Pair a PSX function with its x86 port twin: const-table search, then call graph | pc-port,x86,ghidra,pairing,prior-art,shape | 2026-11-07 | 2.6/T33 | mmx6 T33.c1
+C0407 | A C0400 %hi name tie broken without renames: store one global via an inline out-pointer helper | regalloc,greg,hi-lo,tie,inline,out-pointer,lever,pc-port | 2026-11-07 | 2.7/T1 | mmx6 T1.c1 wait_for_file_load
+C0408 | OR operand order picks the expansion order: write the clut's % 16 term first | lever,operand-order,or,clut,psyq,sprite,order | 2026-11-07 | 2.7/T1 | mmx6 T1.c3 func_800144DC
+C0409 | Ghidra misses function starts: find them as jr ra then a jal target or addiu sp,sp,-N | ghidra,boundaries,jtbl,function-start,prologue | 2026-11-07 | 2.7/T2 | mmx6 T2.c1
+C0410 | A dead global read in retail: an if/else on it with equal arms, and an untyped store keeps order | lever,dead-read,if-else,equal-arms,volatile,pc-port,union,store-order,sched | 2026-11-07 | 2.7/T9 | mmx6 T9.c4 func_8002234C
+C0411 | sched1 tie on a table address: assign the index locals in a comma expression inside the first index | lever,sched1,tie,comma,index,table,order | 2026-11-08 | 2.7/T9 | mmx6 T9.c5 func_80052F64
+C0412 | Retail reloads a pointer field after an if/else: write the field path at every use, no local | lever,reload,pointer,field,cse,length,index-loop,pc-port | 2026-11-08 | 2.7/T9 | mmx6 T9.c6 func_8002E84C
+C0413 | PC switch shape scores low: enumerate case 0, group order, tail calls and division form | lever,switch,jtbl,case-0,cross-jump,division,pc-port,generator | 2026-11-08 | 2.7/T9 | mmx6 T9.c9 func_8002F9DC
+C0414 | Calibrate grouped propagate cost on a full-size group: small key samples underestimate 3x | propagate,shard,health,timing,calibration,tools-health-full | 2026-11-08 | 2.7/T4 | mmx6 T4 shard-1 run
+C0415 | Jtbl carve non-contiguous because of a gap of same-TU tables: carve.py jtbl bridges it | carve,jtbl,rodata,non-contiguous,bridge,gap,120A0,21BF4 | 2026-11-08 | 2.7/T11 | mmx6 T11.c1
+C0416 | Hoist loop-invariant prim constants with more literal sites, never variables (loop.c threshold, REG_EQUIV) | lever,loop,hoist,constant,prim,psyq,macro,regalloc,reg_equiv | 2026-11-08 | 2.7/T11 | mmx6 T11.c5 func_800232D4
+C0417 | Redundant andi 0xff after lbu in retail: a local set twice | lever,combine,andi,lbu,mask,nonzero_bits,local | 2026-11-08 | 2.7/T11 | mmx6 T11.c5 func_800232D4
+gen2 | Generation 2 entries | see cookbook/gen2/INDEX.md
+C0418 | Bisect a red grouped propagate R5 instead of isolating every unit. Cross-key declsync edits trip it | propagate,group,bisect,R5,declsync,tools-health-full,shard | 2026-11-08 | 3.0/T4 | mmx6 T4.c1 SLUS group lever
+C0419 | Make $(file >path) in a recipe expands before any recipe line: mkdir via $(shell) first | make,recipe,file,mkdir,expansion,argv,mk | 2026-11-09 | 3.0/T5 | mmx6 T5.c1 th-propagate-since
+C0420 | Parallel make check chain: per-rung stamps, a marker goal, -j exposes undeclared deps | make,parallel,tools-health,timing,wall,dependency | 2026-11-09 | 3.0/T6 | mmx6 T6.c1
+C0421 | Refit shard cost on one timed shard after a lever, and cap group size at the calibration | propagate,shard,thshard,calibration,timing,tools-health-full | 2026-11-09 | 3.0/T6 | mmx6 T6 shard 1
+C0422 | Shard wall variance comes from SLUS group R5 bisect rounds. Budget the estimate x1.3 | propagate,shard,thshard,R5,bisect,tools-health-full,timing | 2026-11-09 | 3.0/T7 | mmx6 T7.c1 shards 0..10
+C0423 | Rank pin-free scores first by scanning the journal draft for register pins | ledger,pins,journal,pick,closeness,verbatim | 2026-11-09 | 3.0/T8 | mmx6 T8.c1 ledger.py
+C0424 | gcc 2.95 compile errors have no error: tag, so classify path:line non-warning lines | gcc,cc1,compile,log,classify,refusal | 2026-11-09 | 3.0/T10 | 3.0 T10.c1
+C0425 | Diff a hash-red link only after the map confirms the member sits at its retail vram | link,map,placement,diff,hash,refusal,propagate | 2026-11-09 | 3.0/T10 | 3.0 T10.c3
+C0426 | Sibling prior-art C state: read the sibling repo at HEAD, not a mirrored twins state column | prior-art,x5,x4,twins,stale,mmx5-dev,join | 2026-11-09 | 3.0/T11 | mmx6 T11.c1
+C0427 | Freeze a derived sample against input blob ids, and let --check rebuild via git cat-file | sample,holdout,frozen,determinism,blob,check,stratum | 2026-11-09 | 3.0/T12 | mmx6 T12 methodsample.py
+C0428 | Loop pass 1 hoists an invariant too early: dead sets lift insn count, rerun pass hoists in order | lever,loop,hoist,threshold,insn-count,dead-store,preheader,magic,sched | 2026-11-09 | 3.0/T13 | mmx6 T13.c43 func_800239CC
+C0429 | diff.sh under mx.sh run needs --no-pager (no less in image) | diff,asm-differ,mx.sh,pager | 2026-11-09 | 3.0/T17 | T17.c1
+C0430 | A probe-matched wave draft goes stale after member renames: respell, re-probe, unify TU externs | bank,draft,stale,rename,unkNN,prototype,unity,R1 | 2026-11-08 | 3.0/T2 | mmx6 T2.c1
+C0431 | Time make rungs as sub-make goals, because interleaved prerequisites ran out of order (make 4.3) | make,timing,tools-health,fleet,wall,order | 2026-11-08 | 3.0/T3 | mmx6 T3 rung walls
+C0432 | An equivalence sample needs members of each verdict, not exemplar-only keys | propagate,equiv,sample,stratum,exemplar,verification | 2026-11-08 | 3.0/T3 | mmx6 T3.c1 vacuous gated stratum
+C0433 | After a second mx.sh sync, rerun the split stamp to regenerate include/ (labels.inc) | sync,split,stamp,include,labels.inc,link,mx.sh | 2026-11-09 | 3.1/T2 | mmx6 T2.c1
+C0434 | Declaration unify: go toward the specific type, since a loose shared body breaks other includers | declsync,declunify,prototype,extern,M2C_UNK,xkey,r2,unify | 2026-11-10 | 3.1/T3 | mmx6 T3.c1
+C0435 | Alias an undefined link symbol with a top-level asm assignment, never .set on MIPS | link,undefined-reference,alias,gas,mips,asm,declunify,r5 | 2026-11-10 | 3.1/T3 | mmx6 T3.c2
+C0436 | Feed a twin whose shared path is a multi-function role file or unit: extract the body, probe via the unit | rolefeed,role,propagate,bank,repair,includers,path | 2026-11-10 | 3.1/T4 | mmx6 T4.c1
+C0437 | Pair a table lui with the %lo that uses its own register, never the next addiu | propagate,table_addr,defines,lui,reloc,dedup | 2026-11-10 | 3.1/T4 | mmx6 T4.c2
+C0438 | Rename a twin member's callees and globals by aligning the exemplar object's relocations with retail | propagate,relocation,defines,dedup,twin,relocdef | 2026-11-10 | 3.1/T5 | mmx6 3.1 T5.c1
+C0439 | Feed a twin member only the exemplar's own range when the shared path is a split-unit file | propagate,placement,address,dedup,twin,unitcut,map | 2026-11-10 | 3.1/T6 | mmx6 3.1 T6.c1
+C0440 | Sum a wave's debt rises before staging: scratch index copy + debt --staged | bank,debt,placeholder,git-index,bank_close | 2026-11-10 | 3.1/T7 | 3.1 T7 bank_close --rises
+C0441 | mmx5-dev dedup members are stubs: apply the stub's defines to its src/shared body | x5,mmx5-dev,dedup,seed,prior-art,stub | 2026-11-10 | 3.1/T10 | mmx6 T10.c1
+C0442 | Move an in-place restoring self-test off the serial chain: scratch tree plus sha1 guard of the real one | self-test,scratch,parallel,tools-health,guard,make | 2026-11-10 | 3.1/T11 | mmx6 T11.c1
+C0443 | x4port self-test red after 6 fleets: shared waves/.probes counter hits the probe cap | x4port,self-test,probe-cap,probes,fleet,th-selftests-cheap | 2026-11-10 | 3.1/T12 | mmx6 T12.c1 fleet.log
+C0444 | Unmerged table-address adds: type the byte table as a struct array, index via s32 temp | lever,regalloc,table,struct,array,index,operand-order | 2026-11-10 | 3.1/T14 | mmx6 T14.c5 rock_08 func_800EA328
+C0445 | Loop counter loses a callee-saved register swap: top-tested loop, no if guard | lever,regalloc,loop,guard,for,while,pin,swap | 2026-11-10 | 3.1/T14 | mmx6 T14.c11/c10 SLUS func_80027BA0
+C0446 | Per-row repair dry run: refusecause.py --prog with switches, not propagate --dry-run --keys-from | repair,dry-run,refusecause,propagate,switch,route | 2026-11-11 | 3.1/T14 | mmx6 T14.c1 pilot refusal rows
+C0447 | gate.py -j 3 restore-rebuild stops and worker FileNotFoundError: re-gate -j 1 from a sub-root | gate,bank,wave,parallel | 2026-11-11 | 3.1/T15 | T15.c1
+C0448 | A repair-gated member is pin-free only if its exemplar is: check the exemplar for asm( pins | repair,propagate,pins,exemplar | 2026-11-11 | 3.1/T15 | T15.c1

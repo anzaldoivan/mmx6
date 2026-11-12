@@ -1,5 +1,5 @@
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001494C);
+#include "../shared/SLUS_013.95/func_8001494C.c"
 // clang-format on
 
 #include "common.h"
@@ -72,7 +72,7 @@ s32 func_80014B78(void) {
     return 0;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/3D88.c:func_800136B0, AGPL-3.0; proven shared with X6 by exact signature 630fc0e04ff1 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/3D88.c:func_800136B0, AGPL-3.0; proven shared with X6 by exact signature 630fc0e04ff1 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "psyq/libds.h"
 #include "mmx6/x4.h"
@@ -159,9 +159,11 @@ void func_80014E60(s32 arg0, s32 arg1) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80014F70);
+#include "../shared/SLUS_013.95/func_80014F70.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80015230);
+INCLUDE_RODATA("asm/SLUS_013.95/nonmatchings/120A0", D_80010038);
+
+#include "../shared/SLUS_013.95/func_80015230.c"
 // clang-format on
 
 #include "common.h"

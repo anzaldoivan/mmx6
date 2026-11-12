@@ -6,7 +6,7 @@
 M2C_UNK player_set_animation(void*, M2C_UNK);
 s32 check_giga_attack(void* self);
 void try_fire_shot(void* arg0);
-M2C_UNK start_player_attack(void*, M2C_UNK);
+void start_player_attack(void* arg0, s32 arg1);
 
 // 0x8003F644 try_start_shot_attack: X only: tries a giga attack, else starts the attack of a fired shot type; returns 1 when one starts.
 // basis: xref derived.tsv:138; xref:caller=start_player_attack

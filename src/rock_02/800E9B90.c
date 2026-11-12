@@ -1315,7 +1315,7 @@ void func_800EBF68(void* arg0) {
 
 M2C_UNK func_800EBA8C(); /* extern */
 M2C_UNK func_800EC044(); /* extern */
-M2C_UNK func_800EC084(); /* extern */
+void func_800EC084();    /* extern */
 
 void func_800EBFEC(struct ObjectHeader* arg0) {
     s8 temp_v1;
@@ -1335,7 +1335,7 @@ void func_800EBFEC(struct ObjectHeader* arg0) {
 // clang-format off
 INCLUDE_ASM("asm/rock_02/nonmatchings/E9860", func_800EC044);
 
-INCLUDE_ASM("asm/rock_02/nonmatchings/E9860", func_800EC084);
+#include "../shared/rock_02/func_800EC084.c"
 // clang-format on
 
 #include "common.h"
@@ -1781,7 +1781,7 @@ void func_800ED5DC(void* arg0) {
 
 #include "../shared/rock_02/func_800ED67C.c"
 
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_48_sentry_drone.c:sentry_drone_spread_repeat, AGPL-3.0; proven shared with X6 by exact signature be9839e079dd (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_48_sentry_drone.c:sentry_drone_spread_repeat, AGPL-3.0; proven shared with X6 by exact signature be9839e079dd (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void func_800EC9C8(struct X4_MainObj*);

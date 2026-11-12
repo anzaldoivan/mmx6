@@ -68,7 +68,7 @@ void func_800165A4(void) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/3D88.c:func_80014140, AGPL-3.0; proven shared with X6 by exact signature 6ba38c1ddd23 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/3D88.c:func_80014140, AGPL-3.0; proven shared with X6 by exact signature 6ba38c1ddd23 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "psyq/libcd.h"
 #define M2C_UNK s32

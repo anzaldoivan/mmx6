@@ -17,6 +17,9 @@
       `extern <type> <func>;` object declaration to the definition's prototype; unit_files(prog, start) follows the
       #include closure of the given files only (one TU); header_decls(files, func) lists func's column-0 prototypes in
       the .h files that closure reaches (`#include` resolved relative, then under include/, then src/).
+      Repair switch declunify (3.1 T3, bank.declunify): body_decl(text, name) reads the body's declaration of name;
+      unify_text(path, text, name, decl, old) gives a file's disagreeing declarations decl's spelling and its
+      mismatching direct calls an unprototyped cast of the prevailing return (`DECLUNIFY synced|cast <path>:<line>`).
   declsync.py --self-test
       -> in memory: width-compatible prototype synced, width-incompatible (`s16` param) refused, cast removed;
          force: the `s16` prototype and an extern object synced; an unprototyped cast of other arity left as
@@ -200,6 +203,111 @@ def sync_text(path, text, defs, force=False):
         if force:
             text = obj.sub(fix_obj, text)
     return text, lines, refused
+
+
+KW = r"(?:return|else|case|goto|do|sizeof|typedef)\b"  # statement words TYPE would read as a type (indented forms)
+
+
+def body_decl(text, name):
+    """The body text's own declaration of name: ("fn", ret, params text) from its definition, else its first
+    top-level prototype (params "" = unprototyped `()`), its first prototyped one when it has one (T3.c2: gcc keeps
+    the prototype past a later or earlier `()` one, so that is what the unit's calls after the body see);
+    ("obj", type, dims) from a top-level `extern <type> name[dims];`; else None."""
+    for n, ret, ps in definitions(text):
+        if n == name:
+            return "fn", ret, ps
+    ms = list(re.finditer(rf"^(?:extern\s+)?(?!{KW})({TYPE})\s*\b{re.escape(name)}\s*\(([^;{{}}()]*)\)\s*;", text,
+                          re.M))
+    m = next((x for x in ms if x.group(2).strip()), ms[0] if ms else None)
+    if m:
+        return "fn", m.group(1).strip(), m.group(2).strip()
+    m = re.search(rf"^extern\s+({TYPE})\s*\b{re.escape(name)}\s*((?:\[[^\]]*\]\s*)*);", text, re.M)
+    return ("obj", m.group(1).strip(), "".join(m.group(2).split())) if m else None
+
+
+def call_args(text, i):
+    """(end index after the `)`, argument count) of the call whose `(` is at text[i]; None when unbalanced."""
+    depth, commas, j, quote = 0, 0, i, ""
+    while j < len(text):
+        c = text[j]
+        if quote:
+            quote = "" if c == quote and text[j - 1] != "\\" else quote
+        elif c in "\"'":
+            quote = c
+        elif c in "([{":
+            depth += 1
+        elif c in ")]}":
+            depth -= 1
+            if depth == 0:
+                return j + 1, (commas + 1 if text[i + 1:j].strip() else 0)
+        elif c == "," and depth == 1:
+            commas += 1
+        j += 1
+    return None
+
+
+def unify_text(path, text, name, decl, old=None):
+    """(new text, [lines], [old returns]) of one file under repair switch `declunify` (3.1 T3): each declaration of
+    name (prototype or extern object, any indent) that disagrees with decl (body_decl) gets decl's spelling (an
+    unprototyped `()` prototype with decl's return and width-4 params is left: compatible); when decl is a function,
+    each direct call whose argument count differs from decl's prototype, or whose prevailing return type (this file's
+    rewritten or kept declaration, else old: the TU's first rewritten one) differs from decl's, is called through an
+    unprototyped cast `((<that return> (*)())name)(...)` (C0391, C0377). Old returns: of the rewritten prototypes."""
+    n = re.escape(name)
+    proto = re.compile(rf"^([ \t]*)((?:(?:extern|static)\s+)?)(?!{KW})({TYPE})\s*\b{n}\s*\(([^;{{}}()]*)\)\s*;", re.M)
+    obj = re.compile(rf"^([ \t]*)extern\s+(?!{KW})({TYPE})\s*\b{n}\s*((?:\[[^\]]*\]\s*)*);", re.M)
+    lines, olds, kept = [], [], []
+
+    def at(m):
+        return text.count("\n", 0, m.start()) + 1
+
+    def fix_proto(m):
+        if decl[0] != "fn":
+            return m.group(0)
+        got, want = sig(m.group(3), m.group(4)), sig(decl[1], decl[2])
+        if got == want or (not m.group(4).strip() and got[0] == want[0] and all(width(p) == 4 for p in want[1])):
+            kept.append(m.group(3))
+            return m.group(0)
+        olds.append(m.group(3).strip())
+        lines.append(f"DECLUNIFY synced {path}:{at(m)} {name}")
+        return f"{m.group(1)}{m.group(2)}{decl[1]} {name}({decl[2]});"
+
+    def fix_obj(m):
+        dims = "".join(m.group(3).split())
+        if decl[0] == "obj" and norm(m.group(2)) == norm(decl[1]) and \
+                re.sub(r"\[[^\]]*\]", "[]", dims) == re.sub(r"\[[^\]]*\]", "[]", decl[2]):
+            return m.group(0)
+        lines.append(f"DECLUNIFY synced {path}:{at(m)} {name}")
+        if decl[0] == "fn":
+            return f"{m.group(1)}{decl[1]} {name}({decl[2]});"
+        return f"{m.group(1)}extern {decl[1]} {name}{decl[2]};"
+
+    text = proto.sub(fix_proto, text)
+    text = obj.sub(fix_obj, text)
+    if decl[0] != "fn":
+        return text, lines, olds
+    ret = olds[0] if olds else kept[0].strip() if kept else old
+    arity = len(params(decl[2])) if decl[2].strip() else None  # None: decl unprototyped, any count
+    skip = [m.span() for rx in (proto, DEF_RE) for m in rx.finditer(text)]
+    casts = []
+    for m in re.finditer(rf"\b{n}\s*\(", text):
+        s = m.start()
+        bol = text.rfind("\n", 0, s) + 1
+        if text[s - 1:s] == "." or text[s - 2:s] == "->" or text[bol:s].lstrip().startswith("#") \
+                or any(a <= s < b for a, b in skip):
+            continue
+        ca = call_args(text, m.end() - 1)
+        if ca is None:
+            continue
+        r = ret if ret is not None and norm(ret) != norm(decl[1]) else None
+        if r is None and arity is not None and ca[1] != arity:
+            r = ret if ret is not None else decl[1]
+        if r is not None:
+            casts.append((s, s + len(name), r.strip()))
+    lines += [f"DECLUNIFY cast {path}:{text.count(chr(10), 0, s) + 1} {name}" for s, _, _ in casts]
+    for s, e, r in reversed(casts):
+        text = f"{text[:s]}(({r} (*)()){name}){text[e:]}"
+    return text, lines, olds
 
 
 def sync(prog, def_path, files=None, texts=None):

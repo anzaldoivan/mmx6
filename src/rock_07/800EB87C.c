@@ -1608,7 +1608,7 @@ INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EEED8);
 
 INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EF100);
 
-INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EFB14);
+#include "../shared/rock_07/func_800EFB14.c"
 
 INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EFD00);
 

@@ -22,7 +22,7 @@
 #undef func_80041AB8
 #undef D_80075FD8
 
-/* Adapted from sozud/mmx4 @807a01b src/main/weapons/weapon_22_nova_strike_hitbox.c:nova_strike_hitbox_update, AGPL-3.0; proven shared with X6 by exact signature ab318e028ab5 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/weapons/weapon_22_nova_strike_hitbox.c:nova_strike_hitbox_update, AGPL-3.0; proven shared with X6 by exact signature ab318e028ab5 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32
@@ -161,7 +161,7 @@ s32 func_801EE434(void) {
     return var_v1;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/weapons/weapon_00_lemon.c:lemon_main, AGPL-3.0; proven shared with X6 by exact signature e25d4c5c1482 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/weapons/weapon_00_lemon.c:lemon_main, AGPL-3.0; proven shared with X6 by exact signature e25d4c5c1482 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void func_801EE4DC(struct X4_AnimatedObj*);
@@ -233,7 +233,7 @@ void func_801EE538(struct X4_WeaponObj* arg0) {
     func_8002CCB0(arg0, 0xC, 8);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/weapons/weapon_00_lemon.c:lemon_deflected, AGPL-3.0; proven shared with X6 by exact signature 9c5292152b2a (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/weapons/weapon_00_lemon.c:lemon_deflected, AGPL-3.0; proven shared with X6 by exact signature 9c5292152b2a (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
@@ -531,7 +531,7 @@ void func_801EEA8C(void* arg0) {
     func_8002CCB0(arg0, 0x2A, 0x22);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/weapons/weapon_20_plasma_shot.c:buster_shot_follow_muzzle, AGPL-3.0; proven shared with X6 by exact signature 06aa2f0ae247 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/weapons/weapon_20_plasma_shot.c:buster_shot_follow_muzzle, AGPL-3.0; proven shared with X6 by exact signature 06aa2f0ae247 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
@@ -1716,7 +1716,7 @@ void func_801F07C4(void* arg0) {
     ((void (*)(void*, s32, s32))func_8002CCB0)(arg0, 0x30, 0x30);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/weapons/weapon_02_frost_tower.c:frost_tower_despawn, AGPL-3.0; proven shared with X6 by exact signature d5fdc58f219e (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/weapons/weapon_02_frost_tower.c:frost_tower_despawn, AGPL-3.0; proven shared with X6 by exact signature d5fdc58f219e (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32

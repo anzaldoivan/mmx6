@@ -90,7 +90,7 @@ void func_80053620(struct X4_EffectObj* self) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/effects/effect_24_boss_warning.c:boss_warning_wait, AGPL-3.0; proven shared with X6 by exact signature ec91c859e783 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/effects/effect_24_boss_warning.c:boss_warning_wait, AGPL-3.0; proven shared with X6 by exact signature ec91c859e783 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
@@ -100,7 +100,7 @@ void func_800536D0(struct X4_EffectObj* self) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/effects/effect_24_boss_warning.c:boss_warning_wait_tiles, AGPL-3.0; proven shared with X6 by exact signature f64138f8e32d (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/effects/effect_24_boss_warning.c:boss_warning_wait_tiles, AGPL-3.0; proven shared with X6 by exact signature f64138f8e32d (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_EffectObj* D_800E4498[22];
@@ -144,7 +144,7 @@ void func_8005378C(struct X4_EffectObj* self) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/effects/effect_24_boss_warning.c:boss_warning_finish, AGPL-3.0; proven shared with X6 by exact signature 7ccb25922a7c (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/effects/effect_24_boss_warning.c:boss_warning_finish, AGPL-3.0; proven shared with X6 by exact signature 7ccb25922a7c (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
@@ -155,7 +155,7 @@ void func_800537F0(struct X4_EffectObj* self) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/effects/effect_24_boss_warning.c:boss_warning_main, AGPL-3.0; proven shared with X6 by exact signature f335fb55e436 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/effects/effect_24_boss_warning.c:boss_warning_main, AGPL-3.0; proven shared with X6 by exact signature f335fb55e436 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern void (*D_8007ACE8[])(struct X4_EffectObj*);
@@ -497,7 +497,7 @@ void func_80053FE4(void) {
     ((M2C_UNK(*)())clear_object_slot)();
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/effects/effect_27_teleport_intro.c:teleport_intro_spawn_quads, AGPL-3.0; proven shared with X6 by exact signature 6c6bde588dbe (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/effects/effect_27_teleport_intro.c:teleport_intro_spawn_quads, AGPL-3.0; proven shared with X6 by exact signature 6c6bde588dbe (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #include "mmx6/system.h"

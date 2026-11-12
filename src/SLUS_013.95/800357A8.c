@@ -54,7 +54,7 @@ s32 check_ceiling_jump(void*);             /* extern */
 M2C_UNK start_jump(void*);                 /* extern */
 M2C_UNK func_8003B218(void*);              /* extern */
 void spawn_dash_tile24_visual(void* arg0); /* extern */
-M2C_UNK set_pose_size();                   /* extern */
+void set_pose_size();                      /* extern */
 void func_8003CD00(void* arg0);            /* extern */
 M2C_UNK func_8003D26C(void*);              /* extern */
 s32 try_start_attack(void*);               /* extern */
@@ -100,7 +100,7 @@ void update_dash_phase1(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/32208", func_80035A2C);
+#include "../shared/SLUS_013.95/func_80035A2C.c"
 // clang-format on
 
 #include "common.h"
@@ -180,7 +180,7 @@ M2C_UNK start_walk(void*);                              /* extern */
 M2C_UNK player_set_animation(void*, M2C_UNK);           /* extern */
 M2C_UNK player_set_animation_frame(void*, M2C_UNK, s8); /* extern */
 void player_spawn_dash_spark(void* arg0);               /* extern */
-M2C_UNK set_pose_size();                                /* extern */
+void set_pose_size();                                   /* extern */
 void func_8003CD00(void* arg0);                         /* extern */
 s32 try_start_shot_attack(void*);                       /* extern */
 s32 func_801EA560(void*);                               /* extern */

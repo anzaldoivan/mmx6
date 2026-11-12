@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_65_magma_dragoon.c:magma_dragoon_face_player, AGPL-3.0; proven shared with X6 by exact signature 3d82c3af21bb (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_65_magma_dragoon.c:magma_dragoon_face_player, AGPL-3.0; proven shared with X6 by exact signature 3d82c3af21bb (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_PlayerObj g_Player;

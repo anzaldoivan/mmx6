@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @807a01b src/main/player_common.c:player_entry_beam_in, AGPL-3.0; proven shared with X6 by exact signature 6b996a39570c (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/player_common.c:player_entry_beam_in, AGPL-3.0; proven shared with X6 by exact signature 6b996a39570c (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
@@ -6,7 +6,7 @@ s32 play_sound(s32, s32, void*);
 M2C_UNK player_set_animation(void*, M2C_UNK);
 
 void func_8003D850(struct X4_PlayerObj* self) {
-    player_set_animation(self, 1);
+    ((s32(*)())player_set_animation)(self, 1);
     ((s32(*)())play_sound)(1, 0xD, self);
     self->x_vel.val = 0;
     self->x_accel = 0;
@@ -127,7 +127,7 @@ void func_8003DACC(void* arg0) {
     M2C_FIELD(arg0, s8*, 5) = 0;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/player_common.c:player_spawn_death_orb, AGPL-3.0; proven shared with X6 by exact signature 76c0b9feb772 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/player_common.c:player_spawn_death_orb, AGPL-3.0; proven shared with X6 by exact signature 76c0b9feb772 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void* alloc_sprite_slot();

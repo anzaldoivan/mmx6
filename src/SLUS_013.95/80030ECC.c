@@ -1,5 +1,5 @@
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80030ECC);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/30234", func_80030ECC);
 // clang-format on
 
 #include "common.h"

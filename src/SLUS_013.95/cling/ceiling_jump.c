@@ -17,9 +17,9 @@ void perform_ceiling_jump(void* arg0) {
     if (self->latched_collision_flags & 4) {
         if (self->collision_flags & 4) {
             p = self->terrain_box;
-            if ((((s32(*)())func_80030304)(arg0, self->x_pos.i.hi,
-                                           self->y_pos.i.hi + p->unk1 -
-                                               p->unk3 - 8) &
+            if ((((s8(*)())func_80030304)(arg0, self->x_pos.i.hi,
+                                          self->y_pos.i.hi + p->unk1 - p->unk3 -
+                                              8) &
                  0xFF) == 0x39) {
                 func_8003AFF4((s32)arg0);
                 return;

@@ -17,7 +17,7 @@ M2C_UNK func_80020D74(void) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/object_update.c:func_80021CC8, AGPL-3.0; proven shared with X6 by exact signature a99aed5959d6 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/object_update.c:func_80021CC8, AGPL-3.0; proven shared with X6 by exact signature a99aed5959d6 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #include "mmx6/globals.h"
@@ -217,10 +217,10 @@ void func_80021208(struct ObjectHeader* arg0, void* arg1) {
         arg0->state = 0;
         return;
     }
-    animate_object();
+    ((M2C_UNK(*)())animate_object)();
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/afterimage.c:func_800AEA58, AGPL-3.0; proven shared with X6 by exact signature 2a177c96c5fb (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/afterimage.c:func_800AEA58, AGPL-3.0; proven shared with X6 by exact signature 2a177c96c5fb (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
@@ -281,7 +281,7 @@ void func_8002130C(void* arg0) {
     M2C_FIELD(arg0, s32*, 0xC) = (s32)M2C_FIELD(temp_a1, s32*, 0x1C);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/afterimage.c:func_800AE88C, AGPL-3.0; proven shared with X6 by exact signature fb1027ecedab (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/afterimage.c:func_800AE88C, AGPL-3.0; proven shared with X6 by exact signature fb1027ecedab (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern void (*D_80071388[])(struct X4_UnkObj*, struct X4_PlayerObj*);
@@ -296,7 +296,7 @@ void func_8002132C(struct X4_UnkObj* arg0, struct X4_PlayerObj* arg1) {
     D_80071388[arg0->unk5](arg0, arg1);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/125BC.c:func_80021DBC, AGPL-3.0; proven shared with X6 by exact signature adb625a87261 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/125BC.c:func_80021DBC, AGPL-3.0; proven shared with X6 by exact signature adb625a87261 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_FixedMatrix2 D_80071394[16];
@@ -383,10 +383,10 @@ M2C_UNK func_80020D74();                  /* extern */
 void func_80020DC8(void);                 /* extern */
 void func_8002927C(void);                 /* extern */
 void func_8002935C(void);                 /* extern */
-M2C_UNK func_800293CC();                  /* extern */
+void func_800293CC();                     /* extern */
 void func_80029D18(void);                 /* extern */
 void func_8002ACA8();                     /* extern */
-M2C_UNK func_8002E84C();                  /* extern */
+void func_8002E84C(void);                 /* extern */
 void func_8002F288(struct X4_PlayerObj*); /* extern */
 void func_80034DCC(void);                 /* extern */
 extern M2C_UNK g_Player;

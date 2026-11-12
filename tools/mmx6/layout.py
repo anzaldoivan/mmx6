@@ -58,7 +58,16 @@ config/layout.tsv (scheme L-B, phase 2.4 T4) and its applier (host PY or contain
          src/<prog>/ dir, else a prog:0x<vram> on the line, else the config/symbols.<prog>.txt file's; func = the stem
          func_<8hex> -> vram, else the stem name, else the `via=` anchor, else that prog:0x<vram>); a bare path -> the
          function's file; new N (and M of `:N-M`) = the one line of its range (preamble included) whose stripped text
-         equals the old line and (N) holds the via anchor; none or several -> unmapped. Prints per-file counts only.
+         equals the old line and (N) holds the via anchor; none or several -> unmapped. A cite-anchor cite (see check)
+         takes the same rule, its old text = line N of the path at the newest commit (git log of the path, walked
+         back from the commit that last wrote the citing line, git blame) where line N held \\b<a>\\b, and func
+         first = the def of that old text holding line N (preamble included; the anchor is often a global or a
+         callee). New N, in order (T17.c2): R1 that exact unique line; R2 a run of 1..4 lines equal to it minus
+         whitespace (reflow) -> the run's line holding the anchor; R3 several R1/R2 hits -> the nearest to N (a tie
+         refused); R4 (no old text, or nothing found) the one non-`//` line holding the anchor in the current file
+         (a cite-anchor cite's own), else in the C function enclosing N: one, or the nearest (a tie refused). Prints
+         `LAYOUT REPOINT <cfg>:<line> <src>:<old> -> [<dest>]:<new> rule=R<k> | <line>` per fallback map, then
+         per-file counts.
   layout.py check [--prog p]
       -> one token per defect, rc 1 if any: `LAYOUT CHECK out-of-order|duplicate|duplicate-row|split <prog>
          <unit> <what>`: vram not increasing along a unit's closure; a function twice in a unit, or one vram in two
@@ -78,7 +87,8 @@ config/layout.tsv (scheme L-B, phase 2.4 T4) and its applier (host PY or contain
          fallback, SLUS folder = the system holding the stem, whole-name stem, an unknown SLUS stem refused with
          nothing written), re-applies the applied plant after a glossary change (role file reused,
          one deleted) and repoints twice (the second maps 0); plants a body renamed in a scratch git repo with one
-         stale cite (repoint maps it, check then clean) and one cite-anchor defect (reported). Ends `LAYOUT CONTROL OK` rc 0, else `LAYOUT CONTROL FAIL <why>` rc 1; deletes its scratch dir.
+         stale cite and one cite-anchor cite (its file gains a line in git; both reported, repoint maps both, check
+         then clean). Ends `LAYOUT CONTROL OK` rc 0, else `LAYOUT CONTROL FAIL <why>` rc 1; deletes its scratch dir.
   Firewall G12: prints names, paths and counts only, never bytes.
 """
 import argparse
@@ -1236,10 +1246,77 @@ def old_lines(tree, path, since=None, cache={}):
     return cache[key]
 
 
+def anchor_lines(tree, path, k, a, since=None, cache={}, shown={}):
+    """The lines of path at the newest commit (git log of path, walked back from since, else HEAD) whose line k holds
+    \\b<a>\\b: the text a cite-anchor cite saw (T17); None when no commit's does."""
+    key = (tree.root, path, k, a, since)
+    if key not in cache:
+        cache[key] = None
+        pat = re.compile(r'\b%s\b' % re.escape(a))
+        for c in (git_out(tree.root, "log", "--format=%H", since or "HEAD", "--", path) or "").split():
+            if (tree.root, c, path) not in shown:
+                t = git_out(tree.root, "show", "%s:%s" % (c, path))
+                shown[(tree.root, c, path)] = None if t is None else t.split("\n")
+            ls = shown[(tree.root, c, path)]
+            if ls is not None and 1 <= k <= len(ls) and pat.search(ls[k - 1]):
+                cache[key] = ls
+                break
+    return cache[key]
+
+
+def remap_line(old, k, lines, lo, hi, anchor):
+    """(new line, rule) of old line k (1-based) in lines[lo..hi] (0-based) (T17.c2): R1 the one line whose stripped
+    text equals the old line's and holds \\b<anchor>\\b; R2 a run of 1..4 lines whose text minus whitespace equals the
+    old line's (clang-format reflow) -> the run's line holding the anchor (no anchor: its first line); R3 several R1
+    (else R2) hits -> the nearest to k, equal distance refused (None, "R3"). (None, None) when nothing matches."""
+    if old is None or not 1 <= k <= len(old) or not old[k - 1].strip():
+        return None, None
+    pat = re.compile(r'\b%s\b' % re.escape(anchor)) if anchor else None
+    t = old[k - 1].strip()
+    hits, rule = [i + 1 for i in range(lo, hi + 1) if lines[i].strip() == t and (not pat or pat.search(lines[i]))], "R1"
+    if not hits:
+        s, hs, rule = re.sub(r'\s+', "", t), set(), "R2"
+        for i in range(lo, hi + 1):
+            run = ""
+            for j in range(i, min(i + 4, hi + 1)):
+                if not lines[j].strip():
+                    break
+                run += re.sub(r'\s+', "", lines[j])
+                if not s.startswith(run):
+                    break
+                if run == s:
+                    h = next((x for x in range(i, j + 1) if not pat or pat.search(lines[x])), None)
+                    if h is not None:
+                        hs.add(h + 1)
+                    break
+        hits = sorted(hs)
+    if len(hits) < 2:
+        return (hits[0], rule) if hits else (None, None)
+    d = sorted(hits, key=lambda h: (abs(h - k), h))
+    return (None, "R3") if abs(d[0] - k) == abs(d[1] - k) else (d[0], "R3")
+
+
+def anchor_line(lines, k, anchor):
+    """(new line, "R4") of a cite to line k whose old text is lost (T17.c2): the one non-comment line (not starting
+    `//`) holding \\b<anchor>\\b in lines; several -> those inside the C function enclosing line k (definition line ..
+    column-0 `}`): one -> it, several -> the nearest to k (equal distance refused: (None, "R4")); else (None, None)."""
+    pat = re.compile(r'\b%s\b' % re.escape(anchor))
+    hits = [i + 1 for i, l in enumerate(lines) if not l.lstrip().startswith("//") and pat.search(l)]
+    if len(hits) == 1:
+        return hits[0], "R4"
+    e = next((e for e in parse(lines) if e.kind == "def" and e.first <= k - 1 <= e.last), None) if hits else None
+    hits = [h for h in hits if e and e.first < h <= e.last + 1]
+    if len(hits) < 2:
+        return (hits[0], "R4") if hits else (None, None)
+    d = sorted(hits, key=lambda h: (abs(h - k), h))
+    return (None, "R4") if abs(d[0] - k) == abs(d[1] - k) else (d[0], "R4")
+
+
 def stale_of(tree, rel):
     """stale(line, m) for repoint_text (T17): old text = git line N of the vanished path; destination = locate(prog,
     func) (stem func_<8hex> -> vram, else the stem name, else the via anchor / a prog:0x<vram> on the line); new N =
-    the one line of that range (preamble included) whose stripped text equals the old line and holds the via anchor."""
+    the one line of that range (preamble included) whose stripped text equals the old line and holds the via anchor.
+    A cite-anchor cite (on disk, line N lacks the via anchor) takes the same rule, old text from anchor_lines."""
     idx = {}
 
     def index(prog):
@@ -1256,8 +1333,14 @@ def stale_of(tree, rel):
     sm = re.match(r'config/symbols\.(.+)\.txt$', rel)
 
     def stale(l, m, n=0):
-        if not stale_cite(tree, l, m):
-            return None
+        anchor = not stale_cite(tree, l, m)
+        if anchor:  # a cite-anchor cite (cite_defects): on disk, line N lacks the via anchor
+            va = VIA_RE.match(l, m.end())
+            if not (m.group(2) and va and tree.exists(m.group(1))):
+                return None
+            k, cur = int(m.group(2)), tree.lines(m.group(1))
+            if 1 <= k <= len(cur) and re.search(r'\b%s\b' % re.escape(va.group(1)), cur[k - 1]):
+                return None
         path, progs = m.group(1), tree.progs()
         w, pv = path.split("/"), PROGVRAM_RE.findall(l)
         prog = (w[2] if w[1] == "shared" and w[2] in progs else w[1] if w[1] in progs else
@@ -1270,29 +1353,37 @@ def stale_of(tree, rel):
         hm = re.match(r'^func_([0-9A-Fa-f]{8})$', stem)
         keys = ([int(hm.group(1), 16)] if hm else []) + [stem] + ([via] if via else []) + \
                [int(v, 16) for p, v in pv if p == prog]
+        since = blame_of(tree.cfg, rel).get(n)
+        old = anchor_lines(tree, path, int(m.group(2)), via, since) if anchor else None
+        if old is not None:  # the anchor is often a global or callee: func = the old def holding line N (preamble in)
+            ents = parse(old)
+            e = next((e for i, e in enumerate(ents) if e.kind == "def" and
+                      (ents[i - 1].last if i else -1) < int(m.group(2)) - 1 <= e.last), None)
+            keys = ([e.name] if e else []) + keys
         ix = index(prog)
         f = next((ix[k] for k in keys if k in ix), None)
-        if f is None:
+        if f is None and not anchor:
             return ""
         if not m.group(2):
             return f.path
-        old = old_lines(tree, path, blame_of(tree.cfg, rel).get(n))
-        lines = tree.lines(f.path)
-        lo = max([e.last + 1 for e in parse(lines) if e.last < f.first] + [0])
-
-        def find(k, anchor):
-            if old is None or not 1 <= k <= len(old) or not old[k - 1].strip():
-                return None
-            t = old[k - 1].strip()
-            hits = [i + 1 for i in range(lo, f.last + 1) if lines[i].strip() == t and
-                    (not anchor or re.search(r'\b%s\b' % re.escape(anchor), lines[i]))]
-            return hits[0] if len(hits) == 1 else None
-
-        a = find(int(m.group(2)), via)
-        b = find(int(m.group(3)), None) if m.group(3) else None
+        if not anchor:
+            old = old_lines(tree, path, since)
+        dest = f.path if f else path  # a cite-anchor cite with no located function: its own file, whole
+        lines = tree.lines(dest)
+        lo = max([e.last + 1 for e in parse(lines) if e.last < f.first] + [0]) if f else 0
+        hi = f.last if f else len(lines) - 1
+        k = int(m.group(2))
+        a, rule = remap_line(old, k, lines, lo, hi, via)
+        if a is None and rule is None and via:  # R4 in the current file: a cite-anchor cite's own (via may be a callee)
+            if anchor and dest != path:
+                dest, lines = path, tree.lines(path)
+            a, rule = anchor_line(lines, k, via)
+        b = remap_line(old, int(m.group(3)), lines, lo, hi, None)[0] if m.group(3) else None
         if a is None or m.group(3) and b is None:
             return ""
-        return "%s:%d%s" % (f.path, a, "-%d" % b if m.group(3) else "")
+        print("LAYOUT REPOINT %s:%d %s:%d -> %s:%d rule=%s | %s" % (
+            rel, n, path, k, "" if dest == path else dest, a, rule, lines[a - 1].strip()))
+        return "%s:%d%s" % (dest, a, "-%d" % b if m.group(3) else "")
 
     return stale
 
@@ -1798,7 +1889,7 @@ def self_test():
                 raise Refuse("repoint not idempotent")
         print("LAYOUT self-test re-apply: role file reused in place, one deleted, cites moved once")
         # T17: a body renamed in git (one line added above its definition) leaves a stale cite no move maps; repoint
-        # finds it through git + locate, check then reports only the planted cite-anchor defect
+        # finds it through git + locate; a cite-anchor cite (update_text_box.c gains a line) is repointed the same way
         st = os.path.join(base, "stale")
         plant(st, PLANT)
         g = ["git", "-C", st, "-c", "user.name=t", "-c", "user.email=t@t", "-c", "commit.gpgsign=false",
@@ -1810,15 +1901,17 @@ def self_test():
         os.remove(os.path.join(st, old_body))
         plant(st, {"src/shared/rock_90/single_site.c": '#include "common.h"\n\n/* single-site body */\n/* moved */\n'
                                                        "void func_800E9900(void) {\n}\n",
-                   "src/rock_90/E9860.c": PLANT["src/rock_90/E9860.c"].replace("func_800E9900.c", "single_site.c")})
+                   "src/rock_90/E9860.c": PLANT["src/rock_90/E9860.c"].replace("func_800E9900.c", "single_site.c"),
+                   "src/shared/rock_90/update_text_box.c": PLANT["src/shared/rock_90/update_text_box.c"].replace(
+                       "\n\nvoid", "\n\n/* text box */\nvoid")})
         subprocess.run(g + ["add", "-A"], check=True)
         subprocess.run(g + ["commit", "-qm", "b"], check=True)
-        plant(st, {CITES[0]: "x code:%s:4 via=func_800E9900\ny code:src/shared/rock_90/update_text_box.c:2 "
+        plant(st, {CITES[0]: "x code:%s:4 via=func_800E9900\ny code:src/shared/rock_90/update_text_box.c:3 "
                              "via=update_text_box\nz %s\n" % (old_body, old_body)})
         ts = Tree(st)
         d = cite_defects(ts)
         want = ["stale-cite %s:1 %s:4" % (CITES[0], old_body),
-                "cite-anchor %s:2 src/shared/rock_90/update_text_box.c:2" % CITES[0],
+                "cite-anchor %s:2 src/shared/rock_90/update_text_box.c:3" % CITES[0],
                 "stale-cite %s:3 %s" % (CITES[0], old_body)]
         if d != want:
             raise Refuse("cite check plants %s" % d)
@@ -1826,9 +1919,28 @@ def self_test():
         with open(os.path.join(st, CITES[0])) as f:
             got = f.read().split("\n")
         if got[0] != "x code:src/shared/rock_90/single_site.c:5 via=func_800E9900" or \
-                got[2] != "z src/shared/rock_90/single_site.c" or cite_defects(Tree(st)) != want[1:2]:
+                got[1] != "y code:src/shared/rock_90/update_text_box.c:4 via=update_text_box" or \
+                got[2] != "z src/shared/rock_90/single_site.c" or cite_defects(Tree(st)):
             raise Refuse("stale repoint %s" % got)
-        print("LAYOUT self-test stale cite: repointed through git + locate, check clean but the planted cite-anchor")
+        print("LAYOUT self-test stale and cite-anchor cites: repointed through git + locate, check clean")
+        # T17.c2: one plant per fallback rule, plus the refusals (equidistant duplicate, anchor absent)
+        two = ["void f(void) {", "    g_t = 1;", "}", "void h(void) {", "    g_t = 2;", "    x();", "    y();",
+               "    g_t = 3;", "}"]
+        dup = ["void f(void) {", "", "    g_t = 1;", "", "", "", "", "", "    g_t = 1;", "}", "    g_t = 1;"]
+        got = [remap_line(["", "  g_t = 1;"], 2, ["x", "", "g_t = 1;"], 0, 2, "g_t"),
+               remap_line(["    v = foo(a, b);"], 1, ["void f(void) {", "    v = foo(a,", "        b);", "}"], 0, 3,
+                          "foo"),
+               remap_line(["    g_t = 1;"] * 4, 4, dup, 0, 9, "g_t"),
+               remap_line(["    g_t = 1;"] * 6, 6, dup, 0, 10, "g_t"),
+               anchor_line(["// g_t", "void f(void) {", "    g_t = 1;", "}"], 1, "g_t"),
+               anchor_line(two, 6, "g_t"),
+               anchor_line(two, 6, "g_u"),
+               anchor_line(two + ["void k(void) {", "    g_v = 1;", "    z();", "    g_v = 2;", "}"], 12, "g_v")]
+        want = [(3, "R1"), (2, "R2"), (3, "R3"), (None, "R3"), (3, "R4"), (5, "R4"), (None, None), (None, "R4")]
+        if got != want:
+            raise Refuse("fallback rules %s" % got)
+        print("LAYOUT self-test fallback rules: R1 exact, R2 reflow, R3 nearest dup, R4 file-unique and "
+              "function-scoped nearest; equidistant dup, equidistant anchor and absent anchor refused")
     except (Refuse, OSError, TypeError, IndexError, KeyError, ValueError, subprocess.SubprocessError) as e:
         why = "%s: %s" % (type(e).__name__, e)
     finally:

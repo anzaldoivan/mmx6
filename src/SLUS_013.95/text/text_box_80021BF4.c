@@ -1,3 +1,3 @@
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", update_text_box);
+#include "../../shared/SLUS_013.95/update_text_box.c"
 // clang-format on

@@ -463,7 +463,7 @@ M2C_UNK animate_object();                                           /* extern */
 s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2); /* extern */
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);    /* extern */
 M2C_UNK move_object(void*);                                         /* extern */
-M2C_UNK func_8002EE10(void*);                                       /* extern */
+M2C_UNK func_8002EE10(struct X4_PlayerObj* arg0);                   /* extern */
 void func_800383F8(void*);                                          /* extern */
 void func_80044590(void* arg0);                                     /* extern */
 

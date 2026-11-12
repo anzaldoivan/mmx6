@@ -5,7 +5,7 @@
 M2C_UNK player_set_animation(void*, M2C_UNK);
 s32 check_giga_attack(void* self);
 void try_fire_shot(void* arg0);
-M2C_UNK start_player_attack(void*, M2C_UNK);
+void start_player_attack(void* arg0, s32 arg1);
 
 #define B(o) (*(s8*)((u8*)self + (o)))
 

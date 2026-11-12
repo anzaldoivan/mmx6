@@ -1,0 +1,10 @@
+#include "common.h"
+
+#include "item/capsule.c"
+#include "80051490.c"
+#include "item/capsule_800515B4.c"
+#include "800516E0.c"
+#include "item/capsule_80051ED4.c"
+#include "80051FA8.c"
+#include "text/text_box_800533F4.c"
+#include "8005348C.c"

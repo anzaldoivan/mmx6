@@ -10,7 +10,7 @@ void func_8001DFB0(void* arg0) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/E47C.c:func_8001E6BC, AGPL-3.0; proven shared with X6 by exact signature 3affa1eca32f (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/E47C.c:func_8001E6BC, AGPL-3.0; proven shared with X6 by exact signature 3affa1eca32f (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 /* siblings in the same TU declare it as s32; view it as the upstream state block */

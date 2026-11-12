@@ -1,0 +1,27 @@
+# config/methods-arm.tsv -- the 3.1 T10 seeded arm: methods-sample.tsv rows whose prior-art lead carries C (x5 or x4 `c`;
+#   no proto/pc row): pilot 2, holdout 7. Read by `cards.py --wave W<n> --arm config/methods-arm.tsv` (+ host --x5-fetch).
+# protocol: independent coders, one per pack; neither sees the other arm's pack; same caps both arms (config/routing.txt:7-12
+#   band of the row's words); verdict on the holdout 7 only = diagnostic-grade (n<10); a tie goes to fresh.
+# arm: fresh = the plain pack <prog>_<func>; seeded = <prog>_<func>.seeded, the same pack plus sibling.c.
+# sibling (cards.sibling_of): x4:<mmx4 src>:<func> (exact partner, campaign/x4/partners.tsv, ported by x4port.port), else
+#   x5:<unit>:<vram>:<name> (docs/leads/x5.tsv col3 twin, fallback campaign/priorart.tsv x5 `c:`); `-` on fresh rows.
+# order: methods-sample.tsv file order, fresh then seeded per row; checked by cards.py --self-test (o).
+split	prog	vram	func	arm	sibling
+pilot	SLUS_013.95	0x8002C850	func_8002C850	fresh	-
+pilot	SLUS_013.95	0x8002C850	func_8002C850	seeded	x5:slus:0x8002D33C:func_8002D33C
+holdout	rock_09	0x800EC338	func_800EC338	fresh	-
+holdout	rock_09	0x800EC338	func_800EC338	seeded	x4:src/main/mains/main_32_bomb_bat.c:bomb_bat_hover
+pilot	SLUS_013.95	0x80027BA0	func_80027BA0	fresh	-
+pilot	SLUS_013.95	0x80027BA0	func_80027BA0	seeded	x5:slus:0x80028A20:func_80028A20
+holdout	SLUS_013.95	0x8001FB3C	func_8001FB3C	fresh	-
+holdout	SLUS_013.95	0x8001FB3C	func_8001FB3C	seeded	x4:src/main/11184.c:func_80020AC8
+holdout	rock_34	0x800FC158	func_800FC158	fresh	-
+holdout	rock_34	0x800FC158	func_800FC158	seeded	x5:ovl06:0x800F9D90:func_800F9D90_ovl06
+holdout	rock_18	0x800ED760	func_800ED760	fresh	-
+holdout	rock_18	0x800ED760	func_800ED760	seeded	x5:slus:0x8001F314:func_8001F314
+holdout	SLUS_013.95	0x8003D26C	func_8003D26C	fresh	-
+holdout	SLUS_013.95	0x8003D26C	func_8003D26C	seeded	x4:src/main/player_common.c:player_spawn_dash_dust
+holdout	rock_15	0x800EB7E8	func_800EB7E8	fresh	-
+holdout	rock_15	0x800EB7E8	func_800EB7E8	seeded	x5:ovl11:0x800F17F0:func_800F17F0_ovl11
+holdout	SLUS_013.95	0x8003040C	func_8003040C	fresh	-
+holdout	SLUS_013.95	0x8003040C	func_8003040C	seeded	x5:slus:0x80030CBC:func_80030CBC

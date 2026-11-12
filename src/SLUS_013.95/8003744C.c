@@ -26,7 +26,7 @@ void func_80037488(void* arg0) {
 
 M2C_UNK animate_object();       /* extern */
 void func_8003ADB4(void* arg0); /* extern */
-M2C_UNK set_pose_size();        /* extern */
+void set_pose_size();           /* extern */
 
 void func_800374D8(void* arg0) {
     ((void (*)())animate_object)();

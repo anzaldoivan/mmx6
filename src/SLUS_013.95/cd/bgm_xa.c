@@ -2,5 +2,5 @@
 // basis: oracle assets.tsv:257:dat:245
 // callers: func_80017F6C, play_stage_bgm, func_8003B870, func_80051A44, rock_17 func_800E9B9C, rock_18 func_800E9A64, rock_20 func_800EEAC4, rock_21 func_800EB7A4
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", play_bgm_xa_track);
+#include "../../shared/SLUS_013.95/play_bgm_xa_track.c"
 // clang-format on

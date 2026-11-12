@@ -10,7 +10,8 @@ A TU listed in config/c_units.txt (`<bin> <tu_name>` per line) is emitted as `c`
 Carves (config/carve.<bin>.txt, written by tools/mmx6/carve.py; config/segmentation.md "carve"): `opt <tu> <vram>
 <newtu> ...` adds a text edge at <vram> (TU <newtu>); `jtbl <lo> <tu>` cuts the exe rodata block at the boundaries.txt
 jtbl row [lo, hi) into `.rodata <tu>` (splat pairs it with unit <tu>), the other pieces named by their vram hex;
-`rodata <lo> <hi> <tu>` cuts [lo, hi) the same way (content-derived range). An overlay's rodata block is [base, hi) of
+`rodata <lo> <hi> <tu>` cuts [lo, hi) the same way (content-derived range); `data <lo> <hi> <tu>` (a same-unit const
+data run, T28.c1) joins the unit's rodata the same way. An overlay's rodata block is [base, hi) of
 its record's `block <hi>` row (hi = the first text function; written by carve.py's first overlay carve): the block is
 cut into rodata pieces and the overlay's first TU starts at hi. Output comes from tracked inputs only.
 Rewrites only the block between the BEGIN/END markers in config/<bin>.yaml; --print (or a missing yaml without
@@ -110,7 +111,7 @@ def c_units(prog):
 
 def read_carves(prog):
     """(opts [(tu, vram, newtu)], jtbls [(lo, tu)], rodatas [(lo, hi, tu)], block_hi | None) of config/carve.<prog>.txt
-    (absent: no carves)."""
+    (absent: no carves); rodatas holds the `rodata` and `data` rows (a data run is cut like a table, T28.c1)."""
     path = os.path.join(ROOT, "config", "carve.%s.txt" % prog)
     opts, jtbls, rodatas, block_hi = [], [], [], None
     if os.path.exists(path):
@@ -121,7 +122,7 @@ def read_carves(prog):
                     opts.append((w[1], int(w[2], 16), w[3]))
                 elif len(w) == 3 and w[0] == "jtbl":
                     jtbls.append((int(w[1], 16), w[2]))
-                elif len(w) == 4 and w[0] == "rodata":
+                elif len(w) == 4 and w[0] in ("rodata", "data"):
                     rodatas.append((int(w[1], 16), int(w[2], 16), w[3]))
                 elif len(w) == 2 and w[0] == "block":
                     block_hi = int(w[1], 16)

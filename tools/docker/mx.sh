@@ -2,7 +2,8 @@
 # mx.sh — the Mac clone <-> amd64 build container arrangement (docs/ops/mmx6-hosts.md).
 # The Mac clone is the only tree agents edit; the volume is a disposable copy at /work.
 #   build [args]   build the image (linux/amd64)
-#   sync           replace /work with the clone's tracked + untracked-non-ignored files (/work/.run, /work/waves kept)
+#   sync [--clean] replace /work with the clone's tracked + untracked-non-ignored files (/work/.run, /work/waves kept;
+#                  top-level asm build expected extracted kept too unless --clean: a later make is incremental)
 #   push <path>... copy named waves/ paths from the clone to /work (same relpath, no wipe; firewall paths refused)
 #   pull <path>... copy named relative paths from /work back into the clone (firewall paths refused; no *.s under
 #                  waves/: game asm never reaches the clone, G12)
@@ -11,6 +12,8 @@
 #                  stay in the volume, never in git or the image)
 #   run <cmd...>   run a command in /work with /disc and /sdk mounted read-only
 # Env overrides (per worktree, cookbook C0004): MX6_IMAGE, MX6_VOLUME, MX6_DISC_VOLUME, MX6_SDK_VOLUME.
+# MX6_CPUS=<n> (optional): `run` adds `--cpus <n> -e MX6_JOBS=<n>`, so make's -j (fleet build, tools-health) is n;
+# for k coders sharing the 8-core VM, 8/k each (docs/ops/decomp-environment.md ## Per-coder volumes).
 # Never --privileged, never --pid=host, never a bind mount of a host path.
 set -euo pipefail
 
@@ -48,11 +51,14 @@ case "$cmd" in
   build)
     exec docker build "${PLAT[@]}" -t "$IMAGE" -f tools/docker/Dockerfile "$@" tools/docker ;;
   sync)
+    keep='! -name asm ! -name build ! -name expected ! -name extracted'
+    if [[ "${1:-}" == --clean ]]; then keep=''; shift; fi
+    [[ $# -eq 0 ]] || die "usage: mx.sh sync [--clean]"
     git ls-files -co --exclude-standard -z \
       | while IFS= read -r -d '' f; do if [[ -e "$f" ]]; then printf '%s\0' "$f"; fi; done \
       | COPYFILE_DISABLE=1 tar --no-xattrs --no-mac-metadata --null -T - -cf - \
       | docker run -i --rm "${PLAT[@]}" -v "$VOL:/work" -w /work "$IMAGE" \
-          sh -c 'find /work -mindepth 1 -maxdepth 1 ! -name .run ! -name waves -exec rm -rf {} + && tar -xf - -C /work' ;;
+          sh -c "find /work -mindepth 1 -maxdepth 1 ! -name .run ! -name waves $keep -exec rm -rf {} + && tar -xf - -C /work" ;;
   push)
     [[ $# -gt 0 ]] || die "usage: mx.sh push <waves/relative-path>..."
     for p in "$@"; do
@@ -81,7 +87,11 @@ case "$cmd" in
           sh -c 'find /sdk -mindepth 1 -maxdepth 1 -exec rm -rf {} + && tar -xf - -C /sdk && ls /sdk' ;;
   run)
     [[ $# -gt 0 ]] || die "usage: mx.sh run <cmd...>"
-    exec docker run --rm "${PLAT[@]}" -v "$VOL:/work" -v "$DISC:/disc:ro" -v "$SDKV:/sdk:ro" -w /work "$IMAGE" "$@" ;;
+    cpus=(); [[ -n "${MX6_CPUS:-}" ]] && cpus=(--cpus "$MX6_CPUS" -e "MX6_JOBS=$MX6_CPUS")
+    # run log (host, waves/ is gitignored): `cards.py --outside waves/.mx-run.log` sorts runs into probes and the rest
+    argv="$*"; argv="${argv//$'\n'/ }"
+    mkdir -p waves && printf '%s %s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$VOL" "$argv" >> waves/.mx-run.log
+    exec docker run --rm "${PLAT[@]}" ${cpus[@]+"${cpus[@]}"} -v "$VOL:/work" -v "$DISC:/disc:ro" -v "$SDKV:/sdk:ro" -w /work "$IMAGE" "$@" ;;
   *)
-    die "usage: mx.sh build|sync|push|pull|disc|sdk|run ..." ;;
+    die "usage: mx.sh build|sync [--clean]|push|pull|disc|sdk|run ..." ;;
 esac

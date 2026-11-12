@@ -31,6 +31,18 @@
          every pv with any campaign/journal.jsonl record (field `pv`; no journal: none), before the verdicts; W<n>.txt lines become `<prog>:0x<VRAM> probe=<p> attempts=<a>` (that row's caps); one
          `DRAW routing <lo>-<hi> <k>` per paid row in file order (k drawn in it) before the DRAW-DETAIL line. A
          malformed or overlapping row -> `DRAW MALFORMED <path>:<line>` rc 2. No --routing: unchanged.
+         The file's `order <class>...` (each of norow reloc jtbl-uncarved path declaration address rodata other
+         plateau once) and `plateau <cap>` rows are not bands (routing() skips them; routing_extra() reads them; a
+         malformed or repeated one -> DRAW MALFORMED rc 2).
+         --order class (needs --rank and --routing, else rc 2; 3.1 T9): the drawn picks (still the first K survivors
+         in rank order) stably sorted by the order row's class rank, rank order kept within a class. Class: the pv's
+         campaign/refusecause.tsv cause (col 6) when listed (a cause not in the order row -> other), else its
+         campaign/ledger.tsv blocker (col 7) jtbl-uncarved -> jtbl-uncarved, plateau:* -> plateau, else other.
+         W<n>.txt lines gain ` class=<c>`; a plateau line's attempts = min(band cap, plateau cap). One
+         `DRAW class <c> <k>` per class in order, after the routing lines. Prior art first: build/draw/W<n>.plateau.txt,
+         one `<pv> x5=<v> x4=<v> proto=<v> pc=<v>` per plateau pick (campaign/priorart.tsv, `-` empty); a plateau pick
+         with no priorart row -> `DRAW PRIORART-MISSING <pv>` rc 2, no W<n>.txt. No order row -> `DRAW MALFORMED
+         <path>:order row absent` rc 2; a missing refusecause/ledger/priorart file -> `DRAW REFUSE missing` rc 1.
          --detail (only with --rank, else rc 2): before the DRAW-DETAIL line, one `DRAW PV <prog>:0x<VRAM> <state>
          <reason>` per ranked pv in rank order; state drawn|eligible|L1..L4 (first refusing layer, as counted) or
          band|route|journal (dropped by --band, words in no paid routing row, journaled; before the verdicts); reason
@@ -50,7 +62,9 @@
          a journaled pv not drawn) and an overlapping row -> DRAW MALFORMED rc 2; --detail (the L4 plant
          `DRAW PV <pv> L4 exclude planted hold`, a drawn plant `drawn -`, `band` under --band); pick_plant (shared with
          ledger.py: exact twins A, B; difficulty draw.jsonl B `cluster of A`, leverage draws B and refuses A
-         `cluster of B`). Every control
+         `cluster of B`); --order class (refusecause over ledger, declaration x2 in rank order, other, plateau
+         `attempts=1`, the nine DRAW class lines, the exact W0.plateau.txt line; no priorart row ->
+         `DRAW PRIORART-MISSING <pv>` rc 2, no W0.txt; a malformed order row -> DRAW MALFORMED rc 2). Every control
          `DRAW CONTROL ok|FAIL <what>`; ends `DRAW CONTROL OK` (rc 0), else rc 1.
 
 Layers, cheapest first:
@@ -86,7 +100,8 @@ INPUTS = dict(diff="build/reports/difficulty.json", funcs="build/corpus/function
               exclude="config/draw_exclude.txt", makefile="Makefile", triples="config/triples.txt",
               classes="build/census/classes.jsonl", scaffold="build/scaffold/scaffold.jsonl",
               scaffold_tracked="campaign/scaffold/scaffold.jsonl", harvest="campaign/harvest", wdir="build/draw",
-              journal="campaign/journal.jsonl")
+              journal="campaign/journal.jsonl", refusecause="campaign/refusecause.tsv", ledger="campaign/ledger.tsv",
+              priorart="campaign/priorart.tsv")
 AUDIT_IN = ("funcs", "bounds", "pin", "registry", "twins", "walls", "exclude", "makefile", "triples")
 OUT = "build/draw/draw.jsonl"
 SELFTEST = ".run/draw-selftest"
@@ -216,6 +231,8 @@ def excludes(path):
 
 
 ROUTES = ("paid", "permuter", "ledger")
+EXTRA = ("order", "plateau")  # routing.txt rows that are not bands (routing_extra)
+CLASSES = ("norow", "reloc", "jtbl-uncarved", "path", "declaration", "address", "rodata", "other", "plateau")
 
 
 def routing(path, head="DRAW"):
@@ -224,7 +241,7 @@ def routing(path, head="DRAW"):
     out, bad = [], []
     with open(path) as f:
         for i, line in enumerate(f, 1):
-            if not line.strip() or line.lstrip().startswith("#"):
+            if not line.strip() or line.lstrip().startswith("#") or line.split()[0] in EXTRA:
                 continue
             m = re.fullmatch(r"(\d+)-(\d+) (\S+) (\d+) (\d+)", line.strip())
             r = m and (int(m.group(1)), int(m.group(2)), m.group(3), int(m.group(4)), int(m.group(5)))
@@ -235,6 +252,47 @@ def routing(path, head="DRAW"):
     if bad:
         raise Refuse(2, bad)
     return out
+
+
+def routing_extra(path, head="DRAW"):
+    """(order, plateau cap) of config/routing.txt's `order <class>...` row (each of CLASSES once) and `plateau <cap>`
+    row (None when absent); Refuse rc 2 (`<head> MALFORMED <path>:<line>`) on a malformed or repeated one."""
+    order = cap = None
+    bad = []
+    with open(path) as f:
+        for i, line in enumerate(f, 1):
+            w = line.split()
+            if not w or w[0] not in EXTRA:
+                continue
+            if w[0] == "order" and order is None and sorted(w[1:]) == sorted(CLASSES):
+                order = w[1:]
+            elif w[0] == "plateau" and cap is None and len(w) == 2 and w[1].isdigit():
+                cap = int(w[1])
+            else:
+                bad.append(f"{head} MALFORMED {path}:{i}")
+    if bad:
+        raise Refuse(2, bad)
+    return order, cap
+
+
+def tsv(path):
+    """Tab-split non-comment lines of path."""
+    with open(path) as f:
+        return [x.rstrip("\n").split("\t") for x in f if x.strip() and not x.startswith("#")]
+
+
+def pv_class(inp, order):
+    """{(prog, 0x%08X): class}: campaign/refusecause.tsv cause (col 6) when listed, else the campaign/ledger.tsv
+    blocker (col 7) jtbl-uncarved | plateau:* -> plateau; a pv in neither, or a cause not in order -> other."""
+    cls = {}
+    for t in tsv(inp["ledger"]):
+        if len(t) >= 7:
+            b = t[6]
+            cls[(t[0], t[1])] = "plateau" if b.startswith("plateau:") else b if b == "jtbl-uncarved" else "other"
+    for t in tsv(inp["refusecause"]):
+        if len(t) >= 6:
+            cls[(t[0], t[1])] = t[5] if t[5] in order else "other"
+    return cls
 
 
 def journaled(path):
@@ -479,17 +537,26 @@ def leverage_picks(inp, funcs, twins, words, route, l4=None, keys=None, band=Non
                 picks=picks)
 
 
-def rank_run(inp, rank, wave, n=None, band=None, words=None, say=print, route=None, detail=False):
+def rank_run(inp, rank, wave, n=None, band=None, words=None, say=print, route=None, detail=False, order=False):
     """Writes <wdir>/W<n>.txt; returns its lines. Refuse rc 2 on a missing harvest stamp, a stale exclude or a
-    malformed routing file (route: its path). detail: one `DRAW PV <pv> <state> <reason>` per ranked pv."""
+    malformed routing file (route: its path). detail: one `DRAW PV <pv> <state> <reason>` per ranked pv. order (needs
+    route): picks stably sorted by class rank, ` class=<c>` per line, plateau attempts capped,
+    <wdir>/W<n>.plateau.txt."""
     w = int(wave[1:])
     out = os.path.join(inp["wdir"], f"{wave}.txt")
-    if os.path.exists(out):
-        os.remove(out)
+    side = os.path.join(inp["wdir"], f"{wave}.plateau.txt")
+    for x in (out, side):
+        if os.path.exists(x):
+            os.remove(x)
     if w >= 1 and not os.path.isfile(os.path.join(inp["harvest"], f"W{w - 1}.ok")):
         raise Refuse(2, [f"DRAW HARVEST-MISSING W{w - 1}"])
     if route:
         routing(route)  # a malformed routing file refuses before any input is read
+        corder, pcap = routing_extra(route)
+        if order and not corder:
+            raise Refuse(2, [f"DRAW MALFORMED {route}:order row absent"])
+    if order:
+        need(inp, ("refusecause", "ledger", "priorart"))
     if rank == "leverage":
         need(inp, ("classes",))
     diff, funcs, twins = load(inp, diff=rank == "difficulty")
@@ -500,12 +567,32 @@ def rank_run(inp, rank, wave, n=None, band=None, words=None, say=print, route=No
                                                                     "paid", "row"))
     vs, cnt, k_drawn = counted(lp["vs"], n)
     drawn = [k for k, v, _, _ in vs if v == "draw"]
-    pvs = [f"{k[0]}:{hexs(k[1])}" + (" probe=%d attempts=%d" % row(k)[3:] if route else "") for k in drawn]
+    if not order:
+        pvs = [f"{k[0]}:{hexs(k[1])}" + (" probe=%d attempts=%d" % row(k)[3:] if route else "") for k in drawn]
+    else:
+        cmap = pv_class(inp, corder)
+        cof = {k: cmap.get((k[0], hexs(k[1])), "other") for k in drawn}
+        drawn = sorted(drawn, key=lambda k: corder.index(cof[k]))  # stable: rank order within a class
+        att = lambda k: min(row(k)[4], pcap) if cof[k] == "plateau" and pcap is not None else row(k)[4]  # noqa: E731
+        pvs = [f"{k[0]}:{hexs(k[1])} probe={row(k)[3]} attempts={att(k)} class={cof[k]}" for k in drawn]
+        prior = {(t[0], t[1]): t[4:8] for t in tsv(inp["priorart"]) if len(t) >= 8}
+        plat = [(k[0], hexs(k[1])) for k in drawn if cof[k] == "plateau"]
+        miss = [f"DRAW PRIORART-MISSING {p}:{v}" for p, v in plat if (p, v) not in prior]
+        if miss:
+            raise Refuse(2, miss)
+        os.makedirs(os.path.dirname(side), exist_ok=True)
+        with open(side, "w") as f:
+            f.write("".join(f"{p}:{v} " + " ".join(f"{n}={x or '-'}" for n, x in zip(("x5", "x4", "proto", "pc"),
+                                                                                  prior[(p, v)])) + "\n"
+                            for p, v in plat))
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w") as f:
         f.write("".join(x + "\n" for x in pvs))
     for r in paid:
         say(f"DRAW routing {r[0]}-{r[1]} {sum(row(k) == r for k in drawn)}")
+    if order:
+        for c in corder:
+            say(f"DRAW class {c} {sum(cof[k] == c for k in drawn)}")
     if detail:
         got = {k: ({"draw": "drawn"}.get(v, v) if not layer else layer, why or "-") for k, v, layer, why in vs}
         for k in ranked:
@@ -688,6 +775,52 @@ def self_test():
         ok(e.rc == 2 and e.lines == [f"DRAW MALFORMED {bad}:3"]
            and not os.path.exists(os.path.join(rinp["wdir"], "W0.txt")),
            "overlapping routing row -> DRAW MALFORMED <path>:3, rc 2, no W0.txt")
+    root = os.path.join(SELFTEST, "order")  # --order class over the real config/routing.txt; picks f4 f2 f8 f11
+    oinp, owords, _ = plant(root)
+    with open(oinp["refusecause"], "w") as f:  # f2, f11 declaration (f2's ledger jtbl-uncarved loses to it)
+        f.write("".join(f"{P}\t{pv(i)[len(P) + 1:]}\tf{i}\t-\tR2\tdeclaration\tplanted\n" for i in (2, 11)))
+    with open(oinp["ledger"], "w") as f:  # f4 plateau, f8 other
+        f.write("".join(f"{P}\t{pv(i)[len(P) + 1:]}\tf{i}\tunique\t0/4\tm2c\t{b}\t0\n"
+                        for i, b in ((2, "jtbl-uncarved"), (4, "plateau:length"), (8, "undrawn"))))
+    prow = f"{P}\t{pv(4)[len(P) + 1:]}\tf4\tplateau:length\tc:plant:{pv(4)[len(P) + 1:]}:f4\t-\t-\t0x00401000\n"
+    with open(oinp["priorart"], "w") as f:
+        f.write("# planted\n# prog\tvram\tfunc\tblocker\tx5\tx4\tproto\tpc\n" + prow)
+    want_w = [f"{pv(2)} probe=6 attempts=2 class=declaration", f"{pv(11)} probe=18 attempts=2 class=declaration",
+              f"{pv(8)} probe=18 attempts=2 class=other", f"{pv(4)} probe=6 attempts=1 class=plateau"]
+    want_c = ["DRAW class norow 0", "DRAW class reloc 0", "DRAW class jtbl-uncarved 0", "DRAW class path 0",
+              "DRAW class declaration 2", "DRAW class address 0", "DRAW class rodata 0", "DRAW class other 1",
+              "DRAW class plateau 1"]
+    want_s = f"{pv(4)} x5=c:plant:{pv(4)[len(P) + 1:]}:f4 x4=- proto=- pc=0x00401000\n"
+    side = os.path.join(oinp["wdir"], "W0.plateau.txt")
+    said = []
+    try:
+        got = rank_run(oinp, "leverage", "W0", 9, None, owords, said.append, route="config/routing.txt", order=True)
+        with open(os.path.join(oinp["wdir"], "W0.txt")) as f:
+            body = f.read().splitlines()
+        ok(got == body == want_w, f"--order class: class order, rank order within a class, plateau attempts=1: {got}")
+        ok([x for x in said if x.startswith("DRAW class ")] == want_c
+           and said.index(want_c[-1]) < len(said) - 2, f"--order class: DRAW class lines in order: {said}")
+        with open(side) as f:
+            ok(f.read() == want_s, "--order class: W0.plateau.txt prior-art line of the plateau pick")
+    except Refuse as e:
+        ok(False, f"--order class: refused rc {e.rc} {e.lines[0]}")
+    with open(oinp["priorart"], "w") as f:
+        f.write("# planted, no rows\n")
+    try:
+        rank_run(oinp, "leverage", "W0", 9, None, owords, lambda s: None, route="config/routing.txt", order=True)
+        ok(False, "plateau pick without a priorart row -> rc 2")
+    except Refuse as e:
+        ok(e.rc == 2 and e.lines == [f"DRAW PRIORART-MISSING {pv(4)}"]
+           and not os.path.exists(os.path.join(oinp["wdir"], "W0.txt")) and not os.path.exists(side),
+           "plateau pick without a priorart row -> DRAW PRIORART-MISSING <pv>, rc 2, no W0.txt")
+    bad = os.path.join(root, "routing-order.txt")
+    with open(bad, "w") as f:
+        f.write("# planted\n1-16 paid 6 2\norder norow bogus\n")
+    try:
+        rank_run(oinp, "leverage", "W0", 9, None, owords, lambda s: None, route=bad, order=True)
+        ok(False, "malformed order row -> rc 2")
+    except Refuse as e:
+        ok(e.rc == 2 and e.lines == [f"DRAW MALFORMED {bad}:3"], "malformed order row -> DRAW MALFORMED <path>:3, rc 2")
     root = os.path.join(SELFTEST, "pick")  # pick_plant: difficulty rep A, leverage pick B
     pinp, pwords, _ = plant(root)
     va, vb = pv(40)[len(P) + 1:], pv(41)[len(P) + 1:]
@@ -753,10 +886,13 @@ def main():
     ap.add_argument("--wave", metavar="W<n>")
     ap.add_argument("--routing", metavar="FILE")
     ap.add_argument("--detail", action="store_true")
+    ap.add_argument("--order", choices=("class",))
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
     if bool(a.rank) != bool(a.wave) or ((a.band or a.routing or a.detail) and not a.rank):
         ap.error("--rank needs --wave; --wave, --band, --routing and --detail need --rank")
+    if a.order and not (a.rank and a.routing):
+        ap.error("--order class needs --rank and --routing")
     if a.wave and not re.fullmatch(r"W\d+", a.wave):
         ap.error("--wave takes W<n>, n >= 0")
     band = None
@@ -775,7 +911,7 @@ def main():
             print("\n".join(lines))
             return 2 if s else 0
         if a.rank:
-            rank_run(INPUTS, a.rank, a.wave, a.n, band, route=a.routing, detail=a.detail)
+            rank_run(INPUTS, a.rank, a.wave, a.n, band, route=a.routing, detail=a.detail, order=bool(a.order))
             return 0
         run(INPUTS, OUT, a.n)
     except Refuse as e:

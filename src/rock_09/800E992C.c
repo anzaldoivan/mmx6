@@ -41,7 +41,7 @@ void func_800E9970(s8* self, s8* parent) {
     M2C_FIELD(self, u8*, 4)++;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_07_water_wake.c:water_wake_main, AGPL-3.0; proven shared with X6 by exact signature b82c7ed308c9 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/visuals/visual_07_water_wake.c:water_wake_main, AGPL-3.0; proven shared with X6 by exact signature b82c7ed308c9 (see THIRD_PARTY.md). */
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
@@ -170,7 +170,7 @@ s32 func_800E9CDC(void* arg0) {
     return r == 1;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_07_water_wake.c:water_wake_player_moving, AGPL-3.0; proven shared with X6 by exact signature 98768ef976bc (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/visuals/visual_07_water_wake.c:water_wake_player_moving, AGPL-3.0; proven shared with X6 by exact signature 98768ef976bc (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern u8 D_800F53E0[9][16];
@@ -264,7 +264,7 @@ INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800E9EF0);
 #undef D_800FAA64
 
 // clang-format off
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EA41C);
+#include "../shared/rock_09/func_800EA41C.c"
 // clang-format on
 
 #include "common.h"
@@ -603,7 +603,7 @@ void func_800EB1DC(void) {
 #include "../shared/rock_09/func_800EB1E4.c"
 
 #define func_80042C18 func_800EB284
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_65_magma_dragoon.c:magma_dragoon_face_player, AGPL-3.0; proven shared with X6 by exact signature 3d82c3af21bb (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_65_magma_dragoon.c:magma_dragoon_face_player, AGPL-3.0; proven shared with X6 by exact signature 3d82c3af21bb (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern s32 g_Player;
@@ -1068,7 +1068,7 @@ INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EC338);
 #undef func_8003744C
 #undef D_80073C1C
 
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_32_bomb_bat.c:bomb_bat_drop_start, AGPL-3.0; proven shared with X6 by exact signature 32f9f02b5c88 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_32_bomb_bat.c:bomb_bat_drop_start, AGPL-3.0; proven shared with X6 by exact signature 32f9f02b5c88 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_Unk_unk68 D_800F5F04;
@@ -1083,7 +1083,7 @@ void func_800EC4C8(struct X4_MainObj* self) {
     self->action_phase++;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_32_bomb_bat.c:bomb_bat_drop_release, AGPL-3.0; proven shared with X6 by exact signature b8c90aca8278 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_32_bomb_bat.c:bomb_bat_drop_release, AGPL-3.0; proven shared with X6 by exact signature b8c90aca8278 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void func_800ECAA0(struct X4_MainObj*);
@@ -1290,7 +1290,7 @@ void func_800EC978(void* arg0) {
 #include "../shared/rock_09/func_800EC9D0.c"
 
 #define func_800F32A8 func_800ECA70
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_13_heavy_mech.c:heavy_mech_face_player, AGPL-3.0; proven shared with X6 by exact signature d7798d86256f (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_13_heavy_mech.c:heavy_mech_face_player, AGPL-3.0; proven shared with X6 by exact signature d7798d86256f (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern s32 g_Player;

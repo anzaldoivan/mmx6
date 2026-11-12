@@ -12,6 +12,10 @@ create_task = 0x80013300; // type:func
 task_yield = 0x80013360; // type:func
 // basis: name: code code:src/SLUS_013.95/task/task_slot.c:18 via=CloseTh
 end_task_slot = 0x800133F4; // type:func
+// basis: fused-symbol split (C0381, T29): 0x80013788 is a by-address create_task callback start
+func_80013530 = 0x80013530; // type:func size:0x258
+// basis: fused-symbol split (C0381, T29): create_task(3, &func_80013788) in func_80013A48/func_80013AA4
+func_80013788 = 0x80013788; // type:func size:0x218
 // basis: name: community tweaks-index.tsv:375
 load_player_files = 0x80013BF0; // type:func
 // basis: name: community tweaks-index.tsv:40
@@ -94,7 +98,7 @@ load_palette = 0x8002B3D4; // type:func
 reset_level = 0x8002B838; // type:func
 // basis: name: objects objects.tsv:338 proven 7 frames; role tweaks-index.tsv:134
 enemy_slot_alloc = 0x8002BBF4; // type:func
-// basis: name: code code:src/SLUS_013.95/effect/dust.c:16 via=active; derived.tsv:59
+// basis: name: code code:src/SLUS_013.95/effect/dust.c:15 via=active; derived.tsv:59
 find_free_visual_obj = 0x8002C398; // type:func
 // basis: name: code code:src/SLUS_013.95/object/class3_slot.c:18 via=g_class3_slots; objects.tsv:341
 alloc_class3_slot = 0x8002C3F8; // type:func
@@ -104,7 +108,7 @@ alloc_class4_slot = 0x8002C4C4; // type:func
 alloc_sprite_slot = 0x8002C530; // type:func
 // basis: name: code code:src/SLUS_013.95/object/class6_slot.c:17 via=g_class6_slots; objects.tsv:344
 alloc_class6_slot = 0x8002C7F0; // type:func
-// basis: name: code code:src/SLUS_013.95/object/class7_slot.c:16 via=g_class7_slots; objects.tsv:345
+// basis: name: code code:src/SLUS_013.95/object/class7_slot.c:15 via=g_class7_slots; objects.tsv:345
 alloc_class7_slot = 0x8002C950; // type:func
 // basis: name: code code:src/SLUS_013.95/object/object_slot.c:8 via=arg0
 clear_object_slot = 0x8002C9B0; // type:func
@@ -116,7 +120,7 @@ apply_player_motion = 0x8002CFB0; // type:func
 apply_object_motion = 0x8002D230; // type:func
 // basis: name: x4 exact 6534750cb678 sozud/mmx4@6a6b455 src/main/object_motion.c:move_object; corroborator caller src/main/mains/main_19_surface_hopper:surface_hopper_fly
 move_object = 0x8002D2B0; // type:func
-// basis: name: code code:src/SLUS_013.95/system/random_byte.c:13 via=D_80090E70
+// basis: name: code code:src/SLUS_013.95/system/random_byte.c:12 via=D_80090E70
 random_byte = 0x8002D2D4; // type:func
 // basis: name: x4 exact e92a2af1038e sozud/mmx4@6a6b455 src/main/object_motion.c:set_velocity_from_angle; corroborator callee src/main/object_motion:set_velocity_from_angle SLUS_013.95:0x8002D3B4
 set_velocity_from_angle = 0x8002D3B4; // type:func
@@ -146,7 +150,7 @@ collide_solid_object = 0x80031DA8; // type:func
 setup_pause_menu = 0x80032DF0; // type:func
 // basis: name: community tweaks-index.tsv:310
 exit_stage_from_menu = 0x800346EC; // type:func
-// basis: name: xref derived.tsv:15; xref:caller=player_update_flash; code:src/SLUS_013.95/player/player.c:57 via=player_update_flash
+// basis: name: xref derived.tsv:15; xref:caller=player_update_flash; code:src/SLUS_013.95/player/player.c:58 via=player_update_flash
 update_player = 0x80034FBC; // type:func
 // basis: name: code code:src/SLUS_013.95/player/stage_entry.c:44 via=init_move_stats; derived.tsv:69
 update_stage_entry = 0x80035144; // type:func
@@ -172,7 +176,7 @@ update_wall_cling = 0x80036B10; // type:func
 update_wall_jump = 0x80036C28; // type:func
 // basis: name: code code:src/SLUS_013.95/cling/wall_jump_8003B440.c:53 via=action_phase; derived.tsv:79
 update_wall_jump_push = 0x80036C68; // type:func
-// basis: name: code code:src/SLUS_013.95/cling/wall_jump.c:107 via=y_vel; derived.tsv:80
+// basis: name: code code:src/SLUS_013.95/cling/wall_jump.c:105 via=y_vel; derived.tsv:80
 update_wall_jump_rise = 0x80036D4C; // type:func
 // basis: name: xref derived.tsv:16; xref:callee=handle_slide_down; code:src/SLUS_013.95/player/slide_down.c:15 via=handle_slide_down
 update_slide_down = 0x80036E70; // type:func
@@ -190,7 +194,7 @@ player_ladder_climb_on_top = 0x80037548; // type:func
 player_ladder_step_off_bottom = 0x800375D0; // type:func
 // basis: name: xref derived.tsv:84; xref:caller=try_leave_ladder; code:src/SLUS_013.95/ladder/ladder_climb_80037610.c:22 via=try_leave_ladder
 update_ladder_climb_up = 0x80037610; // type:func
-// basis: name: xref derived.tsv:85; xref:caller=try_leave_ladder; code:src/SLUS_013.95/ladder/ladder_climb_80037610.c:81 via=try_leave_ladder
+// basis: name: xref derived.tsv:85; xref:caller=try_leave_ladder; code:src/SLUS_013.95/ladder/ladder_climb_80037610.c:74 via=try_leave_ladder
 update_ladder_climb_down = 0x80037704; // type:func
 // basis: name: x4 exact 97ce869b32ad sozud/mmx4@6a6b455 src/main/player.c:player_ladder_let_go; corroborator callee src/main/player:player_ladder_let_go SLUS_013.95:0x80017A04
 player_ladder_let_go = 0x800377FC; // type:func
@@ -210,7 +214,7 @@ update_ceiling_jump = 0x800381F0; // type:func
 end_ceiling_jump = 0x80038248; // type:func
 // basis: name: community tweaks-index.tsv:216
 select_air_dash = 0x8003906C; // type:func
-// basis: name: code code:src/SLUS_013.95/damage/damage_80039228.c:119 via=invincibility_timer; derived.tsv:91
+// basis: name: code code:src/SLUS_013.95/damage/damage_80039228.c:102 via=invincibility_timer; derived.tsv:91
 update_player_damage = 0x80039228; // type:func
 // basis: name: code code:src/SLUS_013.95/damage/hurt_8003963C.c:35 via=hurt_type; derived.tsv:92
 start_hurt = 0x8003963C; // type:func
@@ -234,7 +238,7 @@ update_double_tap_dash = 0x80039F78; // type:func
 check_dash_end = 0x80039FFC; // type:func
 // basis: name: code code:src/SLUS_013.95/8003A0E8.c:34 via=dash_timer; code:src/SLUS_013.95/dash/dash_end.c:12 via=check_dash_end; derived.tsv:182
 check_dash_end_no_release = 0x8003A0E8; // type:func
-// basis: name: xref derived.tsv:17; xref:caller=player_enter_wall_cling; code:src/SLUS_013.95/cling/enter_wall_cling.c:23 via=player_enter_wall_cling
+// basis: name: xref derived.tsv:17; xref:caller=player_enter_wall_cling; code:src/SLUS_013.95/cling/enter_wall_cling.c:25 via=player_enter_wall_cling
 try_enter_wall_cling = 0x8003A2CC; // type:func
 // basis: name: code code:src/SLUS_013.95/cling/wall_jump_8003A33C.c:18 via=wall_climbable; derived.tsv:100
 try_wall_jump = 0x8003A33C; // type:func
@@ -244,7 +248,7 @@ is_pressing_into_wall = 0x8003A394; // type:func
 try_enter_ladder = 0x8003A3DC; // type:func
 // basis: name: code code:src/SLUS_013.95/ladder/grab_ladder_from_air.c:24 via=attacking; derived.tsv:102
 try_grab_ladder_from_air = 0x8003A488; // type:func
-// basis: name: xref derived.tsv:19; xref:caller=player_enter_ladder_step_off_bottom; code:src/SLUS_013.95/ladder/leave_ladder.c:18 via=player_enter_ladder_step_off_bottom
+// basis: name: xref derived.tsv:19; xref:caller=player_enter_ladder_step_off_bottom; code:src/SLUS_013.95/ladder/leave_ladder.c:19 via=player_enter_ladder_step_off_bottom
 try_leave_ladder = 0x8003A514; // type:func
 // basis: name: community tweaks-index.tsv:192
 check_ceiling_jump = 0x8003A870; // type:func
@@ -264,7 +268,7 @@ end_dash = 0x8003B114; // type:func
 player_enter_wall_cling = 0x8003B3B8; // type:func
 // basis: name: code code:src/SLUS_013.95/cling/wall_jump_8003B440.c:52 via=action; glossary.md:425 (wall jump); derived.tsv:110
 start_wall_jump = 0x8003B440; // type:func
-// basis: name: code code:src/SLUS_013.95/8003B548.c:25 via=action; derived.tsv:20
+// basis: name: code code:src/SLUS_013.95/8003B548.c:24 via=action; derived.tsv:20
 start_slide_down = 0x8003B548; // type:func
 // basis: name: xref derived.tsv:112; xref:callee=try_enter_ladder; code:src/SLUS_013.95/ladder/ladder.c:23 via=x_pos
 grab_ladder = 0x8003B63C; // type:func
@@ -320,11 +324,11 @@ spawn_dust = 0x8003D2BC; // type:func
 player_spawn_weapon = 0x8003D3F8; // type:func
 // basis: name: x4 exact bcd7efacb341 sozud/mmx4@6a6b455 src/main/player_common.c:player_spawn_visual; corroborator callee src/main/player_common:player_spawn_visual SLUS_013.95:0x8003D510
 player_spawn_visual = 0x8003D510; // type:func
-// basis: name: xref derived.tsv:126; xref:caller=init_move_stats; code:src/SLUS_013.95/player/move_stats.c:11 via=init_move_stats; code:src/SLUS_013.95/8003D598.c:34 via=dash_speed
+// basis: name: xref derived.tsv:126; xref:caller=init_move_stats; code:src/SLUS_013.95/player/move_stats.c:10 via=init_move_stats; code:src/SLUS_013.95/8003D598.c:34 via=dash_speed
 set_base_move_stats = 0x8003D598; // type:func
-// basis: name: code code:src/SLUS_013.95/player/move_stats.c:15 via=equipped_parts; derived.tsv:127
+// basis: name: code code:src/SLUS_013.95/player/move_stats.c:14 via=equipped_parts; derived.tsv:127
 init_move_stats = 0x8003D630; // type:func
-// basis: name: code code:src/SLUS_013.95/player/armor.c:17 via=armor; code:src/SLUS_013.95/player/armor.c:18 via=equipped_parts; derived.tsv:128
+// basis: name: code code:src/SLUS_013.95/player/armor.c:16 via=armor; code:src/SLUS_013.95/player/armor.c:17 via=equipped_parts; derived.tsv:128
 load_armor_and_parts = 0x8003D718; // type:func
 // basis: name: community tweaks-index.tsv:321
 map_buttons = 0x8003D7AC; // type:func
@@ -334,7 +338,7 @@ switch_weapon = 0x8003DBDC; // type:func
 set_shot_types = 0x8003DF58; // type:func
 // basis: name: xref derived.tsv:131; xref:caller=start_player_attack; code:src/SLUS_013.95/weapon/shoot_in_air.c:47 via=start_player_attack
 try_shoot_in_air = 0x8003E174; // type:func
-// basis: name: xref derived.tsv:132; xref:caller=start_player_attack; code:src/SLUS_013.95/weapon/shoot_on_ladder.c:46 via=start_player_attack
+// basis: name: xref derived.tsv:132; xref:caller=start_player_attack; code:src/SLUS_013.95/weapon/shoot_on_ladder.c:40 via=start_player_attack
 try_shoot_on_ladder = 0x8003E260; // type:func
 // basis: name: community tweaks-index.tsv:202
 check_giga_attack = 0x8003E344; // type:func
@@ -342,11 +346,11 @@ check_giga_attack = 0x8003E344; // type:func
 try_fire_shot = 0x8003E614; // type:func
 // basis: name: community tweaks-index.tsv:208
 get_weapon_energy_cost = 0x8003EB0C; // type:func
-// basis: name: xref derived.tsv:21; xref:caller=charge_special_weapon; code:src/SLUS_013.95/weapon/player_charge.c:51 via=charge_special_weapon
+// basis: name: xref derived.tsv:21; xref:caller=charge_special_weapon; code:src/SLUS_013.95/weapon/player_charge.c:50 via=charge_special_weapon
 update_player_charge = 0x8003EC78; // type:func
 // basis: name: community tweaks-index.tsv:207
 charge_special_weapon = 0x8003EEE4; // type:func
-// basis: name: xref derived.tsv:22; xref:caller=switch_weapon; code:src/SLUS_013.95/weapon/weapon_switch.c:16 via=switch_weapon
+// basis: name: xref derived.tsv:22; xref:caller=switch_weapon; code:src/SLUS_013.95/weapon/weapon_switch.c:17 via=switch_weapon
 update_weapon_switch = 0x8003F048; // type:func
 // basis: name: xref derived.tsv:135; xref:callee=update_weapon_switch; code:src/SLUS_013.95/weapon/to_weapon_change.c:17 via=player_spawn_visual
 react_to_weapon_change = 0x8003F0BC; // type:func
@@ -356,7 +360,7 @@ try_start_attack = 0x8003F13C; // type:func
 start_hover = 0x8003F200; // type:func
 // basis: name: community tweaks-index.tsv:246
 start_falcon_dash = 0x8003F28C; // type:func
-// basis: name: xref derived.tsv:23; xref:callee=select_air_dash; code:src/SLUS_013.95/dash/air_dash.c:57 via=try_start_air_dash
+// basis: name: xref derived.tsv:23; xref:callee=select_air_dash; code:src/SLUS_013.95/dash/air_dash.c:56 via=try_start_air_dash
 try_start_air_dash = 0x8003F32C; // type:func
 // basis: name: xref derived.tsv:157; xref:callee=set_shot_types; code:src/SLUS_013.95/8003F3DC.c:17 via=set_shot_types
 refresh_weapon_state = 0x8003F3DC; // type:func
@@ -408,7 +412,7 @@ drop_item = 0x8004E680; // type:func
 rescue_reploid = 0x8004EECC; // type:func
 // basis: name: code code:src/SLUS_013.95/item/reploid.c:37 via=set_reploid_status
 set_reploid_status = 0x8004FF00; // type:func
-// basis: name: code code:src/SLUS_013.95/80018774.c:335 via=get_reploid_status
+// basis: name: code code:src/SLUS_013.95/80018774.c:336 via=get_reploid_status
 get_reploid_status = 0x8004FF4C; // type:func
 // basis: name: community tweaks-index.tsv:219
 init_capsule = 0x80051158; // type:func
@@ -1212,7 +1216,7 @@ ceiling_state_table = 0x800762C0;
 g_visual_animation_tables = 0x8007789C;
 // basis: name: community tweaks-index.tsv:218
 capsule_parts = 0x80078E08;
-// basis: name: code code:src/SLUS_013.95/80026028.c:977 via=g_tilemap_layer_stride
+// basis: name: code code:src/SLUS_013.95/80026028.c:985 via=g_tilemap_layer_stride
 g_tilemap_layer_stride = 0x8008EC10;
 // basis: name: community tweaks-index.tsv:134
 g_enemies = 0x8008EF48;
@@ -1262,23 +1266,23 @@ g_cur_draw_info = 0x8009B7A0;
 g_class3_slots = 0x8009B7B0;
 // basis: name: code code:src/SLUS_013.95/object/class6_slot.c:17 via=g_class6_slots; pool of X4_QuadObj slots scanned for active == 0; objects.tsv:344
 g_class6_slots = 0x8009C9B0;
-// basis: name: code code:src/SLUS_013.95/80026028.c:187 via=g_bg_sprite_prims
+// basis: name: code code:src/SLUS_013.95/80026028.c:189 via=g_bg_sprite_prims
 g_bg_sprite_prims = 0x800B91C0;
 // basis: name: code code:src/SLUS_013.95/object/class4_slot.c:18 via=g_class4_slots; pool of 0x50 0xA4-byte slots scanned for active == 0; objects.tsv:342
 g_class4_slots = 0x800C1220;
 // basis: name: code code:src/SLUS_013.95/80012A34.c:47 via=g_pad1_buttons
 g_pad1_buttons = 0x800C456C;
-// basis: name: code code:src/SLUS_013.95/800120A0.c:44 via=g_draw_info_buffers
+// basis: name: code code:src/SLUS_013.95/800120A0.c:45 via=g_draw_info_buffers
 g_draw_info_buffers = 0x800C4578;
 // basis: name: code code:src/SLUS_013.95/80012A34.c:84 via=g_pad2_buttons
 g_pad2_buttons = 0x800C4758;
-// basis: name: code code:src/SLUS_013.95/object/class7_slot.c:16 via=g_class7_slots; pool of 4 X4_LayerObj slots scanned for active == 0; objects.tsv:345
+// basis: name: code code:src/SLUS_013.95/object/class7_slot.c:15 via=g_class7_slots; pool of 4 X4_LayerObj slots scanned for active == 0; objects.tsv:345
 g_class7_slots = 0x800C4778;
 // basis: name: community tweaks-index.tsv:49
 g_playthrough_state = 0x800CCED0;
-// basis: name: code code:src/SLUS_013.95/80026028.c:974 via=g_tilemap_width
+// basis: name: code code:src/SLUS_013.95/80026028.c:982 via=g_tilemap_width
 g_tilemap_width = 0x800CD338;
-// basis: name: code code:src/SLUS_013.95/80026028.c:974 via=g_tilemap_height
+// basis: name: code code:src/SLUS_013.95/80026028.c:982 via=g_tilemap_height
 g_tilemap_height = 0x800CD339;
 // basis: name: community tweaks-index.tsv:380
 g_displayed_sprites = 0x800CD410;

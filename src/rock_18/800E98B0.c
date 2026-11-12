@@ -379,7 +379,7 @@ void func_800EA570(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800EA5C8);
+#include "../shared/rock_18/func_800EA5C8.c"
 // clang-format on
 
 #include "common.h"
@@ -1347,7 +1347,7 @@ void func_800ED22C(u8* arg0) {
     func_800ED61C(0, 1, 0, 0);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/game_info.c:func_8001DAD0, AGPL-3.0; proven shared with X6 by exact signature b05a02ff1ea5 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/game_info.c:func_8001DAD0, AGPL-3.0; proven shared with X6 by exact signature b05a02ff1ea5 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_EngineObj g_playthrough_state;
@@ -1663,7 +1663,7 @@ void func_800EDA38(s8* arg0) {
 #undef D_80075FD8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800EDBA8);
+#include "../shared/rock_18/func_800EDBA8.c"
 // clang-format on
 
 #include "common.h"
@@ -2309,7 +2309,7 @@ void func_800EFC78(struct X4_BaseObj* self) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800EFDE4);
+#include "../shared/rock_18/func_800EFDE4.c"
 // clang-format on
 
 #include "../shared/rock_18/func_800EFFD4.c"
@@ -2426,9 +2426,9 @@ void func_800F0438(void* arg0) {
 #include "../shared/rock_18/func_800F0528.c"
 
 // clang-format off
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800F05C4);
+#include "../shared/rock_18/func_800F05C4.c"
 
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800F0618);
+#include "../shared/rock_18/func_800F0618.c"
 // clang-format on
 
 #include "common.h"

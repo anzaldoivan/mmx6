@@ -274,7 +274,7 @@ void func_800EA59C(void) {
 #undef func_80041AB8
 #undef D_80075FD8
 
-/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_12_ride_dust.c:ride_dust_init, AGPL-3.0; proven shared with X6 by exact signature 6eac507027d5 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/visuals/visual_12_ride_dust.c:ride_dust_init, AGPL-3.0; proven shared with X6 by exact signature 6eac507027d5 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern u8 D_800F3680[];

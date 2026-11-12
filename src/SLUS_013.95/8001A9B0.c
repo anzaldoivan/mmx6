@@ -117,7 +117,7 @@ void func_8001ACC4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 #undef DB_DISP
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001AE44);
+#include "../shared/SLUS_013.95/func_8001AE44.c"
 // clang-format on
 
 #include "common.h"
@@ -352,7 +352,7 @@ void func_8001B5FC(void) {
 /* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:func_80018AD0, AGPL-3.0; proven shared with X6 by exact signature fae0caed2311 (see THIRD_PARTY.md). */
 #include "common.h"
 s32 func_80016548(s32 arg0, s32* arg1);
-extern void func_8001AE44(s32, s32, s32, s32, s32, s32, s32, s32, s32, s32);
+extern s32 func_8001AE44(s32, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
 // ! upstream returns s32; X6 siblings (play_str_movie.c, func_8001A9B0.c) declare it void
 void func_8001B6D0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5,

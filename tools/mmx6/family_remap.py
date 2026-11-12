@@ -38,10 +38,17 @@
          Teardown restores src/, the registry and build/corpus/{functions,spans,denominators}.jsonl byte-exact, deletes
          the plants, rebuilds; fail-closed check of src/, registry, exe sha1. Ends `REMAP CONTROL OK` (rc 0), else
          `REMAP SELF-TEST FAIL <n>` (rc 1). Logs under .run/remap/.
+         All of it runs in a scratch tree .run/remap/tree (3.1 T11; propagate.make_tree's way: TREE_COPY with mtimes,
+         TREE_SKIP's build/ outputs of other rungs left out, a file vanishing mid-copy skipped, extracted/ a symlink;
+         fresh each run, removed at the end, the failing run's make logs kept in .run/remap/), so th-remap runs beside
+         the other rungs. Fail-closed guard of the real tree: sha1 of src/, include/, the registry,
+         build/corpus/*.jsonl and every exe before and after, a difference -> a fail naming the path; guard control
+         first: a one-byte src/remap_guard_plant.txt, removed at once, must be the one path flagged.
 Firewall G12: names, addresses, counts and hashes of our own files only.
 """
 import argparse
 import contextlib
+import glob
 import json
 import os
 import re
@@ -59,6 +66,11 @@ import probe  # noqa: E402
 import propagate  # noqa: E402
 
 SCRATCH = ".run/remap"
+TREE = SCRATCH + "/tree"  # the self-test's scratch tree (3.1 T11)
+TREE_COPY = propagate.COPY + ("docs/glossary.md", "docs/layout.md")  # layout.Tree reads the two docs
+# build/ outputs of other rungs, written beside th-remap (th-par) and never read by the self-test
+TREE_SKIP = tuple(f"build/{d}" for d in ("dumps", "harness", "th-wall", "reports", "repro", "draw", "bound2", "scaffold",
+                                          "globtypes", "leads", "names-refused.tsv", "refusecause", "strings"))
 RUNGS = ("preflight", "pair", "R1", "R2", "R3", "R4", "R5")
 HILO = ("R_MIPS_HI16", "R_MIPS_LO16")
 REL_ROW = re.compile(r"^([0-9a-f]{8})\s+[0-9a-f]{8}\s+(R_MIPS_\w+)(?:\s+[0-9a-f]{8}\s+(\S+))?")
@@ -359,8 +371,90 @@ def control_g():
     return saved, fam, func, sib_t
 
 
+def guard_sums():
+    """{path: sha1} of the real tree's guarded files: src/, include/, the registry, build/corpus/*.jsonl, every exe."""
+    sums = {**bank.tree_sums("src"), **bank.tree_sums("include")}
+    exes = [bank.bin_out(os.path.basename(y)[:-5]) for y in glob.glob("config/*.yaml")]
+    for p in [bank.REGISTRY] + sorted(glob.glob("build/corpus/*.jsonl")) + sorted(exes):
+        sums[p] = bank.sha1(p) if os.path.isfile(p) else None
+    return sums
+
+
+def guard_diff(pre, post):
+    return sorted(p for p in set(pre) | set(post) if pre.get(p) != post.get(p))
+
+
+def copy_tolerant(src, dst):
+    """shutil.copy2 that skips a file removed mid-copy (other rungs write build/ in parallel)."""
+    try:
+        shutil.copy2(src, dst)
+    except FileNotFoundError:
+        pass
+
+
+def make_tree(tree):
+    """The scratch tree (propagate.make_tree's way): TREE_COPY copied with mtimes (make sees build/ up to date),
+    TREE_SKIP left out, extracted/ a symlink."""
+    os.makedirs(tree)
+    for p in TREE_COPY:
+        dst = os.path.join(tree, p)
+        if os.path.isdir(p):
+            try:
+                shutil.copytree(p, dst, symlinks=True, copy_function=copy_tolerant,
+                                ignore=lambda d, names: [x for x in names if os.path.join(d, x) in TREE_SKIP])
+            except shutil.Error as e:  # a directory removed mid-copy; anything else is real
+                if any("No such file" not in str(why) for _, _, why in e.args[0]):
+                    raise
+        else:
+            os.makedirs(os.path.dirname(dst) or ".", exist_ok=True)
+            shutil.copy2(p, dst)
+    for p in propagate.LINK:
+        os.symlink(os.path.abspath(p), os.path.join(tree, p))
+
+
 def self_test():
+    """The controls in a scratch tree TREE (fresh, removed at the end), the real tree fail-closed guarded (3.1 T11)."""
     t0 = time.time()
+    root = os.getcwd()
+    pre = guard_sums()
+    plant = "src/remap_guard_plant.txt"  # guard control: a one-byte write in a guarded tree, removed at once
+    try:
+        with open(plant, "wb") as f:
+            f.write(b"x")
+        flagged = guard_diff(pre, guard_sums())
+    finally:
+        os.remove(plant)
+    fails = int(flagged != [plant])
+    print(f"family_remap: guard control flags {flagged} (want [{plant}])")
+    shutil.rmtree(TREE, ignore_errors=True)
+    try:
+        t1 = time.time()
+        make_tree(TREE)
+        print(f"family_remap: scratch tree {TREE} copied in {time.time() - t1:.0f}s")
+        os.chdir(TREE)
+        fails += self_test_body()
+    except (Exception, SystemExit) as e:
+        print(f"family_remap: self-test {type(e).__name__}: {e}")
+        fails += 1
+    finally:
+        os.chdir(root)
+        if fails:  # keep the failing run's make logs
+            for log in glob.glob(f"{TREE}/{bank.LOGDIR}/remap-selftest*.log"):
+                shutil.copy2(log, SCRATCH)
+        shutil.rmtree(TREE, ignore_errors=True)
+    for p in guard_diff(pre, guard_sums()):
+        print(f"family_remap: guarded real-tree file {p} changed during the self-test")
+        fails += 1
+    print(f"family_remap: self-test wall {time.time() - t0:.0f}s")
+    if fails:
+        print(f"REMAP SELF-TEST FAIL {fails}")
+        return 1
+    print("REMAP CONTROL OK")
+    return 0
+
+
+def self_test_body():
+    """Failures of the controls, run in the tree at cwd."""
     prog = G_SIB[0]
     corpus_out = [f"build/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
     pre_src, pre_reg, pre_bin = src_bytes(), open(bank.REGISTRY, "rb").read(), bank.sha1(bank.bin_out(prog))
@@ -374,12 +468,7 @@ def self_test():
         if not ok:
             print(f"family_remap: {what} differs from the pre-test value")
             fails += 1
-    print(f"family_remap: self-test wall {time.time() - t0:.0f}s")
-    if fails:
-        print(f"REMAP SELF-TEST FAIL {fails}")
-        return 1
-    print("REMAP CONTROL OK")
-    return 0
+    return fails
 
 
 def controls(prog, pre_reg, pre_bin, pre_corpus, role):

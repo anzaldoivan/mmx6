@@ -13,7 +13,7 @@ void func_80025F34();
 void func_800280F4(void);
 void func_8002927C(void);
 void func_8002935C(void);
-M2C_UNK func_800293CC();
+void func_800293CC();
 void init_checkpoint_positions(void);
 void func_8002A33C(void);
 void func_8002A3E8(void);

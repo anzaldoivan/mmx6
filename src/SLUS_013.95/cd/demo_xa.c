@@ -2,5 +2,5 @@
 // basis: oracle assets.tsv:258:dat:246
 // callers: rock_12 start_demo_xa_track
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", play_demo_xa_track);
+#include "../../shared/SLUS_013.95/play_demo_xa_track.c"
 // clang-format on

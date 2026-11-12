@@ -1,6 +1,6 @@
 # prog	vram	kind	x6name	alias	tier	scope	reason
-SLUS_013.95	0x800179A4	func	func_800179A4	set_animation	slot	engine	tier slot
-SLUS_013.95	0x80017A04	func	func_80017A04	animate_object	bytes	engine	tier bytes
+SLUS_013.95	0x800179A4	func	set_animation	set_animation	slot	engine	tier slot
+SLUS_013.95	0x80017A04	func	animate_object	animate_object	bytes	engine	tier bytes
 SLUS_013.95	0x80017A48	func	func_80017A48	clear_vram_rect_ptrs	gate	engine	no corroborator
 SLUS_013.95	0x80017A88	func	func_80017A88	load_vram_rect_ptrs	gate	engine	no corroborator
 SLUS_013.95	0x8001C024	func	func_8001C024	InitMemcards	gate	engine	no corroborator
@@ -8,27 +8,27 @@ SLUS_013.95	0x8002943C	func	func_8002943C	start_screen_shake_x	gate	engine	no co
 SLUS_013.95	0x80029478	func	func_80029478	start_screen_shake_y	gate	engine	no corroborator
 SLUS_013.95	0x80029A6C	func	func_80029A6C	update_screen_shake_x	gate	engine	no corroborator
 SLUS_013.95	0x80029AFC	func	func_80029AFC	update_screen_shake_y	gate	engine	no corroborator
-SLUS_013.95	0x8002C398	func	func_8002C398	find_free_visual_obj	slot	engine	tier slot
-SLUS_013.95	0x8002C3F8	func	func_8002C3F8	find_free_effect_obj	slot	engine	tier slot
-SLUS_013.95	0x8002C530	func	func_8002C530	find_free_misc_obj	slot	engine	tier slot
-SLUS_013.95	0x8002C9B0	func	func_8002C9B0	ZeroObjectState	gate	engine	vote conflict
+SLUS_013.95	0x8002C398	func	find_free_visual_obj	find_free_visual_obj	slot	engine	tier slot
+SLUS_013.95	0x8002C3F8	func	alloc_class3_slot	find_free_effect_obj	slot	engine	tier slot
+SLUS_013.95	0x8002C530	func	alloc_sprite_slot	find_free_misc_obj	slot	engine	tier slot
+SLUS_013.95	0x8002C9B0	func	clear_object_slot	ZeroObjectState	gate	engine	vote conflict
 SLUS_013.95	0x8002CA14	func	func_8002CA14	despawn_object	bytes	engine	tier bytes
 SLUS_013.95	0x8002CB50	func	func_8002CB50	is_on_screen	slot	engine	tier slot
 SLUS_013.95	0x8002CCB0	func	func_8002CCB0	update_on_screen	slot	engine	tier slot
-SLUS_013.95	0x8002D2D4	func	func_8002D2D4	get_random	slot	engine	tier slot
+SLUS_013.95	0x8002D2D4	func	random_byte	get_random	slot	engine	tier slot
 SLUS_013.95	0x8002D51C	func	func_8002D51C	get_layout_screen	gate	engine	no corroborator
 SLUS_013.95	0x800328B0	func	func_800328B0	quad_is_on_screen	slot	object	scope object, tier slot
 SLUS_013.95	0x80037D68	func	func_80037D68	player_capsule_fall	bytes	engine	tier bytes
 SLUS_013.95	0x80039C40	func	func_80039C40	player_check_dash_jump	bytes	engine	tier bytes
-SLUS_013.95	0x80039EB0	func	func_80039EB0	player_check_dash_input	slot	engine	tier slot
-SLUS_013.95	0x8003A2CC	func	func_8003A2CC	player_check_wall	slot	engine	tier slot
-SLUS_013.95	0x8003A9C4	func	func_8003A9C4	player_enter_dash	slot	engine	tier slot
-SLUS_013.95	0x8003AF1C	func	func_8003AF1C	player_enter_jump	slot	engine	tier slot
-SLUS_013.95	0x8003B810	func	func_8003B810	player_enter_ladder_down	slot	engine	tier slot
+SLUS_013.95	0x80039EB0	func	check_dash_input	player_check_dash_input	slot	engine	tier slot
+SLUS_013.95	0x8003A2CC	func	try_enter_wall_cling	player_check_wall	slot	engine	tier slot
+SLUS_013.95	0x8003A9C4	func	start_dash	player_enter_dash	slot	engine	tier slot
+SLUS_013.95	0x8003AF1C	func	start_jump	player_enter_jump	slot	engine	tier slot
+SLUS_013.95	0x8003B810	func	player_enter_ladder_climb_down	player_enter_ladder_down	slot	engine	tier slot
 SLUS_013.95	0x8003B954	func	func_8003B954	player_enter_beam_out	gate	engine	no corroborator
-SLUS_013.95	0x8003BA04	func	func_8003BA04	player_set_animation	slot	engine	tier slot
-SLUS_013.95	0x8003BB94	func	func_8003BB94	player_set_animation_frame	slot	engine	tier slot
-SLUS_013.95	0x8003C4EC	func	func_8003C4EC	player_reset_palette	slot	engine	tier slot
+SLUS_013.95	0x8003BA04	func	player_set_animation	player_set_animation	slot	engine	tier slot
+SLUS_013.95	0x8003BB94	func	player_set_animation_frame	player_set_animation_frame	slot	engine	tier slot
+SLUS_013.95	0x8003C4EC	func	player_load_weapon_palette	player_reset_palette	slot	engine	tier slot
 SLUS_013.95	0x8003CD9C	func	func_8003CD9C	player_clear_dash	bytes	engine	tier bytes
 SLUS_013.95	0x8003CDBC	func	func_8003CDBC	player_clear_attack	bytes	engine	tier bytes
 SLUS_013.95	0x8003D26C	func	func_8003D26C	player_spawn_dash_dust	bytes	engine	tier bytes, no corroborator
@@ -36,7 +36,7 @@ SLUS_013.95	0x8003D2BC	func	func_8003D2BC	player_spawn_wall_slide_dust	gate	engi
 SLUS_013.95	0x8003D34C	func	func_8003D34C	player_check_splash_tile	gate	engine	no corroborator
 SLUS_013.95	0x8003D850	func	func_8003D850	player_entry_beam_in	gate	engine	no corroborator
 SLUS_013.95	0x8003DAF4	func	func_8003DAF4	player_spawn_death_orb	gate	engine	no corroborator
-SLUS_013.95	0x8003F480	func	func_8003F480	player_reset_charge	bytes	engine	tier bytes, no corroborator
+SLUS_013.95	0x8003F480	func	player_reset_charge	player_reset_charge	gate	engine	no corroborator
 SLUS_013.95	0x80040290	func	func_80040290	enemy_hit_reaction	bytes	engine	tier bytes, no corroborator
 SLUS_013.95	0x80042C18	func	func_80042C18	magma_dragoon_face_player	gate	object	scope object, no corroborator
 SLUS_013.95	0x8004672C	func	func_8004672C	ride_armor_punch_main	gate	object	scope object
@@ -75,12 +75,12 @@ SLUS_013.95	0x80053FE4	func	func_80053FE4	final_cutscene_despawn	gate	object	sco
 SLUS_013.95	0x8005400C	func	func_8005400C	teleport_intro_spawn_quads	gate	object	scope object
 SLUS_013.95	0x80054210	func	func_80054210	teleport_intro_init	gate	object	scope object, no corroborator
 SLUS_013.95	0x800617A4	func	func_800617A4	CdPosToInt	bytes	engine	tier bytes, no corroborator
-SLUS_013.95	0x80064804	func	func_80064804	CdReset	bytes	engine	tier bytes
+SLUS_013.95	0x80064804	func	CdReset	CdReset	bytes	engine	tier bytes
 SLUS_013.95	0x80064C94	func	func_80064C94	CdMix	bytes	engine	tier bytes, no corroborator
-SLUS_013.95	0x80064CB4	func	func_80064CB4	CdGetSector	bytes	engine	tier bytes, no corroborator
+SLUS_013.95	0x80064CB4	func	DsGetSector	CdGetSector	bytes	engine	tier bytes, no corroborator
 SLUS_013.95	0x80065814	func	func_80065814	CdGetSector	bytes	engine	tier bytes, no corroborator
-SLUS_013.95	0x80068D94	func	func_80068D94	SetDefDispEnv	bytes	engine	tier bytes, no corroborator
-SLUS_013.95	0x80068EB4	func	func_80068EB4	DecDCTReset	bytes	engine	tier bytes, no corroborator
+SLUS_013.95	0x80068D94	func	SetDefDispEnv	SetDefDispEnv	bytes	engine	tier bytes, no corroborator
+SLUS_013.95	0x80068EB4	func	DecDCTReset	DecDCTReset	bytes	engine	tier bytes, no corroborator
 SLUS_013.95	0x80097420	data	D_80097420	main_bss_state	slot	-	scope -, anchors 2
 SLUS_013.95	0x80097790	data	D_80097790	vram_rect_ptr	slot	engine	anchors 2
 SLUS_013.95	0x800C11C0	data	D_800C11C0	vram_rect_ptrs	slot	engine	anchors 2

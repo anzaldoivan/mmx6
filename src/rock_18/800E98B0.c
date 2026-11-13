@@ -1477,7 +1477,7 @@ void func_800ED58C(u8 arg0, s8 arg1, s16 arg2, s16 arg3, u8 arg4) {
 // clang-format off
 INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800ED6D4);
 
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800ED760);
+#include "../shared/rock_18/func_800ED760.c"
 // clang-format on
 
 #include "common.h"

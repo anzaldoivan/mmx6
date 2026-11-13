@@ -16,4 +16,13 @@
 order norow reloc jtbl-uncarved path declaration address rodata other plateau
 # plateau: attempt cap of a plateau pick (W<n>.txt attempts = min(band cap, this)); ledger.py --build marks a pv with
 #   this many campaign/journal.jsonl fail records and a plateau blocker `plateau:<label>:lever` (waits for a lever)
-plateau 1
+# DISABLED: plateau 1 — 2026-11-13 / 3.1 T25 (T19 verdict on item 4, R172, R173)
+#   Original intent: one capped attempt per plateau pick (W<n>.txt attempts = min(band cap, 1)), prior art first,
+#   then ledger.py marks it plateau:<label>:lever (waits for a lever).
+#   Why disabled: holdout plateau rows, n 5 (diagnostic-grade): 342k tokens for 1 pin-free match after, against
+#   232k per match (2 matches, 464k) before; one match lost (func_800F0884). docs/ops/methods-gen3.md Verdicts 4.
+#   Now a plateau pick gets its band's attempt cap and no :lever mark. The order row above is kept (not judged).
+#   Self-tests read tools/mmx6/fixtures/routing-plateau.txt, which keeps the row live.
+#   Re-enable if a holdout measurement (n >= 10 plateau rows, wave-metrics rows) shows the capped attempt costs less
+#   context per pin-free match than the band's attempts and loses no match: uncomment the next line.
+# plateau 1

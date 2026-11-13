@@ -72,7 +72,8 @@ tools-health-full:
 	@echo "TOOLS-HEALTH OK $(words $(TOOLS_HEALTH_FULL_RUNGS)) rungs"
 
 # The shard's keys are buffered in a variable (no pipefail in sh): a thshard.py failure stops the recipe instead of
-# feeding propagate.py an empty list.
+# feeding propagate.py an empty list. A green shard k>=1 writes its marker (propsince.py record --shard, 3.1 T23):
+# shards 1..n green on one tree -> build/propagate/green.json, as th-propagate-full.
 tools-health-shard:
 	@set -e; n=$$($(PROPAGATE_KEYS_CMD) | $(PYTHON) tools/mmx6/thshard.py count); \
 	case "$(SHARD)" in ''|*[!0-9]*) echo "tools-health-shard: SHARD=<0..$$n> required" >&2; exit 2;; esac; \
@@ -83,6 +84,7 @@ tools-health-shard:
 		$(MAKE) --no-print-directory th-corpus th-census; \
 		keys=$$($(PROPAGATE_KEYS_CMD) | $(PYTHON) tools/mmx6/thshard.py keys $(SHARD)); \
 		printf '%s\n' "$$keys" | $(PYTHON) tools/mmx6/propagate.py --dry-run --expect-registry --keys-from -; \
+		printf '%s\n' "$$keys" | $(PYTHON) tools/mmx6/propsince.py record --shard $(SHARD) --of $$n; \
 	fi; \
 	echo "TOOLS-HEALTH SHARD $(SHARD) of $$n OK"
 
@@ -295,15 +297,18 @@ th-propagate-full: th-propagate
 # Incremental propagate keys (3.0 T5; docs/ops/methods-gen3.md `## Incremental propagate keys`): the grouped dry run
 # of only the keys whose inputs changed since the last green full run, `KEYS="$$(PY tools/mmx6/propsince.py select)"`
 # (host; needs a stamp: full green -> mx.sh pull build/propagate/green.json -> propsince.py stamp). KEYS undefined or
-# ALL -> $(PROPAGATE_KEYS_CMD); KEYS="" given (no key changed) -> `PROPAGATE-SINCE no keys`, rc 0, no run. The words
+# ALL -> $(PROPAGATE_KEYS_CMD), then propsince.py record on rc 0 (a full run, 3.1 T23); KEYS="" given (no key
+# changed) -> `PROPAGATE-SINCE no keys`, rc 0, no run. The words
 # go to a file via $$(file) (no shell argument; one argv element is capped at 128 KB, select prints ALL past 100 KB).
 # Not a fleet rung. Run after a build, with no `mx.sh sync` between, as th-propagate-full.
 SINCE_KEYS := build/propagate/since-keys.txt
 th-propagate-since: th-corpus th-census
 ifeq ($(origin KEYS),undefined)
-	@set -e; $(PROPAGATE_KEYS_CMD) | $(PYTHON) tools/mmx6/propagate.py --dry-run --expect-registry --keys-from -
+	@set -e; $(PROPAGATE_KEYS_CMD) | $(PYTHON) tools/mmx6/propagate.py --dry-run --expect-registry --keys-from -; \
+	$(PYTHON) tools/mmx6/propsince.py record
 else ifeq ($(strip $(KEYS)),ALL)
-	@set -e; $(PROPAGATE_KEYS_CMD) | $(PYTHON) tools/mmx6/propagate.py --dry-run --expect-registry --keys-from -
+	@set -e; $(PROPAGATE_KEYS_CMD) | $(PYTHON) tools/mmx6/propagate.py --dry-run --expect-registry --keys-from -; \
+	$(PYTHON) tools/mmx6/propsince.py record
 else ifeq ($(strip $(KEYS)),)
 	@echo "PROPAGATE-SINCE no keys"
 else

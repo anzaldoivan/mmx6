@@ -10,7 +10,9 @@
 #   disc <dir>     load <dir>'s top-level *.cue/*.bin into the disc volume at /disc
 #   sdk <dir>      load <dir>'s whole tree (the PsyQ SDK, tools/psyq) into the sdk volume at /sdk (vendor bytes
 #                  stay in the volume, never in git or the image)
-#   run <cmd...>   run a command in /work with /disc and /sdk mounted read-only
+#   run <cmd...>   run a command in /work with /disc and /sdk mounted read-only (--init, named mx6-run-<pid>-<epoch>,
+#                  labels mx6.run=1 mx6.client=<pid>; killed when mx.sh exits; rc and stdout are the command's)
+#   stale          list running mx6.run containers whose client pid is gone (stderr warning on every `run`)
 # Env overrides (per worktree, cookbook C0004): MX6_IMAGE, MX6_VOLUME, MX6_DISC_VOLUME, MX6_SDK_VOLUME.
 # MX6_CPUS=<n> (optional): `run` adds `--cpus <n> -e MX6_JOBS=<n>`, so make's -j (fleet build, tools-health) is n;
 # for k coders sharing the 8-core VM, 8/k each (docs/ops/decomp-environment.md ## Per-coder volumes).
@@ -44,6 +46,19 @@ check_path() {
         if [[ "$p" == $pat || "$p" == $pat/* ]]; then die "firewall path refused ($kind $pat): $p"; fi ;;
     esac
   done < config/firewall.txt
+}
+
+# Running mx6.run containers whose client pid (mx6.client, a host pid) is gone: `MX-STALE <name> client <pid> up
+# <status>` lines, last `MX-STALE <n> orphans`.
+stale() {
+  local n=0 name pid status
+  while IFS=$'\t' read -r name pid status; do
+    [[ -n "$name" ]] || continue
+    if [[ -z "$pid" ]] || ! ps -p "$pid" >/dev/null 2>&1; then
+      echo "MX-STALE $name client ${pid:-?} up $status"; n=$((n + 1))
+    fi
+  done < <(docker ps --filter label=mx6.run=1 --format '{{.Names}}\t{{.Label "mx6.client"}}\t{{.Status}}')
+  echo "MX-STALE $n orphans"
 }
 
 cmd="${1:-}"; [[ $# -gt 0 ]] && shift
@@ -91,7 +106,21 @@ case "$cmd" in
     # run log (host, waves/ is gitignored): `cards.py --outside waves/.mx-run.log` sorts runs into probes and the rest
     argv="$*"; argv="${argv//$'\n'/ }"
     mkdir -p waves && printf '%s %s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$VOL" "$argv" >> waves/.mx-run.log
-    exec docker run --rm "${PLAT[@]}" ${cpus[@]+"${cpus[@]}"} -v "$VOL:/work" -v "$DISC:/disc:ro" -v "$SDKV:/sdk:ro" -w /work "$IMAGE" "$@" ;;
+    # Named, labelled, killed on exit (3.1 T23): a dead client otherwise left the container running (`mx.sh stale`).
+    n_stale=$(stale | tail -n 1 | awk '{print $2}')
+    [[ "${n_stale:-0}" == 0 ]] || echo "mx.sh: warning: $n_stale orphaned mx6 run containers (mx.sh stale)" >&2
+    name="mx6-run-$$-$(date +%s)"
+    docker run --rm --init --name "$name" --label mx6.run=1 --label "mx6.client=$$" "${PLAT[@]}" \
+      ${cpus[@]+"${cpus[@]}"} -v "$VOL:/work" -v "$DISC:/disc:ro" -v "$SDKV:/sdk:ro" -w /work "$IMAGE" "$@" &
+    dpid=$!
+    trap 'docker kill "$name" >/dev/null 2>&1 || true' EXIT
+    trap 'exit 130' INT; trap 'exit 143' TERM; trap 'exit 129' HUP
+    rc=0; wait "$dpid" || rc=$?
+    trap - EXIT
+    exit "$rc" ;;
+  stale)
+    [[ $# -eq 0 ]] || die "usage: mx.sh stale"
+    stale ;;
   *)
-    die "usage: mx.sh build|sync [--clean]|push|pull|disc|sdk|run ..." ;;
+    die "usage: mx.sh build|sync [--clean]|push|pull|disc|sdk|run|stale ..." ;;
 esac

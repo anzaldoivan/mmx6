@@ -1339,7 +1339,13 @@ void func_800EE834(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_22/nonmatchings/E9860", func_800EE840);
+#define func_801EB968 func_800EE840
+#define D_801F3738 D_800FBC58
+#define animate_object func_800EEF78
+#include "../shared/rock_00/func_801EB968.c"
+#undef func_801EB968
+#undef D_801F3738
+#undef animate_object
 // clang-format on
 
 #define func_800EC380 func_800EE888
@@ -1488,7 +1494,13 @@ void func_800EEE00(struct MainObj* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_22/nonmatchings/E9860", func_800EEE38);
+#define func_801EB968 func_800EEE38
+#define D_801F3738 D_800FBC88
+#define animate_object func_800EEF78
+#include "../shared/rock_00/func_801EB968.c"
+#undef func_801EB968
+#undef D_801F3738
+#undef animate_object
 
 INCLUDE_ASM("asm/rock_22/nonmatchings/E9860", func_800EEE80);
 // clang-format on
@@ -2164,39 +2176,7 @@ void func_800F1FC8(void) {
 s8* func_8002C5F0(s8* p, s32 back);
 extern u8 D_800FBFD4[];
 
-void func_800F1FD0(s8* arg0) {
-    s8* p;
-    s32 t;
-
-    p = func_8002C5F0(arg0, 0);
-    if (p != 0) {
-        t = *(u8*)(arg0 + 0);
-        p[1] = 7;
-        p[2] = 1;
-        p[0] = t;
-        *(u16*)(p + 0x40) = *(u16*)(arg0 + 0x40);
-        *(u16*)(p + 0x42) = *(u16*)(arg0 + 0x42) & 0x7FFF;
-        *(s32*)(p + 0x30) = *(s32*)(arg0 + 0x30);
-        t = *(u8*)(arg0 + 0x14);
-        p[0x16] = 6;
-        p[0x14] = t;
-        {
-            s32 a = *(u16*)(arg0 + 0xA);
-            *(s16*)(p + 8) = 0;
-            *(u16*)(p + 0xA) = a;
-        }
-        {
-            s32 e = *(u16*)(arg0 + 0xE);
-            *(s16*)(p + 0xC) = 0;
-            *(u16*)(p + 0xE) = e;
-        }
-        *(s32*)(p + 0x50) = *(s32*)(arg0 + 0x50);
-        *(s32*)(p + 0x3C) = *(s32*)(arg0 + 0x3C);
-        p[0x47] =
-            (D_800FBFD4 + *(s16*)(arg0 + 0x54) * 2)[0] + *(u8*)(arg0 + 0x56);
-        p[0x15] = (D_800FBFD4 + *(s16*)(arg0 + 0x54) * 2)[1];
-    }
-}
+#include "../shared/rock_22/func_800F1FD0.c"
 
 #include "common.h"
 

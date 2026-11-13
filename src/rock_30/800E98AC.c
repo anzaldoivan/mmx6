@@ -464,7 +464,13 @@ void func_800EBE74(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EBE80);
+#define func_801EB968 func_800EBE80
+#define D_801F3738 D_800EFCEC
+#define animate_object func_800EC5B8
+#include "../shared/rock_00/func_801EB968.c"
+#undef func_801EB968
+#undef D_801F3738
+#undef animate_object
 // clang-format on
 
 #define func_800EC380 func_800EBEC8
@@ -579,7 +585,13 @@ void func_800EC440(struct MainObj* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EC478);
+#define func_801EB968 func_800EC478
+#define D_801F3738 D_800EFD1C
+#define animate_object func_800EC5B8
+#include "../shared/rock_00/func_801EB968.c"
+#undef func_801EB968
+#undef D_801F3738
+#undef animate_object
 
 INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EC4C0);
 // clang-format on

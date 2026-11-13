@@ -446,3 +446,14 @@ C0445 | Loop counter loses a callee-saved register swap: top-tested loop, no if 
 C0446 | Per-row repair dry run: refusecause.py --prog with switches, not propagate --dry-run --keys-from | repair,dry-run,refusecause,propagate,switch,route | 2026-11-11 | 3.1/T14 | mmx6 T14.c1 pilot refusal rows
 C0447 | gate.py -j 3 restore-rebuild stops and worker FileNotFoundError: re-gate -j 1 from a sub-root | gate,bank,wave,parallel | 2026-11-11 | 3.1/T15 | T15.c1
 C0448 | A repair-gated member is pin-free only if its exemplar is: check the exemplar for asm( pins | repair,propagate,pins,exemplar | 2026-11-11 | 3.1/T15 | T15.c1
+C0449 | A fresh volume for refusecause or cards.py --wave needs extract, build, corpus, census, sig first | container,volume,refusecause,cards,census,sig,sequence | 2026-11-12 | 3.1/T16 | 3.1 T16.c1
+C0450 | A pin on a call-arg local: declare the shared global pointer inside each arm | lever,pin,depin,register-pin,block-scope,pointer,regalloc,arms | 2026-11-12 | 3.1/T17 | mmx6 T17.c2 rock_34 func_800FB81C
+C0451 | Drop several pins on a plateau: per-arm barrier tails, a reused local, one shared pointer | lever,pin,depin,register-pin,jump2,cross-jump,do-while,local-reuse,rematerialise | 2026-11-12 | 3.1/T17 | mmx6 T17.c3 rock_09 func_800E9EF0
+C0452 | A re-split rewrites include/macro.inc: never pull include/ whole after a carve | carve,splat,macro.inc,pull,incremental-build | 2026-11-12 | 3.1/T18 | mmx6 T18.c1 W305
+C0453 | harvest.py --start on a drawless bank wave needs report.py --all and a default draw first | harvest,bank-wave,draw,report,stamp | 2026-11-12 | 3.1/T18 | mmx6 T18.c1 W305
+C0454 | diff.sh in the container: set MX6_PROG for an overlay and pass --no-pager | diff,asm-differ,mx.sh,container,pager,overlay | 2026-11-13 | 3.1/T18 | mmx6 T18.c1 W305
+C0455 | A refused member's declaration cause is often its whole-unit feed: unitcut before declaration fixes | refusecause,unitcut,relocdef,declaration,path,repair,dedup | 2026-11-13 | 3.1/T19 | mmx6 3.1 T19.c1 + expert control
+C0456 | Verify a derived input set with a Python open audit hook | propagate,propsince,audit-hook,triggers | 2026-11-13 | 3.1/T23 | T23.c1 audit run
+C0457 | Stop orphan docker run containers: --init, name, trap kill, stale list | docker,mx.sh,orphan,containers | 2026-11-13 | 3.1/T23 | T23.c1 mx.sh
+C0458 | A cross-project twin table is stale: re-read state from both trees, keep only its keys | twins,x5,leads,stale,port | 2026-11-13 | 3.1/T24 | T24 lane join
+C0459 | Route an INBOX bullet with the word later: no phase ids, Gen N or arrows in it | inbox,routing,later,guard,heredoc | 2026-11-13 | 3.1/T24 | T24 mmx5 inbox append

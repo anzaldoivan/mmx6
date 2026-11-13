@@ -9,20 +9,29 @@
                              from its own dir then include/, <...> from include/); the shared bodies' closure; the sha1
                              of its registry rows; the sha1 of its units' lines in config/carve.<prog>.txt. Also every
                              ALL-trigger file with its sha1.
+  propsince.py record --shard k --of n   (container, tools-health-shard k>=1 on green; stdin: the shard's keys)
+                             build/propagate/shards/<k>.json = {n, fingerprint (sha1 of record()), keys}; when markers
+                             1..n share n and fingerprint and their keys cover the current keys -> green.json. Last
+                             `PROPSINCE SHARD k of n keys K fingerprint F; markers m of n cover c of C keys [-> green]`.
   propsince.py stamp         (host) binds green.json (read from /work: `mx.sh run cat`, MX6_VOLUME) to HEAD: rc 1
                              unless every recorded tracked file's sha1 equals its HEAD blob content (`git cat-file
                              --batch`); recorded files git does not sync (ignored: generated in the container) are
                              listed as dropped and never compared. Writes build/propagate/since.stamp = {commit,
                              dropped, green}. Last `PROPSINCE STAMP <commit12> files <f> keys <k> dropped <d>`.
   propsince.py select        (host) stdout: the changed keys, one per line, or `ALL`. ALL when there is no stamp, an
-                             ALL-trigger file changed, was added or removed (Makefile, mk/, tools/mmx6/, tools/docker/,
-                             config/ but dedup_registry.txt and carve.<prog>.txt), or the keys would pass 100 KB (one
+                             ALL-trigger file changed, was added or removed (derive_triggers: Makefile, mk/*, the
+                             Dockerfile, propagate.py's import + tools/mmx6 script-literal closure, config/ files named
+                             in it or Makefile/mk/sdk.mk; never the registry, carve.<prog>.txt, TRIGGER_NOT; 3.1 T23),
+                             or the keys would pass 100 KB (one
                              argv element is capped at 128 KB, MAX_ARG_STRLEN). Else the keys with any input changed
                              (file content, row or carve sha1) plus the current keys absent from the stamp. stderr
                              `PROPSINCE <k> of <K> keys since <commit12>; <n> inputs changed` (ALL: `PROPSINCE ALL of
                              <K> keys since <commit12>; <reason>`).
   propsince.py --self-test   fixture tree + stamp under .run/<phase>/propsince-selftest/ (deleted at end, pass or fail; <phase> as layout.RUN): no stamp ->
-                             ALL; a changed member unit -> its key only; Makefile -> ALL; docs only -> no keys; a
+                             ALL; a changed member unit -> its key only; Makefile -> ALL; an imported module or a
+                             named config file -> ALL; an unreferenced tools/mmx6/new.py, methods-arm.tsv or
+                             debt-baseline.txt alone -> no keys; the real tree's triggers hold propagate.py, bank.py,
+                             carve.py, Makefile, lack methods-arm.tsv, debt-baseline.txt; docs only -> no keys; a
                              header in one unit's closure -> that key; registry row / carve line -> that key; a key
                              absent from the stamp -> selected; with git: stamp refused on a HEAD mismatch (read-only).
                              Ends `PROPSINCE CONTROL OK` (rc 0).
@@ -44,7 +53,20 @@ import propagate  # noqa: E402
 GREEN = "build/propagate/green.json"
 STAMP = "build/propagate/since.stamp"
 SELFTEST = os.path.join(layout._phase_run(), "propsince-selftest")  # .run/<phase>/, else .run/
-TRIGGER_DIRS = ("mk/", "tools/mmx6/", "tools/docker/", "config/")
+SHARDS = "build/propagate/shards"
+# ALL-trigger set, derived (3.1 T23; was TRIGGER_DIRS mk/ tools/mmx6/ tools/docker/ config/): Makefile, mk/*, the
+# Dockerfile, propagate.py's local import + tools/mmx6/<x>.(py|sh) literal closure, the config/ files named in it or in
+# Makefile/mk/sdk.mk (literal; %s * {..} $(..) parts glob). Registry and carve.<prog>.txt are keyed inputs.
+TRIGGER_FIXED = ("Makefile", "tools/docker/Dockerfile")
+TRIGGER_ROOT = "tools/mmx6/propagate.py"
+TRIGGER_TEXTS = ("Makefile", "mk/sdk.mk")  # scanned for tools/mmx6 and config/ literals too
+TRIGGER_EXTRA = ()  # files a propagate run opens that the derivation misses (audit-hook check, 3.1 T23.c1)
+# Named by a closure module's other CLI only, never opened by a propagate run (audit hook, 3.1 T23.c1; R159):
+# cards.py --arm (imported by gate.py), psxd_floor.py debt (propagate uses its marker counts).
+TRIGGER_NOT = ("config/methods-arm.tsv", "config/debt-baseline.txt")
+IMPORT_RE = re.compile(r"^\s*(?:from\s+([\w.]+)\s+import\b|import\s+([\w., ]+?)\s*(?:#|$))", re.M)
+SCRIPT_RE = re.compile(r"tools/mmx6/[\w/]+\.(?:py|sh)\b")
+CONFIG_RE = re.compile(r"config/(?:[\w.\-%*/]|\$\([^)\s]*\)|\{[^}\s]*\}|\$[*@<])+")
 CARVE_RE = re.compile(r"^config/carve\.[^/]+\.txt$")
 HDR_RE = re.compile(r'^\s*#\s*include\s*([<"])([^">]+)[">]')
 MAX_KEY_BYTES = 100000  # selected keys' bytes above which select prints ALL (argv element cap 128 KB)
@@ -62,28 +84,66 @@ def sha1_text(s):
     return hashlib.sha1(s.encode()).hexdigest()
 
 
-def is_trigger(p):
-    if "__pycache__/" in p or p.endswith(".pyc"):
-        return False
-    if p == "Makefile":
-        return True
-    if p == propagate.bank.REGISTRY or CARVE_RE.match(p):
-        return False
-    return p.startswith(TRIGGER_DIRS)
+def read_text(root, rel):
+    try:
+        with open(os.path.join(root, rel), errors="replace") as f:
+            return f.read()
+    except OSError:
+        return ""
 
 
-def walk_triggers(root="."):
+def walk_files(root, d):
     out = []
-    if os.path.isfile(os.path.join(root, "Makefile")):
-        out.append("Makefile")
-    for d in TRIGGER_DIRS:
-        for dp, dns, fns in os.walk(os.path.join(root, d)):
-            dns[:] = sorted(x for x in dns if x != "__pycache__")
-            for fn in fns:
-                p = os.path.relpath(os.path.join(dp, fn), root).replace(os.sep, "/")
-                if is_trigger(p):
-                    out.append(p)
+    for dp, dns, fns in os.walk(os.path.join(root, d)):
+        dns[:] = sorted(x for x in dns if x != "__pycache__")
+        out += [os.path.relpath(os.path.join(dp, fn), root).replace(os.sep, "/")
+                for fn in fns if not fn.endswith(".pyc")]
     return sorted(out)
+
+
+def config_pattern(lit):
+    """regex of one config/ literal: %s, %d, *, {..}, $(..), $* parts match [^/]*; a trailing `/` is the whole dir."""
+    lit = lit.rstrip(".-")
+    if lit == "config/" or not lit.startswith("config/"):
+        return None
+    parts = re.split(r"(\$\([^)]*\)|\{[^}]*\}|\$[*@<]|%[sd]?|\*)", lit)
+    rx = "".join("[^/]*" if i % 2 else re.escape(p) for i, p in enumerate(parts))
+    return re.compile(rx + (".*" if lit.endswith("/") else "") + "$")
+
+
+def module_file(root, name):
+    """tools/mmx6/<name>.py, else tools/<name>.py (propagate adds tools/ for psxd_floor), else None."""
+    for d in ("tools/mmx6/", "tools/"):
+        rel = d + name.replace(".", "/") + ".py"
+        if os.path.isfile(os.path.join(root, rel)):
+            return rel
+    return None
+
+
+def derive_triggers(root="."):
+    """The ALL-trigger paths of the tree at root (see TRIGGER_FIXED above), sorted."""
+    closure, todo, texts = set(), [TRIGGER_ROOT], {r: read_text(root, r) for r in TRIGGER_TEXTS}
+    for t in texts.values():
+        todo += SCRIPT_RE.findall(t)
+    while todo:
+        r = todo.pop()
+        if r in closure or not os.path.isfile(os.path.join(root, r)):
+            continue
+        closure.add(r)
+        t = texts[r] = read_text(root, r)
+        todo += SCRIPT_RE.findall(t)
+        if r.endswith(".py"):
+            for frm, imp in IMPORT_RE.findall(t):
+                for name in ([frm] if frm else [x.split()[0] for x in imp.split(",") if x.strip()]):
+                    m = module_file(root, name)
+                    if m:
+                        todo.append(m)
+    pats = {p for t in texts.values() for p in map(config_pattern, CONFIG_RE.findall(t)) if p}
+    conf = [p for p in walk_files(root, "config") if any(x.match(p) for x in pats)]
+    out = set(closure) | set(conf) | set(walk_files(root, "mk")) | set(TRIGGER_EXTRA)
+    out |= {p for p in TRIGGER_FIXED if os.path.isfile(os.path.join(root, p))}
+    return sorted(p for p in out if p != propagate.bank.REGISTRY and not CARVE_RE.match(p) and p not in TRIGGER_NOT
+                  and os.path.isfile(os.path.join(root, p)))
 
 
 def git_lines(*args):
@@ -199,7 +259,7 @@ def record(root="."):
                      "units": [list(u) for u in units]}
         for p in kf:
             files.setdefault(p, None)
-    triggers = walk_triggers(root)
+    triggers = derive_triggers(root)
     for p in list(files) + triggers:
         files[p] = sha1_file(os.path.join(root, p))
     return {"version": 1, "files": dict(sorted(files.items())), "triggers": triggers, "keys": keys}
@@ -263,7 +323,7 @@ def select(st, root=".", triggers_now=None):
     green, dropped, since = st["green"], set(st["dropped"]), st["commit"][:12]
     files = {p: s for p, s in green["files"].items() if p not in dropped}
     trig_then = {p for p in green["triggers"] if p not in dropped}
-    trig_now = set(walk_triggers(root) if triggers_now is None else triggers_now)
+    trig_now = set(derive_triggers(root) if triggers_now is None else triggers_now)
 
     def all_(why):
         return ["ALL"], f"PROPSINCE ALL of {len(now)} keys since {since}; {why}"
@@ -297,7 +357,7 @@ def cmd_select():
         with open(STAMP) as f:
             st = json.load(f)
     synced = git_lines("ls-files", "-co", "--exclude-standard", "-z")
-    trig = sorted(p for p in synced if is_trigger(p) and os.path.isfile(p)) if synced is not None else None
+    trig = [p for p in derive_triggers(".") if p in set(synced)] if synced is not None else None
     out, line = select(st, ".", trig)
     print("\n".join(out))
     print(line, file=sys.stderr)
@@ -310,7 +370,11 @@ FIX = {
     "Makefile": "all:\n",
     "mk/a.mk": "# a\n",
     "tools/mmx6/t.py": "# t\n",
+    "tools/mmx6/propagate.py": ("import os\nimport t  # noqa\nUNITS = 'config/c_units.txt'\n"
+                                "ARM = 'config/methods-arm.tsv'\n"),
     "config/c_units.txt": "# units\nP A\nP B\nP C\n",
+    "config/methods-arm.tsv": "# arm\n",
+    "config/debt-baseline.txt": "# debt\n",
     "config/carve.P.txt": "# carves\nrodata 0x80001000 0x80001010 A\nrodata 0x80002000 0x80002010 B\n",
     "config/dedup_registry.txt": ("# registry\n"
                                   "ka P:0x80000100 src/shared/s.c P:0x80000100 gated exemplar\n"
@@ -367,7 +431,11 @@ def self_test():
         check("unchanged", st, [])
         check("member unit A", st, ["ka"], [("src/P/A.c", FIX["src/P/A.c"] + "/* c */\n")])
         check("Makefile", st, ["ALL"], [("Makefile", "all:\n\t@true\n")])
-        check("trigger added", st, ["ALL"], [("tools/mmx6/new.py", "# n\n")])
+        check("unreferenced tools/mmx6/new.py", st, [], [("tools/mmx6/new.py", "# n\n")])
+        check("imported module t", st, ["ALL"], [("tools/mmx6/t.py", "# t2\n")])
+        check("named config c_units", st, ["ALL"], [("config/c_units.txt", FIX["config/c_units.txt"] + "# x\n")])
+        check("methods-arm only", st, [], [("config/methods-arm.tsv", "# arm 2\n")])
+        check("debt-baseline only", st, [], [("config/debt-baseline.txt", "# debt 2\n")])
         check("docs only", st, [], [("docs/d.md", "doc 2\n")])
         check("header in B closure", st, ["kb"], [("src/P/h.h", "/* h2 */\n")])
         check("shared body s", st, ["ka"], [("src/shared/s.c", "void s(void) { }\n")])
@@ -378,6 +446,12 @@ def self_test():
                                                      + "kc P:0x80000500 src/shared/s.c P:0x80000500 gated exemplar\n")])
         if "kf" in green["keys"]:
             fails.append("family key recorded")
+        real = set(derive_triggers(os.path.dirname(os.path.dirname(HERE))))
+        need = {"tools/mmx6/propagate.py", "tools/mmx6/bank.py", "tools/mmx6/carve.py", "Makefile"}
+        ok = need <= real and not real & {"config/methods-arm.tsv", "config/debt-baseline.txt"}
+        print(f"PROPSINCE control real-tree triggers {len(real)}: {'ok' if ok else 'FAIL'}")
+        if not ok:
+            fails.append("real-tree triggers")
         tracked = git_lines("ls-files", "-z")
         if tracked is not None and "Makefile" in tracked:
             bad = head_mismatch({"Makefile": "0" * 40}, set(tracked))
@@ -398,6 +472,33 @@ def self_test():
     return 0
 
 
+def record_shard(k, n, keys):
+    """Marker SHARDS/<k>.json {n, fingerprint (sha1 of record()), keys: the shard's keys, stdin}; when markers 1..n
+    share n and fingerprint and their keys cover keys_now, green.json = that record."""
+    green = record(".")
+    fp = sha1_text(json.dumps(green, sort_keys=True))
+    os.makedirs(SHARDS, exist_ok=True)
+    with open(os.path.join(SHARDS, f"{k}.json"), "w") as f:
+        json.dump({"n": n, "fingerprint": fp, "keys": keys}, f)
+    have, cover = 0, set()
+    for i in range(1, n + 1):
+        try:
+            with open(os.path.join(SHARDS, f"{i}.json")) as f:
+                m = json.load(f)
+        except (OSError, ValueError):
+            continue
+        if m.get("n") == n and m.get("fingerprint") == fp:
+            have, cover = have + 1, cover | set(m.get("keys", []))
+    now = set(green["keys"])
+    done = have == n and now <= cover
+    if done:
+        with open(GREEN, "w") as f:
+            json.dump(green, f)
+    print(f"PROPSINCE SHARD {k} of {n} keys {len(keys)} fingerprint {fp[:12]}; markers {have} of {n} cover "
+          f"{len(now & cover)} of {len(now)} keys" + (f" -> {GREEN}" if done else ""))
+    return 0
+
+
 def main():
     a = sys.argv[1:]
     if a == ["--self-test"]:
@@ -409,11 +510,13 @@ def main():
             json.dump(green, f)
         print(f"PROPSINCE RECORD keys {len(green['keys'])} files {len(green['files'])} -> {GREEN}")
         return 0
+    if len(a) == 5 and a[:2] == ["record", "--shard"] and a[3] == "--of" and a[2].isdigit() and a[4].isdigit():
+        return record_shard(int(a[2]), int(a[4]), sorted({l.strip() for l in sys.stdin if l.strip()}))
     if a == ["stamp"]:
         return stamp()
     if a == ["select"]:
         return cmd_select()
-    print("usage: propsince.py record | stamp | select | --self-test", file=sys.stderr)
+    print("usage: propsince.py record [--shard k --of n] | stamp | select | --self-test", file=sys.stderr)
     return 2
 
 

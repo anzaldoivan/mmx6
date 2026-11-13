@@ -37,7 +37,7 @@ u8 func_80030234(struct X4_PlayerObj* obj, s16 px, s16 py) {
 // clang-format off
 #include "../shared/SLUS_013.95/func_80030304.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/30234", func_8003040C);
+#include "../shared/SLUS_013.95/func_8003040C.c"
 // clang-format on
 
 #include "common.h"

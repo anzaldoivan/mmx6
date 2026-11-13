@@ -1716,7 +1716,7 @@ void func_800F0778(void* self) {
 #undef F
 
 // clang-format off
-INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800F0884);
+#include "../shared/rock_24/func_800F0884.c"
 
 INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800F0A24);
 // clang-format on

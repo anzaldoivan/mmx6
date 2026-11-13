@@ -818,48 +818,7 @@ extern s32 D_800F6AC0;
 extern s32 D_800F6AC4;
 extern void* D_800F6C08;
 
-void func_800F217C(struct X4_MainObj* self) {
-    struct X4_MainObj* p;
-    s16 angle;
-    const u8* const* anim;
-
-    p = D_800F6C08;
-    anim = p->animation_table;
-    self->unk42 &= 0x7FFF;
-    self->animation_table = anim;
-    self->bg_offset = p->bg_offset;
-    self->unk16 = 3;
-    self->air_state = 0;
-    self->on_screen = 0;
-    self->terrain_box = (void*)&D_800F6ABC;
-    self->attack_box = &D_800F6AC0;
-    self->hurt_box = &D_800F6AC4;
-    self->collision_data = &D_800755FC;
-    func_800F14D4(self, 0x16);
-    self->unk15 = ((struct X4_MainObj*)D_800F6C08)->unk15;
-    angle = (random_byte() % 3) * -0x1C7;
-    self->x_speed = rcos(angle) * 0x10;
-    self->y_speed = -rsin(angle) * 0x10;
-    if (self->unk15 == 0) {
-        self->x_pos.i.hi = ((struct X4_MainObj*)D_800F6C08)->x_pos.i.hi - 8;
-        self->x_speed = -self->x_speed;
-    } else {
-        self->x_pos.i.hi = ((struct X4_MainObj*)D_800F6C08)->x_pos.i.hi + 8;
-    }
-    if (self->unk2 == 2) {
-        self->y_pos.i.hi = ((struct X4_MainObj*)D_800F6C08)->y_pos.i.hi - 0x18;
-    } else {
-        self->y_pos.i.hi = ((struct X4_MainObj*)D_800F6C08)->y_pos.i.hi + 0x10;
-        self->y_speed = -self->y_speed;
-    }
-    self->x_accel = 0;
-    self->gravity = 0;
-    self->hp = 4;
-    self->contact_damage = 4;
-    *(s32*)((u8*)self + 0x8C) = 0;
-    self->action = 0;
-    self->state++;
-}
+#include "../shared/rock_09/func_800F217C.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -1617,21 +1576,7 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void func_800F0434(s8* self, u32 arg1);
 extern s16 D_800970AA;
 
-void func_800F398C(s8* arg0) {
-    if (*(u8*)(arg0 + 0x47) == 0) {
-        s32 g = D_800970AA;
-
-        if (*(s16*)(arg0 + 0xA) < g) {
-            arg0[0x15] = 0x40;
-        } else {
-            arg0[0x15] = 0;
-        }
-        play_sound(2, 0x14, arg0);
-        play_sound(2, 0x40, arg0);
-        func_800F0434(arg0, 0x1D);
-        arg0[6] = 0xA;
-    }
-}
+#include "../shared/rock_09/func_800F398C.c"
 
 #include "common.h"
 

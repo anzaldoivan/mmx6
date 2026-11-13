@@ -327,7 +327,11 @@ void func_800EAD0C(void) {
 #undef g_Player
 
 // clang-format off
-INCLUDE_ASM("asm/rock_25/nonmatchings/E9860", func_800EAFC0);
+#define func_800EB0A0 func_800EAFC0
+#define D_800F729C D_800EF910
+#include "../shared/rock_03/func_800EB0A0.c"
+#undef func_800EB0A0
+#undef D_800F729C
 // clang-format on
 
 #define func_800EB170 func_800EB090

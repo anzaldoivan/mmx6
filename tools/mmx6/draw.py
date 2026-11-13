@@ -38,7 +38,8 @@
          in rank order) stably sorted by the order row's class rank, rank order kept within a class. Class: the pv's
          campaign/refusecause.tsv cause (col 6) when listed (a cause not in the order row -> other), else its
          campaign/ledger.tsv blocker (col 7) jtbl-uncarved -> jtbl-uncarved, plateau:* -> plateau, else other.
-         W<n>.txt lines gain ` class=<c>`; a plateau line's attempts = min(band cap, plateau cap). One
+         W<n>.txt lines gain ` class=<c>`; a plateau line's attempts = min(band cap, plateau cap), the band cap when the
+         `plateau` row is absent (DISABLED in config/routing.txt since 3.1 T25). One
          `DRAW class <c> <k>` per class in order, after the routing lines. Prior art first: build/draw/W<n>.plateau.txt,
          one `<pv> x5=<v> x4=<v> proto=<v> pc=<v>` per plateau pick (campaign/priorart.tsv, `-` empty); a plateau pick
          with no priorart row -> `DRAW PRIORART-MISSING <pv>` rc 2, no W<n>.txt. No order row -> `DRAW MALFORMED
@@ -62,9 +63,10 @@
          a journaled pv not drawn) and an overlapping row -> DRAW MALFORMED rc 2; --detail (the L4 plant
          `DRAW PV <pv> L4 exclude planted hold`, a drawn plant `drawn -`, `band` under --band); pick_plant (shared with
          ledger.py: exact twins A, B; difficulty draw.jsonl B `cluster of A`, leverage draws B and refuses A
-         `cluster of B`); --order class (refusecause over ledger, declaration x2 in rank order, other, plateau
-         `attempts=1`, the nine DRAW class lines, the exact W0.plateau.txt line; no priorart row ->
-         `DRAW PRIORART-MISSING <pv>` rc 2, no W0.txt; a malformed order row -> DRAW MALFORMED rc 2). Every control
+         `cluster of B`); --order class over tools/mmx6/fixtures/routing-plateau.txt (refusecause over ledger,
+         declaration x2 in rank order, other, plateau `attempts=1`, the nine DRAW class lines, the exact W0.plateau.txt line; no priorart row ->
+         `DRAW PRIORART-MISSING <pv>` rc 2, no W0.txt; a malformed order row -> DRAW MALFORMED rc 2); over the real
+         config/routing.txt (plateau cap DISABLED, 3.1 T25) the plateau pick gets its band's `attempts=2`. Every control
          `DRAW CONTROL ok|FAIL <what>`; ends `DRAW CONTROL OK` (rc 0), else rc 1.
 
 Layers, cheapest first:
@@ -105,6 +107,7 @@ INPUTS = dict(diff="build/reports/difficulty.json", funcs="build/corpus/function
 AUDIT_IN = ("funcs", "bounds", "pin", "registry", "twins", "walls", "exclude", "makefile", "triples")
 OUT = "build/draw/draw.jsonl"
 SELFTEST = ".run/draw-selftest"
+FIXTURE = "tools/mmx6/fixtures/routing-plateau.txt"  # routing.txt with `plateau 1` live (3.1 T25)
 LAYERS = ("L1", "L2", "L3", "L4")
 
 
@@ -794,7 +797,7 @@ def self_test():
     side = os.path.join(oinp["wdir"], "W0.plateau.txt")
     said = []
     try:
-        got = rank_run(oinp, "leverage", "W0", 9, None, owords, said.append, route="config/routing.txt", order=True)
+        got = rank_run(oinp, "leverage", "W0", 9, None, owords, said.append, route=FIXTURE, order=True)
         with open(os.path.join(oinp["wdir"], "W0.txt")) as f:
             body = f.read().splitlines()
         ok(got == body == want_w, f"--order class: class order, rank order within a class, plateau attempts=1: {got}")
@@ -804,10 +807,16 @@ def self_test():
             ok(f.read() == want_s, "--order class: W0.plateau.txt prior-art line of the plateau pick")
     except Refuse as e:
         ok(False, f"--order class: refused rc {e.rc} {e.lines[0]}")
+    try:  # the tracked config/routing.txt has the plateau cap DISABLED (3.1 T25): band attempts
+        got = rank_run(oinp, "leverage", "W0", 9, None, owords, lambda s: None, route="config/routing.txt", order=True)
+        ok(got == want_w[:-1] + [want_w[-1].replace("attempts=1", "attempts=2")],
+           f"--order class, real config/routing.txt (plateau cap off): plateau attempts=2: {got}")
+    except Refuse as e:
+        ok(False, f"--order class, real config/routing.txt: refused rc {e.rc} {e.lines[0]}")
     with open(oinp["priorart"], "w") as f:
         f.write("# planted, no rows\n")
     try:
-        rank_run(oinp, "leverage", "W0", 9, None, owords, lambda s: None, route="config/routing.txt", order=True)
+        rank_run(oinp, "leverage", "W0", 9, None, owords, lambda s: None, route=FIXTURE, order=True)
         ok(False, "plateau pick without a priorart row -> rc 2")
     except Refuse as e:
         ok(e.rc == 2 and e.lines == [f"DRAW PRIORART-MISSING {pv(4)}"]

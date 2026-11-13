@@ -1614,7 +1614,7 @@ void func_800ECA60(void* self) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_02/nonmatchings/E9860", func_800ECCF0);
+#include "../shared/rock_02/func_800ECCF0.c"
 // clang-format on
 
 #define func_80041AB8 func_800ECF3C

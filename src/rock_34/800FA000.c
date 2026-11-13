@@ -75,5 +75,5 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FB2A8);
 // clang-format off
 INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FB62C);
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FB81C);
+#include "../shared/rock_34/func_800FB81C.c"
 // clang-format on

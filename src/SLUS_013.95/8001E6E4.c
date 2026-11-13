@@ -817,7 +817,15 @@ void func_8001F9B0(u8* arg0) {
 #undef D_80097420
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001FB3C);
+#define func_8001D9CC func_8001FB3C
+#define D_800710D0 D_800711D4
+#define func_80025FB0 func_80022960
+#define func_8002ACA8 func_800210E8
+#include "../shared/save_file/func_8001D9CC.c"
+#undef func_8001D9CC
+#undef D_800710D0
+#undef func_80025FB0
+#undef func_8002ACA8
 // clang-format on
 
 #include "common.h"

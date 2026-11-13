@@ -679,7 +679,11 @@ void func_800ECEDC(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_10/nonmatchings/E9860", func_800ECEE4);
+#define func_800F1FD0 func_800ECEE4
+#define D_800FBFD4 D_800FBC90
+#include "../shared/rock_22/func_800F1FD0.c"
+#undef func_800F1FD0
+#undef D_800FBFD4
 // clang-format on
 
 #include "common.h"

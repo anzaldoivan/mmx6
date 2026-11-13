@@ -429,35 +429,7 @@ extern u16 D_800F729C[];
 #define UB(p, o) (*(u8*)((u8*)(p) + (o)))
 #define UH(p, o) (*(u16*)((u8*)(p) + (o)))
 
-void func_800EB0A0(void* arg0) {
-    s32 a;
-    s32 d;
-    s32 b;
-    s32 e;
-
-    a = H(arg0, 0xA) - 0xA0;
-    d = background_objects[0].x_pos.i.hi - a;
-    if (d >= 0) {
-        if (d < 0xA0) {
-            // !FAKE: range test needs per-sign compares jumping to one shared block (C0144); abs() form folds to a negate
-            goto x_near;
-        }
-    } else if (a - background_objects[0].x_pos.i.hi < 0xA0) {
-    x_near:
-        b = H(arg0, 0xE) - 0x78;
-        e = background_objects[0].y_pos.i.hi - b;
-        if (e >= 0) {
-            if (e < 0x78) {
-                // !FAKE: range test needs per-sign compares jumping to one shared block (C0144); abs() form folds to a negate
-                goto y_near;
-            }
-        } else if (b - background_objects[0].y_pos.i.hi < 0x78) {
-        y_near:
-            UH(arg0, 0x7C) = D_800F729C[random_byte() & 7];
-            UB(arg0, 6) = UB(arg0, 6) + 1;
-        }
-    }
-}
+#include "../shared/rock_03/func_800EB0A0.c"
 
 #include "../shared/commander_yammark/func_800EB170.c"
 
@@ -2289,40 +2261,7 @@ extern s16 D_800F7DD0;
 #define H(p, o) (*(s16*)((u8*)(p) + (o)))
 #define W(p, o) (*(s32*)((u8*)(p) + (o)))
 
-void func_800F1334(void* arg0) {
-    s16 x;
-    s16 y;
-    s16 ang;
-
-    if (H(arg0, 0xA) < (D_800F7DC0 + D_800F7DC2) / 2) {
-        x = D_800F7DCA;
-        UB(arg0, 0x15) = 0x40;
-    } else {
-        x = D_800F7DCC;
-        UB(arg0, 0x15) = 0;
-    }
-    y = D_800F7DD0;
-    H(arg0, 0x7E) = 1;
-    if (H(arg0, 0xA) == x && H(arg0, 0xE) == y) {
-        W(arg0, 0x20) = 0;
-        W(arg0, 0x24) = 0;
-    } else {
-        ang = ratan2(y - H(arg0, 0xE), x - H(arg0, 0xA));
-        W(arg0, 0x20) = rcos(ang) * 32;
-        W(arg0, 0x24) = -rsin(ang) * 32;
-    }
-    if (W(arg0, 0x20) != 0) {
-        ((void (*)(void*, s32))set_animation)(arg0, 2);
-    } else {
-        s32 v = W(arg0, 0x24);
-        if (v > 0) {
-            ((void (*)(void*, s32))set_animation)(arg0, 3);
-        } else if (v < 0) {
-            ((void (*)(void*, s32))set_animation)(arg0, 4);
-        }
-    }
-    UB(arg0, 6)++;
-}
+#include "../shared/rock_03/func_800F1334.c"
 
 #define func_800F008C func_800F1478
 #include "../shared/commander_yammark/func_800F008C.c"

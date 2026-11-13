@@ -15,8 +15,8 @@
          class is malformed (`class <cls> unproven`).
   ledger.py --self-test
       -> planted inputs in .run/ledger-selftest/ (fictional program PLANT, no game data): --build gives the exact
-         expected rows (every class and blocker rule at its precedence; routed:ledger from the real
-         config/routing.txt; draw.pick_plant: draw.jsonl says B `cluster of A`, leverage picks B -> B undrawn,
+         expected rows (every class and blocker rule at its precedence; routed:ledger and the plateau cap from
+         tools/mmx6/fixtures/routing-plateau.txt (config/routing.txt has `plateau 1` DISABLED, 3.1 T25); draw.pick_plant: draw.jsonl says B `cluster of A`, leverage picks B -> B undrawn,
          A member-of:B; words injected; a refused-R2 registry member -> plumbing:R2, a pending one stays
          member-of); the clean ledger passes --check; a dropped row (missing), a C function's row, an
          unknown blocker, a best draft holding INCLUDE_ASM, a `-` pins on a scored row and `plateau:bogus:lever` are
@@ -577,7 +577,7 @@ def plant(root):
     inp = {k: os.path.join(root, os.path.basename(v)) for k, v in INPUTS.items() if k != "exe"}
     inp.update(journal_scaffold=os.path.join(root, "journal_scaffold.jsonl"),
                scaffold=os.path.join(root, "absent", "scaffold.jsonl"), root=root, exe="PLANT",
-               routing=INPUTS["routing"],  # the real routing file (its 901-99999 ledger row)
+               routing=draw.FIXTURE,  # the plateau-cap-on routing fixture (its 901-99999 ledger row, plateau 1)
                makefile=INPUTS["makefile"], triples=INPUTS["triples"])
     P, wpass = "PLANT", walls.PASSES[0]
     v = lambda i: "0x%08X" % (0x80000000 + 0x20 * i)  # noqa: E731

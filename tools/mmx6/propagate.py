@@ -64,7 +64,8 @@
          verdict stands only under a green R5 that includes its unit). Per program `PROPAGATE GROUP <prog> units <u>
          isolated <i> fallback yes|no reisolated <r> r5 <k> xkey <x> wall <s>s` (r: units re-run isolated after the plan, k:
          group program_r5 calls, x: cross-key edits bank.ladder R3 accepted byte-neutral, summed over the program's
-         ladder runs, T2.c3); per key the per-key lines (member lines, `PROPAGATE DRY-RUN <key> gated m of n members`, DRIFT lines); last
+         ladder runs, T2.c3), every 60 s before it `PROPAGATE PROGRESS <prog> units <d> of <u> wall <s>s` (d: units
+         gated or run so far, flushed, 3.1 T23); per key the per-key lines (member lines, `PROPAGATE DRY-RUN <key> gated m of n members`, DRIFT lines); last
          `PROPAGATE DRY-RUN GROUPED <k> of <K> keys; drift <d>`, rc 0 iff every key passes, no DRIFT, src/ + registry
          sha1 unchanged.
   propagate.py --check
@@ -103,6 +104,7 @@ import re
 import shutil
 import subprocess
 import sys
+import threading
 import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -822,12 +824,19 @@ def run_group(prog, units):
     The tree is left with the program's edits restored."""
     t0, log, out, notes, x0 = time.time(), f"propagate-{prog}", {}, [], bank.XKEY[0]
     count = {"re": 0, "r5": 0}  # units re-run isolated after the plan; group program_r5 calls
+    seen, stop = set(), threading.Event()  # heartbeat (3.1 T23): print-only, verdicts and GROUP line unchanged
+
+    def beat():
+        while not stop.wait(60):
+            print(f"PROPAGATE PROGRESS {prog} units {len(seen)} of {len(units)} wall {time.time() - t0:.0f}s",
+                  flush=True)
 
     def isolated(key, ms, ctx):
         lines, keep = [], []
         res = run_prog(prog, ms, ctx, lines.append, keep=keep)
         restore_prog(prog, keep, log)
         out[key] = (res, lines)
+        seen.add(key)
 
     def bisect(us):
         """Gate us from the restored program, one program_r5 over all their gated; True when it was red."""
@@ -836,6 +845,7 @@ def run_group(prog, units):
             lines = []
             res, gated = gate_members(prog, ms, ctx, lines.append)
             done.append((key, ms, ctx, res, gated, lines))
+            seen.add(key)
             all_gated += gated
         affected = {key for key, _, _, res, _, _ in done if any(not r.startswith("preflight:") for _, _, r in res)}
         cause = ""
@@ -863,11 +873,15 @@ def run_group(prog, units):
             bisect(rest[h:])
         return bool(affected or cause)
 
-    for key, ms, ctx, iso in units:
-        if iso:
-            isolated(key, ms, ctx)
-    group = [(key, ms, ctx) for key, ms, ctx, iso in units if not iso]
-    fallback = bisect(group) if group else False
+    threading.Thread(target=beat, daemon=True).start()
+    try:
+        for key, ms, ctx, iso in units:
+            if iso:
+                isolated(key, ms, ctx)
+        group = [(key, ms, ctx) for key, ms, ctx, iso in units if not iso]
+        fallback = bisect(group) if group else False
+    finally:
+        stop.set()
     n_iso = sum(iso for *_, iso in units)
     return out, (f"PROPAGATE GROUP {prog} units {len(units)} isolated {n_iso} fallback {'yes' if fallback else 'no'}"
                  f" reisolated {count['re']} r5 {count['r5']} xkey {bank.XKEY[0] - x0} wall {time.time() - t0:.0f}s"), notes

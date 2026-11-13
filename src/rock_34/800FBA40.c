@@ -87,7 +87,7 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FBFD0);
 #undef func_800F351C
 
 // clang-format off
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FC158);
+#include "../shared/rock_34/func_800FC158.c"
 // clang-format on
 
 #define func_8003744C func_800FC1A0

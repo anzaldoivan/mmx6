@@ -45,7 +45,7 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F41A4);
 #undef func_800F55EC
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F4400);
+#include "../shared/rock_23/func_800F4400.c"
 // clang-format on
 
 #include "common.h"
@@ -446,7 +446,7 @@ void func_800F5AB0(void* arg0) {
 // clang-format off
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F5B58);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F5BE8);
+#include "../shared/rock_23/func_800F5BE8.c"
 
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F5C48);
 

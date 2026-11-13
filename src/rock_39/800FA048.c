@@ -128,7 +128,7 @@ INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FC184);
 
 INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FC33C);
 
-INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FC520);
+#include "../shared/rock_39/func_800FC520.c"
 // clang-format on
 
 #include "common.h"

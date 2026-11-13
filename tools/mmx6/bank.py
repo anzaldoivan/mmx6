@@ -100,6 +100,15 @@ SELFTEST_DIR = "src/shared/_selftest"
 PLANT_UNIT = "src/SLUS_013.95/LIBSPU_S_M_UTIL.c"
 OBJDUMP = "mipsel-linux-gnu-objdump"
 XKEY = [0]  # cross-key edits R3 accepted in this process (cumulative; bank() and propagate.run_group read deltas)
+# DISABLED: declunify, rolefeed (3.1 T19 verdict, rule 7) — 2026-11-13 / 3.1
+#   Original intent: declunify unifies a member's conflicting declarations (T3), rolefeed feeds a role-file member the
+#   extracted exemplar body (T4). Both stay in REPAIRS (still selectable) but are off in the waves' switch set.
+#   Why disabled: tie on the holdout, which goes to the before. No holdout row (n 6 declaration, 4 path) and no pilot row gated
+#   through either; every repair gate was [via relocdef] and/or [via unitcut] (campaign/refusecause.holdout-all.tsv,
+#   .pilot-all.tsv; docs/ops/methods-gen3.md ## Verdicts). Wave banks run `--repair relocdef --repair unitcut`.
+#   Re-enable if a header-level declaration decision (T3's g_Player, move_object rows) or rolefeed's carried-declarations
+#   follow-up makes either gate rows the adopted pair does not, measured by refusecause --count against
+#   campaign/refusecause.after.tsv.
 REPAIRS = ("declunify", "rolefeed", "relocdef", "unitcut")  # named repair switches (3.1 T3-T6), each off by default: `--repair NAME`, repeatable
 REPAIR = set()  # the switches on in this process (repair_set; propagate's fork workers inherit it)
 UNIFY_RE = re.compile(r"(too few arguments to function|conflicting types for) [`'‘]([A-Za-z_]\w*)['’]")

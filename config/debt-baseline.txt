@@ -42,13 +42,14 @@ raise placeholder 1 2026-11-08 2.7 T9 func_8002E84C bank
 raise placeholder 2 2026-11-08 2.7 T11 func_8002F9DC and func_800232D4 banks
 raise placeholder 3 2026-11-08 3.0 T2 bank of three 2E47C dispatchers
 raise placeholder 14 2026-11-12 T15: Bank the 3.1 pilot wave W302: 19 of 27 pin-free rows
+raise placeholder 11 2026-11-13 T18: Bank holdout wave W305: 20 of 27 pin-free rows, 10 gated twins
 820 pin
 355 goto
-32151 offset
-1993 address
-70 cast
-5768 field
-4845 placeholder
-21192 placeholder-use
-13524 extern
-1032 filename
+32349 offset
+1996 address
+71 cast
+5792 field
+4856 placeholder
+21350 placeholder-use
+13607 extern
+1048 filename

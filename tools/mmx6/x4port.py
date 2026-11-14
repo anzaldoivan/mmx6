@@ -1316,7 +1316,10 @@ def self_test():
     print(f"X4PORT self positive: names mapped back {ok1} ({notes})")
     if ok1:
         d = write_pack(SELFTEST, "W-x4", row, SELF_PROG, draft, notes)
-        p = subprocess.run([sys.executable, "tools/mmx6/cards.py", "--probe-pack", d], capture_output=True, text=True)
+        probes = f"{SELFTEST}/probes"  # scratch counter: the self-test never counts against waves/.probes
+        p = subprocess.run([sys.executable, "tools/mmx6/cards.py", "--probe-pack", d, "--probes", probes],
+                           capture_output=True, text=True)
+        shutil.rmtree(probes, ignore_errors=True)
         line = next((x for x in p.stdout.splitlines() if x.startswith("PACK ")), "no PACK line")
         print(f"X4PORT self probe: {line}")
         ok1 = " match " in line

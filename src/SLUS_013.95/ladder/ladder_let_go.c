@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @807a01b src/main/player.c:player_ladder_let_go, AGPL-3.0; proven shared with X6 by exact signature 97ce869b32ad (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/player.c:player_ladder_let_go, AGPL-3.0; proven shared with X6 by exact signature 97ce869b32ad (see THIRD_PARTY.md). */
 // prog SLUS_013.95 | system ladder | range 0x800377FC-0x80037834
 #include "common.h"
 #include "mmx6/x4.h"

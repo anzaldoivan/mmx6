@@ -1,4 +1,4 @@
-/* Adapted from sozud/mmx4 @807a01b src/main/player.c:player_script_vanish, AGPL-3.0; proven shared with X6 by exact signature 8c272e77d29e (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/player.c:player_script_vanish, AGPL-3.0; proven shared with X6 by exact signature 8c272e77d29e (see THIRD_PARTY.md). */
 // prog SLUS_013.95 | system player | range 0x80037F70-0x80037FD0
 #include "common.h"
 #include "mmx6/x4.h"

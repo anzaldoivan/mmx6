@@ -1,21 +1,21 @@
-/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_fade, AGPL-3.0; proven shared with X6 by exact signature 246e79a6823b (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_fade, AGPL-3.0; proven shared with X6 by exact signature 246e79a6823b (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
 M2C_UNK animate_object();
-M2C_UNK clear_object_slot(void*, void*);
+M2C_UNK clear_object_slot();
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 void func_80049670(struct X4_VisualObj* arg0, struct X4_PlayerObj* arg1) {
     ((void (*)())animate_object)(arg0);
     if (arg0->animation_step.fields.relative_step < 0) {
-        ((void (*)())clear_object_slot)(arg0);
+        clear_object_slot(arg0);
         return;
     }
-    func_8002CCB0(arg0, 0x20, 0x20);
+    ((void (*)())func_8002CCB0)(arg0, 0x20, 0x20);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_attach, AGPL-3.0; proven shared with X6 by exact signature 3cea93403e4f (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_attach, AGPL-3.0; proven shared with X6 by exact signature 3cea93403e4f (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_VisualAttachmentOffset D_80077BF4[2];
@@ -117,19 +117,19 @@ void func_80049854(struct X4_ShotObj* arg0) {
     func_8002CCB0(arg0, 0x40, 0x20);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_02_charge_muzzle_flash.c:charge_muzzle_flash_fade, AGPL-3.0; proven shared with X6 by exact signature eb3a6db008dc (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/visuals/visual_02_charge_muzzle_flash.c:charge_muzzle_flash_fade, AGPL-3.0; proven shared with X6 by exact signature eb3a6db008dc (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
-M2C_UNK clear_object_slot(void*, void*);
+M2C_UNK clear_object_slot();
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 void func_80049950(struct X4_VisualObj* arg0) {
     if (arg0->animation_step.fields.relative_step == 0 ||
         arg0->unk5C.value != 0) {
-        ((void (*)())clear_object_slot)(arg0);
+        clear_object_slot(arg0);
     } else {
-        func_8002CCB0(arg0, 0x40, 0x20);
+        ((void (*)())func_8002CCB0)(arg0, 0x40, 0x20);
     }
 }
 
@@ -203,7 +203,7 @@ void func_80049D90(void* arg0) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/mains/main_42_homing_orb.c:homing_orb_start_idle, AGPL-3.0; proven shared with X6 by exact signature 260a65053a4e (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_42_homing_orb.c:homing_orb_start_idle, AGPL-3.0; proven shared with X6 by exact signature 260a65053a4e (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void func_80049E70(void* arg0, s8 arg1);
@@ -811,7 +811,7 @@ void func_8004B3A0(struct X4_VisualObj* arg0) {
 #undef func_80041AB8
 #undef D_80075FD8
 
-/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_22_missile_smoke.c:missile_smoke_init, AGPL-3.0; proven shared with X6 by exact signature 350f949ca2ac (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/visuals/visual_22_missile_smoke.c:missile_smoke_init, AGPL-3.0; proven shared with X6 by exact signature 350f949ca2ac (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void func_8004B50C(struct X4_VisualObj*);
@@ -830,14 +830,14 @@ void func_8004B4BC(struct X4_VisualObj* arg0) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/visuals/visual_22_missile_smoke.c:missile_smoke_main, AGPL-3.0; proven shared with X6 by exact signature c82f771f5c19 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/visuals/visual_22_missile_smoke.c:missile_smoke_main, AGPL-3.0; proven shared with X6 by exact signature c82f771f5c19 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 M2C_UNK set_animation(void* arg0, M2C_UNK arg1);
 
 M2C_UNK animate_object();
-M2C_UNK clear_object_slot(void*, void*);
+M2C_UNK clear_object_slot();
 s32 func_8002CB50(struct X4_BaseObj*);
 void func_8004B50C(struct X4_VisualObj* arg0) {
     struct X4_PlayerObj* temp_a0;
@@ -850,7 +850,7 @@ void func_8004B50C(struct X4_VisualObj* arg0) {
                 set_animation(arg0, ((arg0->unk2 - 1) >> 1) + 0x21);
             }
             arg0->unk2++;
-            ((void (*)())func_8002CB50)(arg0);
+            func_8002CB50(arg0);
         } else {
             arg0->on_screen = 0;
             arg0->state = 2;
@@ -863,11 +863,11 @@ void func_8004B50C(struct X4_VisualObj* arg0) {
             arg0->x_pos.i.hi = temp_a0->x_pos.i.hi;
             arg0->y_pos.i.hi = temp_a0->y_pos.i.hi;
             ((void (*)())animate_object)(arg0);
-            ((void (*)())func_8002CB50)(arg0);
+            func_8002CB50(arg0);
             return;
         }
         arg0->on_screen = 0;
-        ((void (*)())clear_object_slot)(arg0);
+        clear_object_slot(arg0);
     }
 }
 
@@ -1124,7 +1124,7 @@ void func_8004BB5C(struct X4_QuadObj* arg0) {
     }
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/quads/quad_03_boss_warning_quad.c:boss_warning_quad_close, AGPL-3.0; proven shared with X6 by exact signature f3f6620a97d2 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/quads/quad_03_boss_warning_quad.c:boss_warning_quad_close, AGPL-3.0; proven shared with X6 by exact signature f3f6620a97d2 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 extern struct X4_QuadMotionData D_80078138[22];
@@ -1444,7 +1444,7 @@ void func_8004C744(void* arg0) {
     func_800328B0();
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/quads/quad_08_flash_band.c:flash_band_widen, AGPL-3.0; proven shared with X6 by exact signature f8c67d3d4451 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/quads/quad_08_flash_band.c:flash_band_widen, AGPL-3.0; proven shared with X6 by exact signature f8c67d3d4451 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
@@ -1470,7 +1470,7 @@ void func_8004C824(void) {
     ((M2C_UNK(*)())clear_object_slot)();
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/quads/quad_07_ready_line.c:ready_line_sweep, AGPL-3.0; proven shared with X6 by exact signature 5aa466ee5359 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/quads/quad_07_ready_line.c:ready_line_sweep, AGPL-3.0; proven shared with X6 by exact signature 5aa466ee5359 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void* alloc_sprite_slot();
@@ -1741,7 +1741,7 @@ void func_8004CD3C(struct X4_QuadObj* arg0) {
 #undef func_80041AB8
 #undef D_80075FD8
 
-/* Adapted from sozud/mmx4 @807a01b src/main/quads/quad_07_ready_line.c:ready_line_init, AGPL-3.0; proven shared with X6 by exact signature 2100185f1445 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/quads/quad_07_ready_line.c:ready_line_init, AGPL-3.0; proven shared with X6 by exact signature 2100185f1445 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
@@ -1786,7 +1786,7 @@ void func_8004D054(void) {
     ((M2C_UNK(*)())clear_object_slot)();
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/quads/quad_07_ready_line.c:ready_line_move, AGPL-3.0; proven shared with X6 by exact signature 067862c5794d (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/quads/quad_07_ready_line.c:ready_line_move, AGPL-3.0; proven shared with X6 by exact signature 067862c5794d (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 
@@ -2349,7 +2349,7 @@ void func_8004E5D8(void* arg0) {
 
 #undef F
 
-/* Adapted from sozud/mmx4 @807a01b src/main/items/item_01_stage_block.c:drop_item, AGPL-3.0; proven shared with X6 by exact signature 806a7421f0d6 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/items/item_01_stage_block.c:drop_item, AGPL-3.0; proven shared with X6 by exact signature 806a7421f0d6 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 void drop_item(struct X4_BaseObj* arg0, s8 arg1, s16 arg2, s16 arg3);

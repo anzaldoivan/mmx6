@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """cards.py -- wave packs: card writing (T2.c2) and the pack probe (container, stdlib only).
 
-  cards.py --probe-pack <dir> [--hold S] [--no-snapshot] [--show]
+  cards.py --probe-pack <dir> [--hold S] [--no-snapshot] [--show] [--probes DIR]
       -> `PACK <pv> match <m>/<n>` | `PACK <pv> fail <m>/<n>` | `PACK <pv> nocompile`; rc 0 on any PACK line
       Probe cap (T8): attempt k = 1 + count of <dir>/draft.a<n>.c; cap = config/routing.txt probe cap of the band of
       pack.json words (draw.routing; no band = 0). Under fcntl.flock on waves/.probes/<dir relpath, / -> __>.log
@@ -10,6 +10,7 @@
       precedes the PACK line (still the last line, --show aside). Each counted probe writes <dir>/probe.ours.s (our
       function, rabbitizer, relocs as %hi/%lo/%gp_rel(sym) / jal sym, branches .L<vram>) and <dir>/probe.diff.s
       (unified diff target.s -> ours, both cut to `op args` lines); .s stays off the host clone (mx.sh push/pull).
+      --probes DIR: keep the counter under DIR instead of waves/.probes (self-tests' scratch probes; never for real packs).
       --show prints probe.diff.s after the PACK line; without it no asm is printed.
       Compiles <dir>/draft.c as drafts/<prog>/<func>.c (its TU's flags, probe.draft_cflags) inside a fresh snapshot
       waves/.iso/<tag>/ of every input probe reads, cwd = the snapshot, so an `mx.sh sync` (which spares waves/)
@@ -1247,12 +1248,13 @@ def main():
     ap.add_argument("--match", metavar="S")
     ap.add_argument("--hold", type=float, default=0)
     ap.add_argument("--no-snapshot", action="store_true")
+    ap.add_argument("--probes", metavar="DIR", help="probe-cap counter dir (default waves/.probes); self-test scratch only")
     ap.add_argument("--targets", metavar="FILE")
     ap.add_argument("--root", default="waves")
     ap.add_argument("--journal", default=journal.JOURNAL)
     a = ap.parse_args()
     if a.probe_pack:
-        return probe_pack(a.probe_pack, a.hold, not a.no_snapshot, show=a.show)
+        return probe_pack(a.probe_pack, a.hold, not a.no_snapshot, a.probes, show=a.show)
     if a.probe_count:
         return probe_count(a.probe_count)
     if a.outside:

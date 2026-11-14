@@ -4,19 +4,23 @@
 Host tool, stdlib. `--build [FILE...]` (default campaign/methods-before.tsv campaign/methods-after.tsv,
 missing files skipped) writes the table; `--check` rebuilds from the table's own source column(s) and
 compares per cell (`WAVEMETRICS DRIFT <wave> <col> table <x> rebuilt <y>`, last line
-`WAVEMETRICS CHECK OK <k> waves`, rc 0 or 1); `--self-test` plants faults in .run/3.1/wavemetrics-selftest.
+`WAVEMETRICS CHECK OK <k> waves`, rc 0 or 1); `--self-test` plants faults in .run/<phase>/wavemetrics-selftest (layout._phase_run(); was .run/3.1).
 Records file: methods-before.tsv form (header row + data rows) plus optional after columns route, arm,
 banked, bank_wall_s; wave facts in comment lines
-`# wave <name> split <pilot|holdout|all> fleet_wall_s <n|-> since_wall_s <n|->`.
-A row belongs to every directive whose split equals its split column (or `all`). Errors rc 2:
+`# wave <name> split <pilot|holdout|all|<name>> fleet_wall_s <n|-> since_wall_s <n|->`.
+A row belongs to every directive whose split equals its split column (or `all`). Production waves (W306 on,
+3.2 T1) share campaign/wave-rows.tsv: directive split = its own wave name, rows' split = that name. Errors rc 2:
 `WAVEMETRICS BAD <file>:<line> <why>`. Rules: docs/ops/campaign.md `## Yield`.
 """
 import re, shutil, sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import layout  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 OUT = "campaign/wave-metrics.tsv"
-DEFAULT = ("campaign/methods-before.tsv", "campaign/methods-after.tsv")
+DEFAULT = ("campaign/methods-before.tsv", "campaign/methods-after.tsv", "campaign/wave-rows.tsv")
 BEFORE = ("stratum prog vram func split words a1 a2 best best_pins pinfree_match coder_runs ctx_a1 ctx_a2 "
           "wall_a1_s wall_a2_s compiles_a1 compiles_a2 dev_stops").split()
 AFTER = ("route", "arm", "banked", "bank_wall_s")
@@ -25,7 +29,7 @@ INTS = ("words best_pins coder_runs ctx_a1 ctx_a2 wall_a1_s wall_a2_s compiles_a
 ROUTES = ("repair", "draft", "w300")
 COLS = ("wave rows attempts coder_runs context coder_wall_s compiles pinfree_matches banked_repair "
         "banked_draft banked_w300 dev_stops bank_wall_s fleet_wall_s since_wall_s source").split()
-DIRECTIVE = re.compile(r"^# wave (\S+) split (pilot|holdout|all) fleet_wall_s (\d+|-) since_wall_s (\d+|-)$")
+DIRECTIVE = re.compile(r"^# wave (\S+) split (pilot|holdout|all|W\d+) fleet_wall_s (\d+|-) since_wall_s (\d+|-)$")
 
 
 class Bad(Exception):
@@ -45,6 +49,8 @@ def parse(root, rel):
             m = DIRECTIVE.match(line)
             if not m:
                 raise Bad(f"{rel}:{i} malformed wave directive")
+            if m.group(2).startswith("W") and m.group(2) != m.group(1):
+                raise Bad(f"{rel}:{i} wave split {m.group(2)} is not the wave name {m.group(1)}")
             dirs.append((*m.groups(), i))
     splits = {d[1] for d in dirs}
     for i, line in enumerate(lines, 1):
@@ -121,7 +127,7 @@ def check(root, out):
 
 
 def self_test():
-    tmp = ROOT / ".run/3.1/wavemetrics-selftest"
+    tmp = ROOT / layout._phase_run() / "wavemetrics-selftest"  # was .run/3.1
     shutil.rmtree(tmp, ignore_errors=True)
     (tmp / "campaign").mkdir(parents=True)
     rec = "campaign/fx.tsv"
@@ -173,6 +179,15 @@ def self_test():
         # plant: unknown route
         e = bad([base[0].replace("\trepair\t", "\tsweep\t")] + base[1:])
         assert e and "unknown route" in e, e
+        plants += 1
+        # plant: production waves share one file, each directive takes only its own rows (3.2 T1)
+        prod = [r.replace("\tpilot\t", "\tW1\t").replace("\tholdout\t", "\tW2\t") for r in base]
+        pds = ["# wave W1 split W1 fleet_wall_s 5 since_wall_s -", "# wave W2 split W2 fleet_wall_s - since_wall_s -"]
+        write(prod, pds)
+        t = table(build(tmp, [rec]))
+        assert (t["W1"][1], t["W2"][1]) == ("1", "2"), t
+        e = bad(prod, ["# wave W1 split W2 fleet_wall_s - since_wall_s -"] + pds[1:])
+        assert e and "not the wave name" in e, e
         plants += 1
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

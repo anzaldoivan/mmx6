@@ -20,7 +20,7 @@ void func_80037CB4();
 void func_80037D68();
 s32 func_80038594(void*);
 s32 func_80038788(void* arg0);
-s32 func_80039C40(void*);
+s32 func_80039C40(struct X4_PlayerObj*);
 s32 check_crouch_input(void*);
 s32 check_walk_start_input(void*);
 s32 check_walk_input(void*);

@@ -1,5 +1,5 @@
 // prog SLUS_013.95 | system movement | range 0x80039C40-0x80039DF8
-/* Adapted from sozud/mmx4 @29b62af src/main/player_check.c:player_check_dash_jump, AGPL-3.0; proven shared with X6 by exact signature 45aeff6b7124 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/player_check.c:player_check_dash_jump, AGPL-3.0; proven shared with X6 by exact signature 45aeff6b7124 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 s32 check_dash_input(struct X4_PlayerObj*);
@@ -8,9 +8,7 @@ s32 check_dash_input(struct X4_PlayerObj*);
 // basis: none
 // callers: update_stand, update_walk_start
 // unnamed callers: func_800354E8, func_80035D38, func_80036800, rock_00 and rock_01 player states
-s32 func_80039C40(void* arg0) {
-    struct X4_PlayerObj* self = arg0;
-
+s32 func_80039C40(struct X4_PlayerObj* self) {
     if (check_dash_input(self) != 0) {
         start_dash(self);
         return 1;

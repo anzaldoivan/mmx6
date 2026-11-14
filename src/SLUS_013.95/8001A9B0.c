@@ -8,8 +8,8 @@
 void func_80012A34(void);
 void func_8001ACC4(s32, s32, s32, s32);
 s32 func_8001B184(s32, s32);
-void func_8001B6D0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5,
-                   s32 arg6, s32 arg7, s32 arg8, s32 arg9);
+s32 func_8001B6D0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5,
+                  s32 arg6, s32 arg7, s32 arg8, s32 arg9);
 void func_8001B784(void);
 void func_8001B7A8(void);
 void func_8001B90C(u32 arg0);
@@ -218,7 +218,7 @@ s32 func_8001B184(s32 arg0, s32 arg1) {
     return ret;
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:func_80019100, AGPL-3.0; proven shared with X6 by exact signature f2a2862257fa (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/55C4.c:func_80019100, AGPL-3.0; proven shared with X6 by exact signature f2a2862257fa (see THIRD_PARTY.md). */
 #include "common.h"
 #include "psyq/libcd.h"
 #include "psyq/libgpu.h"
@@ -300,7 +300,7 @@ void func_8001B520(void) {
 }
 #undef D_800CC869
 
-/* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:func_800192F8, AGPL-3.0; proven shared with X6 by exact signature 9577b76e9365 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/55C4.c:func_800192F8, AGPL-3.0; proven shared with X6 by exact signature 9577b76e9365 (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32
@@ -317,7 +317,7 @@ void func_8001B5FC(void) {
     s32 temp_v0;
     s32 var_s0;
 
-    ((void (*)())SsSetSerialAttr)(0, 0, 0);
+    SsSetSerialAttr(0, 0, 0);
     if (D_800CC869 != 0) {
         var_s0 = D_80070CC0;
         if (var_s0 >= 0) {
@@ -345,25 +345,26 @@ void func_8001B5FC(void) {
         }
     }
 }
+
 #undef D_800CC869
 #undef D_800E2F3C
 #undef func_80064C94
 
-/* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:func_80018AD0, AGPL-3.0; proven shared with X6 by exact signature fae0caed2311 (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/55C4.c:func_80018AD0, AGPL-3.0; proven shared with X6 by exact signature fae0caed2311 (see THIRD_PARTY.md). */
 #include "common.h"
 s32 func_80016548(s32 arg0, s32* arg1);
 extern s32 func_8001AE44(s32, s32, s32, s32, s32, s32, s32, s32, s32, s32);
 
-// ! upstream returns s32; X6 siblings (play_str_movie.c, func_8001A9B0.c) declare it void
-void func_8001B6D0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5,
-                   s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
+// ! upstream returns s32; the TU (play_str_movie.c, func_8001A9B0.c) declares it s32 to match (was void)
+s32 func_8001B6D0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5,
+                  s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
     s32 local;
 
-    func_8001AE44(func_80016548(arg0, &local), arg1, arg2, arg3, arg4, arg5,
-                  arg6, arg7, arg8, arg9);
+    return ((s32(*)())func_8001AE44)(func_80016548(arg0, &local), arg1, arg2,
+                                     arg3, arg4, arg5, arg6, arg7, arg8, arg9);
 }
 
-/* Adapted from sozud/mmx4 @807a01b src/main/55C4.c:func_80018EEC, AGPL-3.0; proven shared with X6 by exact signature e997ebfce7dc (see THIRD_PARTY.md). */
+/* Adapted from sozud/mmx4 @4e16dfc src/main/55C4.c:func_80018EEC, AGPL-3.0; proven shared with X6 by exact signature e997ebfce7dc (see THIRD_PARTY.md). */
 #include "common.h"
 extern s32 D_800E2ED0;
 extern s32 D_800E2ED4;

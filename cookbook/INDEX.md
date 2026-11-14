@@ -457,3 +457,5 @@ C0456 | Verify a derived input set with a Python open audit hook | propagate,pro
 C0457 | Stop orphan docker run containers: --init, name, trap kill, stale list | docker,mx.sh,orphan,containers | 2026-11-13 | 3.1/T23 | T23.c1 mx.sh
 C0458 | A cross-project twin table is stale: re-read state from both trees, keep only its keys | twins,x5,leads,stale,port | 2026-11-13 | 3.1/T24 | T24 lane join
 C0459 | Route an INBOX bullet with the word later: no phase ids, Gen N or arrows in it | inbox,routing,later,guard,heredoc | 2026-11-13 | 3.1/T24 | T24 mmx5 inbox append
+C0460 | Repin hold on conflicting types: give every TU declaration upstream's type | x4,repin,hold,conflicting-types,declaration,unity | 2026-11-14 | 3.2/T2 | 3.2 T2.c1
+C0461 | A self-test probe must use its own --probes dir, or it spends the real probe cap | probe-cap,self-test,cards,x4port,volume,fleet | 2026-11-14 | 3.2/T2 | 3.2 T2.c6

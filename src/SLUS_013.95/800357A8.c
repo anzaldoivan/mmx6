@@ -172,7 +172,7 @@ void func_80035BDC(void* arg0) {
 
 s32 play_sound(s32 a0, s32 a1, void* arg2);             /* extern */
 M2C_UNK animate_object();                               /* extern */
-s32 func_80039C40(void*);                               /* extern */
+s32 func_80039C40(struct X4_PlayerObj*);                /* extern */
 s32 check_walk_start_input(void*);                      /* extern */
 s32 func_8003A628(void*);                               /* extern */
 void func_8003AD18(void* arg0);                         /* extern */

@@ -48,7 +48,7 @@ A backticked path is a citation, not a link. A link checker classifies cited pat
 git, never the disk.
 
 **The archive.** A document leaves `docs/` when its purpose is fulfilled and its information lives elsewhere. The move is
-a `git mv` into `docs/sunset/` under the same relative path. The move includes one row in the archive index and a review
+a `git mv` into `docs/sunset/`, keeping the same relative path. The move includes one row in the archive index and a review
 row for the owner. The row in the archive index says what the document was, what came of it and where it lives now.
 
 Deletion is the owner's decision, never part of the move. Every referrer is re-pointed first (a `git grep` over the tree

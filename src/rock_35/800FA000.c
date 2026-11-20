@@ -45,7 +45,13 @@ INCLUDE_ASM("asm/rock_35/nonmatchings/FA000", func_800FBE3C);
 
 INCLUDE_ASM("asm/rock_35/nonmatchings/FA000", func_800FC630);
 
-INCLUDE_ASM("asm/rock_35/nonmatchings/FA000", func_800FCAD0);
+#define func_80050DFC func_800FCAD0
+#define D_80078DD4 D_800FE86C
+#define func_8002CB50 func_8002F288
+#include "../shared/SLUS_013.95/func_80050DFC.c"
+#undef func_80050DFC
+#undef D_80078DD4
+#undef func_8002CB50
 // clang-format on
 
 #define func_800F13E0 func_800FCB2C
@@ -126,7 +132,7 @@ INCLUDE_ASM("asm/rock_35/nonmatchings/FA000", func_800FCED4);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK animate_object(void*); /* extern */
-M2C_UNK move_object(void*);    /* extern */
+void move_object();            /* extern */
 
 void func_800FD024(void* arg0) {
     if (M2C_FIELD(arg0, u8*, 0x70) & 1) {
@@ -364,7 +370,13 @@ void func_800FE2C8(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_35/nonmatchings/FA000", func_800FE2D0);
+#define func_80050DFC func_800FE2D0
+#define D_80078DD4 D_800FE998
+#define func_8002CB50 func_8002F288
+#include "../shared/SLUS_013.95/func_80050DFC.c"
+#undef func_80050DFC
+#undef D_80078DD4
+#undef func_8002CB50
 // clang-format on
 
 #include "common.h"
@@ -375,7 +387,7 @@ INCLUDE_ASM("asm/rock_35/nonmatchings/FA000", func_800FE2D0);
 M2C_UNK animate_object();                       /* extern */
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);     /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK move_object(void*);                     /* extern */
+void move_object();                             /* extern */
 s32 check_enemy_hits(void*);                    /* extern */
 M2C_UNK func_80049D90(void*);                   /* extern */
 
@@ -449,7 +461,7 @@ void func_800FE414(void* arg0) {
 M2C_UNK animate_object();                       /* extern */
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);     /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK move_object(void*);                     /* extern */
+void move_object();                             /* extern */
 s32 check_enemy_hits(void*);                    /* extern */
 M2C_UNK func_80049E50(void*);                   /* extern */
 

@@ -7,7 +7,7 @@ M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-M2C_UNK func_8002F288(void*);
+s32 func_8002F288();
 
 void func_800F990C(void* arg0) {
     s32 v;

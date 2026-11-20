@@ -357,8 +357,8 @@ void func_8004A154(struct ObjectHeader* arg0) {
 
 M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
-M2C_UNK func_8002CB50();
-M2C_UNK move_object(void*);
+s32 func_8002CB50();
+void move_object();
 
 M2C_UNK func_8004A250(void* arg0) {
     ((void (*)())animate_object)(arg0);
@@ -375,7 +375,7 @@ M2C_UNK func_8004A250(void* arg0) {
 // clang-format off
 #include "../shared/SLUS_013.95/func_8004A2B4.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/4228C", func_8004A768);
+#include "../shared/SLUS_013.95/func_8004A768.c"
 // clang-format on
 
 #include "common.h"
@@ -497,7 +497,7 @@ void func_8004AC7C(struct ObjectHeader* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 s32 random_byte();
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 
@@ -537,10 +537,10 @@ void func_8004ACBC(void* arg0) {
 
 M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
-s32 func_8002CB50(struct X4_BaseObj*);
+s32 func_8002CB50();
 #define clear_object_slot ((M2C_UNK(*)(u8*))clear_object_slot)
 #define func_8002CB50 func_8002CB50
-M2C_UNK move_object(void*);
+void move_object();
 #include "mmx6/state.h"
 
 void func_8004AD78() {
@@ -838,7 +838,7 @@ M2C_UNK set_animation(void* arg0, M2C_UNK arg1);
 
 M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
-s32 func_8002CB50(struct X4_BaseObj*);
+s32 func_8002CB50();
 void func_8004B50C(struct X4_VisualObj* arg0) {
     struct X4_PlayerObj* temp_a0;
 
@@ -882,7 +882,7 @@ void func_8004B614(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/4228C", func_8004B634);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/49670", func_8004B634);
 // clang-format on
 
 #include "common.h"
@@ -2102,7 +2102,7 @@ void func_8004D75C(void) {
 #undef D_80075FD8
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/4228C", func_8004D7B8);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/49670", func_8004D7B8);
 // clang-format on
 
 #include "common.h"
@@ -2114,9 +2114,9 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/4228C", func_8004D7B8);
 M2C_UNK animate_object();
 M2C_UNK func_8002CA54();
 s32 func_8002CAB4(struct X4_BaseObj*);
-s32 func_8002CB50(struct X4_BaseObj*);
+s32 func_8002CB50();
 M2C_UNK apply_object_motion(struct X4_MainObj* self);
-void func_8002F288(struct X4_PlayerObj*);
+s32 func_8002F288();
 u8 func_80030234(struct X4_PlayerObj*, s16, s16);
 void func_8004E26C(void*);
 
@@ -2131,7 +2131,7 @@ void func_8004DA7C(void* arg0) {
         F(s8, 0x67) = 0;
         F(s32, 0x24) = 0;
         F(s32, 0x2C) = 0;
-        func_8002F288(arg0);
+        ((void (*)())func_8002F288)(arg0);
         F(void*, 0x68) = 0;
         if (F(u16, 0x80) >= 0x3D) {
             F(u16, 0x80) = 0x3C;
@@ -2251,7 +2251,7 @@ void func_8004DCB8(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/4228C", func_8004DDD4);
+INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/49670", func_8004DDD4);
 // clang-format on
 
 #include "common.h"
@@ -2326,7 +2326,7 @@ void func_8004E0A8(u8* arg0, u8 arg1, s32 arg2) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/4228C", func_8004E26C);
+#include "../shared/SLUS_013.95/func_8004E26C.c"
 // clang-format on
 
 #include "common.h"
@@ -2335,7 +2335,7 @@ INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/4228C", func_8004E26C);
 
 #define F(T, o) (*(T*)((u8*)arg0 + (o)))
 
-void func_8002F288(struct X4_PlayerObj*);
+s32 func_8002F288();
 extern void (*D_800788F8[])(void*);
 
 void func_8004E5D8(void* arg0) {

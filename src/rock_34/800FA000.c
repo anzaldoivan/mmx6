@@ -17,7 +17,13 @@ INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", D_800FA000);
 
 INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FA290);
 
-INCLUDE_ASM("asm/rock_34/nonmatchings/FA000", func_800FA41C);
+#define func_800F18C4 func_800FA41C
+#define D_800F7840 D_800FEDE4
+#define func_800F54B8 func_800FE010
+#include "../shared/rock_04/func_800F18C4.c"
+#undef func_800F18C4
+#undef D_800F7840
+#undef func_800F54B8
 // clang-format on
 
 #define func_800F19EC func_800FA544

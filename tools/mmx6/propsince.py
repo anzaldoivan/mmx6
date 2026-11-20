@@ -26,7 +26,8 @@
                              argv element is capped at 128 KB, MAX_ARG_STRLEN). Else the keys with any input changed
                              (file content, row or carve sha1) plus the current keys absent from the stamp. stderr
                              `PROPSINCE <k> of <K> keys since <commit12>; <n> inputs changed` (ALL: `PROPSINCE ALL of
-                             <K> keys since <commit12>; <reason>`).
+                             <K> keys since <commit12>; <reason>`; a changed-trigger reason names every changed
+                             trigger, each marked: `trigger changed tool:<path> config:config/<file> ...`, T31).
   propsince.py --self-test   fixture tree + stamp under .run/<phase>/propsince-selftest/ (deleted at end, pass or fail; <phase> as layout.RUN): no stamp ->
                              ALL; a changed member unit -> its key only; Makefile -> ALL; an imported module or a
                              named config file -> ALL; an unreferenced tools/mmx6/new.py, methods-arm.tsv or
@@ -331,9 +332,10 @@ def select(st, root=".", triggers_now=None):
     if trig_then != trig_now:
         d = sorted(trig_then ^ trig_now)
         return all_(f"trigger {'added' if d[0] in trig_now else 'removed'} {d[0]}")
-    for p in sorted(trig_then):
-        if sha1_file(os.path.join(root, p)) != files[p]:
-            return all_(f"trigger changed {p}")
+    moved = [p for p in sorted(trig_then) if sha1_file(os.path.join(root, p)) != files[p]]
+    if moved:  # every changed trigger, marked config: (config/) or tool: (the rest) (T31)
+        return all_("trigger changed " + " ".join(f"{'config' if p.startswith('config/') else 'tool'}:{p}"
+                                                  for p in moved))
     changed = {p for p, s in files.items() if p not in trig_then and sha1_file(os.path.join(root, p)) != s}
     sel, carves, nrow = [], {}, 0
     for key in now:
@@ -404,10 +406,12 @@ def self_test():
         with open(p, "w") as f:
             f.write(text)
 
-    def check(name, st, want, edits=()):
+    def check(name, st, want, edits=(), line_has=None):
         for rel, text in edits:
             put(rel, text)
         got, line = select(st, base)
+        if line_has is not None and line_has not in line:  # the stderr line's wording (T31)
+            got = got + [f"line `{line}`"]
         for rel, _ in edits:
             if rel in FIX:
                 put(rel, FIX[rel])
@@ -434,6 +438,9 @@ def self_test():
         check("unreferenced tools/mmx6/new.py", st, [], [("tools/mmx6/new.py", "# n\n")])
         check("imported module t", st, ["ALL"], [("tools/mmx6/t.py", "# t2\n")])
         check("named config c_units", st, ["ALL"], [("config/c_units.txt", FIX["config/c_units.txt"] + "# x\n")])
+        check("tool + config marked", st, ["ALL"], [("tools/mmx6/t.py", "# t2\n"),
+                                                    ("config/c_units.txt", FIX["config/c_units.txt"] + "# x\n")],
+              "trigger changed config:config/c_units.txt tool:tools/mmx6/t.py")
         check("methods-arm only", st, [], [("config/methods-arm.tsv", "# arm 2\n")])
         check("debt-baseline only", st, [], [("config/debt-baseline.txt", "# debt 2\n")])
         check("docs only", st, [], [("docs/d.md", "doc 2\n")])

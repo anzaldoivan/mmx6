@@ -124,7 +124,7 @@ SLUS_013.95	0x8003A488	try_grab_ladder_from_air	code	code:src/SLUS_013.95/ladder
 SLUS_013.95	0x8003A514	try_leave_ladder	xref	derived.tsv:19; xref:caller=player_enter_ladder_step_off_bottom; code:src/SLUS_013.95/ladder/leave_ladder.c:19 via=player_enter_ladder_step_off_bottom	consistent-with-bytes
 SLUS_013.95	0x8003A870	check_ceiling_jump	community	tweaks-index.tsv:192; corroborator X needs part +0xE7==2, Zero +0xC9&2, on press: state 0x1F, anim 0xA, sound 1/1	consistent-with-bytes
 SLUS_013.95	0x8003A980	cancel_player_attack	code	code:src/SLUS_013.95/8003A980.c:18 via=clear_flash_palette; derived.tsv:153	consistent-with-bytes
-SLUS_013.95	0x8003A9C4	start_dash	code	code:src/SLUS_013.95/dash/dash_8003A9C4.c:50 via=dash_timer; derived.tsv:103	consistent-with-bytes
+SLUS_013.95	0x8003A9C4	start_dash	code	code:src/SLUS_013.95/dash/dash_8003A9C4.c:49 via=dash_timer; derived.tsv:103	consistent-with-bytes
 SLUS_013.95	0x8003AE8C	start_walk	code	code:src/SLUS_013.95/player/walk_8003AE8C.c:19 via=action; derived.tsv:105	consistent-with-bytes
 SLUS_013.95	0x8003AF1C	start_jump	code	code:src/SLUS_013.95/player/walk.c:17 via=PLAYER_INPUT_JUMP; derived.tsv:107	consistent-with-bytes
 SLUS_013.95	0x8003B054	player_land	xref	derived.tsv:109; xref:caller=player_check_dash_jump_walk; code:src/SLUS_013.95/player/land.c:26 via=player_check_dash_jump_walk	consistent-with-bytes
@@ -164,7 +164,7 @@ SLUS_013.95	0x8003D630	init_move_stats	code	code:src/SLUS_013.95/player/move_sta
 SLUS_013.95	0x8003D718	load_armor_and_parts	code	code:src/SLUS_013.95/player/armor.c:16 via=armor; code:src/SLUS_013.95/player/armor.c:17 via=equipped_parts; derived.tsv:128	consistent-with-bytes
 SLUS_013.95	0x8003D7AC	map_buttons	community	tweaks-index.tsv:321; corroborator maps 16 bits through D_8006D600 into a new button mask	consistent-with-bytes
 SLUS_013.95	0x8003DBDC	switch_weapon	community	tweaks-index.tsv:221; corroborator buttons 0x600: both -> weapon +0x93 = 0 and sound 0xC, else steps via D_80073ED0	consistent-with-bytes
-SLUS_013.95	0x8003DF58	set_shot_types	code	code:src/SLUS_013.95/weapon/shot_types.c:41 via=shot_types; derived.tsv:130	consistent-with-bytes
+SLUS_013.95	0x8003DF58	set_shot_types	code	code:src/SLUS_013.95/weapon/shot_types.c:38 via=shot_types; derived.tsv:130	consistent-with-bytes
 SLUS_013.95	0x8003E174	try_shoot_in_air	xref	derived.tsv:131; xref:caller=start_player_attack; code:src/SLUS_013.95/weapon/shoot_in_air.c:47 via=start_player_attack	consistent-with-bytes
 SLUS_013.95	0x8003E260	try_shoot_on_ladder	xref	derived.tsv:132; xref:caller=start_player_attack; code:src/SLUS_013.95/weapon/shoot_on_ladder.c:40 via=start_player_attack	consistent-with-bytes
 SLUS_013.95	0x8003E344	check_giga_attack	community	tweaks-index.tsv:202; corroborator X only, needs full gauge (+0xA8 == +0x14A), button 0x40, armor +0xE7 1-4	consistent-with-bytes
@@ -187,7 +187,7 @@ SLUS_013.95	0x8003F864	start_player_attack	xref	derived.tsv:24; xref:caller=star
 SLUS_013.95	0x8003FA60	player_fire_weapon	x4	exact 8c58cd89382c sozud/mmx4@4e16dfc src/main/player_weapon.c:player_fire_weapon; corroborator callee src/main/player_weapon:player_fire_weapon SLUS_013.95:0x8003D3F8	gate
 SLUS_013.95	0x8003FA8C	fire_charged_shot	community	tweaks-index.tsv:327; corroborator spawns visual 0x21/2 with kind +0x96, kinds 0x12-0x14 randomly voice 6 via fu...	consistent-with-bytes
 SLUS_013.95	0x8003FD6C	start_saber	community	tweaks-index.tsv:197; corroborator state 0x2D ground / 0x2E air, anim 0xB7-0xBA chosen by part +0xE7	consistent-with-bytes
-SLUS_013.95	0x8003FF90	player_set_charge_flash	code	code:src/SLUS_013.95/weapon/set_charge_flash.c:41 via=flash_palette; derived.tsv:140	consistent-with-bytes
+SLUS_013.95	0x8003FF90	player_set_charge_flash	code	code:src/SLUS_013.95/weapon/set_charge_flash.c:39 via=flash_palette; derived.tsv:140	consistent-with-bytes
 SLUS_013.95	0x8003FFF4	update_special_charge	code	code:src/SLUS_013.95/8003FFF4.c:30 via=special_charge_timer; derived.tsv:164	consistent-with-bytes
 SLUS_013.95	0x800400B4	get_shot_limit	code	code:src/SLUS_013.95/weapon/fire_shot.c:17 via=try_fire_shot; code:include/mmx6/player.h:113 via=shot_count; derived.tsv:183	consistent-with-bytes
 SLUS_013.95	0x80040304	spike_crawler_hit_flash	x4	exact 0f5c026ba0d7 sozud/mmx4@4e16dfc src/main/enemy_reaction.c:spike_crawler_hit_flash; corroborator callee src/main/enemy_reaction:spike_crawler_hit_flash SLUS_013.95:0x80040304	gate

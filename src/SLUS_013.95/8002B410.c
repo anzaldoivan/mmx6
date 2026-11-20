@@ -103,7 +103,7 @@ void func_8002B674(s32 arg0, s32 arg1) {
 extern u8 D_80073738[];
 extern s8 D_800950A0[];
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_8002B6B0(void) {

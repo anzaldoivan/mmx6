@@ -6,7 +6,7 @@
 
 M2C_UNK set_animation(void*, M2C_UNK);
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define PLAYER (*(struct X4_PlayerObj*)&g_Player)
 
 void func_800EA704(struct X4_BaseObj* self) {

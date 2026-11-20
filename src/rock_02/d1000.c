@@ -1,7 +1,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 
-void func_8002F288();
+s32 func_8002F288();
 void func_800F1388();
 extern void (*D_800FB198[])(struct X4_MainObj*);
 

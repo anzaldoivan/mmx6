@@ -475,7 +475,7 @@ M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 void set_velocity_from_angle(void*, s32);
 M2C_UNK func_8002EE10(void*);
 void load_buffered_palette(s32, s32, s32);
@@ -547,7 +547,7 @@ M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 M2C_UNK func_8002EE10(void*);
 void func_800383F8(void*);
 extern struct X4_PlayerObj g_Player;
@@ -682,7 +682,7 @@ tail:
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
-M2C_UNK move_object(void*);
+void move_object();
 extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_801EE3DC;
@@ -762,7 +762,7 @@ void func_801EDFC8(u8* arg0) {
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
-M2C_UNK move_object(void*);
+void move_object();
 extern struct X4_BackgroundObj background_objects[3];
 
 #define SCRATCH_1C (*(u8**)0x1F80001C)

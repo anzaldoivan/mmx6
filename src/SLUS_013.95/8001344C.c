@@ -176,7 +176,7 @@ void func_80013B78(s32* arg0, s32* arg1, s32 arg2) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013BD0);
+#include "../shared/SLUS_013.95/func_80013BD0.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_80013BE4);
 // clang-format on

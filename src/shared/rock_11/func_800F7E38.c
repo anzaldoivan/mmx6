@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8002F288(M2C_UNK*);
+s32 func_8002F288();
 extern void (*D_800FD2F0[])(s8*);
 
 void func_800F7E38(s8* arg0) {

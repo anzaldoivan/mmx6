@@ -310,8 +310,8 @@ void func_800EA53C(void* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK animate_object();   /* extern */
-M2C_UNK move_object(void*); /* extern */
+M2C_UNK animate_object(); /* extern */
+void move_object();       /* extern */
 
 void func_800EA590(struct MainObj* arg0) {
     arg0->x_speed = 0;
@@ -333,7 +333,7 @@ M2C_UNK animate_object();
 M2C_UNK func_8002CA14();
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002F288(M2C_UNK*);
+s32 func_8002F288();
 s32 check_enemy_hits(void*);
 M2C_UNK collide_solid_object();
 M2C_UNK func_80031F4C();
@@ -703,8 +703,8 @@ void func_800EAB28(void* self) {
 
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002F288(M2C_UNK*);
-M2C_UNK func_80030ECC(void*);
+s32 func_8002F288();
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 
@@ -1250,7 +1250,7 @@ void func_800EC148(void* self) {
 
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 

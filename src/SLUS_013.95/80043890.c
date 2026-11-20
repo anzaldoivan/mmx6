@@ -462,7 +462,7 @@ void func_8004431C(s8* arg0) {
 M2C_UNK animate_object();                                           /* extern */
 s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2); /* extern */
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);    /* extern */
-M2C_UNK move_object(void*);                                         /* extern */
+void move_object();                                                 /* extern */
 M2C_UNK func_8002EE10(struct X4_PlayerObj* arg0);                   /* extern */
 void func_800383F8(void*);                                          /* extern */
 void func_80044590(void* arg0);                                     /* extern */
@@ -808,7 +808,7 @@ extern struct X4_BackgroundObj background_objects[3];
 M2C_UNK animate_object();
 s8* func_8002BEC4(s8* p, s32 dir);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
-M2C_UNK move_object(void*);
+void move_object();
 
 void func_80044D04(struct X4_BaseObj* self) {
     s8* child;
@@ -866,7 +866,7 @@ void func_80044D04(struct X4_BaseObj* self) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-void func_8002F288(struct X4_PlayerObj*);
+s32 func_8002F288();
 extern void (*D_80076170[])(struct X4_PlayerObj*);
 extern struct X4_PlayerObj g_Player;
 

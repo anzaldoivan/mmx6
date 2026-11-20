@@ -10,7 +10,7 @@ M2C_UNK animate_object();                    /* extern */
 s32 func_8002A47C(s32);                      /* extern */
 void* func_8002C32C();                       /* extern */
 M2C_UNK apply_object_motion(void*);          /* extern */
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 
 static inline void F0B5C_spawn(void* self, s32 kind) {
     void* o = func_8002C32C();

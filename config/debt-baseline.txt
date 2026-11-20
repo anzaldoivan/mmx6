@@ -43,13 +43,18 @@ raise placeholder 2 2026-11-08 2.7 T11 func_8002F9DC and func_800232D4 banks
 raise placeholder 3 2026-11-08 3.0 T2 bank of three 2E47C dispatchers
 raise placeholder 14 2026-11-12 T15: Bank the 3.1 pilot wave W302: 19 of 27 pin-free rows
 raise placeholder 11 2026-11-13 T18: Bank holdout wave W305: 20 of 27 pin-free rows, 10 gated twins
-820 pin
+raise placeholder 12 2026-11-15 T5: Bank W306: 12 SLUS plumbing and jtbl rows pin-free
+raise placeholder 9 2026-11-15 T7: Bank W307: 8 SLUS plateau rows pin-free
+raise placeholder 4 2026-11-16 T16: Bank W308: 4 SLUS jtbl rows pin-free
+raise placeholder 2 2026-11-17 T4: W309 bank: 11 port-demo rows and 6 twins, pin-free
+raise placeholder-use 3 2026-11-18 T5: 3 homed declarations of placeholder-named functions in pilot_globals.h
+813 pin
 355 goto
-32349 offset
-1996 address
-71 cast
-5792 field
-4856 placeholder
-21350 placeholder-use
-13607 extern
-1048 filename
+32714 offset
+2048 address
+74 cast
+5849 field
+4883 placeholder
+21917 placeholder-use
+14477 extern
+1187 filename

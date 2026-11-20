@@ -9,8 +9,9 @@
   typecheck.py --self-test
       -> in memory ({path: text} over the real files + planted texts, no disk writes): real set passes; planted dup
          (Probe800473EC's shape, new name, include/mmx6/), raw cast (src/SLUS_013.95/), outside (struct in src/),
-         unkeyable (fn-pointer typedef) each alone rc 1 with the right reason; a header sorting before types.h (its
-         types, X4_ types, a full-width bitfield) keys with no refusal; x4.h's packed union X4_EngineCharacterState
+         unkeyable (fn-pointer typedef), bitfield dup (two same-shape `u32 :24, :8` structs, two names) each alone
+         rc 1 with the right reason; a header sorting before types.h (its types, X4_ types, a full-width bitfield)
+         keys with no refusal; x4.h's packed union X4_EngineCharacterState
          keys at 16 bytes (2.6 T16). Ends `TYPES CONTROL OK`.
 
 Refusals: `TYPES REFUSE <dup|outside|raw-cast|unkeyable> <path>:<line> <name/text>`.
@@ -20,13 +21,14 @@ include/mmx6/x4.h (x4port.py's generated X4_ mirror of mmx4 types, its own names
 hand-written X4_ PsyQ types, T7.c4) are read and counted, never
 refused, and its shapes are not registered (an X4_ type may share a shape with ours); their types key ours.
   raw-cast  `*(T *)0x...` (any spacing, any pointer depth) in comment-stripped src/<prog>/ text.
-  unkeyable a definition the parser cannot key (unknown member type, fn pointer, bitfield narrower than its type...);
+  unkeyable a definition the parser cannot key (unknown member type, fn pointer, pointer/array/non-scalar bitfield...);
             refused with the reason, never skipped.
 Shape key: scalar typedef = (width, signed); struct = (size, ((offset, width) per member)), PSX MIPS natural
 alignment (1/2/4, pointer 4, array = elem x count, hex/dec counts, known types resolved; struct align = max member
 align, size padded); union = members at offset 0; an inline nested struct/union is keyed as its member's type (with
 `} __attribute((packed)) name` laid out packed: no padding, align 1, so x4.h's union X4_EngineCharacterState keys); a
-bitfield `T [name] : N` with N = T's width is a T member at the next offset. Member types resolve across all files
+bitfield `T [name] : N` with N = T's width is a T member at the next offset; a narrower one (scalar T, 0 < N) is
+(unit offset, bit offset, N), GCC MIPS placement: in the current T-aligned unit unless it would straddle it (T7.c2). Member types resolve across all files
 whatever their order (2.5 T5). `extern` declarations and prototypes are not definitions.
 """
 import argparse
@@ -149,9 +151,11 @@ def parse_decl(toks, known, need_base=True):
         if bad:
             raise Unkeyable(("bitfield" if ":" in bad else "function pointer or unparsed")
                             + " '%s'" % " ".join(cur))
-        if bits is not None and (base is None or depth or len(cur) > 1 or bits != base[1] * 8):
-            raise Unkeyable("bitfield '%s : %d' narrower than its type" % (" ".join(cur), bits))
-        decls.append((cur[0], depth, [count(d) for d in cur[1:]]))
+        if bits is not None and (base is None or depth or len(cur) > 1 or base[0][0] != "scalar"
+                                 or not 0 < bits <= base[1] * 8):
+            raise Unkeyable("bitfield '%s : %d'" % (" ".join(cur), bits))
+        narrow = bits if bits is not None and bits < base[1] * 8 else None  # full width: a plain T member
+        decls.append((cur[0], depth, [count(d) for d in cur[1:]], narrow))
         cur = []
     if base is None and (need_base or any(d[1] == 0 for d in decls)):
         raise Unkeyable("unknown type " + name)
@@ -166,7 +170,7 @@ def member_layout(base, depth, dims):
 
 
 def struct_key(kind, body, known, packed=False):
-    members, off, align = [], 0, 1
+    members, off, align, pos = [], 0, 1, 0  # pos: struct position in bits (narrow bitfields)
     for decl in split_top(body, ";"):
         toks = TOKEN.findall(decl)
         if not toks:
@@ -187,14 +191,23 @@ def struct_key(kind, body, known, packed=False):
                 del known["_inline_member"]
         else:
             base, _, decls = parse_decl(toks, known, need_base=False)
-        for _, depth, dims in decls:
+        for _, depth, dims, bits in decls:
             size, a = member_layout(base, depth, dims)
             a = 1 if packed else a
             align = max(align, a)
-            if kind == "struct":
-                off = (off + a - 1) // a * a
+            if bits:  # narrow bitfield: stays in its T unit unless it would straddle it (GCC MIPS)
+                unit = size * 8
+                if kind == "struct" and pos // unit != (pos + bits - 1) // unit:
+                    pos = (pos + unit - 1) // unit * unit
+                at = pos if kind == "struct" else 0
+                members.append((at // unit * size, at % unit, bits))
+                pos = pos + bits if kind == "struct" else pos
+                off = (pos + 7) // 8 if kind == "struct" else max(off, size)
+            elif kind == "struct":
+                off = ((pos + 7) // 8 + a - 1) // a * a
                 members.append((off, size))
                 off += size
+                pos = off * 8
             else:
                 members.append((0, size))
                 off = max(off, size)
@@ -265,7 +278,7 @@ def defs_of(text, known):
                 base, bname, decls = parse_decl(toks, known, need_base=False)
                 if len(decls) != 1:
                     raise Unkeyable("typedef declarators")
-                name, depth, dims = decls[0]
+                name, depth, dims, _ = decls[0]
                 if depth:
                     ent = (("ptr", depth, base[0] if base else bname), 4, 4)
                 elif dims:
@@ -348,7 +361,7 @@ def self_test():
     refusals, summary, d, s = check(real)
     assert not refusals, (refusals, summary)
     d_x4 = sum(1 for p in X4H for _ in defs_of(strip(real[p]), {}))
-    assert d - d_x4 == s == 19, summary  # was 18; ours: 7 + object.h's 4 (2.5 T5) + player.h's 1 + projectile.h's 1 (2.5 T6) + state.h's 2 (2.5 T7) + task.h's 1 + class4.h's 1 (2.5 T9.c1) + engine.h's 1 (2.6 T16) + types.h's LoadingSprtRow (2.7 T1.c3); X4_ types never registered
+    assert d - d_x4 == s == 25, summary  # was 22; +HitEntry, HitSelf, S5B (3.2 T16.c1); was 21; ours: 7 + object.h's 4 (2.5 T5) + player.h's 1 + projectile.h's 1 (2.5 T6) + state.h's 2 (2.5 T7) + task.h's 1 + class4.h's 1 (2.5 T9.c1) + engine.h's 1 (2.6 T16) + types.h's LoadingSprtRow (2.7 T1.c3) + types.h's FnTbl7, VisObj50 (3.2 T5.c1) + VabSlot (3.2 T7.c2); X4_ types never registered
     known = {}  # as check(): member types resolve across all files (player.h's, projectile.h's members come from x4.h)
     while True:
         before = len(known)
@@ -377,13 +390,15 @@ def self_test():
         "outside": ("src/SLUS_013.95/planted.c", "/* typedef struct { int x; } Commented; */\n"
                     "struct PlantedOut {\n    s32 a;\n    u8 b;\n};\nextern struct PlantedOut g;\n"),
         "unkeyable": (HOME + "zplanted.h", "typedef void (*PlantedFn)(s32);\n"),
+        "dup bitfield": (HOME + "zplanted.h", "typedef struct {\n u32 a : 24;\n u32 b : 8;\n s32 c;\n} PlantedBits;\n"
+                         "typedef struct {\n u32 x : 24;\n u32 y : 8;\n s32 z;\n} PlantedBitsTwin;\n"),
     }
     for reason, (path, text) in controls.items():
         files = dict(real)
         files[path] = text
         refusals, summary, _, _ = check(files)
         kinds = {r.split()[2] for r in refusals}
-        assert refusals and kinds == {reason} and all(path in r for r in refusals), (reason, refusals)
+        assert refusals and kinds == {reason.split()[0]} and all(path in r for r in refusals), (reason, refusals)
         print("control %s: %s" % (reason, refusals[0]))
     files = dict(real)  # control: a header sorting before types.h keys from types.h, x4.h and a full-width bitfield
     files[HOME + "aaplanted.h"] = "struct PlantedEarly {\n    s8 a;\n    s8: 8;\n    X4_f32 b[3];\n    u16 c;\n};\n"

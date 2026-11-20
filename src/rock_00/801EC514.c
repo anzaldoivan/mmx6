@@ -439,7 +439,7 @@ M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK player_spawn_visual(M2C_UNK, M2C_UNK, s8, M2C_UNK);
 void func_801EEB7C(struct X4_WeaponObj* arg0);
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3790;
 extern s32 D_801F37B0;
@@ -679,13 +679,13 @@ void func_801ED1B8(u8* arg0) {
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s8 D_800950A0[];
 void* func_8002C32C();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
-void move_object(struct X4_MovingObj*);
+void move_object();
 M2C_UNK func_8002EE10(void*);
 void func_800383F8(void*);
 

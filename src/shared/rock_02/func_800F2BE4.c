@@ -8,7 +8,7 @@
 
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_BackgroundObj background_objects[3];
 

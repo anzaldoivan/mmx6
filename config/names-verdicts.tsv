@@ -788,7 +788,7 @@ SLUS_013.95	0x8001EB48	end_stage_on_clear	derived	derived.tsv:10	held	D_80097424
 SLUS_013.95	0x80020D18	run_text_box	derived	derived.tsv:11	admitted	-	xref:caller=update_text_box; code:src/SLUS_013.95/text/text_box.c:13 via=update_text_box
 SLUS_013.95	0x80022838	load_speaker_palette	derived	derived.tsv:12	admitted	-	xref:callee=open_text_box; code:src/SLUS_013.95/text/text_box_80021760.c:123 via=load_speaker_palette
 SLUS_013.95	0x80022928	load_palette_block	derived	derived.tsv:13	held	meaning of the 0x1E0 slot base and the scratch 0xA8 source unknown; name generic	xref:callee=setup_pause_menu; code:src/SLUS_013.95/menu/pause_menu.c:171 via=func_80022928
-SLUS_013.95	0x80031DA8	collide_solid_object	derived	derived.tsv:14	admitted	-	xref:caller=check_box_collision; code:src/SLUS_013.95/collision/solid_object.c:31 via=check_box_collision
+SLUS_013.95	0x80031DA8	collide_solid_object	derived	derived.tsv:14	admitted	-	xref:caller=check_box_collision; code:src/SLUS_013.95/collision/solid_object.c:30 via=check_box_collision
 SLUS_013.95	0x80034FBC	update_player	derived	derived.tsv:15	admitted	-	xref:caller=player_update_flash; code:src/SLUS_013.95/player/player.c:58 via=player_update_flash
 SLUS_013.95	0x80036E70	update_slide_down	derived	derived.tsv:16	admitted	-	xref:callee=handle_slide_down; code:src/SLUS_013.95/player/slide_down.c:15 via=handle_slide_down
 SLUS_013.95	0x8003A2CC	try_enter_wall_cling	derived	derived.tsv:17	admitted	-	xref:caller=player_enter_wall_cling; code:src/SLUS_013.95/cling/enter_wall_cling.c:25 via=player_enter_wall_cling
@@ -803,7 +803,7 @@ SLUS_013.95	0x80049478	update_buster_shot_visual	derived	derived.tsv:25	admitted
 SLUS_013.95	0x8004EA78	update_reploid_idle	derived	derived.tsv:26	held	which reploid sub-state this is is not shown; idle is a guess	xref:caller=rescue_reploid; code:src/SLUS_013.95/8004E78C.c:168 via=rescue_reploid
 SLUS_013.95	0x8004ED4C	grant_rescue_reward	derived	derived.tsv:27	held	the hp-cap and 0x63/0x6A fill reading is unconfirmed; reward role guessed	xref:callee=rescue_reploid; code:src/SLUS_013.95/item/reploid.c:49 via=func_8004ED4C
 SLUS_013.95	0x800515B4	update_capsule	derived	derived.tsv:28	admitted	-	xref:caller=init_capsule; code:src/SLUS_013.95/item/capsule_800515B4.c:30 via=init_capsule
-SLUS_013.95	0x80051828	spawn_capsule_visual	derived	derived.tsv:29	held	visual type 0x49 being capsule-specific is a guess; body is a generic linked-visual spawn	xref:callee=init_capsule; code:src/SLUS_013.95/item/capsule.c:114 via=func_80051828
+SLUS_013.95	0x80051828	spawn_capsule_visual	derived	derived.tsv:29	held	visual type 0x49 being capsule-specific is a guess; body is a generic linked-visual spawn	xref:callee=init_capsule; code:src/SLUS_013.95/item/capsule.c:115 via=func_80051828
 rock_01	0x801EC614	update_rekkoha	derived	derived.tsv:30	admitted	-	xref:callee=start_rekkoha; code:src/rock_01/rekkoha.c:49 via=update_rekkoha
 rock_01	0x801ECA50	try_hyoroga_from_ceiling	derived	derived.tsv:31	admitted	-	xref:caller=attack_hyoroga_from_ceiling; code:src/rock_01/hyoroga_from_ceiling.c:25 via=attack_hyoroga_from_ceiling
 rock_03	0x800F5664	step_commander_yammark	derived	derived.tsv:32	admitted	-	xref:callee=update_commander_yammark; code:src/shared/commander_yammark/step_commander_yammark.c:13 via=step_commander_yammark
@@ -879,7 +879,7 @@ SLUS_013.95	0x80039FFC	check_dash_end	derived	derived.tsv:99	admitted	-	code:src
 SLUS_013.95	0x8003A33C	try_wall_jump	derived	derived.tsv:100	admitted	-	code:src/SLUS_013.95/cling/wall_jump_8003A33C.c:18 via=wall_climbable
 SLUS_013.95	0x8003A394	is_pressing_into_wall	derived	derived.tsv:101	admitted	-	xref:callee=try_enter_wall_cling; code:src/SLUS_013.95/cling/pressing_into_wall.c:17 via=latched_collision_flags
 SLUS_013.95	0x8003A488	try_grab_ladder_from_air	derived	derived.tsv:102	admitted	-	code:src/SLUS_013.95/ladder/grab_ladder_from_air.c:24 via=attacking
-SLUS_013.95	0x8003A9C4	start_dash	derived	derived.tsv:103	admitted	-	code:src/SLUS_013.95/dash/dash_8003A9C4.c:50 via=dash_timer
+SLUS_013.95	0x8003A9C4	start_dash	derived	derived.tsv:103	admitted	-	code:src/SLUS_013.95/dash/dash_8003A9C4.c:49 via=dash_timer
 SLUS_013.95	0x8003AD18	player_start_stand	derived	derived.tsv:104	held	no named anchor on the action line; func_8003ADB4 also enters action 2 (nearest alternative not told apart)	-
 SLUS_013.95	0x8003AE8C	start_walk	derived	derived.tsv:105	admitted	-	code:src/SLUS_013.95/player/walk_8003AE8C.c:19 via=action
 SLUS_013.95	0x8003AED4	player_start_walking	derived	derived.tsv:106	held	no named anchor on the action line (p[5] = 4) or its call; re-judge once check_walk_input (func_80039D7C) applies	xref:caller=player_check_dash_jump_walk
@@ -906,7 +906,7 @@ SLUS_013.95	0x8003D598	set_base_move_stats	derived	derived.tsv:126	admitted	-	xr
 SLUS_013.95	0x8003D630	init_move_stats	derived	derived.tsv:127	admitted	-	code:src/SLUS_013.95/player/move_stats.c:14 via=equipped_parts
 SLUS_013.95	0x8003D718	load_armor_and_parts	derived	derived.tsv:128	admitted	-	code:src/SLUS_013.95/player/armor.c:16 via=armor; code:src/SLUS_013.95/player/armor.c:17 via=equipped_parts
 SLUS_013.95	0x8003DD6C	switch_weapon_character0	derived	derived.tsv:129	held	role read; the character 0 word (X) still unsourced (glossary :171 player_char gives no id map)	xref:callee=update_weapon_switch
-SLUS_013.95	0x8003DF58	set_shot_types	derived	derived.tsv:130	admitted	-	code:src/SLUS_013.95/weapon/shot_types.c:41 via=shot_types
+SLUS_013.95	0x8003DF58	set_shot_types	derived	derived.tsv:130	admitted	-	code:src/SLUS_013.95/weapon/shot_types.c:38 via=shot_types
 SLUS_013.95	0x8003E174	try_shoot_in_air	derived	derived.tsv:131	admitted	-	xref:caller=start_player_attack; code:src/SLUS_013.95/weapon/shoot_in_air.c:47 via=start_player_attack
 SLUS_013.95	0x8003E260	try_shoot_on_ladder	derived	derived.tsv:132	admitted	-	xref:caller=start_player_attack; code:src/SLUS_013.95/weapon/shoot_on_ladder.c:40 via=start_player_attack
 SLUS_013.95	0x8003E614	try_fire_shot	derived	derived.tsv:133	admitted	-	xref:caller=use_weapon_energy; code:src/SLUS_013.95/weapon/fire_shot.c:114 via=use_weapon_energy
@@ -916,7 +916,7 @@ SLUS_013.95	0x8003F13C	try_start_attack	derived	derived.tsv:136	admitted	-	xref:
 SLUS_013.95	0x8003F480	player_reset_charge	derived	derived.tsv:137	admitted	-	code:src/SLUS_013.95/8003F3DC.c:41 via=charge_timer
 SLUS_013.95	0x8003F644	try_start_shot_attack	derived	derived.tsv:138	admitted	-	xref:caller=start_player_attack; code:src/SLUS_013.95/attack/start_shot_attack.c:39 via=start_player_attack
 SLUS_013.95	0x8003F7BC	set_charge_shot_type	derived	derived.tsv:139	held	no named anchor (offset macros only)	xref:callee=func_8003DF58
-SLUS_013.95	0x8003FF90	player_set_charge_flash	derived	derived.tsv:140	admitted	-	code:src/SLUS_013.95/weapon/set_charge_flash.c:41 via=flash_palette
+SLUS_013.95	0x8003FF90	player_set_charge_flash	derived	derived.tsv:140	admitted	-	code:src/SLUS_013.95/weapon/set_charge_flash.c:39 via=flash_palette
 rock_00	0x801EB61C	update_x_stand_animation	derived	derived.tsv:141	admitted	-	xref:callee=set_stand_animation_by_hp; code:src/rock_00/animation.c:20 via=set_stand_animation_by_hp; code:src/SLUS_013.95/player/stand.c:14 via=update_stand
 rock_00	0x801EB6E8	player_enter_ladder_shoot	derived	derived.tsv:142	admitted	-	xref:caller=try_shoot_on_ladder; code:src/SLUS_013.95/weapon/shoot_on_ladder.c:12 via=try_shoot_on_ladder
 rock_00	0x801EB8B8	update_air_dash	derived	derived.tsv:143	admitted	-	oracle:docs/systems/movement.md mv_airdash-0031 mv_falcon-0035 mv_ladder2-0053

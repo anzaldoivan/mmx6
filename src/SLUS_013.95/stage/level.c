@@ -7,7 +7,7 @@ extern s8 D_80090D56;
 #include "mmx6/projectile.h"
 extern s8 D_800950A0[];
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern s8 D_8009742C;
 extern s8 D_800CF850;
 

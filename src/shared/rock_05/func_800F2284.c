@@ -5,7 +5,7 @@
 
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 

@@ -3,7 +3,13 @@ INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FA048);
 
 INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FA45C);
 
-INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FA61C);
+#define func_800F18C4 func_800FA61C
+#define D_800F7840 D_80100D60
+#define func_800F54B8 func_800FFB4C
+#include "../shared/rock_04/func_800F18C4.c"
+#undef func_800F18C4
+#undef D_800F7840
+#undef func_800F54B8
 
 INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FA744);
 // clang-format on
@@ -18,7 +24,7 @@ INCLUDE_ASM("asm/rock_39/nonmatchings/FA000", func_800FA744);
 M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object();
+void move_object();
 void func_800FBAAC(void*, M2C_UNK);
 void func_800FF9AC(struct X4_AnimatedObj*);
 extern struct X4_BackgroundObj background_objects[3];
@@ -1001,7 +1007,7 @@ void func_801000E0(struct X4_MainObj* self) {
 
 #define M2C_UNK s32
 
-M2C_UNK move_object(); /* extern */
+void move_object(); /* extern */
 
 void func_801001C4(void) {
     move_object();

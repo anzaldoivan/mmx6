@@ -105,8 +105,8 @@ void func_80042F7C(s8 arg0, s8* arg1, s8* arg2) {
 M2C_UNK animate_object();                                           /* extern */
 s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2); /* extern */
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);    /* extern */
-M2C_UNK move_object(void*);                                         /* extern */
-M2C_UNK func_80030ECC(void*);                                       /* extern */
+void move_object();                                                 /* extern */
+s32 func_80030ECC();                                                /* extern */
 
 void func_80042FA8(void* arg0) {
     ((M2C_UNK(*)())animate_object)();
@@ -220,7 +220,7 @@ void func_800431C8(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK move_object(void*);
+void move_object();
 
 #define SP64_322C (*(u8**)0x1F800064)
 

@@ -20,12 +20,11 @@ void start_dash(struct X4_PlayerObj* self) {
     if (self->pressed_input & 0x80) {
         s32 temp = M2C_FIELD(self, s32*, 0xF8);
         self->air_state = 1;
+        self->air_action = 2;
         {
-            // !FAKE: depin: dropping it breaks the match (63/67)
-            register s32 one asm("$3") = 1;
+            s32 one = 1;
             self->afterimage = one;
         }
-        self->air_action = 2;
         M2C_FIELD(self, s32*, 0x20) = 0;
         M2C_FIELD(self, s32*, 0x28) = 0;
         M2C_FIELD(self, s8*, 0x8B) = 0xA;

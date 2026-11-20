@@ -821,7 +821,7 @@ void func_800FD710(void) {
 
 M2C_UNK animate_object(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 
 void func_800FD730(void* arg0) {
     if ((M2C_FIELD(&D_800FDE30, s32*, 0x460) != 0) || (D_800FE294 != 0)) {
@@ -854,8 +854,8 @@ void func_800FD7C4(void) {
 
 M2C_UNK animate_object(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(void*);
-M2C_UNK func_80030ECC(void*);
+void move_object();
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 
 void func_800FD7E4(void* arg0) {
@@ -954,7 +954,7 @@ void func_800FD914(void* arg0) {
 
 M2C_UNK animate_object(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 
 void func_800FD9D8(void* arg0) {
     if ((M2C_FIELD(&D_800FDE30, s32*, 0x460) != 0) || (D_800FE294 != 0)) {
@@ -998,7 +998,7 @@ void func_800FDA8C(void) {
 
 M2C_UNK animate_object(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 
 void func_800FDAAC(struct X4_MainObj* self) {
     if (D_800FE290 != 0 || D_800FE294 != 0) {

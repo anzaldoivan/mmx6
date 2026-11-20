@@ -9,7 +9,11 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800E99B8);
 #undef D_80077BC0
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800E9BD8);
+#define func_800ECF40 func_800E9BD8
+#define D_800F4BF0 D_800F7610
+#include "../shared/rock_09/func_800ECF40.c"
+#undef func_800ECF40
+#undef D_800F4BF0
 // clang-format on
 
 #include "common.h"
@@ -33,7 +37,7 @@ void func_800E9CA4(void) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK move_object(void*);
+void move_object();
 
 #define F32(p, o) (*(s32*)((u8*)(p) + (o)))
 #define F16(p, o) (*(s16*)((u8*)(p) + (o)))
@@ -67,7 +71,7 @@ void func_800E9CAC(void* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 
 #define F32(p, o) (*(s32*)((u8*)(p) + (o)))
 #define F16(p, o) (*(s16*)((u8*)(p) + (o)))
@@ -109,7 +113,13 @@ void func_800E9D4C(void* arg0) {
 #undef func_800ED0B4
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800E9E24);
+#define func_800EF13C func_800E9E24
+#define D_800F5CBC D_800F8B34
+#define D_800F5D28 D_800F8BA0
+#include "../shared/rock_08/func_800EF13C.c"
+#undef func_800EF13C
+#undef D_800F5CBC
+#undef D_800F5D28
 
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EA028);
 
@@ -167,7 +177,13 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EA9F4);
 #undef D_800F61F8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EACB8);
+#define func_800EBAAC func_800EACB8
+#define D_800F6224 D_800F8DA8
+#define D_800F6228 D_800F8DAC
+#include "../shared/rock_15/func_800EBAAC.c"
+#undef func_800EBAAC
+#undef D_800F6224
+#undef D_800F6228
 // clang-format on
 
 #define func_800EBC08 func_800EAE14
@@ -229,7 +245,13 @@ void func_800EB094(void* arg0) {
 #undef D_80073C1C
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EB1EC);
+#define func_800EBFE0 func_800EB1EC
+#define func_800EC478 func_800EB684
+#define func_800EC648 func_800EB854
+#include "../shared/rock_15/func_800EBFE0.c"
+#undef func_800EBFE0
+#undef func_800EC478
+#undef func_800EC648
 // clang-format on
 
 #define func_800EC0E8 func_800EB2F4
@@ -277,7 +299,13 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EB460);
 #undef func_800EC428
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EB684);
+#define func_800EC478 func_800EB684
+#define D_800F606C D_800F8BF0
+#define D_800F6154 D_800F8CD8
+#include "../shared/rock_15/func_800EC478.c"
+#undef func_800EC478
+#undef D_800F606C
+#undef D_800F6154
 // clang-format on
 
 #define func_800EC574 func_800EB780
@@ -372,7 +400,13 @@ void func_800EBB24(void) {
 #undef D_800F6254
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EBCA4);
+#define func_800ECA98 func_800EBCA4
+#define D_800F622C D_800F8DB0
+#define D_800F6234 D_800F8DB8
+#include "../shared/rock_15/func_800ECA98.c"
+#undef func_800ECA98
+#undef D_800F622C
+#undef D_800F6234
 // clang-format on
 
 #define func_800ECB50 func_800EBD5C
@@ -421,8 +455,8 @@ void func_800EBE44(struct ObjectHeader* arg0) {
 
 M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
-M2C_UNK func_8002CB50();
-M2C_UNK move_object(void*);
+s32 func_8002CB50();
+void move_object();
 #include "mmx6/state.h"
 
 M2C_UNK func_800EBF34(u8* arg0) {
@@ -455,21 +489,69 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EBFD8);
 
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EC118);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EC2C8);
+#define func_800EAF90 func_800EC2C8
+#define D_800FB26C D_800F8230
+#define func_800EC7A0 func_800EDAD8
+#include "../shared/rock_11/func_800EAF90.c"
+#undef func_800EAF90
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EC4F0);
+#define func_800EB1B8 func_800EC4F0
+#define D_800FB26C D_800F8230
+#define func_800EC7A0 func_800EDAD8
+#include "../shared/rock_11/func_800EB1B8.c"
+#undef func_800EB1B8
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EC70C);
+#define func_800EB3D4 func_800EC70C
+#define D_800FB26C D_800F8230
+#define func_800EC7A0 func_800EDAD8
+#include "../shared/rock_11/func_800EB3D4.c"
+#undef func_800EB3D4
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EC920);
+#define func_800EB5E8 func_800EC920
+#define D_800FB26C D_800F8230
+#define func_800EC7A0 func_800EDAD8
+#include "../shared/rock_11/func_800EB5E8.c"
+#undef func_800EB5E8
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800ECB34);
+#define func_800EB7FC func_800ECB34
+#define D_800FB26C D_800F8230
+#define func_800EC7A0 func_800EDAD8
+#include "../shared/rock_11/func_800EB7FC.c"
+#undef func_800EB7FC
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800ECD48);
+#define func_800EBA10 func_800ECD48
+#define D_800FB26C D_800F8230
+#define func_800EC7A0 func_800EDAD8
+#include "../shared/rock_11/func_800EBA10.c"
+#undef func_800EBA10
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800ECF60);
+#define func_800EBC28 func_800ECF60
+#define D_800FB26C D_800F8230
+#define func_800EC7A0 func_800EDAD8
+#include "../shared/rock_11/func_800EBC28.c"
+#undef func_800EBC28
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800ED188);
+#define func_800EBE50 func_800ED188
+#define D_800FB26C D_800F8230
+#define func_800EC7A0 func_800EDAD8
+#include "../shared/rock_11/func_800EBE50.c"
+#undef func_800EBE50
+#undef D_800FB26C
+#undef func_800EC7A0
 
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800ED3A0);
 
@@ -519,7 +601,11 @@ void func_800ED7CC(void) {
 #undef D_80073C1C
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800ED8B0);
+#define func_800EC578 func_800ED8B0
+#define func_800EC800 func_800EDB38
+#include "../shared/rock_11/func_800EC578.c"
+#undef func_800EC578
+#undef func_800EC800
 
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800ED8F0);
 // clang-format on
@@ -559,9 +645,9 @@ void func_800EDA58(void) {
 M2C_UNK animate_object();                       /* extern */
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);     /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK move_object(void*);                     /* extern */
+void move_object();                             /* extern */
 M2C_UNK func_8002EE10(void*);                   /* extern */
-M2C_UNK func_80030ECC(void*);                   /* extern */
+s32 func_80030ECC();                            /* extern */
 M2C_UNK func_80049D90(void*);                   /* extern */
 
 void func_800EDC38(void* arg0) {
@@ -605,7 +691,7 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EDD08);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 s32 set_animation(void*, s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK collide_solid_object();
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
@@ -903,7 +989,17 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EF388);
 
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EF7D8);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EF904);
+#define func_800EC41C func_800EF904
+#define D_800F586C D_800F93DC
+#define D_800F5870 D_800F93E0
+#define D_800F5874 D_800F93E4
+#define D_800F5878 D_800F93E8
+#include "../shared/rock_08/func_800EC41C.c"
+#undef func_800EC41C
+#undef D_800F586C
+#undef D_800F5870
+#undef D_800F5874
+#undef D_800F5878
 // clang-format on
 
 #define D_800F5600 D_800F9170
@@ -922,7 +1018,7 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800EF904);
 
 M2C_UNK clear_object_slot();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002F288(M2C_UNK*);
+s32 func_8002F288();
 s32 check_enemy_hits(void*);
 M2C_UNK collide_solid_object();
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
@@ -1130,10 +1226,10 @@ void func_800F028C(void) {
 M2C_UNK animate_object();
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 #define move_object ((void (*)(void*))move_object)
 M2C_UNK func_8002EE10(void*);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049D90(void*);
 M2C_UNK func_80049E50(void*);
@@ -1195,9 +1291,23 @@ void func_800F03D0(struct ObjectHeader* arg0) {
 #undef D_80075FD8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F042C);
+#define init_high_max_intro func_800F042C
+#define D_8007433C D_8007433C
+#define D_800FB2F0 D_800F9400
+#define D_800FB2F8 D_800F9408
+#define D_800FB7B4 D_800F98C4
+#include "../rock_02/high_max.c"
+#undef init_high_max_intro
+#undef D_8007433C
+#undef D_800FB2F0
+#undef D_800FB2F8
+#undef D_800FB7B4
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F0688);
+#define func_800F1980 func_800F0688
+#define D_800FB850 D_800F9960
+#include "../shared/rock_02/func_800F1980.c"
+#undef func_800F1980
+#undef D_800FB850
 // clang-format on
 
 #define func_800F1F50 func_800F0C58
@@ -1277,7 +1387,7 @@ M2C_UNK animate_object();
 M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
 s32 func_8002A47C(s32);
 void* func_8002C458();
-M2C_UNK move_object(void*);
+void move_object();
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
 
@@ -1327,10 +1437,14 @@ void func_800F0FF0(void* arg0) {
 #include "../shared/rock_02/func_800F2438.c"
 #undef func_800F2438
 
-// clang-format off
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F128C);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F156C);
+// clang-format off
+#define func_800F2864 func_800F156C
+#define D_800FB2E8 D_800F93F8
+#include "../shared/rock_02/func_800F2864.c"
+#undef func_800F2864
+#undef D_800FB2E8
 // clang-format on
 
 #define func_800F2984 func_800F168C
@@ -1342,7 +1456,7 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F156C);
 #define SPAD4C (*(u8**)0x1F80004C)
 
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F168C(void* arg0) {
@@ -1457,7 +1571,7 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F1BC4);
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F1E6C(void* arg0) {
@@ -1510,7 +1624,7 @@ void func_800F1E6C(void* arg0) {
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F20C8(void* arg0) {
@@ -1550,7 +1664,11 @@ void func_800F20C8(void* arg0) {
 // clang-format off
 INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F2194);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F230C);
+#define func_800F3604 func_800F230C
+#define D_800FB810 D_800F9920
+#include "../shared/rock_02/func_800F3604.c"
+#undef func_800F3604
+#undef D_800FB810
 // clang-format on
 
 #define func_800F370C func_800F2414
@@ -1560,7 +1678,11 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F230C);
 // clang-format off
 #include "../shared/rock_23/func_800F25FC.c"
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F2BE8);
+#define func_800F3EE0 func_800F2BE8
+#define D_800FBA40 D_800F9B50
+#include "../shared/rock_02/func_800F3EE0.c"
+#undef func_800F3EE0
+#undef D_800FBA40
 // clang-format on
 
 #define func_800F4194 func_800F2E9C
@@ -1583,7 +1705,7 @@ M2C_UNK animate_object();
 extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_8009721A;
 
-M2C_UNK move_object(void*);
+void move_object();
 void func_800F3328(void* arg0) {
     void* parent;
     u8 t;
@@ -1676,7 +1798,7 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK animate_object();
 s32 func_8002A47C(s32);
 void* func_8002C458();
-M2C_UNK move_object(void*);
+void move_object();
 
 void func_800F35F4(void* arg0) {
     void* parent;
@@ -1726,9 +1848,21 @@ void func_800F35F4(void* arg0) {
 #undef func_800F48EC
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F37C0);
+#define func_800F4AB8 func_800F37C0
+#define D_800FBA70 func_800F9B80
+#include "../shared/rock_02/func_800F4AB8.c"
+#undef func_800F4AB8
+#undef D_800FBA70
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F394C);
+#define func_800F4C44 func_800F394C
+#define D_800FBA98 D_800F9BA8
+#include "../shared/rock_02/func_800F4C44.c"
+#undef func_800F4C44
+#undef D_800FBA98
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F3C4C);
+#define func_800F4F44 func_800F3C4C
+#define D_800FBAA4 D_800F9BB4
+#include "../shared/rock_02/func_800F4F44.c"
+#undef func_800F4F44
+#undef D_800FBAA4
 // clang-format on

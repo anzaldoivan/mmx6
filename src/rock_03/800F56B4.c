@@ -9,7 +9,7 @@
 M2C_UNK animate_object();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 
@@ -94,7 +94,7 @@ void func_800F58C8(void) {
 #define M2C_UNK s32
 
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 M2C_UNK func_80049E50(void*);
 
 void func_800F59A8(u8* arg0) {

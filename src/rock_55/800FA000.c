@@ -426,7 +426,3 @@ void func_800FA8B4(u8* arg0) {
         arg0[3] = 0;
     }
 }
-
-// clang-format off
-INCLUDE_ASM("asm/rock_55/nonmatchings/FA000", func_800FA92C);
-// clang-format on

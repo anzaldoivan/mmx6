@@ -334,7 +334,7 @@ load_armor_and_parts = 0x8003D718; // type:func
 map_buttons = 0x8003D7AC; // type:func
 // basis: name: community tweaks-index.tsv:221
 switch_weapon = 0x8003DBDC; // type:func
-// basis: name: code code:src/SLUS_013.95/weapon/shot_types.c:41 via=shot_types; derived.tsv:130
+// basis: name: code code:src/SLUS_013.95/weapon/shot_types.c:38 via=shot_types; derived.tsv:130
 set_shot_types = 0x8003DF58; // type:func
 // basis: name: xref derived.tsv:131; xref:caller=start_player_attack; code:src/SLUS_013.95/weapon/shoot_in_air.c:47 via=start_player_attack
 try_shoot_in_air = 0x8003E174; // type:func
@@ -380,7 +380,7 @@ player_fire_weapon = 0x8003FA60; // type:func
 fire_charged_shot = 0x8003FA8C; // type:func
 // basis: name: community tweaks-index.tsv:197
 start_saber = 0x8003FD6C; // type:func
-// basis: name: code code:src/SLUS_013.95/weapon/set_charge_flash.c:41 via=flash_palette; derived.tsv:140
+// basis: name: code code:src/SLUS_013.95/weapon/set_charge_flash.c:39 via=flash_palette; derived.tsv:140
 player_set_charge_flash = 0x8003FF90; // type:func
 // basis: name: code code:src/SLUS_013.95/8003FFF4.c:30 via=special_charge_timer; derived.tsv:164
 update_special_charge = 0x8003FFF4; // type:func

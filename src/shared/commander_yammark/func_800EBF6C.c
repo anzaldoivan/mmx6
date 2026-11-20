@@ -5,8 +5,8 @@
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 s32 is_off_screen(s32, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002F288(M2C_UNK*);
-M2C_UNK func_80030ECC(void*);
+s32 func_8002F288();
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK collide_solid_object();
 M2C_UNK func_80049E50(void*);

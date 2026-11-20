@@ -8,7 +8,7 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
 M2C_UNK animate_object();                    /* extern */
 void* func_8002C32C();                       /* extern */
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define PLAYER (*(struct X4_PlayerObj*)&g_Player)
 
 void func_800EEFF0(void* arg0) {

@@ -473,7 +473,7 @@ extern s32 D_800F7234;
 M2C_UNK animate_object();
 s32 is_off_screen(s32, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 void func_8004E654(struct X4_BaseObj* arg0, s8 arg1);
@@ -827,7 +827,7 @@ void func_800EC800(void* arg0) {
 M2C_UNK set_animation(void*, M2C_UNK);
 s32 is_off_screen(s32, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
@@ -1018,9 +1018,9 @@ void func_800ECDD4(void* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK clear_object_slot();
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 s32 is_off_screen(s32, M2C_UNK, M2C_UNK);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
@@ -1075,7 +1075,13 @@ void func_800ED584(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_03/nonmatchings/E9860", func_800ED704);
+#define func_80050DFC func_800ED704
+#define D_80078DD4 D_800F7698
+#define func_8002CB50 func_8002F288
+#include "../shared/SLUS_013.95/func_80050DFC.c"
+#undef func_80050DFC
+#undef D_80078DD4
+#undef func_8002CB50
 // clang-format on
 
 #include "common.h"
@@ -1243,7 +1249,13 @@ void func_800EDD0C(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_03/nonmatchings/E9860", func_800EDD2C);
+#define func_80050DFC func_800EDD2C
+#define D_80078DD4 D_800F7704
+#define func_8002CB50 func_8002F288
+#include "../shared/SLUS_013.95/func_80050DFC.c"
+#undef func_80050DFC
+#undef D_80078DD4
+#undef func_8002CB50
 // clang-format on
 
 #include "../shared/commander_yammark/func_800EDD88.c"
@@ -1257,7 +1269,7 @@ INCLUDE_ASM("asm/rock_03/nonmatchings/E9860", func_800EDD2C);
 M2C_UNK animate_object();                 /* extern */
 M2C_UNK clear_object_slot(s32);           /* extern */
 s32 is_off_screen(s32, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK move_object(s32);                 /* extern */
+void move_object();                       /* extern */
 
 void func_800EDF30(s32 arg0) {
     animate_object();
@@ -2006,7 +2018,7 @@ INCLUDE_ASM("asm/rock_03/nonmatchings/E9860", func_800EF810);
 #define M2C_UNK s32
 
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 extern M2C_UNK D_8007433C;
 extern void (*D_800F7BE8[])(void*);

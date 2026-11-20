@@ -1796,7 +1796,7 @@ INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800ED71C);
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern struct X4_EngineObj g_playthrough_state;
 extern u16 D_800F111C[][2];
 
@@ -1851,7 +1851,7 @@ void func_800EDB2C(void* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern struct X4_EngineObj g_playthrough_state;
 extern u16 D_800F10F8[][2];
 
@@ -1873,7 +1873,7 @@ void func_800EDC30(struct X4_AnimatedObj* self) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002CB50(); /* extern */
+s32 func_8002CB50(); /* extern */
 
 void func_800EDCC0(void* arg0) {
     if (D_800CCEF6 != 0) {
@@ -1889,7 +1889,7 @@ void func_800EDCC0(void* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern struct X4_EngineObj g_playthrough_state;
 
 void func_800EDD04(struct X4_AnimatedObj* self) {
@@ -1911,7 +1911,7 @@ void func_800EDD04(struct X4_AnimatedObj* self) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F1CF9;
 
@@ -1943,7 +1943,7 @@ void func_800EDD90(void* arg0) {
 #include "mmx6/globals.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern u16 D_800F111C[][2];
 extern u8 D_800F1CF0[];
 
@@ -1985,7 +1985,7 @@ void func_800EDEB0(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern u8 D_800F1CF0[];
 
 void func_800EDF20(void* arg0) {
@@ -2519,7 +2519,7 @@ void func_800EE848(void* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 s32 func_800EC1FC(s32);
 extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800F12A8[][2];
@@ -2550,7 +2550,7 @@ void func_800EEDA0(void* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK animate_object();
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern struct X4_EngineObj g_playthrough_state;
 extern u16 D_800F12A8[][2];
 
@@ -2582,7 +2582,7 @@ void func_800EEE80(void* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
 extern u16 D_800F1328[][2];
@@ -2610,7 +2610,7 @@ void func_800EEF78(void* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
 extern u16 D_800F12A8[][2];
@@ -2646,7 +2646,7 @@ void func_800EF064(void* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
 extern u16 D_800F1328[][2];
@@ -2788,7 +2788,7 @@ void func_800EF478(void* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800F1520[][2];
 
@@ -2809,7 +2809,7 @@ void func_800EF550(void* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK clear_object_slot();
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern struct X4_EngineObj g_playthrough_state;
 extern u16 D_800F12A8[][2];
 extern s8 D_800F1CEA;
@@ -3328,7 +3328,7 @@ void func_800F0338(struct X4_AnimatedObj* self) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern struct X4_BackgroundObj background_objects[3];
 extern u16 D_800F1680[][2];
 extern s8 D_800F1CCA[];

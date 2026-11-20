@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 #include "mmx6/globals.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 #include "mmx6/state.h"
 extern s32 D_801F3838;
@@ -90,7 +90,7 @@ void func_801ED898(struct X4_WeaponObj* arg0) {
 #include "mmx6/x4.h"
 #include "mmx6/globals.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3848;
 M2C_UNK set_animation(void*, M2C_UNK);

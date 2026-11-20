@@ -1,3 +1,9 @@
 // clang-format off
-INCLUDE_ASM("asm/rock_04/nonmatchings/E9860", update_blizzard_wolfang);
+#define func_80050DFC update_blizzard_wolfang
+#define D_80078DD4 D_800F7500
+#define func_8002CB50 func_8002F288
+#include "../shared/SLUS_013.95/func_80050DFC.c"
+#undef func_80050DFC
+#undef D_80078DD4
+#undef func_8002CB50
 // clang-format on

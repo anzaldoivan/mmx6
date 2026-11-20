@@ -4,9 +4,9 @@
 M2C_UNK animate_object();
 s32 is_off_screen(s32, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(s32);
+void move_object();
 M2C_UNK func_8002EE10(void*);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 
 void func_800EBCEC(u8* arg0) {
     animate_object();

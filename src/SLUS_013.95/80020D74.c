@@ -35,7 +35,7 @@ void func_80020DC8(void) {
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern void (*D_80071388[])(struct X4_UnkObj*, struct X4_PlayerObj*);
 
 void func_80020E1C(struct X4_UnkObj* arg0) {
@@ -368,28 +368,28 @@ void func_80021434(void) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-void func_80017B04(u8*, s16, s16);        /* extern */
-void func_8002000C(void);                 /* extern */
-void func_8002012C(void);                 /* extern */
-void func_80020258(void);                 /* extern */
-void func_80020378(void);                 /* extern */
-void func_8002048C(void);                 /* extern */
-void func_800205A0();                     /* extern */
-void func_800206C0(void);                 /* extern */
-void func_800207D4(void);                 /* extern */
-void update_layer_objects(void);          /* extern */
-void func_80020A08(void);                 /* extern */
-M2C_UNK func_80020D74();                  /* extern */
-void func_80020DC8(void);                 /* extern */
-void func_8002927C(void);                 /* extern */
-void func_8002935C(void);                 /* extern */
-void func_800293CC();                     /* extern */
-void func_80029D18(void);                 /* extern */
-void func_8002ACA8();                     /* extern */
-void func_8002E84C(void);                 /* extern */
-void func_8002F288(struct X4_PlayerObj*); /* extern */
-void func_80034DCC(void);                 /* extern */
-extern M2C_UNK g_Player;
+void func_80017B04(u8*, s16, s16); /* extern */
+void func_8002000C(void);          /* extern */
+void func_8002012C(void);          /* extern */
+void func_80020258(void);          /* extern */
+void func_80020378(void);          /* extern */
+void func_8002048C(void);          /* extern */
+void func_800205A0();              /* extern */
+void func_800206C0(void);          /* extern */
+void func_800207D4(void);          /* extern */
+void update_layer_objects(void);   /* extern */
+void func_80020A08(void);          /* extern */
+M2C_UNK func_80020D74();           /* extern */
+void func_80020DC8(void);          /* extern */
+void func_8002927C(void);          /* extern */
+void func_8002935C(void);          /* extern */
+void func_800293CC();              /* extern */
+void func_80029D18(void);          /* extern */
+void func_8002ACA8();              /* extern */
+void func_8002E84C(void);          /* extern */
+s32 func_8002F288();               /* extern */
+void func_80034DCC(void);          /* extern */
+extern struct X4_PlayerObj g_Player;
 extern s32 D_801F6000;
 #define D_801F6000 (*(s32*)0x801F6000)
 #define D_801F68DC ((u16*)0x801F68DC)

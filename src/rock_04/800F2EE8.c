@@ -101,11 +101,7 @@ INCLUDE_ASM("asm/rock_04/nonmatchings/E9860", func_800F3400);
 M2C_UNK set_animation(void*, M2C_UNK);
 void func_800F5488(struct X4_MainObj* self);
 
-void func_800F3478(struct X4_MainObj* self) {
-    func_800F5488(self);
-    ((void (*)(void*, s32))set_animation)(self, 2);
-    self->action_phase++;
-}
+#include "../shared/rock_04/func_800F3478.c"
 
 #include "../shared/rock_04/func_800F34B4.c"
 
@@ -259,7 +255,7 @@ void func_800F3EB0(struct X4_MainObj* self) {
 M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 void func_800F5088(struct X4_AnimatedObj* arg0, u8 arg1);
 
 void func_800F3EEC(void* arg0) {
@@ -707,7 +703,7 @@ void func_800F55FC(u8* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK move_object(void*);
+void move_object();
 M2C_UNK func_8002EE10(void*);
 void func_800F59D8(struct X4_AnimatedObj* arg0, u8 arg1);
 

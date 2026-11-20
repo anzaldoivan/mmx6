@@ -5,7 +5,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK animate_object();
-M2C_UNK move_object(s32);
+void move_object();
 extern struct X4_PlayerObj g_Player;
 
 #define STATE(s) M2C_FIELD(s, u8*, 6)

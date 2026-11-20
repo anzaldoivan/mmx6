@@ -68,8 +68,8 @@ INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800E9B68);
 M2C_UNK animate_object();
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002F288(M2C_UNK*);
-M2C_UNK func_80030ECC(void*);
+s32 func_8002F288();
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
@@ -141,21 +141,69 @@ void func_800E9CA8(struct X4_BaseObj* self) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800E9E58);
+#define func_800EAF90 func_800E9E58
+#define D_800FB26C D_800ECA3C
+#define func_800EC7A0 func_800EB668
+#include "../shared/rock_11/func_800EAF90.c"
+#undef func_800EAF90
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EA080);
+#define func_800EB1B8 func_800EA080
+#define D_800FB26C D_800ECA3C
+#define func_800EC7A0 func_800EB668
+#include "../shared/rock_11/func_800EB1B8.c"
+#undef func_800EB1B8
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EA29C);
+#define func_800EB3D4 func_800EA29C
+#define D_800FB26C D_800ECA3C
+#define func_800EC7A0 func_800EB668
+#include "../shared/rock_11/func_800EB3D4.c"
+#undef func_800EB3D4
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EA4B0);
+#define func_800EB5E8 func_800EA4B0
+#define D_800FB26C D_800ECA3C
+#define func_800EC7A0 func_800EB668
+#include "../shared/rock_11/func_800EB5E8.c"
+#undef func_800EB5E8
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EA6C4);
+#define func_800EB7FC func_800EA6C4
+#define D_800FB26C D_800ECA3C
+#define func_800EC7A0 func_800EB668
+#include "../shared/rock_11/func_800EB7FC.c"
+#undef func_800EB7FC
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EA8D8);
+#define func_800EBA10 func_800EA8D8
+#define D_800FB26C D_800ECA3C
+#define func_800EC7A0 func_800EB668
+#include "../shared/rock_11/func_800EBA10.c"
+#undef func_800EBA10
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EAAF0);
+#define func_800EBC28 func_800EAAF0
+#define D_800FB26C D_800ECA3C
+#define func_800EC7A0 func_800EB668
+#include "../shared/rock_11/func_800EBC28.c"
+#undef func_800EBC28
+#undef D_800FB26C
+#undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EAD18);
+#define func_800EBE50 func_800EAD18
+#define D_800FB26C D_800ECA3C
+#define func_800EC7A0 func_800EB668
+#include "../shared/rock_11/func_800EBE50.c"
+#undef func_800EBE50
+#undef D_800FB26C
+#undef func_800EC7A0
 
 INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EAF30);
 
@@ -205,7 +253,11 @@ void func_800EB35C(void) {
 #undef D_80073C1C
 
 // clang-format off
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EB440);
+#define func_800EC578 func_800EB440
+#define func_800EC800 func_800EB6C8
+#include "../shared/rock_11/func_800EC578.c"
+#undef func_800EC578
+#undef func_800EC800
 // clang-format on
 
 #include "common.h"
@@ -281,9 +333,9 @@ void func_800EB5E8(void) {
 M2C_UNK animate_object();                       /* extern */
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);     /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK move_object(void*);                     /* extern */
+void move_object();                             /* extern */
 M2C_UNK func_8002EE10(void*);                   /* extern */
-M2C_UNK func_80030ECC(void*);                   /* extern */
+s32 func_80030ECC();                            /* extern */
 M2C_UNK func_80049D90(void*);                   /* extern */
 
 void func_800EB7C8(void* arg0) {
@@ -770,7 +822,7 @@ INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800ECAC8);
 #define M2C_UNK s32
 
 M2C_UNK animate_object();
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 
 void func_800ECB14(s8* arg0) {
     if (arg0[7] < 0xA) {
@@ -787,7 +839,7 @@ void func_800ECB14(s8* arg0) {
 
 #define M2C_UNK s32
 
-M2C_UNK func_8002CB50(); /* extern */
+s32 func_8002CB50(); /* extern */
 
 void func_800ECB7C(void) {
     func_8002CB50();
@@ -826,8 +878,8 @@ void func_800ECC08(s8* arg0) {
 
 #define M2C_UNK s32
 
-M2C_UNK animate_object();   /* extern */
-M2C_UNK func_8002CB50(s32); /* extern */
+M2C_UNK animate_object(); /* extern */
+s32 func_8002CB50();      /* extern */
 
 void func_800ECC60(s32 arg0) {
     animate_object();

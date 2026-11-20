@@ -3,7 +3,7 @@
 
 M2C_UNK animate_object();
 
-M2C_UNK move_object(s32);
+void move_object();
 void func_800EDA04(u8* arg0) {
     // !FAKE: depin: dropping it breaks the match (26/30)
     register s32 t asm("$2");

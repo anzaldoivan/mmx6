@@ -19,12 +19,8 @@ void update_weapon_switch(void* self) {
     }
     temp_s0 = arg0->weapon;
     func_8003DD6C(arg0);
-    set_shot_types(arg0);
-    {
-        // !FAKE: retail reads the re-loaded byte into the first return register
-        register s32 cur asm("$2") = arg0->weapon;
-        if (temp_s0 != cur) {
-            react_to_weapon_change(arg0);
-        }
+    ((void (*)(void*))set_shot_types)(arg0);
+    if (temp_s0 != arg0->weapon) {
+        react_to_weapon_change(arg0);
     }
 }

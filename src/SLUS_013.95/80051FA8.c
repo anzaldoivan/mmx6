@@ -4,7 +4,7 @@
 
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002C9D4();
+void func_8002C9D4();
 s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
 
 void func_80051FA8(struct X4_AnimatedObj* arg0) {
@@ -247,7 +247,7 @@ void func_800524B8(u8* arg0) {
 extern u8** D_8007A01C[];
 extern u8* D_80079F64[];
 extern struct X4_EngineObj g_playthrough_state;
-M2C_UNK func_8002C9D4();
+void func_8002C9D4();
 
 #define SCRATCH_28 (*(s32**)0x1F800028)
 #define SCRATCH_30 (*(s32**)0x1F800030)
@@ -517,7 +517,7 @@ void func_80052CFC(s32 arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002CA14(void*, void*); /* extern */
+M2C_UNK func_8002CA14(); /* extern */
 
 void func_80052D6C(void* arg0) {
     M2C_FIELD(arg0, s8*, 0x14) = 0;
@@ -678,7 +678,7 @@ void func_80053274(void* arg0) {
 
 #define M2C_UNK s32
 
-M2C_UNK func_8002C9D4(); /* extern */
+void func_8002C9D4(); /* extern */
 
 void func_800533D4(void) {
     func_8002C9D4();

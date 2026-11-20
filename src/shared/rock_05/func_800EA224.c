@@ -4,7 +4,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 extern struct X4_PlayerObj g_Player;
 #include "mmx6/state.h"
 

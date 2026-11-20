@@ -4,9 +4,9 @@
 #define OUB(p, o) (*(u8*)((u8*)(p) + (o)))
 
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 M2C_UNK func_8002EE10(void*);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 M2C_UNK func_80049D90(void*);
 
 void func_800F3354(void* arg0) {

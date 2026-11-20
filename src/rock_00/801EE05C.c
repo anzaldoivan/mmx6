@@ -26,7 +26,7 @@
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_Unk_unk68 D_801F37AC[];
 M2C_UNK clear_object_slot();
@@ -65,7 +65,7 @@ void func_801EE14C(struct X4_WeaponObj* arg0) {
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_Unk_unk68 D_801F37C0[];
 M2C_UNK clear_object_slot();
@@ -190,7 +190,7 @@ void func_801EE458(struct X4_WeaponObj* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-void move_object(struct X4_MovingObj*);
+void move_object();
 M2C_UNK func_8002EE10(void*);
 void func_800383F8(void*);
 void func_801EE638(void* arg0);
@@ -240,7 +240,7 @@ void func_801EE538(struct X4_WeaponObj* arg0) {
 void func_801EE638(void* arg0);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 void animate_object(struct X4_AnimatedObj*);
-void move_object(struct X4_MovingObj*);
+void move_object();
 s32 is_off_screen(struct X4_BaseObj*, s32, s32);
 
 void func_801EE5D4(struct X4_WeaponObj* arg0) {
@@ -285,7 +285,7 @@ void func_801EE650(void* arg0) {
 #include "mmx6/x4.h"
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 void animate_object(struct X4_AnimatedObj*);
-void move_object(struct X4_MovingObj*);
+void move_object();
 s32 is_off_screen(struct X4_BaseObj*, s32, s32);
 M2C_UNK func_8002EE10(void*);
 void func_800383F8(void*);
@@ -318,7 +318,7 @@ void func_801EE684(void* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 M2C_UNK clear_object_slot();
 
@@ -383,7 +383,7 @@ void func_801EE774(struct X4_WeaponObj* arg0) {
 
 void animate_object(struct X4_AnimatedObj*);
 s32 is_off_screen(struct X4_BaseObj*, s32, s32);
-void move_object(struct X4_MovingObj*);
+void move_object();
 M2C_UNK func_8002EE10(void*);
 void func_800383F8(void*);
 #include "mmx6/state.h"
@@ -417,7 +417,7 @@ void func_801EE860(void* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK clear_object_slot();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 
 void func_801EE940(void) {
     u8* p = (u8*)&g_Player;
@@ -434,7 +434,7 @@ void func_801EE940(void) {
 
 void animate_object(struct X4_AnimatedObj*);
 s32 is_off_screen(struct X4_BaseObj*, s32, s32);
-void move_object(struct X4_MovingObj*);
+void move_object();
 
 void func_801EE974(void* arg0) {
     if (is_off_screen(arg0, 0x20, 0x40) == 0) {
@@ -561,7 +561,7 @@ void func_801EEB7C(struct X4_WeaponObj* arg0) {
 void animate_object(struct X4_AnimatedObj*);
 s32 is_off_screen(struct X4_BaseObj*, s32, s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-void move_object(struct X4_MovingObj*);
+void move_object();
 M2C_UNK func_8002EE10(void*);
 void func_800383F8(void*);
 
@@ -590,7 +590,7 @@ block_6:
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 M2C_UNK clear_object_slot();
@@ -606,10 +606,10 @@ void func_801EECA4(struct X4_WeaponObj* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern void (*D_801F397C[])(struct X4_WeaponObj*);
-M2C_UNK func_8002F288(M2C_UNK*);
+s32 func_8002F288();
 M2C_UNK collide_solid_object();
 
 void func_801EECE8(struct X4_WeaponObj* arg0) {
@@ -658,7 +658,7 @@ void func_801EECE8(struct X4_WeaponObj* arg0) {
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 extern s32 D_800779D8;
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3964;
 extern s32 D_801F3968[];
@@ -898,7 +898,7 @@ void func_801EF284(struct X4_WeaponObj* arg0) {
 #include "mmx6/x4.h"
 
 void* func_8002C32C();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 #define F_U8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -1042,7 +1042,7 @@ void func_801EF618(void* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 void animate_object(struct X4_AnimatedObj*);
-void move_object(struct X4_MovingObj*);
+void move_object();
 s32 is_off_screen(struct X4_BaseObj*, s32, s32);
 M2C_UNK func_8002EE10(void*);
 M2C_UNK func_80049D90(void*);
@@ -1074,7 +1074,7 @@ void func_801EF818(void* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK clear_object_slot();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 
 void func_801EF8B0(s8* arg0) {
     s8 t;
@@ -1117,12 +1117,12 @@ void func_801EF944(u8* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3954;
 extern s32 D_801F395C;
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_8002F288(M2C_UNK*);
+s32 func_8002F288();
 M2C_UNK func_80049E50(void*);
 s32 func_801EE34C();
 
@@ -1224,7 +1224,7 @@ void func_801EFB5C(void* arg0, u8 arg1, u8 arg2) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 
 void func_801EFC70(u8* arg0) {
     struct X4_PlayerObj* p = &g_Player;
@@ -1261,7 +1261,7 @@ end:;
 
 M2C_UNK clear_object_slot(void*);             /* extern */
 M2C_UNK player_load_weapon_palette(M2C_UNK*); /* extern */
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 
 void func_801EFCF4(void* arg0) {
     void* temp_v1;
@@ -1292,7 +1292,7 @@ void func_801EFCF4(void* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern void (*D_801F39C0[])(struct X4_PlayerObj*);
 
@@ -1329,7 +1329,7 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
 void load_buffered_palette(s32, s32, s32);
 extern s32 D_80077A00;
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F39D0;
 extern s32 D_801F39D4;
@@ -1400,7 +1400,7 @@ void func_801EFE34(struct X4_WeaponObj* arg0) {
 #include "mmx6/x4.h"
 
 void* func_8002C32C();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 #define F_U8(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -1474,7 +1474,7 @@ s32 random_byte();
 void set_velocity_from_angle(void*, s32);
 void load_buffered_palette(s32, s32, s32);
 extern s32 D_80077A08;
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F39D8;
 
@@ -1560,7 +1560,7 @@ void func_801F01A8(struct X4_WeaponObj* arg0) {
 
 void* func_8002C32C();
 s32 random_byte();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_BackgroundObj background_objects[3];
 
@@ -1635,7 +1635,7 @@ void func_801F0410(struct X4_WeaponObj* arg0) {
 
 #define M2C_UNK s32
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern void (*D_801F39E0[])(s8*);
 
 void func_801F0664(s8* arg0) {
@@ -1665,7 +1665,7 @@ void func_801F0664(s8* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern void (*D_801F3A00[])(struct X4_PlayerObj*);
 
@@ -1720,7 +1720,7 @@ void func_801F07C4(void* arg0) {
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 M2C_UNK clear_object_slot(void*);
@@ -1754,7 +1754,7 @@ M2C_UNK set_animation(void*, M2C_UNK);
 void animate_object(struct X4_AnimatedObj*);
 s32 is_off_screen(struct X4_BaseObj*, s32, s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-void move_object(struct X4_MovingObj*);
+void move_object();
 M2C_UNK func_8002EE10(void*);
 void func_801F0858(void* arg0);
 
@@ -1786,7 +1786,7 @@ void func_801F0870(void* arg0) {
 void animate_object(struct X4_AnimatedObj*);
 s32 is_off_screen(struct X4_BaseObj*, s32, s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-void move_object(struct X4_MovingObj*);
+void move_object();
 
 void func_801F0918(void* arg0) {
     if (is_off_screen(arg0, 0x40, 0x40) == 0) {
@@ -1816,7 +1816,7 @@ void func_801F0918(void* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK clear_object_slot();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 
 void func_801F09C0(void* arg0) {
     M2C_FIELD(arg0, s32*, 0x50) = 0;
@@ -1853,7 +1853,7 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 void load_buffered_palette(s32, s32, s32);
 s32 func_801EE34C();
 extern s32 D_80077A20;
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
@@ -1910,7 +1910,7 @@ void func_801F0A40(struct X4_WeaponObj* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern void (*D_801F3A28[])(struct X4_WeaponObj*);
 
@@ -1941,7 +1941,7 @@ void func_801F0B90(struct X4_WeaponObj* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern void (*D_801F3A40[])(struct X4_PlayerObj*);
 
@@ -1971,7 +1971,7 @@ void func_801F0C30(struct X4_PlayerObj* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 void animate_object(struct X4_AnimatedObj*);
 
@@ -1996,7 +1996,7 @@ void func_801F0CBC(struct X4_WeaponObj* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3A10;
 extern s32 D_801F3A14;
@@ -2093,7 +2093,7 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 void load_buffered_palette(s32, s32, s32);
 s32 func_801EE34C();
 extern s32 D_80077A20;
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
@@ -2145,7 +2145,7 @@ void func_801F0F98(struct X4_WeaponObj* arg0) {
 void animate_object(struct X4_AnimatedObj*);
 s32 func_801EE34C(struct X4_WeaponObj* arg0, struct X4_PlayerObj* arg1,
                   s32 arg2);
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_801F10A4(struct X4_WeaponObj* arg0) {
@@ -2164,7 +2164,7 @@ void func_801F10A4(struct X4_WeaponObj* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3A18;
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
@@ -2235,7 +2235,7 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
 s32 func_801EE34C();
 extern s32 D_80077A28[];
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3A4C[];
 extern s32 D_801F3A50;
@@ -2305,7 +2305,7 @@ M2C_UNK set_animation(void*, M2C_UNK);
 void animate_object(struct X4_AnimatedObj*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
-void move_object(struct X4_MovingObj*);
+void move_object();
 void func_8002E974(void*);
 extern struct X4_BackgroundObj background_objects[3];
 
@@ -2366,7 +2366,7 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 s32 random_byte();
 s32 func_801EE34C();
 extern s32 D_80077A28[];
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_BackgroundObj background_objects[3];
 extern s32 D_801F3A4C[];
@@ -2457,7 +2457,7 @@ void func_801F15B0(struct X4_WeaponObj* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern void (*D_801F3A84[])(struct X4_PlayerObj*);
 
@@ -2488,7 +2488,7 @@ void func_801F1A58(struct X4_PlayerObj* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern void (*D_801F3AA0[])(struct X4_PlayerObj*);
 
@@ -2529,7 +2529,7 @@ M2C_UNK set_animation(void*, M2C_UNK);
 void animate_object(struct X4_AnimatedObj*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
-void move_object(struct X4_MovingObj*);
+void move_object();
 M2C_UNK func_8002EE10(void*);
 
 void func_801F1CD4(void* arg0) {
@@ -2595,7 +2595,7 @@ void func_801F1DD0(s8* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK clear_object_slot();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_801F1E78(struct PlayerObj* arg0) {
@@ -2640,7 +2640,7 @@ void func_801F1EC8(struct X4_WeaponObj* arg0) {
 #include "mmx6/x4.h"
 
 void animate_object(struct X4_AnimatedObj*);
-void move_object(struct X4_MovingObj*);
+void move_object();
 extern struct X4_BackgroundObj background_objects[3];
 
 #define F_S8(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -2689,7 +2689,7 @@ void func_801F2000(struct X4_WeaponObj* arg0) {
 
 void animate_object(struct X4_AnimatedObj*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-void move_object(struct X4_MovingObj*);
+void move_object();
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_801F2094(struct X4_WeaponObj* arg0) {
@@ -2735,7 +2735,7 @@ void func_801F2094(struct X4_WeaponObj* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK clear_object_slot();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_801F21AC(void* arg0, u8 arg1) {
@@ -2781,7 +2781,7 @@ M2C_UNK set_animation(void*, M2C_UNK);
 #define set_animation ((void (*)(void*, s32))set_animation)
 s32 func_801EE34C();
 extern s32 D_80077A64[];
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 #define SCRATCH_14 (*(u8**)0x1F800014)
@@ -2842,7 +2842,7 @@ void func_801F226C(struct X4_WeaponObj* arg0) {
 #include "mmx6/x4.h"
 
 void animate_object(struct X4_AnimatedObj*);
-void move_object(struct X4_MovingObj*);
+void move_object();
 s32 func_801EE34C();
 void func_8002F06C(void*);
 void* func_8003D480(M2C_UNK, s8, s8, void*);
@@ -2850,7 +2850,7 @@ M2C_UNK set_animation(void*, M2C_UNK);
 #define set_animation ((void (*)(void*, s32))set_animation)
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3AB0[];
 extern s32 D_801F3AB8[];
@@ -2930,7 +2930,7 @@ void func_801F23C8(struct X4_WeaponObj* arg0) {
 #include "mmx6/x4.h"
 
 void animate_object(struct X4_AnimatedObj*);
-void move_object(struct X4_MovingObj*);
+void move_object();
 void func_8002F06C(void*);
 void* func_8003D480(M2C_UNK, s8, s8, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
@@ -2982,7 +2982,7 @@ void func_801F259C(struct X4_WeaponObj* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern void (*D_801F3ACC[])(struct X4_WeaponObj*);
 
@@ -3012,7 +3012,7 @@ void func_801F26B4(struct X4_WeaponObj* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern void (*D_801F3AE0[])(void*);
 
 void func_801F2758(struct ObjectHeader* arg0) {
@@ -3038,7 +3038,7 @@ void func_801F2758(struct ObjectHeader* arg0) {
 
 void animate_object(struct X4_AnimatedObj*);
 s32 func_801EE34C();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3AAC;
 extern s32 D_801F3AB4;
@@ -3119,7 +3119,7 @@ void func_801F2950(void* arg0) {
 #include "common.h"
 #include "mmx6/x4.h"
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 M2C_UNK clear_object_slot(void*);
@@ -3152,7 +3152,7 @@ void func_801F29B8(struct X4_WeaponObj* arg0) {
 
 M2C_UNK set_animation(void*, M2C_UNK);
 #define set_animation ((void (*)(void*, s32))set_animation)
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_801F3ABC;
 
 void func_801F2A38(void* arg0) {
@@ -3189,7 +3189,7 @@ void func_801F2A38(void* arg0) {
 #include "mmx6/x4.h"
 
 void animate_object(struct X4_AnimatedObj*);
-void move_object(struct X4_MovingObj*);
+void move_object();
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_801F2AFC(struct X4_WeaponObj* arg0) {
@@ -3228,7 +3228,7 @@ void func_801F2AFC(struct X4_WeaponObj* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_80077AB0;
 extern s32 D_801F3AF0;
@@ -3311,7 +3311,7 @@ void func_801F2C08(u8* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_80077AB0;
 extern s16 D_801F3B20[];
@@ -3397,7 +3397,7 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
 void load_buffered_palette(s32, s32, s32);
 s32 func_801EE34C();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3B04;
 extern s32 D_801F3B08[];
@@ -3461,7 +3461,7 @@ void animate_object(struct X4_AnimatedObj*);
 M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
 s32 is_off_screen(struct X4_BaseObj*, s32, s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-void move_object(struct X4_MovingObj*);
+void move_object();
 M2C_UNK func_8002EE10(void*);
 void func_800383F8(void*);
 void* func_8003D480(M2C_UNK, s8, s8, void*);
@@ -3518,7 +3518,7 @@ void func_801F30B0(void* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_80077AD8;
 extern s32 D_801F3B08[];
@@ -3613,10 +3613,10 @@ M2C_UNK clear_object_slot();
 #define clear_object_slot ((void (*)())clear_object_slot)
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 #define func_8002CCB0 ((void (*)(void*, s32, s32))func_8002CCB0)
-void move_object(struct X4_MovingObj*);
+void move_object();
 void load_buffered_palette(s32, s32, s32);
 extern s32 D_80077ADC;
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_801F3B1C;
 extern u16 D_801F3B48[];

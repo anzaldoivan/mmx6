@@ -4,7 +4,7 @@
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 extern s16 D_800970AA;
 
 void func_800F351C(struct X4_MainObj* self) {

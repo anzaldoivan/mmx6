@@ -59,7 +59,7 @@ u8 func_80040498(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/40388", func_800404D8);
+#include "../shared/SLUS_013.95/func_800404D8.c"
 // clang-format on
 
 #include "common.h"
@@ -72,7 +72,7 @@ M2C_UNK animate_object();
 s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 s32 func_8002DCF4(void*, void*);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 s32 func_80042CE8(void*);
 void register_orb(void*);
@@ -208,7 +208,7 @@ void func_80040A04(struct X4_PlayerObj* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK move_object(void*);
+void move_object();
 
 #define F(type, off) M2C_FIELD(arg0, type*, off)
 
@@ -274,7 +274,7 @@ void func_80040B84(void* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 M2C_UNK func_800429D4();
 void register_orb(void*);
 s32 func_80042E68(void*);
@@ -335,7 +335,7 @@ void func_80040CB0(struct X4_MainObj* self) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 M2C_UNK func_800429D4();
 void register_orb(void*);
 s32 func_80042E68(void*);
@@ -707,7 +707,7 @@ void func_80041C24(struct X4_MainObj* self) {
 #include "mmx6/x4.h"
 #include "mmx6/globals.h"
 
-M2C_UNK move_object(void*);
+void move_object();
 s32 random_byte();
 M2C_UNK func_800429D4();
 
@@ -807,7 +807,7 @@ void func_80041E4C(void* self) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK move_object(void*);
+void move_object();
 
 void func_80041EBC(void* arg0) {
     if (--M2C_FIELD(arg0, s16*, 0x7C) != 0) {

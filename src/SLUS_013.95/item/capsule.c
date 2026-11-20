@@ -11,7 +11,7 @@ s32 func_8002A47C(s32);
 void* alloc_class4_slot();
 M2C_UNK func_8002CA14();
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
-void func_8002F288(struct X4_PlayerObj*);
+s32 func_8002F288();
 void func_80051828(struct X4_PlayerObj* arg0, s8 arg1, s8 arg2);
 extern s32 D_80078DF8;
 extern s32 D_80078E00;
@@ -94,7 +94,8 @@ void init_capsule(struct X4_MainObj* self) {
         register void* a asm("$4");
 
         a = self;
-        while (func_8002F288(a), a = self, !(self->collision_flags & 8)) {
+        while (((void (*)())func_8002F288)(a), a = self,
+               !(self->collision_flags & 8)) {
             M2C_FIELD(self, u16*, 0xE) += 0x10;
         }
         c = alloc_class4_slot(a);

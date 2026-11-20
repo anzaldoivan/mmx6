@@ -27,7 +27,7 @@ s32 func_8002A47C(s32);
 M2C_UNK clear_object_slot();
 s32 random_byte();
 extern u32* D_80095098;
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s16 D_800970AA;
 extern s32 D_800F6350;
@@ -135,7 +135,13 @@ void func_800EE9E4(void* self) {
 // clang-format off
 INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EEF04);
 
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EF004);
+#define func_80050DFC func_800EF004
+#define D_80078DD4 D_800F6360
+#define func_8002CB50 func_8002F288
+#include "../shared/SLUS_013.95/func_80050DFC.c"
+#undef func_80050DFC
+#undef D_80078DD4
+#undef func_8002CB50
 // clang-format on
 
 #define func_800EFDB4 func_800EF060
@@ -190,7 +196,7 @@ void func_800EF19C(void) {
 
 #define M2C_UNK s32
 
-M2C_UNK move_object(); /* extern */
+void move_object(); /* extern */
 
 void func_800EF1BC(void) {
     ((M2C_UNK(*)())move_object)();
@@ -254,7 +260,7 @@ M2C_UNK player_load_weapon_palette(void*);
 M2C_UNK func_8003CDF0(void*);
 M2C_UNK clear_flash_palette(void*);
 M2C_UNK refresh_weapon_state(void*);
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
 
@@ -310,7 +316,7 @@ void func_800EF83C(u8* arg0) {
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
@@ -367,7 +373,7 @@ M2C_UNK player_load_weapon_palette();
 M2C_UNK func_8003CDF0();
 M2C_UNK clear_flash_palette(void*);
 M2C_UNK refresh_weapon_state(void*);
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
 
@@ -450,7 +456,7 @@ void func_800F00BC(struct ObjectHeader* arg0) {
 #include "mmx6/x4.h"
 
 s32 func_8002D654(s8*, u8*);
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))
 #define FU16(p, o) (*(u16*)((u8*)(p) + (o)))
@@ -567,29 +573,7 @@ extern s16 D_800F6BF0;
 
 #define F(T, p, o) (*(T*)((u8*)(p) + (o)))
 
-void func_800F0C8C(void* arg0) {
-    s16 t;
-
-    if (F(void*, arg0, 0x68) == 0) {
-        if (F(s16, arg0, 0xE) >= (D_800F6BEA + D_800F6BF0) / 2) {
-            F(void*, arg0, 0x68) = &D_800F651C;
-        }
-    }
-    if ((F(u8, arg0, 0x70) & 8) && F(u8, arg0, 0x47) == 0x11) {
-        func_800F0434(arg0, 4);
-        F(s32, arg0, 0x24) = 0;
-        F(u16, arg0, 0x7C) = 0;
-        F(u8, arg0, 6)++;
-    } else {
-        t = ++F(s16, arg0, 0x7C);
-        if ((s16)(t % 20) == 0) {
-            play_sound(2, 0x38, arg0);
-        }
-    }
-    animate_object(arg0);
-    apply_object_motion(arg0);
-    func_8002CCB0(arg0, 0x80, 0x80);
-}
+#include "../shared/rock_09/func_800F0C8C.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -603,41 +587,7 @@ s32 random_byte();
 extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F6924[];
 
-void func_800F0DB4(void* arg0) {
-    u32 r;
-    u8 i;
-    s32 v;
-    u8* e;
-
-    r = random_byte() & 0xF;
-    e = (u8*)&g_playthrough_state;
-    M2C_FIELD(arg0, u8*, 0x87) = 0;
-    if (M2C_FIELD(e, u8*, 0x68) == 2) {
-        if (M2C_FIELD(e, s8*, 0x8C) / 2 < M2C_FIELD(arg0, s8*, 0x5C)) {
-            if (r < 8) {
-                M2C_FIELD(arg0, u8*, 0x86) = 0;
-            } else {
-                M2C_FIELD(arg0, u8*, 0x86) = 1;
-            }
-        } else if (r < 8) {
-            M2C_FIELD(arg0, u8*, 0x86) = 0;
-        } else {
-            M2C_FIELD(arg0, u8*, 0x86) = M2C_FIELD(e, u8*, 0x68);
-        }
-    } else if (M2C_FIELD(e, s8*, 0x8C) / 2 < M2C_FIELD(arg0, s8*, 0x5C) ||
-               r < 8) {
-        M2C_FIELD(arg0, u8*, 0x86) = 0;
-    } else {
-        M2C_FIELD(arg0, u8*, 0x86) = 1;
-    }
-    i = M2C_FIELD(arg0, u8*, 0x87)++;
-    v = D_800F6924[i + M2C_FIELD(arg0, u8*, 0x86) * 6];
-    M2C_FIELD(arg0, u8*, 6) = 0;
-    M2C_FIELD(arg0, u8*, 5) = v;
-    animate_object(arg0);
-    apply_object_motion(arg0);
-    func_8002CCB0(arg0, 0x80, 0x80);
-}
+#include "../shared/rock_09/func_800F0DB4.c"
 
 #include "common.h"
 
@@ -669,30 +619,14 @@ extern s16 D_800F6BF4;
         }                                                                      \
     }
 
-void func_800F0ED8(void* arg0) {
-    s32 lim;
-    u16 raw;
-    s32 p;
-    u16 q;
-
-    if (M2C_FIELD(arg0, u8*, 0x15) == 0) {
-        STEP(D_800F6BF2)
-    } else {
-        STEP(D_800F6BF4)
-    }
-    if (M2C_FIELD(arg0, s8*, 7) != 0) {
-        M2C_FIELD(arg0, s16*, 0x7C) = 0;
-        M2C_FIELD(arg0, s16*, 0x7E) = 0;
-        M2C_FIELD(arg0, u8*, 6) += 1;
-    }
-}
+#include "../shared/rock_09/func_800F0ED8.c"
 
 #include "../shared/rock_09/func_800F0F9C.c"
 
 #include "common.h"
 #include "mmx6/x4.h"
 
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s16 D_800F6BE8;
 
@@ -829,81 +763,17 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK animate_object();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-s32 func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
 extern s8 D_800CCF5C;
 extern s32 D_800F6BF8;
 extern s32 D_800F6BFC;
 extern void* D_800F6C08;
 
-void func_800F2348(void* arg0) {
-    s32 x;
-    s32* pl;
-
-    if (D_800F6BF8 != 0 || D_800F6BFC != 0) {
-        M2C_FIELD(arg0, u8*, 4)++;
-        return;
-    }
-    if (check_enemy_hits(arg0) < 0 || M2C_FIELD(arg0, u8*, 0x70) != 0 ||
-        func_80030ECC(arg0) != 0) {
-        func_80049E50(arg0);
-        M2C_FIELD(arg0, u8*, 4)++;
-        return;
-    }
-    switch (M2C_FIELD(arg0, s8*, 5)) {
-    case 0:
-        if (++M2C_FIELD(arg0, s32*, 0x8C) == 0x18) {
-            M2C_FIELD(arg0, s32*, 0x20) = 0;
-            M2C_FIELD(arg0, s32*, 0x24) = 0;
-            M2C_FIELD(arg0, s32*, 0x8C) = 0;
-            M2C_FIELD(arg0, u8*, 5)++;
-        }
-        break;
-    case 1:
-        if (++M2C_FIELD(arg0, s32*, 0x8C) == 0x28) {
-            play_sound(2, 0x3C, arg0);
-            if (D_800970AA > M2C_FIELD(arg0, s16*, 0xA)) {
-                M2C_FIELD(arg0, u8*, 0x15) = 0x40;
-            } else {
-                M2C_FIELD(arg0, u8*, 0x15) = 0;
-            }
-            if (M2C_FIELD(D_800F6C08, s8*, 0x5C) > D_800CCF5C) {
-                if (M2C_FIELD(arg0, u8*, 0x15) != 0) {
-                    M2C_FIELD(arg0, s32*, 0x20) = 0x30000;
-                } else {
-                    M2C_FIELD(arg0, s32*, 0x20) = -0x30000;
-                }
-            } else if (M2C_FIELD(arg0, u8*, 0x15) != 0) {
-                M2C_FIELD(arg0, s32*, 0x20) = 0x40000;
-            } else {
-                M2C_FIELD(arg0, s32*, 0x20) = -0x40000;
-            }
-            M2C_FIELD(arg0, u8*, 5)++;
-        }
-        break;
-    case 2:
-        pl = &g_Player;
-        x = M2C_FIELD(arg0, s32*, 0xC);
-        if (x < pl[3]) {
-            M2C_FIELD(arg0, s32*, 0xC) = x + 0x8000;
-            if (pl[3] < x + 0x8000) {
-                M2C_FIELD(arg0, s32*, 0xC) = pl[3];
-            }
-        } else if (pl[3] < x) {
-            M2C_FIELD(arg0, s32*, 0xC) = x - 0x8000;
-            if (x - 0x8000 < pl[3]) {
-                M2C_FIELD(arg0, s32*, 0xC) = pl[3];
-            }
-        }
-        break;
-    }
-    func_8002CCB0(arg0, 0x20, 0x10);
-    animate_object(arg0);
-    apply_object_motion(arg0);
-}
+#include "../shared/rock_09/func_800F2348.c"
 
 #include "common.h"
 #include "mmx6/x4.h"
@@ -917,74 +787,7 @@ extern s16 D_800F6AD8[];
 extern s16 D_800F6B18[];
 extern void* D_800F6C08;
 
-void func_800F257C(struct X4_MainObj* self) {
-    struct X4_MainObj* p;
-
-    p = D_800F6C08;
-    self->animation_table = p->animation_table;
-    self->unk42 &= 0x7FFF;
-    self->bg_offset = p->bg_offset;
-    self->unk16 = 3;
-    self->air_state = 0;
-    self->on_screen = 0;
-    self->terrain_box = 0;
-    self->attack_box = &D_800F6AC8;
-    self->hurt_box = &D_800F6ACC;
-    self->collision_data = &D_800755FC;
-    func_800F14D4(self, 0x17);
-    if (self->unk2 == 4) {
-        if (((struct X4_MainObj*)D_800F6C08)->unk15 == 0) {
-            self->x_pos.i.hi =
-                ((struct X4_MainObj*)D_800F6C08)->x_pos.i.hi +
-                D_800F6AD8[((struct X4_MainObj*)D_800F6C08)
-                               ->animation_step.fields.frame_index *
-                           2];
-        } else {
-            self->x_pos.i.hi =
-                ((struct X4_MainObj*)D_800F6C08)->x_pos.i.hi -
-                D_800F6AD8[((struct X4_MainObj*)D_800F6C08)
-                               ->animation_step.fields.frame_index *
-                           2];
-        }
-        self->y_pos.i.hi =
-            ((struct X4_MainObj*)D_800F6C08)->y_pos.i.hi +
-            D_800F6AD8[((struct X4_MainObj*)D_800F6C08)
-                               ->animation_step.fields.frame_index *
-                           2 +
-                       1];
-        self->x_speed = 0x20000;
-        self->unk15 = 0x40;
-    } else {
-        if (((struct X4_MainObj*)D_800F6C08)->unk15 == 0) {
-            self->x_pos.i.hi =
-                ((struct X4_MainObj*)D_800F6C08)->x_pos.i.hi +
-                D_800F6B18[((struct X4_MainObj*)D_800F6C08)
-                               ->animation_step.fields.frame_index *
-                           2];
-        } else {
-            self->x_pos.i.hi =
-                ((struct X4_MainObj*)D_800F6C08)->x_pos.i.hi -
-                D_800F6B18[((struct X4_MainObj*)D_800F6C08)
-                               ->animation_step.fields.frame_index *
-                           2];
-        }
-        self->y_pos.i.hi =
-            ((struct X4_MainObj*)D_800F6C08)->y_pos.i.hi +
-            D_800F6B18[((struct X4_MainObj*)D_800F6C08)
-                               ->animation_step.fields.frame_index *
-                           2 +
-                       1];
-        self->x_speed = -0x20000;
-        self->unk15 = 0;
-    }
-    self->y_speed = (random_byte() % 4 << 16) + 0x50000;
-    self->x_accel = 0;
-    self->gravity = 0x3000;
-    self->hp = 4;
-    self->contact_damage = 4;
-    self->action = 0;
-    self->state++;
-}
+#include "../shared/rock_09/func_800F257C.c"
 
 #include "common.h"
 #include "mmx6/x4.h"
@@ -994,73 +797,7 @@ extern s16 D_800F6AD8[];
 extern s16 D_800F6B18[];
 extern void* D_800F6C08;
 
-void func_800F279C(struct X4_MainObj* self) {
-    struct X4_MainObj* p;
-
-    p = D_800F6C08;
-    self->animation_table = p->animation_table;
-    self->unk42 &= 0x7FFF;
-    self->bg_offset = p->bg_offset;
-    self->unk16 = 2;
-    self->air_state = 0;
-    self->on_screen = 0;
-    self->terrain_box = 0;
-    self->attack_box = 0;
-    self->hurt_box = 0;
-    self->collision_data = 0;
-    func_800F14D4(self, 0x18);
-    if (self->unk2 == 6) {
-        if (((struct X4_MainObj*)D_800F6C08)->unk15 == 0) {
-            self->x_pos.i.hi =
-                ((struct X4_MainObj*)D_800F6C08)->x_pos.i.hi +
-                D_800F6AD8[((struct X4_MainObj*)D_800F6C08)
-                               ->animation_step.fields.frame_index *
-                           2];
-        } else {
-            self->x_pos.i.hi =
-                ((struct X4_MainObj*)D_800F6C08)->x_pos.i.hi -
-                D_800F6AD8[((struct X4_MainObj*)D_800F6C08)
-                               ->animation_step.fields.frame_index *
-                           2];
-        }
-        self->y_pos.i.hi =
-            ((struct X4_MainObj*)D_800F6C08)->y_pos.i.hi +
-            D_800F6AD8[((struct X4_MainObj*)D_800F6C08)
-                               ->animation_step.fields.frame_index *
-                           2 +
-                       1];
-        self->unk15 = 0x40;
-    } else {
-        if (((struct X4_MainObj*)D_800F6C08)->unk15 == 0) {
-            self->x_pos.i.hi =
-                ((struct X4_MainObj*)D_800F6C08)->x_pos.i.hi +
-                D_800F6B18[((struct X4_MainObj*)D_800F6C08)
-                               ->animation_step.fields.frame_index *
-                           2];
-        } else {
-            self->x_pos.i.hi =
-                ((struct X4_MainObj*)D_800F6C08)->x_pos.i.hi -
-                D_800F6B18[((struct X4_MainObj*)D_800F6C08)
-                               ->animation_step.fields.frame_index *
-                           2];
-        }
-        self->y_pos.i.hi =
-            ((struct X4_MainObj*)D_800F6C08)->y_pos.i.hi +
-            D_800F6B18[((struct X4_MainObj*)D_800F6C08)
-                               ->animation_step.fields.frame_index *
-                           2 +
-                       1];
-        self->unk15 = 0;
-    }
-    self->x_speed = 0;
-    self->y_speed = 0;
-    self->x_accel = 0;
-    self->gravity = 0;
-    self->hp = 0;
-    self->contact_damage = 0;
-    self->action = 0;
-    self->state++;
-}
+#include "../shared/rock_09/func_800F279C.c"
 
 #include "common.h"
 #include "mmx6/x4.h"
@@ -1073,60 +810,7 @@ extern void* D_800F6C08;
 
 #define OWNER ((struct X4_MainObj*)D_800F6C08)
 
-void func_800F2968(struct X4_MainObj* self) {
-    struct X4_MainObj* p;
-    u8 bg;
-
-    p = D_800F6C08;
-    self->animation_table = p->animation_table;
-    self->unk42 &= 0x7FFF;
-    bg = p->bg_offset;
-    self->unk16 = 3;
-    self->air_state = 0;
-    self->on_screen = 0;
-    self->terrain_box = 0;
-    self->attack_box = 0;
-    self->hurt_box = 0;
-    self->collision_data = &D_800755FC;
-    self->bg_offset = bg;
-    func_800F14D4(self, 0x19);
-    self->unk15 = OWNER->unk15;
-    if (self->unk2 == 8) {
-        if (self->unk15 == 0) {
-            self->x_pos.i.hi =
-                OWNER->x_pos.i.hi +
-                D_800F6AD8[OWNER->animation_step.fields.frame_index * 2];
-        } else {
-            self->x_pos.i.hi =
-                OWNER->x_pos.i.hi -
-                D_800F6AD8[OWNER->animation_step.fields.frame_index * 2];
-        }
-        self->y_pos.i.hi =
-            OWNER->y_pos.i.hi +
-            D_800F6AD8[OWNER->animation_step.fields.frame_index * 2 + 1];
-    } else {
-        if (self->unk15 == 0) {
-            self->x_pos.i.hi =
-                OWNER->x_pos.i.hi +
-                D_800F6B18[OWNER->animation_step.fields.frame_index * 2];
-        } else {
-            self->x_pos.i.hi =
-                OWNER->x_pos.i.hi -
-                D_800F6B18[OWNER->animation_step.fields.frame_index * 2];
-        }
-        self->y_pos.i.hi =
-            OWNER->y_pos.i.hi +
-            D_800F6B18[OWNER->animation_step.fields.frame_index * 2 + 1];
-    }
-    self->y_speed = 0x80000;
-    self->x_speed = 0;
-    self->x_accel = 0;
-    self->gravity = 0;
-    self->hp = 4;
-    self->contact_damage = 4;
-    self->action = 0;
-    self->state++;
-}
+#include "../shared/rock_09/func_800F2968.c"
 
 #undef OWNER
 
@@ -1139,7 +823,7 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK animate_object();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-s32 func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 void func_800F14D4(void*, s32);
 extern s32 D_800F6AD0;
@@ -1149,47 +833,7 @@ extern s16 D_800F6BF0;
 extern s32 D_800F6BF8;
 extern s32 D_800F6BFC;
 
-void func_800F2B1C(void* arg0) {
-    if (D_800F6BF8 != 0 || D_800F6BFC != 0) {
-        M2C_FIELD(arg0, u8*, 4)++;
-        return;
-    }
-    if (check_enemy_hits(arg0) < 0 ||
-        D_800F6BEA + 0x40 < M2C_FIELD(arg0, s16*, 0xE) ||
-        func_80030ECC(arg0) != 0) {
-        M2C_FIELD(arg0, u8*, 4)++;
-        return;
-    }
-    switch (M2C_FIELD(arg0, s8*, 5)) {
-    case 0:
-        if (M2C_FIELD(arg0, s16*, 0xE) < D_800F6BF0 - 0x28) {
-            M2C_FIELD(arg0, s32*, 0x24) = 0;
-            M2C_FIELD(arg0, s32*, 0x8C) = 0;
-            M2C_FIELD(arg0, u8*, 5)++;
-        }
-        break;
-    case 1:
-        if (++M2C_FIELD(arg0, s32*, 0x8C) == 0x32) {
-            func_800F14D4(arg0, 0x1B);
-            play_sound(2, 0x3B, arg0);
-            M2C_FIELD(arg0, void**, 0x50) = &D_800F6AD0;
-            M2C_FIELD(arg0, void**, 0x54) = &D_800F6AD4;
-            if (M2C_FIELD(arg0, u8*, 0x15) == 0) {
-                M2C_FIELD(arg0, s32*, 0x20) = -0x20000;
-            } else {
-                M2C_FIELD(arg0, s32*, 0x20) = 0x20000;
-            }
-            M2C_FIELD(arg0, s32*, 0x24) = -0x20000;
-            M2C_FIELD(arg0, u8*, 5)++;
-        }
-        break;
-    case 2:
-        break;
-    }
-    func_8002CCB0(arg0, 0x20, 0x20);
-    animate_object(arg0);
-    apply_object_motion(arg0);
-}
+#include "../shared/rock_09/func_800F2B1C.c"
 
 #include "common.h"
 #include "mmx6/x4.h"
@@ -1201,62 +845,7 @@ extern void* D_800F6C08;
 
 #define OWNER ((struct X4_MainObj*)D_800F6C08)
 
-void func_800F2C7C(struct X4_MainObj* self) {
-    struct X4_MainObj* p;
-    const u8* const* tbl;
-    u8 bg;
-
-    p = D_800F6C08;
-    tbl = p->animation_table;
-    self->unk42 &= 0x7FFF;
-    self->animation_table = tbl;
-    bg = p->bg_offset;
-    self->unk16 = 2;
-    self->air_state = 0;
-    self->on_screen = 0;
-    self->terrain_box = 0;
-    self->attack_box = 0;
-    self->hurt_box = 0;
-    self->collision_data = 0;
-    self->bg_offset = bg;
-    func_800F14D4(self, 0x1A);
-    self->unk15 = OWNER->unk15;
-    if (self->unk2 == 10) {
-        if (self->unk15 == 0) {
-            self->x_pos.i.hi =
-                OWNER->x_pos.i.hi +
-                D_800F6AD8[OWNER->animation_step.fields.frame_index * 2];
-        } else {
-            self->x_pos.i.hi =
-                OWNER->x_pos.i.hi -
-                D_800F6AD8[OWNER->animation_step.fields.frame_index * 2];
-        }
-        self->y_pos.i.hi =
-            OWNER->y_pos.i.hi +
-            D_800F6AD8[OWNER->animation_step.fields.frame_index * 2 + 1];
-    } else {
-        if (self->unk15 == 0) {
-            self->x_pos.i.hi =
-                OWNER->x_pos.i.hi +
-                D_800F6B18[OWNER->animation_step.fields.frame_index * 2];
-        } else {
-            self->x_pos.i.hi =
-                OWNER->x_pos.i.hi -
-                D_800F6B18[OWNER->animation_step.fields.frame_index * 2];
-        }
-        self->y_pos.i.hi =
-            OWNER->y_pos.i.hi +
-            D_800F6B18[OWNER->animation_step.fields.frame_index * 2 + 1];
-    }
-    self->x_speed = 0;
-    self->y_speed = 0;
-    self->x_accel = 0;
-    self->gravity = 0;
-    self->hp = 0;
-    self->contact_damage = 0;
-    self->action = 0;
-    self->state++;
-}
+#include "../shared/rock_09/func_800F2C7C.c"
 
 #undef OWNER
 
@@ -1267,7 +856,7 @@ void func_800F2C7C(struct X4_MainObj* self) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002F288(void*);
+s32 func_8002F288();
 extern void (*D_800F69A4[])(void*);
 
 void func_800F2E20(void* arg0) {
@@ -1373,23 +962,7 @@ M2C_UNK apply_object_motion(void*);
 M2C_UNK func_80040488(M2C_UNK);
 void func_800F0434(s8* self, u32 arg1);
 
-void func_800F315C(void* arg0) {
-    if (++M2C_FIELD(arg0, s16*, 0x7C) == 0xD) {
-        play_sound(2, 0x39, arg0);
-        func_80029478(0x3C, 2, 2);
-        start_pad_vibration(5);
-    }
-    if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
-        func_800F0434(arg0, 0xA);
-        func_80040488(0);
-        D_800CCEF4 = 1;
-        M2C_FIELD(arg0, s16*, 0x7C) = 0x3C;
-        M2C_FIELD(arg0, u8*, 6) += 1;
-    }
-    animate_object(arg0);
-    apply_object_motion(arg0);
-    func_8002CCB0(arg0, 0x80, 0x80);
-}
+#include "../shared/rock_09/func_800F315C.c"
 
 #include "../shared/rock_09/func_800F3220.c"
 
@@ -1440,18 +1013,7 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void func_800F0434(s8* self, u32 arg1);
 extern s16 D_800970AA;
 
-void func_800F3640(void* arg0) {
-    s32 t = D_800970AA;
-
-    if (M2C_FIELD(arg0, s16*, 0xA) < t) {
-        M2C_FIELD(arg0, u8*, 0x15) = 0x40;
-    } else {
-        M2C_FIELD(arg0, u8*, 0x15) = 0;
-    }
-    play_sound(2, 0x23, arg0);
-    func_800F0434(arg0, 0xD);
-    M2C_FIELD(arg0, s8*, 6) = 1;
-}
+#include "../shared/rock_09/func_800F3640.c"
 
 #include "../shared/rock_09/func_800F36AC.c"
 
@@ -1465,26 +1027,7 @@ extern s16 D_800970AA;
 
 #define F(T, p, o) (*(T*)((u8*)(p) + (o)))
 
-void func_800F371C(void* arg0) {
-    if (D_800970AA > F(s16, arg0, 0xA)) {
-        F(u8, arg0, 0x15) = 0x40;
-    } else {
-        F(u8, arg0, 0x15) = 0;
-    }
-    if (F(s8, arg0, 0x46) == 0) {
-        play_sound(2, 0x3E, arg0);
-        func_800F0434(arg0, 0x1E);
-        F(u16, arg0, 0x7C) = 0;
-    }
-    if (++F(s16, arg0, 0x7C) == 0x3C) {
-        F(s16, arg0, 0x7E) = 0;
-        if (D_800CCF38 == 2) {
-            F(s8, arg0, 6) = 0xC;
-        } else {
-            F(s8, arg0, 6) = 3;
-        }
-    }
-}
+#include "../shared/rock_09/func_800F371C.c"
 
 #include "common.h"
 
@@ -1584,13 +1127,7 @@ void func_800F0434(s8* self, u32 arg1);
 
 #define F(T, p, o) (*(T*)((u8*)(p) + (o)))
 
-void func_800F3A14(void* arg0) {
-    if (F(s8, arg0, 0x46) == 0) {
-        func_800F0434(arg0, 0x10);
-        F(s16, arg0, 0x7C) = 0;
-        F(u8, arg0, 6) = 0xB;
-    }
-}
+#include "../shared/rock_09/func_800F3A14.c"
 
 #include "../shared/rock_09/func_800F3A58.c"
 
@@ -1656,16 +1193,7 @@ extern s16 D_800970AA;
 
 #define F(T, p, o) (*(T*)((u8*)(p) + (o)))
 
-void func_800F3D14(void* arg0) {
-    if (D_800970AA > F(s16, arg0, 0xA)) {
-        F(u8, arg0, 0x15) = 0x40;
-    } else {
-        F(u8, arg0, 0x15) = 0;
-    }
-    play_sound(2, 0x24, arg0);
-    func_800F0434(arg0, 0xD);
-    F(u8, arg0, 6) = 1;
-}
+#include "../shared/rock_09/func_800F3D14.c"
 
 #define func_800F36AC func_800F3D80
 #include "../shared/rock_09/func_800F36AC.c"
@@ -1719,16 +1247,7 @@ extern s16 D_800970AA;
 
 #define F(T, p, o) (*(T*)((u8*)(p) + (o)))
 
-void func_800F411C(void* arg0) {
-    if (D_800970AA > F(s16, arg0, 0xA)) {
-        F(u8, arg0, 0x15) = 0x40;
-    } else {
-        F(u8, arg0, 0x15) = 0;
-    }
-    play_sound(2, 0x25, arg0);
-    func_800F0434(arg0, 0xD);
-    F(u8, arg0, 6) = 1;
-}
+#include "../shared/rock_09/func_800F411C.c"
 
 #define func_800F36AC func_800F4188
 #include "../shared/rock_09/func_800F36AC.c"
@@ -1824,16 +1343,7 @@ M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 void func_800F0434(s8* self, u32 arg1);
 
-void func_800F472C(s8* self) {
-    M2C_FIELD(self, s16*, 0x7C) = 0x7F;
-    M2C_FIELD(self, s16*, 0x7E) = 0x19;
-    M2C_FIELD(self, s8*, 0x61) = 0x19;
-    M2C_FIELD(self, u16*, 0x42) &= 0x7FFF;
-    func_800F0434(self, 0x20);
-    M2C_FIELD(self, u8*, 5)++;
-    func_8003D308(0x14, D_800970B5);
-    func_8002CCB0(self, 0x80, 0x80);
-}
+#include "../shared/rock_09/func_800F472C.c"
 
 #include "../shared/rock_09/func_800F47A0.c"
 
@@ -1846,43 +1356,7 @@ extern s32 D_800F6AB4;
 extern s32 D_800F6AB8;
 extern void* D_800F6C08;
 
-void func_800F48A0(struct X4_MainObj* self) {
-    struct X4_MainObj* p;
-    u8 bg;
-
-    p = D_800F6C08;
-    self->animation_table = p->animation_table;
-    self->unk42 &= 0x7FFF;
-    bg = p->bg_offset;
-    self->unk16 = 4;
-    self->air_state = 0;
-    self->on_screen = 0;
-    self->terrain_box = 0;
-    self->attack_box = 0;
-    self->bg_offset = bg;
-    if (self->unk2 == 0) {
-        self->hurt_box = &D_800F6AB4;
-    } else {
-        self->hurt_box = &D_800F6AB8;
-    }
-    self->collision_data = &D_800755FC;
-    if (self->unk2 == 0) {
-        func_800F14D4(self, 0xB);
-    } else {
-        func_800F14D4(self, 0xC);
-    }
-    self->x_speed = 0;
-    self->y_speed = 0;
-    self->x_accel = 0;
-    self->gravity = 0;
-    self->hp = 0x10;
-    self->contact_damage = 0;
-    *(s32*)((u8*)self + 0x8C) = 0;
-    *(s32*)((u8*)self + 0x90) = 0;
-    self->action = 0;
-    self->action_phase = 0;
-    self->state++;
-}
+#include "../shared/rock_09/func_800F48A0.c"
 
 #include "common.h"
 
@@ -1911,7 +1385,7 @@ void func_800F49A8(void) {
 M2C_UNK animate_object();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-s32 func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 extern s16 D_800F6BEA;
 extern s32 D_800F6BF8;
@@ -1957,16 +1431,7 @@ M2C_UNK apply_object_motion(void*);             /* extern */
 extern s32 D_800F6BF8;
 extern s32 D_800F6BFC;
 
-void func_800F4A90(void* arg0) {
-    if ((D_800F6BF8 != 0) || (D_800F6BFC != 0) ||
-        (M2C_FIELD(arg0, s8*, 0x46) == 0)) {
-        M2C_FIELD(arg0, u8*, 4) = (u8)(M2C_FIELD(arg0, u8*, 4) + 1);
-        return;
-    }
-    func_8002CCB0(arg0, 0x20, 0x20);
-    animate_object(arg0);
-    apply_object_motion(arg0);
-}
+#include "../shared/rock_09/func_800F4A90.c"
 
 #include "common.h"
 

@@ -34,7 +34,7 @@ void func_800E98C4(void* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 
 void func_800E9918(void* arg0) {
     struct X4_PlayerObj* pl = &g_Player;
@@ -52,7 +52,7 @@ void func_800E9918(void* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK clear_object_slot();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800E995C(void* arg0) {
@@ -111,9 +111,17 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EA398);
 #undef D_80077BC0
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EA6E4);
+#define func_800EA5F0 func_800EA6E4
+#define func_8002CA14 func_8002CA54
+#include "../shared/rock_11/func_800EA5F0.c"
+#undef func_800EA5F0
+#undef func_8002CA14
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EA704);
+#define func_800EA5F0 func_800EA704
+#define func_8002CA14 func_8002C9D4
+#include "../shared/rock_11/func_800EA5F0.c"
+#undef func_800EA5F0
+#undef func_8002CA14
 // clang-format on
 
 #define func_80041AB8 func_800EA724
@@ -465,7 +473,7 @@ void func_800F04C0();
 void func_800F0754(void);
 void func_800F089C();
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_80097202;
 #include "mmx6/state.h"
 #include "mmx6/globals.h"

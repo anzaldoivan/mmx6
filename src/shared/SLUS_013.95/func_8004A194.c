@@ -5,7 +5,7 @@
 
 extern s32 D_80077D54;
 s32 play_sound(s32 a0, s32 a1, void* arg2);
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 s32 set_animation();
 

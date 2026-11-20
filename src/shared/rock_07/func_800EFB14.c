@@ -7,7 +7,7 @@
 M2C_UNK func_80016C48(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002D230(void*);
-M2C_UNK func_8002F288(M2C_UNK*);
+s32 func_8002F288();
 M2C_UNK func_80031DA8();
 s32 func_800EEB1C(struct X4_PlayerObj*, s16, s16);
 extern M2C_UNK D_800970A0;

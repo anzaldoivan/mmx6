@@ -1,7 +1,7 @@
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/21BF4", func_8002C9D4);
+#include "../shared/SLUS_013.95/func_8002C9D4.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/21BF4", func_8002CA14);
+#include "../shared/SLUS_013.95/func_8002CA14.c"
 // clang-format on
 
 #include "common.h"

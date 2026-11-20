@@ -754,7 +754,7 @@ void func_8001C024(void) {
 #define M2C_UNK s32
 
 s32 func_8001C824(void);
-void func_8001C938(s32);
+s32 func_8001C938(s32);
 #include "psyq/libapi.h"
 #include "mmx6/globals.h"
 

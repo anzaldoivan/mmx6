@@ -355,7 +355,11 @@ void func_800EA03C(s8* arg0) {
 #undef FAMILY_FIELD
 
 // clang-format off
-INCLUDE_ASM("asm/rock_19/nonmatchings/E9860", func_800EA144);
+#define func_800EA5F0 func_800EA144
+#define func_8002CA14 func_8002C9B0
+#include "../shared/rock_11/func_800EA5F0.c"
+#undef func_800EA5F0
+#undef func_8002CA14
 
 INCLUDE_ASM("asm/rock_19/nonmatchings/E9860", func_800EA164);
 // clang-format on

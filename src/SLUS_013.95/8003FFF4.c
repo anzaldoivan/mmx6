@@ -106,5 +106,5 @@ void func_800400F4(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/3CE30", func_80040290);
+#include "../shared/SLUS_013.95/func_80040290.c"
 // clang-format on

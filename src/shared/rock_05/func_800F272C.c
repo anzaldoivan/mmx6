@@ -3,7 +3,7 @@
 
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 void func_800F2B4C();
 
 #define UB(p, o) (*(u8*)((u8*)(p) + (o)))

@@ -211,7 +211,7 @@ void func_800FAC3C(struct X4_MainObj* self) {
 
 M2C_UNK animate_object();
 s32 random_byte();
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 extern u8 D_800FDC18[][4];
 #define D_800FDC18 (*(u8(*)[]) & D_800FDC18)

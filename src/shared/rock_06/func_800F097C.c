@@ -8,7 +8,7 @@ M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
 M2C_UNK animate_object();                    /* extern */
 s32 func_8002A47C(s32);                      /* extern */
 void* func_8002C32C();                       /* extern */
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 
 void func_800F097C(void* arg0) {
     if (M2C_FIELD(arg0, s8*, 6) == 0) {

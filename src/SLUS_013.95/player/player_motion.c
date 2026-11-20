@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define PL_150 (*(s8*)(pl + 0x150))
 #define PL_FC (*(s32*)(pl + 0xFC))
 

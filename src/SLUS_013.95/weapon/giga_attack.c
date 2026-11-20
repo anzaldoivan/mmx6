@@ -104,8 +104,7 @@ s32 check_giga_attack(void* arg0) {
     } else {
         player_set_animation(self, 0x6A);
         {
-            // !FAKE: depin: dropping it breaks the match (143/180)
-            register s32 c asm("$2");
+            s32 c;
             c = 0x22;
             self->action = c;
             c = 5;
@@ -115,7 +114,8 @@ s32 check_giga_attack(void* arg0) {
             self->afterimage = 0;
             self->nova_strike_timer = c;
         }
-        if (self->facing != 0) {
+        k = self->facing;
+        if (k != 0) {
             self->x_vel.val = 0x28000;
         } else {
             self->x_vel.val = -0x28000;

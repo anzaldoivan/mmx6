@@ -156,7 +156,7 @@ s32 func_8002E664(void* arg0, void* arg1) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern u8 D_800E4190;
 extern u8 D_800E4191;
@@ -284,7 +284,7 @@ extern s16 D_800E4194;
 extern s16 D_800E419E;
 extern s16 D_800E41A0;
 u8 func_80030304(struct X4_PlayerObj*, s16, s16);
-s32 func_80030628(struct X4_PlayerObj* arg0, u8 arg1);
+s32 func_80030628(u8* arg0, u8 arg1);
 
 void func_8002F5FC(struct X4_PlayerObj* arg0) {
     s16 temp_v0;

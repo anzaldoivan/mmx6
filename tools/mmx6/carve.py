@@ -1028,10 +1028,16 @@ def self_test():
     ok &= expect("straddles", carve_jtbl, SCRATCH, EXE, 0x80012090)
     ok &= expect("overlaps-carve", carve_jtbl, SCRATCH, EXE, 0x80011380)
     # was TU 32208's gap at 0x80011398 / 0x800113B0 (T35.c53), carved by W301; now probed from the live record (T15.c3)
-    nc = noncontig_target(SCRATCH, EXE)
+    # W306 (3.2 T5.c1) carved the exe's last non-contiguous gap: fall back to the overlays' live records, in name order
+    cfgdir = os.path.join(SCRATCH, "config")
+    for ncp in [EXE] + sorted(n[len("carve."):-len(".txt")] for n in os.listdir(cfgdir)
+                              if n.startswith("carve.") and n.endswith(".txt") and n != "carve.%s.txt" % EXE):
+        nc = noncontig_target(SCRATCH, ncp)
+        if nc is not None:
+            break
     t = nc is not None
-    print("control non-contiguous target %s" % ("0x%08X" % nc if t else "NONE"))
-    ok &= t and expect("non-contiguous", carve_jtbl, SCRATCH, EXE, nc)
+    print("control non-contiguous target %s" % ("%s 0x%08X" % (ncp, nc) if t else "NONE"))
+    ok &= t and expect("non-contiguous", carve_jtbl, SCRATCH, ncp, nc)
     ok &= bridge_controls()
     hit01 = layout.find_asm("rock_01", d_line("rock_01", 0x801EA000), SCRATCH)  # unit or L-B role file (T16.c4)
     c01 = os.path.join(SCRATCH, hit01[0]) if hit01 else os.path.join(SCRATCH, "src", "rock_01", "1EA000.c")

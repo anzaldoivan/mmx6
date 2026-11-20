@@ -480,7 +480,7 @@ void func_8001A278(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001A330);
+#include "../shared/SLUS_013.95/func_8001A330.c"
 
 INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001A3D4);
 // clang-format on

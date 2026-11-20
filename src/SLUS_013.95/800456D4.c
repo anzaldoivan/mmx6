@@ -397,7 +397,7 @@ void func_800460C8(void* arg0) {
 
 M2C_UNK animate_object();
 s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
-M2C_UNK move_object(void*);
+void move_object();
 M2C_UNK func_8002EE10(struct X4_PlayerObj* arg0);
 void func_80049D90(void*);
 
@@ -558,11 +558,11 @@ void func_80046478(u8* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK animate_object();              /* extern */
-s32 func_8002CB50(struct X4_BaseObj*); /* extern */
+M2C_UNK animate_object(); /* extern */
+s32 func_8002CB50();      /* extern */
 #define func_8002CB50 func_8002CB50
 s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2); /* extern */
-M2C_UNK move_object(void*);                                         /* extern */
+void move_object();                                                 /* extern */
 
 void func_800464C4(struct ObjectHeader* arg0) {
     ((M2C_UNK(*)())animate_object)();
@@ -772,7 +772,7 @@ void func_800468BC(void) {
 #include "common.h"
 #define M2C_UNK s32
 
-s32 func_8002CB50(struct X4_BaseObj*); /* extern */
+s32 func_8002CB50(); /* extern */
 #include "mmx6/state.h"
 
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -855,7 +855,7 @@ void func_800468DC(void* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002CB50(struct X4_BaseObj*);
+s32 func_8002CB50();
 
 void func_80046A60(void* self, s32 arg1, u8* p) {
     if (M2C_FIELD(self, s8*, 0x2) == -1) {
@@ -888,7 +888,7 @@ void func_80046AD0(void* arg0) {
 #include "mmx6/x4.h"
 #include "mmx6/globals.h"
 
-s32 func_8002CB50(struct X4_BaseObj*);
+s32 func_8002CB50();
 extern u8 D_80076298[];
 
 void func_80046B00(struct X4_BaseObj* arg0) {
@@ -933,7 +933,7 @@ void func_80046B00(struct X4_BaseObj* arg0) {
 #include "mmx6/globals.h"
 
 extern u8 option_values[];
-s32 func_8002CB50(struct X4_BaseObj*);
+s32 func_8002CB50();
 
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))
 
@@ -951,7 +951,7 @@ void func_80046C0C(struct X4_MainObj* arg0) {
 #include "common.h"
 #define M2C_UNK s32
 
-s32 func_8002CB50(struct X4_BaseObj*); /* extern */
+s32 func_8002CB50(); /* extern */
 
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))
 #define U8F(p, o) (*(u8*)((u8*)(p) + (o)))
@@ -997,7 +997,7 @@ void func_80046CA4(void* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-s32 func_8002CB50(struct X4_BaseObj*); /* extern */
+s32 func_8002CB50(); /* extern */
 
 void func_80046D78(void* arg0) {
     s16 var_v0;

@@ -5,10 +5,10 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK animate_object();
-M2C_UNK move_object();
+void move_object();
 s32 func_8002D354(void* arg0, s32 arg1, s32 arg2);
 void set_velocity_from_angle(void*, s32);
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_800EC9D0(struct X4_MainObj* self) {

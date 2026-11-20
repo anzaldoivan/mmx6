@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK animate_object();
-M2C_UNK func_80030ECC();
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 extern void (*D_800FCDE4[])(void*);
 

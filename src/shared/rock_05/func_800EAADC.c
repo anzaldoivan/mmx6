@@ -3,7 +3,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK move_object(void*);
+void move_object();
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 

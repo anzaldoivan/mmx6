@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object();
+void move_object();
 s32 random_byte();
 
 void func_800F82AC(u8* self) {

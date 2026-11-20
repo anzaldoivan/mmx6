@@ -4,7 +4,7 @@
 extern void (*D_80077BA4[])(struct X4_ItemObj*);
 
 #define M2C_UNK s32
-s32 func_8002CB50(struct X4_BaseObj*);
+s32 func_8002CB50();
 void func_800484D8(struct X4_ItemObj* arg0) {
     D_80077BA4[arg0->unk5](arg0);
     func_8002CB50(BASE_OBJECT(arg0));

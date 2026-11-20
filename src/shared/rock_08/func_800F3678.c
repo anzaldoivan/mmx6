@@ -5,8 +5,8 @@
 
 M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK move_object(void*);
-M2C_UNK func_80030ECC(void*);
+void move_object();
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 
 void func_800F3678(void* arg0) {

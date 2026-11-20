@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 
 M2C_UNK clear_object_slot();
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 extern void (*D_800F4458[])(struct X4_MainObj*);
 
 void func_800F2E84(struct X4_MainObj* self) {

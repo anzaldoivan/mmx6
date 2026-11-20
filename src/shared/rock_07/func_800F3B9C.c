@@ -7,7 +7,7 @@
 #define H(p, o) M2C_FIELD(p, s16*, o)
 #define W(p, o) M2C_FIELD(p, s32*, o)
 
-M2C_UNK move_object(void*);
+void move_object();
 
 void func_800F3B9C(void* arg0) {
     s32 ang;

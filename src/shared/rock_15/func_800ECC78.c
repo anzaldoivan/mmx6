@@ -6,7 +6,7 @@
 #define SCRATCH_1C (*(u8**)0x1F80001C)
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 s32 random_byte();
 
 void func_800ECC78(void* arg0) {

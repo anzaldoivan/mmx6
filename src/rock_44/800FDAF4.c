@@ -97,7 +97,7 @@ void func_800FE198(void* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK move_object(void*);
+void move_object();
 extern s16 D_80097222;
 
 void func_800FE1B4(void* arg0) {
@@ -127,7 +127,7 @@ INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FE234);
 #define M2C_UNK s32
 
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 
 #define F(T, p, o) (*(T*)((u8*)(p) + (o)))
 
@@ -163,7 +163,11 @@ void func_800FE278(void* arg0) {
 #undef func_800F5AFC
 
 // clang-format off
-INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FE458);
+#define func_800F5B30 func_800FE458
+#define D_800FB810 D_80101F4C
+#include "../shared/rock_02/func_800F5B30.c"
+#undef func_800F5B30
+#undef D_800FB810
 // clang-format on
 
 #define func_8003744C func_800FE4E8
@@ -259,7 +263,7 @@ INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FE980);
 #define M2C_UNK s32
 
 M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 extern u16 D_8009721A;
 #define D_8009721A (*(s16*)&D_8009721A)
 
@@ -347,7 +351,7 @@ void func_800FF1A0(void* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 extern s16 D_80097222;
 
 void func_800FF1F4(void* arg0) {
@@ -390,7 +394,11 @@ INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FF27C);
 #undef D_8007523C
 
 // clang-format off
-INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FF448);
+#define func_800F6B20 func_800FF448
+#define D_800FB810 D_80101F4C
+#include "../shared/rock_02/func_800F6B20.c"
+#undef func_800F6B20
+#undef D_800FB810
 // clang-format on
 
 #define func_8003744C func_800FF508
@@ -415,7 +423,7 @@ INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FF640);
 #define SPAD4C (*(u8**)0x1F80004C)
 
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 extern s16 D_80097222;
 
 void func_800FF6D0(void* arg0) {
@@ -450,7 +458,11 @@ INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FF808);
 
 INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FF868);
 
-INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FF908);
+#define func_800F6FE0 func_800FF908
+#define D_800FB810 D_80101F4C
+#include "../shared/rock_02/func_800F6FE0.c"
+#undef func_800F6FE0
+#undef D_800FB810
 // clang-format on
 
 #define func_8003744C func_800FF99C
@@ -487,7 +499,7 @@ INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_800FFACC);
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK move_object(void*);
+void move_object();
 extern s16 D_80097222;
 
 void func_800FFC1C(void* arg0) {
@@ -632,7 +644,13 @@ void func_80100C58(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_80100C60);
+#define func_80050DFC func_80100C60
+#define D_80078DD4 D_80102208
+#define func_8002CB50 func_8002F288
+#include "../shared/SLUS_013.95/func_80050DFC.c"
+#undef func_80050DFC
+#undef D_80078DD4
+#undef func_8002CB50
 // clang-format on
 
 #include "common.h"
@@ -641,7 +659,7 @@ INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_80100C60);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK animate_object();     /* extern */
-M2C_UNK move_object(void*);   /* extern */
+void move_object();           /* extern */
 M2C_UNK func_8002EE10(void*); /* extern */
 s32 check_enemy_hits(void*);  /* extern */
 M2C_UNK func_80049D90(void*); /* extern */
@@ -684,7 +702,7 @@ void func_80100D30(void* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 extern s32 D_800754BC;
 
 void func_80100D90(void* arg0) {
@@ -720,7 +738,7 @@ void func_80100D90(void* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 
 void func_80100E1C(struct X4_MainObj* self) {
     u8 t;
@@ -753,8 +771,8 @@ void func_80100E1C(struct X4_MainObj* self) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK animate_object();   /* extern */
-M2C_UNK move_object(void*); /* extern */
+M2C_UNK animate_object(); /* extern */
+void move_object();       /* extern */
 
 void func_80100EA8(void* arg0) {
     u8 temp_v0;
@@ -846,7 +864,7 @@ void func_801010B4(void* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK animate_object();
-M2C_UNK move_object();
+void move_object();
 
 void func_80101350(u8* arg0) {
     ((M2C_UNK(*)())animate_object)();
@@ -873,8 +891,8 @@ void func_80101350(u8* arg0) {
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK animate_object();
-M2C_UNK move_object();
-extern M2C_UNK g_Player;
+void move_object();
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_801013A8(void* arg0) {
@@ -939,7 +957,7 @@ void func_8010146C(void) {
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK animate_object();
 M2C_UNK func_80029478(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK move_object();
+void move_object();
 extern u16 D_8009721A;
 
 void func_801014C8(void* arg0) {
@@ -1068,7 +1086,7 @@ INCLUDE_ASM("asm/rock_44/nonmatchings/FA000", func_801017DC);
 
 M2C_UNK animate_object();                   /* extern */
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK move_object(void*);                 /* extern */
+void move_object();                         /* extern */
 
 void func_8010188C(void* arg0) {
     M2C_UNK* var_v0;

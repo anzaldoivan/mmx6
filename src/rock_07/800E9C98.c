@@ -180,7 +180,7 @@ void func_800E9E08(void* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK animate_object();
-M2C_UNK func_80030ECC();
+s32 func_80030ECC();
 extern struct X4_BackgroundObj background_objects[3];
 extern void (*D_800F86A4[])(void*);
 
@@ -551,7 +551,7 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK set_animation(void*, M2C_UNK);
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object();
+void move_object();
 extern s32 D_800741FC[];
 extern struct X4_PlayerObj g_Player;
 extern M2C_UNK D_800F8840;
@@ -703,7 +703,7 @@ check:
 M2C_UNK animate_object();
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_80030ECC();
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049D90(void*);
 M2C_UNK func_80049E50(void*);
@@ -766,7 +766,7 @@ void func_800EAE90(void* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK move_object();
+void move_object();
 extern struct X4_PlayerObj g_Player;
 
 #define B(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -927,7 +927,7 @@ void func_800EB114(void* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_80030ECC();
+s32 func_80030ECC();
 void collide_solid_object(void*);
 void func_8003208C(void*);
 s32 func_80032B34(struct X4_PlayerObj*);

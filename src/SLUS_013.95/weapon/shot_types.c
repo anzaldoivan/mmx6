@@ -11,14 +11,11 @@ void func_8003F7BC(void* arg0, M2C_UNK arg1, M2C_UNK arg2);
 M2C_UNK set_shot_types(void* arg0) {
     struct X4_PlayerObj* self = arg0;
     u8 t;
-    // !FAKE: depin: dropping it breaks the match (62/69)
-    register s32 k asm("$6");
 
     t = self->armor;
-    k = 2;
-    if (t == k) {
+    if (t == 2) {
         if (self->timed_item == 6 && self->action != 0x1F) {
-            func_8003F7BC(self, 1, k);
+            ((void (*)(void*, s32))func_8003F7BC)(self, 1);
             return;
         }
         self->shot_types[0] = 0x32;
@@ -29,7 +26,7 @@ M2C_UNK set_shot_types(void* arg0) {
     } else {
         self->shot_types[0] = *(u8*)&self->weapon;
         if (self->shot_types[0] != 0) {
-            if (self->charge_state[0] == k) {
+            if (self->charge_state[0] == 2) {
                 *(u8*)&self->shot_types[0] += 9;
             } else if ((self->equipped_parts & 0x80000) &&
                        (t == 1 || t == 4 || t == 3)) {
@@ -39,6 +36,6 @@ M2C_UNK set_shot_types(void* arg0) {
             self->shot_types[0] = 0x32;
         }
         self->shot_types[1] = 0;
-        func_8003F7BC(self, 1, k);
+        ((void (*)(void*, s32))func_8003F7BC)(self, 1);
     }
 }

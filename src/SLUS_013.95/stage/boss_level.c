@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
 extern u8 boss_level_by_rank[];
 

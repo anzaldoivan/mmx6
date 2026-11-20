@@ -3,7 +3,7 @@
 
 extern s16** D_80073300[];
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;

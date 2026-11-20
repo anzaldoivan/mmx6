@@ -83,7 +83,7 @@ INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EA43C);
 
 #define M2C_UNK s32
 
-M2C_UNK move_object(); /* extern */
+void move_object(); /* extern */
 
 void func_800EA4D4(void) {
     move_object();
@@ -103,7 +103,7 @@ INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EA530);
 
 #define M2C_UNK s32
 
-M2C_UNK move_object(); /* extern */
+void move_object(); /* extern */
 
 void func_800EA608(void) {
     move_object();
@@ -155,7 +155,17 @@ void func_800EA964(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EA984);
+#define func_800EACA0 func_800EA984
+#define D_800FBEF8 D_800EDFD0
+#define D_800FBF2C D_800EE004
+#define D_800FBF34 D_800EE00C
+#define func_800EC728 func_800EC40C
+#include "../shared/rock_11/func_800EACA0.c"
+#undef func_800EACA0
+#undef D_800FBEF8
+#undef D_800FBF2C
+#undef D_800FBF34
+#undef func_800EC728
 
 INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EAAC4);
 
@@ -223,7 +233,11 @@ void func_800EC178(void) {
 #undef D_80073C1C
 
 // clang-format off
-INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EC25C);
+#define func_800EC578 func_800EC25C
+#define func_800EC800 func_800EC4E4
+#include "../shared/rock_11/func_800EC578.c"
+#undef func_800EC578
+#undef func_800EC800
 
 INCLUDE_ASM("asm/rock_32/nonmatchings/E9860", func_800EC29C);
 // clang-format on
@@ -261,9 +275,9 @@ void func_800EC404(void) {
 M2C_UNK animate_object();                       /* extern */
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);     /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK move_object(void*);                     /* extern */
+void move_object();                             /* extern */
 M2C_UNK func_8002EE10(void*);                   /* extern */
-M2C_UNK func_80030ECC(void*);                   /* extern */
+s32 func_80030ECC();                            /* extern */
 M2C_UNK func_80049D90(void*);                   /* extern */
 
 void func_800EC5E4(void* arg0) {
@@ -407,7 +421,7 @@ void func_800ED42C(void* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK animate_object(); /* extern */
-M2C_UNK move_object();    /* extern */
+void move_object();       /* extern */
 
 void func_800ED480(s32 arg0) {
     animate_object();

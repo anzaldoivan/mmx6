@@ -91,7 +91,11 @@
          the exemplar object's bytes equal; relocdef_control (3.1 T5): a planted compiled body (an R26 callee, a
          HI16/LO16 store at D+0xA), retail words synthesized: rename, identity, unit alias, two-delta conflict, each
          off -> the name define only, on -> the expected reloc defines; unitcut_control (3.1 T6): a member fed a whole
-         unit with a predecessor (ld-linked alone, its map): off placed away from its vram, on via unitcut at it. Ends `PROPAGATE CONTROL OK` (rc 0), else rc 1.
+         unit with a predecessor (ld-linked alone, its map): off placed away from its vram, on via unitcut at it; T31: with
+         that cut in place program_r5 (rebuild, extents stubbed) gates the exemplar's record + the cutter (its own cut
+         of the exemplar's unit), refuses a foreign edit of the unit before the cut and one of the cut body after it,
+         and uc_due reuses the cut for a second member when the body's marker names another (including) unit but
+         src #includes the body. Ends `PROPAGATE CONTROL OK` (rc 0), else rc 1.
 Firewall G12: names, addresses, counts and hashes of our own files only.
 """
 import argparse
@@ -172,13 +176,14 @@ def registry_rows(path=bank.REGISTRY):
 
 
 def table_addr(words):
-    """Address of the first lui + following lw/addiu pair in words, or None. Switch rolefeed (3.1 T4.c2): the pair's
-    base register is the lui's rt, so a `li rt, n` (addiu rt, $zero, n) after the lui is not its %lo half."""
-    hi, rt, strict = None, None, "rolefeed" in bank.REPAIR
+    """Address of the first lui + following lw/addiu pair in words, or None. The pair's base register is the lui's rt,
+    so a `li rt, n` (addiu rt, $zero, n) after the lui is not its %lo half: strict by default since 3.3 T1 (3.1 T4.c2
+    made it strict only under switch rolefeed)."""
+    hi, rt = None, None  # was: strict = "rolefeed" in bank.REPAIR; off: the first load after the lui, any register
     for w in words:
         if hi is None and w >> 26 == 0x0F:
             hi, rt = (w & 0xFFFF) << 16, (w >> 16) & 0x1F
-        elif hi is not None and w >> 26 in LOAD_OPS and (not strict or (w >> 21) & 0x1F == rt):
+        elif hi is not None and w >> 26 in LOAD_OPS and (w >> 21) & 0x1F == rt:
             lo = w & 0xFFFF
             return (hi + (lo - 0x10000 if lo & 0x8000 else lo)) & 0xFFFFFFFF
     return None
@@ -492,13 +497,25 @@ def linkunify(prog, tail, saved, log):
     return len(edits), f"link {len(edits)} units"
 
 
+def guarded(g, gated):
+    """(path, R1 sha1) whose bytes R5 guards for gated record g: g's src and h1, or, when a gated unitcut record c cut
+    the exemplar out of g's src (c's saved holds g's src as it was at g's R1: the cut and c's own ladder are the only
+    edits since), c's body and h1 (T31): the shared body moved there; a foreign edit of either still refuses."""
+    for c in gated:
+        b = c["saved"].get(g["src"], c["saved"].get(os.path.relpath(g["src"])))
+        if c is not g and c["via"] == "unitcut" and c["src"] != g["src"] and b is not None and \
+                hashlib.sha1(b).hexdigest() == g["h1"]:
+            return c["src"], c["h1"]
+    return g["src"], g["h1"]
+
+
 def rung5_unify(prog, gated, log, pos=None):
     """bank.rung5 of gated[0]'s body; under declunify an R5 stop whose log names `undefined reference to U` ->
     linkunify into gated[-1]'s saved, then rung5 once more (gated records via declunify). pos: [log size before the
     last rung5] (its evidence starts there). Switch off: bank.rung5 alone."""
     pos = [log_size(log)] if pos is None else pos
     try:
-        bank.rung5(prog, gated[0]["src"], gated[0]["h1"], log)
+        bank.rung5(prog, *guarded(gated[0], gated), log)
         return
     except bank.Stop as e:
         if "declunify" not in bank.REPAIR or e.rung != 5:
@@ -508,7 +525,7 @@ def rung5_unify(prog, gated, log, pos=None):
             raise e if note == "n/a" else bank.Stop(5, f"{e.cause}; declunify {note}")
     pos[0] = log_size(log)
     try:
-        bank.rung5(prog, gated[0]["src"], gated[0]["h1"], log)
+        bank.rung5(prog, *guarded(gated[0], gated), log)
     except bank.Stop as e:
         raise bank.Stop(5, f"{e.cause}; declunify {note}")
     for g in gated:
@@ -612,7 +629,8 @@ def program_r5(prog, src, gated, log):
         if away:
             raise bank.Stop(5, f"linked extent differs from retail ({' '.join(away)})")
         raise
-    moved = [g["src"] for g in gated[1:] if g["src"] != gated[0]["src"] and bank.sha1(g["src"]) != g["h1"]]
+    moved = [p for g in gated[1:] for p, h in [guarded(g, gated)]
+             if p != guarded(gated[0], gated)[0] and bank.sha1(p) != h]  # T31: past a unitcut, its body
     if moved:
         raise bank.Stop(5, f"body sha1 changed since R1 ({moved[0]})")
     bad = [pv((g["prog"], g["vram"])) + "".join(f" {p}" for p in [placement(prog, g["row"])] if p) for g in gated
@@ -1375,13 +1393,14 @@ def rolefeed_control():
                   f"{'gated via ' + g1['via'] if g1 is not None else w1}; off again {w2 or 'gated'}; exemplar object "
                   f"{'equal' if same else 'differs'}")
             fails += not good
-        # T4.c2: `lui v0; li v0, 7; addiu v0, v0, %lo` (synthetic words): off pairs the li, on the v0-based %lo
+        # T4.c2: `lui v0; li v0, 7; addiu v0, v0, %lo` (synthetic words): both states pair the v0-based %lo (strict
+        # by default since 3.3 T1; before it, off paired the li: 0x80010007)
         words, got = (0x3C028001, 0x24020007, 0x24421230), []
         for on in (False, True):
             bank.REPAIR.clear()
             bank.REPAIR.update({"rolefeed"} if on else set())
             got.append(table_addr(words))
-        good = got == [0x80010007, 0x80011230]
+        good = got == [0x80011230, 0x80011230]
         print(f"control rolefeed table_addr {'ok' if good else 'FAIL'}: off {got[0]:#x}, on {got[1]:#x}")
         fails += not good
     finally:
@@ -1399,6 +1418,48 @@ UC_FILES = {  # unitcut_control's plant: a whole unit whose exemplar uc_w (under
             "    return a ^ UC_K;\n}\n",  # UC_K: the unit preamble the cut body carries (T6)
     "mu.c": f"#include \"common.h\"\n\n{RF_SLOT}\n"}
 UC_BASE = 0x80010000  # the plant member's retail vram: its unit's first (and only) function, linked at -Ttext
+
+
+def uc_followups(prog, src, new, g, log):
+    """unitcut_control's T31 cases on the planted cut g (src cut into new): program_r5 of [exemplar record, g] with
+    bank.rebuild, bank.sh, extent_same and placement stubbed: own cut gated, a foreign edit of src before the cut or of
+    new after it refused `body sha1 changed since R1`; uc_due on a second member with new's marker naming another unit
+    (src a split unit) -> True. Returns fails."""
+    stubs = dict(rebuild=bank.rebuild, sh=bank.sh)
+    keep = {n: globals()[n] for n in ("extent_same", "placement")}
+    g = dict(g, h1=bank.sha1(new))
+    ex = dict(prog=prog, vram=0, row={}, defines=[], saved={}, src=src, via="", carved=False,
+              h1=hashlib.sha1(g["saved"][src]).hexdigest())
+    body = open(new).read()
+    res = []
+    try:
+        bank.rebuild, bank.sh = (lambda *a: 0), (lambda *a: 0)
+        globals().update(extent_same=lambda *a: True, placement=lambda *a: "")
+        for name, recs, edit in (("own cut", [ex, g], None), ("foreign unit edit", [dict(ex, h1="0" * 40), g], None),
+                                 ("foreign body edit", [ex, g], body + "/* edit */\n")):
+            if edit:
+                with open(new, "w") as f:
+                    f.write(edit)
+            try:
+                program_r5(prog, src, recs, log)
+                res.append((name, "gated"))
+            except bank.Stop as e:
+                res.append((name, e.cause))
+            with open(new, "w") as f:
+                f.write(body)
+    finally:
+        bank.rebuild, bank.sh = stubs["rebuild"], stubs["sh"]
+        globals().update(keep)
+    lines = body.split("\n")
+    with open(new, "w") as f:  # the marker of a split unit's cut: its including unit, not src
+        f.write("\n".join([lines[0].rsplit(" of ", 1)[0] + " of src/P/other.c"] + lines[1:]))
+    res.append(("second member, split unit", bank.uc_due(("P", "uc_w"), src)))
+    with open(new, "w") as f:
+        f.write(body)
+    good = (res[0][1] == "gated" and res[1][1].startswith("body sha1 changed since R1")
+            and res[2][1].startswith("body sha1 changed since R1") and res[3][1] is True)
+    print(f"control unitcut R5 + reuse (T31) {'ok' if good else 'FAIL'}: " + "; ".join(f"{n} {w}" for n, w in res))
+    return not good
 
 
 def unitcut_control():
@@ -1460,6 +1521,8 @@ def unitcut_control():
             import refusecause as rc  # lazy: refusecause imports this module
             got.append((due, g, w, placement(prog, row) if link else "no link",
                         link and UC_BASE in rc.map_addrs(prog, "uc_m")))
+            if on and g is not None:
+                fails += uc_followups(prog, src, new, g, log)
             if g is not None:
                 bank.restore(g["saved"])
         (d0, g0, w0, p0, a0), (d1, g1, w1, p1, a1) = got

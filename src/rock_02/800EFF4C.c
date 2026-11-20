@@ -808,7 +808,7 @@ void func_800F1408(void) {
 M2C_UNK animate_object(void*);                  /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK apply_object_motion(void*);             /* extern */
-M2C_UNK func_80030ECC(void*);                   /* extern */
+s32 func_80030ECC();                            /* extern */
 s32 check_enemy_hits(void*);                    /* extern */
 M2C_UNK func_80049E50(void*);                   /* extern */
 

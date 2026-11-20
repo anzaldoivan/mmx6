@@ -3,10 +3,10 @@
 #include "mmx6/x4.h"
 
 M2C_UNK animate_object();
-M2C_UNK move_object();
+void move_object();
 s32 func_8002D354(void* arg0, s32 arg1, s32 arg2);
 void set_velocity_from_angle(void*, s32);
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_800EC3B8(struct X4_MainObj* self) {

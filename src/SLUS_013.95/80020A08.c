@@ -28,7 +28,7 @@ void func_80020A08(void) {
 
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK animate_object();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 
 void func_80020AA8(struct X4_AnimatedObj* arg0) {
     struct X4_PlayerObj* pl = &g_Player;
@@ -111,12 +111,12 @@ void func_8002927C(void);          /* extern */
 void func_8002935C(void);          /* extern */
 void func_800293CC();              /* extern */
 void func_80029D18(void);          /* extern */
-void func_8002ACA8();     /* extern; was M2C_UNK (W14 regate of 2ACA8) */
-void func_8002E84C(void); /* extern */
-void func_8002F288(struct X4_PlayerObj*); /* extern */
-void func_80034DCC(void);                 /* extern */
-M2C_UNK read_player_input();              /* extern */
-extern M2C_UNK g_Player;
+void func_8002ACA8();        /* extern; was M2C_UNK (W14 regate of 2ACA8) */
+void func_8002E84C(void);    /* extern */
+s32 func_8002F288();         /* extern */
+void func_80034DCC(void);    /* extern */
+M2C_UNK read_player_input(); /* extern */
+extern struct X4_PlayerObj g_Player;
 
 void func_80020C40(void) {
     func_8002E84C();

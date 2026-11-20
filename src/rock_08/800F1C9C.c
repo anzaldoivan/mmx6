@@ -64,7 +64,7 @@ void func_800F1E48(s8* arg0) {
 #include "mmx6/rock_08.h"
 
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 
 void func_800F1F64(void* arg0) {
     struct X4_MainObj* self = arg0;
@@ -130,7 +130,7 @@ INCLUDE_ASM("asm/rock_08/nonmatchings/E9860", func_800F208C);
 #include "mmx6/rock_08.h"
 
 extern s32 animate_object();
-extern s32 move_object(void*);
+void move_object();
 
 void func_800F21A8(struct X4_AnimatedObj* arg0) {
     u8 temp_v1;
@@ -162,7 +162,7 @@ void func_800F21A8(struct X4_AnimatedObj* arg0) {
 
 M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 s32 random_byte();
 
 void func_800F2244(void* arg0) {
@@ -324,7 +324,7 @@ void func_800F25D0(void* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 
 void func_800F2708(u8* arg0) {
     // !FAKE: depin: dropping it breaks the match (42/44)

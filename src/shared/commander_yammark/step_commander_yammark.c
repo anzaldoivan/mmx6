@@ -4,7 +4,7 @@
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002F288(M2C_UNK*);
+s32 func_8002F288();
 extern void (*D_800F7D54[])(void*);
 
 // 0x800F5664 step_commander_yammark: clears byte 3, runs the Commander Yammark state table, then the shared object step.

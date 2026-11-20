@@ -4,7 +4,7 @@
 #include "mmx6/x4.h"
 extern void (*D_800F62F8[])(struct X4_MainObj*);
 M2C_UNK animate_object(void*);
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 
 void func_800EE554(struct X4_MainObj* self) {
     D_800F62F8[self->action_phase](self);

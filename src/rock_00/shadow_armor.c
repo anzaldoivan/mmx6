@@ -2,7 +2,7 @@
 #include "mmx6/x4.h"
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s32 D_80077A98;
 extern s32 D_801F3858[];

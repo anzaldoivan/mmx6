@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK move_object();
+void move_object();
 void func_800FB068(u8* arg0, u8 arg1);
 
 void func_800FAA98(u8* self) {

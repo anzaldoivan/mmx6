@@ -1150,7 +1150,8 @@ def probe_plants(check, pack, pv, row):
 def arm_plants(check, ctx):
     """(k) an X5 snippet: a known callee renamed, a planted unknown marked; (l) INCLUDE_ASM refused, a dedup member read
     through its shared body; (m) an mmx4 row through x4port.port(), its seeded pack = the fresh files + sibling.c;
-    (n) a proto-only row gets no seeded pack; (o) the tracked arm file = the sample rows whose prior-art lead is C."""
+    (n) a proto-only row gets no seeded pack; (o) the tracked arm file = the sample rows whose prior-art lead is C, each
+    seeded sibling = sibling_of, or the arm file's own when the row left campaign/priorart.tsv (frozen)."""
     pv, twin = ("rock_18", 0x800ED760), "func_8001F314"
     names = x5_names(ctx, pv, twin)
     snip = ("extern void func_800223E4(void);\nextern void func_8009FFF0(void);\n\nvoid func_8001F314(void) {\n"
@@ -1206,17 +1207,24 @@ def arm_plants(check, ctx):
     pp = os.path.join(SELFTEST, "W6", f"{proto[0]}_{ctx.funcs[proto]['name']}")
     check(sibling_of(*proto) is None and os.path.isdir(pp) and not os.path.exists(pp + ".seeded") and
           "arm" not in json.loads(rd(pp, "pack.json") or "{}"), "(n) proto-only row: fresh pack only")
-    # (o) the tracked arm file
-    want, n = [], Counter()
+    # (o) the tracked arm file; a sample row banked out of priorart.tsv keeps the arm file's recorded sibling (frozen)
+    with open(PRIORART) as f:
+        ledger = {tuple(x.split("\t")[:2]) for x in f if not x.startswith("#")}
+    arm = read_arm(ARM)
+    frozen = {r[:4]: r[5] for r in arm if r[4] == "seeded"}
+    want, n, k = [], Counter(), 0
     with open(SAMPLE) as f:
         for t in (x.rstrip("\n").split("\t") for x in f if not x.startswith("#")):
             if "c" in (t[8], t[9]):
                 n[t[13]] += 1
                 n["other"] += (t[10], t[11]) != ("-", "-")
+                key = (t[13], t[1], int(t[2], 16), t[3])
+                gone = (t[1], f"0x{key[2]:08X}") not in ledger
+                k += gone
                 for a in ("fresh", "seeded"):
-                    want.append((t[13], t[1], int(t[2], 16), t[3], a, sibling_of(t[1], int(t[2], 16)) if a == "seeded"
-                                 else "-"))
-    check(read_arm(ARM) == want and n == Counter(pilot=2, holdout=7) and None not in [w[5] for w in want],
+                    want.append(key + (a, "-" if a == "fresh" else frozen.get(key) if gone else sibling_of(*key[1:3])))
+    print(f"CARDS CONTROL (o) {k} rows frozen (left the ledger)")
+    check(arm == want and n == Counter(pilot=2, holdout=7) and None not in [w[5] for w in want],
           f"(o) {ARM} differs from the sample's prior-art C rows: {n}")
 
 

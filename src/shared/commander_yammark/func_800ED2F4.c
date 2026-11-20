@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 
 M2C_UNK animate_object();
-M2C_UNK move_object(s32);
+void move_object();
 
 #define FU8(p, o) (*(u8*)((u8*)(p) + (o)))
 #define F16(p, o) (*(s16*)((u8*)(p) + (o)))

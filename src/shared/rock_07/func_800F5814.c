@@ -4,7 +4,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 extern M2C_UNK D_800F907C;
 
 void func_800F5814(void* arg0) {

@@ -35,7 +35,11 @@ INCLUDE_ASM("asm/rock_31/nonmatchings/E9860", func_800EB7D4);
 #undef D_80075FD8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_31/nonmatchings/E9860", func_800EC46C);
+#define func_800EC970 func_800EC46C
+#define D_800FA900 D_800F1D00
+#include "../shared/rock_10/func_800EC970.c"
+#undef func_800EC970
+#undef D_800FA900
 
 INCLUDE_ASM("asm/rock_31/nonmatchings/E9860", func_800EC4B4);
 
@@ -216,7 +220,7 @@ s32 func_800ECB68(void* arg0) {
 
 s32 func_8002D380(void*, void*);
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern u8 D_800E987C[];
 
 s32 func_800ECBA8(u8* arg0) {
@@ -309,7 +313,7 @@ INCLUDE_ASM("asm/rock_31/nonmatchings/E9860", func_800ECFC8);
 
 M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002D380(void*, void*);
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern u8 D_800F3484[];
 
 void func_800ED164(void* arg0) {
@@ -675,7 +679,7 @@ void func_800EE6D8(void* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK animate_object(); /* extern */
-M2C_UNK move_object(s32); /* extern */
+void move_object();       /* extern */
 
 void func_800EE76C(s32 arg0) {
     animate_object();
@@ -901,7 +905,7 @@ void func_800EF570(void* arg0) {
 
 s32 func_8002D380(void*, void*);
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 
 #define F(type, off) (*(type*)((u8*)arg0 + (off)))
 
@@ -1157,7 +1161,7 @@ INCLUDE_ASM("asm/rock_31/nonmatchings/E9860", func_800F068C);
 M2C_UNK animate_object();
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(s32);
+void move_object();
 M2C_UNK func_8002EE10(void*);
 s32 func_80030ECC();
 s32 check_enemy_hits(void*);
@@ -1230,7 +1234,7 @@ INCLUDE_ASM("asm/rock_31/nonmatchings/E9860", func_800F1DC4);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_8002CA14(void*);                            /* extern */
-M2C_UNK func_80030ECC();                                 /* extern */
+s32 func_80030ECC();                                     /* extern */
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);         /* extern */
 M2C_UNK func_80049EBC(void*, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
 extern M2C_UNK D_800F3978;
@@ -1273,9 +1277,9 @@ INCLUDE_ASM("asm/rock_31/nonmatchings/E9860", func_800F1ECC);
 #include "mmx6/x4.h"
 
 M2C_UNK animate_object();
-M2C_UNK move_object(s32);
+void move_object();
 #define move_object ((M2C_UNK(*)(void*))move_object)
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 #include "mmx6/state.h"
 
@@ -1375,7 +1379,7 @@ void func_800F238C(void* arg0) {
 
 M2C_UNK animate_object(); /* extern */
 
-M2C_UNK move_object(s32);
+void move_object();
 void func_800F23E0(struct MainObj* arg0) {
     arg0->x_speed = 0;
     arg0->y_speed = 0x50000;

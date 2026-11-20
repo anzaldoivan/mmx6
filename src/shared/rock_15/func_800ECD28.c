@@ -3,8 +3,8 @@
 
 M2C_UNK animate_object();
 M2C_UNK clear_object_slot();
-M2C_UNK func_8002CB50();
-M2C_UNK move_object(s32);
+s32 func_8002CB50();
+void move_object();
 #include "mmx6/state.h"
 #include "mmx6/globals.h"
 

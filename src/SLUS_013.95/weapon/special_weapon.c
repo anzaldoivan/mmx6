@@ -11,8 +11,7 @@
 // callers: update_player_charge
 void charge_special_weapon(void* self) {
     struct X4_PlayerObj* arg0 = self;
-    // !FAKE: depin: dropping it breaks the match (62/71)
-    register s16* hp asm("$16");
+    s16* hp;
     s32 n;
     // !FAKE: depin: dropping it breaks the match (60/71)
     register u32 b asm("$6");
@@ -38,8 +37,10 @@ void charge_special_weapon(void* self) {
             return;
         }
     }
-    hp = (s16*)arg0->weapon_energy;
-    hp += arg0->weapon;
+    {
+        s16* e = (s16*)arg0->weapon_energy;
+        hp = e + arg0->weapon;
+    }
     if (get_weapon_energy_cost(arg0, (s8)(9 + *(u8*)&arg0->weapon)) > *hp) {
         return;
     }

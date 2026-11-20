@@ -9,7 +9,7 @@ M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
 M2C_UNK animate_object();                    /* extern */
 void* func_8002C32C();                       /* extern */
 M2C_UNK apply_object_motion(void*);          /* extern */
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 
 void func_800EF758(void* arg0) {
     s32 var_v0;

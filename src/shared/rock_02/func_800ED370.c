@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 M2C_UNK animate_object();
-M2C_UNK move_object(s32);
+void move_object();
 
 void func_800ED370(struct X4_MainObj* self) {
     s8 timer;

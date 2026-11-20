@@ -1,0 +1,68 @@
+// rolefeed (3.1 T4): func_800EBC28 of src/rock_11/E9860.c
+// clang-format off
+
+#include "common.h"
+#define M2C_UNK s32
+#include "mmx6/x4.h"
+#include "mmx6/rock_11.h"
+
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
+#define SPAD (*(u8**)0x1F80004C)
+
+void move_object();
+s32 func_80030CCC(void*, s32, s32, s16);
+void func_800EC7A0(void*);
+
+void func_800EBC28(struct X4_BaseObj* self) {
+    u8 flags;
+    s32 i;
+    s16 x;
+
+    flags = M2C_FIELD(self, u8*, 0x70);
+    if (flags & 1) {
+        M2C_FIELD(self, s32*, 0x20) = 0;
+        M2C_FIELD(self, s32*, 0x24) = 0xFFFC8000;
+        self->action = 8;
+        self->unk15 = 0x40;
+        func_800EC7A0(self);
+    } else {
+        i = 0;
+        if (!(flags & 4)) {
+            M2C_FIELD(self, s32*, 0x20) = 0;
+            do {
+                if (self->unk15 != 0) {
+                    x = self->x_pos.u.hi - (s8)SPAD[0x86] - SPAD[0x88];
+                } else {
+                    x = self->x_pos.u.hi + (s8)SPAD[0x86] - SPAD[0x88];
+                }
+                if (func_80030CCC(
+                        self, x - i,
+                        (s16)(self->y_pos.u.hi + (s8)SPAD[0x87] - SPAD[0x89]) -
+                            1,
+                        x) &
+                    0xFF) {
+                    if (i != 0) {
+                        SPAD[0x88] += i - 1;
+                    }
+                    M2C_FIELD(self, s32*, 0x24) = 0x38000;
+                    self->action = 0xA;
+                    SPAD[0x8A] |= 1;
+                    self->unk15 = 0;
+                    break;
+                }
+                if ((u8)i == 4) {
+                    self->action = 2;
+                    M2C_FIELD(self, s32*, 0x28) = 0;
+                    M2C_FIELD(self, s32*, 0x2C) = 0x1000;
+                    __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
+                }
+                i++;
+            } while (i < 5);
+            func_800EC7A0(self);
+        } else if (SPAD[0x8A] & 1) {
+            SPAD[0x88] = D_800FB26C[0xCCA];
+            SPAD[0x8A] &= 0xFE;
+        }
+    }
+    move_object(self);
+}

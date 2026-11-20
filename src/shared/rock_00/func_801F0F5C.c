@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 M2C_UNK clear_object_slot();
 
 void func_801F0F5C(void* a0) {

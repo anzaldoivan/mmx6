@@ -10,7 +10,7 @@ struct X4_VisualObj* func_8002C398(void);
 M2C_UNK func_8002C9B0();
 s32 func_8002CAB4(void*);
 M2C_UNK func_8002CD6C(void*);
-M2C_UNK func_8002F288(M2C_UNK*);
+s32 func_8002F288();
 M2C_UNK func_8003CCBC();
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);

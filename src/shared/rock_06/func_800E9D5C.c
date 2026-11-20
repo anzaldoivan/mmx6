@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 M2C_UNK clear_object_slot();
-M2C_UNK func_80030ECC();
+s32 func_80030ECC();
 extern s16 D_800970AA;
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;

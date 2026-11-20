@@ -270,7 +270,7 @@ void func_800F5070(void* arg0) {
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002B6B0();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s8 D_800CCEE0;
 
@@ -514,7 +514,7 @@ void func_800F5684(void) {
 M2C_UNK animate_object();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-M2C_UNK func_80030ECC(void*, s16);
+s32 func_80030ECC();
 #define func_80030ECC ((M2C_UNK(*)(void*))func_80030ECC)
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);

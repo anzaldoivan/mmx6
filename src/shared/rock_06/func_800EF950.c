@@ -11,7 +11,7 @@ M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
 M2C_UNK animate_object();                    /* extern */
 struct X4_VisualObj* find_free_visual_obj(void);
 s32 random_byte();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #include "mmx6/state.h"
 
 void func_800EF950(void* arg0) {

@@ -13,7 +13,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800E9B90);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object();
+void move_object();
 void func_800EAB04(void*);
 
 #define AIM(dir, ang)                                                          \
@@ -86,7 +86,7 @@ void func_800E9F28(struct X4_BaseObj* self) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK move_object();
+void move_object();
 void func_800EAB04(void*);
 extern s16 D_800970AA;
 extern u16 D_80097202;
@@ -169,7 +169,7 @@ void func_800EA630(void) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK move_object();
+void move_object();
 void func_800EAB04(void*);
 extern u16 D_80097202;
 #define D_80097202 (*(s16*)&D_80097202)
@@ -222,7 +222,7 @@ void func_800EA758(void* self) {
 
 #define M2C_UNK s32
 
-M2C_UNK move_object(); /* extern */
+void move_object(); /* extern */
 
 void func_800EA7F0(void) {
     move_object();
@@ -243,7 +243,7 @@ void func_800EA7F0(void) {
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object();
+void move_object();
 void func_800EABA4(struct X4_MainObj*);
 extern struct X4_PlayerObj g_Player;
 
@@ -280,7 +280,7 @@ void func_800EA84C(void* arg0) {
 
 #define M2C_UNK s32
 
-M2C_UNK move_object(); /* extern */
+void move_object(); /* extern */
 
 void func_800EA924(void) {
     move_object();
@@ -333,38 +333,7 @@ extern u8 D_800FBEF8[];
 extern u8 D_800FBF2C[];
 extern u8 D_800FBF34[];
 
-void func_800EACA0(void* self) {
-    M2C_FIELD(self, u8*, 0x3) = 0;
-    if (func_800EC728(self) != 0) {
-        M2C_FIELD(self, u8*, 0x4) = 3;
-        return;
-    }
-    M2C_FIELD(SPAD, s16*, 0x84) = 0;
-    if ((M2C_FIELD(self, s8*, 0x2) & 0xF0) == 0x10) {
-        M2C_FIELD(SPAD, s16*, 0x84) = 0x3C;
-    }
-    M2C_FIELD(self, void**, 0x30) = D_800FBEF8;
-    M2C_FIELD(self, u8*, 0x14) = D_800970B4;
-    M2C_FIELD(self, u8*, 0x5C) = 8;
-    M2C_FIELD(self, u8*, 0x60) = 4;
-    M2C_FIELD(self, void**, 0x50) = D_800FBF2C;
-    M2C_FIELD(self, s32*, 0x54) = 0;
-    M2C_FIELD(self, void**, 0x68) = SPAD + 0x86;
-    __builtin_memcpy(SPAD + 0x86, D_800FBF34, 4);
-    SPAD[0x8A] = 0;
-    M2C_FIELD(self, void**, 0x58) = D_800741FC;
-    M2C_FIELD(self, u8*, 0x70) = 0;
-    M2C_FIELD(self, u8*, 0x16) = 5;
-    set_animation(self, 0);
-    M2C_FIELD(self, s32*, 0x24) = 0xFFFE0000;
-    M2C_FIELD(self, s32*, 0x28) = 0;
-    M2C_FIELD(self, s32*, 0x2C) = 0;
-    M2C_FIELD(self, u8*, 0x67) = 1;
-    M2C_FIELD(self, u8*, 0x4) = 1;
-    play_sound(2, 0x3C, self);
-    M2C_FIELD(self, u8*, 0x5) = 2;
-    M2C_FIELD(self, u8*, 0x6) = 0;
-}
+#include "../shared/rock_11/func_800EACA0.c"
 
 // clang-format off
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800EADE0);
@@ -378,63 +347,11 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800EADE0);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK move_object(void*);
+void move_object();
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
 
-void func_800EAF90(struct X4_BaseObj* self) {
-    u8 flags;
-    s32 i;
-    s16 x;
-
-    flags = M2C_FIELD(self, u8*, 0x70);
-    if (flags & 1) {
-        M2C_FIELD(self, s32*, 0x20) = 0;
-        M2C_FIELD(self, s32*, 0x24) = 0x38000;
-        self->action = 6;
-        self->unk15 = 0x40;
-        func_800EC7A0(self);
-    } else {
-        i = 0;
-        if (!(flags & 8)) {
-            M2C_FIELD(self, s32*, 0x20) = 0;
-            do {
-                if (self->unk15 != 0) {
-                    x = self->x_pos.u.hi - (s8)SPAD[0x86] - SPAD[0x88];
-                } else {
-                    x = self->x_pos.u.hi + (s8)SPAD[0x86] - SPAD[0x88];
-                }
-                if (func_80030CCC(self, x - i,
-                                  (s16)(SPAD[0x89] +
-                                        (self->y_pos.u.hi + (s8)SPAD[0x87])) +
-                                      1,
-                                  x) &
-                    0xFF) {
-                    if (i != 0) {
-                        SPAD[0x88] += i - 1;
-                    }
-                    M2C_FIELD(self, s32*, 0x24) = 0xFFFC8000;
-                    self->action = 4;
-                    SPAD[0x8A] |= 1;
-                    self->unk15 = 0;
-                    break;
-                }
-                if ((u8)i == 4) {
-                    self->action = 2;
-                    M2C_FIELD(self, s32*, 0x28) = 0;
-                    M2C_FIELD(self, s32*, 0x2C) = 0x1000;
-                    __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
-                }
-                i++;
-            } while (i < 5);
-            func_800EC7A0(self);
-        } else if (SPAD[0x8A] & 1) {
-            SPAD[0x88] = D_800FB26C[0xCCA];
-            SPAD[0x8A] &= 0xFE;
-        }
-    }
-    move_object(self);
-}
+#include "../shared/rock_11/func_800EAF90.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -443,73 +360,11 @@ void func_800EAF90(struct X4_BaseObj* self) {
 
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK move_object(void*);
+void move_object();
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
 
-void func_800EB1B8(struct X4_BaseObj* self) {
-    s32 i;
-    s16 x;
-    u8 flags;
-
-    flags = *((u8*)self + 0x70);
-    if (flags & 8) {
-        *(s32*)((u8*)self + 0x20) = 0x38000;
-        *(s32*)((u8*)self + 0x24) = 0;
-        self->action = 3;
-        self->unk15 = 0x40;
-        func_800EC7A0(self);
-    } else {
-        i = 0;
-        if (!(flags & 2)) {
-            *(s32*)((u8*)self + 0x24) = 0;
-            for (; i < 5; i++) {
-                if (self->unk15 != 0) {
-                    u8* sp = SPAD;
-                    x = self->x_pos.i.hi - (s8)sp[0x86] - sp[0x88];
-                } else {
-                    u8* sp = SPAD;
-                    x = self->x_pos.i.hi + (s8)sp[0x86] - sp[0x88];
-                }
-                {
-                    u8* sp = SPAD;
-                    if (func_80030CCC(
-                            self, x - 1,
-                            (s16)(self->y_pos.i.hi + (s8)sp[0x87] - sp[0x89]) -
-                                i - 1,
-                            x) &
-                        0xFF) {
-                        u8* p = SPAD;
-                        u8* q;
-                        p[0x89] += i;
-                        *(s32*)((u8*)self + 0x20) = 0xFFFC8000;
-                        self->action = 5;
-                        q = SPAD;
-                        q[0x8A] |= 0x10;
-                        self->unk15 = 0;
-                        break;
-                    }
-                }
-                if ((i & 0xFF) == 4) {
-                    self->action = 2;
-                    *(s32*)((u8*)self + 0x28) = 0;
-                    *(s32*)((u8*)self + 0x2C) = 0x1000;
-                    __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
-                }
-            }
-            func_800EC7A0(self);
-        } else {
-            u8* p = SPAD;
-            if (p[0x8A] & 0x10) {
-                u8* q;
-                p[0x89] = D_800FB26C[0xCCB];
-                q = SPAD;
-                q[0x8A] &= 0xEF;
-            }
-        }
-    }
-    move_object(self);
-}
+#include "../shared/rock_11/func_800EB1B8.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -518,73 +373,11 @@ void func_800EB1B8(struct X4_BaseObj* self) {
 
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK move_object(void*);
+void move_object();
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
 
-void func_800EB3D4(struct X4_BaseObj* self) {
-    s32 i;
-    s16 x;
-    u8 flags;
-
-    flags = *((u8*)self + 0x70);
-    if (flags & 2) {
-        *(s32*)((u8*)self + 0x20) = 0;
-        *(s32*)((u8*)self + 0x24) = 0xFFFC8000;
-        self->action = 4;
-        self->unk15 = 0;
-        func_800EC7A0(self);
-    } else {
-        i = 0;
-        if (!(flags & 4)) {
-            *(s32*)((u8*)self + 0x20) = 0;
-            for (; i < 5; i++) {
-                if (self->unk15 != 0) {
-                    u8* sp = SPAD;
-                    x = self->x_pos.i.hi - (s8)sp[0x86] + sp[0x88];
-                } else {
-                    u8* sp = SPAD;
-                    x = self->x_pos.i.hi + (s8)sp[0x86] + sp[0x88];
-                }
-                {
-                    u8* sp = SPAD;
-                    if (func_80030CCC(
-                            self, x + i,
-                            (s16)(self->y_pos.i.hi + (s8)sp[0x87] - sp[0x89]) -
-                                1,
-                            x) &
-                        0xFF) {
-                        u8* p = SPAD;
-                        u8* q;
-                        p[0x88] += i;
-                        *(s32*)((u8*)self + 0x24) = 0x38000;
-                        self->action = 6;
-                        q = SPAD;
-                        q[0x8A] |= 1;
-                        self->unk15 = 0x40;
-                        break;
-                    }
-                }
-                if ((i & 0xFF) == 4) {
-                    self->action = 2;
-                    *(s32*)((u8*)self + 0x28) = 0;
-                    *(s32*)((u8*)self + 0x2C) = 0x1000;
-                    __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
-                }
-            }
-            func_800EC7A0(self);
-        } else {
-            u8* p = SPAD;
-            if (p[0x8A] & 1) {
-                u8* q;
-                p[0x88] = D_800FB26C[0xCCA];
-                q = SPAD;
-                q[0x8A] &= 0xFE;
-            }
-        }
-    }
-    move_object(self);
-}
+#include "../shared/rock_11/func_800EB3D4.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -593,73 +386,11 @@ void func_800EB3D4(struct X4_BaseObj* self) {
 
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK move_object(void*);
+void move_object();
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
 
-void func_800EB5E8(struct X4_BaseObj* self) {
-    s32 i;
-    s16 x;
-    u8 flags;
-
-    flags = *((u8*)self + 0x70);
-    if (flags & 4) {
-        *(s32*)((u8*)self + 0x20) = 0xFFFC8000;
-        *(s32*)((u8*)self + 0x24) = 0;
-        self->action = 5;
-        self->unk15 = 0;
-        func_800EC7A0(self);
-    } else {
-        i = 0;
-        if (!(flags & 1)) {
-            *(s32*)((u8*)self + 0x24) = 0;
-            for (; i < 5; i++) {
-                if (self->unk15 != 0) {
-                    u8* sp = SPAD;
-                    x = self->x_pos.i.hi - (s8)sp[0x86] + sp[0x88];
-                } else {
-                    u8* sp = SPAD;
-                    x = self->x_pos.i.hi + (s8)sp[0x86] + sp[0x88];
-                }
-                {
-                    u8* sp = SPAD;
-                    if (func_80030CCC(
-                            self, x + 1,
-                            (s16)(self->y_pos.i.hi + (s8)sp[0x87] + sp[0x89]) +
-                                i,
-                            x) &
-                        0xFF) {
-                        u8* p = SPAD;
-                        u8* q;
-                        p[0x89] += i;
-                        *(s32*)((u8*)self + 0x20) = 0x38000;
-                        self->action = 3;
-                        q = SPAD;
-                        q[0x8A] |= 0x10;
-                        self->unk15 = 0x40;
-                        break;
-                    }
-                }
-                if ((i & 0xFF) == 4) {
-                    self->action = 2;
-                    *(s32*)((u8*)self + 0x28) = 0;
-                    *(s32*)((u8*)self + 0x2C) = 0x1000;
-                    __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
-                }
-            }
-            func_800EC7A0(self);
-        } else {
-            u8* p = SPAD;
-            if (p[0x8A] & 0x10) {
-                u8* q;
-                p[0x89] = D_800FB26C[0xCCB];
-                q = SPAD;
-                q[0x8A] &= 0xEF;
-            }
-        }
-    }
-    move_object(self);
-}
+#include "../shared/rock_11/func_800EB5E8.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -668,73 +399,11 @@ void func_800EB5E8(struct X4_BaseObj* self) {
 
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK move_object(void*);
+void move_object();
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
 
-void func_800EB7FC(struct X4_BaseObj* self) {
-    s32 i;
-    s16 x;
-    u8 flags;
-
-    flags = *((u8*)self + 0x70);
-    if (flags & 2) {
-        *(s32*)((u8*)self + 0x20) = 0;
-        *(s32*)((u8*)self + 0x24) = 0x38000;
-        self->action = 0xA;
-        self->unk15 = 0;
-        func_800EC7A0(self);
-    } else {
-        i = 0;
-        if (!(flags & 8)) {
-            *(s32*)((u8*)self + 0x20) = 0;
-            for (; i < 5; i++) {
-                if (self->unk15 != 0) {
-                    u8* sp = SPAD;
-                    x = self->x_pos.i.hi - (s8)sp[0x86] + sp[0x88];
-                } else {
-                    u8* sp = SPAD;
-                    x = self->x_pos.i.hi + (s8)sp[0x86] + sp[0x88];
-                }
-                {
-                    u8* sp = SPAD;
-                    if (func_80030CCC(
-                            self, x + i,
-                            (s16)(self->y_pos.i.hi + (s8)sp[0x87] + sp[0x89]) +
-                                1,
-                            x) &
-                        0xFF) {
-                        u8* p = SPAD;
-                        u8* q;
-                        p[0x88] += i;
-                        *(s32*)((u8*)self + 0x24) = 0xFFFC8000;
-                        self->action = 8;
-                        q = SPAD;
-                        q[0x8A] |= 1;
-                        self->unk15 = 0x40;
-                        break;
-                    }
-                }
-                if ((i & 0xFF) == 4) {
-                    self->action = 2;
-                    *(s32*)((u8*)self + 0x28) = 0;
-                    *(s32*)((u8*)self + 0x2C) = 0x1000;
-                    __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
-                }
-            }
-            func_800EC7A0(self);
-        } else {
-            u8* p = SPAD;
-            if (p[0x8A] & 1) {
-                u8* q;
-                p[0x88] = D_800FB26C[0xCCA];
-                q = SPAD;
-                q[0x8A] &= 0xFE;
-            }
-        }
-    }
-    move_object(self);
-}
+#include "../shared/rock_11/func_800EB7FC.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -743,73 +412,11 @@ void func_800EB7FC(struct X4_BaseObj* self) {
 
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK move_object(void*);
+void move_object();
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
 
-void func_800EBA10(struct X4_BaseObj* self) {
-    s32 i;
-    s16 x;
-    u8 flags;
-
-    flags = *((u8*)self + 0x70);
-    if (flags & 8) {
-        *(s32*)((u8*)self + 0x20) = 0xFFFC8000;
-        *(s32*)((u8*)self + 0x24) = 0;
-        self->action = 7;
-        self->unk15 = 0;
-        func_800EC7A0(self);
-    } else {
-        i = 0;
-        if (!(flags & 1)) {
-            *(s32*)((u8*)self + 0x24) = 0;
-            for (; i < 5; i++) {
-                if (self->unk15 != 0) {
-                    u8* sp = SPAD;
-                    x = self->x_pos.i.hi - (s8)sp[0x86] + sp[0x88];
-                } else {
-                    u8* sp = SPAD;
-                    x = self->x_pos.i.hi + (s8)sp[0x86] + sp[0x88];
-                }
-                {
-                    u8* sp = SPAD;
-                    if (func_80030CCC(
-                            self, x + 1,
-                            (s16)(self->y_pos.i.hi + (s8)sp[0x87] - sp[0x89]) -
-                                i - 1,
-                            x) &
-                        0xFF) {
-                        u8* p = SPAD;
-                        u8* q;
-                        p[0x89] += i;
-                        *(s32*)((u8*)self + 0x20) = 0x38000;
-                        self->action = 9;
-                        q = SPAD;
-                        q[0x8A] |= 0x10;
-                        self->unk15 = 0;
-                        break;
-                    }
-                }
-                if ((i & 0xFF) == 4) {
-                    self->action = 2;
-                    *(s32*)((u8*)self + 0x28) = 0;
-                    *(s32*)((u8*)self + 0x2C) = 0x1000;
-                    __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
-                }
-            }
-            func_800EC7A0(self);
-        } else {
-            u8* p = SPAD;
-            if (p[0x8A] & 0x10) {
-                u8* q;
-                p[0x89] = D_800FB26C[0xCCB];
-                q = SPAD;
-                q[0x8A] &= 0xEF;
-            }
-        }
-    }
-    move_object(self);
-}
+#include "../shared/rock_11/func_800EBA10.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -819,63 +426,11 @@ void func_800EBA10(struct X4_BaseObj* self) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK move_object(void*);
+void move_object();
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
 
-void func_800EBC28(struct X4_BaseObj* self) {
-    u8 flags;
-    s32 i;
-    s16 x;
-
-    flags = M2C_FIELD(self, u8*, 0x70);
-    if (flags & 1) {
-        M2C_FIELD(self, s32*, 0x20) = 0;
-        M2C_FIELD(self, s32*, 0x24) = 0xFFFC8000;
-        self->action = 8;
-        self->unk15 = 0x40;
-        func_800EC7A0(self);
-    } else {
-        i = 0;
-        if (!(flags & 4)) {
-            M2C_FIELD(self, s32*, 0x20) = 0;
-            do {
-                if (self->unk15 != 0) {
-                    x = self->x_pos.u.hi - (s8)SPAD[0x86] - SPAD[0x88];
-                } else {
-                    x = self->x_pos.u.hi + (s8)SPAD[0x86] - SPAD[0x88];
-                }
-                if (func_80030CCC(
-                        self, x - i,
-                        (s16)(self->y_pos.u.hi + (s8)SPAD[0x87] - SPAD[0x89]) -
-                            1,
-                        x) &
-                    0xFF) {
-                    if (i != 0) {
-                        SPAD[0x88] += i - 1;
-                    }
-                    M2C_FIELD(self, s32*, 0x24) = 0x38000;
-                    self->action = 0xA;
-                    SPAD[0x8A] |= 1;
-                    self->unk15 = 0;
-                    break;
-                }
-                if ((u8)i == 4) {
-                    self->action = 2;
-                    M2C_FIELD(self, s32*, 0x28) = 0;
-                    M2C_FIELD(self, s32*, 0x2C) = 0x1000;
-                    __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
-                }
-                i++;
-            } while (i < 5);
-            func_800EC7A0(self);
-        } else if (SPAD[0x8A] & 1) {
-            SPAD[0x88] = D_800FB26C[0xCCA];
-            SPAD[0x8A] &= 0xFE;
-        }
-    }
-    move_object(self);
-}
+#include "../shared/rock_11/func_800EBC28.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -884,73 +439,11 @@ void func_800EBC28(struct X4_BaseObj* self) {
 
 #define SPAD (*(u8**)0x1F80004C)
 
-M2C_UNK move_object(void*);
+void move_object();
 s32 func_80030CCC(void*, s32, s32, s16);
 void func_800EC7A0(void*);
 
-void func_800EBE50(struct X4_BaseObj* self) {
-    s32 i;
-    s16 x;
-    u8 flags;
-
-    flags = *((u8*)self + 0x70);
-    if (flags & 4) {
-        *(s32*)((u8*)self + 0x20) = 0x38000;
-        *(s32*)((u8*)self + 0x24) = 0;
-        self->action = 9;
-        self->unk15 = 0x40;
-        func_800EC7A0(self);
-    } else {
-        i = 0;
-        if (!(flags & 2)) {
-            *(s32*)((u8*)self + 0x24) = 0;
-            for (; i < 5; i++) {
-                if (self->unk15 != 0) {
-                    u8* sp = SPAD;
-                    x = self->x_pos.i.hi - (s8)sp[0x86] - sp[0x88];
-                } else {
-                    u8* sp = SPAD;
-                    x = self->x_pos.i.hi + (s8)sp[0x86] - sp[0x88];
-                }
-                {
-                    u8* sp = SPAD;
-                    if (func_80030CCC(
-                            self, x - 1,
-                            (s16)(self->y_pos.i.hi + (s8)sp[0x87] + sp[0x89]) +
-                                i,
-                            x) &
-                        0xFF) {
-                        u8* p = SPAD;
-                        u8* q;
-                        p[0x89] += i;
-                        *(s32*)((u8*)self + 0x20) = 0xFFFC8000;
-                        self->action = 7;
-                        q = SPAD;
-                        q[0x8A] |= 0x10;
-                        self->unk15 = 0;
-                        break;
-                    }
-                }
-                if ((i & 0xFF) == 4) {
-                    self->action = 2;
-                    *(s32*)((u8*)self + 0x28) = 0;
-                    *(s32*)((u8*)self + 0x2C) = 0x1000;
-                    __builtin_memcpy(SPAD + 0x86, D_800FB26C + 0xCC8, 4);
-                }
-            }
-            func_800EC7A0(self);
-        } else {
-            u8* p = SPAD;
-            if (p[0x8A] & 0x10) {
-                u8* q;
-                p[0x89] = D_800FB26C[0xCCB];
-                q = SPAD;
-                q[0x8A] &= 0xEF;
-            }
-        }
-    }
-    move_object(self);
-}
+#include "../shared/rock_11/func_800EBE50.c"
 
 #include "common.h"
 #include "psyq/libgte.h"
@@ -1139,12 +632,7 @@ void func_800EC494(void) {
 M2C_UNK set_animation(void*, M2C_UNK);
 void func_800EC800();
 
-void func_800EC578(u8* arg0) {
-    func_800EC800(arg0);
-    ((void (*)(void*, s32))set_animation)(arg0, 1);
-    *(s16*)(arg0 + 0x7C) = 0;
-    arg0[6]++;
-}
+#include "../shared/rock_11/func_800EC578.c"
 
 // clang-format off
 INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800EC5B8);
@@ -1177,9 +665,9 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800EC830);
 M2C_UNK animate_object();                       /* extern */
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);     /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK move_object(void*);                     /* extern */
+void move_object();                             /* extern */
 M2C_UNK func_8002EE10(void*);                   /* extern */
-M2C_UNK func_80030ECC(void*);                   /* extern */
+s32 func_80030ECC();                            /* extern */
 M2C_UNK func_80049D90(void*);                   /* extern */
 
 void func_800EC900(void* arg0) {
@@ -1323,7 +811,7 @@ void func_800ED748(void* arg0) {
 #define M2C_UNK s32
 
 M2C_UNK animate_object(); /* extern */
-M2C_UNK move_object();    /* extern */
+void move_object();       /* extern */
 
 void func_800ED79C(s32 arg0) {
     animate_object();
@@ -1898,7 +1386,7 @@ M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK animate_object();
 s32 func_80027BA0(s32 arg0, s32 arg1, s32 arg2, u8* arg3);
 s32 random_byte();
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
@@ -2013,7 +1501,7 @@ void func_800EED14(void* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK move_object(void*);
+void move_object();
 void func_800F4254(void* arg0, u8 arg1);
 M2C_UNK func_800F4534(void*, M2C_UNK);
 
@@ -2096,7 +1584,7 @@ void func_800EF204(void* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK move_object(void*);
+void move_object();
 
 #define F(type, off) M2C_FIELD(arg0, type*, off)
 
@@ -2148,7 +1636,7 @@ void func_800EF304(void* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK move_object(void*);
+void move_object();
 extern u8 D_800E9884[];
 
 #define F(type, off) M2C_FIELD(arg0, type*, off)
@@ -2405,7 +1893,7 @@ void func_800EFAE4(void* self) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK move_object(void*);
+void move_object();
 s32 func_80030234(struct X4_PlayerObj*, s16, s16);
 void func_800F402C(void*, s32);
 extern struct X4_PlayerObj g_Player;
@@ -2652,7 +2140,7 @@ void func_800F0330(void* arg0) {
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 
 void func_800F04E0(struct X4_BaseObj* self) {
     struct X4_BaseObj* parent;
@@ -3310,7 +2798,11 @@ void func_800F215C(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F21C0);
+#define func_800EC970 func_800F21C0
+#define D_800FA900 D_800FB55C
+#include "../shared/rock_10/func_800EC970.c"
+#undef func_800EC970
+#undef D_800FA900
 // clang-format on
 
 #include "common.h"
@@ -3320,7 +2812,7 @@ INCLUDE_ASM("asm/rock_11/nonmatchings/E9860", func_800F21C0);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK animate_object();
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 void func_800F1BE8(void* arg0);
 void func_800F3D24(u8* self);

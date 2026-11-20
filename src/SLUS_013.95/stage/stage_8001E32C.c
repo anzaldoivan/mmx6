@@ -14,7 +14,7 @@
 void func_80042F7C(s8 arg0, s8* arg1, s8* arg2);
 extern u8 D_80071190[];
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800E3140;

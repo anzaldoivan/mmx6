@@ -36,6 +36,10 @@
       -> rewrites P dropping exactly the rows --check flags `c-function` (corpus state no longer asm: banked since the
          last --build); every other line byte-identical, in order. Reads only the corpus (never journal or draw), so
          curated blockers survive, unlike --build. Stdout `LEDGER DROP-BANKED <k> rows dropped, <n> kept`, rc 0.
+  ledger.py --drop-gone [--ledger P]
+      -> rewrites P dropping exactly the rows --check flags `not-in-corpus` (the function left the corpus, e.g. a
+         re-split to data); every other line byte-identical, in order. Stdout `LEDGER DROP-GONE <prog:vram>` per
+         dropped row, then `LEDGER DROP-GONE <k> rows dropped, <n> kept`, rc 0; refused (rc 1) on an empty corpus.
 
 Rules (docs/ops/campaign.md ## Ledger), first that holds:
   class      lane lib -> exe vram with a docs/ops/compiler-pin.md `## Lib provenance` row `- gap <0xVRAM> <L>.LIB/<O>.OBJ`
@@ -490,6 +494,28 @@ def drop_banked(inp, path, say=print):
     return 0
 
 
+def drop_gone(inp, path, say=print):
+    """Drop the rows bad_row flags `not-in-corpus`; keep every other line byte-identical."""
+    funcs = corpus(inp)
+    if not funcs:
+        raise Refuse(f"LEDGER REFUSE no functions in {inp['funcs']}")
+    if not os.path.isfile(path):
+        raise Refuse(f"LEDGER REFUSE missing {path}")
+    with open(path, newline="") as f:
+        lines = f.read().splitlines(keepends=True)
+    keep = []
+    for x in lines:
+        t = x.rstrip("\n").split("\t")
+        if len(t) == 8 and bad_row(t, funcs, inp["root"], walls.PASSES) == "not-in-corpus":
+            say(f"LEDGER DROP-GONE {t[0]}:{t[1]}")
+        else:
+            keep.append(x)
+    with open(path, "w", newline="") as f:
+        f.write("".join(keep))
+    say(f"LEDGER DROP-GONE {len(lines) - len(keep)} rows dropped, {len(keep)} kept")
+    return 0
+
+
 # ---- reconcile -----------------------------------------------------------------------------------------------------
 
 def src_lines(root):  # [(prog, name, asm folder, `src path:line`)] of every INCLUDE_ASM line under root/src/**/*.c
@@ -749,6 +775,26 @@ def self_test():
     if not ok:
         fails.append("drop-banked")
         print("\n".join(said + out + [got]))
+    # drop-gone: a row whose vram is not in the corpus goes; the banked, curated and asm rows stay byte-identical;
+    # --check on the result then has no not-in-corpus.
+    g_row = "PLANT\t0x80FFFF00\tf_gone\tunique\tnocompile\tm2c\tundrawn\t-"
+    kept = rows[:3] + [d_row] + rows[3:6] + [cur] + rows[7:]
+    with open(led, "w") as f:
+        f.write("".join(x + "\n" for x in kept[:5] + [g_row] + kept[5:]))
+    out.clear()
+    rc = drop_gone(inp, led, say)
+    with open(led) as f:
+        got = f.read()
+    said = list(out)
+    out.clear()
+    check(inp, led, say)
+    ok = rc == 0 and got == "".join(x + "\n" for x in kept) \
+        and said == ["LEDGER DROP-GONE PLANT:0x80FFFF00", f"LEDGER DROP-GONE 1 rows dropped, {len(kept)} kept"] \
+        and not any(x.endswith(" not-in-corpus") for x in out)
+    print(f"LEDGER CONTROL {'ok' if ok else 'FAIL'} drop-gone drops the gone row only")
+    if not ok:
+        fails.append("drop-gone")
+        print("\n".join(said + out + [got]))
     if fails:
         print("LEDGER CONTROL FAIL " + ", ".join(fails))
         return 1
@@ -764,6 +810,7 @@ def main():
     g.add_argument("--self-test", action="store_true")
     g.add_argument("--reconcile", action="store_true")
     g.add_argument("--drop-banked", action="store_true")
+    g.add_argument("--drop-gone", action="store_true")
     ap.add_argument("--ledger", default=LEDGER)
     a = ap.parse_args()
     if a.self_test:
@@ -774,6 +821,8 @@ def main():
             return reconcile(INPUTS, a.ledger, RECONCILE)
         if a.drop_banked:
             return drop_banked(INPUTS, a.ledger)
+        if a.drop_gone:
+            return drop_gone(INPUTS, a.ledger)
         return check(INPUTS, a.ledger) if a.check else (build(INPUTS, a.ledger), 0)[1]
     except Refuse as e:
         print(e)

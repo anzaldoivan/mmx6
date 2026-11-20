@@ -1,7 +1,7 @@
 #include "common.h"
 #define M2C_UNK s32
 
-M2C_UNK move_object(s32);
+void move_object();
 
 #define F32(p, o) (*(s32*)((u8*)(p) + (o)))
 #define F16(p, o) (*(s16*)((u8*)(p) + (o)))

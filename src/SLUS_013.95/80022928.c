@@ -19,7 +19,7 @@ M2C_UNK func_80022928(s32 arg0, s32 arg1) {
 
 #include "mmx6/projectile.h"
 extern s8 D_800950A0[];
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern u8 D_800973B8[];
 #include "mmx6/state.h"
@@ -484,7 +484,7 @@ void func_800246B4(void* arg0);
 void func_800249D4(void* arg0);
 void func_80024CC0(s32 arg0, u8 arg1);
 void func_80024F90(void* arg0, s32 arg1);
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
 
 #define B8(p, o) (*(s8*)((u8*)(p) + (o)))
@@ -782,7 +782,7 @@ void func_800253AC(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4, u32 arg5,
                    u32 arg6);
 extern s16 D_80071E40[][2];
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
 extern s8 D_800CCF5C;
 
@@ -1011,9 +1011,9 @@ void func_800253AC(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s32 arg4, u32 arg5,
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/21BF4", func_80025984);
+#include "../shared/SLUS_013.95/func_80025984.c"
 
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/21BF4", func_80025E1C);
+#include "../shared/SLUS_013.95/func_80025E1C.c"
 // clang-format on
 
 /* Adapted from sozud/mmx4 @4e16dfc src/main/144A4.c:func_80023CE0, AGPL-3.0; proven shared with X6 by exact signature 6affe00825b4 (see THIRD_PARTY.md). */

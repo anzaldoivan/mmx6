@@ -7,7 +7,7 @@
 M2C_UNK animate_object();
 s32 is_off_screen(s32, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(s32);
+void move_object();
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800EF6D4(void* arg0) {

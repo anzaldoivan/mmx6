@@ -7,7 +7,7 @@
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK animate_object();
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 void func_800F4FD8(void*);
 extern M2C_UNK D_8007433C;
@@ -18,7 +18,7 @@ extern void (*D_800F7518[])(void*);
 #include "mmx6/x4.h"
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 s32 random_byte();
 void func_800F513C(struct X4_AnimatedObj* arg0, u8 arg1);
 void func_800F5360(void*, s32);

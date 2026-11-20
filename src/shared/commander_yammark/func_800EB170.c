@@ -7,7 +7,7 @@
 #define SPAD (*(u8**)0x1F80004C)
 
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(s32);
+void move_object();
 
 #define NEAR3(d, a, b) ((d) = (a) - (b), (d) >= 0 ? (d) < 3 : ((b) - (a)) < 3)
 

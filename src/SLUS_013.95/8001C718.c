@@ -102,7 +102,7 @@ void func_8001C8C4(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", func_8001C938);
+#include "../shared/SLUS_013.95/func_8001C938.c"
 // clang-format on
 
 #include "common.h"
@@ -696,7 +696,7 @@ void func_8001D51C(u8* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 s32 func_800139F4(s32);

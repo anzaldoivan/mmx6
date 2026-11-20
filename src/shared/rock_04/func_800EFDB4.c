@@ -3,7 +3,7 @@
 #include "mmx6/x4.h"
 
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 extern void (*D_800F6DD8[])(void*);
 

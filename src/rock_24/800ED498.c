@@ -25,7 +25,7 @@ void func_80027BA0(s32, s32, s32, void*);
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK apply_object_motion(void*);             /* extern */
-M2C_UNK func_80030ECC(void*, s16);              /* extern */
+s32 func_80030ECC();                            /* extern */
 #define func_80030ECC (*(M2C_UNK(*)(void*)) & func_80030ECC)
 s32 check_enemy_hits(void*);                     /* extern */
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*); /* extern */
@@ -240,7 +240,7 @@ M2C_UNK animate_object(void*);
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK apply_object_motion(void*);             /* extern */
-M2C_UNK func_80030ECC(void*, s16);              /* extern */
+s32 func_80030ECC();                            /* extern */
 #define func_80030ECC (*(M2C_UNK(*)(void*)) & func_80030ECC)
 s32 check_enemy_hits(void*);                     /* extern */
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*); /* extern */
@@ -343,7 +343,7 @@ M2C_UNK animate_object();
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-M2C_UNK func_80030ECC(void*, s16);
+s32 func_80030ECC();
 #define func_80030ECC ((M2C_UNK(*)(void*))func_80030ECC)
 
 void func_800EE090(void* arg0) {
@@ -400,7 +400,7 @@ void func_800EE194(void* arg0) {
 #include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 
 #define PL ((u8*)&g_Player)
 #define F_S8(p, o) (*(s8*)((p) + (o)))
@@ -580,7 +580,7 @@ M2C_UNK player_load_weapon_palette(void*);
 M2C_UNK func_8003CDF0(void*);
 M2C_UNK clear_flash_palette(void*);
 M2C_UNK refresh_weapon_state(void*);
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
 
@@ -637,7 +637,7 @@ void func_800EE808(u8* arg0) {
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_BackgroundObj background_objects[3];
 #include "mmx6/state.h"
@@ -695,7 +695,7 @@ M2C_UNK player_load_weapon_palette();
 M2C_UNK func_8003CDF0();
 M2C_UNK clear_flash_palette(void*);
 M2C_UNK refresh_weapon_state(void*);
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern struct X4_EngineObj g_playthrough_state;
 
@@ -779,7 +779,7 @@ void func_800EF088(void* arg0) {
 
 s32 func_8002D654(s8*, u8*);
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 
 #define F8(p, o) (*(s8*)((u8*)(p) + (o)))
 #define FU16(p, o) (*(u16*)((u8*)(p) + (o)))
@@ -981,11 +981,11 @@ void func_800EF400(void* arg0) {
 M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_80030ECC(void*, s16);
+s32 func_80030ECC();
 #define func_80030ECC (*(M2C_UNK(*)(void*)) & func_80030ECC)
 s32 check_enemy_hits(void*);
 extern s32 D_8007573C[];
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_EngineObj g_playthrough_state;
 extern void (*D_800F75FC[])(void*);
@@ -1430,7 +1430,7 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 s32 random_byte();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800E98C0[];
@@ -1863,11 +1863,11 @@ s32 func_8002A47C(s32);
 void* func_8002C458();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-M2C_UNK func_80030ECC(void*, s16);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern s32 D_8007573C[];
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s16 D_800970AA;
 extern u8 D_800E99AC[];
@@ -2209,11 +2209,11 @@ s32 func_8002A47C(s32);
 void* func_8002C458();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-M2C_UNK func_80030ECC(void*, s16);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern s32 D_8007573C[];
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s16 D_800970AA;
 extern s32 D_800F76A4[];
@@ -2490,11 +2490,11 @@ s32 func_8002A47C(s32);
 void* func_8002C458();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-M2C_UNK func_80030ECC(void*, s16);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
 extern s32 D_8007573C[];
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s16 D_800970AA;
 extern s32 D_800F76A4[];
@@ -2721,7 +2721,7 @@ INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", func_800F3348);
 M2C_UNK animate_object(void*);                  /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK apply_object_motion(void*);             /* extern */
-M2C_UNK func_80030ECC(void*, s16);              /* extern */
+s32 func_80030ECC();                            /* extern */
 s32 check_enemy_hits(void*);                    /* extern */
 M2C_UNK func_80049E50(void*);                   /* extern */
 
@@ -2872,7 +2872,7 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
 extern s32 D_8007573C[];
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern M2C_UNK D_800F76B8;
 extern M2C_UNK D_800F76BC;
@@ -3003,10 +3003,10 @@ M2C_UNK animate_object(void*);
 s32 func_8002A47C(s32);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-M2C_UNK func_80030ECC(void*, s16);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049E50(void*);
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s16 D_800970AA;
 extern s32 D_800F76C0[];
@@ -3196,7 +3196,7 @@ M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK animate_object(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-M2C_UNK func_80030ECC(void*, s16);
+s32 func_80030ECC();
 #define func_80030ECC (*(void (*)(void*)) & func_80030ECC)
 extern s32 D_800F76C8;
 extern s16 D_800F77F8;

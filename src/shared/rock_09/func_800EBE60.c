@@ -7,7 +7,7 @@ M2C_UNK animate_object();
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 
 void func_800EBE60(void* arg0) {
     switch (M2C_FIELD(M2C_FIELD(arg0, void**, 0x80), s8*, 0x7)) {

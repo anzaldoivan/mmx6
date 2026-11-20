@@ -6,7 +6,7 @@ M2C_UNK animate_object();
 void* func_8002C458();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion(void*);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 
 #define B(p, o) (*(u8*)((u8*)(p) + (o)))
 #define H(p, o) (*(s16*)((u8*)(p) + (o)))

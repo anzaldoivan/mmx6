@@ -216,7 +216,7 @@ INCLUDE_ASM("asm/rock_29/nonmatchings/E9860", func_800EB0B0);
 M2C_UNK animate_object();
 s32 is_off_screen(s32, M2C_UNK, M2C_UNK);
 void func_8002CCB0(struct X4_BaseObj*, s32, s32);
-M2C_UNK move_object(void*);
+void move_object();
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800EB164(void* arg0) {
@@ -239,7 +239,13 @@ void func_800EB164(void* arg0) {
 #undef func_800EFEF8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_29/nonmatchings/E9860", func_800EB2A0);
+#define func_800EF13C func_800EB2A0
+#define D_800F5CBC D_800EC704
+#define D_800F5D28 D_800EC770
+#include "../shared/rock_08/func_800EF13C.c"
+#undef func_800EF13C
+#undef D_800F5CBC
+#undef D_800F5D28
 
 INCLUDE_ASM("asm/rock_29/nonmatchings/E9860", func_800EB4A4);
 

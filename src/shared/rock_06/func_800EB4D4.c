@@ -6,7 +6,7 @@
 M2C_UNK animate_object();
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 M2C_UNK func_8002EE10(void*);
 s32 func_80030ECC();
 s32 check_enemy_hits(void*);

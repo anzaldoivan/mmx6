@@ -4,7 +4,7 @@
 
 void* enemy_slot_alloc();
 s32 random_byte();
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 extern s16 D_800970AA;
 
 #define SB(p, o) (*(s8*)((u8*)(p) + (o)))

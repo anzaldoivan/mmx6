@@ -3,7 +3,7 @@
 #define M2C_UNK s32
 
 M2C_UNK animate_object();
-M2C_UNK move_object(s32);
+void move_object();
 extern struct X4_PlayerObj g_Player;
 
 #define FU8(p, o) (*(u8*)((u8*)(p) + (o)))

@@ -469,8 +469,8 @@ void func_800ED334(void) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK animate_object();   /* extern */
-M2C_UNK move_object(void*); /* extern */
+M2C_UNK animate_object(); /* extern */
+void move_object();       /* extern */
 
 void func_800ED354(void* arg0) {
     M2C_FIELD(arg0, u8*, 7) = (u8)(M2C_FIELD(arg0, u8*, 7) + 1);
@@ -627,8 +627,8 @@ void func_800EDC34(void* arg0) {
 
 #define M2C_UNK s32
 
-M2C_UNK animate_object();   /* extern */
-M2C_UNK move_object(void*); /* extern */
+M2C_UNK animate_object(); /* extern */
+void move_object();       /* extern */
 
 void func_800EDC88(s32 arg0) {
     animate_object();
@@ -752,7 +752,13 @@ INCLUDE_ASM("asm/rock_26/nonmatchings/E9860", func_800EDF9C);
 
 INCLUDE_ASM("asm/rock_26/nonmatchings/E9860", func_800EE1D4);
 
-INCLUDE_ASM("asm/rock_26/nonmatchings/E9860", func_800EE2D4);
+#define func_80050DFC func_800EE2D4
+#define D_80078DD4 D_800EFC60
+#define func_8002CB50 func_8002F288
+#include "../shared/SLUS_013.95/func_80050DFC.c"
+#undef func_80050DFC
+#undef D_80078DD4
+#undef func_8002CB50
 // clang-format on
 
 #define func_800EFDB4 func_800EE330
@@ -781,7 +787,7 @@ void func_800EE46C(void) {
 
 #define M2C_UNK s32
 
-M2C_UNK move_object(); /* extern */
+void move_object(); /* extern */
 
 void func_800EE48C(void) {
     ((M2C_UNK(*)())move_object)();

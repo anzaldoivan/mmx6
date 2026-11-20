@@ -84,7 +84,7 @@ M2C_UNK animate_object();
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion();
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 M2C_UNK func_80049E50(void*);
@@ -501,9 +501,9 @@ INCLUDE_ASM("asm/rock_04/nonmatchings/E9860", func_800EBAA0);
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK clear_object_slot();
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_8002F288(M2C_UNK*);
+s32 func_8002F288();
 M2C_UNK collide_solid_object();
 void func_80031F4C(struct X4_PlayerObj*);
 M2C_UNK func_8003208C();
@@ -589,8 +589,8 @@ void func_800EBF18(s8* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK move_object(void*);
-M2C_UNK func_8002F288(M2C_UNK*);
+void move_object();
+s32 func_8002F288();
 s32 func_800EB96C(struct X4_PlayerObj*, s16, s16);
 
 #define F_6(p) M2C_FIELD(p, u8*, 0x6)
@@ -706,8 +706,8 @@ void func_800EC4DC(void* arg0) {
 #define FX(p, type, off) (*(type*)((u8*)(p) + (off)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK move_object(void*);
-M2C_UNK func_8002F288(M2C_UNK*);
+void move_object();
+s32 func_8002F288();
 u8 func_80030234(struct X4_PlayerObj*, s16, s16);
 s32 func_800EB96C(struct X4_PlayerObj*, s16, s16);
 
@@ -888,7 +888,7 @@ void func_800EC7DC(struct X4_PlayerObj* arg0) {
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 void* alloc_class4_slot();
-M2C_UNK func_8002F288(M2C_UNK*);
+s32 func_8002F288();
 extern s16 D_800F6C10[];
 
 void func_800ECC10(void* arg0) {
@@ -987,7 +987,7 @@ void func_800ECE68(void) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK move_object(void*);                       /* extern */
+void move_object();                               /* extern */
 
 void func_800ECE88(void* arg0) {
     void* temp_s0;
@@ -1442,7 +1442,7 @@ INCLUDE_ASM("asm/rock_04/nonmatchings/E9860", func_800EE334);
 #include "mmx6/globals.h"
 
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 void func_8004E654(struct X4_BaseObj* arg0, s8 arg1);
@@ -1514,7 +1514,7 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK animate_object();
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK apply_object_motion();
-M2C_UNK func_8002F288(M2C_UNK*);
+s32 func_8002F288();
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*);
 extern s32 D_800F6C50[];
 extern s32 D_800F6C58[];
@@ -1594,8 +1594,8 @@ void func_800EEDB8(void) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK animate_object();   /* extern */
-M2C_UNK move_object(void*); /* extern */
+M2C_UNK animate_object(); /* extern */
+void move_object();       /* extern */
 
 void func_800EEDD8(void* arg0) {
     M2C_FIELD(arg0, u8*, 7) = (u8)(M2C_FIELD(arg0, u8*, 7) + 1);
@@ -1680,8 +1680,8 @@ void func_800EF6B8(void* arg0) {
 
 #define M2C_UNK s32
 
-M2C_UNK animate_object();   /* extern */
-M2C_UNK move_object(void*); /* extern */
+M2C_UNK animate_object(); /* extern */
+void move_object();       /* extern */
 
 void func_800EF70C(s32 arg0) {
     animate_object();
@@ -1732,7 +1732,13 @@ void func_800EFC58(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_04/nonmatchings/E9860", func_800EFD58);
+#define func_80050DFC func_800EFD58
+#define D_80078DD4 D_800F6DC8
+#define func_8002CB50 func_8002F288
+#include "../shared/SLUS_013.95/func_80050DFC.c"
+#undef func_80050DFC
+#undef D_80078DD4
+#undef func_8002CB50
 // clang-format on
 
 #include "../shared/rock_04/func_800EFDB4.c"
@@ -1753,7 +1759,7 @@ void func_800EFEF0(void) {
 
 #define M2C_UNK s32
 
-M2C_UNK move_object(); /* extern */
+void move_object(); /* extern */
 
 void func_800EFF10(void) {
     ((M2C_UNK(*)())move_object)();

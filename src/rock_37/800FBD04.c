@@ -154,7 +154,7 @@ INCLUDE_ASM("asm/rock_37/nonmatchings/FA000", func_800FC210);
 
 void set_animation(void*, M2C_UNK);
 M2C_UNK animate_object();
-M2C_UNK move_object(void*);
+void move_object();
 s32 random_byte();
 
 void func_800FC2AC(void* arg0) {

@@ -9,7 +9,7 @@ M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
 M2C_UNK animate_object();                    /* extern */
 void* func_8002C32C();                       /* extern */
 s32 random_byte();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #include "mmx6/state.h"
 
 void func_800EFDB0(void* arg0) {

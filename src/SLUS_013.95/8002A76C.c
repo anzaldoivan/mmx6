@@ -410,7 +410,7 @@ void func_8002AF6C(s32 arg0, s32 mask) {
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 void func_8002AF6C(s32 arg0, s32 mask);
 
 void func_8002B29C(void) {

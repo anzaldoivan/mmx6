@@ -6,7 +6,7 @@
 M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 

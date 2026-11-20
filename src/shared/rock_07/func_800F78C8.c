@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 extern M2C_UNK set_animation_frame(void*, M2C_UNK, s8);
-extern M2C_UNK move_object(void*);
+void move_object();
 extern s32 random_byte();
 
 void func_800F78C8(u8* arg0) {

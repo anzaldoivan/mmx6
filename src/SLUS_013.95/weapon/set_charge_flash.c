@@ -9,14 +9,12 @@
 // callers: update_player_charge
 s32 player_set_charge_flash(struct X4_PlayerObj* arg0, s32 arg1) {
     s8 i = arg1;
-    // !FAKE: first table byte held in the second return register, as the target allocates it
+    // !FAKE: first table byte, then the compare constant, held in the second return register, as the target allocates it
     register s32 v asm("$3");
     s8* p;
     s8 w;
     // !FAKE: result byte held in the first return register, as the target allocates it
     register s32 c asm("$2");
-    // !FAKE: compare constant held in the second return register, as the target allocates it
-    register s32 k asm("$3");
 
     p = (s8*)arg0 + i;
     v = p[0x9B];
@@ -30,11 +28,11 @@ s32 player_set_charge_flash(struct X4_PlayerObj* arg0, s32 arg1) {
         arg0->flash_palette = c;
         return 1;
     }
-    k = 0x14;
+    v = 0x14;
     p = (s8*)arg0 + i;
     w = p[0x94];
     c = 0x29;
-    if (w != k) {
+    if (w != v) {
         // !FAKE: shared store block placed after the v == 1 arm, as the target lays it out
         goto shared;
     }

@@ -46,7 +46,7 @@ void spawn_wall_jump_visual(void* arg0);
 void set_pose_size();
 void player_clear_dash();
 void player_clear_attack();
-s32 func_8003D26C(void*);
+void func_8003D26C(void*);
 s32 func_8003D330();
 void set_base_move_stats(void*);
 s32 load_armor_and_parts(void*);

@@ -8,7 +8,7 @@
 #define W(p, o) M2C_FIELD(p, s32*, o)
 
 M2C_UNK set_animation(void*, M2C_UNK);
-M2C_UNK move_object();
+void move_object();
 
 void func_800F25F0(void* arg0) {
     s32 ang;

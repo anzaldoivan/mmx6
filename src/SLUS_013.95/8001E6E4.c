@@ -194,7 +194,7 @@ void func_8001E914(void* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 #include "mmx6/state.h"
 #include "mmx6/globals.h"
@@ -296,7 +296,7 @@ s32 func_8001EC0C(void* arg0) {
 
 #define M2C_UNK s32
 
-M2C_UNK func_80034830();     /* extern */
+void func_80034830();        /* extern */
 M2C_UNK read_player_input(); /* extern */
 
 void func_8001EC40(void) {
@@ -1040,7 +1040,7 @@ void func_8001FFC0(struct X4_EngineObj* arg0) {
 #define SPAD_TBL (*(void (***)(s8*))0x1F800080)
 
 M2C_UNK func_8002CD6C(void*);
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
 
 void func_8002000C(void) {
@@ -1057,7 +1057,7 @@ void func_8002000C(void) {
                 if (pl2[0xCC] != 0 ||
                     (g_playthrough_state.unk12 != 0 && !(flags & 8))) {
                     if (p[3] != 0) {
-                        ((void (*)(void*, u8))func_8002CD6C)(p, flags);
+                        ((void (*)())func_8002CD6C)(p, flags);
                     }
                 } else {
                     SPAD_TBL[p[1]](p);
@@ -1076,7 +1076,7 @@ void func_8002000C(void) {
 M2C_UNK func_8002CD6C(void*);
 extern void (*D_80071220[])(s8*, u8);
 extern s8 D_800950A0[];
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
 
 void func_8002012C(void) {
@@ -1093,7 +1093,7 @@ void func_8002012C(void) {
                 if (pl2[0xCC] != 0 ||
                     (g_playthrough_state.unk11 != 0 && !(flags & 8))) {
                     if (p[3] != 0) {
-                        ((void (*)(void*, u8))func_8002CD6C)(p, flags);
+                        ((void (*)())func_8002CD6C)(p, flags);
                     }
                 } else {
                     D_80071220[p[1]](p, flags);
@@ -1112,7 +1112,7 @@ void func_8002012C(void) {
 
 M2C_UNK func_8002CD6C(void*);
 #include "mmx6/projectile.h"
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
 
 void func_80020258(void) {
@@ -1130,7 +1130,7 @@ void func_80020258(void) {
                 if (pl2[0xCC] != 0 ||
                     (g_playthrough_state.unk13 != 0 && !(flags & 8))) {
                     if (p[3] != 0) {
-                        ((void (*)(void*, u8))func_8002CD6C)(p, flags);
+                        ((void (*)())func_8002CD6C)(p, flags);
                     }
                 } else {
                     SPAD_TBL[p[1]](p);
@@ -1209,7 +1209,7 @@ void func_8002048C(void) {
 #include "mmx6/x4.h"
 #include "mmx6/globals.h"
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_EngineObj g_playthrough_state;
 M2C_UNK func_8002CD6C(void*);
 

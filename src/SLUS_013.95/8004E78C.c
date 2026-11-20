@@ -51,7 +51,7 @@ void func_8004E7E0(void) {
 
 M2C_UNK set_animation(void*, M2C_UNK);
 s32 func_8002A47C(s32);
-void func_8002F288(struct X4_PlayerObj*);
+s32 func_8002F288();
 M2C_UNK func_8004FE8C();
 s32 get_reploid_status(s32);
 extern s32 D_80078910;
@@ -92,7 +92,7 @@ void func_8004E800(void* arg0) {
     func_8004FE8C(arg0);
     if (F(u8, 0x84) == 0) {
         F(void*, 0x68) = &D_80078910;
-        func_8002F288(arg0);
+        ((void (*)())func_8002F288)(arg0);
         if (F(u8, 0x70) & 8) {
             F(u8, 0x7E) = 0;
             if (F(u8, 0x82) == 0) {
@@ -111,7 +111,7 @@ void func_8004E800(void* arg0) {
         }
     } else {
         F(void*, 0x68) = &D_8007891C;
-        func_8002F288(arg0);
+        ((void (*)())func_8002F288)(arg0);
         if (F(u8, 0x82) == 0) {
             set_animation(arg0, 0x17);
         } else {

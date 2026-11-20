@@ -15,7 +15,7 @@ struct X4_VisualObj* find_free_visual_obj(void);
 extern s32 D_80090C90[];
 extern s8 D_80090D56;
 extern s16 D_80090D5C;
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s8 D_8009742C;
 extern s16 D_80097430;
@@ -142,7 +142,7 @@ void func_801EC6D0(void*, s32);
 extern s32 D_80090C90[];
 extern s8 D_80090D56;
 extern s16 D_80090D5C;
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s8 D_8009742C;
 extern s16 D_80097430;
@@ -596,7 +596,7 @@ struct X4_VisualObj* find_free_visual_obj(void);
 extern s32 D_80090C90[];
 extern s8 D_80090D56;
 extern s16 D_80090D5C;
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s8 D_8009742C;
 extern s16 D_80097430;

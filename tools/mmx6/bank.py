@@ -149,6 +149,15 @@ def sh(cmd, log):
         return subprocess.run(cmd, stdout=f, stderr=subprocess.STDOUT).returncode
 
 
+def log_text(log):
+    """Text of .run/bank/<log>.log, "" when no sh() wrote it (3.3 T1: a rung-1 Stop before any sh())."""
+    p = os.path.join(LOGDIR, log + ".log")
+    if not os.path.isfile(p):
+        return ""
+    with open(p, errors="replace") as f:
+        return f.read()
+
+
 def makefile_triple():
     with open("Makefile") as f:
         return re.search(r"^TRIPLE \?= (\S+)", f.read(), re.M).group(1)
@@ -194,6 +203,7 @@ def put(saved, path, text):
     """Write text to path, recording the original bytes (None: absent) once."""
     if path not in saved:
         saved[path] = open(path, "rb").read() if os.path.exists(path) else None
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)  # 3.3 T1: a fresh split has no nonmatchings/<tu>/
     with open(path, "w") as f:
         f.write(text)
 
@@ -553,13 +563,16 @@ def uc_due(ex, src):
     """Repair switch unitcut's trigger (3.1 T6): on, src outside src/shared/ and no rolefeed body, the exemplar ex =
     (prog, function) defined in src itself (rf_where; src a unit or a split unit its unit #includes), and src
     holding code other than the exemplar (layout.parse: an INCLUDE_ASM, another definition or an #include entry
-    outside the exemplar's lines), which a member fed the whole unit gets linked with (C0425)."""
+    outside the exemplar's lines), which a member fed the whole unit gets linked with (C0425). An earlier member's cut
+    is reused when its body's marker names src or src #includes the body (a split unit: the marker names its unit, T31)."""
     rel = os.path.relpath(src)
     if "unitcut" not in REPAIR or rel.startswith("src/shared/") or rf_unit(src):
         return False
     w = rf_where(ex, src)
     if w is not None and w[0] != rel and rf_unit(w[0]):  # cut already (an earlier member): rolefeed() reuses it
-        return rf_unit(w[0])[1] == rel
+        with open(src, errors="replace") as f:  # T31: src a split unit -> the marker names its including unit
+            cut = f'#include "{os.path.relpath(w[0], os.path.dirname(rel))}"' in f.read().split("\n")
+        return rf_unit(w[0])[1] == rel or cut
     if w is None or w[0] != rel:
         return False
     with open(src, errors="replace") as f:
@@ -754,6 +767,7 @@ def bank(pv, src, registry=True, defines=()):
         print(out, flush=True)
         return 2, out
     log = f"{prog}.{func}"  # per program: overlays share function names
+    os.makedirs(LOGDIR, exist_ok=True)  # 3.3 T1 (I67): a rung-1 Stop before any sh() on a fresh volume
     if os.path.exists(os.path.join(LOGDIR, log + ".log")):
         os.remove(os.path.join(LOGDIR, log + ".log"))
     saved, x0, via, orig = {}, XKEY[0], "", os.path.relpath(src)
@@ -761,8 +775,7 @@ def bank(pv, src, registry=True, defines=()):
         try:
             h1 = ladder(prog, vram, src, func, r["tu"], saved, log, defines)
         except Stop as e:  # repair switch declunify: unify the TU's declarations, then the ladder once more
-            with open(os.path.join(LOGDIR, log + ".log"), errors="replace") as f:
-                tail = f.read()
+            tail = log_text(log)
             rf = ex_of(prog, vram, src) if defines and "rolefeed" in REPAIR else None  # rolefeed (3.1 T4)
             rf = rf if rf and rf_due(prog, vram, src, defines, f"refused R{e.rung}: {e.cause}", tail) else None
             if not (rf or "declunify" in REPAIR and e.rung == 2 and " does not compile " in e.cause):
@@ -776,9 +789,8 @@ def bank(pv, src, registry=True, defines=()):
                     raise Stop(e.rung, f"{e.cause}; rolefeed {e2.cause}")
                 h1, via = ladder(prog, vram, src, func, r["tu"], saved, log, defines), " via rolefeed"
             else:
-                with open(os.path.join(LOGDIR, log + ".log"), errors="replace") as f:
-                    tail = f.read()
-                ex = (prog, func) if not defines else ex_of(prog, vram, src)
+                tail = log_text(log)
+                ex =(prog, func) if not defines else ex_of(prog, vram, src)
                 k, note = declunify(f"src/{prog}/{r['tu']}.c", src, defines, tail, saved, log, ex)
                 if not k:
                     raise Stop(2, f"{e.cause}; declunify {note}")
@@ -856,6 +868,30 @@ def tree_sums(root):
     return {p: sha1(p) for p in sorted(glob.glob(f"{root}/**/*", recursive=True)) if os.path.isfile(p)}
 
 
+def fresh_logdir_control():
+    """3.3 T1 (I67): LOGDIR a directory that does not exist, the ladder raising Stop(1) before any sh(); bank() on the
+    exemplar returns rc 1 with a `stopped R1: planted` verdict, no exception. Returns fails."""
+    global LOGDIR, ladder
+    prog, ev, _, _, esrc = exemplar()
+    old, old_ladder, d = LOGDIR, ladder, os.path.join(LOGDIR, "selftest-fresh")
+    shutil.rmtree(d, ignore_errors=True)
+
+    def stop_ladder(*a, **k):
+        raise Stop(1, "planted")
+
+    LOGDIR, ladder = os.path.join(d, "bank"), stop_ladder
+    try:
+        rc, out = bank(f"{prog}:0x{ev:08X}", esrc, registry=False)
+    except Exception as e:  # the failure this control guards: the log read on a fresh volume
+        rc, out = None, f"{type(e).__name__}: {e}"
+    finally:
+        LOGDIR, ladder = old, old_ladder
+        shutil.rmtree(d, ignore_errors=True)
+    good = rc == 1 and out.endswith(" stopped R1: planted")
+    print(f"control fresh-logdir {'ok' if good else 'FAIL'}: rc {rc}, {out}")
+    return int(not good)
+
+
 def self_test():
     prog, ev = EXEMPLAR[:2]
     if not probe.plant_lookup("bank", prog, ev):
@@ -865,6 +901,7 @@ def self_test():
     pre_corpus = {p: open(p, "rb").read() for p in corpus_out}
     fails = controls(corpus_out, pre_bin, pre_corpus, role=False)
     fails += controls(corpus_out, pre_bin, pre_corpus, role=True)
+    fails += fresh_logdir_control()
     # fail-closed: the tree, the registry and the binary are what they were before the test
     for what, ok in (("src/", tree_sums("src") == pre_src), (REGISTRY, sha1(REGISTRY) == pre_reg),
                      (bin_out(prog), os.path.exists(bin_out(prog)) and sha1(bin_out(prog)) == pre_bin)):

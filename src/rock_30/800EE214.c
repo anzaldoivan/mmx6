@@ -27,7 +27,7 @@ s32 func_8002A47C(s32);
 M2C_UNK clear_object_slot();
 s32 random_byte();
 extern u32* D_80095098;
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern s16 D_800970AA;
 extern s32 D_800F0050;
@@ -137,7 +137,13 @@ void func_800EE280(void* self) {
 // clang-format off
 INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EE7A0);
 
-INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EE8A0);
+#define func_80050DFC func_800EE8A0
+#define D_80078DD4 D_800F0060
+#define func_8002CB50 func_8002F288
+#include "../shared/SLUS_013.95/func_80050DFC.c"
+#undef func_80050DFC
+#undef D_80078DD4
+#undef func_8002CB50
 // clang-format on
 
 #define func_800EFDB4 func_800EE8FC
@@ -166,7 +172,7 @@ void func_800EEA38(void) {
 
 #define M2C_UNK s32
 
-M2C_UNK move_object(); /* extern */
+void move_object(); /* extern */
 
 void func_800EEA58(void) {
     ((M2C_UNK(*)())move_object)();

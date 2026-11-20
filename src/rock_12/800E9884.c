@@ -413,5 +413,9 @@ void func_800EA2C8(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_12/nonmatchings/E9860", func_800EA304);
+#define func_800EA5F0 func_800EA304
+#define func_8002CA14 clear_object_slot
+#include "../shared/rock_11/func_800EA5F0.c"
+#undef func_800EA5F0
+#undef func_8002CA14
 // clang-format on

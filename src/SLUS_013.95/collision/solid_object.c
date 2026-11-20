@@ -5,12 +5,11 @@
 
 void check_box_collision(struct X4_PlayerObj* a, struct X4_PlayerObj* b,
                          s32 mode);
-void func_8002F288(struct X4_PlayerObj*);
+s32 func_8002F288();
 s32 func_80032208(struct X4_MainObj* self, struct X4_PlayerObj* tgt);
 void func_800324C8(struct X4_MainObj* a, struct X4_MainObj* b, u8 flags);
 extern s8 D_800950A0[];
-extern M2C_UNK g_Player;
-#define g_Player (*(struct X4_PlayerObj*)&g_Player)
+extern struct X4_PlayerObj g_Player;
 
 // 0x80031DA8 collide_solid_object: box-collides the player (mode 0) and the ride armor (mode 1) with the object's terrain box, restoring the old position on blocked moves.
 // basis: xref check_box_collision (docs/leads/derived.tsv:14)

@@ -56,7 +56,7 @@ M2C_UNK func_8003B218(void*);              /* extern */
 void spawn_dash_tile24_visual(void* arg0); /* extern */
 void set_pose_size();                      /* extern */
 void func_8003CD00(void* arg0);            /* extern */
-M2C_UNK func_8003D26C(void*);              /* extern */
+void func_8003D26C(void*);                 /* extern */
 s32 try_start_attack(void*);               /* extern */
 M2C_UNK func_8003F508(void*, M2C_UNK);     /* extern */
 s32 func_801EA254(void*);                  /* extern */

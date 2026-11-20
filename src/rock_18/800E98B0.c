@@ -1578,7 +1578,7 @@ void func_800ED920(void) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern u8 D_800F0B44[];
 extern s32 D_800F0BF0;
 
@@ -1616,7 +1616,7 @@ void func_800ED96C(struct X4_BaseObj* self) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-M2C_UNK func_8002CB50();
+s32 func_8002CB50();
 extern s8 D_800CD3F8[];
 extern u8 D_800F0B48;
 extern u8 D_800F0B4E;
@@ -1956,35 +1956,16 @@ extern s16 D_800F0ED8[];
                   M2C_FIELD(self, s16*, 0xA) + D_800F0ED8[(i) * 2],            \
                   M2C_FIELD(self, s16*, 0xE) + D_800F0ED8[(i) * 2 + 1])
 
-void func_800EED18(void* self) {
-    s32 h;
-    s32 t;
-    s32 o;
-
-    if (D_800CCF64 >= 999) {
-        DIGIT(self, 0x48, 0);
-        DIGIT(self, 0x48, 1);
-        DIGIT(self, 0x48, 2);
-    } else if (D_800CCF64 <= 0) {
-        DIGIT(self, 0x3F, 2);
-    } else {
-        h = D_800CCF64 / 100;
-        t = D_800CCF64 - h * 100;
-        o = D_800CCF64 % 10;
-        t /= 10;
-        if (h != 0) {
-            DIGIT(self, h + 0x3F, 0);
-        }
-        if (t != 0 || h != 0) {
-            DIGIT(self, t + 0x3F, 1);
-        }
-        DIGIT(self, o + 0x3F, 2);
-    }
-    M2C_FIELD(self, u8*, 4) = 2;
-}
+#include "../shared/rock_18/func_800EED18.c"
 
 // clang-format off
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800EEF88);
+#define func_800EED18 func_800EEF88
+#define D_800CCF64 D_800CCF68
+#define D_800F0ED8 D_800F0EE4
+#include "../shared/rock_18/func_800EED18.c"
+#undef func_800EED18
+#undef D_800CCF64
+#undef D_800F0ED8
 // clang-format on
 
 #include "common.h"
@@ -2088,7 +2069,11 @@ void func_800EF548(struct X4_BaseObj* self) {
 #undef FAMILY_FIELD
 
 // clang-format off
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800EF6A4);
+#define func_800EA5F0 func_800EF6A4
+#define func_8002CA14 clear_object_slot
+#include "../shared/rock_11/func_800EA5F0.c"
+#undef func_800EA5F0
+#undef func_8002CA14
 // clang-format on
 
 #define func_8001A5F8 func_800EF6C4
@@ -2160,28 +2145,22 @@ void func_800EF788(void* arg0) {
 extern u8 D_800CCEF8;
 extern u16 D_800F0F6C[][2];
 
-void func_800EF7E4(void* arg0) {
-    if (D_800CCEF8 == 0x7F) {
-        M2C_FIELD(arg0, s8*, 4) = 2;
-        return;
-    }
-    if ((M2C_FIELD(arg0, s8*, 6) == 0) &&
-        ((s8)D_800CCEF8 >= (s32)M2C_FIELD(arg0, u8*, 0x54))) {
-        M2C_FIELD(arg0, s8*, 3) = 1;
-        M2C_FIELD(arg0, s8*, 6) = (s8)((u8)M2C_FIELD(arg0, s8*, 6) + 1);
-    }
-    M2C_FIELD(arg0, u16*, 0xA) =
-        D_800F0F6C[(u8)D_80097420.transition.selection][0];
-    M2C_FIELD(arg0, u16*, 0xE) =
-        D_800F0F6C[(u8)D_80097420.transition.selection][1];
-}
+#include "../shared/rock_18/func_800EF7E4.c"
 
 #include "../shared/rock_18/func_800EF878.c"
 
 // clang-format off
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800EF8D0);
+#define func_800EF7E4 func_800EF8D0
+#define D_800F0F6C D_800F0F78
+#include "../shared/rock_18/func_800EF7E4.c"
+#undef func_800EF7E4
+#undef D_800F0F6C
 
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800EF964);
+#define func_800EF7E4 func_800EF964
+#define D_800F0F6C D_800F0F80
+#include "../shared/rock_18/func_800EF7E4.c"
+#undef func_800EF7E4
+#undef D_800F0F6C
 // clang-format on
 
 #include "../shared/rock_18/func_800EF9F8.c"
@@ -2192,21 +2171,7 @@ INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800EF964);
 
 extern u8 D_800F0C04[][3];
 
-void func_800EFA6C(u8* arg0) {
-    u8 v;
-    u8 w;
-
-    v = arg0[0x57];
-    arg0[3] = 1;
-    if (v != 0) {
-        if ((v - 1) == D_80097420.transition.selection) {
-            *(s16*)(arg0 + 0x42) = 0x784C;
-            return;
-        }
-        w = D_800F0C04[arg0[2]][1];
-        *(s16*)(arg0 + 0x42) = (w & 0xF) | (((w >> 4) + 0x1E0) << 6);
-    }
-}
+#include "../shared/rock_18/func_800EFA6C.c"
 
 #include "../shared/rock_18/func_800EFADC.c"
 
@@ -2253,7 +2218,7 @@ INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800EFBFC);
 
 extern u16 D_800CCEDC;
 extern u8 D_800F0F88[][3];
-extern void (*D_800F0F80[])(s8*);
+extern u16 D_800F0F80[][2];
 void func_800F02F4(void*, s32, s32, s32, s32);
 
 #define SPAD20 (*(s32**)0x1F800020)
@@ -2274,7 +2239,7 @@ void func_800EFC78(struct X4_BaseObj* self) {
         F_S16(0x40) = 0x1900;
         F_PTR(0x3C) = (u8*)SPAD20 + SPAD20[2];
     }
-    F_PTR(0x30) = &D_800F0F80[2];
+    F_PTR(0x30) = (void*)&D_800F0F80[2];
     t = self->unk2;
     F_U8(0x47) = 0;
     self->bg_offset = -1;
@@ -2329,9 +2294,17 @@ void func_800EFC78(struct X4_BaseObj* self) {
 #undef FAMILY_FIELD
 
 // clang-format off
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800F00F4);
+#define func_800EA5F0 func_800F00F4
+#define func_8002CA14 clear_object_slot
+#include "../shared/rock_11/func_800EA5F0.c"
+#undef func_800EA5F0
+#undef func_8002CA14
 
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800F0114);
+#define func_800EFA6C func_800F0114
+#define D_800F0C04 D_800F0F88
+#include "../shared/rock_18/func_800EFA6C.c"
+#undef func_800EFA6C
+#undef D_800F0C04
 // clang-format on
 
 #include "common.h"
@@ -2377,7 +2350,11 @@ void func_800F0184(u8* arg0) {
 #undef FAMILY_FIELD
 
 // clang-format off
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800F03C4);
+#define func_800EA5F0 func_800F03C4
+#define func_8002CA14 clear_object_slot
+#include "../shared/rock_11/func_800EA5F0.c"
+#undef func_800EA5F0
+#undef func_8002CA14
 // clang-format on
 
 #include "common.h"
@@ -2503,7 +2480,11 @@ next2:
 #include "../shared/rock_18/func_800F07FC.c"
 
 // clang-format off
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800F0870);
+#define func_800EA5F0 func_800F0870
+#define func_8002CA14 clear_object_slot
+#include "../shared/rock_11/func_800EA5F0.c"
+#undef func_800EA5F0
+#undef func_8002CA14
 // clang-format on
 
 #define func_80041AB8 func_800F0890

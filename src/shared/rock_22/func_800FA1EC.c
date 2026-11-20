@@ -3,7 +3,7 @@
 
 #define F(type, off) (*(type*)((u8*)arg0 + (off)))
 
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 extern void (*D_800FD534[])(void*);
 
 void func_800FA1EC(void* arg0) {

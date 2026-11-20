@@ -10,7 +10,7 @@ s32 func_8002A47C(s32);
 M2C_UNK func_8003D308(M2C_UNK, M2C_UNK);
 extern M2C_UNK D_8007433C;
 extern M2C_UNK D_8007523C;
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800FB2F0;
 extern s32 D_800FB2F8;
 extern s32 D_800FB7B4;

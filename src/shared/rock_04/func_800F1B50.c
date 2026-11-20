@@ -8,7 +8,7 @@
 
 M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);
-M2C_UNK move_object(void*);
+void move_object();
 extern struct X4_BackgroundObj background_objects[3];
 
 void func_800F1B50(void* arg0) {

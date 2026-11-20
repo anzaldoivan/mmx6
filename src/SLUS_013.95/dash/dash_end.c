@@ -12,8 +12,7 @@ s32 apply_player_motion(void* arg);
 s32 check_dash_end(void* arg0) {
     struct X4_PlayerObj* self = arg0;
     s32 mask;
-    // !FAKE: the limit stays in the second return register across both arms
-    register s32 lim asm("$3");
+    s32 lim;
     s32 cond;
     s32 bits;
     s32 ret;
@@ -31,7 +30,8 @@ s32 check_dash_end(void* arg0) {
         lim = self->dash_base_speed;
         cond = cond < lim;
     } else {
-        lim = -self->dash_base_speed;
+        lim = self->dash_base_speed;
+        lim = -lim;
         cond = lim < self->x_vel.val;
     }
     if (cond) {

@@ -9,7 +9,7 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*); /* extern */
 M2C_UNK set_animation(void*, M2C_UNK);       /* extern */
 M2C_UNK animate_object();                    /* extern */
 s32 random_byte();
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #include "mmx6/state.h"
 
 void func_800F036C(void* arg0) {

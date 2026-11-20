@@ -7,7 +7,7 @@
 M2C_UNK set_animation(void*, M2C_UNK);
 
 extern s8 D_800950A0[];
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 
 #define ABS(v) ((v) < 0 ? -(v) : (v))
 #define OBJ(p) ((struct X4_BaseObj*)(p))

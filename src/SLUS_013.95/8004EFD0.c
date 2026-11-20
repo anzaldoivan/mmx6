@@ -210,9 +210,9 @@ M2C_UNK animate_object();
 s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
 M2C_UNK apply_object_motion(struct X4_MainObj* self);
-M2C_UNK move_object(void*);
+void move_object();
 M2C_UNK func_8002EE10(struct X4_PlayerObj* arg0);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 M2C_UNK func_80049D90_r(
     void*); /* link-only second name (PROVIDEd): the call needs the int return */
@@ -397,7 +397,7 @@ void func_8004F9A0(void* arg0) {
 M2C_UNK animate_object();                                           /* extern */
 s32 is_off_screen(struct X4_AnimatedObj* arg0, s32 arg1, s32 arg2); /* extern */
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);    /* extern */
-M2C_UNK move_object(void*);                                         /* extern */
+void move_object();                                                 /* extern */
 
 M2C_UNK clear_object_slot();
 void func_8004FAD0(void* arg0) {
@@ -429,7 +429,7 @@ void func_8004FB40(void) {
 M2C_UNK animate_object();
 s32 func_8002CAB4(struct X4_BaseObj*);
 void func_8002CCB0(struct X4_BaseObj* arg0, s32 arg1, s32 arg2);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 void func_80049E50(struct X4_MainObj*);
 void set_reploid_status(u8, s32);

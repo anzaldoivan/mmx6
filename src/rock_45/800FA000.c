@@ -100,7 +100,7 @@ void func_800FA028(struct X4_MainObj* self) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK func_80030ECC(void*);
+s32 func_80030ECC();
 s32 check_enemy_hits(void*);
 extern M2C_UNK D_8007433C;
 extern s32 D_80075A5C;
@@ -595,7 +595,7 @@ M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK animate_object();
 M2C_UNK open_text_box(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(void*);
+void move_object();
 s32 is_text_box_seen(M2C_UNK);
 M2C_UNK set_text_box_seen(M2C_UNK);
 extern s32 D_800FCA84;
@@ -1371,7 +1371,7 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, void*);    /* extern */
 M2C_UNK animate_object(void*);                  /* extern */
 M2C_UNK clear_object_slot();                    /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK move_object(void*);                     /* extern */
+void move_object();                             /* extern */
 
 void func_800FC74C(void* arg0) {
     if (M2C_FIELD(arg0, s8*, 0x46) == 0) {
@@ -1488,8 +1488,8 @@ void func_800FC8CC(void* arg0) {
 
 M2C_UNK animate_object(void*);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(void*);
-M2C_UNK func_80030ECC(void*);
+void move_object();
+s32 func_80030ECC();
 extern s32 D_800FCA84;
 extern s32 D_800FCE58;
 extern s32 D_800FCE5C;

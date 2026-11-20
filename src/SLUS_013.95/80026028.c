@@ -75,7 +75,7 @@ void func_80026128(void) {
 
 #include "common.h"
 
-void func_80025984(void*, u8);
+void func_80025984(struct X4_AnimatedObj*, s32); // was (void*, u8)
 
 void func_8002619C(u8* arg0) {
     if (arg0[0xE7] == 4) {
@@ -1113,7 +1113,7 @@ void func_800280F4(void) {
 #include "mmx6/globals.h"
 
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_EngineObj g_playthrough_state;
 
@@ -1415,7 +1415,7 @@ void func_80028DAC(struct X4_BackgroundObj* arg0) {
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_80028EBC(struct X4_BackgroundObj* arg0) {
@@ -1588,7 +1588,7 @@ block3:
 #include "mmx6/x4.h"
 
 #define M2C_UNK s32
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern struct X4_BackgroundObj background_objects[3];
 extern void (*D_80071E80[])(struct X4_BackgroundObj*);
 void func_80028EBC(struct X4_BackgroundObj* arg0);

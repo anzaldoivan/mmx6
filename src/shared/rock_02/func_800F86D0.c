@@ -2,7 +2,7 @@
 #define M2C_UNK s32
 
 M2C_UNK animate_object();
-M2C_UNK move_object();
+void move_object();
 
 void func_800F86D0(u8* arg0) {
     ((M2C_UNK(*)())animate_object)();

@@ -81,7 +81,7 @@ void func_800EA35C(void) {
 M2C_UNK set_animation(void*, M2C_UNK);
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 extern s32 D_800EF998;
 extern s32 D_800EF99C;
 extern s32 D_800EF9A0;
@@ -225,7 +225,7 @@ void func_800EAD24(void) {
 /* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_65_magma_dragoon.c:magma_dragoon_face_player, AGPL-3.0; proven shared with X6 by exact signature 3d82c3af21bb (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_800EADCC(struct X4_MainObj* self) {
@@ -295,7 +295,7 @@ void func_800EB3E4(void* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002F288(void*);
+s32 func_8002F288();
 extern void (*D_800EFBC8[])(void*);
 
 void func_800EB45C(void* arg0) {
@@ -345,7 +345,7 @@ void func_800EB598(struct ObjectHeader* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002F288(void*);
+s32 func_8002F288();
 extern void (*D_800EFBE4[])(void*);
 
 void func_800EB5D8(void* arg0) {
@@ -389,7 +389,7 @@ void func_800EB81C(struct ObjectHeader* arg0) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002F288(void*);
+s32 func_8002F288();
 extern void (*D_800EFBF4[])(void*);
 
 void func_800EB85C(void* arg0) {
@@ -514,7 +514,7 @@ INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EC148);
 #define M2C_UNK s32
 
 M2C_UNK animate_object(); /* extern */
-M2C_UNK move_object(s32); /* extern */
+void move_object();       /* extern */
 
 void func_800EC1A4(s32 arg0) {
     animate_object();
@@ -536,7 +536,7 @@ INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EC20C);
 #define M2C_UNK s32
 
 M2C_UNK animate_object(); /* extern */
-M2C_UNK move_object(s32); /* extern */
+void move_object();       /* extern */
 
 void func_800EC278(s32 arg0) {
     animate_object();
@@ -575,7 +575,7 @@ void func_800EC3DC(void* arg0) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK animate_object(void*); /* extern */
-M2C_UNK move_object();         /* extern */
+void move_object();            /* extern */
 
 void func_800EC440(struct MainObj* arg0) {
     arg0->x_speed = 0;
@@ -606,7 +606,7 @@ INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EC4C0);
 /* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_13_heavy_mech.c:heavy_mech_face_player, AGPL-3.0; proven shared with X6 by exact signature d7798d86256f (see THIRD_PARTY.md). */
 #include "common.h"
 #include "mmx6/x4.h"
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 
 void func_800EC5B8(struct X4_AnimatedObj* self) {
@@ -663,7 +663,11 @@ INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800EC868);
 #undef D_80077BC0
 
 // clang-format off
-INCLUDE_ASM("asm/rock_30/nonmatchings/E9860", func_800ECA88);
+#define func_800ECF40 func_800ECA88
+#define D_800F4BF0 D_800EE8F0
+#include "../shared/rock_09/func_800ECF40.c"
+#undef func_800ECF40
+#undef D_800F4BF0
 // clang-format on
 
 #include "common.h"
@@ -698,7 +702,7 @@ void func_800ECB54(void) {
 #include "mmx6/globals.h"
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 
 #define PL ((u8*)&g_Player)
 #define F_S8(p, o) (*(s8*)((p) + (o)))
@@ -872,7 +876,7 @@ void func_800ED734(void* arg0) {
 M2C_UNK start_pad_vibration(M2C_UNK);
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK func_8002943C(M2C_UNK, M2C_UNK, M2C_UNK);
-M2C_UNK move_object(s32);
+void move_object();
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 
@@ -904,7 +908,7 @@ void func_800ED7C8(void* self) {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK move_object(s32);
+void move_object();
 
 #define F(type, off) M2C_FIELD(self, type*, off)
 
@@ -936,7 +940,7 @@ M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
 M2C_UNK set_animation(void*, M2C_UNK);
 struct X4_VisualObj* find_free_visual_obj(void);
 M2C_UNK func_8004E78C(M2C_UNK);
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_EngineObj g_playthrough_state;
 
@@ -991,7 +995,7 @@ void func_800ED9EC(void* self) {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
 M2C_UNK play_sound(M2C_UNK, M2C_UNK, M2C_UNK);
-extern s32 g_Player;
+extern struct X4_PlayerObj g_Player;
 #define g_Player (*(struct X4_PlayerObj*)&g_Player)
 extern struct X4_EngineObj g_playthrough_state;
 
@@ -1095,10 +1099,10 @@ void func_800EDEC4(void* arg0) {
 #define M2C_UNK s32
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 
-M2C_UNK func_8002CB50();                         /* extern */
+s32 func_8002CB50();                             /* extern */
 M2C_UNK func_800477E4(M2C_UNK, M2C_UNK*, void*); /* extern */
 s32 func_800EDBCC(void*, M2C_UNK*);              /* extern */
-extern M2C_UNK g_Player;
+extern struct X4_PlayerObj g_Player;
 extern M2C_UNK D_800EFFE0;
 
 void func_800EDFE4(void* arg0) {

@@ -8,7 +8,7 @@ set -uo pipefail
 cd "$(dirname "$0")/../.." || exit 2
 PY="${PY:-/opt/homebrew/opt/python@3.14/bin/python3.14}"
 MX="bash tools/docker/mx.sh"
-NBIN=57  # binaries of the fleet (config/*.yaml programs)
+NBIN=57  # binaries of the fleet (config/us/*.yaml programs)
 # The open phase's temp folder (as tools/run.sh: `# Phase <id>` of PHASE_PLAN.md), else .run (no plan open).
 PHASE=$(sed -n '1s/^#[[:space:]]*Phase[[:space:]][[:space:]]*\([A-Za-z0-9._-][A-Za-z0-9._-]*\).*/\1/p' \
   phase-ends/current/PHASE_PLAN.md 2>/dev/null | head -n 1)
@@ -56,10 +56,10 @@ step fleet '^FLEET [0-9]+ of [0-9]+$' bash -c "$MX sync && $MX run make fleet"
   || fail fleet "last line not FLEET $NBIN of $NBIN"
 record fleet "$RESULT"
 
-step loadmap '^CONTROLS ' bash -c "make loadmap PYTHON=$PY && git diff --exit-code config/loadmap.txt"
+step loadmap '^CONTROLS ' bash -c "make loadmap PYTHON=$PY && git diff --exit-code config/${VERSION:-us}/loadmap.txt"
 record loadmap "$RESULT"
 
-step boundaries '^# totals ' bash -c "make boundaries PYTHON=$PY && git diff --exit-code config/boundaries.txt"
+step boundaries '^# totals ' bash -c "make boundaries PYTHON=$PY && git diff --exit-code config/${VERSION:-us}/boundaries.txt"
 record boundaries "$RESULT"
 
 step bound2 '^BOUND2 ' $MX run python3 tools/mmx6/bound2.py --all

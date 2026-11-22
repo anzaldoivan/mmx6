@@ -1,0 +1,15 @@
+# config/twinform-baseline.tsv -- tools/mmx6/twinform.py --write-baseline (3.3 T39): the foreign per-overlay
+# first reaches (first unit body header) and chains (chain file body OLD NEW->NEXT) the tree holds; no
+# line numbers. A bank or a layout apply adding a row not listed here is refused.
+first	src/rock_14/E9860.c	src/shared/rock_11/func_800EAF90.c	include/mmx6/rock_11.h
+first	src/rock_23/E9860.c	src/shared/rock_02/func_800F3604.c	include/mmx6/rock_02.h
+first	src/rock_23/E9860.c	src/shared/rock_11/func_800EAF90.c	include/mmx6/rock_11.h
+first	src/rock_24/E9860.c	src/shared/rock_11/func_800EA758.c	include/mmx6/rock_11.h
+first	src/rock_32/E9860.c	src/shared/rock_11/func_800EACA0.c	include/mmx6/rock_11.h
+first	src/rock_33/FA000.c	src/shared/rock_03/func_800EFB9C.c	include/mmx6/rock_03.h
+first	src/rock_34/FA000.c	src/rock_04/wolfang_ice_spike.c	include/mmx6/rock_04.h
+first	src/rock_37/FA000.c	src/shared/rock_08/func_800F1F64.c	include/mmx6/rock_08.h
+first	src/rock_39/FA000.c	src/shared/rock_04/func_800F18C4.c	include/mmx6/rock_04.h
+first	src/rock_40/FA000.c	src/shared/rock_11/func_800F63CC.c	include/mmx6/rock_11.h
+first	src/rock_44/FA000.c	src/shared/rock_02/func_800F3604.c	include/mmx6/rock_02.h
+first	src/rock_45/FA000.c	src/shared/rock_43/func_800FC8BC.c	include/mmx6/rock_43.h

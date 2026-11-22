@@ -1,13 +1,13 @@
 # Segmentation rules (phase 1.3 T3)
-These mechanical rules turn `config/boundaries.txt` rows into splat subsegments (TUs) for every program.
-DK-12: split where the build forces it and nowhere else. The grammar of the input rows is at config/boundaries.txt:2.
-The consumer is `tools/mmx6/boundcheck.py`. Every forced edge below is a subsegment edge in `config/<bin>.yaml`.
+These mechanical rules turn `config/us/boundaries.txt` rows into splat subsegments (TUs) for every program.
+DK-12: split where the build forces it and nowhere else. The grammar of the input rows is at config/us/boundaries.txt:2.
+The consumer is `tools/mmx6/boundcheck.py`. Every forced edge below is a subsegment edge in `config/us/<bin>.yaml`.
 
 ## Terms
 - TU: A TU is one splat text subsegment, which is one future `.c`/`.s` object. Its rodata/data/bss travel with it.
 - forced edge: A forced edge is an address where a TU must start or end. Only `lib` rows, after the rules below,
   produce one.
-- text extent: The exe text extent is `[0x800120A0, max(0x8006D5D0, last lib hi))` (config/SLUS_013.95.yaml asm
+- text extent: The exe text extent is `[0x800120A0, max(0x8006D5D0, last lib hi))` (config/us/main.yaml asm
   subsegment). The overlay text extent is `[base, base+size)` until a finer code extent is recorded.
 
 ## Rules per row kind
@@ -22,7 +22,7 @@ The consumer is `tools/mmx6/boundcheck.py`. Every forced edge below is a subsegm
   `label-inside-scan-table` (hi `unknown`) are labels inside another table, not tables (C0026). A table whose `func`
   is `-` takes the TU of the table that contains it. If no table contains it, it stays in the program's single
   rodata block (open question 4).
-- fstart: An fstart row is a symbol only (`func_<ADDR>` in `config/symbols.<bin>.txt`). It is never a TU edge.
+- fstart: An fstart row is a symbol only (`func_<ADDR>` in `config/us/symbols.<bin>.txt`). It is never a TU edge.
 - weak: The weak rows are the `LIBSND.LIB/VM_VIB.OBJ` rows and any row that a later phase marks weak. The VM_VIB
   rows are 0x20 B plates (exe :54-55, overlays :656 :677 :742 :912). The weak rows are never a split point in any
   program. They are dropped before the overlap tie-break, so exe VM_VIB `[0x80054AB8, 0x80054AD8)` does not clip
@@ -33,10 +33,10 @@ The consumer is `tools/mmx6/boundcheck.py`. Every forced edge below is a subsegm
   between functions, a rodata-order break, a newly verified lib signature). The exe has 1 game gap + 15 small
   inter-lib gaps.
 - carve (phase 1.6 T6): Carves are deliberate edges, one record per binary (G43). They are in
-  `config/carve.<prog>.txt`, which only `tools/mmx6/carve.py` writes.
+  `config/us/carve.<prog>.txt`, which only `tools/mmx6/carve.py` writes.
 
   `opt <tu> <vram> <newtu> [cflags]`: This record is a text edge at a corpus function start inside `<tu>`. The new
-  TU is `<newtu>` (vram hex, kind of the parent). The per-unit cc1 flags come through `config/carve.<prog>.mk`.
+  TU is `<newtu>` (vram hex, kind of the parent). The per-unit cc1 flags come through `config/us/carve.<prog>.mk`.
 
   `jtbl <lo> <tu>`: The boundaries.txt jtbl row `[lo, hi)` becomes `[off, .rodata, <tu>]`. `<tu>` is the c unit of
   its dispatcher, so splat migrates the table into the dispatcher's INCLUDE_ASM .s. The rest of the rodata block
@@ -56,13 +56,13 @@ The consumer is `tools/mmx6/boundcheck.py`. Every forced edge below is a subsegm
 
   The run must touch a table row of `<tu>` (`jtbl`, `rodata`, `data`), or a boundaries jtbl row whose dispatcher
   is in `<tu>`. Else it refuses `not-adjacent`, and then the jtbl refusals apply. The row merges with the unit's
-  tables like a `rodata` row. Its bytes come from `INCLUDE_RODATA("asm/<prog>/nonmatchings/<tu>", <sym>);`
+  tables like a `rodata` row. Its bytes come from `INCLUDE_RODATA("<prog>/nonmatchings/<tu>", <sym>);`
   (include/common.h). You place that line by hand in the unit's C, at its rodata-order position. Example:
-  D_80010038 goes to 120A0, after func_80014F70's INCLUDE_ASM in src/SLUS_013.95/8001494C.c.
+  D_80010038 goes to 120A0, after func_80014F70's INCLUDE_ASM in src/main/8001494C.c.
 
   The exe rodata block is `[0x80010000, 0x800120A0)`. The overlay rodata block is `[base, first text function)`
   when its first TU is a c unit holding `INCLUDE_ASM(..., D_<base>)`. An overlay's first carve drops that line. It
-  strips the `D_<base>` attributes in `config/symbols.<prog>.txt` (a sized symbol hides the block's jump tables
+  strips the `D_<base>` attributes in `config/us/symbols.<prog>.txt` (a sized symbol hides the block's jump tables
   from spimdisasm, so nothing migrates). It records `block <hi>`. Then segment.py emits rodata pieces over
   `[base, hi)` (the piece at base named `<unit>_rodata`, never the unit's name) and starts the unit at hi.
 
@@ -82,12 +82,12 @@ The consumer is `tools/mmx6/boundcheck.py`. Every forced edge below is a subsegm
 
 ## TU counts per program
 This table is a snapshot (2026-10-01, T3, the scratch `.run/t3/segcount.py`). The live TUs are the subsegments of
-`config/<bin>.yaml`. The TUs column is lib + gap. The weak column counts the rows not split. The jtbl column counts the table rows,
+`config/us/<bin>.yaml`. The TUs column is lib + gap. The weak column counts the rows not split. The jtbl column counts the table rows,
 including inside-table labels.
 
 | program | TUs | lib | gap | weak | jtbl |
 |---|---|---|---|---|---|
-| SLUS_013.95 | 246 | 230 | 16 | 2 | 47 |
+| main | 246 | 230 | 16 | 2 | 47 |
 | rock_00 | 1 | 0 | 1 | 0 | 2 |
 | rock_01 | 1 | 0 | 1 | 0 | 0 |
 | rock_02 | 1 | 0 | 1 | 0 | 82 |
@@ -168,7 +168,7 @@ including inside-table labels.
 - rock_17/43/45 split as `dlabel` + `.word` (0 glabel). Their header words decode as far forward branches/jumps
   (spimdisasm `_findFunctions` farthestBranch never returns to 0). As a result, no `jr $ra` ends a function, and
   the one giant function, holding invalid words, is printed as data.
-- Fix: config/symbols.rock_{17,43,45}.txt declare every start `type:func size:` (to its last `jr $ra` + delay
+- Fix: config/us/symbols.rock_{17,43,45}.txt declare every start `type:func size:` (to its last `jr $ra` + delay
   slot). They declare header / ptr table / trailing data as sized `type:s32`. Each declaration has a `// basis:`
   line from retail bytes (post-return, jal, first code after header), never from Ghidra. The glabel counts are
   29/77/52. 5 multi-return functions (a branch targets past an earlier `jr $ra`) are one function each: rock_43

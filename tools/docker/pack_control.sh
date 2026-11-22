@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # pack_control.sh — the pack-location control (host; docs/ops/campaign.md ## Packs). Plants a pack in waves/WCTL/
-# from an INCLUDE_ASM target of SLUS_013.95 (draft = the m2c scaffold, decompile.py, under `#if 0`, then the
-# function's INCLUDE_ASM line, so R is a compiled result that reads asm/ inside the snapshot), then checks:
+# from an INCLUDE_ASM target of main (draft = the m2c scaffold, decompile.py, under `#if 0`, then the
+# function's INCLUDE_ASM line, so R is a compiled result that reads asm/us/ inside the snapshot), then checks:
 #   (1) a clone edit of draft.c reaches /work by `mx.sh push` (sha1 equal), a .s push is refused
 #   (2) `mx.sh pull waves/WCTL` brings pack.json/draft.c and no .s
 #   (3) a quiet `cards.py --probe-pack` result R
@@ -14,14 +14,14 @@ cd "$(git rev-parse --show-toplevel)"
 MX=(bash tools/docker/mx.sh)
 OUT=.run/packctl
 W=waves/WCTL
-PROG=SLUS_013.95
+PROG=main
 rm -rf "$OUT" && mkdir -p "$OUT"
 
 # The control probes its pack several times per run: its probe-cap counter (cards.py, waves/.probes/) is cleared too.
 clear_probes() { "${MX[@]}" run sh -c 'rm -f /work/waves/.probes/waves__WCTL__*.log'; }
 cleanup() { rm -rf "$W"; "${MX[@]}" run rm -rf "/work/$W" >/dev/null 2>&1 || true; clear_probes >/dev/null 2>&1 || true; }
 fail() { echo "PACK CONTROL FAIL $*"; cleanup; exit 1; }
-prep() { "${MX[@]}" run bash -c "make -s extract build/split/$PROG.stamp" > "$OUT/prep$1.log" 2>&1 || fail "prep$1 rc $?"; }
+prep() { "${MX[@]}" run bash -c "make -s extract build/us/split/$PROG.stamp" > "$OUT/prep$1.log" 2>&1 || fail "prep$1 rc $?"; }
 csha() { "${MX[@]}" run sha1sum "/work/$1" | cut -d' ' -f1; }
 # Background probe; waits for `PACK HOLD`, syncs during the hold, checks the probe outlived the sync; sets RC.
 held_sync() {
@@ -44,16 +44,16 @@ clear_probes
 prep 0
 "${MX[@]}" run bash -c '
 set -e; P='"$PROG"'; W='"$W"'
-for s in $(ls asm/$P/nonmatchings/*/func_*.s | sort); do
+for s in $(ls asm/us/$P/nonmatchings/*/func_*.s | sort); do
   f=$(basename "$s" .s); tu=$(basename "$(dirname "$s")")
-  grep -q "INCLUDE_ASM(\"asm/$P/nonmatchings/$tu\", $f);" src/$P/*.c || continue  # any TU file holds it
+  grep -q "INCLUDE_ASM(\"$P/nonmatchings/$tu\", $f);" src/$P/*.c || continue  # any TU file holds it
   [ -f "drafts/$P/$f.c" ] && continue
   n=$(grep -c "^ */\* [0-9A-F]* [0-9A-F]\{8\} [0-9A-F]\{8\} \*/" "$s" || true)
   [ "$n" -ge 8 ] && [ "$n" -le 40 ] || continue
   d=$W/${P}_$f; mkdir -p "$d"; cp "$s" "$d/target.s"
   { echo "#include \"common.h\""; echo "#if 0 /* m2c scaffold (rarely compiles raw); the INCLUDE_ASM below gives a compiled R */"
     python3 tools/mmx6/decompile.py "$f" --prog "$P" || true
-    echo "#endif"; echo "INCLUDE_ASM(\"asm/$P/nonmatchings/$tu\", $f);"; } > "$d/draft.c"
+    echo "#endif"; echo "INCLUDE_ASM(\"$P/nonmatchings/$tu\", $f);"; } > "$d/draft.c"
   printf "{\"pv\": \"%s:0x%s\", \"prog\": \"%s\", \"func\": \"%s\", \"tu\": \"%s\", \"words\": %d}\n" \
     "$P" "${f#func_}" "$P" "$f" "$tu" "$n" > "$d/pack.json"
   echo "PLANT $d words $n"; exit 0

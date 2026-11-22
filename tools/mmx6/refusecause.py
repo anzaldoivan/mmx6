@@ -2,21 +2,21 @@
 """refusecause.py -- one cause per plumbing-refused ledger row: why the member's byte gate refused (container, stdlib).
 
   refusecause.py --prog P
-      -> every campaign/ledger.tsv row of P with blocker plumbing:R5|R2|R4: its refused config/dedup_registry.txt row
+      -> every campaign/ledger.tsv row of P with blocker plumbing:R5|R2|R4: its refused config/us/dedup_registry.txt row
          (key = the ledger's dup key, else the member's first refused row), re-gated alone in a scratch tree
          (propagate.make_tree under .run/propagate/tree/rc_<P>; /work/src is never edited; removed at the end):
          propagate.key_plan(key, dry) -> gate_members on the one member (R1-R4, no recovery steps); a gated member
          gets bank.rung5 (clean rebuild + hash, typecheck, sig) and a word diff of its linked span vs retail; the
-         member's edits always restored (propagate.restore_prog, try/finally). Writes build/refusecause/<P>.tsv,
+         member's edits always restored (propagate.restore_prog, try/finally). Writes build/us/refusecause/<P>.tsv,
          prints one line per member `<pv> <cause> <s>s`, then `REFUSECAUSE <P> members <n> wall <s>s`.
   refusecause.py --merge
-      -> build/refusecause/*.tsv into the tracked campaign/refusecause.tsv, sorted (prog, vram); columns
+      -> build/us/refusecause/*.tsv into the tracked campaign/refusecause.tsv, sorted (prog, vram); columns
          prog vram func key code cause detail, tab-separated, no header; prints cause counts per program.
   refusecause.py --count [--tsv PATH]
       -> the cause counts per program of campaign/refusecause.tsv (or PATH).
   --repair NAME (bank.repair_arg; repeatable; off = unchanged): the switch on in each member's gate
       (propagate.gate_member, e.g. declunify, 3.1 T3; rolefeed, 3.1 T4: past an extraction the stop's log is the one
-      after the ROLEFEED line, R1 included); --prog writes build/refusecause.<names>/<P>.tsv, --merge
+      after the ROLEFEED line, R1 included); --prog writes build/us/refusecause.<names>/<P>.tsv, --merge
       writes campaign/refusecause.<names>.tsv (same columns; never campaign/refusecause.tsv, the 3.0 before), --count
       reads it. --skip-holdout (--prog): rows whose config/methods-sample.tsv split is `holdout` are not run.
       relocdef (3.1 T5): gated detail ends `[via relocdef S=T ...]`, refused `[relocdef S=T ...]` (the defines
@@ -31,9 +31,9 @@ Causes (classify(), pure): R4 or a rodata stop -> rodata. R2: the compile log ma
 asm `already defined` symbol -> path, else body. R1 with compile errors in the probe wrapper's log (the shared path fed standalone): DECL_RE -> declaration, else
 path (a stale or unusable shared path, C0130/C0215; e.g. a role file, a whole unit's duplicate symbol). R5 link failure,
 by the first ld diagnostic: undefined/multiple definition -> declaration, overlap/section/region -> address, else body.
-R5 member linked away from its retail vram (build/<prog>.map): the obj words (reloc fields masked) differ from retail ->
+R5 member linked away from its retail vram (build/us/<prog>.map): the obj words (reloc fields masked) differ from retail ->
 body, else address (placement). R5 per differing span word: a difference outside the word's reloc field (or a span size difference) -> body;
-reloc kind differs or reloc vs absolute, or the retail and linked targets resolve (build/<prog>.map) to different
+reloc kind differs or reloc vs absolute, or the retail and linked targets resolve (build/us/<prog>.map) to different
 containing symbols -> reloc; same symbol, different value, or an absolute KSEG0 lui differs -> address; span identical
 but hash red -> rodata when the first differing byte lies in a .rodata/.data/.sdata/.bss section, else address.
 Precedence body > reloc > address > rodata. A rerun that no longer refuses -> stale (a preflight refusal: the row is
@@ -56,11 +56,12 @@ sys.path.insert(0, HERE)
 import bank  # noqa: E402
 import probe  # noqa: E402
 import propagate  # noqa: E402
+from paths import BUILD, ASM, prog_key  # noqa: E402  (the version axis, 3.3 T37)
 
 LEDGER = "campaign/ledger.tsv"
 SAMPLE = "config/methods-sample.tsv"  # 3.0 T12 sample: (prog col 2, vram col 3, split last col)
 OUT = "campaign/refusecause.tsv"
-PARTS = "build/refusecause"
+PARTS = f"{BUILD}/refusecause"
 CODES = ("plumbing:R2", "plumbing:R4", "plumbing:R5")
 CAUSES = ("body", "reloc", "address", "rodata", "declaration", "path", "stale")  # precedence order of the first four
 EXTRA = ("norow", "error")
@@ -208,7 +209,7 @@ def obj_relocs(path, func):
 def retail_kinds(prog, func, vram):
     """{word index: (kind, symbol name)} of the relocated operands of func's retail .s (spimdisasm %hi/%lo/%gp_rel,
     jal/j to a named symbol)."""
-    hits = sorted(glob.glob(f"asm/{prog}/**/{func}.s", recursive=True))
+    hits = sorted(glob.glob(f"{ASM}/{prog}/**/{func}.s", recursive=True))
     out = {}
     if not hits:
         return out
@@ -227,9 +228,9 @@ def retail_kinds(prog, func, vram):
 
 
 def read_map(prog):
-    """(sorted [(addr, name)], [(name, lo, hi)] input sections) of build/<prog>.map."""
+    """(sorted [(addr, name)], [(name, lo, hi)] input sections) of build/us/<prog>.map."""
     syms, secs, pend = {}, [], None
-    with open(f"build/{prog}.map", errors="replace") as f:
+    with open(f"{BUILD}/{prog}.map", errors="replace") as f:
         for line in f:
             m = MAP_SEC_RE.match(line)
             if m:
@@ -258,8 +259,8 @@ def read_map(prog):
 
 
 def map_addrs(prog, name):
-    """Every address build/<prog>.map gives the symbol name (read_map keeps one name per address)."""
-    with open(f"build/{prog}.map", errors="replace") as f:
+    """Every address build/us/<prog>.map gives the symbol name (read_map keeps one name per address)."""
+    with open(f"{BUILD}/{prog}.map", errors="replace") as f:
         return sorted({int(m.group(1), 16) for m in map(MAP_SYM_RE.match, f) if m and m.group(2) == name})
 
 
@@ -297,7 +298,7 @@ def partner(rel, i):
 
 def r5_evidence(prog, row, stop5, log, at):
     """The r5 evidence dict of a gated member after bank.rung5 (in this tree); log/at: the rung5 log and its size before."""
-    out, elf = bank.bin_out(prog), f"build/{prog}.elf"
+    out, elf = bank.bin_out(prog), f"{BUILD}/{prog}.elf"
     if not os.path.isfile(out) and os.path.isfile(elf):  # a red sha1sum -c deletes the binary (.DELETE_ON_ERROR)
         os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
         bank.sh(["mipsel-linux-gnu-objcopy", "-O", "binary", elf, out], log)  # Makefile OBJCOPY, the bin rules
@@ -308,7 +309,7 @@ def r5_evidence(prog, row, stop5, log, at):
         err = err or next((ln for ln in reversed(tail) if "error" in ln.lower()), stop5 or "no binary")
         return dict(stop=clean(re.sub(r"^.*?\(\.\w+\+0x[0-9A-Fa-f]+\):\s*", "", err.strip())), linked=False)
     func, vram = row["name"], int(row["vram"], 16)
-    obj = f"build/src/{prog}/{row['tu']}.c.o"
+    obj = f"{BUILD}/src/{prog}/{row['tu']}.c.o"
     ow, masks = probe.elf_function(obj, func)
     rw = probe.retail_words(prog, func)
     target_path, seg_start, seg_vram = probe.yaml_layout(prog)
@@ -479,8 +480,9 @@ def write_tsv(path, rows):
 
 
 def read_tsv(path):
+    """Rows of path, the program column under today's key (tables before 3.3 T38: paths.prog_key)."""
     with open(path) as f:
-        return [ln.rstrip("\n").split("\t") for ln in f if ln.strip()]
+        return [[prog_key(t[0])] + t[1:] for t in (ln.rstrip("\n").split("\t") for ln in f if ln.strip())]
 
 
 def counts_lines(rows):
@@ -510,9 +512,9 @@ def self_test():
     lui = 0x3C020000
     plants = {
         "rodata": dict(stop=(4, "rodata needs placement (+8 bytes)")),
-        "declaration": dict(stop=(2, "build/src/p/x.c.o does not compile"),
+        "declaration": dict(stop=(2, f"{BUILD}/src/p/x.c.o does not compile"),
                             log="src/p/x.c:12: error: conflicting types for 'func_80010000'\n"),
-        "body": dict(stop=(2, "build/src/p/x.c.o does not compile"), log="src/p/x.c:3: error: parse error before '}'\n"),
+        "body": dict(stop=(2, f"{BUILD}/src/p/x.c.o does not compile"), log="src/p/x.c:3: error: parse error before '}'\n"),
         "reloc": dict(stop=None, r5=dict(stop="hash red", size=(4, 4), words=[
             w(retail=lui | 0x8010, linked=lui | 0x8011, mask=0xFFFF, ok=5, rk=5, os="D_80110000", rs="D_80100000",
               oa=0x80110000, ra=0x80100000)])),
@@ -535,18 +537,18 @@ def self_test():
               ra=3),
             w(off=12, retail=0x00851021, linked=0x00851023)]))),
         ("stale", dict(stop=(0, "state c, not include_asm"))),
-        ("declaration", dict(stop=(2, "build/src/p/x.c.o does not compile"),
+        ("declaration", dict(stop=(2, f"{BUILD}/src/p/x.c.o does not compile"),
                              log="src/p/x.c:9: redefinition of `func_80010000'\n")),
         ("body", dict(stop=(1, "standalone probe FAIL 3/9 words"))),  # compiled, words differ: no compile log
         ("path", dict(stop=(1, "standalone probe FAIL 0/9 words"),  # a warning's note is no declaration error
                       log="a.c:10: warning: \"F\" redefined\na.c:4: note: this is the location of the previous "
                           "definition\nb.c:2: parse error before string constant\n")),
-        ("path", dict(stop=(2, "build/src/p/x.c.o does not compile"),  # R2 asm duplicate local label
+        ("path", dict(stop=(2, f"{BUILD}/src/p/x.c.o does not compile"),  # R2 asm duplicate local label
                       log="/tmp/cc1.s:88: Error: symbol `.L80010008' is already defined\n")),
-        ("path", dict(stop=(2, "build/src/p/x.c.o does not compile"),  # T3.c3: gas fed by a pipe (declunify stop)
+        ("path", dict(stop=(2, f"{BUILD}/src/p/x.c.o does not compile"),  # T3.c3: gas fed by a pipe (declunify stop)
                       log="src/p/x.c:5: warning: \"F\" redefined\n{standard input}: Assembler messages:\n"
                           "{standard input}:18121: Error: symbol `func_80010000' is already defined\n"
-                          "make: *** [Makefile:155: build/src/p/x.c.o] Error 1\n")),
+                          f"make: *** [Makefile:155: {BUILD}/src/p/x.c.o] Error 1\n")),
         ("address", dict(stop=None, r5=dict(stop="hash red", size=(4, 4), placed=(0x80100BCC, 0x80100000, None),
                                             words=[w(off=0, retail=0x27BDFFE0, linked=0x03E00008)]))),  # shifted
         ("body", dict(stop=None, r5=dict(stop="hash red", size=(4, 4), placed=(0x80100BCC, 0x80100000, 8),
@@ -554,7 +556,7 @@ def self_test():
         ("declaration", dict(stop=None, r5=dict(linked=False, stop="undefined reference to `func_80010000'"))),
         ("address", dict(stop=None, r5=dict(linked=False, stop="section .text LMA [80010000,80010fff] overlaps "
                                                               "section .data"))),
-        ("body", dict(stop=None, r5=dict(linked=False, stop="make: *** [Makefile:1: build/p.elf] Error 1"))),
+        ("body", dict(stop=None, r5=dict(linked=False, stop=f"make: *** [Makefile:1: {BUILD}/p.elf] Error 1"))),
     ]
     for want, ev in list(plants.items()) + extra:
         got, det = classify(ev)
@@ -570,17 +572,17 @@ def self_test():
     try:
         a = [("rock_07", "0x800F5934", "f3", "k1", "R5", "body", "x"), ("rock_07", "0x800EBAD8", "f1", "k1", "R5",
              "reloc", "y")]
-        b = [("SLUS_013.95", "0x80100000", "f4", "-", "R2", "norow", "z"), ("rock_07", "0x800EDDD8", "f2", "k2", "R2",
+        b = [("main", "0x80100000", "f4", "-", "R2", "norow", "z"), ("rock_07", "0x800EDDD8", "f2", "k2", "R2",
              "declaration", "w")]
         with open(d + "/parts/rock_07.tsv", "w") as f:
             f.write("".join("\t".join(r) + "\n" for r in a + b[1:]))
-        with open(d + "/parts/SLUS_013.95.tsv", "w") as f:
+        with open(d + "/parts/main.tsv", "w") as f:
             f.write("\t".join(b[0]) + "\n")
         merge(d + "/parts", d + "/one.tsv")
         merge(d + "/parts", d + "/two.tsv")
         one, two = open(d + "/one.tsv", "rb").read(), open(d + "/two.tsv", "rb").read()
         order = [tuple(r[:2]) for r in read_tsv(d + "/one.tsv")]
-        want = [("SLUS_013.95", "0x80100000"), ("rock_07", "0x800EBAD8"), ("rock_07", "0x800EDDD8"),
+        want = [("main", "0x80100000"), ("rock_07", "0x800EBAD8"), ("rock_07", "0x800EDDD8"),
                 ("rock_07", "0x800F5934")]
         if one != two or order != want:
             print(f"refusecause self-test: merge order {order} or not deterministic")

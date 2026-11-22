@@ -23,7 +23,7 @@
          names.tsv, printing `X4NAMES carried <n> widened rows` before the last line.
          last line: X4NAMES <rows> rows; gate <g> bytes <b> slot <s>; engine <e> object <o>; func <f> data <d>
   x4names.py --widen
-      -> container only (the build, build/corpus/functions.jsonl, the mmx4 clone .run/mmx4 at the refs.toml pin and
+      -> container only (the build, build/us/corpus/functions.jsonl, the mmx4 clone .run/mmx4 at the refs.toml pin and
          its objects
          .run/x4share/gcc2.95.2-psx-aspsx2.86/obj/, i.e. after `x4share.py --triple ... --partners`); the only writer
          of the widened rows. names.tsv = the --build rows plus two sources:
@@ -32,7 +32,7 @@
          2b relocation-slot votes: per anchor (an X6 function with an alias from --build or 2a) the relocations of
             its X4 object and its X6 object are paired word by word (x4port.Elf.refs, x4port.Addrs); each pair is one
             vote "this X6 address is that X4 symbol" (address = the base of the X4 symbol; an address inside the
-            executable is filed under SLUS_013.95 whatever the anchor's program). A vote's voter is the anchor's X4
+            executable is filed under main whatever the anchor's program). A vote's voter is the anchor's X4
             function, so the copies of one function in several overlays count once. Admitted: >= 2 distinct voters
             name the address, with one name, and that name is on no other address of the program.
             - a multi-partner class with that name among its partners: tier gate|bytes, votes <n>/0, basis gains
@@ -58,7 +58,7 @@
          the clone's config/symbols.us.txt: refused when its name is address-spelled, it lies outside the loaded
          image of SLUS_005.61 (bss), it is under 16 bytes, it is constant fill, or one of its address-aligned 32-bit
          little-endian words lies in 0x80010000-0x801FFFFF (a pointer: X4-specific content). The bytes of each
-         candidate are searched in the loaded section of every build/*.elf; exactly one occurrence in a program is a
+         candidate are searched in the loaded section of every build/us/*.elf; exactly one occurrence in a program is a
          unique hit there. .run/x4names/data-probe.tsv (prog, address, symbol, length; never pulled) lists them.
          Lines `X4NAMES data-funnel sized <n>; dropped draft-name <a> outside <b> short <c> fill <d> address <e>;
          multi-hit <m> no-hit <z>; unique at <p> (program, address, symbol)`, then the last line
@@ -94,7 +94,7 @@
   x4names.py --compare
       -> container only (the clone .run/mmx4 at the refs.toml pin, the pinned cc1); writes docs/x4-compare.md, never
          hand-edited. Functions: every `func` row of names.tsv, ours = the name at its vram in
-         config/symbols.<prog>.txt (the alias when one of the names there is it, else the first non-func_/D_ one),
+         config/us/symbols.<prog>.txt (the alias when one of the names there is it, else the first non-func_/D_ one),
          mmx4's = alias + basis `path:function` (`-` for slot rows). Fields: every struct|union X4_<N> of
          include/mmx6/x4.h against mmx4's tag <N> in the first mmx4 .c defining it (x4.h's line-1 .c files first);
          offsets from an `(int)&((T *)0)->f` table compiled by the pinned cc1 on each preprocessed TU, read from the
@@ -110,7 +110,7 @@
          resolve a two-name class; one disagreeing voter removes them. data_probe (planted bytes): a datum
          with one occurrence is a unique hit, two occurrences in one program are refused, constant fill and an
          address-looking word are refused. slot_objects (container: needs
-         build/src/SLUS_013.95/120A0.c.o and the corpus; on the host `X4NAMES CASE slot_objects skipped no-objects`):
+         build/us/src/main/120A0.c.o and the corpus; on the host `X4NAMES CASE slot_objects skipped no-objects`):
          a renamed copy of our own object as the X4 side through the real relocation pairing. promote (planted, in
          .run/x4names-selftest/promote/): a caller-voted admit, an object-scope row held `scope object`, a lone
          gate+engine row held `no corroborator`, a hand string row that corroborates a row and yields one upstream
@@ -136,6 +136,7 @@ import x4adapter  # noqa: E402  (paths, attributed, banked, Build)
 import x4core  # noqa: E402  (admission, tiers, widening, who, doc)
 import x4port  # noqa: E402  (PIN and TRIPLE of the port lane, FUNCS, Elf, jl)
 import x4share  # noqa: E402  (CLONE)
+from paths import BUILD, CONFIG_V, VERSION  # noqa: E402  (the version axis, 3.3 T37)
 
 ROOT = x4adapter.ROOT
 TAG = x4adapter.TAG
@@ -146,7 +147,7 @@ SELFTEST = ROOT / ".run/x4names-selftest"
 SCRATCH = x4adapter.SCRATCH  # --widen intermediates: container only, never pulled or tracked
 EXE = x4adapter.EXE
 X4EXE = ROOT / ".run/x4/SLUS_005.61"  # --x4-exe output: container only, never pulled or tracked
-SELF_OBJ, SELF_TU = "build/src/SLUS_013.95/120A0.c.o", "120A0"
+SELF_OBJ, SELF_TU = f"{BUILD}/src/main/120A0.c.o", "120A0"
 
 MIN_WORDS = x4core.MIN_WORDS
 MIN_VOTERS = x4core.MIN_VOTERS
@@ -409,7 +410,7 @@ def probe(syms, images):
 def data_probe():
     os.chdir(ROOT)
     syms4 = Path(x4share.CLONE, "config/symbols.us.txt")
-    for p in (X4EXE, syms4, f"build/{EXE}.elf"):
+    for p in (X4EXE, syms4, f"{BUILD}/{EXE}.elf"):
         if not os.path.exists(p):
             sys.exit(f"x4names: {p} missing (--data-probe runs in the container, after --x4-exe)")
     exe = X4EXE.read_bytes()
@@ -422,7 +423,7 @@ def data_probe():
             inside = t_addr <= a and a + n <= t_addr + min(t_size, len(exe) - 0x800)
             syms.append((m.group(1), a, exe[0x800 + a - t_addr:0x800 + a - t_addr + n] if inside else None))
     images = {}
-    for path in sorted(Path("build").glob("*.elf")):
+    for path in sorted(Path(BUILD).glob("*.elf")):
         e = x4port.Elf(str(path))
         images[path.stem] = [(s[3], e.b[s[4]:s[4] + s[5]]) for s in e.secs if s[1] == 1 and s[2] & 2 and s[3] >= RAM[0]]
     unique, fn = probe(syms, images)
@@ -515,7 +516,7 @@ def probe_cases():
 def slot_objects():
     """The real pairing path on a renamed copy of our own object as the X4 side (C0054, as x4port --self-test)."""
     os.chdir(ROOT)
-    if not (os.path.isfile(SELF_OBJ) and os.path.isfile(x4port.FUNCS) and os.path.isfile(f"build/{EXE}.elf")):
+    if not (os.path.isfile(SELF_OBJ) and os.path.isfile(x4port.FUNCS) and os.path.isfile(f"{BUILD}/{EXE}.elf")):
         print("X4NAMES CASE slot_objects skipped no-objects")
         return []
     fake = str(SELFTEST / "obj/src/main/120A0.c.o")
@@ -686,7 +687,7 @@ def compare_doc(funcs, fields, absent, pin, nstructs):
            f"This file is generated by `tools/mmx6/x4names.py --compare`. Do not edit it by hand. "
            f"The mmx4 pin is `{pin}`.", "",
            "The tool compares our names with the mmx4 names at the pin. The functions are the `func` rows of "
-           "`config/x4/names.tsv`. Our function name is the name in `config/symbols.<prog>.txt` at that address. "
+           "`config/x4/names.tsv`. Our function name is the name in `config/us/symbols.<prog>.txt` at that address. "
            "The fields are the members of each `X4_` struct and union in `include/mmx6/x4.h`, a homed one "
            "(`config/x4/homed.tsv`) by its X6 tag in its hand-written home. "
            "The pinned compiler gives the offset of each field on each side.", "",
@@ -831,7 +832,8 @@ def struct_layouts():
     os.makedirs(CMP_SCR, exist_ok=True)
     src = CMP_SCR / "ours.c"
     src.write_text('#include "mmx6/x4.h"\n')
-    ours_cpp = ["mipsel-linux-gnu-cpp", "-nostdinc", "-undef", "-D__GNUC__=2", "-DPSX", "-Iinclude"]  # Makefile CPP
+    ours_cpp = ["mipsel-linux-gnu-cpp", "-nostdinc", "-undef", "-D__GNUC__=2", "-DPSX", f"-DVERSION=VER_{VERSION.upper()}",
+                "-Iinclude"]  # Makefile CPP
     pp = x4port.run_cpp(ours_cpp + [str(src)], str(ROOT))
     ours = layout(pp, [(k, n, ctag.get(n, f"X4_{n}")) for n, k in sorted(kinds.items())], cc1)
     # mmx4: the first .c that defines tag N, the files x4.h is adapted from first (its line 1), then all sorted
@@ -859,7 +861,7 @@ def compare():
     rows = load(NAMES)
     syms = {}
     for prog in sorted({r[0] for r in rows}):
-        for line in (ROOT / f"config/symbols.{prog}.txt").read_text().splitlines():
+        for line in (ROOT / f"{CONFIG_V}/symbols.{prog}.txt").read_text().splitlines():
             m = x4adapter.SYMBOL.match(line)
             if m:
                 syms.setdefault((prog, int(m.group(2), 16)), []).append(m.group(1))

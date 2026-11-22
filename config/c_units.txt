@@ -1,7 +1,7 @@
 # config/c_units.txt -- TUs splat emits as `c` (src/<prog>/<tu>.c) instead of `asm`; read by tools/mmx6/segment.py.
 # <prog> <tu_name>
-SLUS_013.95 LIBSPU_S_M_UTIL
-SLUS_013.95 120A0
+main LIBSPU_S_M_UTIL
+main 120A0
 rock_00 1EA000
 rock_01 1EA000
 rock_02 E9860
@@ -58,16 +58,16 @@ rock_55 FA000
 rock_56 FA000
 rock_57 FA000
 rock_58 FA000
-SLUS_013.95 32208
-SLUS_013.95 3CD9C
-SLUS_013.95 3CE30
-SLUS_013.95 40388
-SLUS_013.95 4228C
-SLUS_013.95 4FF7C
-SLUS_013.95 51158
-SLUS_013.95 30234
-SLUS_013.95 21BF4
-SLUS_013.95 2E47C
-SLUS_013.95 3AAD0
-SLUS_013.95 315CC
-SLUS_013.95 49670
+main 32208
+main 3CD9C
+main 3CE30
+main 40388
+main 4228C
+main 4FF7C
+main 51158
+main 30234
+main 21BF4
+main 2E47C
+main 3AAD0
+main 315CC
+main 49670

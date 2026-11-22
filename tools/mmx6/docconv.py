@@ -5,15 +5,25 @@
       -> applies DC1-DC8 to the given files (repo-relative), else to the paths listed in config/docconv.txt
          (`#` comment lines, one repo-relative path per line). Prints `DOCCONV FAIL <path>:<line> DC<k> <reason>` per
          refusal, then `DOCCONV OK <n> files` rc 0 or `DOCCONV FAIL <n> refusals` rc 1. A listed path that does not
-         exist is a refusal (DC0).
+         exist is a refusal (DC0). Then DC9 over every function header in src/: a mismatch in a checked path is a
+         refusal (`DOCCONV FAIL ... DC9`, rc 1); elsewhere it prints `DOCCONV FACT <path>:<line> DC9 <kind> ...` and the
+         line `DOCCONV FACTS <n> mismatches in <k> unlisted files`, rc unchanged.
+  docconv.py [--root DIR] show <func>
+      -> the function's facts (rule M30): address per prog, basis.tsv rows, relocdef aliases (config/us/dedup_registry.txt),
+         purpose (config/symbols/notes.tsv), callers (jal) and refs (lui+addiu/ori) decoded as
+         tools/mmx6/systems/callgraph.py does over build/us/corpus/functions.jsonl and the retail images
+         (`callers: unavailable (no build/us/corpus)` without it), and each includer unit with the entries either side of
+         the #include.
   docconv.py --self-test
       -> planted tree under .run/<phase>/docconv-selftest/ (removed at the end): one passing file exercising every rule
          (also as a shared file, a role file and its unit) and one failing file per rule (DC1: a shared file without
-         its line, a role file no unit includes, a role file whose banner prog is not its unit's). Ends `DOCCONV CONTROL OK` rc 0, or `DOCCONV CONTROL FAIL <case>` rc 1.
+         its line, a role file no unit includes, a role file whose banner prog is not its unit's); DC9: a mini tree
+         passing, one mismatch per fact kind, an unlisted mismatch, a restates_name pass/skip pair, and show with and
+         without build/us/corpus. Ends `DOCCONV CONTROL OK` rc 0, or `DOCCONV CONTROL FAIL <case>` rc 1.
 
 Rules (line refs 1-based)
   DC1 banner: exactly one leading comment line `// prog <P> | system <s> | range 0x<lo>-0x<hi>` (or `range -` in a .h);
-      config/symbols.<P>.txt exists; lo <= hi (hi = the last instruction word, not end-exclusive). A file under
+      config/us/symbols.<P>.txt exists; lo <= hi (hi = the last instruction word, not end-exclusive). A file under
       src/shared/ also needs a leading `// Shared file: included by <TU>, between <A> and <B>.` line, the TU existing
       and naming the file in an #include. A role file (a .c under src/<dir>/ other than src/shared/, not itself a unit
       of config/c_units.txt) needs no `// Shared file:` line: some unit's #include closure (layout.includers) must
@@ -21,20 +31,28 @@ Rules (line refs 1-based)
   DC2 no build path: no comment line holds a drive path, /Users/ /home/ /work/ /tmp/ /sdk/ /disc/ /mnt/ /private/,
       or `Source:`.
   DC3 header: each file-scope function definition is preceded by a `//` block opening `// 0x<8 HEX> <name>: <purpose>`
-      (address from config/symbols.<P>.txt or a func_ name; purpose >= 3 words). Exempt (with DC4-DC6): a `static inline`
-      helper with no address (not in config/symbols.<P>.txt, no func_ name); it may carry a short header
+      (address from config/us/symbols.<P>.txt or a func_ name; purpose >= 3 words). Exempt (with DC4-DC6): a `static inline`
+      helper with no address (not in config/us/symbols.<P>.txt, no func_ name); it may carry a short header
       `// <name>: <purpose>` (name matches, purpose >= 3 words) or none. Preprocessor lines and their backslash
       continuations (a `#define` body) are not scanned for definitions; the passing planted file holds such a macro.
   DC4 basis: `// basis: <kind> <ref>` matching a config/symbols/basis.tsv row (prog, vram, kind; ref >= 8 chars inside
       basis-ref), or `// basis: none` for a func_ name.
-  DC5 callers: `// callers: a, b` (names from any config/symbols.*.txt) or `// callers: none known`.
+  DC5 callers: `// callers: a, b` (names from any config/us/symbols.*.txt) or `// callers: none known`.
   DC6 string: a (prog, vram) row of config/oracle.strnames.tsv needs a `// str 0x<8 HEX> ` line in the block.
   DC7 usage notes: a struct definition is preceded by a `//` line with `read by ` or `used by `; each member line ends
       with a `//` comment holding `by <identifier>` or `unreferenced`. An optional `// reads: Struct.field (+0xNN, type),
       role` line in a function block notes a read of a generated struct's field; a malformed one is refused.
   DC8 FAKE: each `!FAKE:` is followed on its line by a reason of >= 3 words.
+  DC9 facts (rule M30; the tables are the source, the header a copy): for each `// 0x<ADDR> <name>: <purpose>` line
+      in src/, its block being it and the `//` lines below (prog from the path, src/shared/<P>/ included, else the banner, else the first
+      includer unit prog naming it, by name, then address, then any for a func_ name): `address` the
+      address and name equal config/us/symbols.<P>.txt (a func_ name not in it: its own hex); `basis` the block's
+      `// basis: <kind> <ref>` has a basis.tsv row (prog, vram, name, kind) whose basis-ref holds ref, and `basis: none`
+      a func_ name with no row at (prog, vram); `purpose` equals its config/symbols/notes.tsv row (prog, vram, name),
+      or restates the name (restates_name) with no row.
 """
 import argparse
+import json
 import re
 import shutil
 import sys
@@ -42,6 +60,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import layout  # noqa: E402  (includers: the C units' #include closure)
+sys.path.insert(0, str(Path(__file__).resolve().parent / "systems"))
+import callgraph  # noqa: E402  (edges, image_word: the jal decode)
+from paths import BUILD, EXTRACTED, CONFIG_V  # noqa: E402  (the version axis, 3.3 T37)
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -60,6 +81,9 @@ SELFTEST = phase_scratch(ROOT) / "docconv-selftest"
 LIST = "config/docconv.txt"
 BASIS = "config/symbols/basis.tsv"
 STRNAMES = "config/oracle.strnames.tsv"
+NOTES = "config/symbols/notes.tsv"
+REGISTRY = CONFIG_V + "/dedup_registry.txt"
+CORPUS = f"{BUILD}/corpus/functions.jsonl"
 
 BANNER = re.compile(r"^// prog (\S+) \| system ([a-z0-9_]+) \| range (0x[0-9A-F]{8}-0x[0-9A-F]{8}|-)$")
 BANNERISH = re.compile(r"^//\s*prog\b")
@@ -113,7 +137,7 @@ def split(line, in_block):
 def load_tables(root):
     """symbols per prog, every symbol name, basis rows, string-user (prog, vram) pairs."""
     syms, names = {}, set()
-    for p in sorted((root / "config").glob("symbols.*.txt")):
+    for p in sorted((root / CONFIG_V).glob("symbols.*.txt")):
         prog = p.name[len("symbols."):-len(".txt")]
         table = {}
         for line in p.read_text(encoding="utf-8", errors="replace").splitlines():
@@ -190,7 +214,7 @@ def check_file(rel, text, tables, root=ROOT, inc=None):
     else:
         ln, m = good[0]
         if m.group(1) not in syms:
-            fail(ln, 1, f"no config/symbols.{m.group(1)}.txt for prog {m.group(1)}")
+            fail(ln, 1, f"no {CONFIG_V}/symbols.{m.group(1)}.txt for prog {m.group(1)}")
         else:
             prog = m.group(1)
         rng = m.group(3)
@@ -303,7 +327,7 @@ def check_func(rel, lines, start, name, prog, tables, helper=False):
         if addr is None and fm:
             addr = int(fm.group(1), 16)
         if addr is None:
-            out.append(f"{rel}:{ln} DC3 {name}: no address in config/symbols.{prog}.txt")
+            out.append(f"{rel}:{ln} DC3 {name}: no address in {CONFIG_V}/symbols.{prog}.txt")
         elif int(h.group(1), 16) != addr:
             out.append(f"{rel}:{ln} DC3 {name}: header 0x{h.group(1)} != 0x{addr:08X}")
     # DC4
@@ -367,6 +391,261 @@ def listed(root):
     return [s.strip() for s in p.read_text(encoding="utf-8").splitlines() if s.strip() and not s.startswith("#")]
 
 
+# ---- DC9 facts and show (rule M30, T34) ---------------------------------------------------------------------------
+
+STOP = {"a", "an", "the", "of", "to", "for", "and", "or", "in", "on", "at", "by", "from", "with", "into", "its", "it",
+        "is", "this", "that", "as"}
+
+
+def restates_name(name, purpose):
+    """True when the purpose only restates the name: its lowercase word tokens, less STOP, are all `_` tokens of name."""
+    words = set(re.findall(r"[a-z0-9]+", purpose.lower())) - STOP
+    return words <= set(name.lower().split("_"))
+
+
+def tsv_rows(path, n):
+    """The TAB rows (>= n fields) of a `#`-headed table, [] when it is missing."""
+    if not path.exists():
+        return []
+    return [f for f in (ln.split("\t") for ln in path.read_text(encoding="utf-8", errors="replace").splitlines()
+                        if ln and not ln.startswith("#")) if len(f) >= n]
+
+
+def load_facts(root):
+    """(syms, basis {(prog, vram): [(name, kind, ref, tier)]}, notes {(prog, vram): (name, purpose)})."""
+    syms = load_tables(root)[0]
+    basis, notes = {}, {}
+    for f in tsv_rows(root / BASIS, 5):
+        try:
+            basis.setdefault((f[0], int(f[1], 16)), []).append((f[2], f[3], f[4], f[5] if len(f) > 5 else ""))
+        except ValueError:
+            continue
+    for f in tsv_rows(root / NOTES, 4):
+        try:
+            notes[(f[0], int(f[1], 16))] = (f[2], f[3])
+        except ValueError:
+            continue
+    return syms, basis, notes
+
+
+def path_prog(rel, lines, syms):
+    """The prog of a src/ file: src/<P>/ or src/shared/<P>/ when P has a symbols table, else the banner's, else None."""
+    parts = rel.split("/")
+    for p in (parts[1:2] + (parts[2:3] if parts[1:2] == ["shared"] else [])):
+        if p in syms:
+            return p
+    for line in lines:
+        m = BANNER.match(line.strip())
+        if m and m.group(1) in syms:
+            return m.group(1)
+        if line.strip() and not line.strip().startswith("//"):
+            break
+    return None
+
+
+def headers(root, syms):
+    """(rel, line, prog, header addr, name, purpose, block from it down) for each `// 0x<ADDR> name: purpose` in src/."""
+    out, inc = [], None
+    for p in sorted((root / "src").rglob("*")):
+        if p.suffix not in (".c", ".h") or not p.is_file():
+            continue
+        rel = p.relative_to(root).as_posix()
+        lines = p.read_text(encoding="utf-8", errors="replace").splitlines()
+        prog = None
+        for i, line in enumerate(lines):
+            h = HEAD.match(line.strip())
+            if not h:
+                continue
+            j = i
+            while j < len(lines) and lines[j].strip().startswith("//"):
+                j += 1
+            prog = prog or path_prog(rel, lines, syms)
+            hp = prog
+            if hp is None:   # no prog in the path or a banner: the includer unit progs, the one naming it first
+                inc = inc if inc is not None else layout.includers(str(root))
+                ps = sorted({p for p, _ in inc.get(rel, []) if p in syms})
+                fm, a = FUNCNAME.match(h.group(2)), int(h.group(1), 16)
+                hp = next((p for p in ps if h.group(2) in syms[p]), None) or \
+                    next((p for p in ps if fm and a in syms[p].values()), None) or \
+                    next((p for p in ps if fm), None)
+            out.append((rel, i + 1, hp, int(h.group(1), 16), h.group(2), h.group(3),
+                        [b.strip() for b in lines[i:j]]))
+    return out
+
+
+def fact_mismatches(prog, addr, name, purpose, block, syms, basis, notes):
+    """[(kind, why)] of one header against the tables."""
+    out = []
+    table = syms.get(prog)
+    if table is None:
+        return [("address", f"{name}: no prog (path or banner) with a config/symbols table")]
+    fm = FUNCNAME.match(name)
+    want = table.get(name)
+    if want is None and fm:
+        want = int(fm.group(1), 16)
+        if any(v == want for v in table.values()):
+            out.append(("address", f"{name}: 0x{want:08X} has another name in {CONFIG_V}/symbols.{prog}.txt"))
+    if want is None:
+        out.append(("address", f"{name}: not in {CONFIG_V}/symbols.{prog}.txt"))
+    elif want != addr:
+        out.append(("address", f"{name}: header 0x{addr:08X} != table 0x{want:08X}"))
+    v = want if want is not None else addr
+    rows = basis.get((prog, v), [])
+    bl = [m for m in (BASISLINE.match(b) for b in block if b.startswith("// basis:")) if m]
+    if not bl:
+        out.append(("basis", f"{name}: no `// basis:` line"))
+    else:
+        kind, ref = bl[0].group(1), bl[0].group(2) or ""
+        if kind == "none" and not ref:
+            if not fm:
+                out.append(("basis", f"{name}: basis none for a non-placeholder name"))
+            elif rows:
+                out.append(("basis", f"{name}: basis none but basis.tsv has {len(rows)} row(s) at {prog} 0x{v:08X}"))
+        elif not ref or not any(n == name and k == kind and ref in r for n, k, r, _ in rows):
+            out.append(("basis", f"{name}: no basis.tsv row {prog} 0x{v:08X} {name} {kind} holding `{ref}`"))
+    row = notes.get((prog, v))
+    if row is not None:
+        if row != (name, purpose):
+            out.append(("purpose", f"{name}: header purpose != notes.tsv row ({row[0]}: {row[1]})"))
+    elif not restates_name(name, purpose):
+        out.append(("purpose", f"{name}: no notes.tsv row at {prog} 0x{v:08X} and the purpose is not the name"))
+    return out
+
+
+def facts(root, checked):
+    """(refusals in checked paths, FACT lines elsewhere, summary line) of DC9 over every header in src/."""
+    syms, basis, notes = load_facts(root)
+    fails, other, files = [], [], set()
+    for rel, ln, prog, addr, name, purpose, block in headers(root, syms):
+        for kind, why in fact_mismatches(prog, addr, name, purpose, block, syms, basis, notes):
+            if rel in checked:
+                fails.append(f"DOCCONV FAIL {rel}:{ln} DC9 {kind} {why}")
+            else:
+                other.append(f"DOCCONV FACT {rel}:{ln} DC9 {kind} {why}")
+                files.add(rel)
+    return fails, other, f"DOCCONV FACTS {len(other)} mismatches in {len(files)} unlisted files"
+
+
+def run_check(root, paths):
+    """(printed lines, rc) of `check`: DC0-DC8 over the paths (else config/docconv.txt), then DC9 over src/."""
+    paths = paths or listed(root)
+    fails, summary, rc = check(root, paths)
+    ff, other, fsum = facts(root, set(paths))
+    if ff:
+        fails, rc = fails + ff, 1
+        summary = f"DOCCONV FAIL {len(fails)} refusals"
+    return fails + other + [fsum, summary], rc
+
+
+def show(root, func):
+    """The lines of `show <func>`."""
+    syms, basis, notes = load_facts(root)
+    keys = sorted((p, t[func]) for p, t in syms.items() if func in t)
+    fm = FUNCNAME.match(func)
+    if not keys and fm:
+        keys = sorted((p, int(fm.group(1), 16)) for p, t in syms.items() if p in func_progs(root, func))
+    out = [f"show {func}"]
+    out += [f"address {p} 0x{v:08X}" for p, v in keys] or ["address: none in config/us/symbols.*.txt"]
+    rows = [(p, v, r) for (p, v), rs in sorted(basis.items()) for r in rs if r[0] == func]
+    out += [f"basis {p} 0x{v:08X} {r[1]} {r[2]} [{r[3]}]" for p, v, r in rows] or ["basis: no basis.tsv row"]
+    names = {(p, v): n for p, t in syms.items() for n, v in t.items()}
+    pv = lambda s: (s.split(":")[0], int(s.split(":")[1], 16))
+    nm = lambda s: names.get(pv(s), "?")
+    al = []
+    reg = root / REGISTRY
+    for ln in (reg.read_text(encoding="utf-8", errors="replace").splitlines() if reg.exists() else []):
+        f = ln.split()
+        if ln.startswith("#") or len(f) < 6 or "relocdef" not in f[5:]:
+            continue
+        try:
+            ex, mem = pv(f[1]), pv(f[3])
+        except (IndexError, ValueError):
+            continue
+        if ex in keys or mem in keys:
+            al.append(f"alias {f[3]} {nm(f[3])} of exemplar {f[1]} {nm(f[1])} ({f[2]}, {f[4]})")
+    out += al or ["aliases: no relocdef row"]
+    out += [f"purpose {p} 0x{v:08X} {notes[(p, v)][1]}" for p, v in keys if (p, v) in notes] \
+        or ["purpose: no notes.tsv row (the name carries it)"]
+    out += show_callers(root, keys)
+    out += show_includers(root, func)
+    return out
+
+
+def func_progs(root, func):
+    """Progs whose corpus names func (a placeholder not in any symbols table)."""
+    c = root / CORPUS
+    if not c.exists():
+        return set()
+    return {r["prog"] for r in map(json.loads, c.read_text().splitlines()) if r.get("name") == func}
+
+
+def show_callers(root, keys):
+    c = root / CORPUS
+    if not c.exists():
+        return [f"callers: unavailable (no {BUILD}/corpus)"]
+    byprog = {}
+    for r in map(json.loads, c.read_text().splitlines()):
+        byprog.setdefault(r["prog"], {})[int(r["vram"], 16)] = r
+    out = []
+    for prog, v in keys:
+        scan = sorted(byprog) if prog == callgraph.PROG else [prog]   # an overlay calls the exe; overlays share vram
+        jc, rc, miss = [], [], []
+        for q in scan:
+            if q not in byprog:
+                continue
+            word = callgraph.image_word(q, str(root))
+            if word is None:
+                miss.append(q)
+                continue
+            jal, ref = callgraph.edges(byprog[q], word, {v})
+            tag = "" if q == prog else f" ({q})"
+            jc += [byprog[q][a]["name"] + tag for a in sorted(jal) if v in jal[a]]
+            rc += [byprog[q][a]["name"] + tag for a in sorted(ref) if v in ref[a]]
+        if prog not in byprog or v not in byprog[prog]:
+            out.append(f"callers {prog} 0x{v:08X}: unavailable (not in {BUILD}/corpus)")
+            continue
+        out.append(f"callers {prog} 0x{v:08X}: " + (", ".join(jc) or "none decoded"))
+        if rc:
+            out.append(f"refs {prog} 0x{v:08X}: " + ", ".join(rc))
+        if miss:
+            out.append(f"callers {prog} 0x{v:08X}: no image for {', '.join(miss)}")
+    return out
+
+
+def show_includers(root, func):
+    """Each file defining func (C body or INCLUDE_ASM) and, per unit reaching it, the entries either side of its #include."""
+    tree = layout.Tree(str(root))
+    defs = []
+    for p in sorted((root / "src").rglob("*.c")):
+        rel = p.relative_to(root).as_posix()
+        if any(e.kind in ("def", "asm") and e.name == func for e in layout.parse(tree.lines(rel))):
+            defs.append(rel)
+    if not defs:
+        return ["includers: no definition in src/"]
+    inc = layout.includers(tree)
+    label = lambda e: e.name if e.kind != "inc" else Path(e.target).name
+    out = []
+    for rel in defs:
+        units = inc.get(rel, [])
+        if not units:
+            out.append(f"defined in {rel}: included by no C unit")
+        for p, tu in units:
+            if tree.unit_rel(p, tu) == rel:
+                out.append(f"defined in {rel}: unit {p}/{tu} itself")
+                continue
+            for f in sorted(k for k, us in inc.items() if (p, tu) in us):
+                ents = layout.parse(tree.lines(f))
+                for i, e in enumerate(ents):
+                    t = e.target if e.kind == "inc" and e.target.startswith("src/") else \
+                        layout.norm(f, e.target) if e.kind == "inc" else None
+                    if t == rel:
+                        a = label(ents[i - 1]) if i else "(start)"
+                        b = label(ents[i + 1]) if i + 1 < len(ents) else "(end)"
+                        out.append(f"defined in {rel}: unit {p}/{tu} includes it at {f}:{e.first + 1}, "
+                                   f"between {a} and {b}")
+    return out
+
+
 def plant(base, files):
     if base.exists():
         shutil.rmtree(base)
@@ -424,11 +703,99 @@ ROLE_TU = '#include "sys/r.c"\n'                   # unit src/P/tu.c -> role fil
 UNITS = "# planted\nP tu\n"
 HEADER_H = "// prog P | system test | range -\nint do_thing(void* t);\n"
 TREE = {
-    "config/symbols.P.txt": "// planted\ndo_thing = 0x80010000;\nfunc_80010040 = 0x80010040;\ndo_thing2 = 0x80010080;\n",
+    CONFIG_V + "/symbols.P.txt": "// planted\ndo_thing = 0x80010000;\nfunc_80010040 = 0x80010040;\ndo_thing2 = 0x80010080;\n",
     "config/symbols/basis.tsv": "# prog\tvram\tname\tbasis-kind\tbasis-ref\ttier\n"
                                 "P\t0x80010000\tdo_thing\tx4\texact abcdef123456 planted/ref\tgate\n",
     "config/oracle.strnames.tsv": "# planted\n# unit\tvram\tname\nP\t0x80010040\tfunc_80010040\n",
 }
+# DC9 and show: unit rock_99/tu (caller_fn, then shared do_thing, then tail_fn); caller_fn's first word is
+# `jal do_thing` in a planted 0x20-byte image; do_thing is relocdef-aliased as rock_98 do_thing_b.
+FACT_S = """\
+// prog rock_99 | system test | range 0x80100010-0x80100014
+// Shared file: included by src/rock_99/tu.c, between caller_fn and tail_fn.
+// 0x80100010 do_thing: returns the planted field
+// basis: x4 abcdef123456
+// callers: caller_fn
+int do_thing(int* t) {
+    return *t;
+}
+"""
+FACT_T = """\
+// prog rock_99 | system test | range 0x80100018-0x8010001C
+// 0x80100018 tail_fn: the tail fn
+// basis: x4 123456abcdef
+// callers: none known
+void tail_fn(void) {
+}
+"""
+FACT_TREE = {
+    CONFIG_V + "/symbols.rock_99.txt": "caller_fn = 0x80100000;\ndo_thing = 0x80100010;\ntail_fn = 0x80100018;\n",
+    CONFIG_V + "/symbols.rock_98.txt": "do_thing_b = 0x80100020;\n",
+    "config/symbols/basis.tsv": "# prog\tvram\tname\tbasis-kind\tbasis-ref\ttier\n"
+                                "rock_99\t0x80100010\tdo_thing\tx4\texact abcdef123456 planted/ref\tgate\n"
+                                "rock_99\t0x80100018\ttail_fn\tx4\texact 123456abcdef planted/ref\tgate\n",
+    "config/symbols/notes.tsv": "# prog\tvram\tname\tpurpose\nrock_99\t0x80100010\tdo_thing\treturns the planted field\n",
+    CONFIG_V + "/dedup_registry.txt": "# planted\nk rock_99:0x80100010 src/shared/rock_99/s.c rock_98:0x80100020 gated "
+                                 "define do_thing=do_thing_b via relocdef\n",
+    "config/c_units.txt": "rock_99 tu\n",
+    CONFIG_V + "/boundaries.txt": "# program rock_99 base 0x80100000 size 0x20\n",
+    f"{BUILD}/corpus/functions.jsonl": "".join(
+        f'{{"prog": "rock_99", "vram": "0x{a:08X}", "end": "0x{b:08X}", "name": "{n}"}}\n'
+        for a, b, n in ((0x80100000, 0x80100010, "caller_fn"), (0x80100010, 0x80100018, "do_thing"),
+                        (0x80100018, 0x80100020, "tail_fn"))),
+    "src/rock_99/tu.c": '// prog rock_99 | system test | range 0x80100000-0x8010001C\n'
+                        'INCLUDE_ASM("rock_99/nonmatchings/tu", caller_fn);\n\n'
+                        '#include "../shared/rock_99/s.c"\n\n'
+                        'INCLUDE_ASM("rock_99/nonmatchings/tu", tail_fn);\n',
+    "src/shared/rock_99/s.c": FACT_S,
+    "src/rock_99/t.c": FACT_T,
+}
+FACT_IMAGE = (0x0C040004).to_bytes(4, "little") + bytes(0x1C)      # jal 0x80100010, then nops
+FACT_SHOW = [
+    "address rock_99 0x80100010",
+    "basis rock_99 0x80100010 x4 exact abcdef123456 planted/ref [gate]",
+    "alias rock_98:0x80100020 do_thing_b of exemplar rock_99:0x80100010 do_thing (src/shared/rock_99/s.c, gated)",
+    "purpose rock_99 0x80100010 returns the planted field",
+    "callers rock_99 0x80100010: caller_fn",
+    "defined in src/shared/rock_99/s.c: unit rock_99/tu includes it at src/rock_99/tu.c:4, between caller_fn and tail_fn",
+]
+
+
+def fact_selftest():
+    """The DC9 and show controls; [failing case names]."""
+    s, t = "src/shared/rock_99/s.c", "src/rock_99/t.c"
+    cases = [
+        ("F-pass", {}, {s, t}, [], 0),
+        ("F-address", {s: FACT_S.replace("// 0x80100010", "// 0x80100014")}, {s, t}, [(s, "address")], 0),
+        ("F-basis", {s: FACT_S.replace("x4 abcdef123456", "x4 abcdef999999")}, {s, t}, [(s, "basis")], 0),
+        ("F-purpose", {s: FACT_S.replace("planted field", "planted value")}, {s, t}, [(s, "purpose")], 0),
+        ("F-restate-skip", {t: FACT_T.replace("the tail fn", "ends the tail fn")}, {s, t}, [(t, "purpose")], 0),
+        ("F-unlisted", {s: FACT_S.replace("// 0x80100010", "// 0x80100014")}, set(), [], 1),
+    ]
+    bad = []
+    if not restates_name("tail_fn", "the tail fn") or restates_name("tail_fn", "ends the tail fn"):
+        bad.append("F-restates_name")
+    for case, mut, checked, want, nother in cases:
+        plant(SELFTEST, {**FACT_TREE, **mut})
+        fails, other, summary = facts(SELFTEST, checked)
+        got = [(f.split()[2].rsplit(":", 1)[0], f.split()[4]) for f in fails]
+        if got != want or len(other) != nother or \
+                summary != f"DOCCONV FACTS {nother} mismatches in {nother} unlisted files":
+            bad.append(case)
+            print("\n".join(f"  {x}" for x in fails + other + [summary]))
+    plant(SELFTEST, FACT_TREE)
+    (SELFTEST / f"{EXTRACTED}/rock").mkdir(parents=True)
+    (SELFTEST / f"{EXTRACTED}/rock/99.bin").write_bytes(FACT_IMAGE)
+    got = show(SELFTEST, "do_thing")
+    if [x for x in FACT_SHOW if x not in got]:
+        bad.append("F-show")
+        print("\n".join(f"  {x}" for x in got))
+    (SELFTEST / CORPUS).unlink()
+    got = show(SELFTEST, "do_thing")
+    if f"callers: unavailable (no {BUILD}/corpus)" not in got:
+        bad.append("F-show-nocorpus")
+        print("\n".join(f"  {x}" for x in got))
+    return bad
 
 
 def selftest():
@@ -490,6 +857,9 @@ def selftest():
                 for line in fails + [summary]:
                     print(f"  {line}")
                 rc = 1
+        for case in fact_selftest():
+            print(f"DOCCONV CONTROL FAIL {case}")
+            rc = 1
     finally:
         shutil.rmtree(SELFTEST, ignore_errors=True)
     if rc == 0:
@@ -504,15 +874,20 @@ def main(argv=None):
     sub = ap.add_subparsers(dest="cmd")
     c = sub.add_parser("check", help="check the given paths, else those in config/docconv.txt")
     c.add_argument("paths", nargs="*")
+    s = sub.add_parser("show", help="a function's facts: addresses, basis, aliases, purpose, callers, includers")
+    s.add_argument("func")
     a = ap.parse_args(argv)
     if a.self_test:
         return selftest()
     if a.cmd == "check":
-        root = Path(a.root).resolve()
-        fails, summary, rc = check(root, a.paths if a.paths else listed(root))
-        for line in fails + [summary]:
+        lines, rc = run_check(Path(a.root).resolve(), a.paths)
+        for line in lines:
             print(line)
         return rc
+    if a.cmd == "show":
+        for line in show(Path(a.root).resolve(), a.func):
+            print(line)
+        return 0
     ap.print_help()
     return 2
 

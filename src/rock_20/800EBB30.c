@@ -420,11 +420,11 @@ void func_800EC378(u8* arg0) {
 #undef D_800F0B30
 
 // clang-format off
-INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800ECB00);
+INCLUDE_ASM("rock_20/nonmatchings/E9860", func_800ECB00);
 
-INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800ECF10);
+INCLUDE_ASM("rock_20/nonmatchings/E9860", func_800ECF10);
 
-INCLUDE_ASM("asm/rock_20/nonmatchings/E9860", func_800ED45C);
+INCLUDE_ASM("rock_20/nonmatchings/E9860", func_800ED45C);
 // clang-format on
 
 #include "common.h"

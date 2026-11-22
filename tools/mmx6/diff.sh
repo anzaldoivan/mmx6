@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
-# diff.sh <func> [asm-differ args...] — asm-differ (/opt/asm-differ, pinned in the Makefile) of one function, build/
-# vs expected/build/ (container, from /work; settings in /work/diff_settings.py, program from env MX6_PROG). Needs
-# `make build expected` in the same container chain (sync wipes /work); never runs make itself.
+# diff.sh <func> [asm-differ args...] — asm-differ (/opt/asm-differ, pinned in the Makefile) of one function, $B/
+# vs expected/$VERSION/ (B = $BUILD_ROOT/$VERSION, defaults build/us; container, from /work; settings in
+# /work/diff_settings.py, program from env MX6_PROG). Needs `make build expected` in the same container chain (sync wipes /work); never runs make itself.
 # Prints asm-differ's diff (with the given args), then a last line `DIFF <func> <n> differing lines`; rc 0 only
 # when n == 0, 1 when n > 0, 2 when the function or a file is missing.
-# Function extent: from its map symbol to the next symbol in build/<b>.map (passed as --max-lines).
+# Function extent: from its map symbol to the next symbol in $B/<b>.map (passed as --max-lines).
 # Count: a second asm-differ run with --format json (to .run/diff/<func>.json); n = rows whose current-column line
 # marker is not a space (asm-differ's plain-format markers i s r R | < >; a row missing on one side counts).
 set -uo pipefail
 cd "$(dirname "$0")/../.."
 [[ $# -ge 1 ]] || { echo "usage: diff.sh <func> [asm-differ args...]" >&2; exit 2; }
 func=$1; shift
-prog=${MX6_PROG:-SLUS_013.95}
-map=build/$prog.map
+prog=${MX6_PROG:-main}
+B=${BUILD_ROOT:-build}/${VERSION:-us}
+map=$B/$prog.map
 [[ -f $map ]] || { echo "diff.sh: no $map (run make build expected)" >&2; exit 2; }
 # Symbol lines of a GNU ld map are `<addr> <name>` (fixed-width hex, so string order is address order).
 read -r start next < <(awk -v f="$func" '

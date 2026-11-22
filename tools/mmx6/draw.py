@@ -2,7 +2,7 @@
 """draw.py -- the draw filter: which ranked not-yet-C functions a wave may draw (container, stdlib only).
 
   draw.py [--n K]
-      -> build/draw/draw.jsonl, one row per build/reports/difficulty.json function in rank order
+      -> build/us/draw/draw.jsonl, one row per build/us/reports/difficulty.json function in rank order
          {prog,vram,verdict:"draw|eligible|refused",layer,reason}: the first K survivors `draw` (no --n: all),
          later survivors `eligible`, the rest `refused` at the first layer that refuses them; stdout counts only (G12):
          `DRAW-DETAIL clusters <c> largest <k> survivors <s>`, last line
@@ -16,12 +16,12 @@
          L1/L3 row whose layer's static check (below, computed for the rows' keys only) no longer refuses it; an L2 row
          with no registry/banked-twin refusal and no twin-component peer in U (components over U); L4 rows never.
   draw.py --rank leverage|difficulty --wave W<n> [--band <lo>-<hi>] [--routing FILE] [--n K]
-      -> build/draw/W<n>.txt, one `<prog>:0x<VRAM>` per line, the first K survivors (no --n: all) in rank order; never
+      -> build/us/draw/W<n>.txt, one `<prog>:0x<VRAM>` per line, the first K survivors (no --n: all) in rank order; never
          writes draw.jsonl. n >= 1 needs campaign/harvest/W<n-1>.ok (checked first, before any input is read), else
          `DRAW HARVEST-MISSING W<n-1>` rc 2; W0 needs no stamp. Then the audit (its EXCLUDE AUDIT line; stale -> rc 2).
          difficulty: difficulty.json rank order. leverage: U by payoff = words x (1 + m) desc, m = distinct other U
-         functions sharing f's census dup class or family (build/census/classes.jsonl) or an exact twin; ties by
-         closeness (build/scaffold/scaffold.jsonl, else campaign/scaffold/scaffold.jsonl; `score` ascending; no
+         functions sharing f's census dup class or family (build/us/census/classes.jsonl) or an exact twin; ties by
+         closeness (build/us/scaffold/scaffold.jsonl, else campaign/scaffold/scaffold.jsonl; `score` ascending; no
          file/row = last), then (prog, vram).
          --band keeps lo <= corpus words <= hi (inclusive) before the verdicts. Verdicts L1-L4 as below over the ranked
          candidates (components over U). Stdout `DRAW-DETAIL …`, last `DRAW refused <r> of <n> (…); drawn <k>`
@@ -40,7 +40,7 @@
          campaign/ledger.tsv blocker (col 7) jtbl-uncarved -> jtbl-uncarved, plateau:* -> plateau, else other.
          W<n>.txt lines gain ` class=<c>`; a plateau line's attempts = min(band cap, plateau cap), the band cap when the
          `plateau` row is absent (DISABLED in config/routing.txt since 3.1 T25). One
-         `DRAW class <c> <k>` per class in order, after the routing lines. Prior art first: build/draw/W<n>.plateau.txt,
+         `DRAW class <c> <k>` per class in order, after the routing lines. Prior art first: build/us/draw/W<n>.plateau.txt,
          one `<pv> x5=<v> x4=<v> proto=<v> pc=<v>` per plateau pick (campaign/priorart.tsv, `-` empty); a plateau pick
          with no priorart row -> `DRAW PRIORART-MISSING <pv>` rc 2, no W<n>.txt. No order row -> `DRAW MALFORMED
          <path>:order row absent` rc 2; a missing refusecause/ledger/priorart file -> `DRAW REFUSE missing` rc 1.
@@ -72,11 +72,11 @@
 Layers, cheapest first:
   L1 lane lib and its boundaries `lib` OBJ (row holding vram, that program) not under docs/ops/compiler-pin.md
      `## Proven lib units` -> `lib triple unproven <OBJ>`; a boundaries `jtbl` row whose dispatcher func lies in
-     [vram, end) and whose table lo has no config/carve.<prog>.txt `jtbl` row -> `jtbl not carved <table>`;
+     [vram, end) and whose table lo has no config/us/carve.<prog>.txt `jtbl` row -> `jtbl not carved <table>`;
      optscan.classify of the words (census.read_words; no optscan output file is kept) O0|fp-only under unit cflags
      -O2 (Makefile TRIPLE row of config/triples.txt, or the carve `opt` row's cflags for its new TU), or O2 under
      non -O2 -> `opt mismatch`.
-  L2 a config/dedup_registry.txt row names f -> `registry <state>`; an exact twin (build/sig/twins.jsonl) whose corpus
+  L2 a config/us/dedup_registry.txt row names f -> `registry <state>`; an exact twin (build/us/sig/twins.jsonl) whose corpus
      state is c|c-empty -> `banked twin <prog:vram>`; f's open cluster (connected component of exact+near twins over
      difficulty functions) already holds an earlier survivor -> `cluster of <prog:vram>` (G46).
   L3 walls.bankable false -> its reason (`wall <pass> <ref>`).
@@ -95,17 +95,18 @@ import census  # noqa: E402
 import optscan  # noqa: E402
 import propagate  # noqa: E402
 import walls  # noqa: E402
+from paths import BUILD, CONFIG_V, prog_key  # noqa: E402  (the version axis, 3.3 T37)
 
-INPUTS = dict(diff="build/reports/difficulty.json", funcs="build/corpus/functions.jsonl",
-              bounds="config/boundaries.txt", carve="config/carve.{prog}.txt", pin="docs/ops/compiler-pin.md",
-              registry="config/dedup_registry.txt", twins="build/sig/twins.jsonl", walls="config/walls.txt",
+INPUTS = dict(diff=f"{BUILD}/reports/difficulty.json", funcs=f"{BUILD}/corpus/functions.jsonl",
+              bounds=CONFIG_V + "/boundaries.txt", carve=CONFIG_V + "/carve.{prog}.txt", pin="docs/ops/compiler-pin.md",
+              registry=CONFIG_V + "/dedup_registry.txt", twins=f"{BUILD}/sig/twins.jsonl", walls="config/walls.txt",
               exclude="config/draw_exclude.txt", makefile="Makefile", triples="config/triples.txt",
-              classes="build/census/classes.jsonl", scaffold="build/scaffold/scaffold.jsonl",
-              scaffold_tracked="campaign/scaffold/scaffold.jsonl", harvest="campaign/harvest", wdir="build/draw",
+              classes=f"{BUILD}/census/classes.jsonl", scaffold=f"{BUILD}/scaffold/scaffold.jsonl",
+              scaffold_tracked="campaign/scaffold/scaffold.jsonl", harvest="campaign/harvest", wdir=f"{BUILD}/draw",
               journal="campaign/journal.jsonl", refusecause="campaign/refusecause.tsv", ledger="campaign/ledger.tsv",
               priorart="campaign/priorart.tsv")
 AUDIT_IN = ("funcs", "bounds", "pin", "registry", "twins", "walls", "exclude", "makefile", "triples")
-OUT = "build/draw/draw.jsonl"
+OUT = f"{BUILD}/draw/draw.jsonl"
 SELFTEST = ".run/draw-selftest"
 FIXTURE = "tools/mmx6/fixtures/routing-plateau.txt"  # routing.txt with `plateau 1` live (3.1 T25)
 LAYERS = ("L1", "L2", "L3", "L4")
@@ -118,8 +119,10 @@ class Refuse(Exception):
 
 
 def jl(path):
+    """JSON lines of path; a `pv` under today's program key (records before 3.3 T38: paths.prog_key)."""
     with open(path) as f:
-        return [json.loads(x) for x in f if x.strip()]
+        return [dict(r, pv=prog_key(r["pv"])) if isinstance(r.get("pv"), str) else r
+                for r in map(json.loads, (x for x in f if x.strip()))]
 
 
 def hexs(v):
@@ -159,7 +162,7 @@ def boundaries(path):
 
 
 def carves(pattern, prog):
-    """({carved table lo}, {newtu: cflags list}) of config/carve.<prog>.txt (empty if absent)."""
+    """({carved table lo}, {newtu: cflags list}) of config/us/carve.<prog>.txt (empty if absent)."""
     path, tabs, opt = pattern.format(prog=prog), set(), {}
     if os.path.isfile(path):
         with open(path) as f:
@@ -279,9 +282,10 @@ def routing_extra(path, head="DRAW"):
 
 
 def tsv(path):
-    """Tab-split non-comment lines of path."""
+    """Tab-split non-comment lines of path; column 1 (the program) under today's key (paths.prog_key)."""
     with open(path) as f:
-        return [x.rstrip("\n").split("\t") for x in f if x.strip() and not x.startswith("#")]
+        return [[prog_key(t[0])] + t[1:] for t in (x.rstrip("\n").split("\t") for x in f
+                                                  if x.strip() and not x.startswith("#"))]
 
 
 def pv_class(inp, order):
@@ -487,7 +491,7 @@ def leverage(inp, keys, funcs, twins):
             tw.setdefault(a, set()).add(b)
             tw.setdefault(b, set()).add(a)
     close = {}
-    sc = inp["scaffold"] if os.path.isfile(inp["scaffold"]) else inp["scaffold_tracked"]  # sync wipes build/
+    sc = inp["scaffold"] if os.path.isfile(inp["scaffold"]) else inp["scaffold_tracked"]  # sync wipes build/us/
     if os.path.isfile(sc):
         for r in jl(sc):
             p, _, v = r["pv"].rpartition(":")

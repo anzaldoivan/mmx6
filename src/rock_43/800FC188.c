@@ -244,13 +244,7 @@ M2C_UNK animate_object(void*);                  /* extern */
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK apply_object_motion(void*);             /* extern */
 
-void func_800FC8BC(void* arg0) {
-    ((void (**)(void*))((u8*)&D_800FDE30 + 0x374))[M2C_FIELD(arg0, s8*, 6)](
-        arg0);
-    func_8002CCB0(arg0, 0x40, 0x40);
-    animate_object(arg0);
-    apply_object_motion(arg0);
-}
+#include "../shared/rock_43/func_800FC8BC.c"
 
 #include "common.h"
 
@@ -1136,5 +1130,5 @@ void func_800FDD84(u8* a0, u8* a1) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_43/nonmatchings/FA000", D_800FDE30);
+INCLUDE_ASM("rock_43/nonmatchings/FA000", D_800FDE30);
 // clang-format on

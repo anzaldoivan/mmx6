@@ -24,18 +24,18 @@ Structs compared: 262. Absent at the pin: 0. Listed fields without an offset: 0.
 
 ### Functions
 
-- `SLUS_013.95` `0x8002C3F8`: X6 `alloc_class3_slot`, mmx4 `find_free_effect_obj` (`-`)
-- `SLUS_013.95` `0x8002C530`: X6 `alloc_sprite_slot`, mmx4 `find_free_misc_obj` (`-`)
-- `SLUS_013.95` `0x8002C9B0`: X6 `clear_object_slot`, mmx4 `ZeroObjectState` (`src/main/objects.c:ZeroObjectState`)
-- `SLUS_013.95` `0x8002D2D4`: X6 `random_byte`, mmx4 `get_random` (`-`)
-- `SLUS_013.95` `0x80039EB0`: X6 `check_dash_input`, mmx4 `player_check_dash_input` (`-`)
-- `SLUS_013.95` `0x8003A2CC`: X6 `try_enter_wall_cling`, mmx4 `player_check_wall` (`-`)
-- `SLUS_013.95` `0x8003A9C4`: X6 `start_dash`, mmx4 `player_enter_dash` (`-`)
-- `SLUS_013.95` `0x8003AF1C`: X6 `start_jump`, mmx4 `player_enter_jump` (`-`)
-- `SLUS_013.95` `0x8003B810`: X6 `player_enter_ladder_climb_down`, mmx4 `player_enter_ladder_down` (`-`)
-- `SLUS_013.95` `0x8003C4EC`: X6 `player_load_weapon_palette`, mmx4 `player_reset_palette` (`-`)
-- `SLUS_013.95` `0x8003D2BC`: X6 `spawn_dust`, mmx4 `player_spawn_wall_slide_dust` (`src/main/player_common.c:player_spawn_wall_slide_dust`)
-- `SLUS_013.95` `0x80064CB4`: X6 `DsGetSector`, mmx4 `CdGetSector` (`src/main/psxsdk/libgs/gs_125.c:CdGetSector`)
+- `main` `0x8002C3F8`: X6 `alloc_class3_slot`, mmx4 `find_free_effect_obj` (`-`)
+- `main` `0x8002C530`: X6 `alloc_sprite_slot`, mmx4 `find_free_misc_obj` (`-`)
+- `main` `0x8002C9B0`: X6 `clear_object_slot`, mmx4 `ZeroObjectState` (`src/main/objects.c:ZeroObjectState`)
+- `main` `0x8002D2D4`: X6 `random_byte`, mmx4 `get_random` (`-`)
+- `main` `0x80039EB0`: X6 `check_dash_input`, mmx4 `player_check_dash_input` (`-`)
+- `main` `0x8003A2CC`: X6 `try_enter_wall_cling`, mmx4 `player_check_wall` (`-`)
+- `main` `0x8003A9C4`: X6 `start_dash`, mmx4 `player_enter_dash` (`-`)
+- `main` `0x8003AF1C`: X6 `start_jump`, mmx4 `player_enter_jump` (`-`)
+- `main` `0x8003B810`: X6 `player_enter_ladder_climb_down`, mmx4 `player_enter_ladder_down` (`-`)
+- `main` `0x8003C4EC`: X6 `player_load_weapon_palette`, mmx4 `player_reset_palette` (`-`)
+- `main` `0x8003D2BC`: X6 `spawn_dust`, mmx4 `player_spawn_wall_slide_dust` (`src/main/player_common.c:player_spawn_wall_slide_dust`)
+- `main` `0x80064CB4`: X6 `DsGetSector`, mmx4 `CdGetSector` (`src/main/psxsdk/libgs/gs_125.c:CdGetSector`)
 
 ### Fields
 
@@ -45,36 +45,36 @@ None.
 
 ### Functions
 
-- `SLUS_013.95` `0x800179A4`: X6 `set_animation`, mmx4 `set_animation` (`-`)
-- `SLUS_013.95` `0x80017A04`: X6 `animate_object`, mmx4 `animate_object` (`src/main/55C4.c:animate_object`)
-- `SLUS_013.95` `0x800208EC`: X6 `update_layer_objects`, mmx4 `update_layer_objects` (`src/main/object_update.c:update_layer_objects`)
-- `SLUS_013.95` `0x8002C398`: X6 `find_free_visual_obj`, mmx4 `find_free_visual_obj` (`-`)
-- `SLUS_013.95` `0x8002D2B0`: X6 `move_object`, mmx4 `move_object` (`src/main/object_motion.c:move_object`)
-- `SLUS_013.95` `0x8002D3B4`: X6 `set_velocity_from_angle`, mmx4 `set_velocity_from_angle` (`src/main/object_motion.c:set_velocity_from_angle`)
-- `SLUS_013.95` `0x80037548`: X6 `player_ladder_climb_on_top`, mmx4 `player_ladder_climb_on_top` (`src/main/player.c:player_ladder_climb_on_top`)
-- `SLUS_013.95` `0x800375D0`: X6 `player_ladder_step_off_bottom`, mmx4 `player_ladder_step_off_bottom` (`src/main/player.c:player_ladder_step_off_bottom`)
-- `SLUS_013.95` `0x800377FC`: X6 `player_ladder_let_go`, mmx4 `player_ladder_let_go` (`src/main/player.c:player_ladder_let_go`)
-- `SLUS_013.95` `0x80037838`: X6 `player_hurt`, mmx4 `player_hurt` (`src/main/player.c:player_hurt`)
-- `SLUS_013.95` `0x80037F70`: X6 `player_script_vanish`, mmx4 `player_script_vanish` (`src/main/player.c:player_script_vanish`)
-- `SLUS_013.95` `0x80039BC4`: X6 `player_check_dash_jump_walk`, mmx4 `player_check_dash_jump_walk` (`src/main/player_check.c:player_check_dash_jump_walk`)
-- `SLUS_013.95` `0x8003B3B8`: X6 `player_enter_wall_cling`, mmx4 `player_enter_wall_cling` (`src/main/player_enter.c:player_enter_wall_cling`)
-- `SLUS_013.95` `0x8003B708`: X6 `player_enter_ladder_climb_on_top`, mmx4 `player_enter_ladder_climb_on_top` (`src/main/player_enter.c:player_enter_ladder_climb_on_top`)
-- `SLUS_013.95` `0x8003B774`: X6 `player_enter_ladder_step_off_bottom`, mmx4 `player_enter_ladder_step_off_bottom` (`src/main/player_enter.c:player_enter_ladder_step_off_bottom`)
-- `SLUS_013.95` `0x8003BA04`: X6 `player_set_animation`, mmx4 `player_set_animation` (`-`)
-- `SLUS_013.95` `0x8003BB94`: X6 `player_set_animation_frame`, mmx4 `player_set_animation_frame` (`-`)
-- `SLUS_013.95` `0x8003C6A4`: X6 `player_spawn_dash_spark`, mmx4 `player_spawn_dash_spark` (`src/main/player_common.c:player_spawn_dash_spark`)
-- `SLUS_013.95` `0x8003CD9C`: X6 `player_clear_dash`, mmx4 `player_clear_dash` (`src/main/player_common.c:player_clear_dash`)
-- `SLUS_013.95` `0x8003CDBC`: X6 `player_clear_attack`, mmx4 `player_clear_attack` (`src/main/player_common.c:player_clear_attack`)
-- `SLUS_013.95` `0x8003CE38`: X6 `player_update_flash`, mmx4 `player_update_flash` (`src/main/player_common.c:player_update_flash`)
-- `SLUS_013.95` `0x8003D3F8`: X6 `player_spawn_weapon`, mmx4 `player_spawn_weapon` (`src/main/player_common.c:player_spawn_weapon`)
-- `SLUS_013.95` `0x8003D510`: X6 `player_spawn_visual`, mmx4 `player_spawn_visual` (`src/main/player_common.c:player_spawn_visual`)
-- `SLUS_013.95` `0x8003F480`: X6 `player_reset_charge`, mmx4 `player_reset_charge` (`src/main/player_weapon.c:player_reset_charge`)
-- `SLUS_013.95` `0x8003F4C4`: X6 `player_set_animation_shooting`, mmx4 `player_set_animation_shooting` (`src/main/player_weapon.c:player_set_animation_shooting`)
-- `SLUS_013.95` `0x8003FA60`: X6 `player_fire_weapon`, mmx4 `player_fire_weapon` (`src/main/player_weapon.c:player_fire_weapon`)
-- `SLUS_013.95` `0x80040304`: X6 `spike_crawler_hit_flash`, mmx4 `spike_crawler_hit_flash` (`src/main/enemy_reaction.c:spike_crawler_hit_flash`)
-- `SLUS_013.95` `0x80064804`: X6 `CdReset`, mmx4 `CdReset` (`src/main/psxsdk/libgs/gs_125.c:CdReset`)
-- `SLUS_013.95` `0x80068D94`: X6 `SetDefDispEnv`, mmx4 `SetDefDispEnv` (`src/main/psxsdk/libgpu/ext.c:SetDefDispEnv`)
-- `SLUS_013.95` `0x80068EB4`: X6 `DecDCTReset`, mmx4 `DecDCTReset` (`src/main/psxsdk/libpress/libpress.c:DecDCTReset`)
+- `main` `0x800179A4`: X6 `set_animation`, mmx4 `set_animation` (`-`)
+- `main` `0x80017A04`: X6 `animate_object`, mmx4 `animate_object` (`src/main/55C4.c:animate_object`)
+- `main` `0x800208EC`: X6 `update_layer_objects`, mmx4 `update_layer_objects` (`src/main/object_update.c:update_layer_objects`)
+- `main` `0x8002C398`: X6 `find_free_visual_obj`, mmx4 `find_free_visual_obj` (`-`)
+- `main` `0x8002D2B0`: X6 `move_object`, mmx4 `move_object` (`src/main/object_motion.c:move_object`)
+- `main` `0x8002D3B4`: X6 `set_velocity_from_angle`, mmx4 `set_velocity_from_angle` (`src/main/object_motion.c:set_velocity_from_angle`)
+- `main` `0x80037548`: X6 `player_ladder_climb_on_top`, mmx4 `player_ladder_climb_on_top` (`src/main/player.c:player_ladder_climb_on_top`)
+- `main` `0x800375D0`: X6 `player_ladder_step_off_bottom`, mmx4 `player_ladder_step_off_bottom` (`src/main/player.c:player_ladder_step_off_bottom`)
+- `main` `0x800377FC`: X6 `player_ladder_let_go`, mmx4 `player_ladder_let_go` (`src/main/player.c:player_ladder_let_go`)
+- `main` `0x80037838`: X6 `player_hurt`, mmx4 `player_hurt` (`src/main/player.c:player_hurt`)
+- `main` `0x80037F70`: X6 `player_script_vanish`, mmx4 `player_script_vanish` (`src/main/player.c:player_script_vanish`)
+- `main` `0x80039BC4`: X6 `player_check_dash_jump_walk`, mmx4 `player_check_dash_jump_walk` (`src/main/player_check.c:player_check_dash_jump_walk`)
+- `main` `0x8003B3B8`: X6 `player_enter_wall_cling`, mmx4 `player_enter_wall_cling` (`src/main/player_enter.c:player_enter_wall_cling`)
+- `main` `0x8003B708`: X6 `player_enter_ladder_climb_on_top`, mmx4 `player_enter_ladder_climb_on_top` (`src/main/player_enter.c:player_enter_ladder_climb_on_top`)
+- `main` `0x8003B774`: X6 `player_enter_ladder_step_off_bottom`, mmx4 `player_enter_ladder_step_off_bottom` (`src/main/player_enter.c:player_enter_ladder_step_off_bottom`)
+- `main` `0x8003BA04`: X6 `player_set_animation`, mmx4 `player_set_animation` (`-`)
+- `main` `0x8003BB94`: X6 `player_set_animation_frame`, mmx4 `player_set_animation_frame` (`-`)
+- `main` `0x8003C6A4`: X6 `player_spawn_dash_spark`, mmx4 `player_spawn_dash_spark` (`src/main/player_common.c:player_spawn_dash_spark`)
+- `main` `0x8003CD9C`: X6 `player_clear_dash`, mmx4 `player_clear_dash` (`src/main/player_common.c:player_clear_dash`)
+- `main` `0x8003CDBC`: X6 `player_clear_attack`, mmx4 `player_clear_attack` (`src/main/player_common.c:player_clear_attack`)
+- `main` `0x8003CE38`: X6 `player_update_flash`, mmx4 `player_update_flash` (`src/main/player_common.c:player_update_flash`)
+- `main` `0x8003D3F8`: X6 `player_spawn_weapon`, mmx4 `player_spawn_weapon` (`src/main/player_common.c:player_spawn_weapon`)
+- `main` `0x8003D510`: X6 `player_spawn_visual`, mmx4 `player_spawn_visual` (`src/main/player_common.c:player_spawn_visual`)
+- `main` `0x8003F480`: X6 `player_reset_charge`, mmx4 `player_reset_charge` (`src/main/player_weapon.c:player_reset_charge`)
+- `main` `0x8003F4C4`: X6 `player_set_animation_shooting`, mmx4 `player_set_animation_shooting` (`src/main/player_weapon.c:player_set_animation_shooting`)
+- `main` `0x8003FA60`: X6 `player_fire_weapon`, mmx4 `player_fire_weapon` (`src/main/player_weapon.c:player_fire_weapon`)
+- `main` `0x80040304`: X6 `spike_crawler_hit_flash`, mmx4 `spike_crawler_hit_flash` (`src/main/enemy_reaction.c:spike_crawler_hit_flash`)
+- `main` `0x80064804`: X6 `CdReset`, mmx4 `CdReset` (`src/main/psxsdk/libgs/gs_125.c:CdReset`)
+- `main` `0x80068D94`: X6 `SetDefDispEnv`, mmx4 `SetDefDispEnv` (`src/main/psxsdk/libgpu/ext.c:SetDefDispEnv`)
+- `main` `0x80068EB4`: X6 `DecDCTReset`, mmx4 `DecDCTReset` (`src/main/psxsdk/libpress/libpress.c:DecDCTReset`)
 - `rock_00` `0x801EB6E8`: X6 `player_enter_ladder_shoot`, mmx4 `player_enter_ladder_shoot` (`src/main/player_special.c:player_enter_ladder_shoot`)
 - `rock_00` `0x801EB730`: X6 `player_ladder_shoot`, mmx4 `player_ladder_shoot` (`src/main/player_special.c:player_ladder_shoot`)
 - `rock_00` `0x801EC0C0`: X6 `player_hover_hold`, mmx4 `player_hover_hold` (`src/main/player_special.c:player_hover_hold`)
@@ -1954,65 +1954,65 @@ None.
 
 ### Functions
 
-- `SLUS_013.95` `0x80017A48`: X6 `-`, mmx4 `clear_vram_rect_ptrs` (`src/main/55C4.c:clear_vram_rect_ptrs`), held: no corroborator
-- `SLUS_013.95` `0x80017A88`: X6 `-`, mmx4 `load_vram_rect_ptrs` (`src/main/55C4.c:load_vram_rect_ptrs`), held: no corroborator
-- `SLUS_013.95` `0x8001C024`: X6 `-`, mmx4 `InitMemcards` (`src/main/memcard.c:InitMemcards`), held: no corroborator
-- `SLUS_013.95` `0x8002943C`: X6 `-`, mmx4 `start_screen_shake_x` (`src/main/stage_objects.c:start_screen_shake_x`), held: no corroborator
-- `SLUS_013.95` `0x80029478`: X6 `-`, mmx4 `start_screen_shake_y` (`src/main/stage_objects.c:start_screen_shake_y`), held: no corroborator
-- `SLUS_013.95` `0x80029A6C`: X6 `-`, mmx4 `update_screen_shake_x` (`src/main/background.c:update_screen_shake_x`), held: no corroborator
-- `SLUS_013.95` `0x80029AFC`: X6 `-`, mmx4 `update_screen_shake_y` (`src/main/background.c:update_screen_shake_y`), held: no corroborator
-- `SLUS_013.95` `0x8002CA14`: X6 `-`, mmx4 `despawn_object` (`src/main/objects.c:despawn_object`), held: tier bytes
-- `SLUS_013.95` `0x8002CB50`: X6 `-`, mmx4 `is_on_screen` (`-`), held: tier slot
-- `SLUS_013.95` `0x8002CCB0`: X6 `-`, mmx4 `update_on_screen` (`-`), held: tier slot
-- `SLUS_013.95` `0x8002D51C`: X6 `-`, mmx4 `get_layout_screen` (`src/main/object_motion.c:get_layout_screen`), held: no corroborator
-- `SLUS_013.95` `0x800328B0`: X6 `-`, mmx4 `quad_is_on_screen` (`-`), held: scope object, tier slot
-- `SLUS_013.95` `0x80037D68`: X6 `-`, mmx4 `player_capsule_fall` (`src/main/player.c:player_capsule_fall`), held: tier bytes
-- `SLUS_013.95` `0x80039C40`: X6 `-`, mmx4 `player_check_dash_jump` (`src/main/player_check.c:player_check_dash_jump`), held: tier bytes
-- `SLUS_013.95` `0x8003B954`: X6 `-`, mmx4 `player_enter_beam_out` (`src/main/player_enter.c:player_enter_beam_out`), held: no corroborator
-- `SLUS_013.95` `0x8003D26C`: X6 `-`, mmx4 `player_spawn_dash_dust` (`src/main/player_common.c:player_spawn_dash_dust`), held: tier bytes, no corroborator
-- `SLUS_013.95` `0x8003D34C`: X6 `-`, mmx4 `player_check_splash_tile` (`src/main/player_common.c:player_check_splash_tile`), held: no corroborator
-- `SLUS_013.95` `0x8003D850`: X6 `-`, mmx4 `player_entry_beam_in` (`src/main/player_common.c:player_entry_beam_in`), held: no corroborator
-- `SLUS_013.95` `0x8003DAF4`: X6 `-`, mmx4 `player_spawn_death_orb` (`src/main/player_common.c:player_spawn_death_orb`), held: no corroborator
-- `SLUS_013.95` `0x80040290`: X6 `-`, mmx4 `enemy_hit_reaction` (`src/main/enemy_reaction.c:enemy_hit_reaction`), held: tier bytes, no corroborator
-- `SLUS_013.95` `0x80042C18`: X6 `-`, mmx4 `magma_dragoon_face_player` (`src/main/mains/main_65_magma_dragoon.c:magma_dragoon_face_player`), held: scope object, no corroborator
-- `SLUS_013.95` `0x8004672C`: X6 `-`, mmx4 `ride_armor_punch_main` (`src/main/weapons/weapon_61_ride_armor_punch.c:ride_armor_punch_main`), held: scope object
-- `SLUS_013.95` `0x8004686C`: X6 `-`, mmx4 `ride_armor_punch_init` (`src/main/weapons/weapon_61_ride_armor_punch.c:ride_armor_punch_init`), held: scope object
-- `SLUS_013.95` `0x80047A0C`: X6 `-`, mmx4 `spawn_debris_offset` (`src/main/misc/misc_02_rubble.c:spawn_debris_offset`), held: scope object, no corroborator
-- `SLUS_013.95` `0x80047C30`: X6 `-`, mmx4 `debris_fall` (`src/main/misc/misc_03_debris.c:debris_fall`), held: scope object, tier bytes
-- `SLUS_013.95` `0x80047FB8`: X6 `-`, mmx4 `death_orb_fly` (`src/main/misc/misc_17_death_orb.c:death_orb_fly`), held: scope object, tier bytes
-- `SLUS_013.95` `0x80048268`: X6 `-`, mmx4 `ready_text_appear` (`src/main/misc/misc_18_ready_text.c:ready_text_appear`), held: scope object
-- `SLUS_013.95` `0x80048524`: X6 `-`, mmx4 `ready_text_blink` (`src/main/misc/misc_18_ready_text.c:ready_text_blink`), held: scope object, no corroborator
-- `SLUS_013.95` `0x80048560`: X6 `-`, mmx4 `ready_text_show` (`src/main/misc/misc_18_ready_text.c:ready_text_show`), held: scope object, no corroborator
-- `SLUS_013.95` `0x800494DC`: X6 `-`, mmx4 `wall_slide_dust_init` (`src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_init`), held: scope object, no corroborator
-- `SLUS_013.95` `0x80049670`: X6 `-`, mmx4 `wall_slide_dust_fade` (`src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_fade`), held: scope object
-- `SLUS_013.95` `0x80049800`: X6 `-`, mmx4 `charge_muzzle_flash_main` (`src/main/visuals/visual_02_charge_muzzle_flash.c:charge_muzzle_flash_main`), held: scope object
-- `SLUS_013.95` `0x80049950`: X6 `-`, mmx4 `charge_muzzle_flash_fade` (`src/main/visuals/visual_02_charge_muzzle_flash.c:charge_muzzle_flash_fade`), held: scope object
-- `SLUS_013.95` `0x800499A0`: X6 `-`, mmx4 `charge_muzzle_flash_follow` (`src/main/visuals/visual_02_charge_muzzle_flash.c:charge_muzzle_flash_follow`), held: scope object
-- `SLUS_013.95` `0x80049E70`: X6 `-`, mmx4 `spawn_explosion_variant` (`src/main/visuals/visual_03_small_effect.c:spawn_explosion_variant`), held: scope object, no corroborator
-- `SLUS_013.95` `0x8004B4BC`: X6 `-`, mmx4 `missile_smoke_init` (`src/main/visuals/visual_22_missile_smoke.c:missile_smoke_init`), held: scope object
-- `SLUS_013.95` `0x8004B50C`: X6 `-`, mmx4 `missile_smoke_main` (`src/main/visuals/visual_22_missile_smoke.c:missile_smoke_main`), held: scope object
-- `SLUS_013.95` `0x8004BEC8`: X6 `-`, mmx4 `boss_warning_quad_close` (`src/main/quads/quad_03_boss_warning_quad.c:boss_warning_quad_close`), held: scope object, no corroborator
-- `SLUS_013.95` `0x8004C01C`: X6 `-`, mmx4 `boss_warning_quad_hold` (`src/main/quads/quad_03_boss_warning_quad.c:boss_warning_quad_hold`), held: scope object, no corroborator
-- `SLUS_013.95` `0x8004C744`: X6 `-`, mmx4 `flash_band_init` (`src/main/quads/quad_08_flash_band.c:flash_band_init`), held: scope object, no corroborator
-- `SLUS_013.95` `0x8004C7B0`: X6 `-`, mmx4 `flash_band_widen` (`src/main/quads/quad_08_flash_band.c:flash_band_widen`), held: scope object, no corroborator
-- `SLUS_013.95` `0x8004C844`: X6 `-`, mmx4 `ready_line_sweep` (`src/main/quads/quad_07_ready_line.c:ready_line_sweep`), held: scope object
-- `SLUS_013.95` `0x8004CD3C`: X6 `-`, mmx4 `ready_line_streak` (`src/main/quads/quad_07_ready_line.c:ready_line_streak`), held: scope object
-- `SLUS_013.95` `0x8004CFA4`: X6 `-`, mmx4 `ready_line_init` (`src/main/quads/quad_07_ready_line.c:ready_line_init`), held: scope object, no corroborator
-- `SLUS_013.95` `0x8004D074`: X6 `-`, mmx4 `ready_line_move` (`src/main/quads/quad_07_ready_line.c:ready_line_move`), held: scope object
-- `SLUS_013.95` `0x8004E654`: X6 `-`, mmx4 `drop_item` (`src/main/items/item_01_stage_block.c:drop_item`), held: scope object, no corroborator
-- `SLUS_013.95` `0x80051104`: X6 `-`, mmx4 `boss_door_block_player` (`src/main/items/item_08_boss_door.c:boss_door_block_player`), held: scope object, no corroborator
-- `SLUS_013.95` `0x80052CC0`: X6 `-`, mmx4 `stage_music_init` (`src/main/effects/effect_04_stage_music.c:stage_music_init`), held: scope object, no corroborator
-- `SLUS_013.95` `0x80052D6C`: X6 `-`, mmx4 `checkpoint_trigger_init` (`src/main/effects/effect_06_checkpoint_trigger.c:checkpoint_trigger_init`), held: scope object
-- `SLUS_013.95` `0x800536D0`: X6 `-`, mmx4 `boss_warning_wait` (`src/main/effects/effect_24_boss_warning.c:boss_warning_wait`), held: scope object, no corroborator
-- `SLUS_013.95` `0x80053704`: X6 `-`, mmx4 `boss_warning_wait_tiles` (`src/main/effects/effect_24_boss_warning.c:boss_warning_wait_tiles`), held: scope object, no corroborator
-- `SLUS_013.95` `0x800537F0`: X6 `-`, mmx4 `boss_warning_finish` (`src/main/effects/effect_24_boss_warning.c:boss_warning_finish`), held: scope object, no corroborator
-- `SLUS_013.95` `0x80053828`: X6 `-`, mmx4 `boss_warning_main` (`src/main/effects/effect_24_boss_warning.c:boss_warning_main`), held: scope object
-- `SLUS_013.95` `0x80053FE4`: X6 `-`, mmx4 `final_cutscene_despawn` (`src/main/misc/misc_53_final_cutscene.c:final_cutscene_despawn`), held: scope object, no corroborator
-- `SLUS_013.95` `0x8005400C`: X6 `-`, mmx4 `teleport_intro_spawn_quads` (`src/main/effects/effect_27_teleport_intro.c:teleport_intro_spawn_quads`), held: scope object
-- `SLUS_013.95` `0x80054210`: X6 `-`, mmx4 `teleport_intro_init` (`src/main/effects/effect_27_teleport_intro.c:teleport_intro_init`), held: scope object, no corroborator
-- `SLUS_013.95` `0x800617A4`: X6 `-`, mmx4 `CdPosToInt` (`src/main/psxsdk/libgs/gs_125.c:CdPosToInt`), held: tier bytes, no corroborator
-- `SLUS_013.95` `0x80064C94`: X6 `-`, mmx4 `CdMix` (`src/main/psxsdk/libgs/gs_125.c:CdMix`), held: tier bytes, no corroborator
-- `SLUS_013.95` `0x80065814`: X6 `-`, mmx4 `CdGetSector` (`src/main/psxsdk/libgs/gs_125.c:CdGetSector`), held: tier bytes, no corroborator
+- `main` `0x80017A48`: X6 `-`, mmx4 `clear_vram_rect_ptrs` (`src/main/55C4.c:clear_vram_rect_ptrs`), held: no corroborator
+- `main` `0x80017A88`: X6 `-`, mmx4 `load_vram_rect_ptrs` (`src/main/55C4.c:load_vram_rect_ptrs`), held: no corroborator
+- `main` `0x8001C024`: X6 `-`, mmx4 `InitMemcards` (`src/main/memcard.c:InitMemcards`), held: no corroborator
+- `main` `0x8002943C`: X6 `-`, mmx4 `start_screen_shake_x` (`src/main/stage_objects.c:start_screen_shake_x`), held: no corroborator
+- `main` `0x80029478`: X6 `-`, mmx4 `start_screen_shake_y` (`src/main/stage_objects.c:start_screen_shake_y`), held: no corroborator
+- `main` `0x80029A6C`: X6 `-`, mmx4 `update_screen_shake_x` (`src/main/background.c:update_screen_shake_x`), held: no corroborator
+- `main` `0x80029AFC`: X6 `-`, mmx4 `update_screen_shake_y` (`src/main/background.c:update_screen_shake_y`), held: no corroborator
+- `main` `0x8002CA14`: X6 `-`, mmx4 `despawn_object` (`src/main/objects.c:despawn_object`), held: tier bytes
+- `main` `0x8002CB50`: X6 `-`, mmx4 `is_on_screen` (`-`), held: tier slot
+- `main` `0x8002CCB0`: X6 `-`, mmx4 `update_on_screen` (`-`), held: tier slot
+- `main` `0x8002D51C`: X6 `-`, mmx4 `get_layout_screen` (`src/main/object_motion.c:get_layout_screen`), held: no corroborator
+- `main` `0x800328B0`: X6 `-`, mmx4 `quad_is_on_screen` (`-`), held: scope object, tier slot
+- `main` `0x80037D68`: X6 `-`, mmx4 `player_capsule_fall` (`src/main/player.c:player_capsule_fall`), held: tier bytes
+- `main` `0x80039C40`: X6 `-`, mmx4 `player_check_dash_jump` (`src/main/player_check.c:player_check_dash_jump`), held: tier bytes
+- `main` `0x8003B954`: X6 `-`, mmx4 `player_enter_beam_out` (`src/main/player_enter.c:player_enter_beam_out`), held: no corroborator
+- `main` `0x8003D26C`: X6 `-`, mmx4 `player_spawn_dash_dust` (`src/main/player_common.c:player_spawn_dash_dust`), held: tier bytes, no corroborator
+- `main` `0x8003D34C`: X6 `-`, mmx4 `player_check_splash_tile` (`src/main/player_common.c:player_check_splash_tile`), held: no corroborator
+- `main` `0x8003D850`: X6 `-`, mmx4 `player_entry_beam_in` (`src/main/player_common.c:player_entry_beam_in`), held: no corroborator
+- `main` `0x8003DAF4`: X6 `-`, mmx4 `player_spawn_death_orb` (`src/main/player_common.c:player_spawn_death_orb`), held: no corroborator
+- `main` `0x80040290`: X6 `-`, mmx4 `enemy_hit_reaction` (`src/main/enemy_reaction.c:enemy_hit_reaction`), held: tier bytes, no corroborator
+- `main` `0x80042C18`: X6 `-`, mmx4 `magma_dragoon_face_player` (`src/main/mains/main_65_magma_dragoon.c:magma_dragoon_face_player`), held: scope object, no corroborator
+- `main` `0x8004672C`: X6 `-`, mmx4 `ride_armor_punch_main` (`src/main/weapons/weapon_61_ride_armor_punch.c:ride_armor_punch_main`), held: scope object
+- `main` `0x8004686C`: X6 `-`, mmx4 `ride_armor_punch_init` (`src/main/weapons/weapon_61_ride_armor_punch.c:ride_armor_punch_init`), held: scope object
+- `main` `0x80047A0C`: X6 `-`, mmx4 `spawn_debris_offset` (`src/main/misc/misc_02_rubble.c:spawn_debris_offset`), held: scope object, no corroborator
+- `main` `0x80047C30`: X6 `-`, mmx4 `debris_fall` (`src/main/misc/misc_03_debris.c:debris_fall`), held: scope object, tier bytes
+- `main` `0x80047FB8`: X6 `-`, mmx4 `death_orb_fly` (`src/main/misc/misc_17_death_orb.c:death_orb_fly`), held: scope object, tier bytes
+- `main` `0x80048268`: X6 `-`, mmx4 `ready_text_appear` (`src/main/misc/misc_18_ready_text.c:ready_text_appear`), held: scope object
+- `main` `0x80048524`: X6 `-`, mmx4 `ready_text_blink` (`src/main/misc/misc_18_ready_text.c:ready_text_blink`), held: scope object, no corroborator
+- `main` `0x80048560`: X6 `-`, mmx4 `ready_text_show` (`src/main/misc/misc_18_ready_text.c:ready_text_show`), held: scope object, no corroborator
+- `main` `0x800494DC`: X6 `-`, mmx4 `wall_slide_dust_init` (`src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_init`), held: scope object, no corroborator
+- `main` `0x80049670`: X6 `-`, mmx4 `wall_slide_dust_fade` (`src/main/visuals/visual_00_wall_slide_dust.c:wall_slide_dust_fade`), held: scope object
+- `main` `0x80049800`: X6 `-`, mmx4 `charge_muzzle_flash_main` (`src/main/visuals/visual_02_charge_muzzle_flash.c:charge_muzzle_flash_main`), held: scope object
+- `main` `0x80049950`: X6 `-`, mmx4 `charge_muzzle_flash_fade` (`src/main/visuals/visual_02_charge_muzzle_flash.c:charge_muzzle_flash_fade`), held: scope object
+- `main` `0x800499A0`: X6 `-`, mmx4 `charge_muzzle_flash_follow` (`src/main/visuals/visual_02_charge_muzzle_flash.c:charge_muzzle_flash_follow`), held: scope object
+- `main` `0x80049E70`: X6 `-`, mmx4 `spawn_explosion_variant` (`src/main/visuals/visual_03_small_effect.c:spawn_explosion_variant`), held: scope object, no corroborator
+- `main` `0x8004B4BC`: X6 `-`, mmx4 `missile_smoke_init` (`src/main/visuals/visual_22_missile_smoke.c:missile_smoke_init`), held: scope object
+- `main` `0x8004B50C`: X6 `-`, mmx4 `missile_smoke_main` (`src/main/visuals/visual_22_missile_smoke.c:missile_smoke_main`), held: scope object
+- `main` `0x8004BEC8`: X6 `-`, mmx4 `boss_warning_quad_close` (`src/main/quads/quad_03_boss_warning_quad.c:boss_warning_quad_close`), held: scope object, no corroborator
+- `main` `0x8004C01C`: X6 `-`, mmx4 `boss_warning_quad_hold` (`src/main/quads/quad_03_boss_warning_quad.c:boss_warning_quad_hold`), held: scope object, no corroborator
+- `main` `0x8004C744`: X6 `-`, mmx4 `flash_band_init` (`src/main/quads/quad_08_flash_band.c:flash_band_init`), held: scope object, no corroborator
+- `main` `0x8004C7B0`: X6 `-`, mmx4 `flash_band_widen` (`src/main/quads/quad_08_flash_band.c:flash_band_widen`), held: scope object, no corroborator
+- `main` `0x8004C844`: X6 `-`, mmx4 `ready_line_sweep` (`src/main/quads/quad_07_ready_line.c:ready_line_sweep`), held: scope object
+- `main` `0x8004CD3C`: X6 `-`, mmx4 `ready_line_streak` (`src/main/quads/quad_07_ready_line.c:ready_line_streak`), held: scope object
+- `main` `0x8004CFA4`: X6 `-`, mmx4 `ready_line_init` (`src/main/quads/quad_07_ready_line.c:ready_line_init`), held: scope object, no corroborator
+- `main` `0x8004D074`: X6 `-`, mmx4 `ready_line_move` (`src/main/quads/quad_07_ready_line.c:ready_line_move`), held: scope object
+- `main` `0x8004E654`: X6 `-`, mmx4 `drop_item` (`src/main/items/item_01_stage_block.c:drop_item`), held: scope object, no corroborator
+- `main` `0x80051104`: X6 `-`, mmx4 `boss_door_block_player` (`src/main/items/item_08_boss_door.c:boss_door_block_player`), held: scope object, no corroborator
+- `main` `0x80052CC0`: X6 `-`, mmx4 `stage_music_init` (`src/main/effects/effect_04_stage_music.c:stage_music_init`), held: scope object, no corroborator
+- `main` `0x80052D6C`: X6 `-`, mmx4 `checkpoint_trigger_init` (`src/main/effects/effect_06_checkpoint_trigger.c:checkpoint_trigger_init`), held: scope object
+- `main` `0x800536D0`: X6 `-`, mmx4 `boss_warning_wait` (`src/main/effects/effect_24_boss_warning.c:boss_warning_wait`), held: scope object, no corroborator
+- `main` `0x80053704`: X6 `-`, mmx4 `boss_warning_wait_tiles` (`src/main/effects/effect_24_boss_warning.c:boss_warning_wait_tiles`), held: scope object, no corroborator
+- `main` `0x800537F0`: X6 `-`, mmx4 `boss_warning_finish` (`src/main/effects/effect_24_boss_warning.c:boss_warning_finish`), held: scope object, no corroborator
+- `main` `0x80053828`: X6 `-`, mmx4 `boss_warning_main` (`src/main/effects/effect_24_boss_warning.c:boss_warning_main`), held: scope object
+- `main` `0x80053FE4`: X6 `-`, mmx4 `final_cutscene_despawn` (`src/main/misc/misc_53_final_cutscene.c:final_cutscene_despawn`), held: scope object, no corroborator
+- `main` `0x8005400C`: X6 `-`, mmx4 `teleport_intro_spawn_quads` (`src/main/effects/effect_27_teleport_intro.c:teleport_intro_spawn_quads`), held: scope object
+- `main` `0x80054210`: X6 `-`, mmx4 `teleport_intro_init` (`src/main/effects/effect_27_teleport_intro.c:teleport_intro_init`), held: scope object, no corroborator
+- `main` `0x800617A4`: X6 `-`, mmx4 `CdPosToInt` (`src/main/psxsdk/libgs/gs_125.c:CdPosToInt`), held: tier bytes, no corroborator
+- `main` `0x80064C94`: X6 `-`, mmx4 `CdMix` (`src/main/psxsdk/libgs/gs_125.c:CdMix`), held: tier bytes, no corroborator
+- `main` `0x80065814`: X6 `-`, mmx4 `CdGetSector` (`src/main/psxsdk/libgs/gs_125.c:CdGetSector`), held: tier bytes, no corroborator
 - `rock_00` `0x801EC35C`: X6 `-`, mmx4 `player_hover_check_end` (`-`), held: tier slot
 - `rock_00` `0x801EC3AC`: X6 `-`, mmx4 `player_hover_steer` (`-`), held: tier slot
 - `rock_00` `0x801EC678`: X6 `-`, mmx4 `player_nova_strike_hit_wall` (`src/main/player_special.c:player_nova_strike_hit_wall`), held: tier bytes

@@ -2,7 +2,7 @@
 """report.py -- progress, difficulty and dup-payoff reports over the corpus and the census (container, stdlib).
 
   report.py --progress | --difficulty | --dup | --all
-      -> build/reports/{progress,difficulty,dup}.{md,json} (names/addresses there only, G12); stdout counts only,
+      -> build/us/reports/{progress,difficulty,dup}.{md,json} (names/addresses there only, G12); stdout counts only,
          every line ending `of <N> functions` / `of <B> bytes` / `of <T> text bytes`, except the progress line, last:
          `REPORT progress c <x> of <N> functions, <y> of <B> bytes; game <xg> of <Ng>, <yg> of <Bg>; lib <xl> of <Nl>,
          <yl> of <Bl>; banks <c> stubs <e>`.
@@ -11,7 +11,7 @@
          dup order; planted c->asm mutation moves progress by exactly that function; real-corpus sums. Ends
          `REPORT CONTROL OK` (rc 0), else rc 1.
 
-Inputs: build/corpus/{functions,spans,denominators}.jsonl (corpus.py), build/census/classes.jsonl (census.py); words
+Inputs: build/us/corpus/{functions,spans,denominators}.jsonl (corpus.py), build/us/census/classes.jsonl (census.py); words
 of not-yet-C functions via census.read_words (TU object). No typed count: every number is computed from these.
 Definitions: matched = state c (banks) + c-empty (empty-body stubs); bytes = 4 * words; remainder = denominator -
 matched; per program, per lane (game, lib) and fleet. Text bytes = denominators text_bytes; span bytes by span kind.
@@ -31,10 +31,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import census  # noqa: E402
 from census import JR_RA, SIZE, Refuse, bucket  # noqa: E402
+from paths import BUILD  # noqa: E402  (the version axis, 3.3 T37)
 
-INPUTS = dict(funcs="build/corpus/functions.jsonl", spans="build/corpus/spans.jsonl",
-              denoms="build/corpus/denominators.jsonl", classes="build/census/classes.jsonl")
-OUT = "build/reports"
+INPUTS = dict(funcs=f"{BUILD}/corpus/functions.jsonl", spans=f"{BUILD}/corpus/spans.jsonl",
+              denoms=f"{BUILD}/corpus/denominators.jsonl", classes=f"{BUILD}/census/classes.jsonl")
+OUT = f"{BUILD}/reports"
 SELFTEST = ".run/report/selftest"
 MATCHED = ("c", "c-empty")
 TODO = ("asm", "include_asm")

@@ -2,29 +2,29 @@
 """bank.py -- the reconcile ladder: bank one body into its real TU, rung by rung (container python3, stdlib only).
 
   bank.py <prog:vram> --src <file>
-      -> preflight: the corpus row (build/corpus/functions.jsonl) is include_asm in a TU of config/c_units.txt
+      -> preflight: the corpus row (build/us/corpus/functions.jsonl) is include_asm in a TU of config/c_units.txt
          (segment.c_units) with its INCLUDE_ASM line found (layout.find_asm), else
          `RECONCILE <func> refused: <cause>` (rc 2). Rungs:
          R1 sha1 of --src recorded; probe.probe under the Makefile default TRIPLE must MATCH.
          R2 in the file tools/mmx6/layout.py find_asm names (the unit src/<prog>/<tu>.c or a role file of its
-            #include closure) the line `INCLUDE_ASM("asm/<prog>/nonmatchings/<tu>", <func>);` becomes
+            #include closure) the line `INCLUDE_ASM("<prog>/nonmatchings/<tu>", <func>);` becomes
             `#include "<src relative to that file's dir>"`; the unit object must compile. Already placed (the unit's
             closure defines <func> from --src, layout.Tree: any file, multi-function included): re-gated, not edited.
          R3 declsync.sync over the program's C files (refusal or declsync error stops); typecheck.py --files <edited + body>; edited
             units recompile. Cross-key guard (T2.c3): an edited file that is another key's shared body (a shared path
-            of config/dedup_registry.txt, or any src/shared/ file other than the body) is kept only when the objects
-            of its built includers (layout.includers; build/src/<p>/<tu>.c.o, `make -B` before and after the edits)
+            of config/us/dedup_registry.txt, or any src/shared/ file other than the body) is kept only when the objects
+            of its built includers (layout.includers; build/us/src/<p>/<tu>.c.o, `make -B` before and after the edits)
             have the same objdump -dr and .text/.data/.rodata/.sdata contents (file names dropped), else stop
             `declsync would change another key's bytes (<paths>)`; no built includer: no linked bytes, kept. Each
             kept one counts (bank.XKEY); `RECONCILE <func> xkey <n> accepted` precedes the verdict line.
-         R4 stop on a config/boundaries.txt jtbl row of the program with lo inside the function ("jtbl not carved"),
+         R4 stop on a config/us/boundaries.txt jtbl row of the program with lo inside the function ("jtbl not carved"),
             or on unit .rodata grown vs the pre-bank object ("rodata needs placement").
          R5 clean rebuild of the program (C objects, elf, binary removed; C0034) and its sha1 check; then the body
             sha1 must equal R1's, typecheck.py --all and sig.py --rescan must pass; a body under src/shared/ gets its
-            config/dedup_registry.txt row (appended, line-preserving, only if absent).
+            config/us/dedup_registry.txt row (appended, line-preserving, only if absent).
          One verdict line: `RECONCILE <func> R5 banked; body sha1 <h> unchanged since R1` (rc 0) or
          `RECONCILE <func> stopped R<k>: <cause>` (rc 1). A stop restores every edited file byte-exact and rebuilds
-         the program so build/ matches the tree; it never asks for a body redraft. Logs under .run/bank/.
+         the program so build/us/ matches the tree; it never asks for a body redraft. Logs under .run/bank/.
   --repair NAME (repeatable; shared with propagate.py and refusecause.py; all off by default, off = unchanged):
       declunify (3.1 T3): an R2 `does not compile` whose log names `conflicting types for X` or `too few arguments to
          function X` -> declunify(): each declaration of X in the member's TU closure disagreeing with the body's
@@ -46,21 +46,24 @@
   bank.py <prog:vram> --src <shared body> --define OLD=NEW [--define ...]
       -> a shared body under other names (T5, tools/mmx6/propagate.py): R1 probes a scratch wrapper
          .run/bank/wrap/<prog>/<func>.c (`#define OLD NEW` lines + `#include` of the body); R2 writes that block, then
-         `#undef OLD` lines, in place of the INCLUDE_ASM line; R3 syncs against the renamed definition. A unit that
-         already holds the block (corpus state c) is re-gated, not re-edited. No registry row (propagate.py writes it).
+         `#undef OLD` lines, in place of the INCLUDE_ASM line (identity pairs OLD == NEW dropped, T39); it stops R2
+         `twinform: ...` (restored) when the edited unit has a foreign per-overlay first reach or the written file a
+         chain not in config/twinform-baseline.tsv (tools/mmx6/twinform.py); R3 syncs against the renamed definition.
+         A unit that already holds the block (corpus state c) is re-gated, not re-edited. No registry row (propagate.py
+         writes it).
   bank.py --self-test
       -> planted controls (C0054) on planted include_asm siblings: X, Y = the two lowest-vram exe members of the
          exemplar's dup class whose unit holds a define block for src/shared/entity/state_dispatch.c; each block becomes
-         `INCLUDE_ASM(...)` of a generated asm/<prog>/nonmatchings/<tu>/<func>.s (`.word`s of probe.retail_words plus
+         `INCLUDE_ASM(...)` of a generated asm/us/<prog>/nonmatchings/<tu>/<func>.s (`.word`s of probe.retail_words plus
          the untrimmed tail); the program must rebuild to its pre-test sha1 (else FAIL); corpus.py --all regenerates
          the corpus. Bodies generated into src/shared/_selftest/: A = X with X's own table (its block's define) and a
-         planted width-compatible prototype `void X(s32);` in src/SLUS_013.95/LIBSPU_S_M_UTIL.c -> R3 syncs it,
+         planted width-compatible prototype `void X(s32);` in src/main/LIBSPU_S_M_UTIL.c -> R3 syncs it,
          `R5 banked`, plus a planted shared body src/shared/_selftest/xkey.c (`void X(int);`, #included by that unit)
          synced byte-neutral -> `xkey 1 accepted`; B = Y with the exemplar's table (masked standalone MATCH, wrong
          binary) -> `stopped R5`; C = X with xkey.c holding a block-scope `int X(void*);` (sync leaves it) and a call
          `((void (*)(void*))X)(p)` that sync uncasts (the int return changes registers) -> `stopped R3: declsync would change another key's bytes (src/shared/_selftest/xkey.c)`. Never
          writes the registry; after each control the planted state is restored and rebuilt; teardown restores src/,
-         the registry and build/corpus/*.jsonl byte-exact, deletes the planted .s files and rebuilds; fail-closed end
+         the registry and build/us/corpus/*.jsonl byte-exact, deletes the planted .s files and rebuilds; fail-closed end
          check: src/ tree, registry and program binary sha1 equal their pre-test values.
          Second pass: the same controls with X's unit a layout.role_tree plant (thin unit over
          src/<prog>/selftest_role/<tu>.c, which includes X's role file: X's block found there unchanged, R2 edits that
@@ -89,15 +92,17 @@ import declsync  # noqa: E402
 import layout  # noqa: E402
 import probe  # noqa: E402
 import segment  # noqa: E402
+import twinform  # noqa: E402
+from paths import BUILD, CONFIG_V, ASM, MAIN_EXE  # noqa: E402  (the version axis, 3.3 T37)
 
 LOGDIR = ".run/bank"
-REGISTRY = "config/dedup_registry.txt"
-REGISTRY_HEAD = ("# config/dedup_registry.txt -- shared bodies and their members (tools/mmx6/bank.py); line-preserving.\n"
+REGISTRY = CONFIG_V + "/dedup_registry.txt"
+REGISTRY_HEAD = ("# config/us/dedup_registry.txt -- shared bodies and their members (tools/mmx6/bank.py); line-preserving.\n"
                  "# <dup key> <exemplar prog:vram> <shared path> <member prog:vram> <state gated|pending|refused> "
                  "<reason>\n")
-EXEMPLAR = ("SLUS_013.95", 0x8003744C, 0x80073C1C, "src/shared/entity/state_dispatch.c")  # prog, body, table vram
+EXEMPLAR = ("main", 0x8003744C, 0x80073C1C, "src/shared/entity/state_dispatch.c")  # prog, body, table vram
 SELFTEST_DIR = "src/shared/_selftest"
-PLANT_UNIT = "src/SLUS_013.95/LIBSPU_S_M_UTIL.c"
+PLANT_UNIT = "src/main/LIBSPU_S_M_UTIL.c"
 OBJDUMP = "mipsel-linux-gnu-objdump"
 XKEY = [0]  # cross-key edits R3 accepted in this process (cumulative; bank() and propagate.run_group read deltas)
 # DISABLED: declunify, rolefeed (3.1 T19 verdict, rule 7) — 2026-11-13 / 3.1
@@ -164,7 +169,7 @@ def makefile_triple():
 
 
 def corpus_row(prog, vram):
-    with open("build/corpus/functions.jsonl") as f:
+    with open(f"{BUILD}/corpus/functions.jsonl") as f:
         for line in f:
             r = json.loads(line)
             if r["prog"] == prog and int(r["vram"], 16) == vram:
@@ -173,7 +178,7 @@ def corpus_row(prog, vram):
 
 
 def bin_out(prog):
-    return f"build/rock/{prog[5:]}.bin" if prog.startswith("rock_") else f"build/{prog}"
+    return f"{BUILD}/rock/{prog[5:]}.bin" if prog.startswith("rock_") else f"{BUILD}/{MAIN_EXE}"
 
 
 def rodata_size(obj):
@@ -193,7 +198,7 @@ def rodata_size(obj):
 
 def rebuild(prog, log):
     """Clean rebuild of prog (its C objects, elf and binary removed first, C0034); rc of make."""
-    for p in glob.glob(f"build/src/{prog}/**/*.c.o", recursive=True) + [f"build/{prog}.elf", bin_out(prog)]:
+    for p in glob.glob(f"{BUILD}/src/{prog}/**/*.c.o", recursive=True) + [f"{BUILD}/{prog}.elf", bin_out(prog)]:
         if os.path.exists(p):
             os.remove(p)
     return sh(["make", "-s", bin_out(prog)], log)
@@ -219,7 +224,7 @@ def restore(saved):
 
 
 def dup_key(prog, vram):
-    with open("build/census/classes.jsonl") as f:
+    with open(f"{BUILD}/census/classes.jsonl") as f:
         for line in f:
             r = json.loads(line)
             if r["kind"] == "dup" and any(m[0] == prog and int(m[1], 16) == vram for m in r["members"]):
@@ -238,6 +243,20 @@ def block(src, where, defines):
     """Lines that instantiate src from a file in directory where: defines, the #include, the #undefs."""
     return ([f"#define {o} {n}" for o, n in defines] + [f'#include "{os.path.relpath(src, where)}"']
             + [f"#undef {o}" for o, _ in defines])
+
+
+def window(src, where, defines):
+    """block() as R2 writes it into the tree: identity pairs (OLD == NEW) dropped (T39; cpp makes the same text)."""
+    return block(src, where, [(o, n) for o, n in defines if o != n])
+
+
+def twin_cause(prog, tu, where, defines, root="."):
+    """T39: '' or the refusal cause (`twinform: ...`) of a window just written into where: unit src/<prog>/<tu>.c has a
+    foreign per-overlay first reach, or where a chain, not in config/twinform-baseline.tsv. No window -> ''."""
+    if not [d for d in defines if d[0] != d[1]]:
+        return ""
+    causes = twinform.refusal(root, [(prog, f"src/{prog}/{tu}.c")], [os.path.relpath(os.path.join(root, where), root)])
+    return "; ".join(causes)
 
 
 def placed(prog, func, src, tu):
@@ -280,7 +299,7 @@ def xkey_guard(src, edits, saved, log):
     if not xs:
         return 0
     inc = layout.includers(os.getcwd())
-    objs = {p: [o for o in (f"build/src/{q}/{tu}.c.o" for q, tu in inc.get(os.path.relpath(p), []))
+    objs = {p: [o for o in (f"{BUILD}/src/{q}/{tu}.c.o" for q, tu in inc.get(os.path.relpath(p), []))
                 if os.path.isfile(o)] for p in xs}
     built = sorted({o for v in objs.values() for o in v})
 
@@ -518,7 +537,7 @@ def probe_via(func, prog, name, unit, triple, log):
 
 def r1_log(prog, vram, src, defines):
     """Text of the member's R1 probe compile log (probe.compile_obj's path of src or its define wrapper), else ''."""
-    r = corpus_row(prog, vram) if os.path.isfile("build/corpus/functions.jsonl") else None
+    r = corpus_row(prog, vram) if os.path.isfile(f"{BUILD}/corpus/functions.jsonl") else None
     if r is None:
         return ""
     p = os.path.join(LOGDIR, "wrap", prog, r["name"] + ".c") if defines else src
@@ -609,7 +628,7 @@ def rolefeed(ex, src, saved, log, preamble=False):
             else lines[:min(e.first for e in ents)] + lines[prev + 1:first - 1])
     body = "\n".join([f"// rolefeed (3.1 T4): {ex[1]} of {units[0]}"] + head + lines[first - 1:last]) + "\n"
     text = "\n".join(lines[:first - 1] + [f'#include "{os.path.relpath(new, os.path.dirname(path))}"'] + lines[last:])
-    objs = [f"build/{u}.o" for u in units]
+    objs = [f"{BUILD}/{u}.o" for u in units]
 
     def snap():
         for o in objs:
@@ -642,13 +661,14 @@ def rolefeed(ex, src, saved, log, preamble=False):
     return new, f"fed {new}", objs
 
 
-def repoint(lines, key, old, new):
-    """Registry lines with each row of key whose shared path is old re-pointed to new (rolefeed, 3.1 T4)."""
+def repoint(lines, key, old, new, ex):
+    """Registry lines with each row of key and exemplar ex (prog:vram) whose shared path is old re-pointed to new
+    (rolefeed, 3.1 T4); another exemplar's rows of the same key on old stay (C0497, T35)."""
     out = []
     for x in lines:
         t = x.split(" ", 5)
         out.append(" ".join(t[:2] + [new] + t[3:]) if not x.startswith("#") and len(t) > 3 and t[0] == key
-                   and t[2] == old else x)
+                   and t[1] == ex and t[2] == old else x)
     return out
 
 
@@ -678,7 +698,7 @@ def ladder(prog, vram, src, func, tu, saved, log, defines=(), r5=True):
         raise Stop(1, f"probe error: {e}")
     if not ok:
         raise Stop(1, f"standalone probe FAIL {m}/{n} words")
-    unit_c, unit_o = f"src/{prog}/{tu}.c", f"build/src/{prog}/{tu}.c.o"
+    unit_c, unit_o = f"src/{prog}/{tu}.c", f"{BUILD}/src/{prog}/{tu}.c.o"
     if not os.path.isfile(unit_o) and sh(["make", "-s", unit_o], log):
         raise Stop(2, f"pre-bank {unit_o} does not build")
     pre_ro = rodata_size(unit_o)
@@ -690,7 +710,10 @@ def ladder(prog, vram, src, func, tu, saved, log, defines=(), r5=True):
         lines = f.read().split("\n")
     if fa and fa[2] == tu and lines[fa[1] - 1] == line and lines.count(line) == 1 and not at:
         i = fa[1] - 1
-        put(saved, where, "\n".join(lines[:i] + block(src, os.path.dirname(where), defines) + lines[i + 1:]))
+        put(saved, where, "\n".join(lines[:i] + window(src, os.path.dirname(where), defines) + lines[i + 1:]))
+        twin = twin_cause(prog, tu, where, defines)  # T39: before the compile; the caller's restore undoes the put
+        if twin:
+            raise Stop(2, twin)
     elif fa or not at:
         raise Stop(2, f"{lines.count(line)} lines `{line}`, {int(at)} placed blocks in {where}")
     if sh(["make", "-s", "-B", unit_o], log):
@@ -715,7 +738,7 @@ def ladder(prog, vram, src, func, tu, saved, log, defines=(), r5=True):
     units = {p for p in edits if os.path.dirname(p) == f"src/{prog}" and p.endswith(".c")
              and os.path.basename(p)[:-2] in segment.c_units(prog)} | ({unit_c} if edits else set())  # role files: no .o
     for p in sorted(units):
-        if sh(["make", "-s", "-B", f"build/{p}.o"], log):
+        if sh(["make", "-s", "-B", f"{BUILD}/{p}.o"], log):
             raise Stop(3, f"edited unit {p} does not recompile")
     xkey_guard(src, edits, saved, log)
     # R4
@@ -745,7 +768,7 @@ def rung5(prog, src, h1, log):
 
 def preflight(prog, vram, src, defines=()):
     """(corpus row or None, func, refusal cause or ''); a c row passes only when its unit holds src's block."""
-    r = corpus_row(prog, vram) if os.path.isfile("build/corpus/functions.jsonl") else None
+    r = corpus_row(prog, vram) if os.path.isfile(f"{BUILD}/corpus/functions.jsonl") else None
     func = r["name"] if r else f"{prog}:0x{vram:08X}"
     regate = r is not None and r["state"] == "c" and os.path.isfile(src) and placed(prog, func, src, r["tu"])
     cause = ("no corpus row" if r is None
@@ -781,7 +804,7 @@ def bank(pv, src, registry=True, defines=()):
             if not (rf or "declunify" in REPAIR and e.rung == 2 and " does not compile " in e.cause):
                 raise
             restore(saved)
-            sh(["make", "-s", "-B", f"build/src/{prog}/{r['tu']}.c.o"], log)
+            sh(["make", "-s", "-B", f"{BUILD}/src/{prog}/{r['tu']}.c.o"], log)
             if rf:  # the exemplar fed from its own body, then the ladder once more on it
                 try:
                     src = rolefeed(rf, src, saved, log)[0]
@@ -806,11 +829,11 @@ def bank(pv, src, registry=True, defines=()):
     print(f"RECONCILE {func} xkey {XKEY[0] - x0} accepted", flush=True)
     if via == " via rolefeed" and os.path.isfile(REGISTRY):  # the key's rows on the old path follow the new body
         text = open(REGISTRY).read()
-        keys = {x.split()[0] for x in text.split("\n") if not x.startswith("#") and len(x.split()) > 3
+        keys = {tuple(x.split()[:2]) for x in text.split("\n") if not x.startswith("#") and len(x.split()) > 3
                 and x.split()[2] == orig and x.split()[3] == f"{prog}:0x{vram:08X}"}
         lines = text.split("\n")
-        for k in sorted(keys):
-            lines = repoint(lines, k, orig, src)
+        for k, ex in sorted(keys):
+            lines = repoint(lines, k, orig, src, ex)
         with open(REGISTRY, "w") as f:
             f.write("\n".join(lines))
     if registry and not defines and os.path.abspath(src).startswith(os.path.abspath("src/shared") + os.sep):
@@ -896,7 +919,7 @@ def self_test():
     prog, ev = EXEMPLAR[:2]
     if not probe.plant_lookup("bank", prog, ev):
         return 1
-    corpus_out = [f"build/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
+    corpus_out = [f"{BUILD}/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
     pre_src, pre_reg, pre_bin = tree_sums("src"), sha1(REGISTRY), sha1(bin_out(prog))
     pre_corpus = {p: open(p, "rb").read() for p in corpus_out}
     fails = controls(corpus_out, pre_bin, pre_corpus, role=False)
@@ -945,7 +968,7 @@ def controls(corpus_out, pre_bin, pre_corpus, role):
             with open(unit_c) as f:
                 lines = f.read().split("\n")
             put(saved, unit_c, "\n".join(lines[:i] + [layout.asm_line(prog, tu, func)] + lines[i + 5:]))
-            put(saved, f"asm/{prog}/nonmatchings/{tu}/{func}.s",
+            put(saved, f"{ASM}/{prog}/nonmatchings/{tu}/{func}.s",
                 ".set noat      /* allow manual use of $at */\n.set noreorder /* don't insert nops after branches */\n\n"
                 f"nonmatching {func}, 0x{4 * len(words):X}\n\nglabel {func}\n"
                 + "".join(f"    /* {off + 4 * k:X} {v + 4 * k:08X} {struct.pack('<I', w).hex().upper()} */  .word 0x{w:08X}\n"
@@ -1001,7 +1024,7 @@ def controls(corpus_out, pre_bin, pre_corpus, role):
             finally:
                 restore(orig)
                 shutil.rmtree(SELFTEST_DIR, ignore_errors=True)
-                shutil.rmtree(f"build/{SELFTEST_DIR}", ignore_errors=True)
+                shutil.rmtree(f"{BUILD}/{SELFTEST_DIR}", ignore_errors=True)
                 if rebuild(prog, "selftest-restore"):
                     print(f"control {name}: restore rebuild of {prog} red")
                     fails += 1
@@ -1016,7 +1039,7 @@ def controls(corpus_out, pre_bin, pre_corpus, role):
             print(f"bank: {e}")
             fails += 1
         shutil.rmtree(SELFTEST_DIR, ignore_errors=True)
-        shutil.rmtree(f"build/{SELFTEST_DIR}", ignore_errors=True)
+        shutil.rmtree(f"{BUILD}/{SELFTEST_DIR}", ignore_errors=True)
         for p, b in pre_corpus.items():
             with open(p, "wb") as f:
                 f.write(b)

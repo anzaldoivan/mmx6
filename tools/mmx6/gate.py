@@ -3,9 +3,9 @@
   gate.py --wave W<n> [--root waves] [--journal campaign/journal.jsonl] [-j 1..3] [--no-propagate]
       -> every pack dir <root>/W<n>/<prog>_<func>/ is scored (its draft.c; verdict.json's status is never read).
          Inputs (ignored/generated; a missing one is `GATE <pv> MISSING <input>`, never a verdict): pack.json, draft.c,
-         the build/corpus row, build/census/classes.jsonl, the retail binary (config/<prog>.yaml target), the asm .s
+         the build/us/corpus row, build/us/census/classes.jsonl, the retail binary (config/us/<prog>.yaml target), the asm .s
          holding the glabel. Drafts are grouped by program; <= j programs at once (default 3), each in its own snapshot
-         waves/.iso/gate-<prog>.<pid>/ (cards.snapshot + all of build/, .clang-format, docs/codegen-map; src/ copied,
+         waves/.iso/gate-<prog>.<pid>/ (cards.snapshot + all of build/us/, .clang-format, docs/codegen-map; src/ copied,
          never hardlinked) holding the per-program lock .run/gate/locks/<prog>.lock (busy: `GATE LOCKED <prog>`, rc 1);
          drafts of one program serially. Per draft, cwd = the snapshot: the draft is clang-formatted (repo
          .clang-format, C0063) as layout.new_body (src/shared/<prog>/<func>.c); the standalone masked probe
@@ -18,7 +18,7 @@
          -> `TUSYNC HEADER <hdr>:<line> <func>`, nothing edited),
          tried with tudecl's start text then its variants A, B; a failed attempt restores those files byte-exact +
          rebuild; R4 `rodata needs placement (+N bytes)` -> `rodata`: `carve.py rodata <prog> <vram> --bytes N`, re-split
-         (the snapshot's asm/<prog> hardlinks broken first) + rebuild, bank; a carve refusal is no bank attempt; a bank
+         (the snapshot's asm/us/<prog> hardlinks broken first) + rebuild, bank; a carve refusal is no bank attempt; a bank
          stop restores the carve-touched files byte-exact, re-split, rebuild; unrecovered, the STOPPED cause adds
          `; rodata CARVE REFUSE <code>|bank stop R<k>`);
          on a probe fail the plateau label (plateau.classify). Lines per draft:
@@ -75,9 +75,10 @@ import plateau  # noqa: E402
 import probe  # noqa: E402
 import propagate  # noqa: E402
 import verbatim  # noqa: E402
+from paths import BUILD, CONFIG_V, ASM  # noqa: E402  (the version axis, 3.3 T37)
 
 LOCKS = ".run/gate/locks"
-EXTRA = (".clang-format", "docs/codegen-map")  # copied into the snapshot after cards.snapshot (plus all of build/)
+EXTRA = (".clang-format", "docs/codegen-map")  # copied into the snapshot after cards.snapshot (plus all of build/us/)
 SELFTEST = ".run/gate-selftest"
 TUDECL_F = ("rock_35", 0x800FE298, 0x800970AA)  # self-test case F: a banked body, `extern s16 <sym>` read signed
 # (<sym> by vram, its name looked up: probe.sym_name)
@@ -134,7 +135,7 @@ def reap():
 
 def snapshot(prog):
     dst = cards.snapshot(f"gate-{prog}.{os.getpid()}")
-    for p in EXTRA + tuple(os.path.join("build", e) for e in sorted(os.listdir("build"))):
+    for p in EXTRA + tuple(os.path.join(BUILD, e) for e in sorted(os.listdir(BUILD))):
         if os.path.exists(p) and not os.path.exists(os.path.join(dst, p)):
             os.makedirs(os.path.dirname(os.path.join(dst, p)), exist_ok=True)
             subprocess.run(["cp", "-a", p, os.path.join(dst, p)], check=True)
@@ -155,15 +156,15 @@ def inputs(pack, rows):
         return pv, "draft.c"
     row = rows.get((prog, int(pv.rpartition(":")[2], 16)))
     if row is None:
-        return pv, "build/corpus row"
+        return pv, f"{BUILD}/corpus row"
     if not os.path.isfile(cards.CLASSES):
         return pv, cards.CLASSES
-    target = probe.yaml_layout(prog)[0] if os.path.isfile(f"config/{prog}.yaml") else f"config/{prog}.yaml"
+    target = probe.yaml_layout(prog)[0] if os.path.isfile(f"{CONFIG_V}/{prog}.yaml") else f"{CONFIG_V}/{prog}.yaml"
     if not target or not os.path.isfile(target):
-        return pv, target or f"config/{prog}.yaml target"
+        return pv, target or f"{CONFIG_V}/{prog}.yaml target"
     if row["state"] in ("asm", "include_asm") and cards.target_asm(prog, row) is None:
-        return pv, (f"asm/{prog}/nonmatchings/{row['tu']}/{func}.s" if row["state"] == "include_asm"
-                    else f"asm/{prog}/{row['tu']}.s")
+        return pv, (f"{ASM}/{prog}/nonmatchings/{row['tu']}/{func}.s" if row["state"] == "include_asm"
+                    else f"{ASM}/{prog}/{row['tu']}.s")
     with open(os.path.join(pack, "draft.c"), errors="replace") as f:
         text = f.read()
     return dict(pv=pv, prog=prog, func=func, row=row, text=text, pack=pack), None
@@ -416,20 +417,20 @@ def err_key(log):
 
 def carve_files(prog):
     """The files `carve.py rodata <prog>` may write (record, .mk, yaml, symbols, the overlay unit's D_ line)."""
-    return [f"config/carve.{prog}.txt", f"config/carve.{prog}.mk", f"config/{prog}.yaml",
-            f"config/symbols.{prog}.txt"] + sorted(glob.glob(f"src/{prog}/**/*.c", recursive=True))  # units, role files
+    return [f"{CONFIG_V}/carve.{prog}.txt", f"{CONFIG_V}/carve.{prog}.mk", f"{CONFIG_V}/{prog}.yaml",
+            f"{CONFIG_V}/symbols.{prog}.txt"] + sorted(glob.glob(f"src/{prog}/**/*.c", recursive=True))  # units, role files
 
 
 def resplit(prog, log):
     """Re-split and rebuild prog in the snapshot; rc. Its asm/ is hardlinked to the tree (cards.LINK) and splat rewrites
     files in place: the links are broken first (a copy)."""
-    a = f"asm/{prog}"
+    a = f"{ASM}/{prog}"
     if os.path.isdir(a) and not os.path.exists(a + ".copied"):
         os.rename(a, a + ".lnk")
         subprocess.run(["cp", "-a", a + ".lnk", a], check=True)
         shutil.rmtree(a + ".lnk")
         open(a + ".copied", "w").close()
-    return bank.sh(["make", "-s", f"build/split/{prog}.stamp"], log) or bank.rebuild(prog, log)
+    return bank.sh(["make", "-s", f"{BUILD}/split/{prog}.stamp"], log) or bank.rebuild(prog, log)
 
 
 def rodata_step(pv, prog, vram, body, defs, n, say):
@@ -750,7 +751,7 @@ def run(wave, root, jpath, j, prop, say=print):
                     applied.add(prog)
                 banked_pvs += [r["pv"] for r in w["results"] if r["banked"]]
     for prog in sorted(applied):  # re-split first: a rodata carve changed the yaml/symbols (a no-op otherwise)
-        if bank.sh(["make", "-s", f"build/split/{prog}.stamp"], "gate-apply") or bank.rebuild(prog, "gate-apply"):
+        if bank.sh(["make", "-s", f"{BUILD}/split/{prog}.stamp"], "gate-apply") or bank.rebuild(prog, "gate-apply"):
             say(f"GATE REBUILD {prog} red (log {bank.LOGDIR}/gate-apply.log)")
             rc = 1
     if banked_pvs and prop:
@@ -800,7 +801,7 @@ def plant_s(saved, prog, tu, func, vram, end):
     words = bank.plant_words(prog, func, vram, end)
     _, seg_start, seg_vram = probe.yaml_layout(prog)
     off = seg_start + vram - seg_vram
-    bank.put(saved, f"asm/{prog}/nonmatchings/{tu}/{func}.s",
+    bank.put(saved, f"{ASM}/{prog}/nonmatchings/{tu}/{func}.s",
              ".set noat      /* allow manual use of $at */\n.set noreorder /* don't insert nops after branches */\n\n"
              f"nonmatching {func}, 0x{4 * len(words):X}\n\nglabel {func}\n"
              + "".join(f"    /* {off + 4 * k:X} {vram + 4 * k:08X} {struct.pack('<I', w).hex().upper()} */  .word 0x{w:08X}\n"
@@ -844,7 +845,7 @@ def self_test():
     exe, ev, ename, etable, esrc = bank.exemplar()
     if not probe.plant_lookup("gate", TUDECL_F[0], TUDECL_F[2], "D"):
         return 1
-    corpus_out = [f"build/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
+    corpus_out = [f"{BUILD}/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
     real_j = "campaign/journal.jsonl"
     pre_src = {p: open(p, "rb").read() for p in glob.glob("src/**/*", recursive=True) if os.path.isfile(p)}
     pre_reg = open(bank.REGISTRY, "rb").read()
@@ -940,7 +941,7 @@ def self_test():
             rtext[case] = "\n".join(ul[i:j]) + "\n"
             bank.put(saved, u, "\n".join(ul[:i] + [layout.asm_line(p, r["tu"], r["name"])] + ul[j:]))
         for p in dict.fromkeys([ip, mp]):
-            if bank.sh(["make", "-s", f"build/split/{p}.stamp"], "gate-selftest"):
+            if bank.sh(["make", "-s", f"{BUILD}/split/{p}.stamp"], "gate-selftest"):
                 raise RuntimeError(f"case I/M re-split of {p} red")
         # no plant_s: the uncarved table stays in the rodata piece and names the function's jlabels, which only splat's
         # own .s of the function (written by this re-split) defines
@@ -984,7 +985,7 @@ def self_test():
         for unit_c in sorted({m[2][0] for m in (A, B, C, D, H)}):
             plant_unit(saved, unit_c, exe, [(m[2][1], m[1]["name"]) for m in (A, B, C, H) if m[2][0] == unit_c],
                        tu=next(m[1]["tu"] for m in (A, B, C, D, H) if m[2][0] == unit_c))
-        os.remove(f"asm/{exe}/nonmatchings/{D[1]['tu']}/{D[1]['name']}.s")
+        os.remove(f"{ASM}/{exe}/nonmatchings/{D[1]['tu']}/{D[1]['name']}.s")
         if bank.rebuild(exe, "gate-selftest") or bank.sha1(bank.bin_out(exe)) != pre_bin[exe]:
             raise RuntimeError(f"D unplant rebuild of {exe} red")
         # packs
@@ -1031,7 +1032,7 @@ def self_test():
         words = sum(cases[k][1] for k in "ABEFHIJM")
         want = {"A": [f"BANKED {cases['A'][0]} {cases['A'][1]}"],
                 "B": [f"RECOVERED {cases['B'][0]} R1 via define", f"BANKED {cases['B'][0]} {cases['B'][1]}"],
-                "D": [f"GATE {cases['D'][0]} MISSING asm/{exe}/nonmatchings/{D[1]['tu']}/{D[1]['name']}.s"],
+                "D": [f"GATE {cases['D'][0]} MISSING {ASM}/{exe}/nonmatchings/{D[1]['tu']}/{D[1]['name']}.s"],
                 "E": [f"BANKED {cases['E'][0]} {cases['E'][1]}"],
                 "F": [f"RECOVERED {cases['F'][0]} R2 via tudecl", f"BANKED {cases['F'][0]} {cases['F'][1]}"],
                 "H": [f"BANKED {cases['H'][0]} {cases['H'][1]}"],
@@ -1152,7 +1153,7 @@ def self_test():
             with open(p, "wb") as f:
                 f.write(b)
         for p in progs:
-            if bank.sh(["make", "-s", f"build/split/{p}.stamp"], "gate-selftest-teardown") \
+            if bank.sh(["make", "-s", f"{BUILD}/split/{p}.stamp"], "gate-selftest-teardown") \
                     or bank.rebuild(p, "gate-selftest-teardown"):
                 fails.append(f"teardown-rebuild-{p}")
         bank.sh([sys.executable, "tools/mmx6/sig.py", "--rescan"], "gate-selftest-teardown")
@@ -1185,7 +1186,7 @@ def role_pass():
     plant), the gate banks the draft there
     (bank R2 via find_asm) and applies the role file back; then everything restored. [failed checks]."""
     exe, ev, ename, etable, esrc = bank.exemplar()
-    corpus_out = [f"build/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
+    corpus_out = [f"{BUILD}/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
     pre_sums, pre_reg, pre_bin = src_sums(), open(bank.REGISTRY, "rb").read(), bank.sha1(bank.bin_out(exe))
     pre_corpus = {p: open(p, "rb").read() for p in corpus_out}
     fails, saved, stack, snap = [], {}, contextlib.ExitStack(), None

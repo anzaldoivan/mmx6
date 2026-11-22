@@ -3,7 +3,7 @@
 #undef func_800E9D04
 
 // clang-format off
-INCLUDE_ASM("asm/rock_17/nonmatchings/E9860", func_800E9EBC);
+INCLUDE_ASM("rock_17/nonmatchings/E9860", func_800E9EBC);
 // clang-format on
 
 #include "common.h"
@@ -197,5 +197,5 @@ void func_800EA278(u8* arg0, s32 arg1) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_17/nonmatchings/E9860", D_800EA2C8);
+INCLUDE_ASM("rock_17/nonmatchings/E9860", D_800EA2C8);
 // clang-format on

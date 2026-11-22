@@ -2,16 +2,16 @@
 """psyqnames.py -- SDK function names (and our prototypes) for the lib rows of every program (phase 2.3 T3, container).
 
   psyqnames.py [--sdk DIR] [--self-test]
-      inputs: config/boundaries.txt `lib <lo> <hi> <LIB/OBJ>` rows of every `# program <P> base <b> size <s>`
-      section, campaign/ledger.tsv (function starts; lane starts = SLUS_013.95 rows from the first lib row to
-      LANE_END, for an overlay its rows inside a lib row span), retail images extracted/retail/iso/SLUS_013.95 and
-      extracted/retail/rock/<NN>.bin (raw, at the header base; missing -> the program's rows `refused:<why>`),
+      inputs: config/us/boundaries.txt `lib <lo> <hi> <LIB/OBJ>` rows of every `# program <P> base <b> size <s>`
+      section, campaign/ledger.tsv (function starts; lane starts = main rows from the first lib row to
+      LANE_END, for an overlay its rows inside a lib row span), retail images extracted/us/iso/SLUS_013.95 and
+      extracted/us/rock/<NN>.bin (raw, at the header base; missing -> the program's rows `refused:<why>`),
       DIR/LIB (objects via sdk.py: psyk extract, psyq-obj-parser, lnk_symbolize) and DIR/INCLUDE (*.H declarations).
       DIR defaults to /sdk.
       -> config/psyq/names.tsv `prog vram name library object offset size verdict aliases`: one row per named
          function (aliases = other globals at that vram, `-` when none), one row with name `-` per lane start left
          unnamed (verdict = the reason); config/psyq/protos.tsv
-         `name prototype forward basis` per distinct named function. Vendor scratch: build/psyqnames/ (never tracked).
+         `name prototype forward basis` per distinct named function. Vendor scratch: build/us/psyqnames/ (never tracked).
       stdout: `PSYQNAMES <rows> rows: named <n> funcs, lane starts <s>: named <a>, unnamed <u> (by reason ...)`, then
       `PSYQNAMES VERDICT`, `PSYQNAMES LIB`, `PSYQNAMES PROTOS` count lines and one `PSYQNAMES CONFLICT` line per dropped
       duplicate.
@@ -44,10 +44,11 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sdk  # noqa: E402  (read_elf, lnk_symbolize, targets)
+from paths import BUILD, EXTRACTED, CONFIG_V, MAIN_EXE  # noqa: E402  (the version axis, 3.3 T37)
 
-PROG = "SLUS_013.95"
+PROG = "main"
 LANE_END = 0x8006D5D4
-OUT = "build/psyqnames"
+OUT = f"{BUILD}/psyqnames"
 DST = "config/psyq"
 
 
@@ -56,7 +57,7 @@ DST = "config/psyq"
 def lib_rows():
     """Every lib row, all programs, in file order; prog/pbase from the `# program <P> base <b> ...` header."""
     rows, cur, pbase = [], None, None
-    for l in open("config/boundaries.txt"):
+    for l in open(CONFIG_V + "/boundaries.txt"):
         f = l.split()
         if l.startswith("# program "):
             cur, pbase = f[2], int(f[4], 16)
@@ -84,7 +85,7 @@ def lane_starts(prog, rows, led):
 
 def load_image(prog, base):
     """Image of a program, or a reason string."""
-    p = f"extracted/retail/iso/{prog}" if prog == PROG else f"extracted/retail/rock/{prog.split('_')[1]}.bin"
+    p = f"{EXTRACTED}/iso/{MAIN_EXE}" if prog == PROG else f"{EXTRACTED}/rock/{prog.split('_')[1]}.bin"
     if not os.path.isfile(p):
         return f"no-image-{p}"
     return Image(open(p, "rb").read(), None if prog == PROG else base)
@@ -562,7 +563,7 @@ def run(a):
 
 def self_test(a):
     rows = [r for r in lib_rows() if r["prog"] == PROG]
-    exe = open(f"extracted/retail/iso/{PROG}", "rb").read()
+    exe = open(f"{EXTRACTED}/iso/{MAIN_EXE}", "rb").read()
     img = Image(exe)
     objs = Objects(a.sdk)
     ctl = [dict(r) for r in rows if r["lib"].upper() == "LIBSPU.LIB" and r["obj"].upper() in ("SPU.OBJ", "S_CRWA.OBJ")]

@@ -103,7 +103,7 @@ CASES = (
     ("clean", "int f(int a) {\n    /* asm(\"nop\") in a comment */\n    return a + 1;\n}\n", True, "", 0),
     ("inline_asm", "void f(void) {\n    __asm__ volatile(\"nop\");\n}\n", False, "inline-asm", 0),
     ("word_string", "void f(void) {\n    asm(\".word 0x0\");\n}\n", False, "directive .word", 0),
-    ("include_asm", "INCLUDE_ASM(\"asm/x\", f);\nint g(void) { return 0; }\n", False, "include-asm", 0),
+    ("include_asm", "INCLUDE_ASM(\"x\", f);\nint g(void) { return 0; }\n", False, "include-asm", 0),
     ("one_pin", "int f(int a) {\n    register int r asm(\"$2\") = a;\n    return r;\n}\n", True, "", 1),
     ("pin_in_comment", "int f(int a) {\n    // register int r __asm__(\"$2\");\n    return a;\n}\n", True, "", 0),
 )

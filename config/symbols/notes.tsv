@@ -1,0 +1,250 @@
+# prog	vram	name	purpose
+main	0x80012658	init_system	resets callbacks, starts GPU, GTE, memory card and pads, sets both draw buffers, loads the rock file tables and creates the first task.
+main	0x80012890	set_resolution	switches screen resolution.
+main	0x80013300	create_task	opens the thread of task slot arg0 with entry arg1 and marks it running.
+main	0x80013360	task_yield	sets the current task's wait count to arg0 and switches back to the main thread.
+main	0x800133F4	end_task_slot	closes the thread of task slot arg0 and clears its state.
+main	0x80013BF0	load_player_files	player file selection on loading screen.
+main	0x8001466C	init_loading_screen	loading screen per-call step.
+main	0x800147D0	load_rock_dat_file_table	reads the ROCK_X6.DAT file table (0xF3 entries) into rock_dat_file_table, plus 4 files.
+main	0x80015A0C	load_vab_record	CD record handler D_80010038[2] (cmd>>16==2): SsVabOpenHeadSticky on the record head, body to SPU.
+main	0x80015EC0	wait_for_file_load	yields each frame until the file load finishes, showing the loading screen and re-seeking or resetting the CD on errors.
+main	0x80016178	pump_file_loads	steps the queued DAT file reads and re-issues a read on CD error status.
+main	0x8001642C	read_dat_file	reads a DAT file by index.
+main	0x80016780	load_rock_bin_file_table	reads the ROCK_X6.BIN file table (0x3B entries) into rock_bin_file_table.
+main	0x80016858	read_rock_bin_member	reads ROCK_X6.BIN member arg0 into buffer arg1 from rock_bin_file_table[arg0] (lba, size).
+main	0x80016C48	play_sound	VAB play #1.
+main	0x80016D34	key_on_sfx_voices	keys on the SPU voices of a sound entry with per-voice priority and pan from the source object's screen x.
+main	0x80017008	play_sfx_sequence	stops a lower-priority sequence on the entry's channel, plays the SEQ or SEP and records the channel priority.
+main	0x8001731C	load_player_sound_seqs	closes open SEP handles, reads the controlled player's sound data file and opens its two SEP sets at full volume.
+main	0x8001750C	silence_sound	zeroes the volume of and keys off a range of sound voices (all 24 for 0xFF).
+main	0x800179A4	set_animation	animation trigger; table at +0x30.
+main	0x800179D0	set_animation_frame	points an object's animation cursor at entry arg1 of its table plus arg2.
+main	0x80018060	play_bgm_xa_track	plays BGM.XA track arg0 (dat slot 0xF5) via func_80016548; arg0 indexes the 16-byte track table D_8006E58C.
+main	0x80018178	play_demo_xa_track	plays DEMO.XA track arg0 (dat slot 0xF6) via func_80016548; arg0 indexes a track table.
+main	0x8001854C	play_stage_bgm	plays the XA music track for the current stage, substage and player.
+main	0x800186A8	stop_cd_audio	pauses CD audio playback and turns off the serial audio input.
+main	0x8001A6CC	play_str_movie	plays movie str_movie_table[arg0] (stride 12, word 0 = dat slot) via func_8001B6D0 + VSync/PutDispEnv loop.
+main	0x8001C384	memcard_read_save_file	reads the 0x2000-byte save file from the memory card in slot arg1.
+main	0x8001C4C0	memcard_list_files	lists the card's files whose name matches, and sums their sizes.
+main	0x8001C6C0	memcard_format	formats the memory card in the given slot.
+main	0x8001DEB8	init_title_screen	title screen voice.
+main	0x8001DF5C	tick_title_demo_timer	title screen demo timer.
+main	0x8001E088	init_new_game	new game status init.
+main	0x8001E32C	exit_stage_by_clear	scene triggers after stage clear.
+main	0x80020D18	run_text_box	per-frame text box step: updates the active text box, else opens the pending text id.
+main	0x80021760	open_text_box	text box first page.
+main	0x80022838	load_speaker_palette	loads the palette of the speaker of text arg0 into CLUT slot 0x16, or 0x5F in wide mode.
+main	0x800228AC	get_player_mugshot	player mugshot selection.
+main	0x80025FD8	set_boss_level	sets current boss level from rank.
+main	0x80029478	func_80029478	sets the vertical shake fields and flag 1 of background object 0 (mmx4 start_screen_shake_y shape).
+main	0x80029B8C	init_checkpoint_positions	places the player and the background layers at the current checkpoint.
+main	0x8002A588	init_options_menu	options list display and toggles.
+main	0x8002B3D4	load_palette	on-the-fly palette load.
+main	0x8002B838	reset_level	generic reset at level start.
+main	0x8002BBF4	enemy_slot_alloc	first free 0x9C slot of the enemy object array g_enemies[48], cleared; returns it or 0.
+main	0x8002C3F8	alloc_class3_slot	returns a cleared free slot of the class 3 pool g_class3_slots.
+main	0x8002C4C4	alloc_class4_slot	returns a cleared free slot of the class 4 pool g_class4_slots.
+main	0x8002C530	alloc_sprite_slot	free slot in displayed sprites table.
+main	0x8002C7F0	alloc_class6_slot	returns a cleared free slot of the class 6 pool g_class6_slots.
+main	0x8002C950	alloc_class7_slot	returns a cleared free slot of the class 7 pool g_class7_slots.
+main	0x8002C9B0	clear_object_slot	zeroes the first eight bytes of an object slot.
+main	0x8002D2B0	move_object	adds x_vel to x_pos and subtracts y_vel from y_pos.
+main	0x8002D2D4	random_byte	steps the random seed and returns its low byte.
+main	0x8002D3B4	set_velocity_from_angle	sets x_vel and y_vel from the speed tables for a 32-step angle.
+main	0x8002D868	check_attack_hit	player attack hit detection.
+main	0x8002E1A0	check_box_collision	checks a general box collision.
+main	0x80030DC0	scale_damage	damage taken scaled by armor and difficulty.
+main	0x80031474	check_enemy_hits	attack slots tested against enemies.
+main	0x80031DA8	collide_solid_object	box-collides the player (mode 0) and the ride armor (mode 1) with the object's terrain box, restoring the old position on blocked moves.
+main	0x80032DF0	setup_pause_menu	pause menu display.
+main	0x800346EC	exit_stage_from_menu	scene triggers on exit stage.
+main	0x80034FBC	update_player	per-frame player step: timers, weapon switch, the player state handler table, charge and shot, flash.
+main	0x80035144	update_stage_entry	stage-start drop-in: phase 0 falls until the floor flag (latched & 8), phase 1 runs player init on the animation event and hands off at the animation end.
+main	0x80035274	update_stand	standing: runs the move checks in order (ladder, attack, ceiling jump, walk, dash); with none taken, plays the idle animation.
+main	0x800353C0	update_walk_start	walk start: the move checks, then moves while the start animation runs and goes on to walking at its end; stands when check_walk_start_input drops.
+main	0x800354E8	func_800354E8	walking: the move checks, then moves and animates while check_walk_input holds, else stands (func_8003ADB4).
+main	0x80035620	handle_jump_rise	jump rising state.
+main	0x80035D38	func_80035D38	action 26 routine: facing from pressed input, attack checks, three animation phases, then standing.
+main	0x8003605C	func_8003605C	action 27 routine: vertical step helpers, a sound every 21 frames while y moves.
+main	0x800361D4	func_800361D4	action 28 routine: horizontal step helpers, a sound every 21 frames while x moves.
+main	0x80036364	func_80036364	action 30 routine: airborne phase, a decelerating ground slide after touchdown, then an override check.
+main	0x8003649C	perform_ceiling_jump	ceiling jump execution; duration per character.
+main	0x800365D4	func_800365D4	action 31 phase 3, after perform_ceiling_jump meets a ceiling: dash input goes to phase 4; holds while the ceiling flag stays and DOWN/CROSS are not pressed, counting action_timer down; ends through end_dash.
+main	0x8003674C	update_move_off_screen	phase 0 waits for the animation end and sets animation 4; phase 1 moves until is_off_screen reports the object out of view, then turns it off (state 3).
+main	0x80036800	func_80036800	the move checks without the attack and ceiling-jump tests; start_walk when check_walk_start_input holds, else ends at the animation end (func_8003AD18).
+main	0x800368FC	update_fall	falling: lands on the floor flag (or ceiling jump), else the air checks (wall cling, air dash) then gravity and motion.
+main	0x80036A04	update_landing	landing: the move checks, then the landing animation; stands (func_8003ADB4) at its end.
+main	0x80036B10	update_wall_cling	wall cling: lands on the floor flag; while touching a wall faces away from it and counts unk8A down, then start_slide_down (slide); else func_8003AFF4.
+main	0x80036C28	update_wall_jump	jump from a wall: phase 0 runs update_wall_jump_push (push off), later phases update_wall_jump_rise (rise).
+main	0x80036C68	update_wall_jump_push	wall jump phase 0: moves away from the wall for unk8A frames, then zeroes x_vel and goes to phase 1; func_8003AFF4 on lock, ceiling or a wall ahead.
+main	0x80036D4C	update_wall_jump_rise	wall jump phase 1: rises; y_vel cut on lock, ceiling or CROSS release; air checks; falls (action 7) once y_vel <= 0.
+main	0x80036E70	update_slide_down	wall slide: phase 0 runs handle_slide_down, later phases update_slide_down_let_go.
+main	0x80036EB0	handle_slide_down	sliding-down state routine.
+main	0x80036FBC	update_slide_down_let_go	action 11 phase 1+: lands on the floor flag, func_8003AFF4 on lock; else moves for unk8A frames, then falls (action 7) with x_vel 0.
+main	0x800370B0	update_dash	ground dash: unless func_8003A628, animates and runs dash_phase_table[action_phase]; set_pose_size when the action changed and a terrain box is set.
+main	0x80037130	func_80037130	lands on the floor flag, func_8003AFF4 on lock; tries func_80039984 and the ladder; X attacking goes to func_8003B360; else animates and runs D_80073C10[action_phase].
+main	0x80037220	func_80037220	action 13 phase 0: stops all motion when func_801EC028 holds (not X); animation event 0x40 runs func_8003D26C, event 0x80 plays sound 1/5, sets afterimage and goes to phase 1.
+main	0x800372DC	func_800372DC	action 13 phase 1: stops all motion when func_801EC028 holds (not X); check_dash_end leads to func_8003B30C; animation event 0x40 runs func_8003D26C.
+main	0x8003744C	func_8003744C	calls the phase routine D_80073C1C[obj[6]] with the object.
+main	0x80037548	player_ladder_climb_on_top	action 14 phase 2: animates the move between ladder top and tile; at its end shifts y 16 px and enters the climb-down state (player_enter_ladder_climb_down).
+main	0x800375D0	player_ladder_step_off_bottom	action 14 phase 3: animates, then stands (func_8003ADB4) on the ground at the animation end.
+main	0x80037610	update_ladder_climb_up	ladder climb up: try_leave_ladder first; turns with LEFT/RIGHT presses; UP held moves and animates; DOWN switches to the climb-down state (player_enter_ladder_climb_down).
+main	0x80037704	update_ladder_climb_down	ladder climb down: try_leave_ladder first; turns with LEFT/RIGHT presses; DOWN held moves and animates; UP switches to the climb-up state (player_enter_ladder_climb_up).
+main	0x800377FC	player_ladder_let_go	action 14 phase 4: animates, then func_8003AFF4 at the animation end.
+main	0x80037838	player_hurt	runs the hurt handler that the player's hurt type selects.
+main	0x80037880	update_hurt_knockback	hurt handler for hurt types 0, 1 and 4: x motion through move_x_backward; when invincibility_timer reaches 0x3C runs end_dash, then check_low_health unless locked.
+main	0x80037920	func_80037920	hurt handler for hurt type 5: x motion through func_80037B10; when invincibility_timer reaches 0x3C runs func_8003AFF4, then check_low_health unless locked.
+main	0x800379AC	func_800379AC	hurt handler for hurt type 3: faces the held direction; steps unkCA through animations 0x25 and 0x24, and runs end_dash when it reaches 0.
+main	0x80037A60	move_x_backward	x motion that only goes backward: stops x at a wall ahead in the motion, moves, then drops an x_vel that points the way the player faces.
+main	0x80037B10	func_80037B10	as move_x_backward, and also zeroes y_vel when the motion meets a wall.
+main	0x80037BC4	func_80037BC4	g_playthrough_state.unkF set leads to func_8003B870; hover_timer 0 ends the state (air_action 1, gameplay unlocked); phase 0 sets animation unkD8.
+main	0x80037C74	func_80037C74	phase 0 runs func_80037CB4, later phases func_80037D68.
+main	0x80037CB4	func_80037CB4	action 19 phase 0: not riding: stands on the floor flag, else zeroes motion with base gravity and goes to phase 1; riding: animates on the ground.
+main	0x80037D68	func_80037D68	action 19 phase 1+: lands on the floor flag, else animates and moves.
+main	0x80037DC4	update_control_lock	control lock: waits and animates while unkD0 is set, then stands (action 2); seen during the opening dialog.
+main	0x80037E1C	func_80037E1C	phase 0 animates until D_800CCEDF is set; phase 1 turns the object off (state 3).
+main	0x80037E88	func_80037E88	D_800CCEDF set leads to func_8003B870; else x_vel from walk_start_speed/walk_speed by the animation event, signed by facing; moves, animates, func_8003A678 when unkD2 is 0.
+main	0x80037F34	func_80037F34	unless func_8003A628 takes over, moves and animates.
+main	0x80037F70	player_script_vanish	animates the player, then hides it at the last step.
+main	0x80037FD4	func_80037FD4	action 23 handler: moves until y_vel ends, then on landing sets action 20.
+main	0x8003809C	func_8003809C	action 24 handler: waits for item_step 4, plays animation 0x27 with sound 0x21, then func_8003D330 and func_8003AD18.
+main	0x80038144	func_80038144	action 25 handler: waits for D_800CD40C to clear, plays animation 0x27 with sound 0x21, then animation 0x28 and func_8003B954.
+main	0x800381F0	update_ceiling_jump	action 31 handler, the ceiling jump: falls through func_8003AFF4 under move_lock, else runs ceiling_jump_phase_table[action_phase].
+main	0x80038248	end_ceiling_jump	ceiling_jump_phase_table[1] (action 31 phase 1): animates every other frame, counts action_timer down, then zeroes speed and falls (action 7).
+main	0x800382C8	func_800382C8	ceiling_jump_phase_table[2] (action 31 phase 2): animates; at the animation end advances the phase and sets animation 0x54.
+main	0x80038310	func_80038310	ceiling_jump_phase_table[4] (action 31 phase 4): animation event 0x40 calls func_8003D26C; event 0x80 plays sound 1/5, sets afterimage, advances the phase.
+main	0x80038390	func_80038390	ceiling_jump_phase_table[5] (action 31 phase 5): when check_dash_end ends the dash, func_8003B30C and action 13; event 0x40 calls func_8003D26C.
+main	0x800383F8	func_800383F8	spawns a visual object (find_free_visual_obj) at the caller, mirrored, with g_visual_animation_tables animations; the sound and variant follow the caller id.
+main	0x80038594	func_80038594	horizontal step under overhead tiles 0x25-0x2F, at unk12C while dash_timer runs and the facing side is held, else by L/R at unk124; returns 0, 1 left, 2 right.
+main	0x80038788	func_80038788	vertical step under overhead tile 0x2E, at y_vel while dash_timer runs and its side is held, else by UP/DOWN at unk128; returns 0, 1 up, 2 down.
+main	0x800389B4	func_800389B4	action 27 move step (from func_8003605C): UP/DOWN under tile 0x2E (func_80038788 while dashing), then animation by direction, shot and attack.
+main	0x80038BA8	func_80038BA8	on dash press or double tap, starts a vertical dash under tile 0x2E: dash_momentum, air_action 1, dash_timer 30 (15 with part 0x10), sound; returns 1.
+main	0x80038CD0	func_80038CD0	action 28 move step (from func_800361D4): L/R under tiles 0x25-0x2F (func_80038594 while dashing), y snap by snap_to_tile_slope, animation by tile.
+main	0x80038F64	func_80038F64	on dash press or double tap, starts a horizontal dash under tiles 0x25-0x2F, set up as in func_80038BA8; returns 1 when started.
+main	0x8003906C	select_air_dash	air dash picked by armor.
+main	0x80039228	update_player_damage	damage pass each frame: crush and spike deaths, hit damage, invincibility countdown; a pending hurt (hp bit 7) runs start_hurt and refills energy.
+main	0x8003963C	start_hurt	starts the hurt: vibration, hurt sounds, then unless in action 17, animation, speeds and invincibility from the hurt-type tables and action 17.
+main	0x800397F8	snap_to_tile_slope	sets y from the slope profile of overhead tile 0x25-0x2D at x (0x2F probes 16 px up, then down); returns the tile.
+main	0x80039984	func_80039984	UP held over overhead tile 0x2E sets action 27 centred on it; over tiles 0x25-0x2D while not rising, action 28 with the y snap; returns 1 when taken.
+main	0x80039BC4	player_check_dash_jump_walk	starts a dash, jump or walk from the input.
+main	0x80039C40	func_80039C40	dash or jump check: a dash input starts a dash, else a JUMP press starts a jump; returns 1 when taken.
+main	0x80039C9C	check_crouch_input	with D_800CCF99 bit 0x08 set and DOWN held, calls func_8003B9AC; returns 1 when taken.
+main	0x80039CFC	check_walk_start_input	walk-start input: L or R held sets facing and x_vel to +-walk_start_speed unless a wall blocks that side; returns 1 when set.
+main	0x80039D7C	check_walk_input	walk input: L or R held sets facing and x_vel to +-walk_speed unless a wall blocks that side; returns 1 when set.
+main	0x80039DFC	check_floor_lost	grounded (air_state 0) with no floor contact, not hurt, hovering or riding: falls through func_8003AFF4.
+main	0x80039EB0	check_dash_input	dash input incl. double tap.
+main	0x80039F78	update_double_tap_dash	double-tap detection: an L/R press opens a 12-frame window; the same side again sets double_tap_dash.
+main	0x80039FFC	check_dash_end	dash step: moves, keeps x_vel at least dash_base_speed; returns 1 when the dash ends (wall ahead, dash_timer out, nothing held, other side held).
+main	0x8003A0E8	check_dash_end_no_release	dash step as check_dash_end without the nothing-held end; returns 1 when the dash ends.
+main	0x8003A1C8	func_8003A1C8	with ride_animation set and not hurt: animation 0x26 from a standing pose, facing right, action 19.
+main	0x8003A268	func_8003A268	with hover_timer above 0: clears terrain_box, airborne, action 18 phase 1, negates hover_timer.
+main	0x8003A2CC	try_enter_wall_cling	enters wall cling when not locked and touching a wall; returns 1 when taken.
+main	0x8003A33C	try_wall_jump	on a climbable wall with CROSS pressed, calls start_wall_jump (the wall jump); returns 1 when taken.
+main	0x8003A394	is_pressing_into_wall	returns 1 when L/R is held into a touching climbable wall.
+main	0x8003A3DC	try_enter_ladder	grabs a ladder (input bit 4 over tile 0x20) or climbs on top (bit 8 over tile 0x21); returns 1 when taken.
+main	0x8003A488	try_grab_ladder_from_air	UP held over tile 0x20 at the origin grabs the ladder (animation 0x1F and player_enter_ladder_climb_up, or func_801EB6E8 when attacking); returns 1.
+main	0x8003A514	try_leave_ladder	while climbing: steps off at the floor, tops out on tile 0x21, or falls when off the ladder tiles or on a button.
+main	0x8003A764	func_8003A764	exit test of actions 27 and 28: leaves by tile attribute, timer +0xD0 or jump press; returns 1 when it leaves.
+main	0x8003A814	func_8003A814	maps a tile attribute and the facing to an animation offset 0, 1 or 2.
+main	0x8003A870	check_ceiling_jump	ceiling jump input (Shadow legs, Zero Hyoroga).
+main	0x8003A980	cancel_player_attack	sets byte +0xCF, clears dash_momentum and afterimage, then calls two helpers.
+main	0x8003A9C4	start_dash	enters the ground dash (action 12, dash_timer 30 or 15), or a dash jump (action 6) on a jump press.
+main	0x8003AE8C	start_walk	enters walk start (action 3) with y speed, x acceleration and gravity cleared.
+main	0x8003AED4	func_8003AED4	enters walking (action 4) with y speed, x acceleration and gravity cleared.
+main	0x8003B054	player_land	touchdown: plays a sound, tries dash, jump or walk, else enters landing (action 8).
+main	0x8003B114	end_dash	Mach Dash end.
+main	0x8003B360	func_8003B360	enters action 7 with velocities cleared, gravity from +0x100 and animation 0x84.
+main	0x8003B3B8	player_enter_wall_cling	enters the wall cling: animation 0xD, sound 1/4, motion and gravity zeroed, unk8A 8, faces away from the wall, action 9.
+main	0x8003B440	start_wall_jump	starts action 10: faces and pushes x away from the wall, dash speed if CIRCLE held, sets the rise speed.
+main	0x8003B548	start_slide_down	starts action 11: dust unless armor 2, x speed 0, y speed from slide_down_speed (the slide speed).
+main	0x8003B5B8	func_8003B5B8	enters action 11 phase 1: x speed away from the wall, base gravity back on.
+main	0x8003B63C	grab_ladder	enters action 14: centres x on the tile, zeroes speeds, climb speed from unk118.
+main	0x8003B6B4	reach_ladder_top	enters action 14 phase 1: snaps y to the tile and clears the attack.
+main	0x8003B708	player_enter_ladder_climb_on_top	starts climbing down onto a ladder from its top: animation 0x1D, x snapped to the tile centre, action 14 phase 2.
+main	0x8003B774	player_enter_ladder_step_off_bottom	starts stepping off the ladder bottom: animation 0x1E, action 14 phase 3.
+main	0x8003B810	player_enter_ladder_climb_down	enters action 16: x snapped to the tile column centre, y speed minus +0x11C.
+main	0x8003B9AC	func_8003B9AC	enters action 26 unless the override check func_8003A628 takes over.
+main	0x8003C3C8	func_8003C3C8	sets the per-frame box pointer +0x54 from tables indexed by animation and frame.
+main	0x8003C6A4	player_spawn_dash_spark	spawns the spark visual offset from dash_spark_offsets by variant, or calls spawn_dash_tile24_visual when the tile below is 0x24.
+main	0x8003C964	spawn_wall_jump_visual	spawns visual object 3/1 at a per-character offset from the object.
+main	0x8003CD44	read_player_input	in-game input reading.
+main	0x8003CE38	player_update_flash	steps the shot and hurt palette flashes.
+main	0x8003D014	check_low_health	low health voice site.
+main	0x8003D2BC	spawn_dust	dust animation start.
+main	0x8003D598	set_base_move_stats	writes the base movement speeds and gravity into the player.
+main	0x8003D630	init_move_stats	base movement stats, then the deltas of equipped parts and armor 2.
+main	0x8003D718	load_armor_and_parts	player init: copies armor, parts and beaten stages from the playthrough state.
+main	0x8003D7AC	map_buttons	read input subroutine.
+main	0x8003DBDC	switch_weapon	weapon menu-select input.
+main	0x8003DD6C	func_8003DD6C	character 0 weapon switch: both shoulder buttons clear it, one steps the nine slots.
+main	0x8003DF58	set_shot_types	sets the two shot types from armor, weapon, charge and parts.
+main	0x8003E06C	func_8003E06C	fires a shot and starts the attack pose, for two unnamed ground states.
+main	0x8003E174	try_shoot_in_air	fires a shot and starts the attack pose in the air states.
+main	0x8003E260	try_shoot_on_ladder	fires a shot from the ladder, or enters the ladder shot state.
+main	0x8003E344	check_giga_attack	giga attack input, armor checks, execution.
+main	0x8003EB0C	get_weapon_energy_cost	energy cost by armor and parts.
+main	0x8003EC78	update_player_charge	per-frame charge step: on fire input resets the charge, else charges.
+main	0x8003ED98	func_8003ED98	tests the fire input bits 0x10/0x20 and their press history.
+main	0x8003EEE4	charge_special_weapon	charging special weapons by armor.
+main	0x8003F048	update_weapon_switch	runs switch_weapon when requested, else steps the weapon selection and reacts when the weapon byte 0x93 changed.
+main	0x8003F200	start_hover	Blade hover boots execution.
+main	0x8003F32C	try_start_air_dash	on dash input sets animation 0xBD and state 0x4A, zeroes speeds and spawns the dash effect; returns 1 when taken.
+main	0x8003F644	try_start_shot_attack	X only: tries a giga attack, else starts the attack of a fired shot type; returns 1 when one starts.
+main	0x8003F740	use_weapon_energy	energy deduction on shot.
+main	0x8003F864	start_player_attack	jump table on the attack id (byte 0x96) to start_saber and nine other attack starters.
+main	0x8003FA60	player_fire_weapon	spawns the player's current shot type as a weapon object.
+main	0x8003FA8C	fire_charged_shot	X charged shot sound.
+main	0x8003FD6C	start_saber	X saber start.
+main	0x8003FF90	player_set_charge_flash	sets flash_palette from charge slot arg1 level; returns 1 when that slot is charging.
+main	0x8003FFF4	update_special_charge	charge-path step of update_player_charge, asm body not yet read.
+main	0x8004228C	init_orb	enemy orb drop and value.
+main	0x80042D3C	register_orb	orb registered until Nightmare reset.
+main	0x80043638	init_yammar_option	Yammar Option fireflies; ammo.
+main	0x8004548C	update_guard_shell	Guard Shell activation and ammo use.
+main	0x80046E14	clamp_player_to_ceiling	player/ceiling position compare.
+main	0x800472D0	func_800472D0	object init: speed and timer by stage, difficulty and checkpoint.
+main	0x80047394	func_80047394	object step: runs the D_800762C8 action handler unless 0x80097180 is 2.
+main	0x800473EC	func_800473EC	object action: adds speed while the player acts, resets by difficulty.
+main	0x80047460	move_ceiling	ceiling movement step.
+main	0x8004755C	func_8004755C	state 2 of the D_800762C8 object: moves until a countdown or flag, then shakes the screen and changes state.
+main	0x80047674	func_80047674	state 3 of the D_800762C8 object: moves for a countdown, then sets speed and state 1.
+main	0x800476E0	func_800476E0	state 4 of the D_800762C8 object: waits a countdown, then resets position and sets state 1.
+main	0x80047760	func_80047760	state 5 of the D_800762C8 object: waits a countdown, plays a sound, then sets state 3.
+main	0x80049270	init_buster_shot_visual	buster shot sfx by shot type.
+main	0x80049478	update_buster_shot_visual	buster shot visual object update: freed on the stage-exit mode, init on state 0, else its step.
+main	0x80049564	update_dust	dust animation control; stops on wall let-go/kick.
+main	0x8004E680	drop_item	item drop; off on Xtreme.
+main	0x8004EECC	rescue_reploid	rescued reploid reward.
+main	0x8004FF00	set_reploid_status	writes 4-bit status arg1 of rescue reploid arg0.
+main	0x8004FF4C	get_reploid_status	returns the 4-bit status of rescue reploid arg0.
+main	0x80051158	init_capsule	capsule appearance checks parts.
+main	0x800515B4	update_capsule	capsule object update: init on state 0, else its step; part 0x10 follows its link as a solid box.
+main	0x80051ED4	apply_capsule_part	capsule applies part, mugshot, saber palette.
+main	0x800533F4	is_text_box_seen	tests the seen bit of text box arg0 for the current stage.
+main	0x80053440	set_text_box_seen	sets the seen bit of text box arg0 for the current stage.
+rock_00	0x801ED524	init_shuriken_buster	Shadow armor shuriken buster.
+rock_00	0x801EDCB0	update_shadow_armor_attack	Shadow armor attack execution; sfx ids.
+rock_01	0x801EA680	start_rekkoha	Rekkoha input (Zero).
+rock_01	0x801EC614	update_rekkoha	Rekkoha state handler: animates, plays its sound on flag 0x45 and runs the substate table.
+rock_01	0x801ECA50	try_hyoroga_from_ceiling	starts the Hyoroga from the ceiling when weapon energy allows: animation, sound, energy use, state 0x3F.
+rock_02	0x800EFED0	update_d1000	per-frame state dispatch of the D-1000 intro boss.
+rock_02	0x800F1724	init_high_max_intro	High Max intro-stage behaviour.
+rock_03	0x800F3BE4	init_yammark_projectile	Yammark projectile setup; difficulty branch, speed.
+rock_03	0x800F5664	step_commander_yammark	clears byte 3, runs the Commander Yammark state table, then the shared object step.
+rock_04	0x800F14B0	init_wolfang_ice_spike	Wolfang ice spikes; level gate.
+rock_05	0x800EC534	update_nightmare_snake	per-frame state dispatch of the Nightmare Snake boss.
+rock_07	0x800EB4C8	update_nightmare_pressure	per-frame state dispatch of the Nightmare Pressure sub-boss.
+rock_07	0x800EB80C	init_nightmare_pressure	Nightmare Pressure sub-boss start.
+rock_08	0x800F1C60	update_ground_scaravich	per-frame state dispatch of the Ground Scaravich boss.
+rock_11	0x800F2390	init_illumina	Illumina sub-boss start.
+rock_12	0x800EA324	start_demo_xa_track	plays the demo's XA track at volume 0x7F when allowed and advances its state.
+rock_15	0x800EDE18	update_sigma_1	per-frame state dispatch of the first Sigma form.
+rock_17	0x800E9E2C	tick_boss_intro	boss intro sound step.
+rock_20	0x800EAC28	init_mission_report	clamps two counters at 9999, builds the mission report list and places the report text items.
+rock_20	0x800EB964	update_memcard_format	memory card format screen step: checks the card, formats and clears 8 save slots, or resets on failure.
+rock_20	0x800EE4C0	memcard_write_save_file	creates and writes the save file, then reads it back to verify (3 tries).
+rock_20	0x800EE6F4	build_mission_report_list	end of Mission Report; Gate check.
+rock_24	0x800F49F0	update_gate	per-frame state dispatch of the Gate boss.
+rock_37	0x800FBCC8	update_ground_scaravich_boss_rush	per-frame state dispatch of Ground Scaravich in the boss rush.
+rock_43	0x800FC128	update_nightmare_zero	per-frame state dispatch of the Nightmare Zero boss.

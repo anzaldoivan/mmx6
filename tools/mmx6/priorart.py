@@ -17,7 +17,7 @@ Rows: every campaign/ledger.tsv game row (col7 != `vendor`), sorted (prog, vram)
   refused when it lacks the pin. No fetch.
 - proto: `<build>:<state>` `,`-joined sorted unique, docs/leads/proto.tsv rows whose retail = `<prog>:0x<vram>`.
 - pc: `0x<x86>` `,`-joined, docs/leads/pc-port.md `## Function pairing` bullets (`` `name` = x86 0xA ``) and its
-  "Callee twins found on the way" lists (`name 0xA`), all SLUS_013.95; name -> vram by the ledger func column,
+  "Callee twins found on the way" lists (`name 0xA`), all main; name -> vram by the ledger func column,
   `func_XXXXXXXX` or a bare 0x8... address.
 """
 import argparse
@@ -38,7 +38,8 @@ X5_TSV = "docs/leads/x5.tsv"
 PROTO = "docs/leads/proto.tsv"
 PCPORT = "docs/leads/pc-port.md"
 TWINS = "docs/oracle/x6-twins.tsv"  # in mmx5-dev
-EXE = "SLUS_013.95"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from paths import MAIN as EXE, prog_key  # noqa: E402  (3.3 T38: mmx5's x6-twins, x5-leads keep the old key)
 
 
 def git(repo, *args):
@@ -53,7 +54,7 @@ def rows_tsv(path):
 
 
 def key(prog, vram):
-    return prog, int(vram, 16)
+    return prog_key(prog), int(vram, 16)
 
 
 def ledger_rows():

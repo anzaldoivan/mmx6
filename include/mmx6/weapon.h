@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system weapon | range -
+// prog main | system weapon | range -
 /* mmx6/weapon.h -- the weapon functions (weapon/) and the callees of the weapon files defined in placeholder files of units 120A0/32208 (system -) or in overlay rock_00 (0x801EE434) (hand-edited; Phase 2.5 T10.c2). Each prototype carries its definition's type
  * (an unprototyped `T f();` stays as its callers wrote it). Not included by x4.h: callers include it. */
 #ifndef MMX6_WEAPON_H

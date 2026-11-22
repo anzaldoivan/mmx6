@@ -1,5 +1,5 @@
 // clang-format off
-INCLUDE_ASM("asm/rock_01/nonmatchings/1EA000", D_801EA000);
+INCLUDE_ASM("rock_01/nonmatchings/1EA000", D_801EA000);
 // clang-format on
 
 #include "common.h"

@@ -1,7 +1,7 @@
 # config/walls.txt -- compiler walls (tools/mmx6/walls.py --check; G52: a wall names the pass and quotes the dump line).
 # <prog> <vram 0x%08X> <pass> <dumpfile>:<line> <evidence = the quoted dump line, rest of row>
 # pass: rtl jump cse addressof gcse loop cse2 bp flow combine regmove sched lreg greg flow2 sched2 jump2 mach dbr maspsx
-# 3.2 T13: not-C stubs (C0478). Dumps: the W307 a2 draft (waves/W307/SLUS_013.95_<func>/draft.c) copied to src/SLUS_013.95/t13w_<vram>.c, `dumps.py --src` it.
-SLUS_013.95 0x80013AE0 rtl build/dumps/t13w_80013AE0/t13w_80013AE0.rtl:17 (insn 11 9 13 (set (mem/v:SI (reg:SI 81) 0) -- the save half only; no insn sets (reg:SI 29 sp), retail sets sp to the constant 0x1F800400
-SLUS_013.95 0x80013B04 rtl build/dumps/t13w_80013B04/t13w_80013B04.rtl:26 (insn 15 12 16 (set (reg:SI 29 sp) -- the only C sp load is __builtin_longjmp's (buffer +8, with $fp at :22 and a jump at :37); retail loads sp from +0 and returns
-SLUS_013.95 0x80013BE4 rtl build/dumps/t13w_80013BE4/t13w_80013BE4.rtl:51 (insn 17 15 19 (trap_if (eq (reg:SI 89) -- the only trap is the guarded divide-by-zero, code (const_int 7) at :53; retail is an unguarded break code 0x406
+# 3.2 T13: not-C stubs (C0478). Dumps: the W307 a2 draft (waves/W307/main_<func>/draft.c) copied to src/main/t13w_<vram>.c, `dumps.py --src` it.
+main 0x80013AE0 rtl build/dumps/t13w_80013AE0/t13w_80013AE0.rtl:17 (insn 11 9 13 (set (mem/v:SI (reg:SI 81) 0) -- the save half only; no insn sets (reg:SI 29 sp), retail sets sp to the constant 0x1F800400
+main 0x80013B04 rtl build/dumps/t13w_80013B04/t13w_80013B04.rtl:26 (insn 15 12 16 (set (reg:SI 29 sp) -- the only C sp load is __builtin_longjmp's (buffer +8, with $fp at :22 and a jump at :37); retail loads sp from +0 and returns
+main 0x80013BE4 rtl build/dumps/t13w_80013BE4/t13w_80013BE4.rtl:51 (insn 17 15 19 (trap_if (eq (reg:SI 89) -- the only trap is the guarded divide-by-zero, code (const_int 7) at :53; retail is an unguarded break code 0x406

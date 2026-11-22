@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system object | range -
+// prog main | system object | range -
 /* mmx6/class4.h -- one slot of the class-4 object pool g_class4_slots (0x50 x 0xA4 bytes; docs/types/object.md: not
  * struct MainObj) (hand-edited; Phase 2.5 T9.c1). Members only where our readers touch them:
  * alloc_class4_slot clears +0x50/+0x54/+0x68 as enemy_slot_alloc clears MainObj's boxes there (names after MainObj);

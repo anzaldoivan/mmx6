@@ -1,5 +1,5 @@
 // clang-format off
-INCLUDE_ASM("asm/rock_19/nonmatchings/E9860", D_800E9860);
+INCLUDE_ASM("rock_19/nonmatchings/E9860", D_800E9860);
 // clang-format on
 
 #include "common.h"
@@ -155,7 +155,7 @@ void func_800E9A50(u8* arg0) {
 #undef D_800710D0
 
 // clang-format off
-INCLUDE_ASM("asm/rock_19/nonmatchings/E9860", func_800E9C30);
+INCLUDE_ASM("rock_19/nonmatchings/E9860", func_800E9C30);
 // clang-format on
 
 #include "common.h"
@@ -361,5 +361,5 @@ void func_800EA03C(s8* arg0) {
 #undef func_800EA5F0
 #undef func_8002CA14
 
-INCLUDE_ASM("asm/rock_19/nonmatchings/E9860", func_800EA164);
+INCLUDE_ASM("rock_19/nonmatchings/E9860", func_800EA164);
 // clang-format on

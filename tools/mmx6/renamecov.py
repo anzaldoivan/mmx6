@@ -2,7 +2,7 @@
 """renamecov.py -- rename coverage: every named symbol has a recorded basis; every `x4` basis row validates (stdlib).
 
   renamecov.py --all
-      -> scans the real tree (config/symbols.*.txt, src/**/*.c|h, config/symbols/basis.tsv, config/x4/names.tsv,
+      -> scans the real tree (config/us/symbols.*.txt, src/**/*.c|h, config/symbols/basis.tsv, config/x4/names.tsv,
          config/refs.toml) and prints the lines below.
   renamecov.py --self-test
       -> planted tree under .run/<phase>/renamecov-selftest/ (removed at the end): a clean tree passes; a symbols-file
@@ -12,13 +12,13 @@
          is reported under rock_01. Ends `RENAMECOV CONTROL OK` rc 0, or `RENAMECOV CONTROL FAIL <case>` rc 1.
 
 Inputs
-  symbols   config/symbols.<prog>.txt (prog = the filename middle): lines `name = 0xADDR; ...`; `//` lines skipped.
+  symbols   config/us/symbols.<prog>.txt (prog = the filename middle): lines `name = 0xADDR; ...`; `//` lines skipped.
   src       src/**/*.c|h. progs = those of the units whose #include closure reaches the file (layout.includers:
             units, role files, src/shared bodies; c_units.txt order); a file outside every closure: the path part
-            after src/ or src/shared/ (src/probes and files directly in src/ -> SLUS_013.95). A src symbol = a column-0 file-scope declaration or definition with external linkage
+            after src/ or src/shared/ (src/probes and files directly in src/ -> main). A src symbol = a column-0 file-scope declaration or definition with external linkage
             (brace depth 0, outside comments and preprocessor lines; not `static`, `typedef`, a bare struct/union/
             enum tag, a macro call or a body line). Its vram: the name in the first of its progs' symbols files
-            that holds it, else in SLUS_013.95's (overlays reference exe symbols, C0125), else `-` (reported under
+            that holds it, else in main's (overlays reference exe symbols, C0125), else `-` (reported under
             its first prog).
   basis     config/symbols/basis.tsv: `#` header, TAB `prog vram name basis-kind basis-ref tier`.
   names     config/x4/names.tsv: no header, TAB `prog vram kind x6name alias tier scope votes basis`.
@@ -28,7 +28,7 @@ Rules
   Exempt (neither counted nor refused): placeholders `(func|D)_<8 hex>[_tag]` (the `_tag` form is a link-only
   second name, e.g. func_800139A0_2p) and segment symbols `<prog>_<UPPER>_(START|END|SIZE|VRAM)`.
   Every other symbol (distinct prog, vram, name) counts and needs a basis row with the same prog and name (and the
-  same vram for a symbols-file symbol; for a src symbol a row of its prog or SLUS_013.95 is enough): else `no basis`.
+  same vram for a symbols-file symbol; for a src symbol a row of its prog or main is enough): else `no basis`.
   Each `x4` basis row, against the names.tsv row at its (prog, vram) (docs/naming.md, the mirror of
   x4names.py --promote):
     no names row               no names.tsv row at (prog, vram)
@@ -57,6 +57,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import layout  # noqa: E402  (includers: a source file's programs, from the C units' #include closure)
+from paths import CONFIG_V  # noqa: E402  (the version axis, 3.3 T37)
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -71,7 +72,7 @@ def phase_scratch(root):
     return root / ".run" if not m or m.group(1) in (".", "..") else root / ".run" / m.group(1)
 
 
-EXE = "SLUS_013.95"
+EXE = "main"
 SELFTEST = phase_scratch(ROOT) / "renamecov-selftest"
 PLACEHOLDER = re.compile(r"^(func|D)_[0-9A-Fa-f]{8}(_\w+)?$")
 SYMLINE = re.compile(r"^\s*([A-Za-z_]\w*)\s*=\s*0x([0-9A-Fa-f]+)\s*;")
@@ -277,7 +278,7 @@ def report(refuse, renames, n):
 
 
 def real():
-    return scan(ROOT / "config", ROOT / "src", ROOT / "config/symbols/basis.tsv", ROOT / "config/x4/names.tsv",
+    return scan(ROOT / CONFIG_V, ROOT / "src", ROOT / "config/symbols/basis.tsv", ROOT / "config/x4/names.tsv",
                 ROOT / "config/refs.toml")
 
 
@@ -291,11 +292,12 @@ def plant(base, extra_sym="", extra_src="", alias="do_thing", extra_basis="", ro
     if base.exists():
         shutil.rmtree(base)
     (base / "config/symbols").mkdir(parents=True)
+    (base / CONFIG_V).mkdir(parents=True)
     (base / "src/shared/rock_01").mkdir(parents=True)
-    (base / "config/symbols.SLUS_013.95.txt").write_text(
+    (base / CONFIG_V / "symbols.main.txt").write_text(
         "// header\n// basis: hand\n__start = 0x80054AD8;\nfunc_80010000 = 0x80010000; // type:func\n"
         "do_thing = 0x80010010;\n" + extra_sym)
-    (base / "config/symbols.rock_01.txt").write_text("D_801E0000_r = 0x801E0000;\n")
+    (base / CONFIG_V / "symbols.rock_01.txt").write_text("D_801E0000_r = 0x801E0000;\n")
     (base / "src/shared/rock_01/func_801E0004.c").write_text(
         "/* extern int not_me; */\n#define M(x) \\\n    int nor_me;\n"
         "extern u8 rock_01_RODATA_START[];\nextern s32 D_801E0000_r[];\nstatic int hidden;\n"
@@ -303,9 +305,9 @@ def plant(base, extra_sym="", extra_src="", alias="do_thing", extra_basis="", ro
         "void func_801E0004(void) {\nint inner;\n}\n")
     head = "# prog\tvram\tname\tbasis-kind\tbasis-ref\ttier\n"
     (base / "config/symbols/basis.tsv").write_text(
-        head + f"SLUS_013.95\t0x80010010\tdo_thing\tx4\t{NB[3:]}; corroborator hand community\tgate\n"
-        "SLUS_013.95\t0x80054AD8\t__start\tcommunity\tcrt0\t-\n" + extra_basis)
-    (base / "names.tsv").write_text(f"SLUS_013.95\t0x80010010\tfunc\tfunc_80010010\t{alias}\tgate\tengine\t-\t{NB}\n")
+        head + f"main\t0x80010010\tdo_thing\tx4\t{NB[3:]}; corroborator hand community\tgate\n"
+        "main\t0x80054AD8\t__start\tcommunity\tcrt0\t-\n" + extra_basis)
+    (base / "names.tsv").write_text(f"main\t0x80010010\tfunc\tfunc_80010010\t{alias}\tgate\tengine\t-\t{NB}\n")
     if role:                                         # unit rock_01 u -> role file sys/r.c -> src/shared/stage/s.c
         for rel, text in (("config/c_units.txt", "rock_01 u\n"), ("src/rock_01/u.c", '#include "sys/r.c"\n'),
                           ("src/rock_01/sys/r.c", '#include "../../shared/stage/s.c"\n'),
@@ -320,23 +322,23 @@ def selftest():
     cases = [
         ("clean", {}, None),
         ("sym-no-basis", {"extra_sym": "g_Planted = 0x80020000;\n"},
-         "RENAMECOV REFUSE SLUS_013.95 0x80020000 g_Planted no basis"),
+         "RENAMECOV REFUSE main 0x80020000 g_Planted no basis"),
         ("src-no-basis", {"extra_src": "extern s32 planted_extern;\n"},
          "RENAMECOV REFUSE rock_01 - planted_extern no basis"),
         ("role-src-no-basis", {"role": "extern s32 planted_extern;\n"},
          "RENAMECOV REFUSE rock_01 - planted_extern no basis"),
         ("x4-wrong-name", {"alias": "other_thing"},
-         "RENAMECOV REFUSE SLUS_013.95 0x80010010 do_thing name do_thing not other_thing"),
-        ("sdk-proven", {"extra_basis": "SLUS_013.95\t0x80050000\tCdInit\tsdk\tLIBCD CDINIT.OBJ\tproven-at-gate\n"},
+         "RENAMECOV REFUSE main 0x80010010 do_thing name do_thing not other_thing"),
+        ("sdk-proven", {"extra_basis": "main\t0x80050000\tCdInit\tsdk\tLIBCD CDINIT.OBJ\tproven-at-gate\n"},
          None),
-        ("sdk-lead", {"extra_basis": "SLUS_013.95\t0x80050000\tCdInit\tsdk\tLIBCD CDINIT.OBJ\tlead\n"},
-         "RENAMECOV REFUSE SLUS_013.95 0x80050000 CdInit tier lead"),
+        ("sdk-lead", {"extra_basis": "main\t0x80050000\tCdInit\tsdk\tLIBCD CDINIT.OBJ\tlead\n"},
+         "RENAMECOV REFUSE main 0x80050000 CdInit tier lead"),
     ]
     rc = 0
     try:
         for case, kw, want in cases:
             plant(SELFTEST, **kw)
-            refuse, renames, n = scan(SELFTEST / "config", SELFTEST / "src", SELFTEST / "config/symbols/basis.tsv",
+            refuse, renames, n = scan(SELFTEST / CONFIG_V, SELFTEST / "src", SELFTEST / "config/symbols/basis.tsv",
                                       SELFTEST / "names.tsv", SELFTEST / "refs.toml")
             ok = renames == f"RENAMES x4 1 role 0 other {1 + ('extra_basis' in kw)}"
             ok = ok and (refuse == [] and n == 2 if want is None else refuse == [want])

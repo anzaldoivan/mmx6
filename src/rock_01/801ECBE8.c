@@ -273,7 +273,7 @@ void func_801ED0A0(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_01/nonmatchings/1EA000", func_801ED0E0);
+INCLUDE_ASM("rock_01/nonmatchings/1EA000", func_801ED0E0);
 // clang-format on
 
 #include "common.h"
@@ -328,7 +328,7 @@ void func_801ED230(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_01/nonmatchings/1EA000", func_801ED288);
+INCLUDE_ASM("rock_01/nonmatchings/1EA000", func_801ED288);
 // clang-format on
 
 #include "common.h"
@@ -388,7 +388,7 @@ update:
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_01/nonmatchings/1EA000", func_801ED3DC);
+INCLUDE_ASM("rock_01/nonmatchings/1EA000", func_801ED3DC);
 // clang-format on
 
 #include "common.h"
@@ -534,7 +534,7 @@ void func_801ED928(struct X4_WeaponObj* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_01/nonmatchings/1EA000", func_801EDAF4);
+INCLUDE_ASM("rock_01/nonmatchings/1EA000", func_801EDAF4);
 // clang-format on
 
 #include "common.h"
@@ -810,5 +810,5 @@ void func_801EE254(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_01/nonmatchings/1EA000", func_801EE39C);
+INCLUDE_ASM("rock_01/nonmatchings/1EA000", func_801EE39C);
 // clang-format on

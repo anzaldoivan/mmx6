@@ -10,7 +10,7 @@
 Compile: the draft through the product C rule (probe.compile_obj under the Makefile's pinned TRIPLE; a drafts/ path
 carries its TU's cc1 flags, probe.draft_cflags). The permuted file is copied to .run/plateau/<func>/drafts/<prog>/
 <func>.c so the same draft_cflags lookup applies (draft's TU flags). `make extract` runs first when
-the retail file the compare reads (config/<prog>.yaml target_path, probe.yaml_layout) is missing (as permute.py). Compare: permuter/masked_scorer.masked masking (probe.MASKS +
+the retail file the compare reads (config/us/<prog>.yaml target_path, probe.yaml_layout) is missing (as permute.py). Compare: permuter/masked_scorer.masked masking (probe.MASKS +
 PC16 low 16; an R_MIPS_26 into the function's own section compares opcode + target relative to function start)
 against probe.retail_words; m = masked mismatched words + |length diff| (= masked_scorer.score_words, asserted),
 n = retail word count. Self-test pairs: "retail" = b.o's words, masks = the union of a's and b's.
@@ -44,6 +44,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools", "mmx6"))
 sys.path.insert(0, os.path.join(ROOT, "tools", "mmx6", "permuter"))
 import probe  # noqa: E402
 import masked_scorer  # noqa: E402
+from paths import EXTRACTED  # noqa: E402  (the version axis, 3.3 T37)
 
 RUN = ".run/plateau"
 SELFTEST = ".run/plateau-selftest"
@@ -191,18 +192,18 @@ def line(func, label, m, n, src):
 
 
 def retail_path(prog):
-    """The retail file probe.retail_words reads: config/<prog>.yaml target_path (overlays: extracted/retail/rock/NN.bin)."""
+    """The retail file probe.retail_words reads: config/us/<prog>.yaml target_path (overlays: extracted/us/rock/NN.bin)."""
     return probe.yaml_layout(prog)[0]
 
 
 def guard_ok():
     """Planted guard case: the extract guard checks the yaml target_path; the old iso path for an overlay is absent."""
     ok = True
-    for prog in ("rock_04", "SLUS_013.95"):
+    for prog in ("rock_04", "main"):
         got = retail_path(prog)
         print(f"PLATEAU GUARD {prog} {got} exists {os.path.isfile(got)}", flush=True)
         ok = ok and os.path.isfile(got)
-    if os.path.isfile("extracted/retail/iso/rock_04"):
+    if os.path.isfile(f"{EXTRACTED}/iso/rock_04"):
         print("PLATEAU SELFTEST FAIL control: old iso guard path exists for rock_04", flush=True)
         ok = False
     return ok

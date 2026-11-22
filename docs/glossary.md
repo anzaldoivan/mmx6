@@ -37,7 +37,7 @@ The check is `python3 tools/mmx6/gamestr.py check`.
 | stage id | - | - | - | stage_id | docs/leads/tcrf-proto.md:10 |
 | boss rush | - | - | - | boss_rush | docs/leads/tcrf-proto.md:16 |
 | Nightmare Soul | ナイトメアソウル | - | - | nightmare_soul | docs/leads/tcrf-proto.md:24 |
-| Nightmare Soul gate | - | - | - | NIGHTMARE_SOUL_GATE | src/SLUS_013.95/stage/stage_8001E32C.c (proto 5000, retail 3000) |
+| Nightmare Soul gate | - | - | - | NIGHTMARE_SOUL_GATE | src/main/stage/stage_8001E32C.c (proto 5000, retail 3000) |
 | High Max | ハイマックス | - | - | high_max | docs/leads/tcrf-proto.md:28 |
 | Commander Yammark | コマンダー・ヤンマーク | - | - | commander_yammark | docs/leads/community.tsv:6 |
 | Ground Scaravich | グランド・スカラビッチ | - | - | ground_scaravich | docs/leads/community.tsv:8 |
@@ -47,8 +47,8 @@ The check is `python3 tools/mmx6/gamestr.py check`.
 | Nightmare Zero | ゼロナイトメア | - | - | nightmare_zero | docs/leads/community.tsv:18 |
 | Dynamo | ダイナモ | - | Dynamo | dynamo | docs/leads/community.tsv:19 |
 | hurt state | - | player_hurt | - | hurt | config/symbols/basis.tsv:8 |
-| save file name | - | - | - | save_file | docs/leads/strings.tsv (SLUS_013.95 0x80010098) |
-| memory card device | - | - | - | memcard | docs/leads/strings.tsv (SLUS_013.95 0x800100AC) |
+| save file name | - | - | - | save_file | docs/leads/strings.tsv (main 0x80010098) |
+| memory card device | - | - | - | memcard | docs/leads/strings.tsv (main 0x800100AC) |
 | Rainy Turtloid | レイニー・タートロイド | - | - | rainy_turtloid | docs/leads/community.tsv:3 |
 | Shieldner Sheldon | シールドナー・シェルドン | - | - | shieldner_sheldon | docs/leads/community.tsv:4 |
 | Infinity Mijinion | インフィニティー・ミジニオン | - | - | infinity_mijinion | docs/leads/community.tsv:5 |
@@ -437,7 +437,7 @@ The check is `python3 tools/mmx6/gamestr.py check`.
 
 ## SLUS systems
 
-These are the SLUS_013.95 role-file folders. They are not stems.
+These are the main role-file folders. They are not stems.
 Folders: player, dash, ladder, cling, weapon, attack, damage, collision, object, effect, graphics, sound, cd, file,
 save, menu, title, text, stage, item, task, system.
 The stems of each folder are in docs/layout.md `## SLUS systems`.

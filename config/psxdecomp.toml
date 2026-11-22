@@ -22,7 +22,7 @@ repo = "anzaldoivan/mmx6"
 dev_branch = "main"
 checks = ["build SLUS_013.95", "public-clean audit (no game bytes)"]
 private_repo = "anzaldoivan/mmx6-private"
-private_rev = "663823a6092aa89df5617ffce0cfc88dca313db2"   # the -private commit CI reads
+private_rev = "9c38ee67ea19e579a071cbdc1890a8c20c02e3fa"   # the -private commit CI reads
 image = "ghcr.io/anzaldoivan/mmx6-toolchain@sha256:b7a668ec23e399f54824019f503476225b294f9a106c8839b4e4fe2fc2caf811"
 land_check = ["bash", "tools/docker/land_check.sh", "{tree}"]
 

@@ -2,7 +2,7 @@
 """ledger.py -- the ledger: one row per not-yet-C function, its class, closeness, best draft and blocker (container).
 
   ledger.py --build [--ledger P]
-      -> P (default campaign/ledger.tsv): one row per build/corpus/functions.jsonl asm|include_asm row, sorted
+      -> P (default campaign/ledger.tsv): one row per build/us/corpus/functions.jsonl asm|include_asm row, sorted
          (prog, vram), tab-separated `<prog> <vram 0x%08X> <func> <class> <closeness> <best draft> <blocker> <pins>`;
          stdout `LEDGER classes <head> <k> …`, `LEDGER blockers <name> <k> …` (below), `LEDGER pins free <a> pinned
          <b> unknown <c> none <d>`, last `LEDGER BUILT <r> rows`.
@@ -25,11 +25,11 @@
          a planted `- gap` provenance row names an otherwise unproven lib row, and without it --check refuses.
          Ends `LEDGER CONTROL OK` (rc 0), else rc 1. No tracked file is touched.
   ledger.py --reconcile [--ledger P]
-      -> build/ledger/reconcile.txt: sorted `MISS <A|B> <prog> <name> <cause> <src path:line or ->`; A = an
-         INCLUDE_ASM("asm/<prog>/…", <name>) line under src/**/*.c (prog rock_* or SLUS_013.95) with no game row
+      -> build/us/ledger/reconcile.txt: sorted `MISS <A|B> <prog> <name> <cause> <src path:line or ->`; A = an
+         INCLUDE_ASM("<prog>/…", <name>) line under src/**/*.c (prog rock_* or main) with no game row
          (blocker not `vendor`), B = a game row with no line. Cause, first that holds: `vendor` (a vendor row or
          corpus lane lib), `member-of` (row blocker), `collision` ((prog, vram) > 1 in the corpus), `non-asm`
-         (corpus row by name not asm|include_asm), `non-function` (no corpus row; asm/<folder>/<name>.s has no
+         (corpus row by name not asm|include_asm), `non-function` (no corpus row; asm/us/<folder>/<name>.s has no
          glabel and no instruction line), else `other`. Stdout `RECONCILE lines <L> (rock <a> SLUS <b>) rows <R>
          (rock <c> SLUS <d>) A <x> B <y>`, then sorted `CAUSE <A|B> <cause> <n>` (nonzero). rc 0 iff no `other`.
   ledger.py --drop-banked [--ledger P]
@@ -43,13 +43,13 @@
 
 Rules (docs/ops/campaign.md ## Ledger), first that holds:
   class      lane lib -> exe vram with a docs/ops/compiler-pin.md `## Lib provenance` row `- gap <0xVRAM> <L>.LIB/<O>.OBJ`
-             -> `vendor:<L>.LIB/<L>_<O>`; else `vendor:<LIB>/<tu>` (LIB = the config/boundaries.txt `lib` row holding
+             -> `vendor:<L>.LIB/<L>_<O>`; else `vendor:<LIB>/<tu>` (LIB = the config/us/boundaries.txt `lib` row holding
              vram, its LIB/OBJ's LIB part, else `unproven`); census dup class of >= 2 members -> `dup:<key>`; census family of >= 2 ->
              `family:<key>`; an exact sig twin -> `twin:<pv>` (lowest other member, (prog, vram), of its exact-twin
              component); `x4` (a pv with a campaign/x4/partners.tsv row: an exact mmx4 partner, x4share.py
              --partners); `unique`.
   closeness  `m/n`, m matched words, best (m/n, then m; ties by source order) of: the scaffold row
-             (build/scaffold/scaffold.jsonl, else campaign/scaffold/scaffold.jsonl; m = max(0, n - score)), journal
+             (build/us/scaffold/scaffold.jsonl, else campaign/scaffold/scaffold.jsonl; m = max(0, n - score)), journal
              records with an `m/n` score (campaign/scaffold/journal.jsonl, then campaign/journal.jsonl), the tracked
              draft drafts/<prog>/<func>.c compiled and masked-scored (plateau.residual_retail; m = max(0, n - residual));
              `nocompile` if none compiled. Any pin-free candidate outranks every pinned or unknown one.
@@ -58,7 +58,7 @@ Rules (docs/ops/campaign.md ## Ledger), first that holds:
              (scaffold journal: 0, an m2c scaffold); tracked draft scanned. Scanned, not a journal field: the journal
              is append-only and sha1-chained, so its history cannot gain a field.
   best draft the drafts/<prog>/<func>.c path when present, else `m2c` (the pinned scaffold regenerates it).
-  blocker    lane lib -> `vendor`; build/draw/draw.jsonl L1 `jtbl not carved` -> `jtbl-uncarved`, `opt mismatch` ->
+  blocker    lane lib -> `vendor`; build/us/draw/draw.jsonl L1 `jtbl not carved` -> `jtbl-uncarved`, `opt mismatch` ->
              `opt-mismatch`; a valid config/walls.txt row -> `wall:<pass>`; the latest journal record (files in the
              order above, line order): verdict fail with a plateau label -> `plateau:<label>` (`plateau:<label>:lever`,
              waiting for a lever, when campaign/journal.jsonl holds >= the config/routing.txt `plateau <cap>` fail
@@ -69,7 +69,7 @@ Rules (docs/ops/campaign.md ## Ledger), first that holds:
              exemplar, `banked twin <pv>`) -> `member-of:<pv>`; a draw.leverage_picks pick (the --rank leverage
              --routing config/routing.txt draw over campaign/journal.jsonl: a candidate in a component whose first
              survivor in leverage order is another pv) -> `member-of:<pick>`; the pick itself falls through; a
-             would-be member-of row whose own config/dedup_registry.txt row (key = its class key, else the first
+             would-be member-of row whose own config/us/dedup_registry.txt row (key = its class key, else the first
              refused) is `refused` -> `plumbing:R<k>` / `plumbing:preflight` by the reason's (or `family <rung>:`'s)
              first token, else `plumbing:refused`;
              corpus words in a config/routing.txt
@@ -94,16 +94,17 @@ import draw  # noqa: E402  (boundaries)
 import propagate  # noqa: E402  (registry_rows)
 import verbatim  # noqa: E402
 import walls  # noqa: E402
+from paths import BUILD, CONFIG_V, ASM as ASM_DIR, prog_key  # noqa: E402  (the version axis, 3.3 T37)
 
 LEDGER = "campaign/ledger.tsv"
-INPUTS = dict(funcs="build/corpus/functions.jsonl", classes="build/census/classes.jsonl",
-              twins="build/sig/twins.jsonl", draw="build/draw/draw.jsonl", bounds="config/boundaries.txt",
-              walls="config/walls.txt", registry="config/dedup_registry.txt",
-              scaffold="build/scaffold/scaffold.jsonl", scaffold_tracked="campaign/scaffold/scaffold.jsonl",
+INPUTS = dict(funcs=f"{BUILD}/corpus/functions.jsonl", classes=f"{BUILD}/census/classes.jsonl",
+              twins=f"{BUILD}/sig/twins.jsonl", draw=f"{BUILD}/draw/draw.jsonl", bounds=CONFIG_V + "/boundaries.txt",
+              walls="config/walls.txt", registry=CONFIG_V + "/dedup_registry.txt",
+              scaffold=f"{BUILD}/scaffold/scaffold.jsonl", scaffold_tracked="campaign/scaffold/scaffold.jsonl",
               journal_scaffold="campaign/scaffold/journal.jsonl", journal="campaign/journal.jsonl",
               partners="campaign/x4/partners.tsv", pin="docs/ops/compiler-pin.md", routing="config/routing.txt",
-              exclude="config/draw_exclude.txt", carve="config/carve.{prog}.txt", makefile="Makefile",
-              triples="config/triples.txt", root=".", exe="SLUS_013.95")
+              exclude="config/draw_exclude.txt", carve=CONFIG_V + "/carve.{prog}.txt", makefile="Makefile",
+              triples="config/triples.txt", root=".", exe="main")
 REQUIRED = ("funcs", "classes", "twins", "draw", "bounds", "walls", "partners", "pin", "routing", "exclude",
             "makefile", "triples", "registry")
 SELFTEST = ".run/ledger-selftest"
@@ -117,9 +118,9 @@ BLOCK_RE = re.compile(rf"vendor|jtbl-uncarved|opt-mismatch|wall:(\S+)|plateau:({
 SCORE_RE = re.compile(r"(\d+)/(\d+)")
 DRAFT_RE = re.compile(r"drafts/([A-Za-z0-9_.]+)/([A-Za-z_]\w*)\.c")
 GAP_RE = re.compile(r"- gap (0x[0-9A-Fa-f]{8}) ([A-Za-z0-9_]+)\.LIB/([A-Za-z0-9_]+)\.OBJ(?:\s|$)")
-INC_RE = re.compile(r'^\s*INCLUDE_ASM\("(asm/([^/"]+)/[^"]*)",\s*([A-Za-z_]\w*)\)')
+INC_RE = re.compile(r'^\s*INCLUDE_ASM\("(([^/"]+)/[^"]*)",\s*([A-Za-z_]\w*)\)')  # folder under ASM_DIR (3.3 T38)
 INSN_RE = re.compile(r"^\s*/\*[^*]*\*/\s*[A-Za-z]")  # `/* off vram bytes */ mnemonic`; data lines carry `.word` etc.
-RECONCILE = "build/ledger/reconcile.txt"
+RECONCILE = f"{BUILD}/ledger/reconcile.txt"
 
 
 def hexs(v):
@@ -131,7 +132,7 @@ def key(prog, vram):
 
 
 def pvkey(pv):
-    p, _, v = pv.rpartition(":")
+    p, _, v = prog_key(pv).rpartition(":")  # journals before 3.3 T38: main under its disc file name
     return key(p, v)
 
 
@@ -569,7 +570,7 @@ def reconcile(inp, path, out, say=print):
             return "collision"
         if any(r["state"] not in ASM for r in rs):
             return "non-asm"
-        if not rs and folder and data_only(os.path.join(root, folder, n + ".s")):
+        if not rs and folder and data_only(os.path.join(root, ASM_DIR, folder, n + ".s")):
             return "non-function"
         return "other"
 
@@ -704,7 +705,7 @@ def self_test():
     d_row = "PLANT\t0x80000060\tf_d\tunique\tnocompile\tm2c\tundrawn\t-"
     os.makedirs(os.path.join(SELFTEST, "drafts", "PLANT"))
     with open(os.path.join(SELFTEST, "drafts", "PLANT", "f_h.c"), "w") as f:
-        f.write('INCLUDE_ASM("asm/PLANT/nonmatchings/TA", f_h);\n')
+        f.write('INCLUDE_ASM("PLANT/nonmatchings/TA", f_h);\n')
     cases = (("missing function", rows[:8] + rows[9:], "LEDGER BAD PLANT:0x80000120 missing"),
              ("C function on the ledger", rows[:3] + [d_row] + rows[3:], "LEDGER BAD PLANT:0x80000060 c-function"),
              ("unknown blocker", rows[:6] + [rows[6].replace("\tundrawn", "\ttired")] + rows[7:],
@@ -729,12 +730,12 @@ def self_test():
     # whose corpus state is c (f_d); then an injected glabel line with no row (f_zz) must yield `other`, rc 1.
     with open(led, "w") as f:
         f.write(want + d_row + "\n")
-    folder = "asm/PLANT/nonmatchings/TA"
-    os.makedirs(os.path.join(SELFTEST, folder))
+    folder = "PLANT/nonmatchings/TA"
+    os.makedirs(os.path.join(SELFTEST, ASM_DIR, folder))
     os.makedirs(os.path.join(SELFTEST, "src"))
     for n, body in (("D_plant", "dlabel D_plant\n    /* 0 80001000 01000000 */ .word 0x00000001\n"),
                     ("f_zz", "glabel f_zz\n    /* 0 80002000 0800E003 */  jr         $ra\n")):
-        with open(os.path.join(SELFTEST, folder, n + ".s"), "w") as f:
+        with open(os.path.join(SELFTEST, ASM_DIR, folder, n + ".s"), "w") as f:
             f.write(f'.set noat\n\nnonmatching {n}\n\n{body}')
     names = [t.split("\t")[2] for t in rows if t.split("\t")[6] != "vendor"] + ["f_g", "D_plant"]
     rpath = os.path.join(SELFTEST, "reconcile.txt")

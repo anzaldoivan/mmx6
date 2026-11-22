@@ -3,16 +3,16 @@
 
   dumps.py --src <c>             any repo-relative .c (key = its basename without .c)
   dumps.py --tu <prog>/<tu>      src/<prog>/<tu>.c (key = <prog>/<tu>)
-      -> build/dumps/<key>/<base>.<suffix> (+ <base>.s, <base>.o); last line `DUMPS <key> <n> passes: <suffixes>`
+      -> build/us/dumps/<key>/<base>.<suffix> (+ <base>.s, <base>.o); last line `DUMPS <key> <n> passes: <suffixes>`
       cpp output with no non-blank, non-`#` line -> `DUMPS CPP-EMPTY <key>`, rc 3, nothing else run.
-      --tu also compares .text of the dump-run object with the built build/src/<prog>/<tu>.c.o:
+      --tu also compares .text of the dump-run object with the built build/us/src/<prog>/<tu>.c.o:
       -> `DUMPS TEXT <key> words <a> built <b> identical|DIFFER`; DIFFER (count or bytes) -> rc 1.
   dumps.py --self-test
       plants a 6-line function (a value live across a call and a branch) in .run/dumps-selftest/: every SUFFIXES
       file exists and is nonempty, .greg holds a `regs to allocate` line, observed set == SUFFIXES; a planted empty
       .c is refused CPP-EMPTY rc 3; ends `DUMPS CONTROL OK` (rc 0), else rc 1.
 
-Never re-typed flags: `make -s -n -B build/<c>.o` gives the C rule's recipe (with target-specific CFLAGS_<tu> and
+Never re-typed flags: `make -s -n -B build/us/<c>.o` gives the C rule's recipe (with target-specific CFLAGS_<tu> and
 overlay -DMMX6_OVERLAY); its `cpp | cc1 | maspsx | as` line is split and each stage run separately, rc checked
 (pipefail by construction). cc1 gets the rule's exact args plus `-da -dumpbase <base>`, run in the dump dir.
 SUFFIXES: cc1 2.95.2's `-da` dump files in pass order (toplev.c rest_of_compilation; observed, phase 1.7 T2).
@@ -23,10 +23,11 @@ import shlex
 import struct
 import subprocess
 import sys
+from paths import BUILD  # noqa: E402  (the version axis, 3.3 T37)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, "..", ".."))
-OUT = "build/dumps"
+OUT = f"{BUILD}/dumps"
 SELFTEST = ".run/dumps-selftest"
 SUFFIXES = ("rtl", "jump", "cse", "addressof", "gcse", "loop", "cse2", "bp", "flow", "combine", "regmove", "sched",
             "lreg", "greg", "flow2", "sched2", "jump2", "mach", "dbr")
@@ -49,10 +50,10 @@ def strip_depflags(cpp):
 
 def recipe(c, extra=()):
     """[cpp, cc1, maspsx, as] argv lists of the C rule for repo-relative c, from make's dry run (extra: make args)."""
-    p = subprocess.run([os.environ.get("MAKE", "make"), "-s", "-n", "-B", f"build/{c}.o", *extra],
+    p = subprocess.run([os.environ.get("MAKE", "make"), "-s", "-n", "-B", f"{BUILD}/{c}.o", *extra],
                        capture_output=True, text=True)
     if p.returncode != 0:
-        raise RuntimeError(f"make -n build/{c}.o rc {p.returncode}: {p.stderr.strip()[-200:]}")
+        raise RuntimeError(f"make -n {BUILD}/{c}.o rc {p.returncode}: {p.stderr.strip()[-200:]}")
     for line in p.stdout.splitlines():
         if " | " in line:
             toks, stages = shlex.split(line), [[]]
@@ -63,7 +64,7 @@ def recipe(c, extra=()):
                     stages[-1].append(t)
             if len(stages) == 4:
                 return [strip_depflags(stages[0])] + stages[1:]
-    raise RuntimeError(f"no cpp|cc1|maspsx|as line in the recipe of build/{c}.o")
+    raise RuntimeError(f"no cpp|cc1|maspsx|as line in the recipe of {BUILD}/{c}.o")
 
 
 def stage(argv, data, what, cwd=None):
@@ -117,7 +118,7 @@ def tu(spec):
     rc, _ = run(c, spec, os.path.join(OUT, prog, name))
     if rc:
         return rc
-    built = f"build/{c}.o"
+    built = f"{BUILD}/{c}.o"
     if not os.path.isfile(built):
         print(f"dumps: missing built object {built}")
         return 1

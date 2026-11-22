@@ -71,7 +71,7 @@ void func_801EC5F4(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EC678);
+INCLUDE_ASM("rock_00/nonmatchings/1EA000", func_801EC678);
 // clang-format on
 
 #include "common.h"

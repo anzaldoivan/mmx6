@@ -1,0 +1,52 @@
+// rolefeed (3.1 T4): func_800EF9B8 of src/rock_05/E9860.c
+#include "common.h"
+#define M2C_UNK s32
+#include "mmx6/x4.h"
+#include "mmx6/globals.h"
+
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
+
+M2C_UNK clear_object_slot();
+extern struct X4_PlayerObj g_Player;
+
+#include "common.h"
+#define M2C_UNK s32
+#include "mmx6/x4.h"
+
+#define SCRATCH_4C (*(u8**)0x1F80004C)
+
+M2C_UNK animate_object();
+void move_object();
+extern s16 D_800F4480;
+
+void func_800EF9B8(struct X4_MainObj* self) {
+    u8 mode = SCRATCH_4C[0x8B];
+
+    if (mode == 1) {
+        if (self->y_speed > 0) {
+            if (self->y_pos.i.hi <= D_800F4480 + 0x3D8) {
+                self->y_pos.i.hi = D_800F4480 + 0x3D8;
+                self->action_phase++;
+                return;
+            }
+        } else if (self->y_pos.i.hi >= D_800F4480 + 0x3D8) {
+            self->y_pos.i.hi = D_800F4480 + 0x3D8;
+            self->action_phase++;
+            return;
+        }
+    } else if (mode == 2) {
+        if (self->y_speed > 0) {
+            if (self->y_pos.i.hi <= D_800F4480 + 0x438) {
+                self->y_pos.i.hi = D_800F4480 + 0x438;
+                self->action_phase++;
+                return;
+            }
+        } else if (self->y_pos.i.hi >= D_800F4480 + 0x438) {
+            self->y_pos.i.hi = D_800F4480 + 0x438;
+            self->action_phase++;
+            return;
+        }
+    }
+    ((void (*)(void*))animate_object)(self);
+    ((void (*)(s32))move_object)((s32)self);
+}

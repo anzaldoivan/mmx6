@@ -56,11 +56,12 @@ import cards  # noqa: E402
 import cookbook_check  # noqa: E402
 import journal  # noqa: E402
 import probe  # noqa: E402
+from paths import BUILD, prog_key  # noqa: E402  (the version axis, 3.3 T37)
 
 SELFTEST = ".run/harvest-selftest"
 SWEEPS = os.path.join(HERE, "sweeps")
-INPUTS = dict(progress="build/reports/progress.json", classes="build/census/classes.jsonl",
-              draw="build/draw/draw.jsonl", stubs="build/census/stubs.txt")  # stubs optional (the CENSUS stubs line)
+INPUTS = dict(progress=f"{BUILD}/reports/progress.json", classes=f"{BUILD}/census/classes.jsonl",
+              draw=f"{BUILD}/draw/draw.jsonl", stubs=f"{BUILD}/census/stubs.txt")  # stubs optional (the CENSUS stubs line)
 WAVE_RE = re.compile(r"W\d+|W-[a-z0-9]+")  # W-<lane>: a lane wave id
 CB_RE = re.compile(r"C\d{4}")
 HUNK_RE = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@")
@@ -77,7 +78,8 @@ def hpath(camp, wave, ext=".jsonl"):
 
 def hrecords(camp, wave):
     p = hpath(camp, wave)
-    return [json.loads(x) for x in open(p, encoding="utf-8") if x.strip()] if os.path.isfile(p) else []
+    rs = [json.loads(x) for x in open(p, encoding="utf-8") if x.strip()] if os.path.isfile(p) else []
+    return [dict(r, pv=prog_key(r["pv"])) if isinstance(r.get("pv"), str) else r for r in rs]  # pre-3.3 T38 key
 
 
 def hadd(camp, wave, rec):

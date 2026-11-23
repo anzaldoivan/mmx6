@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system task | range -
+// prog main | system task | range -
 /* mmx6/task.h -- the task slot, one PsyQ thread record of the table at 0x801F8100 (4 x 0x80 bytes; the current slot
  * pointer at 0x801F8300) (hand-edited; Phase 2.5 T9.c1). Names from our readers: create_task, end_task_slot,
  * task_yield, func_800131AC, the slot init in 80012A34.c; thread/stack/gp are OpenTh's result and its sp and gp

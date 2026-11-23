@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system sound | range -
+// prog main | system sound | range -
 /* mmx6/sound.h -- the sound functions called outside sound/ (sound/sound.c) (hand-edited; Phase 2.5 T10.c2). Each prototype carries its definition's type
  * (an unprototyped `T f();` stays as its callers wrote it). Not included by x4.h: callers include it. */
 #ifndef MMX6_SOUND_H

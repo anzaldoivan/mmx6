@@ -2,8 +2,8 @@
 """propagate.py -- instantiate a shared body at every member of its dup class, byte-gate each (container, stdlib).
 
   propagate.py <dup key> [--dry-run]
-      -> the key's exemplar row of config/dedup_registry.txt names the shared body; members from
-         build/census/classes.jsonl. Per member (prog, vram order): defines `<exemplar name> -> <member corpus name>`
+      -> the key's exemplar row of config/us/dedup_registry.txt names the shared body; members from
+         build/us/census/classes.jsonl. Per member (prog, vram order): defines `<exemplar name> -> <member corpus name>`
          and `D_<exemplar table> -> D_<member table>` (table address = the lui/lw (or addiu) pair of the member's
          retail words, probe.retail_words; the exemplar needs none; only when the body names D_<exemplar table>,
          else the name define alone; an identity table define is dropped when the unit's own `#define` lines directly
@@ -35,13 +35,13 @@
          --repair relocdef (3.1 T5; dry runs too): per member, after the name/table defines, reloc_defines: the
          exemplar object's R26 / HI16+LO16 relocations aligned word by word with the exemplar's and member's retail
          words (C0127); a symbol S of the body whose target moves by one delta maps to the member symbol at its
-         address + delta (addend kept; name from build/<prog>.map, else func_/D_%08X); none for ex_name, the D_ table,
+         address + delta (addend kept; name from build/us/<prog>.map, else func_/D_%08X); none for ex_name, the D_ table,
          an identity, a unit alias (C0225) or two deltas (`RELOCDEF conflict` in the bank log). Gated `define ... via
          relocdef` (the record's `reloc`), refused `<stop>; relocdef S=T ...`; off = unchanged.
          --repair unitcut (3.1 T6; dry runs too): a member whose shared path is the exemplar's whole unit holding other
          code (bank.uc_due) -> before its gate, rolefeed_step under that name: the exemplar cut to its own body, R1-R4
          on it; gated `... via unitcut` (rows re-pointed as rolefeed), refused `<stop>; unitcut <note>`.
-         R5 (3.1 T6, always): a red hash with a gated member build/<prog>.map places away from its corpus vram
+         R5 (3.1 T6, always): a red hash with a gated member build/us/<prog>.map places away from its corpus vram
          (placement) -> `linked extent differs from retail (<pv> placed 0x<a> not 0x<vram>)`.
       --dry-run: the same gates in scratch copies of the tree (.run/propagate/tree/w<i>, one per worker process;
          programs run in parallel, output printed in program order); src/ and the registry are never
@@ -117,20 +117,21 @@ import bank  # noqa: E402
 import census  # noqa: E402
 import layout  # noqa: E402
 import probe  # noqa: E402
+from paths import BUILD, CONFIG_V  # noqa: E402  (the version axis, 3.3 T37)
 
-CLASSES = "build/census/classes.jsonl"
-FUNCS = "build/corpus/functions.jsonl"
+CLASSES = f"{BUILD}/census/classes.jsonl"
+FUNCS = f"{BUILD}/corpus/functions.jsonl"
 SCRATCH = ".run/propagate"
 TREE = SCRATCH + "/tree"  # the dry run's worker trees TREE/w<i>
 WORKERS = os.cpu_count() or 1
-COPY = ("Makefile", "mk", "include", "config", "src", "tools", "asm", "build")  # the dry run's scratch tree
+COPY = ("Makefile", "mk", "include", "config", "src", "tools", "asm", BUILD)  # the dry run's scratch tree
 LINK = ("extracted",)  # read-only inputs
-# build/ subtrees left out of each tree (T41.1.c3): no gating path (probe, bank.ladder, bank.rung5 incl. typecheck.py
-# --all + sig.py --rescan, extent_same, mk/ rules) reads or writes them. build/dumps (115 MB post-fleet): written only by
-# dumps.py / repro.py (OUT = "build/dumps"; `make dumps`, th-dumps, th-repro); probe.py uses only dumps.recipe (a
-# `make -n` of the C rule, no I/O under OUT); bank/census/typecheck/sig/carve, Makefile and mk/ name no build/dumps.
-# build/sig stays copied: sig.py --rescan reads and rewrites build/sig/{sigs,twins}.jsonl.
-SKIP = ("build/dumps",)
+# build/us/ subtrees left out of each tree (T41.1.c3): no gating path (probe, bank.ladder, bank.rung5 incl. typecheck.py
+# --all + sig.py --rescan, extent_same, mk/ rules) reads or writes them. build/us/dumps (115 MB post-fleet): written only by
+# dumps.py / repro.py (OUT = "build/us/dumps"; `make dumps`, th-dumps, th-repro); probe.py uses only dumps.recipe (a
+# `make -n` of the C rule, no I/O under OUT); bank/census/typecheck/sig/carve, Makefile and mk/ name no build/us/dumps.
+# build/us/sig stays copied: sig.py --rescan reads and rewrites build/us/sig/{sigs,twins}.jsonl.
+SKIP = (f"{BUILD}/dumps",)
 TREE_GROW = 64 << 20  # a tree's growth over a run: T41.1.c1 measured 68 -> 121 MB per tree (+53 MB), rounded up
 TREE_RESERVE = 300 << 20  # free disk kept back when sizing the tree count
 LOAD_OPS = (0x23, 0x09)  # lw, addiu: the %lo half of the table address
@@ -190,7 +191,7 @@ def table_addr(words):
 
 
 def placement(prog, row):
-    """`placed 0x<a> not 0x<vram>` when build/<prog>.map (refusecause.map_addrs, C0425) gives the member's name only
+    """`placed 0x<a> not 0x<vram>` when build/us/<prog>.map (refusecause.map_addrs, C0425) gives the member's name only
     addresses away from its corpus vram (a: the nearest), else '' (at its vram, or not in the map) (3.1 T6)."""
     import refusecause as rc  # lazy: refusecause imports this module
     vram = int(row["vram"], 16)
@@ -248,15 +249,15 @@ def unit_aliases(prog, tu, func, name, root="src"):
 
 def ex_obj(ex, tu):
     """The exemplar's built object (relocdef reads its relocations)."""
-    return f"build/src/{ex[0]}/{tu}.c.o"
+    return f"{BUILD}/src/{ex[0]}/{tu}.c.o"
 
 
-_MAPS = {}  # build/<prog>.map path -> (mtime, {address: least symbol name}) (relocdef's member names)
+_MAPS = {}  # build/us/<prog>.map path -> (mtime, {address: least symbol name}) (relocdef's member names)
 
 
 def map_names(prog):
     import refusecause as rc  # lazy: refusecause imports this module
-    p = f"build/{prog}.map"
+    p = f"{BUILD}/{prog}.map"
     if not os.path.isfile(p):
         return {}
     t = os.path.getmtime(p)
@@ -270,7 +271,7 @@ def reloc_defines(ctx, prog, r, log):
     relocations of ex_name (ex_obj, refusecause.obj_relocs) aligned word by word with the exemplar's and the member's
     retail words (C0127): per R26 / HI16+LO16 word, delta = member target - exemplar target (refusecause.target); S
     maps to the member symbol at its exemplar address (exemplar target - the object word's addend) + delta, so a
-    `D_X+0xA` maps through D_X. Name: the exact-address symbol of build/<prog>.map (read_map's least name), else
+    `D_X+0xA` maps through D_X. Name: the exact-address symbol of build/us/<prog>.map (read_map's least name), else
     func_%08X (an R26) or D_%08X. Kept when S is a word of the body, not ex_name nor the D_ table already defined,
     delta != 0, the member unit does not alias S (unit_aliases, C0225), and all of S's words agree on one delta (else
     no define, a `RELOCDEF conflict` line in the bank log)."""
@@ -338,14 +339,14 @@ def gate(prog, vram, src, defines, log):
     except (bank.Stop, SystemExit) as e:
         rung, why = (e.rung, e.cause) if isinstance(e, bank.Stop) else (1, f"probe error: {e}")
         bank.restore(saved)
-        bank.sh(["make", "-s", "-B", f"build/src/{prog}/{r['tu']}.c.o"], log)  # the next member's pre-bank object
+        bank.sh(["make", "-s", "-B", f"{BUILD}/src/{prog}/{r['tu']}.c.o"], log)  # the next member's pre-bank object
         return None, f"refused R{rung}: {why}"
     return dict(prog=prog, vram=vram, row=r, defines=defines, saved=saved, h1=h1, src=src, via="", carved=False), ""
 
 
 def resplit(prog, log):
     """Re-split + rebuild prog in this tree (gate.resplit without the snapshot's hardlink break); rc."""
-    return bank.sh(["make", "-s", f"build/split/{prog}.stamp"], log) or bank.rebuild(prog, log)
+    return bank.sh(["make", "-s", f"{BUILD}/split/{prog}.stamp"], log) or bank.rebuild(prog, log)
 
 
 def log_size(log):
@@ -417,7 +418,7 @@ def rolefeed_step(prog, vram, src, defines, log, why, ex, via="rolefeed"):
 def unit_of(prog, vram):
     """(unit .c, its object) of the member's corpus row (declunify_control stubs it)."""
     tu = bank.corpus_row(prog, vram)["tu"]
-    return f"src/{prog}/{tu}.c", f"build/src/{prog}/{tu}.c.o"
+    return f"src/{prog}/{tu}.c", f"{BUILD}/src/{prog}/{tu}.c.o"
 
 
 def declunify_step(prog, vram, src, defines, log, tail, why, ex=None):
@@ -437,7 +438,7 @@ def declunify_step(prog, vram, src, defines, log, tail, why, ex=None):
         return dict(g, saved={**g["saved"], **saved}, via="declunify", first=why), ""
     bank.restore(saved)
     inc = layout.includers(os.getcwd())
-    objs = {f"build/src/{q}/{t}.c.o" for p in saved for q, t in inc.get(os.path.relpath(p), [])}
+    objs = {f"{BUILD}/src/{q}/{t}.c.o" for p in saved for q, t in inc.get(os.path.relpath(p), [])}
     for o in sorted(objs | {unit_o}):
         if os.path.isfile(o):
             bank.sh(["make", "-s", "-B", o], log)
@@ -472,7 +473,7 @@ def linkunify(prog, tail, saved, log):
     refs = {}
     for m in LINK_RE.finditer(tail):
         p = m.group(1)
-        p = p[len("build/"):-len(".o")] if p.startswith("build/") and p.endswith(".c.o") else p
+        p = p[len(f"{BUILD}/"):-len(".o")] if p.startswith(f"{BUILD}/") and p.endswith(".c.o") else p
         refs.setdefault(p, set()).add(m.group(2))
     if not refs:
         return 0, "n/a"
@@ -992,7 +993,7 @@ def write_registry(key, ex, src, results, paths=None):
     feed = sorted({(paths or {}).get(m) for m, state, reason in results if state == "gated"
                    and re.search(r" via (?:rolefeed|unitcut)(?: |$)", reason)} - {None})
     if feed:  # repair switch rolefeed (3.1 T4), unitcut (T6): the exemplar left src for its own body, rows follow
-        lines, src = bank.repoint(lines, key, src, feed[0]), feed[0]
+        lines, src = bank.repoint(lines, key, src, feed[0], ex), feed[0]
     for m, state, reason in sorted(results):
         if m == ex:
             continue  # the exemplar row stays (a refused re-gate, e.g. a c-empty exemplar, never overwrites it)
@@ -1007,7 +1008,7 @@ def write_registry(key, ex, src, results, paths=None):
 
 def make_tree(tree):
     os.makedirs(tree)
-    for p in COPY:  # copy2/copytree keep mtimes, so make sees the copied build/ as up to date
+    for p in COPY:  # copy2/copytree keep mtimes, so make sees the copied build/us/ as up to date
         if os.path.isdir(p):
             shutil.copytree(p, os.path.join(tree, p), symlinks=True,
                             ignore=lambda d, names: [x for x in names if os.path.join(d, x) in SKIP])
@@ -1021,7 +1022,7 @@ def expect_drift(key, results, reg=bank.REGISTRY, states=None):
     """(DRIFT lines, unrowed refusals): each dry-run verdict vs the member's registry row of key (refused row ->
     refused, any other row -> gated); a member without a row must gate (counted, no DRIFT line). The run's exemplar
     on a `gated` row whose corpus state is c or c-empty agrees refused too (write_registry keeps that row).
-    states: {member pv: corpus state} (default: build/corpus)."""
+    states: {member pv: corpus state} (default: build/us/corpus)."""
     rows = [t for _, t in registry_rows(reg) if t[0] == key]
     st = {t[3]: t[4] for t in rows}
     exs = {t[3] for t in rows if t[1] == t[3] and t[4] == "gated"}
@@ -1239,7 +1240,7 @@ def declunify_control():
     try:
         for i, (name, utext, bname, btext, extra, side) in enumerate(DU_PLANTS):
             unit, body = os.path.join(d, f"u{i}.c"), os.path.join(d, bname)
-            unit_o = f"build/{unit}.o"
+            unit_o = f"{BUILD}/{unit}.o"
             texts = {unit: utext, body: btext, **{os.path.join(d, n): t for n, t in extra.items()}}
             for p, t in texts.items():
                 with open(p, "w") as f:
@@ -1272,11 +1273,11 @@ def declunify_control():
         for p, t in ((unit, DU_LINK[0]), (other, DU_LINK[1])):
             with open(p, "w") as f:
                 f.write(t)
-        objs = [f"build/{unit}.o", f"build/{other}.o"]
+        objs = [f"{BUILD}/{unit}.o", f"{BUILD}/{other}.o"]
 
         def stub_rung5(prog, src, h1, log_):
             if bank.sh(["make", "-s", "-B"] + objs, log_) or \
-                    bank.sh(["mipsel-linux-gnu-ld", "-e", "du_lf", "-o", f"build/{d}/l.elf"] + objs, log_):
+                    bank.sh(["mipsel-linux-gnu-ld", "-e", "du_lf", "-o", f"{BUILD}/{d}/l.elf"] + objs, log_):
                 raise bank.Stop(5, "planted link red")
 
         bank.rung5 = stub_rung5
@@ -1305,7 +1306,7 @@ def declunify_control():
         bank.rung5 = rung5_fn
         globals().update(saved_fns)
         shutil.rmtree(d, ignore_errors=True)
-        shutil.rmtree(os.path.join("build", d), ignore_errors=True)
+        shutil.rmtree(os.path.join(BUILD, d), ignore_errors=True)
     return fails
 
 
@@ -1314,7 +1315,7 @@ RF_PLANTS = (  # (name, {file: text}, exemplar unit, shared path, exemplar funct
     ("role INCLUDE_ASM", {
         "ex.c": "#include \"common.h\"\n#undef INCLUDE_ASM\n#define INCLUDE_ASM(FOLDER, NAME) extern void NAME(void)\n"
                 "#include \"role.c\"\n",
-        "role.c": "INCLUDE_ASM(\"asm/rf\", rf_x);\n\nextern s32 rf_t[];\n\ns32 rf_e(s32 a) {\n    return rf_t[a] * 3 + 1;\n"
+        "role.c": "INCLUDE_ASM(\"rf\", rf_x);\n\nextern s32 rf_t[];\n\ns32 rf_e(s32 a) {\n    return rf_t[a] * 3 + 1;\n"
                   "}\n\nvoid rf_y(void) {\n}\n",
         "mu.c": f"#include \"common.h\"\n\nextern s32 rf_t[];\n\n{RF_SLOT}\n"},
      "ex.c", "role.c", "rf_e", "mu.c", [("rf_e", "rf_m")]),
@@ -1349,17 +1350,17 @@ def rolefeed_control():
                 with open(p, "w") as f:
                     f.write(t)
             exu, src, mu = (os.path.join(d, x) for x in (exu, sname, mname))
-            new, exo = os.path.join(d, "shared", fn + ".c"), f"build/{exu}.o"
+            new, exo = os.path.join(d, "shared", fn + ".c"), f"{BUILD}/{exu}.o"
 
             def stub_gate(prog, vram, src_, defines_, log_, mu=mu):
                 u = bank.rf_unit(src_)
-                if bank.sh(["make", "-s", "-B", f"build/{u[1] if u else src_}.o"], log_):
+                if bank.sh(["make", "-s", "-B", f"{BUILD}/{u[1] if u else src_}.o"], log_):
                     return None, "refused R1: standalone probe FAIL 0/1 words"
                 saved = {}
                 bank.put(saved, mu, texts[mu].replace(RF_SLOT, "\n".join(bank.block(src_, d, defines_))))
-                if bank.sh(["make", "-s", "-B", f"build/{mu}.o"], log_):
+                if bank.sh(["make", "-s", "-B", f"{BUILD}/{mu}.o"], log_):
                     bank.restore(saved)
-                    return None, f"refused R2: build/{mu}.o does not compile (log {bank.LOGDIR}/{log_}.log)"
+                    return None, f"refused R2: {BUILD}/{mu}.o does not compile (log {bank.LOGDIR}/{log_}.log)"
                 return dict(prog=prog, vram=vram, row={}, defines=defines_, saved=saved, h1="", src=src_, via="",
                             carved=False), ""
 
@@ -1371,7 +1372,7 @@ def rolefeed_control():
                         return p, i + 1, lines.index("}", i) + 1, [exu], new
                 return None
 
-            globals().update(gate=stub_gate, unit_of=lambda prog, vram, mu=mu: (mu, f"build/{mu}.o"))
+            globals().update(gate=stub_gate, unit_of=lambda prog, vram, mu=mu: (mu, f"{BUILD}/{mu}.o"))
             bank.rf_where = stub_where
             bank.sh(["make", "-s", "-B", exo], log)
             before = bank.obj_text(exo)
@@ -1409,7 +1410,7 @@ def rolefeed_control():
         bank.rf_where = where_fn
         globals().update(saved_fns)
         shutil.rmtree(d, ignore_errors=True)
-        shutil.rmtree(os.path.join("build", d), ignore_errors=True)
+        shutil.rmtree(os.path.join(BUILD, d), ignore_errors=True)
     return fails
 
 
@@ -1417,6 +1418,8 @@ UC_FILES = {  # unitcut_control's plant: a whole unit whose exemplar uc_w (under
     "wu.c": "#include \"common.h\"\n#define UC_K 5\n\ns32 uc_p(s32 a) {\n    return a - 7;\n}\n\ns32 uc_w(s32 a) {\n"
             "    return a ^ UC_K;\n}\n",  # UC_K: the unit preamble the cut body carries (T6)
     "mu.c": f"#include \"common.h\"\n\n{RF_SLOT}\n"}
+UC_OWN = ("#include \"common.h\"\n#include \"mmx6/rock_20.h\"\n\ns32 uc_q(s32 a) {\n    return a + D_800F48EE;\n}\n\n"
+          "s32 uc_v(s32 a) {\n    return a ^ D_800F36CC;\n}\n")  # unitcut_control's owner-header unit (T2.c2): uc_v cut
 UC_BASE = 0x80010000  # the plant member's retail vram: its unit's first (and only) function, linked at -Ttext
 
 
@@ -1466,7 +1469,7 @@ def unitcut_control():
     """Repair switch unitcut (3.1 T6) through gate_member on planted files under .run/propagate/selftest/uc/: the
     member unit mu.c fed the whole unit wu.c (uc_p before the exemplar uc_w), gate() stubbed as rolefeed_control's
     (R1 make -B of the shared path or the marker's unit, R2 mu.c with the block in its slot), bank.rf_where stubbed.
-    Per state the gated mu.c object is linked alone at UC_BASE (ld -Map build/<P>.map) and placement() read on it.
+    Per state the gated mu.c object is linked alone at UC_BASE (ld -Map build/us/<P>.map) and placement() read on it.
     Off -> gated, bank.uc_due false, `placed 0x... not 0x80010000` (shifted by uc_p); on -> gated via unitcut, src the
     new body, the map names uc_m at UC_BASE (placement ''), the exemplar object's bytes equal; saved restores every
     planted file byte-exact and deletes the new body. Returns fails."""
@@ -1483,17 +1486,17 @@ def unitcut_control():
             with open(p, "w") as f:
                 f.write(t)
         src, mu = os.path.join(d, "wu.c"), os.path.join(d, "mu.c")
-        new, exo, defines = os.path.join(d, "shared", "uc_w.c"), f"build/{src}.o", [("uc_w", "uc_m")]
+        new, exo, defines = os.path.join(d, "shared", "uc_w.c"), f"{BUILD}/{src}.o", [("uc_w", "uc_m")]
 
         def stub_gate(prog_, vram, src_, defines_, log_):
             u = bank.rf_unit(src_)
-            if bank.sh(["make", "-s", "-B", f"build/{u[1] if u else src_}.o"], log_):
+            if bank.sh(["make", "-s", "-B", f"{BUILD}/{u[1] if u else src_}.o"], log_):
                 return None, "refused R1: standalone probe FAIL 0/1 words"
             saved = {}
             bank.put(saved, mu, texts[mu].replace(RF_SLOT, "\n".join(bank.block(src_, d, defines_))))
-            if bank.sh(["make", "-s", "-B", f"build/{mu}.o"], log_):
+            if bank.sh(["make", "-s", "-B", f"{BUILD}/{mu}.o"], log_):
                 bank.restore(saved)
-                return None, f"refused R2: build/{mu}.o does not compile (log {bank.LOGDIR}/{log_}.log)"
+                return None, f"refused R2: {BUILD}/{mu}.o does not compile (log {bank.LOGDIR}/{log_}.log)"
             return dict(prog=prog_, vram=vram, row=row, defines=defines_, saved=saved, h1="", src=src_, via="",
                         carved=False), ""
 
@@ -1505,7 +1508,7 @@ def unitcut_control():
                     return p, i + 1, lines.index("}", i) + 1, [src], new
             return None
 
-        globals().update(gate=stub_gate, unit_of=lambda prog_, vram: (mu, f"build/{mu}.o"))
+        globals().update(gate=stub_gate, unit_of=lambda prog_, vram: (mu, f"{BUILD}/{mu}.o"))
         bank.rf_where = stub_where
         bank.sh(["make", "-s", "-B", exo], log)
         before = bank.obj_text(exo)
@@ -1516,8 +1519,8 @@ def unitcut_control():
             due = bank.uc_due(("P", "uc_w"), src)
             g, w = gate_member(prog, UC_BASE, src, defines, log, False, ("P", "uc_w"))
             link = g is not None and not bank.sh(["mipsel-linux-gnu-ld", "-e", "uc_m", "-Ttext", f"0x{UC_BASE:08X}",
-                                                  "-Map", f"build/{prog}.map", "-o", f"build/{prog}.elf",
-                                                  f"build/{mu}.o"], log)
+                                                  "-Map", f"{BUILD}/{prog}.map", "-o", f"{BUILD}/{prog}.elf",
+                                                  f"{BUILD}/{mu}.o"], log)
             import refusecause as rc  # lazy: refusecause imports this module
             got.append((due, g, w, placement(prog, row) if link else "no link",
                         link and UC_BASE in rc.map_addrs(prog, "uc_m")))
@@ -1535,13 +1538,36 @@ def unitcut_control():
               f"{('gated via ' + g1['via'] + ', ' + (p1 or 'at retail vram')) if g1 is not None else w1}; "
               f"exemplar object {'equal' if same else 'differs'}")
         fails += not good
+        wi, vnew, sv = os.path.join(d, "wi.c"), os.path.join(d, "shared", "uc_v.c"), {}
+        with open(wi, "w") as f:
+            f.write(UC_OWN)
+
+        def own_where(ex, src_):
+            lines = open(wi).read().split("\n")
+            i = next(k for k, x in enumerate(lines) if x.startswith(f"s32 {ex[1]}("))
+            return wi, i + 1, lines.index("}", i) + 1, [wi], vnew
+
+        bank.rf_where = own_where
+        try:
+            bank.rolefeed(("P", "uc_v"), wi, sv, log, True)
+            vb, why = open(vnew).read(), ""
+        except bank.Stop as e:
+            vb, why = "", e.cause
+        finally:
+            bank.restore(sv)
+        vl = vb.split("\n")
+        ok = (not why and not any("rock_20.h" in x for x in vl) and "extern u16 D_800F36CC;" in vl
+              and "D_800F366C" not in vb and "D_800F48EE" not in vb)
+        print(f"control unitcut owner header (T2.c2) {'ok' if ok else 'FAIL'}: "
+              f"{why or ' | '.join(x for x in vl if x.startswith(('#include', 'extern')))}")
+        fails += not ok
     finally:
         bank.REPAIR.clear()
         bank.REPAIR.update(rep)
         bank.rf_where = where_fn
         globals().update(saved_fns)
         shutil.rmtree(d, ignore_errors=True)
-        shutil.rmtree(os.path.join("build", d), ignore_errors=True)
+        shutil.rmtree(os.path.join(BUILD, d), ignore_errors=True)
     return fails
 
 
@@ -1574,7 +1600,7 @@ def relocdef_control():
     try:
         shutil.rmtree(d, ignore_errors=True)
         os.makedirs(os.path.join(d, "src", "P"))
-        body, obj = os.path.join(d, "bd.c"), f"build/{d}/bd.c.o"
+        body, obj = os.path.join(d, "bd.c"), f"{BUILD}/{d}/bd.c.o"
         with open(body, "w") as f:
             f.write(RD_BODY)
         with open(os.path.join(d, "src", "P", "mu.c"), "w") as f:
@@ -1626,7 +1652,7 @@ def relocdef_control():
         probe.retail_words = rw_fn
         globals().update(saved_fns)
         shutil.rmtree(d, ignore_errors=True)
-        shutil.rmtree(os.path.join("build", d), ignore_errors=True)
+        shutil.rmtree(os.path.join(BUILD, d), ignore_errors=True)
     return fails
 
 
@@ -1652,6 +1678,24 @@ def inherited_control():
             and unmarked(out) == 0 and fmt.returncode == 0 and unmarked(fmt.stdout) == 0)
     print(f"control inherited marker {'ok' if good else 'FAIL'}: unmarked {unmarked(pre.stdout)} -> {unmarked(out)}, "
           f"{len(trailing)} trailing, clang-format rc {fmt.returncode} -> {unmarked(fmt.stdout)} unmarked")
+    return not good
+
+
+def twoex_control():
+    """C0497 (T35): key e98ec56a has two exemplars, rock_09:0x800F4A90 (A) and rock_09:0x800F4B50 (B), both rows on
+    src/rock_09/800EE978.c. Planted rows (A's with its members, B's); bank.repoint of A's cut to its own body re-points
+    A's row and members only, B's row stays on the old path. Returns fails."""
+    key, old, new = "e98ec56acea26586012777a5ce19a60ddba90a0b", "src/rock_09/800EE978.c", \
+        "src/shared/rock_09/func_800F4A90.c"
+    a, b = "rock_09:0x800F4A90", "rock_09:0x800F4B50"
+    ms = ("rock_38:0x800FE6CC", "rock_38:0x800FE78C")
+    lines = [f"{key} {a} {old} {a} gated exemplar", f"{key} {b} {old} {b} gated exemplar"] + \
+        [f"{key} {a} {old} {m} gated define func_800F4A90" for m in ms] + [""]
+    got = bank.repoint(lines, key, old, new, a)
+    want = [f"{key} {a} {new} {a} gated exemplar", lines[1]] + [x.replace(old, new) for x in lines[2:]]
+    good = got == want
+    print(f"control repoint two exemplars (C0497) {'ok' if good else 'FAIL'}: "
+          + "; ".join(f"{t.split()[1]}->{t.split()[3]} {t.split()[2]}" for t in got if t))
     return not good
 
 
@@ -1746,6 +1790,7 @@ def self_test():
     fails += rolefeed_control()
     fails += relocdef_control()
     fails += unitcut_control()
+    fails += twoex_control()
     if fails:
         print(f"PROPAGATE SELF-TEST FAIL {fails}")
         return 1
@@ -1755,7 +1800,7 @@ def self_test():
 
 # ---- equivalence: per-key vs grouped dry run (T3.c1) ----------------------------------------------------------------
 
-EQUIV_KEYS = "config/equiv-keys.txt"
+EQUIV_KEYS = CONFIG_V + "/equiv-keys.txt"
 EQUIV_PER = 6  # keys per stratum
 MEMBER_RE = re.compile(r"^(\S+:0x[0-9A-Fa-f]+) (gated|refused|pending)(?: (\S+))?")
 VERDICT_RE = re.compile(r"^PROPAGATE DRY-RUN (\S+) gated (\d+) of (\d+) members$")
@@ -1774,12 +1819,12 @@ def equiv_pick(reg=bank.REGISTRY, path=EQUIV_KEYS):
                 continue
             k = keys.setdefault(c[0], [0, False, 0, 0])
             k[0] += 1
-            k[1] |= c[3].startswith("SLUS_013.95:")
+            k[1] |= c[3].startswith("main:")
             k[2] += c[4] == "refused"
             k[3] += c[4] == "gated" and (len(c) < 6 or c[5] != "exemplar")
     out = [f"# {path} -- keys of propagate.py --equiv (per-key vs grouped dry run); written by propagate.py "
            f"--equiv-pick, never by hand.",
-           f"# Picked from {reg} (rows: non-comment, >= 5 fields, field 6 != family) in 4 strata (any SLUS_013.95 "
+           f"# Picked from {reg} (rows: non-comment, >= 5 fields, field 6 != family) in 4 strata (any main "
            f"member? x any refused row?);",
            f"# pool per stratum: keys with a non-exemplar member row (field 6 != exemplar) -- refused strata: >= 1 "
            f"refused row and >= 1 gated non-exemplar row,",
@@ -1878,7 +1923,7 @@ def equiv_self_test():
     """Pure text: the comparator on a synthetic pair (identical), then with one verdict flipped and one member
     dropped (both must differ), then an all-refused pair (vacuous: must be EMPTY)."""
     k1, k2 = "a" * 40, "b" * 40
-    m1 = ["SLUS_013.95:0x80010000 gated exemplar", "SLUS_013.95:0x80010100 gated define f=g",
+    m1 = ["main:0x80010000 gated exemplar", "main:0x80010100 gated define f=g",
           "ST00_00.ARC:0x80120000 refused R3: diff 4 words"]
     m2 = ["ST01_00.ARC:0x80130000 gated exemplar", "ST01_00.ARC:0x80130200 refused preflight: no corpus row"]
     per = "\n".join(["propagate: dry run wall 3s; src/ + registry sha1 0123456789ab unchanged"] + m1

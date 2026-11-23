@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system collision | range -
+// prog main | system collision | range -
 /* mmx6/collision.h -- the tile collision functions called outside collision/ (hand-edited; Phase 2.6 T10.c1). Each prototype carries the type its
  * callers declared (an unprototyped `T f();` stays as its callers wrote it). Not included by x4.h: callers include it. */
 #ifndef MMX6_COLLISION_H

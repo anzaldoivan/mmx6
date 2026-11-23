@@ -26,7 +26,7 @@
   x4port.py --repin
       -> every attribution header (adapted(): any header in a file of the units' closure, bound to the C definition
          that follows it) naming a pin != PIN: the partner by the header's exact key (campaign/x4/partners.tsv; the
-         header's src:func first) re-ported at PIN for that function (build/corpus/functions.jsonl; prog and name: the
+         header's src:func first) re-ported at PIN for that function (build/us/corpus/functions.jsonl; prog and name: the
          first unit whose closure brings the definition under its own name). The draft's definition == the file's (code
          only: comments and whitespace dropped) -> only that header is rewritten (`same`); different -> that definition
          is replaced by the draft's, the file's declarations kept (they are what its TU's other shared files and
@@ -92,17 +92,18 @@ import sig  # noqa: E402
 import verbatim  # noqa: E402
 import x4core  # noqa: E402  (pin, short)
 import x4share  # noqa: E402
+from paths import BUILD, CONFIG_V, ASM  # noqa: E402  (the version axis, 3.3 T37)
 
 PARTNERS = "campaign/x4/partners.tsv"
-FUNCS = "build/corpus/functions.jsonl"
-CLASSES = "build/census/classes.jsonl"
-REGISTRY = "config/dedup_registry.txt"
+FUNCS = f"{BUILD}/corpus/functions.jsonl"
+CLASSES = f"{BUILD}/census/classes.jsonl"
+REGISTRY = CONFIG_V + "/dedup_registry.txt"
 C_UNITS = "config/c_units.txt"
 TRIPLE = "gcc2.95.2-psx-aspsx2.86"
 PIN = x4core.short(x4core.pin())  # the config/refs.toml mmx4 ref (was the literal "29b62af")
 OPEN = ("asm", "include_asm")
 SELFTEST = ".run/x4port-selftest"
-SELF_PROG, SELF_VRAM, SELF_TU = "SLUS_013.95", "0x8001E78C", "120A0"  # the self-test's function: name looked up
+SELF_PROG, SELF_VRAM, SELF_TU = "main", "0x8001E78C", "120A0"  # the self-test's function: name looked up
 HEADER = ("/* Adapted from sozud/mmx4 @{pin} {src}:{func}, AGPL-3.0; proven shared with X6 by exact signature {key} "
           "(see THIRD_PARTY.md). */\n")
 X4H = "include/mmx6/x4.h"
@@ -210,10 +211,10 @@ class Elf:
 
 
 class Addrs:
-    """X6 symbol addresses of a linked program (build/<prog>.elf, absolute symbols included)."""
+    """X6 symbol addresses of a linked program (build/us/<prog>.elf, absolute symbols included)."""
 
     def __init__(self, prog):
-        e = Elf(f"build/{prog}.elf")
+        e = Elf(f"{BUILD}/{prog}.elf")
         self.prog, self.labels = prog, None
         self.by_name, self.by_addr = {}, {}
         for name, val, _, info, sh in e.syms:
@@ -222,14 +223,14 @@ class Addrs:
                 self.by_addr.setdefault(val, set()).add(name)
 
     def addr(self, name):
-        """name's address: the linked ELF, else config/symbols.<prog>.txt / the corpus, else its split asm label row."""
+        """name's address: the linked ELF, else config/us/symbols.<prog>.txt / the corpus, else its split asm label row."""
         if name in self.by_name:
             return self.by_name[name]
         a = probe.sym_vram(self.prog, name)
         if a is None:
             if self.labels is None:
                 self.labels = {}
-                for d, dirs, files in sorted(os.walk(f"asm/{self.prog}")):
+                for d, dirs, files in sorted(os.walk(f"{ASM}/{self.prog}")):
                     for f in sorted(x for x in files if x.endswith(".s")):
                         with open(os.path.join(d, f), errors="replace") as fh:
                             for _, n, v in probe.asm_labels(fh.read()):
@@ -511,7 +512,7 @@ class Ctx:
         ob = set(run_cpp(ours_cpp + ["-dM", "/dev/null"], root_cwd).split("\n"))
         self.ours = ours_of(ours_cpp, root_cwd, ob)
         self.tus, self.addrs, self.elfs = {}, {}, {}
-        self.asm_idx = census.asm_index() if os.path.isdir("asm") else {}
+        self.asm_idx = census.asm_index() if os.path.isdir(ASM) else {}
 
     def tu(self, src):
         if src not in self.tus:
@@ -1293,8 +1294,8 @@ def self_test():
     Path(f"{clone}/{src}").write_text(fake)
     obj = f"{objroot}/{src}.o"
     os.makedirs(os.path.dirname(obj))
-    b = bytearray(Path(f"build/src/{SELF_PROG}/{SELF_TU}.c.o").read_bytes())
-    e = Elf(f"build/src/{SELF_PROG}/{SELF_TU}.c.o")
+    b = bytearray(Path(f"{BUILD}/src/{SELF_PROG}/{SELF_TU}.c.o").read_bytes())
+    e = Elf(f"{BUILD}/src/{SELF_PROG}/{SELF_TU}.c.o")
     for i, s in enumerate(e.secs):
         if s[1] == 3 and i != struct.unpack_from("<H", b, 0x32)[0]:  # the symbol string table
             seg = bytes(b[s[4]:s[4] + s[5]]).replace(b"\0D_8", b"\0Q_8").replace(b"\0func_8", b"\0fanc_8")

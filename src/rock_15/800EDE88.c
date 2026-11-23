@@ -35,7 +35,7 @@ void func_800EDEC4(s8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800EDF50);
+INCLUDE_ASM("rock_15/nonmatchings/E9860", func_800EDF50);
 // clang-format on
 
 #include "common.h"
@@ -2590,7 +2590,7 @@ void func_800F2014(struct X4_AnimatedObj* arg0) {
 #define func_80050DFC func_800F2154
 #define D_80078DD4 D_800F6E18
 #define func_8002CB50 func_8002F288
-#include "../shared/SLUS_013.95/func_80050DFC.c"
+#include "../shared/main/func_80050DFC.c"
 #undef func_80050DFC
 #undef D_80078DD4
 #undef func_8002CB50
@@ -3544,7 +3544,7 @@ void func_800F381C(void) {
 #define func_80050DFC func_800F3854
 #define D_80078DD4 D_800F6F88
 #define func_8002CB50 func_8002F288
-#include "../shared/SLUS_013.95/func_80050DFC.c"
+#include "../shared/main/func_80050DFC.c"
 #undef func_80050DFC
 #undef D_80078DD4
 #undef func_8002CB50
@@ -4907,5 +4907,5 @@ void func_800F5490(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_15/nonmatchings/E9860", func_800F54E8);
+INCLUDE_ASM("rock_15/nonmatchings/E9860", func_800F54E8);
 // clang-format on

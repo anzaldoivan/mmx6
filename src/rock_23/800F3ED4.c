@@ -29,11 +29,11 @@ void func_800F40C4(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F40D8);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F40D8);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F4128);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F4128);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F41A4);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F41A4);
 // clang-format on
 
 #define func_800F5568 func_800F4270
@@ -119,7 +119,7 @@ void func_800F4594(void* arg0) {
 #undef func_800F588C
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F4614);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F4614);
 // clang-format on
 
 #define func_800F5950 func_800F4658
@@ -181,7 +181,7 @@ void func_800F4658(void* arg0) {
 #undef func_800F5BFC
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F4948);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F4948);
 // clang-format on
 
 #define func_8003744C func_800F49CC
@@ -195,7 +195,7 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F4948);
 #undef func_800F5D00
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F4A4C);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F4A4C);
 // clang-format on
 
 #define func_8003744C func_800F4ADC
@@ -217,9 +217,9 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F4A4C);
 #undef func_800F5EE8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F4CDC);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F4CDC);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F4D60);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F4D60);
 // clang-format on
 
 #define func_8003744C func_800F4DF8
@@ -322,7 +322,7 @@ void func_800F52AC(struct ObjectHeader* arg0) {
 #undef func_800F6708
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F5518);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F5518);
 // clang-format on
 
 #include "common.h"
@@ -374,7 +374,7 @@ void func_800F55D4(void* arg0) {
 #undef func_800F68CC
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F565C);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F565C);
 // clang-format on
 
 #define func_800F59C0 func_800F56AC
@@ -412,7 +412,7 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F565C);
 #undef func_800F6C1C
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F5A20);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F5A20);
 // clang-format on
 
 #define func_800F6DA8 func_800F5AB0
@@ -452,11 +452,11 @@ void func_800F5AB0(void* arg0) {
 #undef func_800F6DA8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F5B58);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F5B58);
 
 #include "../shared/rock_23/func_800F5BE8.c"
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F5C48);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F5C48);
 
 #define func_800F6FE0 func_800F5CE8
 #define D_800FB810 D_800F9920
@@ -478,9 +478,9 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F5C48);
 #undef background_objects
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F5E34);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F5E34);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F5EAC);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F5EAC);
 // clang-format on
 
 #define func_8003744C func_800F5F44
@@ -519,7 +519,7 @@ void func_800F5FFC(void* arg0) {
 #undef func_800F72F4
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F607C);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F607C);
 // clang-format on
 
 #define func_800F59C0 func_800F60CC
@@ -551,9 +551,9 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F607C);
 #undef func_800F7624
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F63B0);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F63B0);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6418);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F6418);
 // clang-format on
 
 #define func_8003744C func_800F6484
@@ -575,11 +575,11 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6418);
 #undef func_800F78DC
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6678);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F6678);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F670C);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F670C);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6764);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F6764);
 // clang-format on
 
 #define func_8003744C func_800F67F8
@@ -601,11 +601,11 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6764);
 #undef func_800F7C64
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6A04);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F6A04);
 
 #include "../shared/rock_23/func_800F6AA4.c"
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6B70);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F6B70);
 // clang-format on
 
 #define func_8003744C func_800F6BC8
@@ -627,11 +627,17 @@ INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6B70);
 #undef func_800F8044
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6DCC);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F6DCC);
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6E68);
+#define func_800F7D9C func_800F6E68
+#define D_800FB810 D_800F9920
+#define func_800F82C0 func_800F6FC8
+#include "../shared/rock_23/func_800F6E68.c"
+#undef func_800F7D9C
+#undef D_800FB810
+#undef func_800F82C0
 
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F6F34);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F6F34);
 // clang-format on
 
 #include "common.h"
@@ -662,7 +668,7 @@ void func_800F7038(void) {
 #define func_80050DFC func_800F7040
 #define D_80078DD4 D_800F9BDC
 #define func_8002CB50 func_8002F288
-#include "../shared/SLUS_013.95/func_80050DFC.c"
+#include "../shared/main/func_80050DFC.c"
 #undef func_80050DFC
 #undef D_80078DD4
 #undef func_8002CB50
@@ -1090,7 +1096,7 @@ void func_800F7B30(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", func_800F7BBC);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", func_800F7BBC);
 // clang-format on
 
 #include "common.h"
@@ -1134,5 +1140,5 @@ void func_800F7C6C(void* arg0) {
 #undef func_800F90B0
 
 // clang-format off
-INCLUDE_ASM("asm/rock_23/nonmatchings/E9860", D_800F7E04);
+INCLUDE_ASM("rock_23/nonmatchings/E9860", D_800F7E04);
 // clang-format on

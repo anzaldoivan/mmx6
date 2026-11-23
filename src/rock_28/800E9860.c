@@ -1,5 +1,5 @@
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", D_800E9860);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", D_800E9860);
 // clang-format on
 
 #define g_Player D_800970A0_x4
@@ -73,11 +73,15 @@ void func_800E995C(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800E99E0);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800E99E0);
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800E9B98);
+#define func_800E9A30 func_800E9B98
+#define D_800F3608 D_800F2C70
+#include "../shared/rock_06/func_800E9A30.c"
+#undef func_800E9A30
+#undef D_800F3608
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800E9EC4);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800E9EC4);
 // clang-format on
 
 #define func_80048DC8 func_800EA000
@@ -91,7 +95,17 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800E9EC4);
 #undef func_800EA5F0
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EA06C);
+#define func_800E9F04 func_800EA06C
+#define D_800F362C D_800F2C94
+#define D_800F3654 D_800F2CBC
+#define D_800F365C D_800F2CC4
+#define D_800F3660 D_800F2CC8
+#include "../shared/rock_06/func_800E9F04.c"
+#undef func_800E9F04
+#undef D_800F362C
+#undef D_800F3654
+#undef D_800F365C
+#undef D_800F3660
 // clang-format on
 
 #define func_800EA0EC func_800EA254
@@ -101,7 +115,7 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EA06C);
 #undef g_class4_slots
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EA398);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800EA398);
 // clang-format on
 
 #define func_80048DC8 func_800EA698
@@ -131,7 +145,13 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EA398);
 #undef D_80075FD8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EA760);
+#define func_800EA5F8 func_800EA760
+#define D_800F368C D_800F2CF4
+#define D_800F3680 D_800F2CE8
+#include "../shared/rock_06/func_800EA5F8.c"
+#undef func_800EA5F8
+#undef D_800F368C
+#undef D_800F3680
 // clang-format on
 
 #define func_800EA64C func_800EA7B4
@@ -139,7 +159,7 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EA760);
 #undef func_800EA64C
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EA84C);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800EA84C);
 // clang-format on
 
 #define func_800EA704 func_800EA86C
@@ -159,11 +179,33 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EA84C);
 #undef D_800950A0
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EAD34);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800EAD34);
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EAE70);
+#define func_800EAD08 func_800EAE70
+#define D_800F3698 D_800F2D00
+#define D_800F369C D_800F2D04
+#define D_800F36A4 D_800F2D0C
+#define D_800F379C D_800F2E04
+#include "../shared/rock_06/func_800EAD08.c"
+#undef func_800EAD08
+#undef D_800F3698
+#undef D_800F369C
+#undef D_800F36A4
+#undef D_800F379C
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EAFB0);
+#define func_800EAE48 func_800EAFB0
+#define D_800F37D8 D_800F2E40
+#define D_800F37D4 D_800F2E3C
+#define func_800EA704 func_800EA86C
+#define func_800EA840 func_800EA9A8
+#define func_800EA9E0 func_800EAB48
+#include "../shared/rock_06/func_800EAE48.c"
+#undef func_800EAE48
+#undef D_800F37D8
+#undef D_800F37D4
+#undef func_800EA704
+#undef func_800EA840
+#undef func_800EA9E0
 // clang-format on
 
 #define func_80041AB8 func_800EB0FC
@@ -173,7 +215,13 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EAFB0);
 #undef D_80075FD8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EB138);
+#define func_800EAFD0 func_800EB138
+#define D_800F36A4 D_800F2D0C
+#define D_800F369C D_800F2D04
+#include "../shared/rock_06/func_800EAFD0.c"
+#undef func_800EAFD0
+#undef D_800F36A4
+#undef D_800F369C
 // clang-format on
 
 #define func_800EB070 func_800EB1D8
@@ -181,11 +229,19 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EB138);
 #undef func_800EB070
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EB274);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800EB274);
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EB31C);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800EB31C);
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EB420);
+#define func_800EB2B8 func_800EB420
+#define D_800743DC D_800743DC
+#define D_800F369C D_800F2D04
+#define D_800F36A4 D_800F2D0C
+#include "../shared/rock_06/func_800EB2B8.c"
+#undef func_800EB2B8
+#undef D_800743DC
+#undef D_800F369C
+#undef D_800F36A4
 // clang-format on
 
 #define func_800F23E4 func_800EB508
@@ -199,7 +255,13 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EB420);
 #undef D_80075FD8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EB584);
+#define func_800EB41C func_800EB584
+#define D_800F3804 D_800F2E6C
+#define D_800F3808 D_800F2E70
+#include "../shared/rock_06/func_800EB41C.c"
+#undef func_800EB41C
+#undef D_800F3804
+#undef D_800F3808
 // clang-format on
 
 #define func_800EB4D4 func_800EB63C
@@ -207,9 +269,9 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EB584);
 #undef func_800EB4D4
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EB704);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800EB704);
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EB724);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800EB724);
 // clang-format on
 
 #define func_800EAE0C func_800EB8A4
@@ -223,7 +285,7 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EB724);
 #undef D_800FAA64
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EBA94);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800EBA94);
 // clang-format on
 
 #define func_800EB10C func_800EBBA4
@@ -241,11 +303,11 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EBA94);
 #include "../shared/rock_28/func_800EBC8C.c"
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EBCD4);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800EBCD4);
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EBDD8);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800EBDD8);
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EBE8C);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800EBE8C);
 // clang-format on
 
 #define func_80041AB8 func_800EBEAC
@@ -259,7 +321,7 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EBE8C);
 #undef func_800EE158
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EBF64);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800EBF64);
 // clang-format on
 
 #define func_800EE344 func_800EC0D4
@@ -275,9 +337,15 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EBF64);
 #undef func_800EE828
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EC6B4);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800EC6B4);
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EC85C);
+#define func_800EEACC func_800EC85C
+#define D_800F3A44 D_800F2F28
+#define D_800F3A4C D_800F2F30
+#include "../shared/rock_06/func_800EEACC.c"
+#undef func_800EEACC
+#undef D_800F3A44
+#undef D_800F3A4C
 // clang-format on
 
 #define func_800EEC50 func_800EC9E0
@@ -405,7 +473,11 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800EC85C);
 // clang-format off
 #include "../shared/rock_28/func_800EFC54.c"
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F01A4);
+#define func_800F2414 func_800F01A4
+#define D_800F3A50 D_800F2F34
+#include "../shared/rock_06/func_800F2414.c"
+#undef func_800F2414
+#undef D_800F3A50
 // clang-format on
 
 #define func_800F250C func_800F029C
@@ -417,7 +489,13 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F01A4);
 #undef func_800F254C
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F0318);
+#define func_800F2588 func_800F0318
+#define func_800F04E8 func_800EE278
+#define func_800F071C func_800EE4AC
+#include "../shared/rock_06/func_800F2588.c"
+#undef func_800F2588
+#undef func_800F04E8
+#undef func_800F071C
 // clang-format on
 
 #define func_800F26C4 func_800F0454
@@ -431,9 +509,15 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F0318);
 #undef D_800F3A5C
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F04C0);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800F04C0);
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F0754);
+#define func_800ED764 func_800F0754
+#define D_80097420 D_80097420
+#define D_800F981C D_800F35AC
+#include "../shared/rock_07/func_800ED764.c"
+#undef func_800ED764
+#undef D_80097420
+#undef D_800F981C
 // clang-format on
 
 #include "common.h"
@@ -545,17 +629,51 @@ void func_800F0984(struct X4_PlayerObj* self) {
 #undef g_class4_slots
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F0D24);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800F0D24);
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F0FAC);
+#define func_800ECE74 func_800F0FAC
+#define D_800F3A0C D_800F3574
+#define D_800F3A10 D_800F3578
+#define D_800F3A1C D_800F3584
+#define D_800F3A2C D_800F3594
+#define func_800ECAB8 func_800F0BF0
+#include "../shared/rock_06/func_800ECE74.c"
+#undef func_800ECE74
+#undef D_800F3A0C
+#undef D_800F3A10
+#undef D_800F3A1C
+#undef D_800F3A2C
+#undef func_800ECAB8
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F11D4);
+#define func_800ED09C func_800F11D4
+#define func_800ECAB8 func_800F0BF0
+#include "../shared/rock_06/func_800ED09C.c"
+#undef func_800ED09C
+#undef func_800ECAB8
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F1BE8);
+#define func_800EDAB0 func_800F1BE8
+#define func_800ECAB8 func_800F0BF0
+#include "../shared/rock_06/func_800EDAB0.c"
+#undef func_800EDAB0
+#undef func_800ECAB8
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F1DD4);
+#define func_800EDC9C func_800F1DD4
+#define D_800F3A0C D_800F3574
+#define D_800F3A10 D_800F3578
+#define D_800F3A1C D_800F3584
+#define func_800ECAB8 func_800F0BF0
+#include "../shared/rock_06/func_800EDC9C.c"
+#undef func_800EDC9C
+#undef D_800F3A0C
+#undef D_800F3A10
+#undef D_800F3A1C
+#undef func_800ECAB8
 
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F2188);
+#define func_800ECDE8 func_800F2188
+#define D_800F6B9C D_800F3588
+#include "../shared/rock_04/func_800ECDE8.c"
+#undef func_800ECDE8
+#undef D_800F6B9C
 // clang-format on
 
 #define func_800F3BF8 func_800F21E8
@@ -569,5 +687,5 @@ INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F2188);
 #undef func_800EA750
 
 // clang-format off
-INCLUDE_ASM("asm/rock_28/nonmatchings/E9860", func_800F2290);
+INCLUDE_ASM("rock_28/nonmatchings/E9860", func_800F2290);
 // clang-format on

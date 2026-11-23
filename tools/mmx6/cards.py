@@ -50,7 +50,7 @@
 
 Pack dir waves/W<n>/<prog>_<func>/: pack.json {pv,prog,func,tu,words,probe,attempts}, target.s, draft.c, verdict.json
 (docs/ops/campaign.md ## Packs). Snapshot: asm/ and extracted/ hardlinked (nothing writes them in place), Makefile,
-mk/, include/, src/, config/, tools/, build/corpus/, build/split/ copied. Firewall G12: prints counts only; card.md,
+mk/, include/, src/, config/, tools/, build/us/corpus/, build/us/split/ copied. Firewall G12: prints counts only; card.md,
 ctx.h, seed.c and pack.json hold names, addresses, counts, ids and our C only (target.s, scaffold.c stay in the pack).
 """
 import argparse
@@ -78,12 +78,14 @@ import cookbook_check  # noqa: E402
 import declsync  # noqa: E402
 import journal  # noqa: E402
 import plateau  # noqa: E402
+from paths import BUILD, CONFIG_V, ASM, MAIN, prog_key  # noqa: E402  (the version axis, 3.3 T37; prog_key: records
+#   before 3.3 T38 (journal, priorart, methods-arm, x5-twins, x5-leads) key main by its disc file name)
 
-FUNCS = "build/corpus/functions.jsonl"
-CLASSES = "build/census/classes.jsonl"
-TWINS = "build/sig/twins.jsonl"
+FUNCS = f"{BUILD}/corpus/functions.jsonl"
+CLASSES = f"{BUILD}/census/classes.jsonl"
+TWINS = f"{BUILD}/sig/twins.jsonl"
 X5_LEADS = "campaign/x4/x5-leads.tsv"  # mmx5 tools/sig/imgtab.py x6 --leads, copied (prior-art L5c)
-REGISTRY = "config/dedup_registry.txt"
+REGISTRY = CONFIG_V + "/dedup_registry.txt"
 C_UNITS = "config/c_units.txt"
 COOKBOOK = "cookbook/INDEX.md"
 CODEGEN_MAP = "docs/codegen-map"
@@ -111,11 +113,10 @@ X5_DOC = "docs/leads/x5.tsv"
 X5_DIR = ".x5"  # <root>/<W>/.x5/<prog>_<VRAM>.c: --x5-fetch output, outside the pack dirs
 MMX5 = os.path.join(os.path.dirname(ROOT), "mmx5-dev")
 X5_SYM = re.compile(r"(?:func|D)_[0-9A-F]{8}(?:_ovl\d+)?")
-MAIN = "SLUS_013.95"
 
 ISO = "waves/.iso"
 LINK = ("asm", "extracted")
-COPY = ("Makefile", "mk", "include", "src", "config", "tools", "build/corpus", "build/split")
+COPY = ("Makefile", "mk", "include", "src", "config", "tools", f"{BUILD}/corpus", f"{BUILD}/split")
 
 
 def triple():
@@ -453,8 +454,8 @@ def best(counter):
 
 
 def known_functions(names, root="."):
-    """Corpus function names plus the `type:func` names of every config/symbols.<prog>.txt."""
-    progs = [os.path.basename(p)[len("symbols."):-len(".txt")] for p in glob.glob(os.path.join(root, "config/symbols.*.txt"))]
+    """Corpus function names plus the `type:func` names of every config/us/symbols.<prog>.txt."""
+    progs = [os.path.basename(p)[len("symbols."):-len(".txt")] for p in glob.glob(os.path.join(root, CONFIG_V + "/symbols.*.txt"))]
     return set(names) | {n for p in progs for n, _, t in probe.symbols(p, root) if t == "func"}
 
 
@@ -519,7 +520,7 @@ class Ctx:
                 for line in f:
                     t = line.rstrip("\n").split("\t")
                     if len(t) == 9:
-                        self.x5[(t[0], int(t[1], 16))] = dict(unit=t[4], vram=t[5], name=t[6], path=t[7],
+                        self.x5[(prog_key(t[0]), int(t[1], 16))] = dict(unit=t[4], vram=t[5], name=t[6], path=t[7],
                                                              map=[x.split("=", 1) for x in t[8].split(";") if x])
         rows, seen = codegen_map.read_rows(CODEGEN_MAP, ".", lambda *a: None)
         self.levers = {r["id"] for g in rows.values() for r in g}
@@ -535,7 +536,7 @@ class Ctx:
         return pv in self.reg or (r is not None and r["state"] in ("c", "c-empty"))
 
     def twins(self, targets):
-        """{target: [(other, tier, dist)]} from build/sig/twins.jsonl."""
+        """{target: [(other, tier, dist)]} from build/us/sig/twins.jsonl."""
         want, out = set(targets), {t: [] for t in targets}
         hexes = {f"{v:08X}" for _, v in targets}
         with open(TWINS) as f:
@@ -575,12 +576,12 @@ def target_asm(prog, row):
     """The target's asm text (include_asm: its nonmatchings .s; asm: its glabel span of the whole-TU .s), or None."""
     name = row["name"]
     if row["state"] == "include_asm":
-        p = os.path.join("asm", prog, "nonmatchings", row["tu"], name + ".s")
+        p = os.path.join(ASM, prog, "nonmatchings", row["tu"], name + ".s")
         if os.path.isfile(p):
             with open(p, errors="replace") as f:
                 return f.read()
         return None
-    for d, dirs, files in os.walk(os.path.join("asm", prog)):
+    for d, dirs, files in os.walk(os.path.join(ASM, prog)):
         dirs[:] = sorted(x for x in dirs if x != "nonmatchings")
         if row["tu"] + ".s" not in files:
             continue
@@ -629,7 +630,7 @@ def read_arm(path):
                 continue
             if len(t) != 6 or t[4] not in ("fresh", "seeded") or not re.fullmatch(r"0x[0-9A-F]{8}", t[2]):
                 sys.exit(f"cards: {path} malformed row: {line.strip()}")
-            rows.append((t[0], t[1], int(t[2], 16), t[3], t[4], t[5]))
+            rows.append((t[0], prog_key(t[1]), int(t[2], 16), t[3], t[4], t[5]))
     return rows
 
 
@@ -650,7 +651,7 @@ def sibling_of(prog, vram):
     with open(PRIORART) as f:
         for x in f:
             t = x.rstrip("\n").split("\t")
-            if not x.startswith("#") and t[:2] == [prog, v] and len(t) > 4:
+            if not x.startswith("#") and [prog_key(t[0]), t[1]] == [prog, v] and len(t) > 4:
                 cs = [e.split(":")[1:] for e in t[4].split(";") if e.startswith("c:")]
     with open(X5_DOC) as f:
         for x in f:
@@ -753,7 +754,7 @@ def x5_join(ctx):
     with open(X5_TWINS) as f:
         for t in (x.rstrip("\n").split("\t") for x in f):
             if len(t) == 7:
-                groups.setdefault(t[0], ([], []))[t[2] == "X6"].append(t[5] if t[2] == "X5" else (t[3], int(t[4], 16)))
+                groups.setdefault(t[0], ([], []))[t[2] == "X6"].append(t[5] if t[2] == "X5" else (prog_key(t[3]), int(t[4], 16)))
     for x5s, x6s in groups.values():
         for a in x5s:
             out.setdefault(a, set()).update(x6s)
@@ -761,7 +762,7 @@ def x5_join(ctx):
         for t in (x.rstrip("\n").split("\t") for x in f if not x.startswith("#")):
             if len(t) > 4 and t[4] != "-":
                 for e in t[4].split(";"):
-                    out.setdefault(e.split(":")[-1], set()).add((t[0], int(t[1], 16)))
+                    out.setdefault(e.split(":")[-1], set()).add((prog_key(t[0]), int(t[1], 16)))
     with open(X5_DOC) as f:
         for t in (x.rstrip("\n").split("\t") for x in f):
             if len(t) > 3 and t[3] == "code" and t[2].startswith("X5 ") and PV_RE.fullmatch(t[1].replace(" ", ":")):
@@ -1008,8 +1009,8 @@ def self_test():
             print(f"SELFTEST FAIL {msg}")
 
     # planted: a function named without its address is known from a symbols file's `type:func`, not its spelling
-    os.makedirs(os.path.join(SELFTEST, "config"))
-    with open(os.path.join(SELFTEST, "config/symbols.P.txt"), "w") as f:
+    os.makedirs(os.path.join(SELFTEST, CONFIG_V))
+    with open(os.path.join(SELFTEST, CONFIG_V + "/symbols.P.txt"), "w") as f:
         f.write("// basis: planted\nalpha_helper = 0x80001000; // type:func size:0x8\n"
                 "// basis: planted\nbeta_table = 0x80002000; // type:data\n")
     known = known_functions({"gamma_func"}, SELFTEST)
@@ -1160,7 +1161,7 @@ def arm_plants(check, ctx):
     callee = names.get("func_800223E4")
     check(callee and callee != "func_800223E4" and f"    {callee}();" in out and "    func_8009FFF0/* X5 */();" in out
           and f"void {ctx.funcs[pv]['name']}(void)" in out and (m, u) == (2, 1), f"(k) X5 rename: {m} {u}\n{out}")
-    files = {"src/slus/func_80099900.c": '#include "types.h"\n\nINCLUDE_ASM("asm/nonmatchings/x", func_80099900);\n',
+    files = {"src/slus/func_80099900.c": '#include "types.h"\n\nINCLUDE_ASM("nonmatchings/x", func_80099900);\n',
              "src/rockx5/func_800F0000_ovl02.c": '#include "types.h"\n\n#define DEDUP_NAME func_800F0000_ovl02\n'
              '#define DEDUP_CALLEE func_800F0100_ovl02\n\n#include "../shared/func_800F0000_ovl03.c"\n',
              "src/shared/func_800F0000_ovl03.c": '#include "types.h"\n\nextern void DEDUP_CALLEE(void);\n\n'
@@ -1209,7 +1210,7 @@ def arm_plants(check, ctx):
           "arm" not in json.loads(rd(pp, "pack.json") or "{}"), "(n) proto-only row: fresh pack only")
     # (o) the tracked arm file; a sample row banked out of priorart.tsv keeps the arm file's recorded sibling (frozen)
     with open(PRIORART) as f:
-        ledger = {tuple(x.split("\t")[:2]) for x in f if not x.startswith("#")}
+        ledger = {(prog_key(x.split("\t")[0]), x.split("\t")[1]) for x in f if not x.startswith("#")}
     arm = read_arm(ARM)
     frozen = {r[:4]: r[5] for r in arm if r[4] == "seeded"}
     want, n, k = [], Counter(), 0

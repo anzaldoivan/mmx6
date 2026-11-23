@@ -3,7 +3,6 @@
 
 #include "common.h"
 #include "mmx6/globals.h"
-#include "mmx6/rock_11.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))

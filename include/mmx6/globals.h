@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | globals | range -
+// prog main | globals | range -
 /* mmx6/globals.h -- the exe's data globals declared in two or more files with one type (Phase 2.5 T10),
  * hoisted from their files' extern lines, and the data externs of the pilot systems object/player/weapon (T10.c2,
  * some declared in one file only); one line per global, sorted by address. Globals typed by a

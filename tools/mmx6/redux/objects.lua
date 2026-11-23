@@ -1,6 +1,6 @@
 -- tools/mmx6/redux/objects.lua -- object-type map capture (T5.c1); run: tools/mmx6/redux/run.sh tools/mmx6/redux/objects.lua.
 -- Input: env MMX6_INPUTS (a tools/mmx6/redux/inputs/<name>.lua schedule), default inputs/intro_stage.lua.
--- Exec breakpoints (sites from SLUS_013.95 bytes, T5.c1 log):
+-- Exec breakpoints (sites from main bytes, T5.c1 log):
 --   0x80013EC0 / 0x80013ED8  stage-load setter: `sw v1,0x80/0x84(0x1F800000)`; v1 = temp#1 / temp#2 type table,
 --                            s3+0xC / +0xD = stage / substage. Dumps the table words (77 / 58, bound = next
 --                            table in the per-stage block) to <run>-<seq>-<table>.bin.

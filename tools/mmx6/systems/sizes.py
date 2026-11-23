@@ -9,7 +9,7 @@ debt_files = pathlib.Path(sys.argv[1])
 rows = collections.defaultdict(lambda: collections.Counter())
 def key(path):
     p = path.split('/')
-    if p[1] == 'SLUS_013.95':
+    if p[1] == 'main':
         return 'SLUS/' + (p[2] if len(p) > 3 else '(top)')
     if p[1] == 'shared':
         return 'shared/' + (p[2] if len(p) > 3 else '(top)')

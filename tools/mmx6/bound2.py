@@ -2,8 +2,8 @@
 """bound2.py -- second boundary oracle B2, built from retail bytes independently of splat (phase 1.5 T4; stdlib).
 
   bound2.py --all | --prog <p>
-      -> build/bound2/<prog>.jsonl {"prog","vram","end","basis":"ghidra|jal|head|post-ret"} (end null if unended)
-         build/bound2/disagreements.txt  `## <class>` groups, lines `<kind> <prog> <vram> <detail>`
+      -> build/us/bound2/<prog>.jsonl {"prog","vram","end","basis":"ghidra|jal|head|post-ret"} (end null if unended)
+         build/us/bound2/disagreements.txt  `## <class>` groups, lines `<kind> <prog> <vram> <detail>`
          stdout ends `BOUND2 UNENDED <k>`, `BOUND2 CLASSES <class>=<n> ...`,
          `BOUND2 phantoms=<p> truncations=<t> ledgered=<x> of <N> functions in <P> programs`;
          rc 0 iff p = t = 0 and no stale ledger row; 1 otherwise; 2 bad input.
@@ -15,8 +15,8 @@
          else rc 1 naming what was missed. Merge controls (injected): synthetic forward branch past an interior
          jr ra -> multi-return at that site; synthetic straight pair -> over-merge; two adjacent agreeing exe
          functions fused in memory -> over-merge at the second start.
-  --all/--prog also write build/bound2/merges.txt `<prog> <F vram> <s vram> multi-return|over-merge <site|->` (sorted
-  prog, s) and build/bound2/independence.jsonl {"prog","vram","basis":"ghidra|pointer|none"}; stdout adds
+  --all/--prog also write build/us/bound2/merges.txt `<prog> <F vram> <s vram> multi-return|over-merge <site|->` (sorted
+  prog, s) and build/us/bound2/independence.jsonl {"prog","vram","basis":"ghidra|pointer|none"}; stdout adds
   `BOUND2 INNER <n> (<prog> <n> x5)`, `BOUND2 merges=<over> multi-return=<m> of <N> functions`,
   `BOUND2 INDEPENDENT <i> of <S> declared starts (ghidra <g> pointer <p> none <z>)`. rc 1 also when over> 0, as for phantoms/truncations
       (1.6 T1.c2); multi-return merges do not affect rc.
@@ -25,12 +25,12 @@ Merge: inventory F=[v,e) holding a B2 start s, v < s < e. g = s, or for a post-r
 jr ra's delay slot. multi-return iff a crossing: a branch/j with site and target in F on opposite sides of g (site =
 first such); else fallthrough (word at g-8 not jr/j/b) -> `fall:<s-4>`; else a jtbl row of F whose entries straddle g,
 or all lie >= g with F's last jr <reg!=ra> before them < g -> `jtbl:<lo>`. No crossing -> over-merge.
-Independence: config/symbols.<p>.txt `type:func` starts; basis ghidra (Ghidra func addr) > pointer (value stored as
+Independence: config/us/symbols.<p>.txt `type:func` starts; basis ghidra (Ghidra func addr) > pointer (value stored as
 an aligned word in the program's own image) > none.
 
-B2 inputs (never asm/, config/*.yaml, splat output or corpus spans): retail bytes (boundaries.programs(): exe image
-and rock/NN.bin, sha1-checked), text range = build/corpus/denominators.jsonl [text_lo, text_hi), config/ghidra/<p>.jsonl,
-config/boundaries.txt `jtbl` rows (numeric hi only exclude post-ret starts).
+B2 inputs (never asm/, config/us/*.yaml, splat output or corpus spans): retail bytes (boundaries.programs(): exe image
+and rock/NN.bin, sha1-checked), text range = build/us/corpus/denominators.jsonl [text_lo, text_hi), config/ghidra/<p>.jsonl,
+config/us/boundaries.txt `jtbl` rows (numeric hi only exclude post-ret starts).
 Starts (basis precedence ghidra > jal > head > post-ret): (a) Ghidra `func` addrs in text; (b) post-ret: after each
 `jr $ra` (0x03E00008) at a, the first non-zero word at/after a+8 unless inside a jtbl span; (b') head (overlays only):
 f = first jr $ra at/after text_lo, scan back from f-4 while plausible() (stop at text_lo), skip zero words forward;
@@ -38,12 +38,12 @@ plausible(w) = w == 0 or a valid R3000 word that is not a load/store with base $
 mfhi/lo/mthi/lo/mult/div SPECIAL with rd $zero, or an I-type ALU with rt $zero; (c) jal targets of jal words inside
 the trimmed bodies of (a)u(b)u(b'), target in the program's text or (overlay only) the exe's text.
 Extent (C0021): start s, next start n (or text_hi): end = last jr $ra in [s, n) + 8; none -> unended (start kept, no
-bytes). Inventory = build/corpus/functions.jsonl. phantom: an inventory vram that is not a B2 start. truncation: a
+bytes). Inventory = build/us/corpus/functions.jsonl. phantom: an inventory vram that is not a B2 start. truncation: a
 B2 function [s, end) with a word covered by != 1 inventory function, or the inventory function at s ends before end.
 Classes (first match): jtbl-label (key word or problem run in/adjacent to a jtbl span; an unknown-hi row is its lo
 word), carve (rock_17/43/45), q1-text-end (touches exe [0x8006D5D0, 0x8006D5D4]), data-tail (truncation whose
 uncovered words all lie in corpus data|pad spans), ghidra-missed-start (phantom), unclassified.
-Ledger config/boundary_exceptions.txt (optional): `<prog> <vram> <phantom|truncation> <class> <evidence...>`, `#`
+Ledger config/us/boundary_exceptions.txt (optional): `<prog> <vram> <phantom|truncation> <class> <evidence...>`, `#`
 comments; a matching disagreement counts as ledgered (listed under `## ledgered`); a row matching nothing is stale.
 Firewall G12: addresses, names and counts only; no words or bytes are printed or written.
 """
@@ -57,14 +57,15 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import boundaries  # noqa: E402
+from paths import BUILD, CONFIG_V  # noqa: E402  (the version axis, 3.3 T37)
 
 REPO = boundaries.REPO
-CORPUS = REPO / "build/corpus"
-OUT = REPO / "build/bound2"
-BOUNDS = REPO / "config/boundaries.txt"
-LEDGER = REPO / "config/boundary_exceptions.txt"
+CORPUS = REPO / f"{BUILD}/corpus"
+OUT = REPO / f"{BUILD}/bound2"
+BOUNDS = REPO / CONFIG_V / "boundaries.txt"
+LEDGER = REPO / CONFIG_V / "boundary_exceptions.txt"
 PROBES = REPO / "config/probes.txt"
-EXE = "SLUS_013.95"
+EXE = "main"
 JR_RA = 0x03E00008
 CARVE = {"rock_17", "rock_43", "rock_45"}
 Q1 = (0x8006D5D0, 0x8006D5D8)  # words 0x8006D5D0..0x8006D5D4 inclusive
@@ -135,7 +136,7 @@ def load_inputs():
 
 
 def load_jtbl():
-    """{prog: [(lo, hi|None)]} from config/boundaries.txt `jtbl` rows under `# program <p>` headers."""
+    """{prog: [(lo, hi|None)]} from config/us/boundaries.txt `jtbl` rows under `# program <p>` headers."""
     out, cur = {}, None
     for line in BOUNDS.read_text().splitlines():
         f = line.split()
@@ -143,7 +144,7 @@ def load_jtbl():
             cur = f[2]
         elif f and f[0] == "jtbl":
             if cur is None:
-                bad("jtbl row before any `# program` header in config/boundaries.txt")
+                bad("jtbl row before any `# program` header in config/us/boundaries.txt")
             hi = None if f[2] == "unknown" else int(f[2], 16)
             out.setdefault(cur, []).append((int(f[1], 16), hi))
     return out
@@ -385,10 +386,10 @@ def accessor(p):
 
 
 def independence(names, progs):
-    """declared type:func starts of config/symbols.<p>.txt -> [(prog, vram, ghidra|pointer|none)]."""
+    """declared type:func starts of config/us/symbols.<p>.txt -> [(prog, vram, ghidra|pointer|none)]."""
     out = []
     for p in names:
-        path = REPO / f"config/symbols.{p}.txt"
+        path = REPO / f"{CONFIG_V}/symbols.{p}.txt"
         if not path.is_file():
             continue
         starts = []

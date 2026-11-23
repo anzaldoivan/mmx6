@@ -635,5 +635,5 @@ void func_800F5894(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_24/nonmatchings/E9860", D_800F58B4);
+INCLUDE_ASM("rock_24/nonmatchings/E9860", D_800F58B4);
 // clang-format on

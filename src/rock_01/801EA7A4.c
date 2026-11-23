@@ -436,7 +436,7 @@ void func_801EAE7C(void* arg0) {
 #undef F_U16
 
 // clang-format off
-INCLUDE_ASM("asm/rock_01/nonmatchings/1EA000", func_801EB12C);
+INCLUDE_ASM("rock_01/nonmatchings/1EA000", func_801EB12C);
 // clang-format on
 
 #include "common.h"
@@ -553,7 +553,7 @@ void func_801EB324(s8* p) {
 #undef S32
 
 // clang-format off
-INCLUDE_ASM("asm/rock_01/nonmatchings/1EA000", func_801EB5F8);
+INCLUDE_ASM("rock_01/nonmatchings/1EA000", func_801EB5F8);
 // clang-format on
 
 #include "common.h"

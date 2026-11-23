@@ -16,7 +16,7 @@
          no field starting at the offset; a struct-pointer base summed without a byte cast (scaled); address uses
          (`(u8 *)b + N`, C0178; `&*...`; `((T *)((U *)b + N))->f`); an untyped base that does not retype.
          Gate: each touched unit (role files compile through their unit, C0301/C0302) is compiled before and after
-         (`make build/src/<p>/<tu>.c.o`); alloc sections or relocations differing, or no object -> that unit's files
+         (`make build/us/src/<p>/<tu>.c.o`); alloc sections or relocations differing, or no object -> that unit's files
          restored, their reads counted `reverted`. Then a clean rebuild of <p> (C objects, elf, binary removed;
          C0034) with its sha1 check; red -> every file restored, rc 1. `--dry-run`: report only, nothing compiled or
          written. Lines `LIFT refused <reason> <n>` per reason, last line exactly
@@ -41,6 +41,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.dirname(HERE))
 import layout  # noqa: E402  (ROOT, Tree, includers)
+from paths import BUILD, MAIN_EXE  # noqa: E402  (the version axis, 3.3 T37)
 from psxd_floor import FIELD, OFFSET, _STRIP  # noqa: E402  (the kit, read-only)
 
 ROOT = layout.ROOT
@@ -367,12 +368,12 @@ def sh(cmd, log):
 
 
 def bin_out(prog):
-    return f"build/rock/{prog[5:]}.bin" if prog.startswith("rock_") else f"build/{prog}"
+    return f"{BUILD}/rock/{prog[5:]}.bin" if prog.startswith("rock_") else f"{BUILD}/{MAIN_EXE}"
 
 
 def rebuild(prog, log):
     """Clean rebuild of prog (C objects, elf, binary removed; C0034) with its sha1 check; rc of make."""
-    for p in glob.glob(f"build/src/{prog}/**/*.c.o", recursive=True) + [f"build/{prog}.elf", bin_out(prog)]:
+    for p in glob.glob(f"{BUILD}/src/{prog}/**/*.c.o", recursive=True) + [f"{BUILD}/{prog}.elf", bin_out(prog)]:
         if os.path.exists(p):
             os.remove(p)
     return sh(["make", "-s", bin_out(prog)], log)
@@ -428,7 +429,7 @@ def obj_sig(path):
 
 def compile_units(srcs, log):
     """{src: signature | None}: each unit source compiled by make (its object removed first)."""
-    objs = {s: f"build/{s}.o" for s in srcs}
+    objs = {s: f"{BUILD}/{s}.o" for s in srcs}
     for o in objs.values():
         if os.path.exists(os.path.join(ROOT, o)):
             os.remove(os.path.join(ROOT, o))
@@ -575,8 +576,8 @@ def self_test():
               and open(paths["lift_d"]).read() == orig[paths["lift_d"]])
     finally:
         shutil.rmtree(scratch, ignore_errors=True)
-        shutil.rmtree(os.path.join("build", scratch), ignore_errors=True)
-        for d in (os.path.join("build", phase_scratch()), os.path.join("build", ".run")):
+        shutil.rmtree(os.path.join(BUILD, scratch), ignore_errors=True)
+        for d in (os.path.join(BUILD, phase_scratch()), os.path.join(BUILD, ".run")):
             if os.path.isdir(d) and not os.listdir(d):
                 os.rmdir(d)
     for x in fails:

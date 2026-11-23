@@ -161,7 +161,7 @@
 {"k":"func","addr":"0x800ec5b8","name":"FUN_800ec5b8","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
 {"k":"func","addr":"0x800ec5e8","name":"FUN_800ec5e8","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[{"name":"local_4","type":"/undefined4","storage":"Stack[-0x4]:4","first":0,"src":"DEFAULT","comment":null},{"name":"local_8","type":"/undefined4","storage":"Stack[-0x8]:4","first":0,"src":"DEFAULT","comment":null}],"comment":null}
 {"k":"func","addr":"0x800edbcc","name":"FUN_800edbcc","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":null}
-{"k":"func","addr":"0x800ee1d0","name":"general_dust_end","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: x4 exact 76d90a83ca68 sozud/mmx4@6a6b455 src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04"}
+{"k":"func","addr":"0x800ee1d0","name":"general_dust_end","ret":"/undefined","cc":"unknown","varargs":false,"noreturn":false,"inline":false,"custom":false,"sigsrc":"DEFAULT","params":[],"locals":[],"comment":"name: x4 exact 76d90a83ca68 sozud/mmx4@6a6b455 src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end main:0x80017A04"}
 {"k":"data","addr":"0x20000000","type":"/byte[4]","len":4}
 {"k":"data","addr":"0x20000004","type":"/byte[4]","len":4}
 {"k":"data","addr":"0x20000008","type":"/byte[4]","len":4}
@@ -555,7 +555,7 @@
 {"k":"comment","addr":"0x800ed358","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800ed714","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800eddd0","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
-{"k":"comment","addr":"0x800ee1d0","type":"plate","text":"name: x4 exact 76d90a83ca68 sozud/mmx4@6a6b455 src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end SLUS_013.95:0x80017A04"}
+{"k":"comment","addr":"0x800ee1d0","type":"plate","text":"name: x4 exact 76d90a83ca68 sozud/mmx4@6a6b455 src/main/shots/shot_55_general_shot.c:general_dust_end; corroborator callee src/main/shots/shot_55_general_shot:general_dust_end main:0x80017A04"}
 {"k":"comment","addr":"0x800ee260","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800eea38","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}
 {"k":"comment","addr":"0x800eea58","type":"plate","text":"Possible op_vnew.obj/__builtin_vec_new\nPossible op_vdel.obj/__builtin_vec_delete"}

@@ -12,7 +12,7 @@
          .run/x4share/<triple>/log/<src>.log. Every STT_FUNC of every object -> words + relocation mask (extent:
          st_size, else symbol order as probe.elf_function, C0047; mask = the object's relocation sections,
          x4core.functions) -> sig.sig_of, matched
-         against build/sig/sigs.jsonl. Last two lines:
+         against build/us/sig/sigs.jsonl. Last two lines:
          `X4SHARE-DETAIL commit <hash> triple <name> exact_ge8w <k> failed <F-f>`
          `X4SHARE exact <a> near <b> of <N> X6 functions; X4 side <x> functions from <f> of <F> C files; lib <l> game <g>`
   x4share.py --triple <name> --partners
@@ -23,8 +23,8 @@
          line `X4SHARE partners <rows> rows; x6 <p> functions, open <o>, open keys <k>` (open = state asm|include_asm,
          k = their distinct exact keys). Names, addresses, keys and mmx4 paths only (G12).
   x4share.py --self-test
-      -> build/src/SLUS_013.95/120A0.c.o as a fake X4 object through the same object -> sig -> match path: X6
-         SLUS_013.95 func_8001E78C must be exact; control: one unmasked bit of its words flipped -> not exact.
+      -> build/us/src/main/120A0.c.o as a fake X4 object through the same object -> sig -> match path: X6
+         main func_8001E78C must be exact; control: one unmasked bit of its words flipped -> not exact.
          Also: x4core.MASKS equals probe.MASKS, and every function of that object carries the same words and mask
          under x4core.functions as under census (elf_load + elf_masks). Ends `X4SHARE CONTROL OK`, rc 1 on any miss.
 
@@ -36,7 +36,7 @@ Default triple (plan): cc1 /opt/cc/2.6.3-psx/cc1, cflags of config/triples.txt r
 --aspsx-version=2.63 --expand-div. --triple takes a config/triples.txt row. Definitions: a = X6 functions with >= 1
 exact X4 partner (equal sig exact key); b = X6 functions with a near X4 partner (sig.near, via sig.near_reps' prefix
 filter) and no exact one; N = sigs.jsonl rows; x = X4 functions signed; f of F = C files compiled; l/g = a+b split by
-build/corpus/functions.jsonl lane; exact_ge8w = a restricted to X6 functions of >= 8 words.
+build/us/corpus/functions.jsonl lane; exact_ge8w = a restricted to X6 functions of >= 8 words.
 Firewall G12/G102: the clone, objects and signatures stay in .run/ (untracked); stdout prints counts only.
 """
 import argparse
@@ -53,6 +53,7 @@ import probe  # noqa: E402  (MASKS: the self-test's check of the core's table; s
 import sig  # noqa: E402
 import x4adapter  # noqa: E402  (the triple, the clone directory, the X6 functions)
 import x4core  # noqa: E402  (the mmx4 recipe, ELF reader, key, table writer)
+from paths import BUILD  # noqa: E402  (the version axis, 3.3 T37)
 
 REPO = x4core.REPO
 CLONE = x4adapter.CLONE
@@ -65,8 +66,8 @@ CPP = x4core.CPP
 CPP_TAIL = x4core.CPP_TAIL
 AS = x4core.AS
 OVERRIDE = x4core.OVERRIDE
-SELF_OBJ = "build/src/SLUS_013.95/120A0.c.o"
-SELF_PROG, SELF_VRAM = "SLUS_013.95", "0x8001E78C"  # the self-test's function: its name looked up (probe.sym_name)
+SELF_OBJ = f"{BUILD}/src/main/120A0.c.o"
+SELF_PROG, SELF_VRAM = "main", "0x8001E78C"  # the self-test's function: its name looked up (probe.sym_name)
 PARTNERS = "campaign/x4/partners.tsv"
 OPEN = ("asm", "include_asm")
 

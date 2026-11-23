@@ -36,7 +36,7 @@ glob:  **/*.safetensors
 
 # ---- hash sources ----
 fixture:  config/firewall-fixture.sha1
-required: manifest/retail.jsonl
+required: manifest/us.jsonl
 required: config/medium.sha1
 required: config/check.*.sha
 

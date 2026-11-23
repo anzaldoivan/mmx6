@@ -129,15 +129,15 @@ executable loads at a fixed address when it needs them. Because of this, only pa
 memory at once.
 
 X6 packs the overlays as numbered entries of one archive, `ROCK_X6.BIN`. Of its 59 entries, 56 are code, one is
-data and two are empty (snapshot 2026-10-24: the `class` column of [`config/loadmap.txt`](config/loadmap.txt), written
+data and two are empty (snapshot 2026-10-24: the `class` column of [`config/us/loadmap.txt`](config/us/loadmap.txt), written
 by `make loadmap`). Once progress is published, each code entry
 gets its own category (`rock.rock_NN`) on decomp.dev. The category has the name "Rock NN" until evidence identifies
 the stage or system that the entry serves.
 
 What does the percentage mean? A function counts as matched only when the whole binary still hashes identically
 with it compiled from C. 100% is not the end. Names and types come only from evidence, never from guesses (an
-address-named placeholder is honest). The record behind them (the phase syntheses, the decision log, the
-[cookbook](cookbook/INDEX.md) of byte-proven idioms) is what makes the work auditable.
+address-named placeholder is honest). The record behind them (the phase syntheses and the decision log) is what
+makes the work auditable.
 
 ## Building the decompilation
 
@@ -157,8 +157,8 @@ bash tools/docker/mx.sh run make extract       # verify the dump against config/
 bash tools/docker/mx.sh run make -j8 build     # split, assemble/compile, link, hash-check every binary
 ```
 
-A successful build prints one `OK` line per binary: `build/SLUS_013.95: OK` and `build/rock/NN.bin: OK` for each code
-overlay, 57 in all. A clone of this repository printed all 57 on 2026-10-24 (docs/contract-run.md, `## Fresh clone`).
+A successful build prints one `OK` line per binary: `build/us/SLUS_013.95: OK` and `build/us/rock/NN.bin: OK` for each code
+overlay, 57 in all. A fresh clone of this repository printed all 57 on 2026-10-24.
 The tool self-test ladder (`make fleet`) needs development-side inputs that are not published. It runs in the private
 contract run.
 
@@ -166,14 +166,13 @@ contract run.
 
 | Path | Contents |
 |---|---|
-| `src/` | Decompiled C, one directory per binary (`src/SLUS_013.95/`, `src/rock_NN/`) |
+| `src/` | Decompiled C, one directory per binary (`src/main/` for the boot executable, `src/rock_NN/`) |
 | `include/` | Headers and assembler macros |
 | `config/` | splat configurations, symbol files, hash checks, load map, segment boundaries |
 | `manifest/` | Hashes of every extracted file (no game bytes) |
 | `tools/` | Extraction, build, matching and analysis tools (`tools/mmx6/`), the build container (`tools/docker/`) |
 | `Makefile`, `mk/` | The build and its checks |
 | `docs/` | Formats, memory map, codegen map and prior art |
-| `cookbook/` | Byte-proven C idioms for this compiler |
 | `disks/` | Your dump, if you keep it in the tree (git-ignored) |
 
 ## Getting started
@@ -189,8 +188,8 @@ commit anything derived from it. Follow the AI-use conduct section.
 
 ### Reference
 
-Are you new to this compiler or stuck on a function? The [cookbook](cookbook/INDEX.md) and the
-[codegen map](docs/codegen-map/README.md) document the code patterns proven so far.
+Are you new to this compiler or stuck on a function? The [codegen map](docs/codegen-map/README.md)
+documents the code patterns proven so far.
 
 ## Acknowledgements
 

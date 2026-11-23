@@ -1,5 +1,5 @@
 // clang-format off
-INCLUDE_ASM("asm/rock_38/nonmatchings/FA000", func_800FA000);
+INCLUDE_ASM("rock_38/nonmatchings/FA000", func_800FA000);
 // clang-format on
 
 #define func_800F0434 func_800FA070
@@ -286,19 +286,19 @@ void func_800FA54C(struct X4_MainObj* self) {
 #undef g_Player
 
 // clang-format off
-INCLUDE_ASM("asm/rock_38/nonmatchings/FA000", func_800FACA0);
+INCLUDE_ASM("rock_38/nonmatchings/FA000", func_800FACA0);
 
-INCLUDE_ASM("asm/rock_38/nonmatchings/FA000", func_800FAD80);
+INCLUDE_ASM("rock_38/nonmatchings/FA000", func_800FAD80);
 
-INCLUDE_ASM("asm/rock_38/nonmatchings/FA000", func_800FAEC0);
+INCLUDE_ASM("rock_38/nonmatchings/FA000", func_800FAEC0);
 
-INCLUDE_ASM("asm/rock_38/nonmatchings/FA000", func_800FAFD8);
+INCLUDE_ASM("rock_38/nonmatchings/FA000", func_800FAFD8);
 
-INCLUDE_ASM("asm/rock_38/nonmatchings/FA000", func_800FB110);
+INCLUDE_ASM("rock_38/nonmatchings/FA000", func_800FB110);
 
-INCLUDE_ASM("asm/rock_38/nonmatchings/FA000", func_800FB3E8);
+INCLUDE_ASM("rock_38/nonmatchings/FA000", func_800FB3E8);
 
-INCLUDE_ASM("asm/rock_38/nonmatchings/FA000", func_800FB53C);
+INCLUDE_ASM("rock_38/nonmatchings/FA000", func_800FB53C);
 
 #define func_800F217C func_800FBDB8
 #define D_800F6C08 D_800FEED4
@@ -442,7 +442,7 @@ void func_800FCB00(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_38/nonmatchings/FA000", func_800FCB98);
+INCLUDE_ASM("rock_38/nonmatchings/FA000", func_800FCB98);
 // clang-format on
 
 #define func_800F3014 func_800FCC50
@@ -861,22 +861,7 @@ M2C_UNK apply_object_motion(void*);
 void func_800FA070(s8* self, u32 arg1);
 extern M2C_UNK D_800FE82C;
 
-void func_800FE160(void* arg0) {
-    u8* p;
-
-    p = (u8*)&D_800FE82C + 0x470;
-    func_80027BA0(0, 0x22F0, 0x290, p);
-    func_80027BA0(0, 0x2480, 0x290, p + 0x10);
-    func_800FA070(arg0, 0x21);
-    M2C_FIELD(arg0, s32*, 0x20) = 0;
-    M2C_FIELD(arg0, s32*, 0x24) = 0;
-    M2C_FIELD(arg0, s32*, 0x28) = 0;
-    M2C_FIELD(arg0, s32*, 0x2C) = 0;
-    M2C_FIELD(arg0, s16*, 0x7C) = 0;
-    M2C_FIELD(arg0, u8*, 0x6)++;
-    func_8002CCB0(arg0, 0x80, 0x80);
-    apply_object_motion(arg0);
-}
+#include "../shared/rock_38/func_800FE160.c"
 
 #define func_800F45C0 func_800FE1FC
 #include "../shared/rock_09/func_800F45C0.c"
@@ -964,7 +949,7 @@ void func_800FE5E4(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_38/nonmatchings/FA000", func_800FE604);
+INCLUDE_ASM("rock_38/nonmatchings/FA000", func_800FE604);
 // clang-format on
 
 #include "common.h"
@@ -1028,5 +1013,5 @@ void func_800FE80C(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_38/nonmatchings/FA000", D_800FE82C);
+INCLUDE_ASM("rock_38/nonmatchings/FA000", D_800FE82C);
 // clang-format on

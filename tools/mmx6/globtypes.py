@@ -4,7 +4,7 @@
   globtypes.py --all
       -> scans src/**/*.{c,h} + include/**/*.h; one line per conflict, then last line
          `GLOBTYPES <g> globals <d> declarations; conflicts <n> (view <v>)`; the same lines go to
-         build/globtypes/conflicts.txt. rc 1 iff the non-view count rises above config/globtypes-baseline.txt
+         build/us/globtypes/conflicts.txt. rc 1 iff the non-view count rises above config/globtypes-baseline.txt
          (`GLOBTYPES RISE <old> -> <new>`).
   globtypes.py --self-test [--all]
       -> in memory, real texts + planted texts: one sign, one width, one shape conflict and one view (a struct view
@@ -14,12 +14,12 @@
 
 Declarations gathered: file-scope externs, file-scope definitions (no `static`), block-scope externs, view macros
 `#define N (*(T *)0x8xxxxxxx)` or `(*(T *)&sym)`, alias defines `#define a b` (b a declared object name).
-Key = address, from tables only, never from a name's spelling (C0248): config/symbols.<prog>.txt, then
-config/symbols.SLUS_013.95.txt, then the link maps build/<prog>.map, build/SLUS_013.95.map (when built). An address
+Key = address, from tables only, never from a name's spelling (C0248): config/us/symbols.<prog>.txt, then
+config/us/symbols.main.txt, then the link maps build/us/<prog>.map, build/us/main.map (when built). An address
 below the lowest overlay vram is the exe's (key `0x<addr>`), else the program's (`<prog>:0x<addr>`). A name no table
 gives keys `<prog>:<name>`; such declarations are counted on `GLOBTYPES UNRESOLVED <u> declarations`. A view literal
 keys its own address; an alias keys its target's key. Program: src/<prog>/; src/shared/ = each includer's program
-(layout.includers()); include/ = SLUS_013.95.
+(layout.includers()); include/ = main.
 Conflict classes (per key, over the typed declarations; aliases carry no type): `shape` (struct/unknown vs other,
 array vs non-array), `width` (scalar sizes differ, or both array counts known and differ), `sign` (same width,
 different signedness or pointer vs integer). Worst pair wins (shape > width > sign). Tagged `view` when the key also
@@ -38,10 +38,11 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import layout  # noqa: E402
 import typecheck  # noqa: E402
+from paths import BUILD, CONFIG_V  # noqa: E402  (the version axis, 3.3 T37)
 
 ROOT = typecheck.ROOT
-EXE = "SLUS_013.95"
-OUT = "build/globtypes/conflicts.txt"
+EXE = "main"
+OUT = f"{BUILD}/globtypes/conflicts.txt"
 BASELINE = "config/globtypes-baseline.txt"
 QUAL = {"const", "volatile", "register", "extern"}
 SYM_LINE = re.compile(r"^\s*([A-Za-z_]\w*)\s*=\s*0[xX]([0-9A-Fa-f]+)\s*;")
@@ -268,7 +269,7 @@ def load_tables(root, files):
     progs = {EXE} | {p.split("/")[1] for p in files if p.startswith("src/") and p.split("/")[1] != "shared"}
     for prog in sorted(progs):
         t = {}
-        path = os.path.join(root, "config", "symbols.%s.txt" % prog)
+        path = os.path.join(root, CONFIG_V, "symbols.%s.txt" % prog)
         if os.path.isfile(path):
             for ln in open(path, encoding="utf-8"):
                 m = SYM_LINE.match(ln)
@@ -276,7 +277,7 @@ def load_tables(root, files):
                     t[m.group(1)] = int(m.group(2), 16)
         tabs[prog] = t
         mp = {}
-        path = os.path.join(root, "build", "%s.map" % prog)
+        path = os.path.join(root, BUILD, "%s.map" % prog)
         if os.path.isfile(path):
             for ln in open(path, encoding="utf-8", errors="replace"):
                 m = MAP_LINE.match(ln)
@@ -288,7 +289,7 @@ def load_tables(root, files):
 
 def ovl_base(root):
     vs = []
-    for y in glob.glob(os.path.join(root, "config", "rock_*.yaml")):
+    for y in glob.glob(os.path.join(root, CONFIG_V, "rock_*.yaml")):
         m = re.search(r"vram:\s*0[xX]([0-9A-Fa-f]+)", open(y, encoding="utf-8").read())
         if m:
             vs.append(int(m.group(1), 16))

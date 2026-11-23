@@ -35,15 +35,15 @@ TOOLS_HEALTH_SHARD0_RUNGS := $(filter-out th-propagate-full,$(TOOLS_HEALTH_FULL_
 #   th-propagate-full  (full) the same tree and pool, every registry key
 #   th-selftests       (full) bank.py --self-test edits src/ and the registry, make -B
 #   th-gate            (full) plants and banks in /work, restores src/, registry, corpus and exes
-# and th-dumps, th-alloc, th-repro one after another (all three write build/dumps; alloc re-dumps 120A0 as dumps
+# and th-dumps, th-alloc, th-repro one after another (all three write $(B)/dumps; alloc re-dumps 120A0 as dumps
 # does: run beside it, a .greg read half-written was ALLOC TRUNCATED, T6.c1 fleet 1). th-harness (8 threads, the long pole) overlaps the light
 # rungs: $(JOBS) jobs in all, never a nested -j8 beside them. JOBS: MX6_JOBS (mx.sh run with MX6_CPUS), else 8.
-# Rung walls: each rung's recipe starts with th_t0 (stamp build/th-wall/<rung>) and ends with th_t1, which prints
+# Rung walls: each rung's recipe starts with th_t0 (stamp $(B)/th-wall/<rung>) and ends with th_t1, which prints
 # `TH-WALL <rung> <s>s`, the rung's own start-to-end seconds (one stamp file per rung: race-free under -j). Both are
 # empty without th-par. The sub-make lines name $(MAKE) literally, so `make -n` descends into them.
 JOBS ?= $(or $(MX6_JOBS),8)
 TH_SERIAL := th-lift th-harness-full th-propagate th-propagate-full th-selftests th-gate
-TH_WALLS := build/th-wall
+TH_WALLS := $(B)/th-wall
 TH_PAR := --no-print-directory -j$(JOBS) -Otarget th-par
 
 th-par:
@@ -73,7 +73,7 @@ tools-health-full:
 
 # The shard's keys are buffered in a variable (no pipefail in sh): a thshard.py failure stops the recipe instead of
 # feeding propagate.py an empty list. A green shard k>=1 writes its marker (propsince.py record --shard, 3.1 T23):
-# shards 1..n green on one tree -> build/propagate/green.json, as th-propagate-full.
+# shards 1..n green on one tree -> $(B)/propagate/green.json, as th-propagate-full.
 tools-health-shard:
 	@set -e; n=$$($(PROPAGATE_KEYS_CMD) | $(PYTHON) tools/mmx6/thshard.py count); \
 	case "$(SHARD)" in ''|*[!0-9]*) echo "tools-health-shard: SHARD=<0..$$n> required" >&2; exit 2;; esac; \
@@ -99,7 +99,7 @@ th-corpus:
 	$(PYTHON) tools/mmx6/corpus.py --all
 	@$(th_t1)
 
-# Every forced lib edge is a subsegment edge of its yaml, over all config/*.yaml (tools/mmx6/boundcheck.py).
+# Every forced lib edge is a subsegment edge of its yaml, over all config/us/*.yaml (tools/mmx6/boundcheck.py).
 th-boundcheck:
 	@$(th_t0)
 	$(PYTHON) tools/mmx6/boundcheck.py --self-test
@@ -121,28 +121,28 @@ th-bound2: th-corpus
 	@$(th_t1)
 
 # The census (tools/mmx6/census.py; needs the corpus): planted twin/mask/rename controls and the empty-body class,
-# then `--all` (build/census/classes.jsonl; last line `CENSUS dup_classes=… of <N>`).
+# then `--all` ($(B)/census/classes.jsonl; last line `CENSUS dup_classes=… of <N>`).
 th-census: th-corpus
 	@$(th_t0)
 	$(PYTHON) tools/mmx6/census.py --self-test && $(PYTHON) tools/mmx6/census.py --all
 	@$(th_t1)
 
 # The twin band (tools/mmx6/sig.py; needs the census): planted exact/mask-off/near/out/past-RATIO/dropped-pair
-# controls, then `--all` (build/sig/{sigs,twins}.jsonl; last line `TWINS exact_pairs <e> of <E> …`, rc 1 if e < E).
+# controls, then `--all` ($(B)/sig/{sigs,twins}.jsonl; last line `TWINS exact_pairs <e> of <E> …`, rc 1 if e < E).
 th-sig: th-census
 	@$(th_t0)
 	$(PYTHON) tools/mmx6/sig.py --self-test && $(PYTHON) tools/mmx6/sig.py --all
 	@$(th_t1)
 
 # The reports (tools/mmx6/report.py; needs the census): planted progress/difficulty/dup controls and real-corpus sums,
-# then `--all` (build/reports/{progress,difficulty,dup}.{md,json}; last line `REPORT progress c … stubs <e>`).
+# then `--all` ($(B)/reports/{progress,difficulty,dup}.{md,json}; last line `REPORT progress c … stubs <e>`).
 th-report: th-census
 	@$(th_t0)
 	$(PYTHON) tools/mmx6/report.py --self-test && $(PYTHON) tools/mmx6/report.py --all
 	@$(th_t1)
 
 # The differential harness (tools/mmx6/harness.py; needs the corpus, bound2 and census outputs): planted
-# disagreement per pair + NOT-RUN control, then the sampled pairs P1 P2 P4-P8 (build/harness/runs.log; last line
+# disagreement per pair + NOT-RUN control, then the sampled pairs P1 P2 P4-P8 ($(B)/harness/runs.log; last line
 # `HARNESS <d> disagreements in <p> pairs`, rc 0 iff d = 0); one process, P2 compiled once (T19). Last rung (T19).
 th-harness: th-corpus th-optscan th-bound2 th-census th-draw
 	@$(th_t0)
@@ -192,7 +192,7 @@ th-declsync:
 	@$(th_t1)
 
 # Shared-body propagation (tools/mmx6/propagate.py; needs the corpus and census): planted registry controls, then
-# every config/dedup_registry.txt row's built dup key vs its row (`REGISTRY OK <r> rows`). The --dry-run per registry
+# every config/us/dedup_registry.txt row's built dup key vs its row (`REGISTRY OK <r> rows`). The --dry-run per registry
 # key, --expect-registry: each member's verdict vs its registry row (refused rows legitimately refuse; disagreement ->
 # `PROPAGATE DRIFT ...`, rc 1; 1.9 T14.c1), takes ~260 s on 8 workers, so it runs in tools-health-full only (T5.c3).
 # Keys run grouped (1.8.1 T41.1): one process reads every key on stdin (--keys-from -), worker trees made once,
@@ -200,7 +200,7 @@ th-declsync:
 # per-key mode took ~21 s/key (3695 keys, ~22 h); verdicts identical on 47 keys (T41.1.c2).
 # Keys are streamed (1.8.1 T41): an inline list of 3695 keys (151 KB) is one sh -c argument over Linux's 128 KB
 # MAX_ARG_STRLEN, so exec failed (E2BIG, make Error 127).
-PROPAGATE_KEYS_CMD = awk '!/^\#/ && NF >= 5 && $$6 != "family" {print $$1}' config/dedup_registry.txt | sort -u
+PROPAGATE_KEYS_CMD = awk '!/^\#/ && NF >= 5 && $$6 != "family" {print $$1}' $(CONFIG_V)/dedup_registry.txt | sort -u
 
 th-propagate: th-corpus th-census
 	@$(th_t0)
@@ -208,7 +208,7 @@ th-propagate: th-corpus th-census
 	@$(th_t1)
 
 # Carves (tools/mmx6/carve.py; needs the corpus): planted refusals on a scratch copy under .run/, then --check of
-# every config/carve.<prog>.txt row, its .mk and every yaml block (last line `CARVE CHECK OK <n> carves`).
+# every config/us/carve.<prog>.txt row, its .mk and every yaml block (last line `CARVE CHECK OK <n> carves`).
 th-carve: th-corpus
 	@$(th_t0)
 	$(PYTHON) tools/mmx6/carve.py --self-test && $(PYTHON) tools/mmx6/carve.py --check
@@ -218,7 +218,7 @@ th-carve: th-corpus
 # sibling, gated through bank R5, its family row passes propagate.py --check) and R (reordered call pair, refused at
 # pair); tree, registry, corpus and exe restored byte-exact. Runs in a scratch copy .run/remap/tree (3.1 T11), the real
 # tree sha1-guarded, so it runs beside the other rungs (was serial, 160/161 s at the 3.0 T6 fleets); beside th-harness 408 s (3.1 T11 fleet).
-# Prerequisites: every build/ output it copies and reads (3.0 T6): corpus, census, sig (bank R5's sig.py --rescan).
+# Prerequisites: every $(B)/ output it copies and reads (3.0 T6): corpus, census, sig (bank R5's sig.py --rescan).
 th-remap: th-corpus th-census th-sig
 	@$(th_t0)
 	$(PYTHON) tools/mmx6/family_remap.py --self-test
@@ -233,14 +233,14 @@ th-walls: th-corpus
 
 # The draw filter (tools/mmx6/draw.py; needs the reports, twins and walls): planted L1-L4, exclude-audit, leverage,
 # --band and harvest-stamp controls in .run/draw-selftest/, then the exclude audit (`EXCLUDE AUDIT <r> rows, <s> stale`,
-# rc 2 if s > 0) and the real draw (build/draw/draw.jsonl; last line `DRAW refused <r> of <n> (…); drawn <k>`).
+# rc 2 if s > 0) and the real draw ($(B)/draw/draw.jsonl; last line `DRAW refused <r> of <n> (…); drawn <k>`).
 th-draw: th-report th-sig th-walls
 	@$(th_t0)
 	$(PYTHON) tools/mmx6/draw.py --self-test && $(PYTHON) tools/mmx6/draw.py --audit && $(PYTHON) tools/mmx6/draw.py
 	@$(th_t1)
 
 # The target validator (tools/mmx6/validate.py; needs the draw): planted out-of-range/phantom/banked/no-asm/lib controls
-# in .run/validate-selftest/, then every `draw` row of build/draw/draw.jsonl (INVALID lines only; last
+# in .run/validate-selftest/, then every `draw` row of $(B)/draw/draw.jsonl (INVALID lines only; last
 # `VALIDATE <ok> of <n>`, rc 1 if any invalid: the draw filter never passes an invalid target).
 th-validate: th-draw
 	@$(th_t0)
@@ -257,18 +257,18 @@ th-cites:
 
 # Per-pass cc1 dumps (tools/mmx6/dumps.py; needs the built C objects): planted function's every -da suffix and an
 # empty .c refused CPP-EMPTY in .run/dumps-selftest/, then 120A0's dumps with its .text equal to the built object
-# (last line `DUMPS TEXT SLUS_013.95/120A0 words <a> built <b> identical`).
+# (last line `DUMPS TEXT main/120A0 words <a> built <b> identical`).
 th-dumps:
 	@$(th_t0)
-	$(PYTHON) tools/mmx6/dumps.py --self-test && $(PYTHON) tools/mmx6/dumps.py --tu SLUS_013.95/120A0
+	$(PYTHON) tools/mmx6/dumps.py --self-test && $(PYTHON) tools/mmx6/dumps.py --tu main/120A0
 	@$(th_t1)
 
 # The allocation table (tools/mmx6/alloc_table.py; needs the built C objects' asm): planted A/B pair whose reference
 # counts swap global-alloc's order and hard regs 16<->17, a truncated .greg and a missing order pseudo, in
-# .run/alloc-selftest/; then 120A0's table (an `ALLOC SLUS_013.95/120A0:<f> pseudos <n> order <k>` line per function).
+# .run/alloc-selftest/; then 120A0's table (an `ALLOC main/120A0:<f> pseudos <n> order <k>` line per function).
 th-alloc:
 	@$(th_t0)
-	$(PYTHON) tools/mmx6/alloc_table.py --self-test && $(PYTHON) tools/mmx6/alloc_table.py --tu SLUS_013.95/120A0
+	$(PYTHON) tools/mmx6/alloc_table.py --self-test && $(PYTHON) tools/mmx6/alloc_table.py --tu main/120A0
 	@$(th_t1)
 
 th-repro:
@@ -287,7 +287,7 @@ th-cookbook:
 	$(PYTHON) tools/mmx6/cookbook_check.py --self-test && $(PYTHON) tools/mmx6/cookbook_check.py --check
 	@$(th_t1)
 
-# On rc 0 th-propagate-full also records every key's inputs (propsince.py record -> build/propagate/green.json, 3.0 T5).
+# On rc 0 th-propagate-full also records every key's inputs (propsince.py record -> $(B)/propagate/green.json, 3.0 T5).
 th-propagate-full: th-propagate
 	@$(th_t0)
 	@set -e; $(PROPAGATE_KEYS_CMD) | $(PYTHON) tools/mmx6/propagate.py --dry-run --expect-registry --keys-from -; \
@@ -296,12 +296,12 @@ th-propagate-full: th-propagate
 
 # Incremental propagate keys (3.0 T5; docs/ops/methods-gen3.md `## Incremental propagate keys`): the grouped dry run
 # of only the keys whose inputs changed since the last green full run, `KEYS="$$(PY tools/mmx6/propsince.py select)"`
-# (host; needs a stamp: full green -> mx.sh pull build/propagate/green.json -> propsince.py stamp). KEYS undefined or
+# (host; needs a stamp: full green -> mx.sh pull build/us/propagate/green.json -> propsince.py stamp). KEYS undefined or
 # ALL -> $(PROPAGATE_KEYS_CMD), then propsince.py record on rc 0 (a full run, 3.1 T23); KEYS="" given (no key
 # changed) -> `PROPAGATE-SINCE no keys`, rc 0, no run. The words
 # go to a file via $$(file) (no shell argument; one argv element is capped at 128 KB, select prints ALL past 100 KB).
 # Not a fleet rung. Run after a build, with no `mx.sh sync` between, as th-propagate-full.
-SINCE_KEYS := build/propagate/since-keys.txt
+SINCE_KEYS := $(B)/propagate/since-keys.txt
 th-propagate-since: th-corpus th-census
 ifeq ($(origin KEYS),undefined)
 	@set -e; $(PROPAGATE_KEYS_CMD) | $(PYTHON) tools/mmx6/propagate.py --dry-run --expect-registry --keys-from -; \
@@ -317,7 +317,7 @@ else
 	@set -e; tr -s ' ' '\n' < $(SINCE_KEYS) | grep . | $(PYTHON) tools/mmx6/propagate.py --dry-run --expect-registry --keys-from -
 endif
 
-# Per-key vs grouped dry-run equivalence (3.0 T3.c1): config/equiv-keys.txt (propagate.py --equiv-pick: 24 registry
+# Per-key vs grouped dry-run equivalence (3.0 T3.c1): config/us/equiv-keys.txt (propagate.py --equiv-pick: 24 registry
 # keys, 6 per stratum of SLUS member? x refused row?, pools limited to keys with gated non-exemplar / refused member
 # rows, 3.0 T3.c2) run per key, serially, then grouped; every (key, member)
 # verdict (state, reason code) and every `gated m of n` must agree: `EQUIV identical <k> keys <m> members`, rc 0;
@@ -325,7 +325,7 @@ endif
 # The comparator's planted controls first (--equiv-self-test). Not a fleet rung. Wall 1088 s (per-key 754 s,
 # grouped 315 s; 3.0 T3.c2; was 940 s with 0 gated members compared, 3.0 T3.c1).
 th-equiv: th-corpus th-census
-	$(PYTHON) tools/mmx6/propagate.py --equiv-self-test && $(PYTHON) tools/mmx6/propagate.py --equiv config/equiv-keys.txt
+	$(PYTHON) tools/mmx6/propagate.py --equiv-self-test && $(PYTHON) tools/mmx6/propagate.py --equiv $(CONFIG_V)/equiv-keys.txt
 
 # The other tools' self-tests (not rungs of their own): boundaries.py, loadmap.py, probe.py, bank.py (the reconcile
 # ladder's planted controls: clean rebuilds of the exe, tree restored after), x4share.py (its real run needs network),
@@ -334,14 +334,15 @@ th-equiv: th-corpus th-census
 # tools/psxd_img.py (psxdecomp's map core: synthetic words), imgadapter.py (its contract files: a planted archive)
 # renamecov.py (rename coverage: a planted symbols/src/basis/names tree), gamestr.py (the M16 game-string gate:
 # one planted file per refusal plus a passing tree), docconv.py (the DC1-DC8 documentation check: one planted file
-# per rule plus a passing file; then its real check of config/docconv.txt) and badges.py (README badges: a planted
-# stale and fresh badge).
+# per rule plus a passing file; then its real check of config/docconv.txt), badges.py (README badges: a planted
+# stale and fresh badge) and twinform.py (3.3 T39, the twin-form scanner: a planted tree with each finding and the
+# bank/layout refusals; then its report-only `--all`, `TWINFORM first <n> ... new <k>`, rc 0 with any k).
 th-selftests: th-selftests-cheap
 	@$(th_t0)
 	$(PYTHON) tools/mmx6/bank.py --self-test
 	@$(th_t1)
 
-# The 16 cheap self-tests (~18 s; propsince.py 3.0 T5; docs/ops/selftest-cost.md, rule M24): a fleet rung after th-sig, whose census and
+# The 17 cheap self-tests (~18 s; propsince.py 3.0 T5; docs/ops/selftest-cost.md, rule M24): a fleet rung after th-sig, whose census and
 # sig outputs x4share/x4port read (C0314). bank (above) and gate (th-gate) stay full-chain only.
 th-selftests-cheap: th-sig
 	@$(th_t0)
@@ -362,6 +363,7 @@ th-selftests-cheap: th-sig
 	$(PYTHON) tools/mmx6/badges.py --self-test
 	$(PYTHON) tools/mmx6/propsince.py --self-test
 	$(PYTHON) tools/mmx6/refusecause.py --self-test
+	$(PYTHON) tools/mmx6/twinform.py --self-test && $(PYTHON) tools/mmx6/twinform.py --all
 	@$(th_t1)
 
 # The permuter wrapper (tools/mmx6/permute.py; decomp-permuter pinned in the image): planted controls only in
@@ -382,7 +384,7 @@ th-namesqueue:
 
 # The plateau classifier (tools/mmx6/plateau.py): planted regalloc/sched/branch/identical pairs in
 # .run/plateau-selftest/, then a tracked non-matching draft's residual label and triage rows (`PLATEAU <func> <label> …`).
-# Draft = drafts/rock_05/func_800EA5C8.c (W0, sched 86/98); was drafts/SLUS_013.95/func_80042F20.c until it banked (1.8/T9).
+# Draft = drafts/rock_05/func_800EA5C8.c (W0, sched 86/98); was drafts/main/func_80042F20.c until it banked (1.8/T9).
 th-plateau:
 	@$(th_t0)
 	$(PYTHON) tools/mmx6/plateau.py --self-test && $(PYTHON) tools/mmx6/plateau.py --draft drafts/rock_05/func_800EA5C8.c
@@ -412,13 +414,13 @@ th-verbatim:
 # The harvest gate (tools/mmx6/harvest.py, G45): planted live/inert levers (the exemplar body, compiled both ways in
 # a snapshot), refused waves (live lever without record, sweep tag without sweep record), a stamped complete wave and
 # check-all in .run/harvest-selftest/; then every journal wave has a current stamp (`HARVEST GATES OK <w> of <w> waves`).
-# Needs the draw: the self-test copies build/census, build/reports and build/draw inputs (T6.c1).
+# Needs the draw: the self-test copies $(B)/census, $(B)/reports and $(B)/draw inputs (T6.c1).
 th-harvest: th-draw
 	@$(th_t0)
 	$(PYTHON) tools/mmx6/harvest.py --self-test && $(PYTHON) tools/mmx6/harvest.py --check-all
 	@$(th_t1)
 
-# The scaffold lane (tools/mmx6/scaffold.py): planted c-empty functions in build/scaffold/selftest/ (a trivial m2c
+# The scaffold lane (tools/mmx6/scaffold.py): planted c-empty functions in $(B)/scaffold/selftest/ (a trivial m2c
 # scaffold scores 0, a one-word mutation > 0, a planted syntax error nocompile, a re-run adds no rows, the match's gate
 # pack). No real run here: `scaffold.py --all` is the detached lane run (docs/ops/campaign.md ## Scaffold lane).
 th-scaffold: th-corpus
@@ -430,7 +432,7 @@ th-scaffold: th-corpus
 # function, a C function's row, an unknown blocker, an INCLUDE_ASM best draft, a malformed pins column each refused; a
 # pinned score loses to a pin-free one), then campaign/ledger.tsv against the corpus (one well-formed 8-column row per
 # asm function). Rebuilt by `ledger.py --build` (docs/ops/campaign.md ## Ledger).
-# Needs the draw: --check reads build/{census,sig,draw} (T6.c1). --reconcile: src INCLUDE_ASM lines vs game rows (T9.c1).
+# Needs the draw: --check reads $(B)/{census,sig,draw} (T6.c1). --reconcile: src INCLUDE_ASM lines vs game rows (T9.c1).
 th-ledger: th-corpus th-draw
 	@$(th_t0)
 	$(PYTHON) tools/mmx6/ledger.py --self-test

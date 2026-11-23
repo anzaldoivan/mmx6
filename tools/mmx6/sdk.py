@@ -2,14 +2,14 @@
 """sdk.py -- the vendor SDK leg (phase 1.9 T4): the ledger's vendor TUs linked from the PsyQ SDK's own objects (container).
 
   sdk.py --sdk DIR [--prog P] [--only RE]
-      inputs: campaign/ledger.tsv (each distinct `vendor:<L>.LIB/<TU>` of P), config/boundaries.txt `lib` rows and
-      docs/ops/compiler-pin.md `- gap` rows (TU -> LIB/OBJ), config/P.yaml (text subsegments), build/P.ld (splat),
-      extracted/retail/iso/P (the retail exe, `PS-X EXE`). DIR is the SDK tree (tools/psyq, mounted at /sdk).
+      inputs: campaign/ledger.tsv (each distinct `vendor:<L>.LIB/<TU>` of P), config/us/boundaries.txt `lib` rows and
+      docs/ops/compiler-pin.md `- gap` rows (TU -> LIB/OBJ), config/us/P.yaml (text subsegments), build/us/P.ld (splat),
+      extracted/us/iso/P (the retail exe, `PS-X EXE`). DIR is the SDK tree (tools/psyq, mounted at /sdk).
       `--only RE`: substitute only the TUs whose name matches RE (iteration aid; default every vendor TU).
-      -> build/sdk/<TU>.o (psyk extract + psyq-obj-parser), build/sdk/P.ld (the fragment: one NOLOAD output section per
-         non-text alloc section at its solved address, PROVIDE for each unresolved global), build/sdk/P.main.ld (the
+      -> build/us/sdk/<TU>.o (psyk extract + psyq-obj-parser), build/us/sdk/P.ld (the fragment: one NOLOAD output section per
+         non-text alloc section at its solved address, PROVIDE for each unresolved global), build/us/sdk/P.main.ld (the
          splat script with each substituted subsegment's .text pointing at its objects, its other sections dropped, the
-         fragment INCLUDEd before /DISCARD/), build/sdk/P.mk (SDK_DROP_P / SDK_OBJS_P / SDK_LD_P for the link).
+         fragment INCLUDEd before /DISCARD/), build/us/sdk/P.mk (SDK_DROP_P / SDK_OBJS_P / SDK_LD_P for the link).
       stdout: per object `SDK DATA <TU> <cmp>/<masked>/<diff>` (its .data+.rdata words vs the image at the solved base,
       relocated words masked; `unsolved` when a base is unknown); per refused object `SDK REFUSE <TU> <why>` (+ first
       differing words); last `SDK <k> of <n> objects substituted`. rc 0 only when k == n.
@@ -17,7 +17,7 @@ Solving (REL, in-place addends): with an object's .text at its retail address, e
 the target S+A of its symbol (R_MIPS_32 the word, R_MIPS_26 the index, HI16/LO16 the pair); a section symbol fixes that
 section's base, an undefined global its address, a global defined in another substituted object that object's section
 base. Repeated to a fixpoint over every substituted object (data/rdata relocations join once their base is known).
-Vendor bytes stay in build/sdk (firewall-purged) and the sdk volume; stdlib only.
+Vendor bytes stay in build/us/sdk (firewall-purged) and the sdk volume; stdlib only.
 """
 import argparse
 import os
@@ -29,8 +29,9 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import probe  # noqa: E402  (asm_labels: a label's address from its split asm row)
+from paths import BUILD, EXTRACTED, CONFIG_V, ASM, MAIN_EXE  # noqa: E402  (the version axis, 3.3 T37)
 
-OUT = "build/sdk"
+OUT = f"{BUILD}/sdk"
 R_32, R_26, R_HI, R_LO = 2, 4, 5, 6
 SHF_ALLOC = 2
 
@@ -167,7 +168,7 @@ def lnk_symbolize(src, dst):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--sdk", required=True)
-    ap.add_argument("--prog", default="SLUS_013.95")
+    ap.add_argument("--prog", default="main")
     ap.add_argument("--only", default="")
     a = ap.parse_args()
     prog = a.prog
@@ -176,7 +177,7 @@ def main():
     tus = sorted({r.split("\t")[3].split("/", 1)[1] for r in open("campaign/ledger.tsv")
                   if r.startswith(prog + "\t") and r.split("\t")[3].startswith("vendor:")})
     src = {}
-    for l in open("config/boundaries.txt"):
+    for l in open(CONFIG_V + "/boundaries.txt"):
         f = l.split()
         if l.startswith("# program "):
             cur = f[2]
@@ -189,12 +190,12 @@ def main():
         src.setdefault(f"{m[2]}_{m[3]}", (m[2] + ".LIB", m[3] + ".OBJ"))
         gap[f"{m[2]}_{m[3]}"] = int(m[1], 16)
     segs = []
-    for l in open(f"config/{prog}.yaml"):
+    for l in open(f"{CONFIG_V}/{prog}.yaml"):
         m = re.match(r"\s*- \[0x([0-9A-Fa-f]+), (\w+), (\w+)\]", l) or re.match(
             r"\s*- \{ start: 0x([0-9A-Fa-f]+), type: (\w+), .*name: (\w+)", l)
         if m:
             segs.append((int(m[1], 16), m[2], m[3]))
-    exe = open(f"extracted/retail/iso/{prog}", "rb").read()
+    exe = open(f"{EXTRACTED}/iso/{MAIN_EXE}", "rb").read()
     assert exe[:8] == b"PS-X EXE", "not a PS-X EXE"
     t_addr, t_size = struct.unpack_from("<II", exe, 0x18)
     vbase = t_addr - 0x800  # yaml offsets are file offsets
@@ -202,7 +203,7 @@ def main():
     for i, (s, typ, name) in enumerate(segs):
         if typ in ("asm", "c"):
             seg_of[name] = (s + vbase, segs[i + 1][0] + vbase)
-            seg_obj[name] = f"build/asm/{prog}/{name}.s.o" if typ == "asm" else f"build/src/{prog}/{name}.c.o"
+            seg_obj[name] = f"{BUILD}/{ASM}/{prog}/{name}.s.o" if typ == "asm" else f"{BUILD}/src/{prog}/{name}.c.o"
 
     def img(addr, n=4):
         o = addr - t_addr + 0x800
@@ -427,8 +428,8 @@ def main():
     # Labels of the dropped subsegments that other objects may reference (jump tables in the shared rodata blocks
     # name `.L<addr>`): the replacing text is identical at those addresses, so each is PROVIDEd at its asm row's vram.
     for seg in sorted(subst):
-        srcs = [f"asm/{prog}/{seg}.s"]
-        nm = f"asm/{prog}/nonmatchings/{seg}"
+        srcs = [f"{ASM}/{prog}/{seg}.s"]
+        nm = f"{ASM}/{prog}/nonmatchings/{seg}"
         srcs += sorted(os.path.join(nm, f) for f in os.listdir(nm)) if os.path.isdir(nm) else []
         for path in srcs:
             if os.path.exists(path):
@@ -437,8 +438,8 @@ def main():
     open(f"{OUT}/{prog}.ld", "w").write("\n".join(frag) + "\n")
     drop = [seg_obj[s] for s in subst]
     ld = []
-    for l in open(f"build/{prog}.ld"):
-        m = re.match(r"(\s*)build/(?:asm|src)/" + re.escape(prog) + r"/(\w+)\.[sc]\.o\((\.\w+)\);", l)
+    for l in open(f"{BUILD}/{prog}.ld"):
+        m = re.match(r"(\s*)" + re.escape(BUILD) + r"/(?:" + re.escape(ASM) + r"|src)/" + re.escape(prog) + r"/(\w+)\.[sc]\.o\((\.\w+)\);", l)
         if m and m[2] in subst:
             if m[3] == ".text":
                 ld.append(m[1] + " ".join(f"{OUT}/{t}.o(.text);" for t in subst[m[2]]) + "\n")

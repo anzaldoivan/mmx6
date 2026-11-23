@@ -8,8 +8,8 @@ the game. Callers: x4share.py (the partner table), x4names.py (the names table a
   the toolchain   triple(name) -> a config/triples.txt row (default: the plan's gcc2.6.3-psx + aspsx 2.63);
                   tools(t) -> the cc1 and maspsx commands of x4core.compile_one. X6's flags live in triples.txt only.
   the clone       CLONE = .run/mmx4; objects under SCR/<triple>/obj/ (OBJROOT: the pin triple's).
-  the functions   game(x6, rows): (prog, vram, name, words, exact key, state) per build/sig/sigs.jsonl row, name and
-                  state from build/corpus/functions.jsonl; the key is two-sided (X6 words under the X6 object's
+  the functions   game(x6, rows): (prog, vram, name, words, exact key, state) per build/us/sig/sigs.jsonl row, name and
+                  state from build/us/corpus/functions.jsonl; the key is two-sided (X6 words under the X6 object's
                   relocation mask, mmx4 words under the mmx4 object's), equal to census.dup_key.
   tier gate       banked(): partners state `c`, or the function's name / key under an mmx4 attribution header
                   (x4port.adapted: any header in a file of the C units' #include closure, bound to the definition
@@ -34,8 +34,8 @@ the game. Callers: x4share.py (the partner table), x4names.py (the names table a
          `X4NAMES ghidra <prog> <n> aliases: <new> new plate comments, <appended> appended, <kept> already there`
   x4adapter.py --mirror --out <dir>
       -> the symbol mirror into the Ghidra database (tools/mmx6/ghidra/mirror.sh applies it): per program
-         (SLUS_013.95 + import.sh --list) <dir>/<prog>.jsonl = the program row of config/ghidra/<prog>.jsonl + delta
-         records only. A renamed symbol (config/symbols.<prog>.txt: a `// basis:`-annotated name != func_/D_<ADDR>):
+         (main + import.sh --list) <dir>/<prog>.jsonl = the program row of config/ghidra/<prog>.jsonl + delta
+         records only. A renamed symbol (config/us/symbols.<prog>.txt: a `// basis:`-annotated name != func_/D_<ADDR>):
          a `func` record first when the export has no function there (creates it), a `label` {primary, USER_DEFINED,
          func for type:func}, the basis line as plate comment. Every other names.tsv row of <prog>: its plate line.
          Plate text = the export's plate + the new line unless already there; for a renamed symbol (rebase()) an
@@ -54,18 +54,19 @@ from pathlib import Path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import census  # noqa: E402  (asm_index, obj_of)
 import x4core  # noqa: E402
+from paths import BUILD, CONFIG_V, ASM  # noqa: E402  (the version axis, 3.3 T37)
 
 ROOT = Path(__file__).resolve().parents[2]
 TAG, GAME = "X4NAMES", "X6"
 CLONE = ".run/mmx4"
 SCR = ".run/x4share"
 TRIPLES = "config/triples.txt"
-CORPUS = "build/corpus/functions.jsonl"
+CORPUS = f"{BUILD}/corpus/functions.jsonl"
 TRIPLE = "gcc2.95.2-psx-aspsx2.86"  # the pin triple (= x4port.TRIPLE, asserted by x4names.py --self-test)
 DEFAULT = dict(name="gcc2.6.3-psx-aspsx2.63", cc1="/opt/cc/2.6.3-psx/cc1", row="gcc2.6.3-psx-aspsx2.86",
                maspsx="--aspsx-version=2.63 --expand-div")
 OBJROOT = f"{SCR}/{TRIPLE}/obj"
-EXE = "SLUS_013.95"
+EXE = "main"
 PARTNERS = ROOT / "campaign/x4/partners.tsv"
 NAMES = ROOT / "config/x4/names.tsv"
 DOC = ROOT / "docs/x4-names.md"
@@ -93,9 +94,9 @@ Order of work:
    filter at `tools/mmx6/cards.py:385`. Also `sdk.py:435`, `x4port.py:202` and `x4core.py:798`. The address-named
    self-test constants go too: `bank.py:61`, `gate.py:73`, `corpus.py:382`, `x4port.py:86`, `x4share.py:69`,
    `carve.py:657-715` and `mk/tools-health.mk:162-164`. Each self-test gains a planted non-address name.
-2. A rename tool writes `alias = 0xADDR;` with its `// basis:` line into `config/symbols.<prog>.txt`. It rewrites
+2. A rename tool writes `alias = 0xADDR;` with its `// basis:` line into `config/us/symbols.<prog>.txt`. It rewrites
    definitions, calls, prototypes and `INCLUDE_ASM` names. It also rewrites the `define` fields of
-   `config/dedup_registry.txt`, the `src/shared` file names and `THIRD_PARTY.md` (through `x4port.py --credits`).
+   `config/us/dedup_registry.txt`, the `src/shared` file names and `THIRD_PARTY.md` (through `x4port.py --credits`).
    It never touches generated assembly (G6). It writes `config/x4/renames.tsv` old-to-new, so journal history stays
    searchable. Executable symbols referenced from overlays are renamed in every overlay's files (C0125).
 3. Gate: a clean fleet N of N. A rename is byte-neutral, so any difference is a missed reference.
@@ -161,7 +162,7 @@ def tools(t):
 # ---- the game's functions --------------------------------------------------------------------------------------------
 
 def corpus():
-    """{(prog, vram): build/corpus/functions.jsonl row}."""
+    """{(prog, vram): build/us/corpus/functions.jsonl row}."""
     out = {}
     with open(ROOT / CORPUS) as f:
         for line in f:
@@ -206,8 +207,8 @@ def banked(root=ROOT):
 # ---- game objects: the X6 side of the relocation-slot pairing --------------------------------------------------------
 
 def exe_range():
-    """[lo, hi) of the executable's allocated sections (build/SLUS_013.95.elf)."""
-    secs = [s for s in x4core.Elf(f"build/{EXE}.elf").secs if s[2] & 2 and s[5] and s[3] >= x4core.RAM[0]]
+    """[lo, hi) of the executable's allocated sections (build/us/main.elf)."""
+    secs = [s for s in x4core.Elf(f"{BUILD}/{EXE}.elf").secs if s[2] & 2 and s[5] and s[3] >= x4core.RAM[0]]
     return min(s[3] for s in secs), max(s[3] + s[5] for s in secs)
 
 
@@ -216,7 +217,7 @@ class Build:
 
     def __init__(self):
         self.elfs, self.addrs = {}, {}
-        self.idx = census.asm_index() if os.path.isdir("asm") else {}
+        self.idx = census.asm_index() if os.path.isdir(ASM) else {}
         self.lo, self.hi = exe_range()
 
     def elf(self, path):
@@ -253,7 +254,7 @@ def slots():
 
 
 def widen_inputs():
-    return OBJROOT, CORPUS, str(PARTNERS), f"build/{EXE}.elf"
+    return OBJROOT, CORPUS, str(PARTNERS), f"{BUILD}/{EXE}.elf"
 
 
 # ---- the Ghidra plate-comment mirror ---------------------------------------------------------------------------------
@@ -309,14 +310,14 @@ def ghidra(prog, out):
     return 0
 
 
-SYMBOL = re.compile(r"^(\w+) = (0x[0-9A-Fa-f]+);(.*)$")  # config/symbols.<prog>.txt: `name = 0xADDR; // attrs`
+SYMBOL = re.compile(r"^(\w+) = (0x[0-9A-Fa-f]+);(.*)$")  # config/us/symbols.<prog>.txt: `name = 0xADDR; // attrs`
 BASIS = "// basis: "
 
 
 def renamed(prog):
-    """[(vram int, name, basis text, is_func)] of config/symbols.<prog>.txt: annotated names != func_/D_<ADDR>."""
+    """[(vram int, name, basis text, is_func)] of config/us/symbols.<prog>.txt: annotated names != func_/D_<ADDR>."""
     out, prev = [], ""
-    for line in (ROOT / f"config/symbols.{prog}.txt").read_text().splitlines():
+    for line in (ROOT / f"{CONFIG_V}/symbols.{prog}.txt").read_text().splitlines():
         m = SYMBOL.match(line)
         if m:
             a = int(m.group(2), 16)

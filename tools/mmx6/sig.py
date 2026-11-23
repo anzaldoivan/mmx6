@@ -2,9 +2,9 @@
 """sig.py -- per-function signatures and the twin band (exact + near duplicates) of the corpus (container, stdlib).
 
   sig.py --all
-      -> build/sig/sigs.jsonl {prog,vram,words,exact,norm,hist} per corpus function (words = count; exact =
+      -> build/us/sig/sigs.jsonl {prog,vram,words,exact,norm,hist} per corpus function (words = count; exact =
          census.dup_key; norm = masked words w & ~mask, hex; hist = census.skel histogram of norm, {skel hex: n}),
-         build/sig/twins.jsonl {a:[prog,vram],b:[prog,vram],tier:"exact|near",dist} a<b, sorted (tier,a,b);
+         build/us/sig/twins.jsonl {a:[prog,vram],b:[prog,vram],tier:"exact|near",dist} a<b, sorted (tier,a,b);
          last line `TWINS exact_pairs <e> of <E> in band; near <n>; base_rate <r>% of <q> random pairs; of <N> functions`.
   sig.py --rescan
       -> as --all, reusing sigs rows whose TU object is not newer than sigs.jsonl; prints
@@ -20,7 +20,7 @@ Band: exact = equal exact key (dist 0). near = not exact, max_len >= 4, len min/
 RATIO (dist = that ratio, 4 decimals). RATIO = 0.3. Near pairs are scanned over one representative per exact key and
 expanded to members; candidates come from a lossless prefix filter (a near pair shares >= max_len - floor(RATIO*max_len)
 norm tokens, so their rarest-first prefixes of floor(RATIO*len)+1 tokens intersect). E = sum C(n,2) over kind=dup
-classes of build/census/classes.jsonl; e = those pairs this band places in band. rc 1 if e < E, the classes' member set
+classes of build/us/census/classes.jsonl; e = those pairs this band places in band. rc 1 if e < E, the classes' member set
 != the corpus set (stale census), or census.read_words refuses. Base rate: q random distinct pairs, Random(0x516).
 Words and masks come only from census.read_words. Firewall G12: stdout counts only (names/addresses only in --for).
 """
@@ -34,11 +34,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import census  # noqa: E402
+from paths import BUILD, ASM  # noqa: E402  (the version axis, 3.3 T37)
 
-OUT = "build/sig"
+OUT = f"{BUILD}/sig"
 SIGS = f"{OUT}/sigs.jsonl"
 TWINS = f"{OUT}/twins.jsonl"
-CLASSES = "build/census/classes.jsonl"
+CLASSES = f"{BUILD}/census/classes.jsonl"
 RATIO = 0.3
 RN, RD = 3, 10  # RATIO as an exact fraction for integer comparisons
 MIN_LEN = 4
@@ -276,7 +277,7 @@ def rescan():
     keep = {}
     if old is not None:
         t = os.path.getmtime(SIGS)
-        idx = census.asm_index() if os.path.isdir("asm") else {}
+        idx = census.asm_index() if os.path.isdir(ASM) else {}
         olds = {(s["prog"], s["vram"]): s for s in old}
         for r in rows:
             s, obj = olds.get((r["prog"], r["vram"])), census.obj_of(r, idx)

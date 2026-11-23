@@ -1,7 +1,7 @@
 """protodiff.py -- the functions of each prototype build that retail lacks or changed (stdlib).
 
     protodiff.py build [--id ID]...
-        -> docs/leads/proto.tsv (tracked: keys, addresses, counts and our words only) and build/leads/retail-debug.tsv
+        -> docs/leads/proto.tsv (tracked: keys, addresses, counts and our words only) and build/us/leads/retail-debug.tsv
            (ignored). One line per build: `PROTODIFF <id>: absent N changed M moved X same K`, and
            `PROTODIFF <id>: skipped N stub programs: rock_NN ...` when it has any. Builds: every
            config/oracle.<id>.functions.tsv, its files in extracted/<id>/ (its executable: the non-archive
@@ -31,7 +31,7 @@ size_delta 0. Refused: a body of one word, two or more twins (ambiguous), any di
 one word or less (a 4-byte stub: 09-21 rock_33..rock_40) is skipped: no rows, listed in the header.
 Columns: strings = the 12-hex sha1 prefixes of docs/leads/strings.tsv rows of this build whose referencing function
 lies in this function; callers = jal sites, pointer words and lui pairs that reach its start; debug_hint = our tokens:
-calls-<lib> (a retail lib function of DEBUG_LIBS, named by config/ghidra/SLUS_013.95.jsonl, found in the build by its
+calls-<lib> (a retail lib function of DEBUG_LIBS, named by config/ghidra/main.jsonl, found in the build by its
 exact words, else by its pair), fmt-string (psxd_img.FORMAT), path-string (psxd_img.PATH), ascii-strings,
 sjis-strings, no-callers.
 """
@@ -45,13 +45,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import imgadapter as ia  # noqa: E402
+from paths import BUILD  # noqa: E402  (the version axis, 3.3 T37)
 
 kit, rock = ia.kit, ia.rock
 ROOT = ia.ROOT
 TAG = "PROTODIFF"
-OUT, DEBUG = "docs/leads/proto.tsv", "build/leads/retail-debug.tsv"
+OUT, DEBUG = "docs/leads/proto.tsv", f"{BUILD}/leads/retail-debug.tsv"
 IMGTAB = "extracted"  # extracted/<id>/, written by tools/mmx6/extract_protos.py
-GHIDRA = "config/ghidra/SLUS_013.95.jsonl"
+GHIDRA = "config/ghidra/main.jsonl"
 COLUMNS = "build\tprog\tbuild_address\tretail\tstate\twords\tsize_delta\tstrings\tcallers\tdebug_hint"
 DEBUG_COLUMNS = "prog\tvram\tstrings\tdebug_hint"
 DEBUG_LIBS = re.compile(r"(s?printf|puts|Fnt[A-Za-z]+|SetDumpFnt|KanjiFnt[A-Za-z]+|pollhost|PC[a-z]+)$")
@@ -358,7 +359,7 @@ def run_build(bid, retail, rcen, srows, libs):
 
 
 def retail_debug(retail, rcen, srows, libs):
-    """Rows of build/leads/retail-debug.tsv: retail functions that call a DEBUG_LIBS function or load a format string."""
+    """Rows of build/us/leads/retail-debug.tsv: retail functions that call a DEBUG_LIBS function or load a format string."""
     sh = string_hints(srows, retail, ia.RETAIL)
     out = []
     for p in retail:
@@ -473,7 +474,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--self-test", action="store_true")
     sub = ap.add_subparsers(dest="cmd")
-    b = sub.add_parser("build", help="write docs/leads/proto.tsv and build/leads/retail-debug.tsv")
+    b = sub.add_parser("build", help=f"write docs/leads/proto.tsv and {DEBUG}")
     b.add_argument("--id", action="append", help="a build id (default: every config/oracle.proto-*.functions.tsv)")
     a = ap.parse_args(argv)
     if a.self_test:

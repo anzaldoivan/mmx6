@@ -1,0 +1,38 @@
+// splat symbol_addrs for rock_00. splat parses `key:value` tokens in a trailing comment as attributes, so each
+// symbol's `basis: <src>` sits on the comment line above it (G62). Declared from retail bytes (phase 1.5 T5).
+// basis: data overlay header: word 0 and the header words before the first code word; no jr ra in [0x801ea000, 0x801ea0c4), 49 words, 48 pointer-valued
+D_801EA000 = 0x801EA000;
+// basis: first code word after header (+0xc4)
+func_801EA0C4 = 0x801EA0C4; // type:func size:0x1F4
+// basis: name: xref derived.tsv:141; xref:callee=set_stand_animation_by_hp; code:src/rock_00/animation.c:20 via=set_stand_animation_by_hp; code:src/main/player/stand.c:14 via=update_stand
+update_x_stand_animation = 0x801EB61C; // type:func
+// basis: name: xref derived.tsv:142; xref:caller=try_shoot_on_ladder; code:src/main/weapon/shoot_on_ladder.c:12 via=try_shoot_on_ladder
+player_enter_ladder_shoot = 0x801EB6E8; // type:func
+// basis: name: x4 exact 543816517dc7 sozud/mmx4@6a6b455 src/main/player_special.c:player_ladder_shoot; corroborator callee src/main/player_special:player_ladder_shoot main:0x80017A04
+player_ladder_shoot = 0x801EB730; // type:func
+// basis: name: oracle derived.tsv:173; oracle:docs/systems/movement.md mv_hover2-0037 mv_hover2-0038 mv_hover2-0039
+update_hover = 0x801EB7C8; // type:func
+// basis: name: oracle derived.tsv:143; oracle:docs/systems/movement.md mv_airdash-0031 mv_falcon-0035 mv_ladder2-0053
+update_air_dash = 0x801EB8B8; // type:func
+// basis: name: xref derived.tsv:145; xref:caller=player_hover_set_direction; code:src/rock_00/hover_801EC020.c:26 via=player_hover_set_direction
+player_hover_idle = 0x801EC020; // type:func
+// basis: name: x4 exact 2140a7d039ea sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_hold; corroborator callee src/main/player_special:player_hover_hold rock_00:0x801EC0C0
+player_hover_hold = 0x801EC0C0; // type:func
+// basis: name: x4 exact ecb393d0593c sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_forward; corroborator callee src/main/player_special:player_hover_forward main:0x8003F4C4
+player_hover_forward = 0x801EC124; // type:func
+// basis: name: x4 exact c351fcf586bf sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_forward_stop; corroborator callee src/main/player_special:player_hover_forward_stop main:0x8003F4C4
+player_hover_forward_stop = 0x801EC1B4; // type:func
+// basis: name: x4 exact 89cef0de1a8c sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_back; corroborator callee src/main/player_special:player_hover_back main:0x8003F4C4
+player_hover_back = 0x801EC240; // type:func
+// basis: name: x4 exact b28126054f46 sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_back_stop; corroborator callee src/main/player_special:player_hover_back_stop main:0x8003F4C4
+player_hover_back_stop = 0x801EC2D0; // type:func
+// basis: name: x4 exact 5022eaa90621 sozud/mmx4@6a6b455 src/main/player_special.c:player_hover_set_direction; corroborator caller src/main/player_special:player_hover_back_stop
+player_hover_set_direction = 0x801EC478; // type:func
+// basis: name: x4 exact a538f84cd138 sozud/mmx4@6a6b455 src/main/player_special.c:player_nova_strike_windup; corroborator callee src/main/player_special:player_nova_strike_windup rock_00:0x801EC4C0
+player_nova_strike_windup = 0x801EC4C0; // type:func
+// basis: name: community tweaks-index.tsv:215
+init_shuriken_buster = 0x801ED524; // type:func
+// basis: name: community tweaks-index.tsv:198
+update_shadow_armor_attack = 0x801EDCB0; // type:func
+// basis: text-section data (dlabel) INCLUDE_ASM-ed by the c unit; named so existing-file splat writes its .s, untyped so it stays data (T5.c3; was D_801F3698)
+func_801F3698 = 0x801F3698;

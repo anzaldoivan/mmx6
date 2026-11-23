@@ -25,16 +25,16 @@ config/layout.tsv (scheme L-B, phase 2.4 T4) and its applier (host PY or contain
          systems" row (T24: memcard_format), else its noun (those tokens joined by `_`; a one-token name: itself); a run of
          placeholder names (func_, D_) is its own run, named `<first vram 8hex>.c` (system `-`); an entry of static
          helpers only joins the run after it (the run before it at unit end); a name collision in one dir adds
-         `_<first vram 8hex>`. Overlays: flat in src/<prog>/; SLUS_013.95: src/SLUS_013.95/<folder>/<system>.c, folder =
+         `_<first vram 8hex>`. Overlays: flat in src/<prog>/; main: src/main/<folder>/<system>.c, folder =
          the "## SLUS systems" row holding the stem (system `-`: flat), LIB* units under psyq/; a stem in no row:
-         `LAYOUT unknown-system SLUS_013.95 <stem> <unit file>`, rc 1, nothing written. An applied (L-B) program is read with its role files
+         `LAYOUT unknown-system main <stem> <unit file>`, rc 1, nothing written. An applied (L-B) program is read with its role files
          inlined (its old role names may be reused). Shared rows (file under src/shared/, one per member and site): a twin = a body included at more
          than one site; consecutive plain twin includes with the same member set, same order and only blank lines
          between in every member (and inside one role run in each) collapse into src/shared/<system>/<first
          func>.c; any other twin stays single as src/shared/<system>/<func>.c; a twin with no system keeps its
          directory (a single keeps its path); src/shared/entity/ and src/shared/_selftest/ never move.
-         vram: func_/D_<8hex> names, config/symbols.<prog>.txt, dedup_registry `member prog:vram` of the body,
-         build/<prog>.map; never guessed. Prints per program `LAYOUT <prog> role_files <n> one_function <k>
+         vram: func_/D_<8hex> names, config/us/symbols.<prog>.txt, dedup_registry `member prog:vram` of the body,
+         build/us/<prog>.map; never guessed. Prints per program `LAYOUT <prog> role_files <n> one_function <k>
          twin_collapse <c> twin_single <s>`, the single reasons, and `LAYOUT PROPOSE programs <n> ...`; rc 1 and
          nothing written on any unresolved vram (`LAYOUT unresolved <prog> <name> <path>:<line>`).
   layout.py apply --prog <p> [--dry-run]
@@ -45,7 +45,10 @@ config/layout.tsv (scheme L-B, phase 2.4 T4) and its applier (host PY or contain
          `old_path old_first old_last new_path new_first prog`. Re-applies an L-B program: every unit is read through
          its role files before any write (old and new paths may coincide). Staged in .run/<phase>/layout/<p>/ (a copy of src/ + include/); token check per
          unit first: Makefile `$(CPP) $(CPPFLAGS)` (+ -DMMX6_OVERLAY for rock_*) output, `#` lines and blank lines
-         dropped, identical old vs new, else nothing is written, rc 1. --dry-run stops after the check and report.
+         dropped, identical old vs new, else nothing is written, rc 1. Before it (T39, tools/mmx6/twinform.py): a
+         foreign per-overlay first reach in those units or a chain in a written file of the staged tree that is not in
+         config/twinform-baseline.tsv -> `LAYOUT APPLY <p> refused: twinform: ...` lines, nothing written, rc 1
+         (identity pairs are no refusal; apply never adds one). --dry-run stops after the check and report.
          The stage dir is deleted at the end.
   layout.py repoint [--dry-run] [files...]
       -> rewrites `path:N` (N inside a moved range) and bare paths (moved whole to one file) through the pending
@@ -55,7 +58,7 @@ config/layout.tsv (scheme L-B, phase 2.4 T4) and its applier (host PY or contain
          holding a `prog:0x<vram>` named on the same text line (dedup_registry rows), else stays unmapped. Stale
          fallback (T17): a stale cite (see check) no pending row maps: old text = git line N of the path at the last
          commit where it existed; destination = locate(prog, func) (prog = the path's src/shared/<prog>/ or
-         src/<prog>/ dir, else a prog:0x<vram> on the line, else the config/symbols.<prog>.txt file's; func = the stem
+         src/<prog>/ dir, else a prog:0x<vram> on the line, else the config/us/symbols.<prog>.txt file's; func = the stem
          func_<8hex> -> vram, else the stem name, else the `via=` anchor, else that prog:0x<vram>); a bare path -> the
          function's file; new N (and M of `:N-M`) = the one line of its range (preamble included) whose stripped text
          equals the old line and (N) holds the via anchor; none or several -> unmapped. A cite-anchor cite (see check)
@@ -72,7 +75,7 @@ config/layout.tsv (scheme L-B, phase 2.4 T4) and its applier (host PY or contain
       -> one token per defect, rc 1 if any: `LAYOUT CHECK out-of-order|duplicate|duplicate-row|split <prog>
          <unit> <what>`: vram not increasing along a unit's closure; a function twice in a unit, or one vram in two
          role (or two shared) rows of one prog in layout.tsv; two adjacent role files of a unit with one system, or
-         one role file included twice. Without --prog, a cite pass (T17) over CITES + config/symbols.*.txt +
+         one role file included twice. Without --prog, a cite pass (T17) over CITES + config/us/symbols.*.txt +
          docs/ops/*.md + docs/*.md, less the ledgers config/psxdecomp.toml [own]/[trial]/[floor]/[debt] names (the
          commit gate keeps their lines, e.g. docs/ops/campaign.md): `LAYOUT CHECK stale-cite <file>:<n> <cite>` for a src/shared/** or
          src/<c_units prog>/** path (bare or :N) not on disk (src/shared/_selftest/, src/main/ and templated
@@ -100,6 +103,9 @@ import shutil
 import subprocess
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from paths import BUILD, CONFIG_V, VERSION  # noqa: E402  (the version axis, 3.3 T37)
+
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
@@ -116,10 +122,10 @@ def _phase_run():
 
 RUN = _phase_run()
 FIXED = ("src/shared/entity/", "src/shared/_selftest/")
-CITES = ["config/symbols/basis.tsv", "config/dedup_registry.txt", "config/names-verdicts.tsv",
-         "config/x4/renames.tsv", "config/symbols.SLUS_013.95.txt", "config/ghidra/SLUS_013.95.jsonl",
+CITES = ["config/symbols/basis.tsv", CONFIG_V + "/dedup_registry.txt", "config/names-verdicts.tsv",
+         "config/x4/renames.tsv", CONFIG_V + "/symbols.main.txt", "config/ghidra/main.jsonl",
          "docs/leads/assets.tsv", "config/x4/hold.tsv", "config/docconv.txt"]
-EXE = "SLUS_013.95"
+EXE = "main"
 HEADER = ("# config/layout.tsv -- L-B role-file map (tools/mmx6/layout.py propose; generated, never hand-edited).\n"
           "# Role rows: file under src/<prog>/; shared rows: file under src/shared/, one per member site.\n"
           "# prog\tunit\tfile\tfirst_vram\tlast_vram\tsystem\n")
@@ -388,14 +394,14 @@ class Flat(Tree):
 class Resolver:
     def __init__(self, tree, prog):
         self.prog, self.sym, self.reg, self.map = prog, {}, {}, {}
-        p = os.path.join(tree.cfg, "config", "symbols.%s.txt" % prog)
+        p = os.path.join(tree.cfg, CONFIG_V, "symbols.%s.txt" % prog)
         if os.path.isfile(p):
             with open(p, errors="replace") as f:
                 for l in f:
                     m = SYM_RE.match(l)
                     if m:
                         self.sym.setdefault(m.group(1), int(m.group(2), 16))
-        p = os.path.join(tree.cfg, "config", "dedup_registry.txt")
+        p = os.path.join(tree.cfg, CONFIG_V, "dedup_registry.txt")
         if os.path.isfile(p):
             with open(p, errors="replace") as f:
                 for l in f:
@@ -404,7 +410,7 @@ class Resolver:
                         mp, mv = w[3].split(":", 1)
                         if mp == prog:
                             self.reg.setdefault(w[2], set()).add(int(mv, 16))
-        p = os.path.join(tree.root, "build", "%s.map" % prog)
+        p = os.path.join(tree.root, BUILD, "%s.map" % prog)
         if os.path.isfile(p):
             with open(p, errors="replace") as f:
                 for l in f:
@@ -767,8 +773,8 @@ def cpp_of(tree, fallback=False):
             m = re.match(r"^(CPP|CPPFLAGS)\s*:?=\s*(.*)$", l.rstrip("\n"))
             if m and m.group(1) == "CPP":
                 cpp = m.group(2).strip()
-            elif m:
-                flags = m.group(2).split()
+            elif m:  # $(VERSION_UC): the Makefile's uppercase VERSION (-DVERSION=VER_<UC>)
+                flags = [t.replace("$(VERSION_UC)", VERSION.upper()) for t in m.group(2).split()]
     if cpp and shutil.which(cpp):
         return [cpp], flags
     if fallback and shutil.which("cc"):  # self-test only; host `cpp` (clang traditional) keeps // comments
@@ -1042,6 +1048,12 @@ def rewrite_twins(st, runs):
     return out, n, kept
 
 
+def twin_refusals(root, cfg, units, files, cpp=None, flags=None):
+    """T39: twinform.refusal on a staged tree root (cfg: the tree holding config/twinform-baseline.tsv): [cause]."""
+    import twinform  # lazy: only apply needs it
+    return twinform.refusal(root, units, [f for f in files if f.endswith(".c")], cpp, flags, cfg=cfg)
+
+
 def stage(tree, dest):
     if os.path.isdir(dest):
         shutil.rmtree(dest)
@@ -1083,6 +1095,13 @@ def cmd_apply(tree, prog, dry, allow_no_cpp=False):
             for u in inc.get(rel, []):
                 if u[0] != prog and u not in others:
                     others.append(u)
+        if cpp is not None:  # T39: no new twin-form hazard on the staged tree
+            twin = twin_refusals(scratch, tree.cfg, [(p, tree.unit_rel(p, tu)) for p, tu in tree.units(prog) + others],
+                                 sorted(writes), cpp, flags)
+            for c in twin:
+                print("LAYOUT APPLY %s refused: %s" % (prog, c))
+            if twin:
+                return 1
         bad = 0
         for p, tu in tree.units(prog) + others:
             urel = tree.unit_rel(p, tu)
@@ -1330,7 +1349,7 @@ def stale_of(tree, rel):
                             idx[prog].setdefault(f.vram, f)
         return idx[prog]
 
-    sm = re.match(r'config/symbols\.(.+)\.txt$', rel)
+    sm = re.match(re.escape(CONFIG_V) + r'/symbols\.(.+)\.txt$', rel)
 
     def stale(l, m, n=0):
         anchor = not stale_cite(tree, l, m)
@@ -1471,9 +1490,9 @@ def defects(tree, prog=None):
 
 
 def cite_files(tree):
-    """The cite set of check (T17): CITES + config/symbols.*.txt + docs/ops/*.md + docs/*.md (those present)."""
+    """The cite set of check (T17): CITES + config/us/symbols.*.txt + docs/ops/*.md + docs/*.md (those present)."""
     out = list(CITES)
-    for g in ("config/symbols.*.txt", "docs/ops/*.md", "docs/*.md"):
+    for g in (CONFIG_V + "/symbols.*.txt", "docs/ops/*.md", "docs/*.md"):
         out += sorted(os.path.relpath(p, tree.cfg).replace(os.sep, "/") for p in glob.glob(os.path.join(tree.cfg, g)))
     led = ledgers(tree)
     return [r for i, r in enumerate(out) if r not in out[:i] and r not in led and os.path.isfile(os.path.join(tree.cfg, r))]
@@ -1566,7 +1585,7 @@ def includers(root=ROOT):
 
 def asm_line(prog, tu, func):
     """The INCLUDE_ASM line of func in unit tu (its folder names the unit wherever the line lives, C0070)."""
-    return 'INCLUDE_ASM("asm/%s/nonmatchings/%s", %s);' % (prog, tu, func)
+    return 'INCLUDE_ASM("%s/nonmatchings/%s", %s);' % (prog, tu, func)
 
 
 def new_body(prog, func):
@@ -1640,16 +1659,16 @@ def role_tree(prog, tu, root=ROOT):
 # ---- self-test -----------------------------------------------------------------------------------------------------
 
 PLANT = {
-    "Makefile": "CPP := mipsel-linux-gnu-cpp\nCPPFLAGS := -nostdinc -undef -D__GNUC__=2 -DPSX -Iinclude\n",
+    "Makefile": "CPP := mipsel-linux-gnu-cpp\nCPPFLAGS := -nostdinc -undef -D__GNUC__=2 -DPSX -DVERSION=VER_$(VERSION_UC) -Iinclude\n",
     "include/common.h": "#ifndef COMMON_H\n#define COMMON_H\n#define INCLUDE_ASM(FOLDER, NAME) "
                         "__asm__(\".include \\\"\" FOLDER \"/\" #NAME \".s\\\"\")\ntypedef int s32;\n#endif\n",
-    "config/c_units.txt": "# plant\nrock_90 E9860\nrock_91 E9860\nSLUS_013.95 120A0\n",
-    "config/symbols.rock_90.txt": "update_text_box = 0x800E9A00;\ninit_capsule_gfx = 0x800E9F00;\n"
+    "config/c_units.txt": "# plant\nrock_90 E9860\nrock_91 E9860\nmain 120A0\n",
+    CONFIG_V + "/symbols.rock_90.txt": "update_text_box = 0x800E9A00;\ninit_capsule_gfx = 0x800E9F00;\n"
                                   "draw_text_box = 0x800E9B00;\nfill_text_box = 0x800E9B10;\n"
                                   "update_text_box_cursor = 0x800E9B20;\nplay_sound = 0x800E9F40;\n",
-    "config/symbols.rock_91.txt": "draw_text_box = 0x800E98A0;\nfill_text_box = 0x800E98B0;\n",
-    "config/symbols.SLUS_013.95.txt": "update_guard_shell = 0x80012100;\n",
-    "config/dedup_registry.txt": "# plant\n",
+    CONFIG_V + "/symbols.rock_91.txt": "draw_text_box = 0x800E98A0;\nfill_text_box = 0x800E98B0;\n",
+    CONFIG_V + "/symbols.main.txt": "update_guard_shell = 0x80012100;\n",
+    CONFIG_V + "/dedup_registry.txt": "# plant\n",
     "docs/glossary.md": "## Terms\n\n| English term | Our stem | Source |\n|---|---|---|\n"
                         "| text box | text_box | plant |\n| capsule | capsule | plant |\n"
                         "| guard shell | guard_shell | plant |\n",
@@ -1661,23 +1680,23 @@ PLANT = {
                                             "                     s32 b) {\n    if (a) {\n        b++;\n    }\n}\n",
     "src/shared/rock_90/func_800E9B00.c": '#include "common.h"\n\nvoid draw_text_box(void) {\n}\n',
     "src/shared/rock_90/func_800E9B10.c": '#include "common.h"\n\ns32 fill_text_box(void) { return 1; }\n',
-    "src/shared/SLUS_013.95/update_guard_shell.c": '#include "common.h"\n\nvoid update_guard_shell(void) {\n}\n',
-    "src/SLUS_013.95/120A0.c": '#include "common.h"\n\nINCLUDE_ASM("asm/SLUS_013.95/nonmatchings/120A0", '
-                               'func_80012000);\n\n#include "../shared/SLUS_013.95/update_guard_shell.c"\n',
+    "src/shared/main/update_guard_shell.c": '#include "common.h"\n\nvoid update_guard_shell(void) {\n}\n',
+    "src/main/120A0.c": '#include "common.h"\n\nINCLUDE_ASM("main/nonmatchings/120A0", '
+                               'func_80012000);\n\n#include "../shared/main/update_guard_shell.c"\n',
     "src/shared/entity/state_dispatch.c": '#include "common.h"\n\nvoid func_80001000(void) {\n}\n',
     "src/rock_90/E9860.c": '#include "common.h"\n\ns32 D_800E9800;\n\n#include "../shared/rock_90/func_800E9900.c"\n\n'
-                           'INCLUDE_ASM("asm/rock_90/nonmatchings/E9860", func_800E9950);\n\n'
+                           'INCLUDE_ASM("rock_90/nonmatchings/E9860", func_800E9950);\n\n'
                            '#include "../shared/rock_90/update_text_box.c"\n\n'
                            '#include "../shared/rock_90/func_800E9B00.c"\n\n#include "../shared/rock_90/func_800E9B10.c"\n\n'
-                           'INCLUDE_ASM("asm/rock_90/nonmatchings/E9860", update_text_box_cursor);\n\n'
-                           'INCLUDE_ASM("asm/rock_90/nonmatchings/E9860", func_800E9C00);\n\n'
+                           'INCLUDE_ASM("rock_90/nonmatchings/E9860", update_text_box_cursor);\n\n'
+                           'INCLUDE_ASM("rock_90/nonmatchings/E9860", func_800E9C00);\n\n'
                            "// inline preamble\nvoid func_800E9D00(void) {\n    D_800E9800 = 1;\n}\n\n"
                            "#define func_80001000 func_800E9E00\n#include \"../shared/entity/state_dispatch.c\"\n"
                            "#undef func_80001000\n\n"
-                           '// clang-format off\nINCLUDE_ASM("asm/rock_90/nonmatchings/E9860", init_capsule_gfx);\n\n'
-                           'INCLUDE_ASM("asm/rock_90/nonmatchings/E9860", play_sound);\n\n'
-                           'INCLUDE_ASM("asm/rock_90/nonmatchings/E9860", func_800E9F80);\n// clang-format on\n',
-    "src/rock_91/E9860.c": '#include "common.h"\n\nINCLUDE_ASM("asm/rock_91/nonmatchings/E9860", func_800E9890);\n\n'
+                           '// clang-format off\nINCLUDE_ASM("rock_90/nonmatchings/E9860", init_capsule_gfx);\n\n'
+                           'INCLUDE_ASM("rock_90/nonmatchings/E9860", play_sound);\n\n'
+                           'INCLUDE_ASM("rock_90/nonmatchings/E9860", func_800E9F80);\n// clang-format on\n',
+    "src/rock_91/E9860.c": '#include "common.h"\n\nINCLUDE_ASM("rock_91/nonmatchings/E9860", func_800E9890);\n\n'
                            '#include "../shared/rock_90/func_800E9B00.c"\n\n#include "../shared/rock_90/func_800E9B10.c"\n\n'
                            "#define func_80001000 func_800E9E40\n#include \"../shared/entity/state_dispatch.c\"\n"
                            "#undef func_80001000\n",
@@ -1692,7 +1711,7 @@ BAD = {
                            '#include "text_box.c"\n',
     "src/rock_94/text_box.c": 'INCLUDE_ASM("a", func_800E9400);\n',
     "src/rock_94/text_box_800E9420.c": 'INCLUDE_ASM("a", func_800E9420);\n',
-    "config/symbols.rock_94.txt": "",
+    CONFIG_V + "/symbols.rock_94.txt": "",
 }
 
 
@@ -1730,7 +1749,7 @@ def self_test():
             f.write("void update_text_box(void) {\n}\n")
         with open(os.path.join(bad, "src/rock_94/text_box_800E9420.c"), "a") as f:
             f.write("void open_text_box(void) {\n}\n")
-        plant(bad, {"config/symbols.rock_94.txt": "update_text_box = 0x800E9410;\nopen_text_box = 0x800E9430;\n"})
+        plant(bad, {CONFIG_V + "/symbols.rock_94.txt": "update_text_box = 0x800E9410;\nopen_text_box = 0x800E9430;\n"})
         t = Tree(old)
         if cmd_propose(t):
             raise Refuse("propose failed on the plant")
@@ -1744,7 +1763,7 @@ def self_test():
         if [(r[2], r[5]) for r in roles90] != want:
             raise Refuse("role rows %s" % [(r[2], r[5]) for r in roles90])
         exe = [(r[2], r[5]) for r in rows if r[0] == EXE]
-        if exe != [("src/SLUS_013.95/80012000.c", "-"), ("src/SLUS_013.95/weapon/guard_shell.c", "guard_shell")]:
+        if exe != [("src/main/80012000.c", "-"), ("src/main/weapon/guard_shell.c", "guard_shell")]:
             raise Refuse("SLUS rows (folder = the system holding the stem, placeholder flat) %s" % exe)
         # T24: a whole name that is a system-held stem is its own system; a glossary row alone is not
         if system_of("memcard_format", {"memcard_format"}, {"memcard_format": "weapon"}) != "memcard_format" or \

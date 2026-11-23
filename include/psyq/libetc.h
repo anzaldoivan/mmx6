@@ -1,4 +1,4 @@
-/* psyq/libetc.h -- prototypes of the LIBETC.LIB functions the retail SLUS_013.95 links.
+/* psyq/libetc.h -- prototypes of the LIBETC.LIB functions the retail main links.
  *
  * Written for mmx6 from interface facts only: name, address and call signature. No SDK header text.
  * Each prototype carries one line: library, object+offset inside it, retail address.
@@ -7,35 +7,35 @@
 #ifndef PSYQ_LIBETC_H
 #define PSYQ_LIBETC_H
 
-// LIBETC VSYNC.OBJ+0x0, retail SLUS_013.95 0x80060964
+// LIBETC VSYNC.OBJ+0x0, retail main 0x80060964
 int VSync(int);
-// LIBETC INTR.OBJ+0x0, retail SLUS_013.95 0x80060B74
+// LIBETC INTR.OBJ+0x0, retail main 0x80060B74
 int ResetCallback(void);
-// LIBETC INTR.OBJ+0x30, retail SLUS_013.95 0x80060BA4
+// LIBETC INTR.OBJ+0x30, retail main 0x80060BA4
 int InterruptCallback();
-// LIBETC INTR.OBJ+0x60, retail SLUS_013.95 0x80060BD4
+// LIBETC INTR.OBJ+0x60, retail main 0x80060BD4
 int DMACallback();
-// LIBETC INTR.OBJ+0x90, retail SLUS_013.95 0x80060C04
+// LIBETC INTR.OBJ+0x90, retail main 0x80060C04
 int VSyncCallback(void (*)(void));
-// LIBETC INTR.OBJ+0xc4, retail SLUS_013.95 0x80060C38
+// LIBETC INTR.OBJ+0xc4, retail main 0x80060C38
 int VSyncCallbacks();
-// LIBETC INTR.OBJ+0xf4, retail SLUS_013.95 0x80060C68
+// LIBETC INTR.OBJ+0xf4, retail main 0x80060C68
 int StopCallback(void);
-// LIBETC INTR.OBJ+0x124, retail SLUS_013.95 0x80060C98
+// LIBETC INTR.OBJ+0x124, retail main 0x80060C98
 int RestartCallback(void);
-// LIBETC INTR.OBJ+0x154, retail SLUS_013.95 0x80060CC8
+// LIBETC INTR.OBJ+0x154, retail main 0x80060CC8
 int CheckCallback(void);
-// LIBETC INTR.OBJ+0x164, retail SLUS_013.95 0x80060CD8
+// LIBETC INTR.OBJ+0x164, retail main 0x80060CD8
 int GetIntrMask();
-// LIBETC INTR.OBJ+0x17c, retail SLUS_013.95 0x80060CF0
+// LIBETC INTR.OBJ+0x17c, retail main 0x80060CF0
 int SetIntrMask();
-// LIBETC INTR_VB.OBJ+0x0, retail SLUS_013.95 0x80061234
+// LIBETC INTR_VB.OBJ+0x0, retail main 0x80061234
 int startIntrVSync();
-// LIBETC INTR_DMA.OBJ+0x0, retail SLUS_013.95 0x80061354
+// LIBETC INTR_DMA.OBJ+0x0, retail main 0x80061354
 int startIntrDMA();
-// LIBETC VMODE.OBJ+0x0, retail SLUS_013.95 0x800615F4
+// LIBETC VMODE.OBJ+0x0, retail main 0x800615F4
 long SetVideoMode(long);
-// LIBETC VMODE.OBJ+0x14, retail SLUS_013.95 0x80061608
+// LIBETC VMODE.OBJ+0x14, retail main 0x80061608
 long GetVideoMode(void);
 
 #endif /* PSYQ_LIBETC_H */

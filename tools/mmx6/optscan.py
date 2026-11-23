@@ -2,30 +2,30 @@
 """optscan.py -- per-function codegen census over the splat asm of every program (container, stdlib only).
 
   optscan.py --prog <p>
-  optscan.py --all            (programs = config/*.yaml stems, sorted)
+  optscan.py --all            (programs = config/us/*.yaml stems, sorted)
       -> per function:  `<prog> <func> 0x<vram> <n>w <O0|O2> fp=<0|1> nopld=<a>/<b> gprel=<k> div=<expand>/<bare>`
          per program:   `<prog> functions <n> O0 <a> O2 <b> gprel <g> div-expand <d> div-bare <e> fp-only <f>
                         unsplit <u> dropped <w>w` (g, d, e = functions having >= 1; u, w: data-only fallback), then
                         `RUN <prog> <O0|O2> 0x<first>-0x<last> <k> functions <firstTU>..<lastTU>` per maximal
                         same-class run in vram order (first = first function's start vram, last = last function's
                         last instruction vram; TU = nonmatchings/<TU>/ dir, else the .s file stem)
-         coverage (G28): N(p) = rows of build/corpus/functions.jsonl (corpus.py --all) with state asm|include_asm;
+         coverage (G28): N(p) = rows of build/us/corpus/functions.jsonl (corpus.py --all) with state asm|include_asm;
                         each n != N printed `optscan: <p> scanned <n> of <N>`
          last line:     `SCANNED <n> of <N> functions in <m> of <P> programs` (m = programs with n = N, P = programs
                         asked); rc 1 if the corpus file is absent, a program is missing from it, any n != N (incl.
-                        n = 0 with N > 0), or a program has no asm/<p>/ after `make -s build/split/<p>.stamp`;
+                        n = 0 with N > 0), or a program has no asm/us/<p>/ after `make -s build/us/split/<p>.stamp`;
                         n = 0 with N = 0 prints `optscan: <p> fully C (0 asm functions)` and counts in m (rc unchanged)
   optscan.py --self-test
       -> two synthetic functions (encoder helpers, no literal words) written as splat .s under
          .run/optscan/selftest/ and scanned by the same parser; planted -O0 must be O0 gprel=1 div=1/0, planted
          -O2 must be O2 div=0/1; the same two plus one trailing word as one data-only dlabel .s must carve into
          2 functions (O0, O2, first named by its dlabel) and 1 dropped word; `SELF-TEST OK` or `SELF-TEST FAIL`;
-         planted narrowing: the same coverage over .run/optscan/selftest/narrow/ (symlinks to every real asm/<p> but
+         planted narrowing: the same coverage over .run/optscan/selftest/narrow/ (symlinks to every real asm/us/<p> but
          one, no make) must be refused naming that program; planted coverage under .../cover/: FULLC (empty, N 0)
          accepted and counted, EMPTYN (empty, N 3), NOROOT (no dir), NOCORPUS (not in corpus) refused; last line `OPTSCAN CONTROL OK` (rc 0) or
          `OPTSCAN CONTROL FAIL` (rc 1)
 
-Functions: `glabel <f>` .. `endlabel <f>` or the next glabel, under asm/<p>/ (incl. nonmatchings/); words from the
+Functions: `glabel <f>` .. `endlabel <f>` or the next glabel, under asm/us/<p>/ (incl. nonmatchings/); words from the
 splat comment `/* <off> <vram> <word> */` (word printed in file byte order, i.e. little-endian bytes); deduped by vram, sorted by vram; nothing trimmed.
 Data-only fallback (C0021; a program with 0 glabel functions, e.g. text split as one dlabel `.word` block): the
 words of every dlabel block inside `.section .text` (same comment parse, deduped, sorted by vram) are carved into
@@ -50,6 +50,7 @@ import re
 import shutil
 import subprocess
 import sys
+from paths import BUILD, CONFIG_V, ASM  # noqa: E402  (the version axis, 3.3 T37)
 
 INSN_RE = re.compile(r"/\*\s+[0-9A-Fa-f]+\s+([0-9A-Fa-f]{8})\s+([0-9A-Fa-f]{8})\s+\*/")
 LOAD_OPS = {0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x32}
@@ -57,7 +58,7 @@ STORE_OPS = {0x28, 0x29, 0x2A, 0x2B, 0x2E, 0x3A}
 ADDIU = 0x09
 F_ADDU, F_OR, F_DIV, F_DIVU, F_BREAK = 0x21, 0x25, 0x1A, 0x1B, 0x0D
 SELFTEST_DIR = ".run/optscan/selftest"
-CORPUS = "build/corpus/functions.jsonl"
+CORPUS = f"{BUILD}/corpus/functions.jsonl"
 
 
 # ---- encoders (self-test) ------------------------------------------------------------------------------------------
@@ -246,7 +247,7 @@ def coverage(base, progs, expected, out, make=True):
     for p in progs:
         root = os.path.join(base, p)
         if make and not os.path.isdir(root):
-            subprocess.run(["make", "-s", f"build/split/{p}.stamp"], check=False, stdout=subprocess.DEVNULL)
+            subprocess.run(["make", "-s", f"{BUILD}/split/{p}.stamp"], check=False, stdout=subprocess.DEVNULL)
         n = scan(p, root, out) if os.path.isdir(root) else 0
         if not os.path.isdir(root):
             lines.append(f"optscan: no {root}/")
@@ -327,7 +328,7 @@ def self_test():
               f"div={c['expand']}/{c['bare']}")
     print(f"carved {len(carved)} functions dropped {dropped}w classes {' '.join(c for _, c in dgot)}")
     print("SELF-TEST OK" if ok else "SELF-TEST FAIL")
-    # planted narrowing (G28): a scratch asm root of symlinks to every real asm/<p> but one must be refused naming it
+    # planted narrowing (G28): a scratch asm root of symlinks to every real asm/us/<p> but one must be refused naming it
     progs, expected = all_progs(), corpus_counts()
     control = False
     if expected is None:
@@ -338,8 +339,8 @@ def self_test():
         shutil.rmtree(nroot, ignore_errors=True)
         os.makedirs(nroot)
         for p in progs:
-            if p != hidden and os.path.isdir(os.path.join("asm", p)):
-                os.symlink(os.path.abspath(os.path.join("asm", p)), os.path.join(nroot, p))
+            if p != hidden and os.path.isdir(os.path.join(ASM, p)):
+                os.symlink(os.path.abspath(os.path.join(ASM, p)), os.path.join(nroot, p))
         nrc, nlines = coverage(nroot, progs, expected, lambda s: None, make=False)
         print(f"narrowing: hid {hidden}; {nlines[-1]}")
         control = hidden is not None and nrc == 1 and f"optscan: {hidden} scanned 0 of {expected[hidden]}" in nlines \
@@ -363,7 +364,7 @@ def self_test():
 
 
 def all_progs():
-    return sorted(f[:-5] for f in os.listdir("config") if f.endswith(".yaml"))
+    return sorted(f[:-5] for f in os.listdir(CONFIG_V) if f.endswith(".yaml"))
 
 
 def main():
@@ -380,7 +381,7 @@ def main():
     if expected is None:
         print(f"optscan: no {CORPUS}; run `make extract build` and corpus.py --all first")
         return 1
-    rc, lines = coverage("asm", progs, expected, print)
+    rc, lines = coverage(ASM, progs, expected, print)
     for line in lines:
         print(line)
     return rc

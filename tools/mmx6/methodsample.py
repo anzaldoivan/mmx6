@@ -10,13 +10,16 @@ import subprocess, sys
 from fractions import Fraction
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from paths import prog_key  # noqa: E402  (3.3 T38)
+
 ROOT = Path(__file__).resolve().parents[2]
 OUT = "config/methods-sample.tsv"
 INPUTS = ("campaign/ledger.tsv", "campaign/refusecause.tsv", "campaign/priorart.tsv")
 # stratum -> quota (fixed; file order)
 QUOTAS = (("declaration", 12), ("path", 9), ("reloc", 9), ("address", 6), ("rodata", 1),
           ("norow", 3), ("plateau", 10), ("jtbl-uncarved", 10))
-PROGS = ("SLUS_013.95", "rock")
+PROGS = ("main", "rock")
 COLS = "stratum prog vram func blocker code closeness pins x5 x4 proto pc any split"
 
 
@@ -66,7 +69,7 @@ def build(texts, blobs):
         x5, x4, proto, pc = pa[(prog, vram)]
         x5, x4 = x5.split(":")[0], x4.split(":")[0]
         anyp = "1" if (x5 == "c" or x4 == "c" or proto != "-" or pc != "-") else "0"
-        p = "SLUS_013.95" if prog == "SLUS_013.95" else "rock"
+        p = "main" if prog == "main" else "rock"
         cells.setdefault((s, p), []).append(
             [s, prog, vram, func, blocker, code, closeness, pins, x5, x4, proto, pc, anyp])
     out = []
@@ -104,6 +107,13 @@ def build(texts, blobs):
     return "\n".join(head + ["\t".join(r) for r in out]) + "\n"
 
 
+def keyed(text):
+    """text with each row's program column under today's key: inputs before 3.3 T38 (refusecause, priorart, and
+    every blob) key the main program by its disc file name (paths.prog_key)."""
+    return "".join(ln if ln.startswith("#") else prog_key(ln.split("\t", 1)[0]) + ln[len(ln.split("\t", 1)[0]):]
+                   for ln in text.splitlines(True))
+
+
 def main():
     mode = sys.argv[1] if len(sys.argv) == 2 else ""
     if mode == "--build":
@@ -113,13 +123,13 @@ def main():
             if b != git("rev-parse", f"HEAD:{p}").strip():
                 sys.exit(f"methodsample: {p} differs from HEAD; commit it first")
             blobs.append(b[:12])
-        texts = [(ROOT / p).read_text() for p in INPUTS]
+        texts = [keyed((ROOT / p).read_text()) for p in INPUTS]
         (ROOT / OUT).write_text(build(texts, blobs))
     elif mode == "--check":
         cur = (ROOT / OUT).read_text()
         line = next(l for l in cur.splitlines() if l.startswith("# inputs"))
         blobs = [t.split("@")[1] for t in line.split(": ", 1)[1].split()]
-        texts = [git("cat-file", "-p", b) for b in blobs]
+        texts = [keyed(git("cat-file", "-p", b)) for b in blobs]
         if build(texts, blobs) != cur:
             sys.exit("METHODS-SAMPLE DIFFERS (rebuild from the header's blobs does not match)")
     else:

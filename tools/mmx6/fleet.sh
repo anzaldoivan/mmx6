@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # fleet.sh — the clean fleet verification (container; `make fleet`): make format-check (src/ vs .clang-format) →
-# rm -rf build asm expected → make extract →
+# rm -rf $B asm/$VERSION expected/$VERSION (B = $BUILD_ROOT/$VERSION, defaults build/us, as the Makefile) → make extract →
 # make -j$JOBS -k split build → make health (JOBS: env JOBS, else MX6_JOBS, else 8; mk/tools-health.mk runs the rungs
-# under the same -j). ok = BINS outputs present (build/<exe>, build/rock/NN.bin; .DELETE_ON_ERROR
-# removes any whose hash check failed), n = config/*.yaml, k = `N = <k>` of config/loadmap.txt.
-# Before it `C MATCHED <c> of <F> functions (<e> empty-body; banked <c-e>)` (F, e from build/corpus/functions.jsonl).
+# under the same -j). ok = BINS outputs present ($B/$MAIN_EXE for main, $B/rock/NN.bin; .DELETE_ON_ERROR
+# removes any whose hash check failed), n = config/us/*.yaml, k = `N = <k>` of config/us/loadmap.txt.
+# Before it `C MATCHED <c> of <F> functions (<e> empty-body; banked <c-e>)` (F, e from $B/corpus/functions.jsonl).
 # Last line, always: `FLEET <ok> of <n>`; rc 0 only if ok = n, n = k, extract and health rc 0, the corpus is
 # present and its c + c-empty = c.
 # `fleet.sh --quick` (`make fleet-quick`): the same (format-check included), but health is cut to boundcheck.py + `make -s th-corpus th-ledger
@@ -18,6 +18,10 @@ quick=; [ "${1:-}" = "--quick" ] && quick=1
 cd "$(dirname "$0")/../.."
 MK=(${MAKE:-make} --no-print-directory)
 JOBS=${JOBS:-${MX6_JOBS:-8}}
+VERSION=${VERSION:-us} BUILD_ROOT=${BUILD_ROOT:-build}
+MAIN_EXE=${MAIN_EXE:-$(${PYTHON:-python3} tools/mmx6/paths.py MAIN_EXE)}  # exported by make (tools/mmx6/paths.py)
+export VERSION BUILD_ROOT
+B=$BUILD_ROOT/$VERSION
 t_start=$(date +%s%N) t_mark=$t_start
 wall() {  # FLEET-WALL <stage> <seconds since the previous mark, or since $2>
   local t; t=$(date +%s%N)
@@ -28,13 +32,13 @@ wall() {  # FLEET-WALL <stage> <seconds since the previous mark, or since $2>
 "${MK[@]}" -s format-check; rc_format=$?
 wall format-check
 if [ "$rc_format" -ne 0 ]; then
-  n=$(ls config/*.yaml | grep -c .)
+  n=$(ls config/$VERSION/*.yaml | grep -c .)
   echo "fleet: make format-check rc $rc_format (fix: mx.sh run make format && mx.sh pull <paths>)"
   wall total "$t_start"
   echo "FLEET 0 of $n${quick:+ (quick)}"
   exit 1
 fi
-rm -rf build asm expected
+rm -rf "$B" "asm/$VERSION" "expected/$VERSION"
 wall wipe
 "${MK[@]}" extract; rc_extract=$?
 wall extract
@@ -48,26 +52,26 @@ fi
 wall health
 
 ok=0 n=0
-for y in config/*.yaml; do
+for y in config/$VERSION/*.yaml; do
   b=$(basename "$y" .yaml)
   n=$((n + 1))
-  case "$b" in rock_*) out="build/rock/${b#rock_}.bin" ;; *) out="build/$b" ;; esac
+  case "$b" in rock_*) out="$B/rock/${b#rock_}.bin" ;; main) out="$B/$MAIN_EXE" ;; *) out="$B/$b" ;; esac
   [ -f "$out" ] && ok=$((ok + 1))
 done
-k=$(sed -n 's/^N = \([0-9][0-9]*\)$/\1/p' config/loadmap.txt)
+k=$(sed -n 's/^N = \([0-9][0-9]*\)$/\1/p' config/$VERSION/loadmap.txt)
 
 rc=0
 [ "$rc_extract" -eq 0 ] || { echo "fleet: make extract rc $rc_extract"; rc=1; }
 [ "$rc_health" -eq 0 ] || { echo "fleet: make health rc $rc_health"; rc=1; }
-[ "$n" = "$k" ] || { echo "fleet: $n config/*.yaml but config/loadmap.txt N = ${k:-?}"; rc=1; }
+[ "$n" = "$k" ] || { echo "fleet: $n config/$VERSION/*.yaml but config/$VERSION/loadmap.txt N = ${k:-?}"; rc=1; }
 [ "$ok" -eq "$n" ] || { echo "fleet: $((n - ok)) binaries missing or red"; rc=1; }
-# C MATCHED f: global function symbols of build/src/**/*.c.o minus INCLUDE_ASM entries of their sources (T8);
+# C MATCHED f: global function symbols of $B/src/**/*.c.o minus INCLUDE_ASM entries of their sources (T8);
 # local/jump labels and gcc2_compiled. are not global functions; alabel entries (size 0) are not counted.
 # One instrument with harness.py P1: corpus.py --c-names (fleet_c_names, readelf -sW of the objects) (T8.c1).
 c=$(${PYTHON:-python3} tools/mmx6/corpus.py --c-names | grep -c .)
 # F = all rows of the function corpus (make health runs corpus.py --all), e = its c-empty rows; the corpus's
 # c + c-empty must equal c (G28).
-CORPUS=build/corpus/functions.jsonl
+CORPUS=$B/corpus/functions.jsonl
 if [ -f "$CORPUS" ]; then
   F=$(grep -c . "$CORPUS")
   e=$(grep -c '"state": *"c-empty"' "$CORPUS")

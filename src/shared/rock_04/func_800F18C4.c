@@ -1,7 +1,7 @@
 // rolefeed (3.1 T4): func_800F18C4 of src/rock_04/E9860.c
 #include "common.h"
 #include "mmx6/globals.h"
-#include "mmx6/rock_04.h"
+extern u32 D_800F7840;
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
@@ -16,7 +16,7 @@ extern void (*D_800F7518[])(void*);
 #include "common.h"
 #define M2C_UNK s32
 #include "mmx6/x4.h"
-#include "mmx6/rock_04.h"
+extern u32 D_800F7840;
 
 M2C_UNK clear_object_slot();
 M2C_UNK func_8002CCB0(void*, M2C_UNK, M2C_UNK);

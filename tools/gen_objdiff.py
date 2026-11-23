@@ -2,22 +2,26 @@
 """gen_objdiff.py (mmx6 prototype, stdlib only; modelled on sozud/mmx4 tools/gen_objdiff.py).
 
 Writes objdiff.json for the byte-matching build in the current directory (run after `make split build`).
-Reads only tracked records (config/*.yaml, config/boundaries.txt, config/loadmap.txt) plus build/ objects.
+Reads only tracked records (config/us/*.yaml, config/us/boundaries.txt, config/us/loadmap.txt) plus build/<v>/ objects
+(tools/mmx6/paths.py BUILD: $BUILD_ROOT/$VERSION, default build/us).
 
-Unit  = one code subsegment (`c` or `asm`) of config/<prog>.yaml -> one object file:
-          c   -> build/src/<prog>/<name>.c.o
-          asm -> build/asm/<prog>/<name>.s.o
+Unit  = one code subsegment (`c` or `asm`) of config/us/<prog>.yaml -> one object file:
+          c   -> build/us/src/<prog>/<name>.c.o
+          asm -> build/us/asm/<prog>/<name>.s.o
 target_path = that object (the build is byte-identical to the disc, so it IS the expected object).
 base_path   = c unit: the same object (include/macro.inc `nonmatching` emits <func>.NON_MATCHING, so objdiff's MIPS
               reader drops those functions on the base side: INCLUDE_ASM bodies count as not matched);
-              asm unit: build/empty.o (nothing decompiled).
+              asm unit: build/us/empty.o (nothing decompiled).
 build_base/build_target are false: objdiff-cli never runs make.
 
   gen_objdiff.py [--out objdiff.json] [--categories-out config/categories.tsv]
 """
 import argparse, glob, json, os, re, subprocess, sys
 
-EXE = "SLUS_013.95"
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "mmx6"))
+from paths import BUILD, CONFIG_V, ASM, MAIN_EXE  # noqa: E402  (the version axis, 3.3 T37)
+
+EXE = "main"
 WEAK = ("LIBSND.LIB/VM_VIB.OBJ",)
 SUB = re.compile(r"^\s*- \[(0x[0-9A-Fa-f]+),\s*([.\w]+),\s*(\w+)\]")
 BSS = re.compile(r"^\s*- \{\s*start:\s*(0x[0-9A-Fa-f]+)")
@@ -58,7 +62,7 @@ def units_of(path):
 
 def exe_sdk_span():
     lo = hi = cur = None
-    for line in open("config/boundaries.txt"):
+    for line in open(CONFIG_V + "/boundaries.txt"):
         t = line.split()
         if line.startswith("# program "):
             cur = t[2]
@@ -71,7 +75,7 @@ def exe_sdk_span():
 
 def loadmap():
     rows = {}
-    for line in open("config/loadmap.txt"):
+    for line in open(CONFIG_V + "/loadmap.txt"):
         t = line.split()
         if len(t) >= 3 and t[0].isdigit():
             rows[int(t[0])] = (t[1], t[2])
@@ -82,7 +86,7 @@ def collect():
     sdk_lo, sdk_hi = exe_sdk_span()
     lm = loadmap()
     units, rock = [], []
-    for y in sorted(glob.glob("config/*.yaml")):
+    for y in sorted(glob.glob(CONFIG_V + "/*.yaml")):
         prog = os.path.basename(y)[:-5]
         if prog == EXE:
             seg = "main"
@@ -97,9 +101,9 @@ def collect():
             else:
                 cats = ["game", "rock", "rock." + prog]
             if kind == "c":
-                src, obj = f"src/{prog}/{name}.c", f"build/src/{prog}/{name}.c.o"
+                src, obj = f"src/{prog}/{name}.c", f"{BUILD}/src/{prog}/{name}.c.o"
             else:
-                src, obj = f"asm/{prog}/{name}.s", f"build/asm/{prog}/{name}.s.o"
+                src, obj = f"{ASM}/{prog}/{name}.s", f"{BUILD}/{ASM}/{prog}/{name}.s.o"
             units.append(dict(name=f"{seg}/{name}", kind=kind, src=src, obj=obj, cats=cats))
     return units, sorted(rock)
 
@@ -108,13 +112,13 @@ def categories_tsv(rock):
     rows = ["# config/categories.tsv -- DRAFT from gen_objdiff.py (mmx6). id parent name status",
             "id\tparent\tname\tstatus",
             "game\t\tGame code\tactive", "sdk\t\tPsyQ SDK libraries\tactive",
-            f"main\t\t{EXE} (boot executable)\tactive", "rock\t\tROCK_X6.BIN overlays\tactive"]
+            f"main\t\t{MAIN_EXE} (boot executable)\tactive", "rock\t\tROCK_X6.BIN overlays\tactive"]
     rows += [f"rock.{r}\trock\tRock {r.split('_')[1]}\tactive" for r in rock]
     return rows
 
 
 def ensure_empty():
-    p = "build/empty.o"
+    p = f"{BUILD}/empty.o"
     if not os.path.exists(p):
         subprocess.run(["mipsel-linux-gnu-as", "-EL", "-march=r3000", "-o", p, os.devnull], check=True)
     return p

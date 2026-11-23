@@ -3718,5 +3718,5 @@ void func_801F3678(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801F3698);
+INCLUDE_ASM("rock_00/nonmatchings/1EA000", func_801F3698);
 // clang-format on

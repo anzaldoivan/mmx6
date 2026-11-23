@@ -1,6 +1,6 @@
 # config/x4/hold.tsv -- files x4port --repin never rewrites (phase 2.1 T2; causes R2.1-004, 1.10 T4).
 # path	pin	blocker
-src/SLUS_013.95/ladder/ladder_climb.c	4e16dfc7c06597fd5719dd112654d8cf85d343c2	hash: @4e16dfc x4port drops the ((void (*)())f)(...) call casts the SLUS_013.95 sha needs (C0258); file hand-ported at 4e16dfc with the casts kept
-src/SLUS_013.95/ladder/ladder_let_go.c	4e16dfc7c06597fd5719dd112654d8cf85d343c2	hash: @4e16dfc x4port drops the ((void (*)())f)(...) call casts the SLUS_013.95 sha needs (C0258); file hand-ported at 4e16dfc with the casts kept
-src/SLUS_013.95/ladder/ladder_step_off_bottom.c	4e16dfc7c06597fd5719dd112654d8cf85d343c2	hash: @4e16dfc x4port drops the ((void (*)())f)(...) call casts the SLUS_013.95 sha needs (C0258); file hand-ported at 4e16dfc with the casts kept
-src/SLUS_013.95/player/script_vanish.c	4e16dfc7c06597fd5719dd112654d8cf85d343c2	hash: @4e16dfc x4port drops the ((void (*)())animate_object)(...) call cast the SLUS_013.95 sha needs (C0258); file hand-ported at 4e16dfc with the casts kept
+src/main/ladder/ladder_climb.c	4e16dfc7c06597fd5719dd112654d8cf85d343c2	hash: @4e16dfc x4port drops the ((void (*)())f)(...) call casts the main sha needs (C0258); file hand-ported at 4e16dfc with the casts kept
+src/main/ladder/ladder_let_go.c	4e16dfc7c06597fd5719dd112654d8cf85d343c2	hash: @4e16dfc x4port drops the ((void (*)())f)(...) call casts the main sha needs (C0258); file hand-ported at 4e16dfc with the casts kept
+src/main/ladder/ladder_step_off_bottom.c	4e16dfc7c06597fd5719dd112654d8cf85d343c2	hash: @4e16dfc x4port drops the ((void (*)())f)(...) call casts the main sha needs (C0258); file hand-ported at 4e16dfc with the casts kept
+src/main/player/script_vanish.c	4e16dfc7c06597fd5719dd112654d8cf85d343c2	hash: @4e16dfc x4port drops the ((void (*)())animate_object)(...) call cast the main sha needs (C0258); file hand-ported at 4e16dfc with the casts kept

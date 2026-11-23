@@ -2,9 +2,9 @@
 # tools/mmx6/ghidra/export.sh [PROG ... | --all] [--project DIR] [--out F]
 #
 # Read-only export of one program's annotations (types, signatures, data, comments, bookmarks, equates,
-# labels) to byte-stable JSON-Lines via scripts/ExportAnnotations.java. PROG default SLUS_013.95;
-# project default <repo>/ghidra (name mmx6); out default config/ghidra/<PROG>.jsonl.
-# --all = SLUS_013.95 + every code member of config/loadmap.txt (import.sh --list). More than one PROG: one JVM
+# labels) to byte-stable JSON-Lines via scripts/ExportAnnotations.java. PROG default <MAIN_EXE> (the Ghidra program of main);
+# project default <repo>/ghidra (name mmx6); out default config/ghidra/<key>.jsonl (key: main for <MAIN_EXE>, else PROG).
+# --all = <MAIN_EXE> + every code member of config/us/loadmap.txt (import.sh --list). More than one PROG: one JVM
 # (-process, every program of the project) into .run/ghidra/export/, then the requested files are moved to
 # config/ghidra/ (or the --out dir; the per-program output is the same script on the same program as a one-by-one run).
 # PRECONDITION: no other Ghidra (GUI/MCP server, headless run) holds the project lock. Never writes the
@@ -18,19 +18,21 @@ PROJ="mmx6"
 SCRIPTS="$REPO/tools/mmx6/ghidra/scripts"
 PROGS=()
 OUT=""
+MAIN_EXE="$(${PYTHON:-python3} "$REPO/tools/mmx6/paths.py" MAIN_EXE)"  # the main program's disc file = its Ghidra program (3.3 T38)
+key() { if [ "$1" = "$MAIN_EXE" ]; then echo main; else echo "$1"; fi; }
 
 while [ $# -gt 0 ]; do
   case "$1" in
     --project) PROJ_DIR="${2:?--project needs a dir}"; shift 2 ;;
     --out) OUT="${2:?--out needs a file}"; shift 2 ;;
-    --all) PROGS+=(SLUS_013.95 $(bash "$REPO/tools/mmx6/ghidra/import.sh" --list | awk '{ print $1 }')); shift ;;
+    --all) PROGS+=("$MAIN_EXE" $(bash "$REPO/tools/mmx6/ghidra/import.sh" --list | awk '{ print $1 }')); shift ;;
     -*) echo "export: usage: export.sh [PROG ... | --all] [--project DIR] [--out F]" >&2; exit 2 ;;
     *) PROGS+=("$1"); shift ;;
   esac
 done
-[ ${#PROGS[@]} -gt 0 ] || PROGS=(SLUS_013.95)
+[ ${#PROGS[@]} -gt 0 ] || PROGS=("$MAIN_EXE")
 PROGRAM="${PROGS[0]}"
-[ -n "$OUT" ] || OUT="$REPO/config/ghidra/$PROGRAM.jsonl"
+[ -n "$OUT" ] || OUT="$REPO/config/ghidra/$(key "$PROGRAM").jsonl"
 case "$OUT" in /*) ;; *) OUT="$PWD/$OUT" ;; esac
 
 [ -x "$GHIDRA/support/analyzeHeadless" ] || { echo "export: ERROR analyzeHeadless not found under $GHIDRA" >&2; exit 2; }
@@ -41,7 +43,7 @@ fi
 
 if [ ${#PROGS[@]} -gt 1 ]; then
   # batch: --out names a directory (default config/ghidra/)
-  if [ "$OUT" = "$REPO/config/ghidra/$PROGRAM.jsonl" ]; then OD="$REPO/config/ghidra"; else OD="$OUT"; fi
+  if [ "$OUT" = "$REPO/config/ghidra/$(key "$PROGRAM").jsonl" ]; then OD="$REPO/config/ghidra"; else OD="$OUT"; fi
   ST="$REPO/.run/ghidra/export"
   LOG="$REPO/.run/ghidra/export-batch.log"
   rm -rf "$ST"; mkdir -p "$ST" "$OD"
@@ -53,7 +55,7 @@ if [ ${#PROGS[@]} -gt 1 ]; then
   [ $rc -eq 0 ] || exit $rc
   bad=0
   for p in "${PROGS[@]}"; do
-    if [ -s "$ST/$p.jsonl" ]; then mv -f "$ST/$p.jsonl" "$OD/$p.jsonl"
+    if [ -s "$ST/$p.jsonl" ]; then mv -f "$ST/$p.jsonl" "$OD/$(key "$p").jsonl"
     else echo "export: ERROR $p not exported (not in $PROJ_DIR/$PROJ?)" >&2; bad=$((bad + 1)); fi
   done
   echo "export: ${#PROGS[@]} requested, $bad missing -> $OD/"

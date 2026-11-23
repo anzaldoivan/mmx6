@@ -2,10 +2,10 @@
 """badges.py -- the README's shields.io endpoint badges: docs/badges/*.json from the tree (stdlib, no network).
 
   badges.py --write       regenerate docs/badges/*.json.
-  badges.py --maps [DIR]  (container, after a build) parse the GNU ld maps DIR/<prog>.map (default build/) into
-                          the tracked snapshot config/data_bytes.tsv, then --write.
+  badges.py --maps [DIR]  (container, after a build) parse the GNU ld maps DIR/<prog>.map (default build/us/) into
+                          the tracked snapshot config/us/data_bytes.tsv, then --write.
   badges.py --check       regenerate in memory; `BADGES STALE <name>` per differing or missing file (rc 1); when
-                          build/*.map exist, also `BADGES STALE data_bytes <prog>` per snapshot row that differs from
+                          build/us/*.map exist, also `BADGES STALE data_bytes <prog>` per snapshot row that differs from
                           the maps (rc 1); else `BADGES OK 8 badges` (rc 0).
   badges.py --self-test   planted dir under .run/<phase>/badges-selftest/ (removed at the end): one stale and one
                           fresh badge; check names only the stale one; a planted git tree with one two-function role
@@ -14,7 +14,7 @@
                           snapshot row and a planted stale data badge are named. Ends `BADGES CONTROL OK` rc 0.
 
 Badges (each `{"schemaVersion": 1, "label", "message", "color"}` + newline)
-  functions        named function symbols over all function symbols of config/symbols.*.txt (renamecov's parser).
+  functions        named function symbols over all function symbols of config/us/symbols.*.txt (renamecov's parser).
                    A function symbol: a `func_<8 hex>[_tag]` placeholder, or a named symbol whose basis tier is not
                    slot (data). Data: `D_` placeholders and slot-tier names.
                    Segment symbols are skipped. Named: not a placeholder.
@@ -28,10 +28,10 @@ Badges (each `{"schemaVersion": 1, "label", "message", "color"}` + newline)
                    A unit file takes its category from gen_objdiff.collect(). Any other C file takes the categories
                    of the units that include it, transitively, once per category. A debt-bearing file with none fails.
                    src/probes/ (planted probe copies, no unit) stays out of the debt badges, in the finished total.
-  data-main, data-rock  from config/data_bytes.tsv (numbers only; no build needed): C bytes over all bytes of
-                   SLUS_013.95, and of the rock_* overlays summed. Bytes: input sections named .data .rodata .sdata
+  data-main, data-rock  from config/us/data_bytes.tsv (numbers only; no build needed): C bytes over all bytes of
+                   main, and of the rock_* overlays summed. Bytes: input sections named .data .rodata .sdata
                    .bss .sbss COMMON .scommon in the map's memory-map part, outside /DISCARD/ and the .header output
-                   section (the PS-X EXE header); *fill* skipped. C: the object is build/src/**.c.o.
+                   section (the PS-X EXE header); *fill* skipped. C: the object is build/us/src/**.c.o.
 Colours: percent >= 100 brightgreen, >= 90 green, >= 60 yellow, >= 30 orange, else red.
          debt by pins + barriers: 0 brightgreen, < 500 yellow, < 1500 orange, else red.
 """
@@ -51,21 +51,22 @@ sys.path.insert(0, str(ROOT / "tools"))
 import psxd_floor  # noqa: E402
 import psxd_publish  # noqa: E402
 from mmx6 import renamecov  # noqa: E402
+from paths import BUILD, CONFIG_V  # noqa: E402  (the version axis, 3.3 T37)
 
 OUT = ROOT / "docs/badges"
 CATS = ("main", "rock", "sdk")
 DEBT_KEYS = ("pin", "barrier", "goto", "placeholder")
 PROBES = "src/probes/"
 INCLUDE = re.compile(r'^\s*#\s*include\s+"([^"]+)"', re.M)
-SNAPSHOT = ROOT / "config/data_bytes.tsv"
-MAIN_PROG = "SLUS_013.95"
+SNAPSHOT = ROOT / CONFIG_V / "data_bytes.tsv"
+MAIN_PROG = "main"
 DATA_SECS = {".data", ".rodata", ".sdata", ".bss", ".sbss", "COMMON", ".scommon"}
 SKIP_OUT = {"/DISCARD/", ".header"}
 MAP_START = "Linker script and memory map"
 INPUT = re.compile(r"^ (\S+)\s+0x[0-9a-fA-F]+\s+0x([0-9a-fA-F]+)\s+(\S+)")
 SPLIT_NAME = re.compile(r"^ (\S+)$")
 SPLIT_REST = re.compile(r"^\s+0x[0-9a-fA-F]+\s+0x([0-9a-fA-F]+)\s+(\S+)")
-C_OBJ = re.compile(r"^build/src/.+\.c\.o$")
+C_OBJ = re.compile(r"^" + re.escape(BUILD) + r"/src/.+\.c\.o$")
 
 
 class Fail(Exception):
@@ -202,10 +203,10 @@ def stale_snapshot(snap, maps):
 
 
 def function_counts():
-    """(named, all) function symbols of config/symbols.*.txt, by renamecov's parser and placeholder pattern."""
+    """(named, all) function symbols of config/us/symbols.*.txt, by renamecov's parser and placeholder pattern."""
     slot = {(r[0], r[2]) for r in renamecov.read_tsv(ROOT / "config/symbols/basis.tsv") if len(r) >= 6 and r[5] == "slot"}
     named = total = 0
-    for prog, table in sorted(renamecov.read_symbols(ROOT / "config").items()):
+    for prog, table in sorted(renamecov.read_symbols(ROOT / CONFIG_V).items()):
         for name in sorted(table):
             if renamecov.segment(prog, name):
                 continue
@@ -342,41 +343,41 @@ def check(badges, out, maps=None, snap=None):
     return 0
 
 
-ROLE_FILE = ('INCLUDE_ASM("asm/P/nonmatchings/r", run_stub);\n\nvoid walk(void) {\n}\n\n'
+ROLE_FILE = ('INCLUDE_ASM("P/nonmatchings/r", run_stub);\n\nvoid walk(void) {\n}\n\n'
              'void step(int x) {\n    if (x) goto out;\n    x++;\nout:\n    return;\n}\n')
 
 FIXTURE_MAP = """Discarded input sections
 
- .data          0x00000000       0x99 build/src/P/gone.c.o
+ .data          0x00000000       0x99 build/us/src/P/gone.c.o
 
 Memory Configuration
 
 Linker script and memory map
 
-LOAD build/src/P/a.c.o
+LOAD build/us/src/P/a.c.o
 .header         0x00000000      0x800
- .data          0x00000000      0x800 build/asm/P/header.s.o
+ .data          0x00000000      0x800 build/us/asm/P/header.s.o
 
 .main           0x80010000      0x200 load address 0x00000800
  FILL mask 0x00000000
- build/src/P/a.c.o(.rodata)
- .rodata        0x80010000       0x10 build/src/P/a.c.o
+ build/us/src/P/a.c.o(.rodata)
+ .rodata        0x80010000       0x10 build/us/src/P/a.c.o
                 0x80010000                D_80010000
- .rodata        0x80010010       0x20 build/asm/P/data/10010.rodata.s.o
- .text          0x80010030      0x100 build/src/P/a.c.o
+ .rodata        0x80010010       0x20 build/us/asm/P/data/10010.rodata.s.o
+ .text          0x80010030      0x100 build/us/src/P/a.c.o
  *fill*         0x80010130        0x4
- build/src/P/a.c.o(.data)
+ build/us/src/P/a.c.o(.data)
  .data
-                0x80010134        0x8 build/src/P/a.c.o
- .sdata         0x8001013c        0x4 build/src/P/b.c.o
- COMMON         0x80010140       0x40 build/asm/P/c.s.o
+                0x80010134        0x8 build/us/src/P/a.c.o
+ .sdata         0x8001013c        0x4 build/us/src/P/b.c.o
+ COMMON         0x80010140       0x40 build/us/asm/P/c.s.o
  .gnu.attributes
-                0x00000000       0x10 build/src/P/a.c.o
+                0x00000000       0x10 build/us/src/P/a.c.o
 /DISCARD/
  *(*)
- .data          0x00000000       0x77 build/src/P/a.c.o
-OUTPUT(build/P.elf elf32-tradlittlemips)
-"""
+ .data          0x00000000       0x77 build/us/src/P/a.c.o
+OUTPUT(build/us/P.elf elf32-tradlittlemips)
+""".replace("build/us/", f"{BUILD}/")  # objects as ld names them under BUILD
 
 
 def selftest():
@@ -408,10 +409,10 @@ def selftest():
             return 1
         maps = tmp / "maps"                          # fixture maps: split names, *fill*, .text, header, /DISCARD/
         maps.mkdir()
-        (maps / "SLUS_013.95.map").write_text(FIXTURE_MAP)
-        (maps / "rock_00.map").write_text(FIXTURE_MAP.replace("0x10 build/src/P/a.c.o", "0x30 build/src/P/a.c.o"))
+        (maps / "main.map").write_text(FIXTURE_MAP)
+        (maps / "rock_00.map").write_text(FIXTURE_MAP.replace(f"0x10 {BUILD}/src/P/a.c.o", f"0x30 {BUILD}/src/P/a.c.o"))
         parsed = parse_maps(maps)
-        if parsed != {"SLUS_013.95": (0x10 + 0x8 + 0x4, 0x10 + 0x8 + 0x4 + 0x20 + 0x40),
+        if parsed != {"main": (0x10 + 0x8 + 0x4, 0x10 + 0x8 + 0x4 + 0x20 + 0x40),
                       "rock_00": (0x30 + 0x8 + 0x4, 0x30 + 0x8 + 0x4 + 0x20 + 0x40)}:
             print("BADGES CONTROL FAIL map parse %s" % parsed)
             return 1
@@ -442,7 +443,7 @@ def main(argv=None):
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--write", action="store_true")
     g.add_argument("--check", action="store_true")
-    g.add_argument("--maps", nargs="?", const="build", metavar="DIR")
+    g.add_argument("--maps", nargs="?", const=BUILD, metavar="DIR")
     g.add_argument("--self-test", action="store_true")
     a = ap.parse_args(argv)
     if a.self_test:
@@ -456,7 +457,7 @@ def main(argv=None):
             SNAPSHOT.write_text(snapshot_text(snap))
             print("BADGES WROTE data_bytes %d progs" % len(snap))
         badges = compute()
-        maps = parse_maps(ROOT / "build") if a.check else None
+        maps = parse_maps(ROOT / BUILD) if a.check else None
     except (Fail, psxd_floor.Fail) as e:
         print("BADGES FAIL %s" % e)
         return 1

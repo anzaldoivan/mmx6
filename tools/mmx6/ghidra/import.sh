@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# tools/mmx6/ghidra/import.sh [--program SLUS_013.95 | --member NN[,NN...]|all [--base 0xADDR] | --list] [--project DIR]
+# tools/mmx6/ghidra/import.sh [--program <MAIN_EXE> | --member NN[,NN...]|all [--base 0xADDR] | --list] [--project DIR]
 #
 # Headless import of a retail input into the Ghidra project `mmx6` (default dir: <repo>/ghidra, ignored+purged).
-# --program: extracted/retail/iso/<name> via psx_ldr's "PSX Executables Loader", -overwrite (idempotent),
+# --program: extracted/$VERSION/iso/<name> via psx_ldr's "PSX Executables Loader", -overwrite (idempotent),
 #   full auto-analysis (incl. psx_ldr "PsyQ Signatures", which applies psyq/<ver>/ sigs + GDT on its own),
 #   then postScript DumpProgramInfo.java -> .run/ghidra/info/<program>.txt (format: docs/ops/oracles.md).
-# --member NN[,NN...]|all [--base 0xADDR]: extracted/retail/rock/NN.bin as raw program rock_NN (BinaryLoader,
-#   language PSX:LE:32:default, base = the config/loadmap.txt row for NN; rc 2 if the row is not `code` or
+# --member NN[,NN...]|all [--base 0xADDR]: extracted/$VERSION/rock/NN.bin as raw program rock_NN (BinaryLoader,
+#   language PSX:LE:32:default, base = the config/us/loadmap.txt row for NN; rc 2 if the row is not `code` or
 #   --base differs). Raw import at 0, then preScript PrepareOverlay.java moves it to the base (image base = block
 #   start) and pins "PsyQ Version" to the exe's detected $PSYQ_VER so the "PsyQ Signatures" analyzer runs at
 #   that version (it accepts raw programs by language). One JVM per base
 #   group (`all` = every code member); the input is a hard link .run/ghidra/stage/rock_NN (program name).
-# --list: print `rock_NN 0xBASE` for every code member of config/loadmap.txt (export/roundtrip/Makefile).
-# Input currency (G22): the file's sha1 must equal its manifest/retail.jsonl record, else rc 2.
+# --list: print `rock_NN 0xBASE` for every code member of config/us/loadmap.txt (export/roundtrip/Makefile).
+# Input currency (G22): the file's sha1 must equal its manifest/$VERSION.jsonl record, else rc 2 (VERSION: env, default us).
 # PRECONDITION: no other Ghidra (GUI with the MCP server, or another headless run) holds the project lock.
 # Adapted from the decomp-architect kit P2 ghidra_import.sh (bfm names replaced; no ImportPsyqGdt step).
 set -uo pipefail
@@ -21,9 +21,11 @@ GHIDRA="${GHIDRA_HOME:-$HOME/ghidra_12.1.3_PUBLIC}"
 PROJ_DIR="$REPO/ghidra"
 PROJ="mmx6"
 SCRIPTS="$REPO/tools/mmx6/ghidra/scripts"
-MANIFEST="$REPO/manifest/retail.jsonl"
-LOADMAP="$REPO/config/loadmap.txt"
-PROGRAM="SLUS_013.95"
+VERSION=${VERSION:-us}
+MANIFEST="$REPO/manifest/$VERSION.jsonl"
+LOADMAP="$REPO/config/$VERSION/loadmap.txt"
+MAIN_EXE="$(${PYTHON:-python3} "$REPO/tools/mmx6/paths.py" MAIN_EXE)"  # the main program's disc file = its Ghidra program (3.3 T38)
+PROGRAM="$MAIN_EXE"
 MEMBER=""
 BASE=""
 PSYQ_VER="4.7.0"   # psx_ldr-detected version of SLUS_013.95 (.run/ghidra/info/SLUS_013.95.txt)
@@ -38,7 +40,7 @@ while [ $# -gt 0 ]; do
     --base) BASE="${2:?--base needs 0xADDR}"; shift 2 ;;
     --project) PROJ_DIR="${2:?--project needs a dir}"; shift 2 ;;
     --list) list_code; exit 0 ;;
-    *) echo "import: usage: import.sh [--program SLUS_013.95 | --member NN[,NN...]|all [--base 0xADDR] | --list] [--project DIR]" >&2; exit 2 ;;
+    *) echo "import: usage: import.sh [--program $MAIN_EXE | --member NN[,NN...]|all [--base 0xADDR] | --list] [--project DIR]" >&2; exit 2 ;;
   esac
 done
 
@@ -46,7 +48,7 @@ done
 
 # sha1 of manifest record <rel> must equal the file's, else rc 2; prints the sha1
 check_sha1() {
-  local rel="$1" f="$REPO/extracted/retail/$1" want have
+  local rel="$1" f="$REPO/extracted/$VERSION/$1" want have
   [ -f "$f" ] || { echo "import: ERROR input missing: $f (run make extract)" >&2; return 2; }
   want="$(grep -F "\"path\": \"$rel\"" "$MANIFEST" | sed -E 's/.*"sha1": "([0-9a-f]{40})".*/\1/')"
   have="$(shasum -a 1 "$f" | cut -d' ' -f1)"
@@ -65,7 +67,7 @@ lock_check() {
 }
 
 if [ -n "$MEMBER" ]; then
-  [ "$PROGRAM" = "SLUS_013.95" ] || { echo "import: --program and --member are exclusive" >&2; exit 2; }
+  [ "$PROGRAM" = "$MAIN_EXE" ] || { echo "import: --program and --member are exclusive" >&2; exit 2; }
   # resolve the member list against the loadmap: NN -> base, refusing non-code rows and a differing --base
   if [ "$MEMBER" = "all" ]; then
     [ -z "$BASE" ] || { echo "import: --base needs a single --member list, not all" >&2; exit 2; }
@@ -94,7 +96,7 @@ if [ -n "$MEMBER" ]; then
     for p in $(printf '%s' "$WANT" | awk -v b="$b" '$2 == b { print $1 }'); do
       rel="rock/${p#rock_}.bin"
       sha="$(check_sha1 "$rel")" || exit 2
-      ln -f "$REPO/extracted/retail/$rel" "$STAGE/$p"
+      ln -f "$REPO/extracted/$VERSION/$rel" "$STAGE/$p"
       echo "$p $sha" >>"$STAGE/sha1-$b.txt"
       rm -f "$INFODIR/$p.txt"
       files+=("$STAGE/$p")
@@ -120,7 +122,7 @@ if [ -n "$MEMBER" ]; then
 fi
 
 REL="iso/$PROGRAM"
-EXE="$REPO/extracted/retail/$REL"
+EXE="$REPO/extracted/$VERSION/$REL"
 [ -x "$GHIDRA/support/analyzeHeadless" ] || { echo "import: ERROR analyzeHeadless not found under $GHIDRA" >&2; exit 2; }
 [ -f "$EXE" ] || { echo "import: ERROR input missing: $EXE (run make extract)" >&2; exit 2; }
 

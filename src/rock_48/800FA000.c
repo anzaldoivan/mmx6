@@ -1,5 +1,5 @@
 // clang-format off
-INCLUDE_ASM("asm/rock_48/nonmatchings/FA000", D_800FA000);
+INCLUDE_ASM("rock_48/nonmatchings/FA000", D_800FA000);
 // clang-format on
 
 #include "common.h"
@@ -76,21 +76,7 @@ void func_8002ACA8();
 extern u16 D_800C4570;
 extern void (*D_800FA5F8[])(void*);
 
-void func_800FA120(s8* arg0) {
-    if ((D_800C4570 & 0x800) && D_80097420.transition.active == 0 &&
-        arg0[1] >= 2 && arg0[1] != 9) {
-        func_800139F4(8);
-        stop_cd_audio();
-        arg0[1] = 9;
-    }
-    D_800FA5F8[arg0[1]](arg0);
-    func_8002048C();
-    func_800206C0();
-    func_800207D4();
-    run_text_box();
-    func_8002ACA8();
-    func_80025FB0();
-}
+#include "../shared/rock_48/func_800FA120.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -274,5 +260,5 @@ void func_800FA514(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_48/nonmatchings/FA000", func_800FA5F4);
+INCLUDE_ASM("rock_48/nonmatchings/FA000", func_800FA5F4);
 // clang-format on

@@ -6,7 +6,7 @@
          per target in file order `VALID <pv>` | `INVALID <pv> <reason>`, last `VALIDATE <ok> of <n>`; rc 0 if ok >= 1,
          rc 3 if ok = 0.
   validate.py --drawn
-      -> the targets are the `draw` rows of build/draw/draw.jsonl (cross-check: the draw filter never passes an invalid
+      -> the targets are the `draw` rows of build/us/draw/draw.jsonl (cross-check: the draw filter never passes an invalid
          target); prints the INVALID lines only, last `VALIDATE <ok> of <n>`; rc 1 on any invalid, rc 3 on no draw rows.
   validate.py --self-test
       -> planted roots in .run/validate-selftest/: an out-of-range, phantom, banked, no-asm and lib target each refused
@@ -15,10 +15,10 @@
          (rc 1).
 
 Checks per target, the first failing one reported:
-  out-of-range  prog without a config/boundaries.txt `# program <P> base <B> size <S>` header, or vram outside [B, B+S)
-  phantom       no build/corpus/functions.jsonl row starting at that exact vram
-  banked        corpus state c|c-empty, or a config/dedup_registry.txt row naming it (col 4) with state (col 5) gated
-  no-asm        include_asm -> asm/<prog>/nonmatchings/<tu>/<name>.s; asm -> a whole-TU asm/<prog>/**/<tu>.s (not under
+  out-of-range  prog without a config/us/boundaries.txt `# program <P> base <B> size <S>` header, or vram outside [B, B+S)
+  phantom       no build/us/corpus/functions.jsonl row starting at that exact vram
+  banked        corpus state c|c-empty, or a config/us/dedup_registry.txt row naming it (col 4) with state (col 5) gated
+  no-asm        include_asm -> asm/us/<prog>/nonmatchings/<tu>/<name>.s; asm -> a whole-TU asm/us/<prog>/**/<tu>.s (not under
                 nonmatchings); absent, or holding no `glabel <name>`
   lib-unproven  lane lib and its boundaries `lib` OBJ not under docs/ops/compiler-pin.md `## Proven lib units`
 Stdout carries names and addresses only (G12).
@@ -34,10 +34,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import draw  # noqa: E402
 import propagate  # noqa: E402
+from paths import BUILD, CONFIG_V, ASM  # noqa: E402  (the version axis, 3.3 T37)
 
-ROOTS = dict(asm="asm", funcs="build/corpus/functions.jsonl", bounds="config/boundaries.txt",
-             registry="config/dedup_registry.txt", pin="docs/ops/compiler-pin.md")
-DRAWN = "build/draw/draw.jsonl"
+ROOTS = dict(asm=ASM, funcs=f"{BUILD}/corpus/functions.jsonl", bounds=CONFIG_V + "/boundaries.txt",
+             registry=CONFIG_V + "/dedup_registry.txt", pin="docs/ops/compiler-pin.md")
+DRAWN = f"{BUILD}/draw/draw.jsonl"
 SELFTEST = ".run/validate-selftest"
 PV = re.compile(r"([^\s:]+):0x([0-9A-Fa-f]{8})")
 
@@ -76,7 +77,7 @@ class Checker:
         self.tus = {}
 
     def tu_files(self, prog, tu):
-        """Whole-TU asm/<prog>/**/<tu>.s paths (nonmatchings skipped), indexed once per program."""
+        """Whole-TU asm/us/<prog>/**/<tu>.s paths (nonmatchings skipped), indexed once per program."""
         if prog not in self.tus:
             idx = {}
             for d, dirs, files in os.walk(os.path.join(self.r["asm"], prog)):

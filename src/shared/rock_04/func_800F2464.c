@@ -1,7 +1,6 @@
 // rolefeed (3.1 T4): func_800F2464 of src/rock_04/E9860.c
 #include "common.h"
 #include "mmx6/globals.h"
-#include "mmx6/rock_04.h"
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))

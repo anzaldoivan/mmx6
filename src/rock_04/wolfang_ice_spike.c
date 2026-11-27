@@ -2,7 +2,9 @@
 #define M2C_UNK s32
 #include "mmx6/x4.h"
 #include "mmx6/globals.h"
-#include "mmx6/rock_04.h"
+extern s32 D_800F70B4;
+extern s32 D_800F70B8;
+extern u32 D_800F7840;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
 #define SPAD9C (*(s32**)0x1F80009C)

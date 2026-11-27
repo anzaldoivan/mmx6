@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system cling | range -
+// prog main | system cling | range -
 /* mmx6/cling.h -- the wall-cling functions called outside cling/ (cling/enter_wall_cling.c) (hand-edited; Phase 2.5 T10.c2). Each prototype carries its definition's type
  * (an unprototyped `T f();` stays as its callers wrote it). Not included by x4.h: callers include it. */
 #ifndef MMX6_CLING_H

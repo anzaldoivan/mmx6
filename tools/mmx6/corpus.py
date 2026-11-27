@@ -2,9 +2,9 @@
 """corpus.py -- the function corpus and its text denominator over the linked build (container, stdlib only).
 
   corpus.py --all | --prog <p>
-      -> build/corpus/functions.jsonl  {"prog","vram","end","words","name","tu","state","lane","src"}
-         build/corpus/spans.jsonl      {"prog","lo","hi","kind":"jtbl|libgap|data|pad"}
-         build/corpus/denominators.jsonl {"prog","text_lo","text_hi","text_bytes","from"}
+      -> build/us/corpus/functions.jsonl  {"prog","vram","end","words","name","tu","state","lane","src"}
+         build/us/corpus/spans.jsonl      {"prog","lo","hi","kind":"jtbl|libgap|data|pad"}
+         build/us/corpus/denominators.jsonl {"prog","text_lo","text_hi","text_bytes","from"}
          (vram/end/lo/hi hex strings, end/hi exclusive); stdout, last two lines:
          `CORPUS SPANS jtbl <..> libgap <..> data <..> pad <..> bytes; game <gb> lib <lb> function bytes`
          `CORPUS <n> functions <b> bytes of <T> text bytes in <m> programs; game <g> lib <l>; c <c> c-empty <e>
@@ -14,17 +14,17 @@
          per program since T5.c3: overlays share names at the same vram)
   corpus.py --self-test
       -> on the real build: func_80055A04 include_asm/LIBSPU_S_M_UTIL/lib; the `banked` rows of config/probes.txt
-         plus the `gated` members of config/dedup_registry.txt are the `c` set; c-empty = (fleet.sh `C MATCHED` method, readelf on build/src/**/*.c.o, minus INCLUDE_ASM
+         plus the `gated` members of config/us/dedup_registry.txt are the `c` set; c-empty = (fleet.sh `C MATCHED` method, readelf on build/us/src/**/*.c.o, minus INCLUDE_ASM
          names) - banked; planted control (one function start moved up one non-zero word, in memory) must refuse
          naming that vram. Ends `CORPUS CONTROL OK` (rc 0), else rc 1.
 
-Programs = config/*.yaml stems, sorted. Functions: glabel..endlabel (or the next glabel/dlabel) rows of
-asm/<p>/**/*.s; under asm/<p>/nonmatchings/<tu>/ and named by INCLUDE_ASM in src/<p>/<tu>.c -> include_asm, else
+Programs = config/us/*.yaml stems, sorted. Functions: glabel..endlabel (or the next glabel/dlabel) rows of
+asm/us/<p>/**/*.s; under asm/us/<p>/nonmatchings/<tu>/ and named by INCLUDE_ASM in src/<p>/<tu>.c -> include_asm, else
 asm; C definitions in src/<p>/*.c and the `#include "<rel>.c"` files they include (src/shared/ bodies; clang-formatted,
-name at column 0) -> c-empty when the body is `{` ws `}`, else c; C extent = build/<p>.elf symtab value + st_size (size 0: up to the next function start, C0047).
-Lane: exe TU 120A0 and its opt carves (config/carve.<p>.txt) -> game, other exe TUs -> lib, every overlay function -> game.
-Text = [<seg>_TEXT_START, <seg>_TEXT_END) of build/<p>.elf (the only *_TEXT_START symbol). Every text word is a
-function word or exactly one span kind, by precedence jtbl (config/boundaries.txt `jtbl lo hi` of the program) >
+name at column 0) -> c-empty when the body is `{` ws `}`, else c; C extent = build/us/<p>.elf symtab value + st_size (size 0: up to the next function start, C0047).
+Lane: exe TU 120A0 and its opt carves (config/us/carve.<p>.txt) -> game, other exe TUs -> lib, every overlay function -> game.
+Text = [<seg>_TEXT_START, <seg>_TEXT_END) of build/us/<p>.elf (the only *_TEXT_START symbol). Every text word is a
+function word or exactly one span kind, by precedence jtbl (config/us/boundaries.txt `jtbl lo hi` of the program) >
 libgap (inside an exe hex-named non-game TU) > data (dlabel region) > pad (zero word).
 Refuses (rc 1, prints prog and lo..hi): overlapping extents, a function outside text, an unclassified uncovered
 word, function + span bytes != text bytes, 0 functions, a missing build output.
@@ -38,6 +38,7 @@ import re
 import struct
 import subprocess
 import sys
+from paths import BUILD, CONFIG_V, ASM  # noqa: E402  (the version axis, 3.3 T37)
 
 ROW_RE = re.compile(r"/\*\s+[0-9A-Fa-f]+\s+([0-9A-Fa-f]{8})(?:\s+([0-9A-Fa-f]{8}))?\s+\*/")
 INC_RE = re.compile(r"^INCLUDE_ASM\(\"[^\"]*\", *(\w+)\);", re.M)
@@ -48,7 +49,7 @@ CINC_RE = re.compile(r"^#include \"([^\"]+\.c)\"[ \t]*$", re.M)  # a shared body
 DEF_RE = re.compile(r"^#(define|undef)[ \t]+(\w+)(?:[ \t]+(\w+))?[ \t]*$", re.M)  # a member's name for the body (T5)
 GAME_TU = "120A0"  # the exe game TU [0x800120A0, 0x80054AD0) (config/segmentation.md); every other exe TU is lib
 HEX_TU = re.compile(r"[0-9A-F]+")
-OUT = "build/corpus"
+OUT = f"{BUILD}/corpus"
 
 
 class Refuse(Exception):
@@ -58,7 +59,7 @@ class Refuse(Exception):
 # ---- inputs --------------------------------------------------------------------------------------------------------
 
 def programs():
-    return sorted(os.path.basename(y)[:-5] for y in glob.glob("config/*.yaml"))
+    return sorted(os.path.basename(y)[:-5] for y in glob.glob(CONFIG_V + "/*.yaml"))
 
 
 def is_overlay(prog):
@@ -86,7 +87,7 @@ def elf_symbols(path):
 
 def parse_asm(prog):
     """(funcs [(name, vram, end, tu, nonmatching)], words {vram: word}, data {vram}, tu_range {tu: (lo, hi)})."""
-    root = f"asm/{prog}"
+    root = f"{ASM}/{prog}"
     funcs, words, data, tus = [], {}, set(), {}
     for d, dirs, files in sorted(os.walk(root)):
         dirs.sort()
@@ -148,6 +149,39 @@ def read_c(path):
     return CINC_RE.sub(lambda m: read_c(os.path.normpath(os.path.join(os.path.dirname(path), m.group(1)))), src)
 
 
+GUARD_RE = re.compile(r'^#\s*ifdef\s+NON_MATCHING\b')
+PP_IF_RE = re.compile(r'^#\s*(?:if|ifdef|ifndef)\b')
+PP_ELSE_RE = re.compile(r'^#\s*(?:else|elif)\b')
+PP_ENDIF_RE = re.compile(r'^#\s*endif\b')
+
+
+def default_view(text):
+    """`text` as the default build (G4: NON_MATCHING is never defined) sees it: `#ifdef NON_MATCHING ... #else X
+    #endif` becomes X, so a guarded draft is not a C definition and its #else keeps HEAD's line numbering."""
+    lines, out, i, n = text.split("\n"), [], 0, len(text.split("\n"))
+    while i < n:
+        if GUARD_RE.match(lines[i]):
+            depth, j, els = 0, i, None
+            while j < n:
+                if PP_IF_RE.match(lines[j]):
+                    depth += 1
+                elif PP_ENDIF_RE.match(lines[j]):
+                    depth -= 1
+                    if depth == 0:
+                        break
+                elif depth == 1 and PP_ELSE_RE.match(lines[j]) and els is None:
+                    els = j
+                j += 1
+            if j < n:
+                if els is not None:
+                    out.extend(lines[els + 1:j])
+                i = j + 1
+                continue
+        out.append(lines[i])
+        i += 1
+    return "\n".join(out)
+
+
 def parse_c(prog):
     """({name: (tu, empty)} of C definitions, {tu: {INCLUDE_ASM names}}) of src/<prog>/<tu>.c (+ their included .c).
     The units are the config/c_units.txt rows of prog, not every src/<prog>/*.c: an L-B overlay's role files sit beside
@@ -157,7 +191,7 @@ def parse_c(prog):
         tus = sorted({w[1] for w in (l.split("#", 1)[0].split() for l in f) if len(w) == 2 and w[0] == prog})
     for path in (f"src/{prog}/{tu}.c" for tu in tus):
         tu = os.path.basename(path)[:-2]
-        src = read_c(path)
+        src = default_view(read_c(path))
         inc[tu] = set(INC_RE.findall(src))
         ev = [(d.start(), d.group(2), d.group(1) == "define" and d.group(3)) for d in DEF_RE.finditer(src)]
         for m in CDEF_RE.finditer(src):
@@ -172,7 +206,7 @@ def parse_c(prog):
 
 def jtbl_rows(prog):
     rows, cur = [], None
-    with open("config/boundaries.txt") as f:
+    with open(CONFIG_V + "/boundaries.txt") as f:
         for line in f:
             t = line.split()
             if line.startswith("# program "):
@@ -185,8 +219,8 @@ def jtbl_rows(prog):
 # ---- one program ---------------------------------------------------------------------------------------------------
 
 def game_tus(prog):
-    """GAME_TU plus every TU an `opt` carve split off a game TU (config/carve.<prog>.txt, tools/mmx6/carve.py)."""
-    game, path = {GAME_TU}, f"config/carve.{prog}.txt"
+    """GAME_TU plus every TU an `opt` carve split off a game TU (config/us/carve.<prog>.txt, tools/mmx6/carve.py)."""
+    game, path = {GAME_TU}, f"{CONFIG_V}/carve.{prog}.txt"
     if os.path.exists(path):
         with open(path) as f:
             for w in (line.split() for line in f):
@@ -197,9 +231,9 @@ def game_tus(prog):
 
 def load(prog):
     """Everything check() needs, read from the build of prog."""
-    elf = f"build/{prog}.elf"
-    if not os.path.isfile(elf) or not os.path.isdir(f"asm/{prog}"):
-        raise Refuse(f"REFUSE {prog} missing build output {elf if not os.path.isfile(elf) else 'asm/' + prog}")
+    elf = f"{BUILD}/{prog}.elf"
+    if not os.path.isfile(elf) or not os.path.isdir(f"{ASM}/{prog}"):
+        raise Refuse(f"REFUSE {prog} missing build output {elf if not os.path.isfile(elf) else ASM + '/' + prog}")
     syms = elf_symbols(elf)
     starts = [(n[:-len("_TEXT_START")], v) for n, v, _, _ in syms if n.endswith("_TEXT_START")]
     if len(starts) != 1:
@@ -353,11 +387,11 @@ def summary(res):
 
 
 def fleet_c_names():
-    """fleet.sh :29-34: {(prog, name)}: global non-UND sized FUNC symbols of build/src/<prog>/**/*.c.o minus INCLUDE_ASM
+    """fleet.sh :29-34: {(prog, name)}: global non-UND sized FUNC symbols of build/us/src/<prog>/**/*.c.o minus INCLUDE_ASM
     names of src/<prog>/**/*.c, per program (T5.c3: was one name set over all programs, which merged overlay twins)."""
     out = set()
     for prog in programs():
-        objs = sorted(glob.glob(f"build/src/{prog}/**/*.c.o", recursive=True))
+        objs = sorted(glob.glob(f"{BUILD}/src/{prog}/**/*.c.o", recursive=True))
         txt = subprocess.run(["mipsel-linux-gnu-readelf", "-sW"] + objs, capture_output=True, text=True).stdout if objs else ""
         defd = {t[7] for t in (l.split() for l in txt.splitlines())
                 if len(t) >= 8 and t[3] == "FUNC" and t[4] == "GLOBAL" and t[6] != "UND" and t[2] != "0"}
@@ -379,16 +413,19 @@ def self_test():
 
     s = "static inline void h(u8 a) {\n}\nstatic void g(int a) {\n}\nvoid f(void) {}\n"
     ok([m.group(1) for m in CDEF_RE.finditer(s)] == ["g", "f"], "static inline skipped, static and extern kept")
+    g = '#ifdef NON_MATCHING\nvoid a(void) {\n}\n#else\nINCLUDE_ASM("m", a);\n#endif\n'
+    ok(default_view(g) == 'INCLUDE_ASM("m", a);\n' and not list(CDEF_RE.finditer(default_view(g))),
+       "a NON_MATCHING guard is not a def; its #else keeps the line")
     res = corpus(programs())
     fs = [f for _, funcs, _ in res for f in funcs]
     # the control by (prog, vram), its current name read from the rows (never spelled here)
     at = lambda rows, p, v: next((r for r in rows if (r["prog"], r["vram"]) == (p, v)), None)
-    f = at(fs, "SLUS_013.95", 0x80055A04)
+    f = at(fs, "main", 0x80055A04)
     ok(f is not None and (f["state"], f["tu"], f["lane"]) == ("include_asm", "LIBSPU_S_M_UTIL", "lib"),
-       f"SLUS_013.95 0x80055A04 {f and f['name']} include_asm LIBSPU_S_M_UTIL lib")
+       f"main 0x80055A04 {f and f['name']} include_asm LIBSPU_S_M_UTIL lib")
     plant = [dict(r, name="alpha_helper") if r is f else r for r in fs]  # planted: a name that spells no address
-    ok(f is not None and at(plant, "SLUS_013.95", 0x80055A04)["name"] == "alpha_helper",
-       "planted non-address name alpha_helper found at SLUS_013.95 0x80055A04")
+    ok(f is not None and at(plant, "main", 0x80055A04)["name"] == "alpha_helper",
+       "planted non-address name alpha_helper found at main 0x80055A04")
     banked = set()
     with open("config/probes.txt") as pf:
         for line in pf:
@@ -397,8 +434,8 @@ def self_test():
                 banked.add((t[1], t[0]))
     nprobe = len(banked)
     names = {(f["prog"], f["vram"]): f["name"] for f in fs}
-    if os.path.exists("config/dedup_registry.txt"):  # propagated members (T5.c3)
-        with open("config/dedup_registry.txt") as rf:
+    if os.path.exists(CONFIG_V + "/dedup_registry.txt"):  # propagated members (T5.c3)
+        with open(CONFIG_V + "/dedup_registry.txt") as rf:
             for line in rf:
                 t = line.split()
                 if len(t) >= 5 and not t[0].startswith("#") and t[4] == "gated":
@@ -414,7 +451,7 @@ def self_test():
     ok(empty - banked == want,
        f"c-empty unbanked {len(empty - banked)} == fleet C MATCHED {len(fleet)} - banked {len(fleet & banked)}")
     # Planted control: one game function whose first word is non-zero and in no jtbl/data region starts a word later.
-    p = next(p for p, _, _ in res if p["prog"] == "SLUS_013.95")
+    p = next(p for p, _, _ in res if p["prog"] == "main")
     cand = next(f for f in sorted(p["funcs"], key=lambda f: f["vram"])
                 if f["src"] == "glabel" and f["lane"] == "game" and f["words"] > 1 and p["words"].get(f["vram"])
                 and f["vram"] not in p["data"] and not any(a <= f["vram"] < b for a, b in p["jtbl"]))
@@ -452,7 +489,7 @@ def main():
             return self_test()
         progs = programs()
         if a.prog and a.prog not in progs:
-            raise Refuse(f"REFUSE {a.prog} no config/{a.prog}.yaml")
+            raise Refuse(f"REFUSE {a.prog} no {CONFIG_V}/{a.prog}.yaml")
         res = corpus([a.prog] if a.prog else progs)
         write(res)
         summary(res)

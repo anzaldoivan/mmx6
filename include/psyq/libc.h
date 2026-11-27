@@ -1,4 +1,4 @@
-/* psyq/libc.h -- prototypes of the LIBC.LIB functions the retail SLUS_013.95 links.
+/* psyq/libc.h -- prototypes of the LIBC.LIB functions the retail main links.
  *
  * Written for mmx6 from interface facts only: name, address and call signature. No SDK header text.
  * Each prototype carries one line: library, object+offset inside it, retail address.
@@ -7,23 +7,23 @@
 #ifndef PSYQ_LIBC_H
 #define PSYQ_LIBC_H
 
-// LIBC A63.OBJ+0x8, retail SLUS_013.95 0x80069D2C
+// LIBC A63.OBJ+0x8, retail main 0x80069D2C
 void puts(const char *);
-// LIBC C19.OBJ+0x0, retail SLUS_013.95 0x80069D44
+// LIBC C19.OBJ+0x0, retail main 0x80069D44
 int setjmp(int *);
-// LIBC C23.OBJ+0x0, retail SLUS_013.95 0x80069D54
+// LIBC C23.OBJ+0x0, retail main 0x80069D54
 int strcmp();
-// LIBC C24.OBJ+0x0, retail SLUS_013.95 0x80069D64
+// LIBC C24.OBJ+0x0, retail main 0x80069D64
 int strncmp(const char *, const char *, int);
-// LIBC C25.OBJ+0x0, retail SLUS_013.95 0x80069D74
+// LIBC C25.OBJ+0x0, retail main 0x80069D74
 char *strcpy();
-// LIBC C42.OBJ+0x0, retail SLUS_013.95 0x80069D84
+// LIBC C42.OBJ+0x0, retail main 0x80069D84
 void *memcpy();
-// LIBC C43.OBJ+0x0, retail SLUS_013.95 0x80069D94
+// LIBC C43.OBJ+0x0, retail main 0x80069D94
 void memset(void *, int, int); // retail callers are compiled against a void return (v0 free after the call); SDK returns void *
-// LIBC C63.OBJ+0x0, retail SLUS_013.95 0x80069DA4
+// LIBC C63.OBJ+0x0, retail main 0x80069DA4
 int printf(const char *, ...);
-// LIBC C40.OBJ+0x0, retail SLUS_013.95 0x8006B754
+// LIBC C40.OBJ+0x0, retail main 0x8006B754
 void *bzero(unsigned char *, int);
 
 #endif /* PSYQ_LIBC_H */

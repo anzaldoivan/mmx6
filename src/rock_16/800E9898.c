@@ -70,7 +70,7 @@ void func_800E99A4(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800E9AF8);
+INCLUDE_ASM("rock_16/nonmatchings/E9860", func_800E9AF8);
 // clang-format on
 
 #include "common.h"
@@ -175,9 +175,9 @@ void func_800E9F70(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EA27C);
+INCLUDE_ASM("rock_16/nonmatchings/E9860", func_800EA27C);
 
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EA3FC);
+INCLUDE_ASM("rock_16/nonmatchings/E9860", func_800EA3FC);
 // clang-format on
 
 #include "common.h"
@@ -1161,7 +1161,7 @@ void func_800EC8CC(s32 arg0) {
 #undef D_800F0BC4
 
 // clang-format off
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800EC96C);
+INCLUDE_ASM("rock_16/nonmatchings/E9860", func_800EC96C);
 // clang-format on
 
 #include "common.h"
@@ -1789,7 +1789,7 @@ void func_800ED6B4(void* arg0) {
 #undef FAMILY_FIELD
 
 // clang-format off
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800ED71C);
+INCLUDE_ASM("rock_16/nonmatchings/E9860", func_800ED71C);
 // clang-format on
 
 #include "common.h"
@@ -3516,11 +3516,11 @@ void func_800F093C(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800F095C);
+INCLUDE_ASM("rock_16/nonmatchings/E9860", func_800F095C);
 
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800F0DAC);
+INCLUDE_ASM("rock_16/nonmatchings/E9860", func_800F0DAC);
 
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800F0DC4);
+INCLUDE_ASM("rock_16/nonmatchings/E9860", func_800F0DC4);
 
-INCLUDE_ASM("asm/rock_16/nonmatchings/E9860", func_800F0DDC);
+INCLUDE_ASM("rock_16/nonmatchings/E9860", func_800F0DDC);
 // clang-format on

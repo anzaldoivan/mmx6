@@ -4,13 +4,13 @@
 # run verbatim from it (its clone line replaced by the projection, /path/to/dump by $MX6_DUMP), on image/volumes
 # mmx6-fresh, mmx6-disc-fresh, removed on exit with the clone. Proves build + hash only: the health ladder
 # (make fleet) needs dev-side inputs and stays in the private contract run. Last line `FRESH BUILD <k> of 57` (distinct
-# `build/...: OK` lines); rc 0 iff k = 57.
+# `build/us/...: OK` lines, the default BUILD_ROOT and VERSION); rc 0 iff k = 57.
 # Usage: MX6_DUMP=<dump dir> bash tools/mmx6/fresh_clone.sh [DOC]
 #   DOC given: on success its `## Fresh clone` section (the last) is replaced. contract.sh runs it as step 1 without.
 set -uo pipefail
 cd "$(dirname "$0")/../.." || exit 2
 PY="${PY:-/opt/homebrew/opt/python@3.14/bin/python3.14}"
-NBIN=57  # binaries of the fleet (config/*.yaml programs)
+NBIN=57  # binaries of the fleet (config/us/*.yaml programs)
 # The open phase's temp folder (as tools/run.sh: `# Phase <id>` of PHASE_PLAN.md), else .run (no plan open).
 PHASE=$(sed -n '1s/^#[[:space:]]*Phase[[:space:]][[:space:]]*\([A-Za-z0-9._-][A-Za-z0-9._-]*\).*/\1/p' \
   phase-ends/current/PHASE_PLAN.md 2>/dev/null | head -n 1)

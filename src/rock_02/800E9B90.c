@@ -29,7 +29,7 @@ void func_800E9B90(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_02/nonmatchings/E9860", func_800E9C20);
+INCLUDE_ASM("rock_02/nonmatchings/E9860", func_800E9C20);
 // clang-format on
 
 #define func_80048DC8 func_800E9D80
@@ -922,57 +922,7 @@ extern s32 D_800FAB80;
 extern s32 D_800FAB84;
 extern s32 D_800FACD4;
 
-void func_800EB450(struct X4_MainObj* arg0) {
-    struct X4_MainObj* child;
-    u8 v;
-
-    arg0->unk7C = 0;
-    arg0->hp = 0x20;
-    arg0->invincibility_timer = 0;
-    v = D_800970B4;
-    arg0->animation_table = (void*)&D_800FACD4;
-    arg0->unk16 = 6;
-    arg0->terrain_box = (void*)&D_800FAB7C;
-    arg0->bg_offset = v;
-    arg0->hurt_box = &D_800FAB84;
-    arg0->attack_box = &D_800FAB80;
-    arg0->air_state = 0;
-    arg0->collision_data = &D_8007447C;
-    arg0->contact_damage = 4;
-    arg0->action = 2;
-    arg0->unk15 = 0;
-    arg0->x_speed = 0;
-    arg0->x_accel = -0xC00;
-    arg0->unk18.val = arg0->x_pos.val;
-    arg0->y_speed = 0;
-    arg0->gravity = 0x2000;
-    arg0->state = 1;
-    arg0->action_phase = 0;
-    arg0->unk1C.val = arg0->y_pos.val;
-    if (arg0->unk2 == 0) {
-        arg0->unk7 = 0;
-        ((void (*)(void*, s32, s32))set_animation)(arg0, 2, v);
-    } else {
-        arg0->unk7 = 0x40;
-        ((void (*)(void*, s32, s32))set_animation)(arg0, 0, v);
-    }
-    arg0->ext.raw[0] = arg0->animation_step.fields.frame_index;
-    child = alloc_sprite_slot();
-    if (child != 0) {
-        child->active = 0x41;
-        child->id = 2;
-        child->unk2 = arg0->animation_step.fields.frame_index;
-        child->unk40 = arg0->unk40;
-        child->unk42 = arg0->unk42 & 0x7FFF;
-        child->animation_table = arg0->animation_table;
-        child->sprite_frames = arg0->sprite_frames;
-        child->bg_offset = arg0->bg_offset;
-        child->x_pos.val = arg0->x_pos.val;
-        child->y_pos.u.hi = arg0->y_pos.u.hi;
-        child->unk15 = arg0->unk15;
-        child->attack_box = arg0;
-    }
-}
+#include "../shared/rock_02/func_800EB450.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -1140,16 +1090,7 @@ s32 func_8002F288();
 void func_800EBF68(void* arg0);
 extern void (*D_800FAD04[])(void*);
 
-void func_800EBC24(void* arg0) {
-    M2C_FIELD(arg0, s32*, 0x18) = M2C_FIELD(arg0, s32*, 0x8);
-    M2C_FIELD(arg0, s32*, 0x1C) = M2C_FIELD(arg0, s32*, 0xC);
-    if (M2C_FIELD(arg0, u8*, 0x70) & 8) {
-        M2C_FIELD(arg0, s32*, 0x24) = 0;
-    }
-    D_800FAD04[M2C_FIELD(arg0, s8*, 0x4)](arg0);
-    func_8002F288(arg0);
-    func_800EBF68(arg0);
-}
+#include "../shared/rock_02/func_800EBC24.c"
 
 #include "common.h"
 
@@ -1527,9 +1468,9 @@ void func_800EC784(void* arg0) {
 #undef SELF
 
 // clang-format off
-INCLUDE_ASM("asm/rock_02/nonmatchings/E9860", func_800EC848);
+INCLUDE_ASM("rock_02/nonmatchings/E9860", func_800EC848);
 
-INCLUDE_ASM("asm/rock_02/nonmatchings/E9860", func_800EC9C8);
+INCLUDE_ASM("rock_02/nonmatchings/E9860", func_800EC9C8);
 // clang-format on
 
 #include "common.h"
@@ -1786,14 +1727,7 @@ void func_800ED5DC(void* arg0) {
 #include "mmx6/x4.h"
 void func_800EC9C8(struct X4_MainObj*);
 
-void func_800ED7B8(struct X4_MainObj* self) {
-    if (SP_CUR_MAIN_OBJ->ext.main_48.unk82 < 9) {
-        func_800EC9C8(self);
-        self->action_phase -= 2;
-    } else {
-        self->action_phase++;
-    }
-}
+#include "../shared/rock_02/func_800ED7B8.c"
 
 #include "common.h"
 
@@ -2803,7 +2737,7 @@ void func_800EECAC(void* arg0) {
 #undef g_Player
 
 // clang-format off
-INCLUDE_ASM("asm/rock_02/nonmatchings/E9860", func_800EF2EC);
+INCLUDE_ASM("rock_02/nonmatchings/E9860", func_800EF2EC);
 // clang-format on
 
 #include "common.h"

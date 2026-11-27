@@ -1,7 +1,7 @@
 -- tools/mmx6/redux/movement.lua -- player movement datapoints (T6.c1, phase 2.6); run:
 --   MMX6_INPUTS=tools/mmx6/redux/inputs/mv_<move>.lua tools/mmx6/redux/run.sh tools/mmx6/redux/movement.lua --timeout 240
 -- Schedule: {name, steps, stop, focus = frame the move starts (default 0), pokes = {{frame, field, value, label}}}.
--- Watches g_Player 0x800970A0 (PlayerObj, include/mmx6/player.h). Exec breakpoints (sites from SLUS_013.95 bytes):
+-- Watches g_Player 0x800970A0 (PlayerObj, include/mmx6/player.h). Exec breakpoints (sites from main bytes):
 --   0x800350F0  `jalr a1` of `D_80073ACC[p->action](p)` in update_player 0x80034FBC (a0 is set in the delay slot:
 --               p = s0, target = a1): checks s0 == g_Player and a1 == word(0x80073ACC + 4*action); a line per
 --               (action, phase) change → {dp, frame, action, phase, timer, target, fields}.
@@ -54,7 +54,7 @@ local MEMBERS = {
     {'player_check_dash_jump_walk', 0x80039BC4}, {'player_spawn_dash_spark', 0x8003C6A4}, {'spawn_dust', 0x8003D2BC},
     {'player_hurt', 0x80037838},
 }
--- T6.c2 probes (sites from SLUS_013.95 bytes): name, pc, register. Armed only when the schedule lists them
+-- T6.c2 probes (sites from main bytes): name, pc, register. Armed only when the schedule lists them
 -- (`probes = {'name', ...}`), so schedules without probes keep their dp ids.
 local PROBE_DEFS = {
     {'falcon_store_action', 0x8003F2EC, 'v0'}, -- start_falcon_dash `sb v0,5(s0)`

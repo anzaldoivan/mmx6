@@ -1,5 +1,5 @@
 // clang-format off
-INCLUDE_ASM("asm/rock_46/nonmatchings/FA000", D_800FA000);
+INCLUDE_ASM("rock_46/nonmatchings/FA000", D_800FA000);
 
 #include "../shared/rock_46/func_800FA004.c"
 // clang-format on
@@ -20,34 +20,7 @@ extern s8 D_800CF850;
 extern u8 D_800EA510[];
 extern u8 func_800FACCC[];
 
-void func_800FA0E8(u8* arg0) {
-    s32 i;
-
-    reset_level();
-    func_8002C2B8();
-    init_checkpoint_positions();
-    func_800280F4();
-    func_80025F34();
-    {
-        s8* p;
-        s8* q;
-        do {
-            p = &D_80090D56;
-            do {
-                q = &D_8009742C;
-            } while (0);
-        } while (0);
-        *p = 0;
-        *q = 0;
-        D_800CF850 = 0;
-        ((void (*)(s32))func_8002B2F8)(0);
-    }
-    arg0[1]++;
-    for (i = 0; i < 4; i++) {
-        D_800EA510[i] = func_800FACCC[i];
-    }
-    func_800E9ED4();
-}
+#include "../shared/rock_46/func_800FA0E8.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -179,7 +152,7 @@ void func_800FA474(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_46/nonmatchings/FA000", func_800FA518);
+INCLUDE_ASM("rock_46/nonmatchings/FA000", func_800FA518);
 // clang-format on
 
 #include "common.h"
@@ -433,5 +406,5 @@ void func_800FAC3C(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_46/nonmatchings/FA000", func_800FACCC);
+INCLUDE_ASM("rock_46/nonmatchings/FA000", func_800FACCC);
 // clang-format on

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """carve.py -- deliberate segment edges per binary: jump-table rodata carves and opt-level unit splits (stdlib only).
 
-    carve.py jtbl <prog> <table_lo>                         table = config/boundaries.txt `jtbl` row lo
+    carve.py jtbl <prog> <table_lo>                         table = config/us/boundaries.txt `jtbl` row lo
     carve.py rodata <prog> <func_vram> [--bytes N]          tables = retail words of the rodata block inside func
     carve.py data <prog> <lo>                               same-unit const data run at a dlabel lo (T28.c1)
     carve.py opt <prog> <tu> <split vram> [--cflags "<f>"] [--gate]  split <tu> at a corpus function start
     carve.py --check                                        every record still valid (fail-closed)
     carve.py --self-test                                    planted refusals on a scratch copy under .run/
 
-Record config/carve.<prog>.txt (tracked, written only here): `jtbl <table_lo> <tu>` | `rodata <lo> <hi> <tu>` |
+Record config/us/carve.<prog>.txt (tracked, written only here): `jtbl <table_lo> <tu>` | `rodata <lo> <hi> <tu>` |
 `data <lo> <hi> <tu>` | `block <hi>` | `opt <tu> <vram> <newtu> [cflags...]`, newtu = vram hex without 0x80. tools/mmx6/segment.py applies it to
 the generated yaml block: an opt row is a text edge (TU <newtu>, kind of its parent); a jtbl row cuts the rodata block
 at [lo, hi) into `.rodata <tu>`, which splat pairs with unit <tu> (the table migrates into its dispatcher's INCLUDE_ASM
@@ -20,8 +20,8 @@ in that range refuses `foreign-rodata` (T44.c1). jtbl: a gap between the table a
 boundaries jtbl tables whose dispatchers are corpus functions of the unit (each followed by zero pad < alignment) is
 carved with it, one row per table in address order (`jtbl <lo> <tu>`, or `rodata <lo> <hi+pad> <tu>` when padded) and
 one `CARVE jtbl OK` line each; any other byte in the gap refuses `non-contiguous` (T11.c1). data (T28.c1): [lo, hi) = the dlabel at lo to the next asm symbol
-(asm/<prog>); tu = the TU of every reference to a D_/jtbl_ name inside [lo, hi): asm .s of every program outside
-asm/<prog>/nonmatchings/<tu>/ (dlabel/enddlabel/.size lines are the definition) and src C (comments stripped) outside
+(asm/us/<prog>); tu = the TU of every reference to a D_/jtbl_ name inside [lo, hi): asm .s of every program outside
+asm/us/<prog>/nonmatchings/<tu>/ (dlabel/enddlabel/.size lines are the definition) and src C (comments stripped) outside
 <tu>'s include closure; none, or any foreign one, refuses `foreign-rodata`. The run must touch a `jtbl`/`rodata`/`data`
 row of tu or a boundaries jtbl row whose dispatcher is in tu (else `not-adjacent`), then the jtbl refusals; the row merges
 with the unit's tables like a `rodata` row (its bytes: INCLUDE_RODATA in the unit's C at its rodata-order position, by
@@ -36,13 +36,13 @@ pass plants a thin unit over two role files in its scratch. The tail's preamble 
 non-chunk, non-comment line between its chunks (declarations, externs, #defines) plus the file-scope extern/prototype
 lines of the head's member bodies (their block's #defines applied); the head is written unchanged. opt moves the
 parent's `jtbl` rows whose dispatcher, and `rodata` rows whose retail words' function (corpus), starts >= the split
-vram to <newtu> (rodata-follow), and removes asm/<prog> and build/split/<prog>.stamp so the next make re-splits
+vram to <newtu> (rodata-follow), and removes asm/us/<prog> and build/us/split/<prog>.stamp so the next make re-splits
 (C0289; T23). --gate snapshots every file the carve writes (unit, tail, role files, c_units, record, .mk, yaml),
 re-splits, rebuilds the program clean and runs `sha1sum -c config/check.<prog>.sha` (log
 .run/carve/gate.<prog>.log): green prints `CARVE opt GATE OK ...`; red restores the snapshot, re-splits and refuses
-`carve-red`. config/carve.<prog>.mk (generated from the record, included by the Makefile) sets the per-unit cc1 flags
-`CFLAGS_<newtu>`. Inputs: build/corpus/functions.jsonl (corpus.py --all) for function starts and TUs.
-Retail words: extracted/retail/iso/SLUS_013.95 | extracted/retail/rock/NN.bin.
+`carve-red`. config/us/carve.<prog>.mk (generated from the record, included by the Makefile) sets the per-unit cc1 flags
+`CFLAGS_<newtu>`. Inputs: build/us/corpus/functions.jsonl (corpus.py --all) for function starts and TUs.
+Retail words: extracted/us/iso/SLUS_013.95 | extracted/us/rock/NN.bin.
 Prints `CARVE jtbl OK <prog> 0x<lo>` / `CARVE data OK <prog> 0x<lo>-0x<hi> <tu>` / `CARVE rodata OK <prog> 0x<func> 0x<lo>-0x<hi> <bytes>` (per range) /
 `CARVE opt OK <prog> <tu>@0x<vram>`; --check prints those per verified row (rodata: `CARVE rodata OK <prog> 0x<lo>-0x<hi>`; data:
 `CARVE data OK <prog> 0x<lo>-0x<hi>`) and
@@ -61,8 +61,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import layout  # noqa: E402  (ASM_RE, asm_line: the INCLUDE_ASM regex and literal)
 import probe  # noqa: E402  (sym_name, plant_lookup: the self-test's names looked up by vram)
 import segment  # noqa: E402
+from paths import BUILD, CONFIG_V, EXTRACTED, ASM as ASM_REL, MAIN_EXE  # noqa: E402  (the version axis, 3.3 T37)
 
-CORPUS = os.path.join(ROOT, "build", "corpus", "functions.jsonl")
+CORPUS = os.path.join(ROOT, BUILD, "corpus", "functions.jsonl")
 SCRATCH = os.path.join(ROOT, ".run", "carve-selftest")
 INC_RE = layout.ASM_RE  # an INCLUDE_ASM line (the one regex, tools/mmx6/layout.py)
 CDEF_RE = re.compile(r"(?!INCLUDE_ASM\b)[A-Za-z_][^;{}()#]*?\b([A-Za-z_]\w*)\s*\([^;{}]*?\)\s*\{(\s*\})?")
@@ -80,12 +81,15 @@ def refuse(code, msg):
 def use_root(root):
     """Point segment.py's inputs at root (the repo, or the self-test scratch copy)."""
     segment.ROOT = root
-    segment.BOUNDARIES = os.path.join(root, "config", "boundaries.txt")
+    segment.BOUNDARIES = os.path.join(root, CONFIG_V, "boundaries.txt")
     segment.C_UNITS = os.path.join(root, "config", "c_units.txt")
 
 
 def cfg(root, *p):
-    return os.path.join(root, "config", *p)
+    """root's config file p: c_units.txt is shared (config/), the rest address-bound (config/<VERSION>/, 3.3 T37)."""
+    if p and p[0] == "c_units.txt":
+        return os.path.join(root, "config", *p)
+    return os.path.join(root, CONFIG_V, *p)
 
 
 # ---- inputs --------------------------------------------------------------------------------------------------------
@@ -129,9 +133,9 @@ def retail_words(prog, lo, hi):
     """[(vram, word)] of the retail image of prog over [lo, hi), little-endian, lo 4-aligned."""
     base = segment.read_programs(segment.BOUNDARIES)[prog][0]
     if prog == segment.EXE["name"]:
-        path, off = os.path.join(ROOT, "extracted", "retail", "iso", prog), lo - base + segment.EXE["header"]
+        path, off = os.path.join(ROOT, EXTRACTED, "iso", MAIN_EXE), lo - base + segment.EXE["header"]
     else:
-        path, off = os.path.join(ROOT, "extracted", "retail", "rock", "%02d.bin" % int(prog[5:])), lo - base
+        path, off = os.path.join(ROOT, EXTRACTED, "rock", "%02d.bin" % int(prog[5:])), lo - base
     with open(path, "rb") as f:
         f.seek(off)
         b = f.read(hi - lo)
@@ -210,7 +214,7 @@ def placement_refusals(prog, ranges, tu, carved, blo, bhi):
 
 
 def read_record(root, prog):
-    """[[kind, ...fields]] rows of config/carve.<prog>.txt, comments dropped."""
+    """[[kind, ...fields]] rows of config/us/carve.<prog>.txt, comments dropped."""
     path = cfg(root, "carve.%s.txt" % prog)
     if not os.path.exists(path):
         return []
@@ -220,16 +224,16 @@ def read_record(root, prog):
 
 def write_record(root, prog, rows):
     with open(cfg(root, "carve.%s.txt" % prog), "w") as f:
-        f.write("# config/carve.%s.txt -- carves of %s, written only by tools/mmx6/carve.py (config/segmentation.md).\n"
+        f.write("# config/us/carve.%s.txt -- carves of %s, written only by tools/mmx6/carve.py (config/segmentation.md).\n"
                 "# jtbl <table_lo> <tu> | rodata <lo> <hi> <tu> | data <lo> <hi> <tu> | block <hi> | opt <tu> <vram> <newtu> [cflags...]\n"
                 % (prog, prog))
         f.writelines(" ".join(r) + "\n" for r in rows)
 
 
 def render_mk(prog, rows):
-    out = ["# config/carve.%s.mk -- generated by tools/mmx6/carve.py from config/carve.%s.txt; included by the "
+    out = ["# config/us/carve.%s.mk -- generated by tools/mmx6/carve.py from config/us/carve.%s.txt; included by the "
            "Makefile.\n" % (prog, prog)]
-    out += ["build/src/%s/%s.c.o: CFLAGS_%s := %s\n" % (prog, r[3], r[3], " ".join(r[4:]))
+    out += ["$(B)/src/%s/%s.c.o: CFLAGS_%s := %s\n" % (prog, r[3], r[3], " ".join(r[4:]))
             for r in rows if r[0] == "opt" and len(r) > 4]
     return "".join(out)
 
@@ -262,7 +266,7 @@ def regenerate(root, prog, rows):
 def carve_jtbl(root, prog, lo):
     rows = jtbl_rows(prog)
     if lo not in rows:
-        refuse("not-a-row", "%s 0x%08X is not a jtbl row lo of config/boundaries.txt" % (prog, lo))
+        refuse("not-a-row", "%s 0x%08X is not a jtbl row lo of config/us/boundaries.txt" % (prog, lo))
     hi, func, _, note = rows[lo]
     if func is None or "label-inside-scan-table" in note:
         refuse("no-dispatcher", "%s 0x%08X row has func `-` or note label-inside-scan-table" % (prog, lo))
@@ -319,7 +323,7 @@ def bridge(prog, lo, hi, tu, carved, rows, fns):
 
 # ---- data ----------------------------------------------------------------------------------------------------------
 
-ASM = os.path.join(ROOT, "asm")
+ASM = os.path.join(ROOT, ASM_REL)
 NAME_RE = re.compile(r"\b(?:D|jtbl)_([0-9A-F]{8})\b")
 LABEL_RE = re.compile(r"^\s*(dlabel|glabel|jlabel)\s+(\w+)")
 WORD_RE = re.compile(r"^\s*/\*\s*[0-9A-F]+\s+([0-9A-F]{8})\s")
@@ -327,7 +331,7 @@ DEF_RE = re.compile(r"^\s*(dlabel|enddlabel|nonmatching|\.size)\b")
 
 
 def asm_files(prog=None):
-    """Every .s path under asm/ (asm/<prog>/ when prog is given), sorted."""
+    """Every .s path under asm/ (asm/us/<prog>/ when prog is given), sorted."""
     top = os.path.join(ASM, prog) if prog else ASM
     return sorted(os.path.join(d, n) for d, _, ns in os.walk(top) for n in ns if n.endswith(".s"))
 
@@ -369,7 +373,7 @@ def unit_closure(root, prog, tu):
 
 def data_refs(root, prog, lo, hi):
     """[("path:line", tu | None)] of the references to a D_/jtbl_ name inside [lo, hi): asm .s of every program
-    (definition lines skipped; tu = <x> under asm/<prog>/nonmatchings/<x>/, else None) and src C (comments stripped;
+    (definition lines skipped; tu = <x> under asm/us/<prog>/nonmatchings/<x>/, else None) and src C (comments stripped;
     tu = each unit of prog whose include closure holds the file, None when none does)."""
     out = []
     hit = lambda l: any(lo <= int(x, 16) < hi for x in NAME_RE.findall(l))
@@ -440,8 +444,8 @@ def table_runs(prog, blo, bhi, flo, fend):
 
 
 def unit_align(prog, tu):
-    """sh_addralign of the .rodata section of the built unit object build/src/<prog>/<tu>.c.o (1 when absent: no pad)."""
-    path = os.path.join(ROOT, "build", "src", prog, "%s.c.o" % tu)
+    """sh_addralign of the .rodata section of the built unit object build/us/src/<prog>/<tu>.c.o (1 when absent: no pad)."""
+    path = os.path.join(ROOT, BUILD, "src", prog, "%s.c.o" % tu)
     if not os.path.exists(path):
         return 1
     with open(path, "rb") as f:
@@ -693,9 +697,9 @@ def opt_paths(root, prog, tu, newtu):
 
 
 def resplit(root, prog):
-    """Drop asm/<prog> and its split stamp: the next make re-splits (splat never deletes a moved function's .s; C0289)."""
-    shutil.rmtree(os.path.join(root, "asm", prog), ignore_errors=True)
-    stamp = os.path.join(root, "build", "split", prog + ".stamp")
+    """Drop asm/<version>/<prog> and its split stamp: the next make re-splits (splat never deletes a moved function's .s; C0289)."""
+    shutil.rmtree(os.path.join(root, ASM_REL, prog), ignore_errors=True)
+    stamp = os.path.join(root, BUILD, "split", prog + ".stamp")
     if os.path.exists(stamp):
         os.remove(stamp)
 
@@ -712,23 +716,25 @@ def run_log(root, prog, cmd):
 def gate_build(root, prog):
     """Re-split, clean rebuild of prog, `sha1sum -c config/check.<prog>.sha`: '' when green, else the failing step."""
     resplit(root, prog)
-    if run_log(root, prog, ["make", "-s", "build/split/%s.stamp" % prog]):
+    if run_log(root, prog, ["make", "-s", f"{BUILD}/split/%s.stamp" % prog]):
         return "split"
-    out = "build/rock/%s.bin" % prog[5:] if prog.startswith("rock_") else "build/" + prog
-    objs = [os.path.join(dp, n) for dp, _, ns in os.walk(os.path.join(root, "build", "src", prog)) for n in ns
+    out = f"{BUILD}/rock/%s.bin" % prog[5:] if prog.startswith("rock_") else f"{BUILD}/" + MAIN_EXE
+    objs = [os.path.join(dp, n) for dp, _, ns in os.walk(os.path.join(root, BUILD, "src", prog)) for n in ns
             if n.endswith(".c.o")]
-    for p in objs + [os.path.join(root, "build", prog + ".elf"), os.path.join(root, out)]:
+    for p in objs + [os.path.join(root, BUILD, prog + ".elf"), os.path.join(root, out)]:
         if os.path.exists(p):
             os.remove(p)
     if run_log(root, prog, ["make", "-s", out]):
         return "build"
-    return "sha" if run_log(root, prog, ["sha1sum", "-c", "config/check.%s.sha" % prog]) else ""
+    # config/check.<prog>.sha spells build/<out>: mapped to BUILD as the Makefile's CHECK does (3.3 T37)
+    check = "sed 's|  build/|  %s/|' config/check.%s.sha | sha1sum -c -" % (BUILD, prog if prog.startswith("rock_") else MAIN_EXE)
+    return "sha" if run_log(root, prog, ["bash", "-o", "pipefail", "-c", check]) else ""
 
 
 def gate_split(root, prog):
     """Re-split prog after a restore; rc."""
     resplit(root, prog)
-    return run_log(root, prog, ["make", "-s", "build/split/%s.stamp" % prog])
+    return run_log(root, prog, ["make", "-s", f"{BUILD}/split/%s.stamp" % prog])
 
 
 def carve_opt_gated(root, prog, tu, vram, cflags):
@@ -799,7 +805,7 @@ def check(root, quiet=False):
     progs = sorted(os.path.basename(p)[len("carve."):-len(".txt")] for p in os.listdir(cfg(root))
                    if p.startswith("carve.") and p.endswith(".txt"))
     mks = sorted(p[len("carve."):-len(".mk")] for p in os.listdir(cfg(root)) if p.startswith("carve.") and p.endswith(".mk"))
-    errs += ["%s: config/carve.%s.mk without a record" % (p, p) for p in mks if p not in progs]
+    errs += ["%s: config/us/carve.%s.mk without a record" % (p, p) for p in mks if p not in progs]
     for prog in progs:
         rec, fns, cset, rows = read_record(root, prog), corpus(prog), segment.c_units(prog), jtbl_rows(prog)
         for r in rec:
@@ -865,7 +871,7 @@ def check(root, quiet=False):
                  if pts.count(t) > 1]
         mk = cfg(root, "carve.%s.mk" % prog)
         if not os.path.exists(mk) or open(mk).read() != render_mk(prog, rec):
-            errs.append("%s: config/carve.%s.mk != the record" % (prog, prog))
+            errs.append("%s: config/us/carve.%s.mk != the record" % (prog, prog))
     allprogs = segment.read_programs(segment.BOUNDARIES)
     for prog in sorted(p for p in allprogs if os.path.exists(cfg(root, p + ".yaml"))):
         with open(cfg(root, prog + ".yaml")) as f:
@@ -873,7 +879,7 @@ def check(root, quiet=False):
         m = segment.marked(lines)
         want = segment.block(prog, allprogs)
         if m is None or lines[m[0]:m[1] + 1] != want:
-            errs.append("%s: config/%s.yaml block != segment.py regeneration" % (prog, prog))
+            errs.append("%s: config/us/%s.yaml block != segment.py regeneration" % (prog, prog))
     for e in [] if quiet else errs:
         print("CARVE CHECK FAIL " + e)
     if errs:
@@ -1029,7 +1035,7 @@ def self_test():
     ok &= expect("overlaps-carve", carve_jtbl, SCRATCH, EXE, 0x80011380)
     # was TU 32208's gap at 0x80011398 / 0x800113B0 (T35.c53), carved by W301; now probed from the live record (T15.c3)
     # W306 (3.2 T5.c1) carved the exe's last non-contiguous gap: fall back to the overlays' live records, in name order
-    cfgdir = os.path.join(SCRATCH, "config")
+    cfgdir = cfg(SCRATCH)
     for ncp in [EXE] + sorted(n[len("carve."):-len(".txt")] for n in os.listdir(cfgdir)
                               if n.startswith("carve.") and n.endswith(".txt") and n != "carve.%s.txt" % EXE):
         nc = noncontig_target(SCRATCH, ncp)
@@ -1132,13 +1138,13 @@ def self_test():
     t = t and before == [open(p, "rb").read() if os.path.exists(p) else None for p in paths]
     print("control opt-gate-restore %s" % ("restored" if t else "WRONG"))
     ok &= t
-    os.makedirs(os.path.join(SCRATCH, "asm", EXE), exist_ok=True)  # stale split output a carve must drop (C0289)
-    os.makedirs(os.path.join(SCRATCH, "build", "split"), exist_ok=True)
-    open(os.path.join(SCRATCH, "asm", EXE, "stale.s"), "w").close()
-    open(os.path.join(SCRATCH, "build", "split", EXE + ".stamp"), "w").close()
+    os.makedirs(os.path.join(SCRATCH, ASM_REL, EXE), exist_ok=True)  # stale split output a carve must drop (C0289)
+    os.makedirs(os.path.join(SCRATCH, BUILD, "split"), exist_ok=True)
+    open(os.path.join(SCRATCH, ASM_REL, EXE, "stale.s"), "w").close()
+    open(os.path.join(SCRATCH, BUILD, "split", EXE + ".stamp"), "w").close()
     carve_opt(SCRATCH, EXE, tu, tgt, "-O0 -G0")  # positive control: a C-definition chunk (or its role file) moves
-    t = not os.path.exists(os.path.join(SCRATCH, "asm", EXE)) and \
-        not os.path.exists(os.path.join(SCRATCH, "build", "split", EXE + ".stamp"))
+    t = not os.path.exists(os.path.join(SCRATCH, ASM_REL, EXE)) and \
+        not os.path.exists(os.path.join(SCRATCH, BUILD, "split", EXE + ".stamp"))
     print("control opt-resplit   %s" % ("dropped" if t else "WRONG"))
     ok &= t
     src = os.path.join(SCRATCH, "src", EXE)

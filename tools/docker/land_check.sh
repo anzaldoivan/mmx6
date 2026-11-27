@@ -13,6 +13,6 @@ docker exec "$cn" bash -c 'rm -rf /work/* /work/.[!.]* 2>/dev/null; mkdir -p /wo
 COPYFILE_DISABLE=1 tar -C "$tree" --exclude=.git --exclude=./extracted --no-xattrs -cf - . |
   docker exec -i "$cn" tar -xf - -C /work
 docker exec "$cn" bash -c 'cd /work && { make -j8 split build >/tmp/b.log 2>&1 || { tail -5 /tmp/b.log; exit 1; }; }
-  cat config/check.*.sha | sort -u >/tmp/all.sha
+  cat config/check.*.sha | sed "s|  build/|  build/us/|" | sort -u >/tmp/all.sha  # check files spell build/: the default BUILD_ROOT/VERSION
   n=$(cd /work && sha1sum -c /tmp/all.sha 2>/dev/null | grep -c ": OK$" || true); t=$(wc -l </tmp/all.sha)
   echo "LAND-CHECK $n of $t"; [ "$n" = "$t" ]'

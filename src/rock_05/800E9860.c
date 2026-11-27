@@ -1,5 +1,5 @@
 // clang-format off
-INCLUDE_ASM("asm/rock_05/nonmatchings/E9860", D_800E9860);
+INCLUDE_ASM("rock_05/nonmatchings/E9860", D_800E9860);
 // clang-format on
 
 #include "../shared/rock_05/func_800E98C0.c"
@@ -12,32 +12,7 @@ INCLUDE_ASM("asm/rock_05/nonmatchings/E9860", D_800E9860);
 M2C_UNK set_animation(void*, M2C_UNK);
 extern u8 D_800F3CD0[];
 
-void func_800E9A04(u8* arg0) {
-    if (SCRATCH_4C[0x84] != 0) {
-        if (!(*(s8*)(arg0 + 2) & 0xF0)) {
-            set_animation(arg0, 1);
-        } else {
-            set_animation(arg0, 3);
-        }
-        SCRATCH_4C[0x85] = 1;
-        *(s16*)(arg0 + 0x7E) = 0xC8;
-        arg0[6]++;
-    } else if (--*(s16*)(arg0 + 0x7C) == 0) {
-        if (!(*(s8*)(arg0 + 2) & 0xF0)) {
-            set_animation(arg0, 1);
-        } else {
-            set_animation(arg0, 3);
-        }
-        arg0[6]++;
-    }
-    if (!(*(s8*)(arg0 + 2) & 0xF0)) {
-        SCRATCH_4C[0x81] = -D_800F3CD0[arg0[0x47]];
-        SCRATCH_4C[0x83] = D_800F3CD0[arg0[0x47]];
-        return;
-    }
-    SCRATCH_4C[0x81] = 0;
-    SCRATCH_4C[0x83] = D_800F3CD0[arg0[0x47]];
-}
+#include "../shared/rock_05/func_800E9A04.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -49,42 +24,7 @@ extern u8 D_800F3CD0[];
 #define SPAD (*(u8**)0x1F80004C)
 #define F(type, off) (*(type*)((u8*)self + (off)))
 
-void func_800E9B6C(void* self) {
-    u8* p;
-    s32 t;
-
-    if (F(s8, 0x45) == 1) {
-        p = SPAD;
-        if ((u8)--p[0x85] == 0) {
-            F(s8, 5) = 3;
-            F(s8, 6) = 0;
-            return;
-        }
-        play_sound(2, 0x16, self);
-        if (!(F(s8, 2) & 0xF0)) {
-            set_animation(self, 0);
-        } else {
-            set_animation(self, 2);
-        }
-        t = F(u8, 2) & 0xF;
-        if (t == 0) {
-            F(s16, 0x7C) = 0xB4;
-        } else if (t < 8) {
-            F(s16, 0x7C) = 0xE;
-        } else {
-            F(s16, 0x7C) = 0xE;
-        }
-        F(s8, 6) = 1;
-        return;
-    }
-    if (!(F(s8, 2) & 0xF0)) {
-        SPAD[0x81] = -D_800F3CD0[F(u8, 0x47)];
-        SPAD[0x83] = D_800F3CD0[F(u8, 0x47)];
-        return;
-    }
-    SPAD[0x81] = 0;
-    SPAD[0x83] = D_800F3CD0[F(u8, 0x47)];
-}
+#include "../shared/rock_05/func_800E9B6C.c"
 
 #undef F
 #undef SPAD
@@ -190,19 +130,7 @@ void func_800E9DE0(void) {
 
 extern u8 D_800F3CD0[];
 
-void func_800E9FD4(u8* arg0) {
-    if (*(s8*)(arg0 + 0x45) == 1) {
-        arg0[6]++;
-        return;
-    }
-    if (!(*(s8*)(arg0 + 2) & 0xF0)) {
-        SCRATCH_4C[0x81] = -D_800F3CD0[arg0[0x47]];
-        SCRATCH_4C[0x83] = D_800F3CD0[arg0[0x47]];
-        return;
-    }
-    SCRATCH_4C[0x81] = 0;
-    SCRATCH_4C[0x83] = D_800F3CD0[arg0[0x47]];
-}
+#include "../shared/rock_05/func_800E9FD4.c"
 
 #include "common.h"
 #include "mmx6/globals.h"
@@ -321,7 +249,7 @@ void func_800EA590(struct MainObj* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_05/nonmatchings/E9860", func_800EA5C8);
+INCLUDE_ASM("rock_05/nonmatchings/E9860", func_800EA5C8);
 // clang-format on
 
 #include "common.h"
@@ -343,56 +271,7 @@ M2C_UNK func_80049E50(void*);
 extern s32 D_800F3DB4;
 extern void (*D_800F3DCC[])(s8*);
 
-void func_800EA750(s8* arg0) {
-    s8 temp_s1;
-    s32 var_v0;
-
-    ((void (*)())animate_object)();
-    if (arg0[0x45] != 0) {
-        *(s32**)(arg0 + 0x68) = &D_800F3DB4;
-    } else {
-        *(s32**)(arg0 + 0x68) = 0;
-    }
-    *(u16*)(arg0 + 0x42) &= 0x7FFF;
-    temp_s1 = arg0[0x5C];
-    D_800F3DCC[arg0[5]](arg0);
-    if (check_enemy_hits(arg0) < 0) {
-        func_80049E50(arg0);
-        *(s16*)(arg0 + 0x7C) = 0;
-        arg0[4] = 2;
-        return;
-    }
-    if (arg0[0x5C] != temp_s1) {
-        *(u16*)(arg0 + 0x42) |= 0x8000;
-    }
-    func_80032BE8(arg0);
-    func_8003208C(arg0);
-    if (is_off_screen(arg0, 0x40, 0xF0) == 0) {
-        func_8002CCB0(arg0, 0x20, 0x20);
-    }
-    if (D_800CCEED >= arg0[2]) {
-        arg0[3] = 0;
-        func_8002CA14(arg0);
-        return;
-    }
-    func_8002CCB0(arg0, 0x20, 0x20);
-    ((void (*)(M2C_UNK*))func_8002F288)((M2C_UNK*)arg0);
-    if (D_80097185 == 0) {
-        collide_solid_object(arg0);
-    }
-    func_80031F4C(arg0);
-    if ((u8)arg0[0x70] & 8) {
-        arg0[0x67] = 0;
-        return;
-    }
-    var_v0 = *(s32*)(arg0 + 0x24);
-    if (var_v0 < 0) {
-        var_v0 = -1;
-    } else {
-        var_v0 = 1;
-    }
-    arg0[0x67] = var_v0;
-}
+#include "../shared/rock_05/func_800EA750.c"
 
 #include "common.h"
 #include "mmx6/globals.h"
@@ -402,13 +281,7 @@ void func_800EA750(s8* arg0) {
 s32 is_off_screen(void*, M2C_UNK, M2C_UNK);
 extern void (*D_800F3DBC[])(s8*);
 
-void func_800EA8E8(s8* arg0) {
-    *(s32*)(arg0 + 0x18) = *(s32*)(arg0 + 8);
-    *(s32*)(arg0 + 0x1C) = *(s32*)(arg0 + 0xC);
-    if (D_80097180 != 2 && is_off_screen(arg0, 0x40, 0xF0) != 1) {
-        D_800F3DBC[arg0[4]](arg0);
-    }
-}
+#include "../shared/rock_05/func_800EA8E8.c"
 
 #include "common.h"
 

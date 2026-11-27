@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # tools/mmx6/ghidra/mirror.sh
 #
-# The symbol mirror (phase 1.10 T10): applies the renamed symbols (config/symbols.<prog>.txt, with their basis as
+# The symbol mirror (phase 1.10 T10): applies the renamed symbols (config/us/symbols.<prog>.txt, with their basis as
 # plate comment) and the names.tsv alias plate comments to the Ghidra database ghidra/mmx6, then re-exports all
 # programs to config/ghidra/. Steps: refuse if a Ghidra process runs; back up ghidra/mmx6.gpr + mmx6.rep to
 # .run/<phase>/ghidra-backup/ (once; an existing backup is never overwritten); x4adapter.py --mirror --out

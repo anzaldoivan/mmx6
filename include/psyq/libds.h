@@ -1,4 +1,4 @@
-/* psyq/libds.h -- prototypes of the LIBDS.LIB functions the retail SLUS_013.95 links.
+/* psyq/libds.h -- prototypes of the LIBDS.LIB functions the retail main links.
  *
  * Written for mmx6 from interface facts only: name, address and call signature. No SDK header text.
  * Each prototype carries one line: library, object+offset inside it, retail address.
@@ -7,7 +7,7 @@
 #ifndef PSYQ_LIBDS_H
 #define PSYQ_LIBDS_H
 
-// LIBDS D3_002.OBJ+0x0, retail SLUS_013.95 0x80064CB4
+// LIBDS D3_002.OBJ+0x0, retail main 0x80064CB4
 int DsGetSector(void *, int);
 
 #endif /* PSYQ_LIBDS_H */

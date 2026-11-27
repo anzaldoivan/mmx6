@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system graphics | range -
+// prog main | system graphics | range -
 /* mmx6/graphics.h -- the animation functions called outside graphics/ (graphics/animation.c, animation_8003F4C4.c) (hand-edited; Phase 2.5 T10.c2). Each prototype carries its definition's type
  * (an unprototyped `T f();` stays as its callers wrote it). Not included by x4.h: callers include it. */
 #ifndef MMX6_GRAPHICS_H

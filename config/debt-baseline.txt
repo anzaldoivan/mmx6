@@ -27,6 +27,7 @@ raise protected 1 2026-10-16 own gate dropped: fleet runs in dev CI, land_check 
 raise protected 1 2026-10-24 1.9/T6 no-rom audits: README lint + 6 no-game self-tests
 raise protected 1 2026-10-25 2.0 no-rom: gamestr check + badges --check
 raise protected 1 2026-11-06 2.6 T31 mmx4 repin to 4e16dfc: campaign.md:556,563,597 pin text
+raise protected 1 2026-11-22 3.3 T38 build.yml stages extracted per version, byte check at build/us
 raise placeholder 8 2026-11-02 T9: 8 movement asm bodies banked to C bring their func_ names into the count
 raise placeholder 3 2026-11-03 2.6 boot bank func_8001344C func_800139F4 func_800EDBA8
 raise placeholder 25 2026-11-06 2026-11-06 2.6 T26 front-end bank: 28 asm bodies banked to C bring their func_ names into the count
@@ -48,13 +49,17 @@ raise placeholder 9 2026-11-15 T7: Bank W307: 8 SLUS plateau rows pin-free
 raise placeholder 4 2026-11-16 T16: Bank W308: 4 SLUS jtbl rows pin-free
 raise placeholder 2 2026-11-17 T4: W309 bank: 11 port-demo rows and 6 twins, pin-free
 raise placeholder-use 3 2026-11-18 T5: 3 homed declarations of placeholder-named functions in pilot_globals.h
+raise placeholder 1 2026-11-20 T9: W312 bank: 119 repair rows pin-free
+raise placeholder-use 37 2026-11-23 twin-form repair: shared bodies declare used program-local names as local extern lines (one per name per body)
+raise extern 37 2026-11-23 twin-form repair: shared bodies declare used program-local names as local extern lines (one per name per body)
+raise placeholder 8 2026-11-27 T6: NON_MATCHING drafts for main's 8 tier-1 functions; 3 walls carry their reason
 813 pin
 355 goto
-32714 offset
-2048 address
+32968 offset
+2099 address
 74 cast
-5849 field
-4883 placeholder
-21917 placeholder-use
-14477 extern
-1187 filename
+5864 field
+4892 placeholder
+22632 placeholder-use
+15512 extern
+1351 filename

@@ -1,5 +1,5 @@
 // PrepareOverlay.java -- headless preScript for tools/mmx6/ghidra/import.sh --member.
-// Args: <version> <base>. version in psx_ldr loader format (e.g. "4.7.0"); base = the config/loadmap.txt base.
+// Args: <version> <base>. version in psx_ldr loader format (e.g. "4.7.0"); base = the config/us/loadmap.txt base.
 // 1. The raw import is made at base 0: Program.setImageBase(base, commit) moves every block by the delta, so the
 //    block lands at <base> AND the image base is <base> (BinaryLoader alone leaves the image base at 0, which
 //    ImportAnnotations' base check could not tell apart between overlay groups).

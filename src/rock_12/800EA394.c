@@ -60,7 +60,7 @@ s32 func_800EA480(s8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_12/nonmatchings/E9860", func_800EA4DC);
+INCLUDE_ASM("rock_12/nonmatchings/E9860", func_800EA4DC);
 
-INCLUDE_ASM("asm/rock_12/nonmatchings/E9860", func_800EA904);
+INCLUDE_ASM("rock_12/nonmatchings/E9860", func_800EA904);
 // clang-format on

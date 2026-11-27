@@ -206,53 +206,10 @@ extern M2C_UNK D_8007433C;
 extern s32 D_800970A8;
 extern u8 D_800F4BF0[];
 
-void func_800E9D64(void* arg0) {
-    s32 r;
-
-    if (M2C_FIELD(arg0, u8*, 0x47) == 0) {
-        M2C_FIELD(arg0, void**, 0x58) = &D_8007433C;
-    } else {
-        M2C_FIELD(arg0, void**, 0x58) = &D_800743DC;
-    }
-    M2C_FIELD(arg0, s32*, 0x18) = M2C_FIELD(arg0, s32*, 8);
-    M2C_FIELD(arg0, s32*, 0x1C) = M2C_FIELD(arg0, s32*, 0xC);
-    ((void (**)(void*))(D_800F4BF0 + 0xF64))[M2C_FIELD(arg0, s8*, 5)](arg0);
-    if ((u32)(M2C_FIELD(arg0, u8*, 5) - 2) >= 2U) {
-        if (M2C_FIELD(arg0, s32*, 8) > D_800970A8) {
-            M2C_FIELD(arg0, u8*, 0x15) = 0;
-        } else {
-            M2C_FIELD(arg0, u8*, 0x15) = 0x40;
-        }
-    }
-    func_800EA7CC(arg0);
-    r = check_enemy_hits(arg0);
-    if (r < 0) {
-        func_80049E50(arg0);
-        func_800477E4(4, (M2C_UNK*)(D_800F4BF0 + 0xF50), arg0);
-        func_8004E654((struct X4_BaseObj*)arg0, 0x15);
-        M2C_FIELD(arg0, u8*, 4) = 2;
-        return;
-    }
-    if (r == 0x7F) {
-        M2C_FIELD(arg0, s16*, 0x7C) = 0;
-    }
-    if ((M2C_FIELD(arg0, u8*, 0x70) & 0xC) == 0xC) {
-        func_80049E50(arg0);
-        func_800477E4(4, (M2C_UNK*)(D_800F4BF0 + 0xF50), arg0);
-        func_8004E654((struct X4_BaseObj*)arg0, 0x15);
-        M2C_FIELD(arg0, u8*, 4) = 2;
-    } else {
-        func_80030ECC(arg0);
-        if (is_off_screen(arg0, 0x40, 0x40) == 0) {
-            func_8002CCB0(arg0, 0x20, 0x20);
-            return;
-        }
-        M2C_FIELD(arg0, u8*, 4) = 3;
-    }
-}
+#include "../shared/rock_09/func_800E9D64.c"
 
 // clang-format off
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800E9EF0);
+INCLUDE_ASM("rock_09/nonmatchings/E9860", func_800E9EF0);
 // clang-format on
 
 #include "../shared/rock_09/func_800EA178.c"
@@ -310,7 +267,7 @@ void func_800EA814(void) {
 #undef D_80077BC0
 
 // clang-format off
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EA880);
+INCLUDE_ASM("rock_09/nonmatchings/E9860", func_800EA880);
 // clang-format on
 
 #include "../shared/rock_09/func_800EA9B0.c"
@@ -416,29 +373,7 @@ void func_8004E654(struct X4_BaseObj* arg0, s8 arg1);
 extern u8 D_800F4BF0[];
 extern M2C_UNK D_800F5C50;
 
-void func_800EACD0(s8* arg0) {
-    s8 v;
-
-    *(s32*)(arg0 + 0x18) = *(s32*)(arg0 + 8);
-    *(s32*)(arg0 + 0x1C) = *(s32*)(arg0 + 0xC);
-    animate_object();
-    ((void (**)(s8*))(D_800F4BF0 + 0x1078))[arg0[5]](arg0);
-    if (check_enemy_hits(arg0) < 0) {
-        func_800477E4(5, &D_800F5C50, arg0);
-        func_80049E50(arg0);
-        func_8004E654((struct X4_BaseObj*)arg0, 0x13);
-        v = 2;
-        arg0[4] = v;
-        return;
-    }
-    func_80030ECC(arg0);
-    if (is_off_screen(arg0, 0x40, 0x40) == 0) {
-        func_8002CCB0(arg0, 0x20, 0x20);
-        return;
-    }
-    v = 3;
-    arg0[4] = v;
-}
+#include "../shared/rock_09/func_800EACD0.c"
 
 #include "common.h"
 
@@ -522,18 +457,16 @@ void func_800EAE98(void* arg0) {
 
 void func_800EB284();
 
-void func_800EAF0C(void* arg0) {
-    if (--M2C_FIELD(SPAD, s16*, 0x80) == 0) {
-        func_800EB284();
-        M2C_FIELD(SPAD, s16*, 0x80) = 0x1E;
-    }
-    if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
-        M2C_FIELD(arg0, u8*, 0x6) = 0;
-    }
-}
+#include "../shared/rock_09/func_800EAF0C.c"
 
 // clang-format off
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EAF88);
+#define func_800ED3D4 func_800EAF88
+#define D_800FAE78 D_800F5C84
+#define animate_object func_8002D2B0
+#include "../shared/rock_02/func_800ED3D4.c"
+#undef func_800ED3D4
+#undef D_800FAE78
+#undef animate_object
 // clang-format on
 
 #include "common.h"
@@ -572,21 +505,7 @@ void func_800EAFD4(void* arg0) {
 
 void func_800EB284();
 
-void func_800EB0B8(void* arg0) {
-    if (--M2C_FIELD(SPAD, s16*, 0x80) == 0) {
-        func_800EB284();
-        M2C_FIELD(SPAD, s16*, 0x80) = 0x1E;
-    }
-    if (--M2C_FIELD(arg0, s16*, 0x7C) == 0) {
-        func_800EB284(arg0);
-        if (M2C_FIELD(arg0, u8*, 0x15) == 0) {
-            M2C_FIELD(arg0, s32*, 0x20) = -0x3C000;
-        } else {
-            M2C_FIELD(arg0, s32*, 0x20) = 0x3C000;
-        }
-        M2C_FIELD(arg0, u8*, 6) += 1;
-    }
-}
+#include "../shared/rock_09/func_800EB0B8.c"
 
 #include "../shared/rock_09/func_800EB16C.c"
 
@@ -630,9 +549,19 @@ void func_800EB2B4(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EB2D4);
+INCLUDE_ASM("rock_09/nonmatchings/E9860", func_800EB2D4);
 
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EB4D4);
+#define func_800ED704 func_800EB4D4
+#define D_800F6CFC D_800F5E10
+#define D_800F6BA4 D_800F5CB8
+#define D_800F6BA8 D_800F5CBC
+#define D_800F7794 D_800F6BA0
+#include "../shared/rock_24/func_800ED704.c"
+#undef func_800ED704
+#undef D_800F6CFC
+#undef D_800F6BA4
+#undef D_800F6BA8
+#undef D_800F7794
 // clang-format on
 
 #include "common.h"
@@ -646,30 +575,10 @@ void func_800EBA90(void*);
 void func_800EBD14(void*);
 extern u8 D_800F4BF0[];
 
-void func_800EB5F8(void* arg0) {
-    switch (M2C_FIELD(arg0, s8*, 2)) {
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-        func_800EB914(arg0);
-        return;
-    case 5:
-        func_800EBA90(arg0);
-        return;
-    case 6:
-        func_800EBD14(arg0);
-        return;
-    }
-    M2C_FIELD(arg0, s32*, 0x18) = M2C_FIELD(arg0, s32*, 0x8);
-    M2C_FIELD(arg0, s8*, 3) = 0;
-    M2C_FIELD(arg0, s32*, 0x1C) = M2C_FIELD(arg0, s32*, 0xC);
-    ((void (**)(void*))(D_800F4BF0 + 0x11F4))[M2C_FIELD(arg0, s8*, 4)](arg0);
-    func_8002F288(arg0);
-}
+#include "../shared/rock_09/func_800EB5F8.c"
 
 // clang-format off
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EB6C0);
+INCLUDE_ASM("rock_09/nonmatchings/E9860", func_800EB6C0);
 // clang-format on
 
 #include "common.h"
@@ -682,28 +591,7 @@ void func_800EB7D8(void) {
 void* enemy_slot_alloc();
 extern u8 D_800F4BF0[];
 
-void func_800EB7E0(u8* arg0) {
-    s32 i;
-    u8* p;
-
-    if ((arg0[0x70] & 8) && (*(s8*)(arg0 + 7) == 5)) {
-        i = 1;
-        do {
-            p = enemy_slot_alloc();
-            if (p != 0) {
-                p[0] = arg0[0];
-                p[1] = arg0[1];
-                p[2] = i;
-                *(u8**)(p + 0x80) = arg0;
-            }
-            i++;
-        } while (i < 7);
-        arg0[7] = 4;
-    }
-    if (*(s8*)(arg0 + 7) == 0 && *(void**)(arg0 + 0x54) == 0) {
-        *(void**)(arg0 + 0x54) = D_800F4BF0 + 0x10C4;
-    }
-}
+#include "../shared/rock_09/func_800EB7E0.c"
 
 #include "common.h"
 
@@ -745,7 +633,7 @@ void func_800EB914(void* arg0) {
 #undef D_800F6A84
 
 // clang-format off
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EB974);
+INCLUDE_ASM("rock_09/nonmatchings/E9860", func_800EB974);
 // clang-format on
 
 #include "common.h"
@@ -980,48 +868,7 @@ void func_8004E654(struct X4_BaseObj* arg0, s8 arg1);
 void func_800ECAA0(struct X4_MainObj*);
 extern u8 D_800F4BF0[];
 
-void func_800EC108(void* arg0) {
-    u8 i;
-    s32 r;
-    u8 t;
-    s32 v;
-
-    M2C_FIELD(arg0, s32*, 0x18) = M2C_FIELD(arg0, s32*, 8);
-    M2C_FIELD(arg0, s32*, 0x1C) = M2C_FIELD(arg0, s32*, 0xC);
-    ((void (**)(void*))(D_800F4BF0 + 0x13D8))[M2C_FIELD(arg0, s8*, 5)](arg0);
-    t = func_80030ECC(arg0);
-    if (M2C_FIELD(arg0, s8*, 2) == 4 && t == 1) {
-        M2C_FIELD(arg0, s8*, 5) = 8;
-        M2C_FIELD(arg0, s8*, 6) = 0;
-    }
-    if (M2C_FIELD(arg0, s8*, 5) != 0) {
-        M2C_FIELD(arg0, s32*, 0x94) = M2C_FIELD(arg0, s8*, 5);
-    }
-    for (i = 0; i < 2 - M2C_FIELD(arg0, s32*, 0x88); i++) {
-        M2C_FIELD(arg0, s32*, 0x54) = ((s32*)(D_800F4BF0 + 0x13D0))[i];
-        r = check_enemy_hits(arg0);
-        if (r < 0) {
-            if (i == 0 && M2C_FIELD(arg0, s32*, 0x88) == 0) {
-                func_800ECAA0((struct X4_MainObj*)arg0);
-            }
-            func_80049E50(arg0);
-            func_800477E4(4, (M2C_UNK*)(D_800F4BF0 + 0x13BC), arg0);
-            func_8004E654((struct X4_BaseObj*)arg0, 0x14);
-            v = M2C_FIELD(arg0, u8*, 4) + 1;
-            M2C_FIELD(arg0, u8*, 4) = v;
-            return;
-        }
-        if (r != 0) {
-            break;
-        }
-    }
-    if (is_off_screen(arg0, 0x20, 0x20) == 0) {
-        func_8002CCB0(arg0, 0x20, 0x20);
-        return;
-    }
-    v = 3;
-    M2C_FIELD(arg0, u8*, 4) = v;
-}
+#include "../shared/rock_09/func_800EC108.c"
 
 #define func_80041AB8 func_800EC29C
 #define D_80075FD8 D_800F5FB0
@@ -1080,14 +927,7 @@ void func_800EC32C(void* arg0) {
 extern struct X4_Unk_unk68 D_800F5F04;
 s32 set_animation(void*, s32);
 
-void func_800EC4C8(struct X4_MainObj* self) {
-    set_animation(self, 1);
-    self->x_speed = 0;
-    self->ext.main_32.unk80 = 5;
-    self->hurt_box = (const u8*)&D_800F5F04;
-    self->attack_box = (const u8*)&D_800F5F04;
-    self->action_phase++;
-}
+#include "../shared/rock_09/func_800EC4C8.c"
 
 /* Adapted from sozud/mmx4 @4e16dfc src/main/mains/main_32_bomb_bat.c:bomb_bat_drop_release, AGPL-3.0; proven shared with X6 by exact signature b8c90aca8278 (see THIRD_PARTY.md). */
 #include "common.h"
@@ -1096,15 +936,7 @@ void func_800ECAA0(struct X4_MainObj*);
 
 #define M2C_UNK s32
 M2C_UNK animate_object();
-void func_800EC518(struct X4_MainObj* self) {
-    ((void (*)())animate_object)(ANIMATED_OBJECT(self));
-    if (--self->ext.main_32.unk80 == 0) {
-        self->ext.main_32.unk88 = 1;
-        func_800ECAA0(self);
-        self->ext.main_32.unk80 = 13;
-        self->action_phase++;
-    }
-}
+#include "../shared/rock_09/func_800EC518.c"
 
 #include "../shared/rock_09/func_800EC574.c"
 
@@ -1123,17 +955,7 @@ M2C_UNK set_animation(void*, M2C_UNK);
 
 extern u8 D_800F4BF0[];
 
-void func_800EC600(void* self) {
-    s32 v;
-    u8* t;
-
-    set_animation(self, 3);
-    t = D_800F4BF0 + 0x1324;
-    v = *(s32*)(((M2C_FIELD(self, u8*, 0x15) >> 4) & 4) + t);
-    M2C_FIELD(self, s32*, 0x24) = 0x5000;
-    M2C_FIELD(self, u8*, 6) = M2C_FIELD(self, u8*, 6) + 1;
-    M2C_FIELD(self, s32*, 0x20) = v;
-}
+#include "../shared/rock_09/func_800EC600.c"
 
 #include "common.h"
 
@@ -1290,14 +1112,7 @@ M2C_UNK set_animation(void*, M2C_UNK);
 M2C_UNK animate_object();
 extern u8 D_800F4BF0[];
 
-void func_800EC978(void* arg0) {
-    *(u8**)((u8*)arg0 + 0x50) = D_800F4BF0 + 0x1314;
-    set_animation(arg0, 3);
-    ((void (*)())animate_object)(arg0);
-    *(s32*)((u8*)arg0 + 0x88) = 1;
-    *(s16*)((u8*)arg0 + 0x7C) = 0x12C;
-    *((u8*)arg0 + 6) += 1;
-}
+#include "../shared/rock_09/func_800EC978.c"
 
 #include "../shared/rock_09/func_800EC9D0.c"
 
@@ -1327,7 +1142,7 @@ void func_800ECA70(struct X4_AnimatedObj* self) {
 #undef D_80075FD8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800ECB84);
+INCLUDE_ASM("rock_09/nonmatchings/E9860", func_800ECB84);
 // clang-format on
 
 #include "../shared/rock_09/func_800ECC10.c"
@@ -1752,11 +1567,15 @@ void func_800EDABC(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EDADC);
+INCLUDE_ASM("rock_09/nonmatchings/E9860", func_800EDADC);
 
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EDC64);
+INCLUDE_ASM("rock_09/nonmatchings/E9860", func_800EDC64);
 
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EDDFC);
+#define func_800EA8E8 func_800EDDFC
+#define D_800F3DBC D_800F6124
+#include "../shared/rock_05/func_800EA8E8.c"
+#undef func_800EA8E8
+#undef D_800F3DBC
 // clang-format on
 
 #include "common.h"
@@ -1867,26 +1686,7 @@ extern u32* D_80095098;
 extern s32 D_800F62B0;
 extern s32 D_800F62D8;
 
-void func_800EE03C(s8* self) {
-    s32 a;
-    s32 b;
-
-    M2C_FIELD(self, s8*, 0x0) = 0x41;
-    M2C_FIELD(self, s8*, 0x16) = 7;
-    M2C_FIELD(self, s8*, 0x15) = 0;
-    M2C_FIELD(self, u16*, 0x40) = D_80095098[func_8002A47C(0x8F)] >> 7;
-    M2C_FIELD(self, u8**, 0x3C) = (u8*)SPAD20 + SPAD20[func_8002A47C(0x8F)];
-    a = func_8002A47C(0x8F);
-    b = func_8002A47C(0x8F);
-    M2C_FIELD(self, u16*, 0x42) =
-        ((a * 4 + 0x20) % 16) | (((b + 8) / 4 + 0x1E0) << 6);
-    M2C_FIELD(self, void**, 0x30) = &D_800F62B0;
-    M2C_FIELD(self, void**, 0x68) = &D_800F62D8;
-    M2C_FIELD(self, s32*, 0x54) = 0;
-    M2C_FIELD(self, s8*, 0x75) = 0;
-    ((void (*)(void*, s32))set_animation)(self, 0);
-    M2C_FIELD(self, s8*, 0x4)++;
-}
+#include "../shared/rock_09/func_800EE03C.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -1975,7 +1775,7 @@ void func_800EE27C(void* self) {
 #undef g_Player
 
 // clang-format off
-INCLUDE_ASM("asm/rock_09/nonmatchings/E9860", func_800EE330);
+INCLUDE_ASM("rock_09/nonmatchings/E9860", func_800EE330);
 // clang-format on
 
 #define func_80048DC8 func_800EE43C

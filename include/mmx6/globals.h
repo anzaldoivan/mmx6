@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | globals | range -
+// prog main | globals | range -
 /* mmx6/globals.h -- the exe's data globals declared in two or more files with one type (Phase 2.5 T10),
  * hoisted from their files' extern lines, and the data externs of the pilot systems object/player/weapon (T10.c2,
  * some declared in one file only); one line per global, sorted by address. Globals typed by a
@@ -80,6 +80,8 @@ extern u8 D_8008EC08;
 extern s32 D_8008EC0C;
 extern u16 g_tilemap_layer_stride;
 extern s8 g_enemies[];
+#define ENEMY_SLOT_COUNT 48
+#define ENEMY_SLOT_SIZE 0x9C
 extern s32 D_80090C88;
 extern s32 D_80090C98;
 extern s8 D_80090D50[6];

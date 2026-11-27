@@ -7,6 +7,9 @@ Out: pv label wave draft func (tab-separated); counts on stderr. Next: stalled_c
 import json, os, sys
 from collections import Counter
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from paths import prog_key  # noqa: E402  (journal records before 3.3 T38 key main by its disc file name)
+
 ROOT = "."
 latest = {}
 for line in open(os.path.join(ROOT, "campaign/journal.jsonl")):
@@ -14,6 +17,7 @@ for line in open(os.path.join(ROOT, "campaign/journal.jsonl")):
     if not line:
         continue
     r = json.loads(line)
+    r["pv"] = prog_key(r["pv"])
     latest[r["pv"]] = r
 open_pv = set()
 for line in open(os.path.join(ROOT, "campaign/ledger.tsv")):

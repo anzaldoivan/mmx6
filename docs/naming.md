@@ -32,7 +32,7 @@ Where a symbol name comes from, what proves it, and which tool records the proof
   `partners same-name 2`, `anchors 2`, `no corroborator`, ...). Admitted + held = names.tsv rows.
 - The votes come from `--widen` (container). `--promote` keeps a copy in `campaign/x4/votes.tsv` (tracked), so the
   records can be rewritten with `--promote --votes campaign/x4/votes.tsv` without re-running widen.
-- 245 of 246: `main_bss_state` (SLUS_013.95 0x80097420, data, slot) has scope `-`, because no single mmx4 object
+- 245 of 246: `main_bss_state` (main 0x80097420, data, slot) has scope `-`, because no single mmx4 object
   defines it. So the names count line shows engine + object = 245 of 246 rows. The scope comes from x4core.merge,
   and x4core.py is byte-shared with mmx5, so it is left as it is. The row is held as `scope -`.
 

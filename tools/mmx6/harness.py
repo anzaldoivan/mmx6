@@ -3,7 +3,7 @@
 
   harness.py --sampled   pairs P1 P2 P4 P5 P6 P7 P8
   harness.py --full      all eight pairs (adds P3: touch + rebuild)
-      -> appends to build/harness/runs.log, and prints, one line per pair
+      -> appends to build/us/harness/runs.log, and prints, one line per pair
          `<utc> P<n> <question> AGREE|DISAGREE|NOT-RUN <a> <b> of <N> <unit>`, then
          `HARNESS <d> disagreements in <p> pairs`; d counts DISAGREE and NOT-RUN (an instrument that raises or
          lacks its input); rc 0 iff d = 0.
@@ -18,21 +18,21 @@
 Pairs (A vs B; each side calls an existing instrument, never re-implements it, G33):
   P1 matched?    corpus.parse_c C definitions (all programs) vs corpus.fleet_c_names() (object FUNC symbols); (prog, name).
   P2 compiles?   per corpus `c` function: probe.compile_obj of its config/probes.txt `banked` src (else, for a gated
-                 config/dedup_registry.txt member, a .run/harness/p2/ wrapper: bank.block of the shared body under the
+                 config/us/dedup_registry.txt member, a .run/harness/p2/ wrapper: bank.block of the shared body under the
                  row's defines, a `gated family define` row's likewise; a `gated exemplar` row's body as is (T5.c2); compiles in parallel, T5.c3;
                  a trailing `via tudecl|rodata` reason suffix is not a define, T40.21.1) under the Makefile
-                 TRIPLE + probe.elf_function vs the words of build/<p>.elf at the corpus extent, under probe's
+                 TRIPLE + probe.elf_function vs the words of build/us/<p>.elf at the corpus extent, under probe's
                  relocation mask (both trimmed by probe.trim).
-  P3 fleet?      sha1 of every BINS output now vs after `touch` of src/SLUS_013.95/120A0.c and one asm unit and
+  P3 fleet?      sha1 of every BINS output now vs after `touch` of src/main/120A0.c and one asm unit and
                  `make -s build`; NOT-RUN if either unit's .o was not rebuilt (mtime).
   P4 coverage?   optscan.parse_dir (carve_dir fallback, as optscan.scan) per-program count vs optscan.corpus_counts.
-  P5 boundaries? build/corpus (bound2.load_inputs) vs build/bound2/<p>.jsonl through bound2.account with the ledger;
+  P5 boundaries? build/us/corpus (bound2.load_inputs) vs build/us/bound2/<p>.jsonl through bound2.account with the ledger;
                  AGREE iff phantoms = truncations = 0.
-  P6 programs?   config/*.yaml stems (corpus.programs) vs config/loadmap.txt `N = <k>` vs config/ghidra/*.jsonl stems.
+  P6 programs?   config/us/*.yaml stems (corpus.programs) vs config/us/loadmap.txt `N = <k>` vs config/ghidra/*.jsonl stems.
   P7 stubs?      corpus c-empty rows + asm|include_asm rows whose optscan.parse_dir words are `jr $ra; nop` vs the
-                 members of the census dup class of `jr $ra; nop` (build/census/classes.jsonl); (prog, vram) sets.
-  P8 bankable?   build/draw/draw.jsonl (draw.py) vs U = difficulty functions walls.bankable says no or with a
-                 config/dedup_registry.txt row (propagate.registry_rows); AGREE iff draw keys = difficulty keys, no U
+                 members of the census dup class of `jr $ra; nop` (build/us/census/classes.jsonl); (prog, vram) sets.
+  P8 bankable?   build/us/draw/draw.jsonl (draw.py) vs U = difficulty functions walls.bankable says no or with a
+                 config/us/dedup_registry.txt row (propagate.registry_rows); AGREE iff draw keys = difficulty keys, no U
                  member is draw|eligible, every L3 row is wall-unbankable.
 Firewall G12: names, counts and hashes of build outputs only; never words or bytes.
 """
@@ -59,15 +59,16 @@ import optscan  # noqa: E402
 import probe  # noqa: E402
 import propagate  # noqa: E402
 import walls  # noqa: E402
+from paths import BUILD, CONFIG_V, ASM, MAIN_EXE  # noqa: E402  (the version axis, 3.3 T37)
 
-RUNS = "build/harness/runs.log"
+RUNS = f"{BUILD}/harness/runs.log"
 SELFLOG = ".run/harness/selftest.log"
-FUNCS = "build/corpus/functions.jsonl"
-CLASSES = "build/census/classes.jsonl"
-DRAW = "build/draw/draw.jsonl"
-DIFF = "build/reports/difficulty.json"
+FUNCS = f"{BUILD}/corpus/functions.jsonl"
+CLASSES = f"{BUILD}/census/classes.jsonl"
+DRAW = f"{BUILD}/draw/draw.jsonl"
+DIFF = f"{BUILD}/reports/difficulty.json"
 JR_NOP = [probe.JR_RA, 0]
-P3_C = "src/SLUS_013.95/120A0.c"
+P3_C = "src/main/120A0.c"
 SAMPLED = [1, 2, 4, 5, 6, 7, 8]
 FULL = [1, 2, 3, 4, 5, 6, 7, 8]
 
@@ -87,9 +88,9 @@ _parsed = {}
 
 
 def parsed(p):
-    """optscan's own parser over asm/<p> (carve_dir fallback, as optscan.scan)."""
+    """optscan's own parser over asm/us/<p> (carve_dir fallback, as optscan.scan)."""
     if p not in _parsed:
-        root = f"asm/{p}"
+        root = f"{ASM}/{p}"
         if not os.path.isdir(root):
             raise NotRun(f"no {root}/")
         funcs = optscan.parse_dir(root)
@@ -172,14 +173,14 @@ def p2_gather():
         else:
             raise NotRun(f"{r['prog']} {r['name']} has no banked row in config/probes.txt or gated registry row")
     todo = [(r, unit_src(r, s)) for r, s in todo]
-    srcs = sorted({s for _, s in todo})  # one compile per source: rows of one unit never race on its build/ .o
+    srcs = sorted({s for _, s in todo})  # one compile per source: rows of one unit never race on its build/us/ .o
     with concurrent.futures.ThreadPoolExecutor(os.cpu_count() or 1) as ex:
         objs = dict(zip(srcs, ex.map(lambda s: probe.compile_obj(s, triple), srcs)))
     for (r, s), obj in ((rs, objs[rs[1]]) for rs in todo):
         if obj is None:
             raise NotRun(f"{s} does not compile under {triple}")
         ours, masks = probe.elf_function(obj, r["name"])
-        linked = probe.trim(linked_words(f"build/{r['prog']}.elf", int(r["vram"], 16), int(r["end"], 16)))
+        linked = probe.trim(linked_words(f"{BUILD}/{r['prog']}.elf", int(r["vram"], 16), int(r["end"], 16)))
         out.append((r["name"], ours, masks, linked))
     if not out:
         raise NotRun("no corpus `c` function")
@@ -197,7 +198,7 @@ def p2_compare(fs, n):
 def bins_sha1():
     out = {}
     for p in corpus.programs():
-        path = f"build/rock/{p[5:]}.bin" if p.startswith("rock_") else f"build/{p}"
+        path = f"{BUILD}/rock/{p[5:]}.bin" if p.startswith("rock_") else f"{BUILD}/{MAIN_EXE}"
         if os.path.isfile(path):
             with open(path, "rb") as f:
                 out[path] = hashlib.sha1(f.read()).hexdigest()
@@ -207,15 +208,15 @@ def bins_sha1():
 
 
 def p3_asm_unit():
-    s = sorted(glob.glob("asm/SLUS_013.95/*.s"))
+    s = sorted(glob.glob(f"{ASM}/main/*.s"))
     if not s:
-        raise NotRun("no asm/SLUS_013.95/*.s")
+        raise NotRun(f"no {ASM}/main/*.s")
     return s[0]
 
 
 def p3_gather():
     units = [P3_C, p3_asm_unit()]
-    objs = [f"build/{u}.o" for u in units]
+    objs = [f"{BUILD}/{u}.o" for u in units]
     before = bins_sha1()
     for o in objs:
         if not os.path.isfile(o):
@@ -265,10 +266,10 @@ def p5_compare(names, inv, spans, jt, b2, ledger):
 
 
 def p6_gather():
-    with open("config/loadmap.txt") as f:
+    with open(CONFIG_V + "/loadmap.txt") as f:
         m = re.search(r"^N = ([0-9]+)$", f.read(), re.M)
     if not m:
-        raise NotRun("no `N = <k>` in config/loadmap.txt")
+        raise NotRun("no `N = <k>` in config/us/loadmap.txt")
     ghidra = sorted(os.path.basename(x)[:-6] for x in glob.glob("config/ghidra/*.jsonl"))
     return corpus.programs(), int(m.group(1)), ghidra
 

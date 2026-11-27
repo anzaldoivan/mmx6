@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """decompile.py <func> [--prog p] — m2c C scaffold of one splat function, on stdout (container).
 
-Finds asm/<p>/nonmatchings/**/<func>.s (splat output of an INCLUDE_ASM function; run `make split` first), adds the
-TU's own data/rodata asm when splat split them (asm/<p>/data/<tu>.*.s), and runs m2c (/opt/m2c, pinned in the
+Finds asm/<version>/<p>/nonmatchings/**/<func>.s (splat output of an INCLUDE_ASM function; run `make split` first), adds the
+TU's own data/rodata asm when splat split them (asm/<version>/<p>/data/<tu>.*.s), and runs m2c (/opt/m2c, pinned in the
 Makefile) with `-t mipsel-gcc-c -f <func>`. The scaffold is a starting point; converge with tools/mmx6/diff.sh.
 m2c's stderr goes to .run/decompile/<func>.err. rc 2 when the function is not found, else m2c's rc.
 Output is derived from the game: never commit it (G12).
@@ -15,18 +15,20 @@ import sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 M2C = os.environ.get("M2C", "/opt/m2c/m2c.py")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from paths import ASM  # noqa: E402  (splat's output, asm/<version>, 3.3 T38)
 
 
 def main():
     ap = argparse.ArgumentParser(description="m2c scaffold of one splat function")
     ap.add_argument("func", help="splat function label, e.g. func_80055A04")
-    ap.add_argument("--prog", default="SLUS_013.95", help="program (asm/<prog>/), default SLUS_013.95")
+    ap.add_argument("--prog", default="main", help="program (asm/us/<prog>/), default main")
     args = ap.parse_args()
 
-    root = os.path.join(REPO, "asm", args.prog)
+    root = os.path.join(REPO, ASM, args.prog)
     hits = sorted(glob.glob(os.path.join(root, "nonmatchings", "**", args.func + ".s"), recursive=True))
     if not hits:
-        print(f"decompile.py: no asm/{args.prog}/nonmatchings/**/{args.func}.s "
+        print(f"decompile.py: no {ASM}/{args.prog}/nonmatchings/**/{args.func}.s "
               "(not an INCLUDE_ASM function, or `make split` not run)", file=sys.stderr)
         return 2
     if len(hits) > 1:

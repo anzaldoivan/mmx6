@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """splat_closure.py -- `splat` with each C unit's #include closure scanned (container python3, splat 0.50.0).
 
-    splat_closure.py split config/<bin>.yaml        (the Makefile split rule; same arguments as `splat`)
+    splat_closure.py split config/us/<bin>.yaml        (the Makefile split rule; same arguments as `splat`)
     splat_closure.py --self-test
 
-splat decides which asm/<bin>/nonmatchings/<tu>/<func>.s files to write, and which names its C units define, by
+splat decides which asm/us/<bin>/nonmatchings/<tu>/<func>.s files to write, and which names its C units define, by
 regex-scanning only the unit file src/<bin>/<tu>.c (segtypes/common/c.py CommonSegC.get_global_asm_funcs,
 get_global_asm_rodata_syms, get_funcs_defined_in_c). Under scheme L-B (docs/layout.md) a unit is a thin list of
 `#include "<role>.c"` lines, so its INCLUDE_ASM lines sit in role files. This launcher replaces those three scanners
@@ -12,12 +12,17 @@ with ones that read the unit's #include closure (the unit, then every `#include 
 layout.py includers: relative to the including file, `src/...` from the repo root), then runs splat's own main.
 Old flat units and L-B units get the same answer; splat's parsing of the text is unchanged (GCC INCLUDE_ASM form, the
 project compiler; not IDO GLOBAL_ASM) (2.4 T15.c1).
+BUILD_ROOT not `build` (tools/mmx6/paths.py): the yaml's build paths (build_path, ld_script_path, undefined_*_path,
+spelled build/<version>/...) move under BUILD_ROOT in memory, so one yaml set serves every build tree (3.3 T37).
 """
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import layout  # noqa: E402  (parse/norm: the one #include walker)
+import paths  # noqa: E402  (BUILD_ROOT)
+
+BUILD_KEYS = ("build_path", "ld_script_path", "undefined_funcs_auto_path", "undefined_syms_auto_path")
 
 
 def closure(c_file, root=layout.ROOT):
@@ -66,6 +71,25 @@ def patch():
     seg.get_global_asm_rodata_syms = staticmethod(asm_rodata)
 
 
+def moved_options(config, root):
+    """config's BUILD_KEYS options with the leading `build` replaced by root (other keys untouched)."""
+    o = config.get("options", {})
+    for k in BUILD_KEYS:
+        v = o.get(k)
+        if isinstance(v, str) and (v == "build" or v.startswith("build/")):
+            o[k] = root + v[len("build"):]
+    return config
+
+
+def patch_build_root():
+    if paths.BUILD_ROOT == "build":
+        return
+    from splat.util import options  # conf.load merges the yamls, then options.initialize reads them: moved before
+
+    init = options.initialize
+    options.initialize = lambda config, *a, **k: init(moved_options(config, paths.BUILD_ROOT), *a, **k)
+
+
 def self_test():
     import tempfile
 
@@ -74,10 +98,10 @@ def self_test():
         os.makedirs(os.path.join(root, "src/shared/x"))
         files = {
             "src/p/U.c": '#include "common.h"\n\n#include "sys/a.c"\n#include "b.c"\n',
-            "src/p/sys/a.c": 'INCLUDE_ASM("asm/p/nonmatchings/U", f1);\n#include "../../shared/x/t.c"\n',
-            "src/p/b.c": 'INCLUDE_ASM("asm/p/nonmatchings/U", f3);\n',
+            "src/p/sys/a.c": 'INCLUDE_ASM("p/nonmatchings/U", f1);\n#include "../../shared/x/t.c"\n',
+            "src/p/b.c": 'INCLUDE_ASM("p/nonmatchings/U", f3);\n',
             "src/shared/x/t.c": "void f2(void) {\n}\n",
-            "src/p/F.c": 'INCLUDE_ASM("asm/p/nonmatchings/F", g1);\n#include "../shared/x/t.c"\n',
+            "src/p/F.c": 'INCLUDE_ASM("p/nonmatchings/F", g1);\n#include "../shared/x/t.c"\n',
         }
         for rel, body in files.items():
             with open(os.path.join(root, rel), "w") as f:
@@ -87,7 +111,11 @@ def self_test():
         got = closure(os.path.join(root, "src/p/F.c"), root)
         assert got == ["src/p/F.c", "src/shared/x/t.c"], got
         assert "f3);" in closure_text(os.path.join(root, "src/p/U.c"), root)
-    print("splat_closure self-test ok: L-B closure 4 files in textual order, flat unit 2")
+    o = moved_options({"options": {"build_path": "build/us", "ld_script_path": "build/us/p.ld", "asm_path": "asm/p",
+                                   "target_path": "extracted/us/iso/p"}}, ".run/x")["options"]
+    assert o == {"build_path": ".run/x/us", "ld_script_path": ".run/x/us/p.ld", "asm_path": "asm/p",
+                 "target_path": "extracted/us/iso/p"}, o
+    print("splat_closure self-test ok: L-B closure 4 files in textual order, flat unit 2, BUILD_ROOT build paths moved")
 
 
 if __name__ == "__main__":
@@ -97,5 +125,6 @@ if __name__ == "__main__":
     from splat.__main__ import splat_main
 
     patch()
+    patch_build_root()
     sys.argv[0] = "splat"
     sys.exit(splat_main())

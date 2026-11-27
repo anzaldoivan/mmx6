@@ -51,9 +51,10 @@ ROOT = os.path.normpath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, HERE)
 import dumps  # noqa: E402
 import probe  # noqa: E402
+from paths import BUILD  # noqa: E402  (the version axis, 3.3 T37)
 
 OBJDUMP = "mipsel-linux-gnu-objdump"
-OUT = "build/dumps"
+OUT = f"{BUILD}/dumps"
 SELFTEST = ".run/repro-selftest"
 PASSES = tuple(dumps.SUFFIXES) + ("maspsx",)
 HDR = re.compile(r"//\s*(tell|pass|expect|dump|func|diff):\s?(.*?)\s*$")

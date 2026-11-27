@@ -17,7 +17,7 @@ Rows: every campaign/ledger.tsv game row (col7 != `vendor`), sorted (prog, vram)
   refused when it lacks the pin. No fetch.
 - proto: `<build>:<state>` `,`-joined sorted unique, docs/leads/proto.tsv rows whose retail = `<prog>:0x<vram>`.
 - pc: `0x<x86>` `,`-joined, docs/leads/pc-port.md `## Function pairing` bullets (`` `name` = x86 0xA ``) and its
-  "Callee twins found on the way" lists (`name 0xA`), all SLUS_013.95; name -> vram by the ledger func column,
+  "Callee twins found on the way" lists (`name 0xA`), all main; name -> vram by the ledger func column,
   `func_XXXXXXXX` or a bare 0x8... address.
 """
 import argparse
@@ -38,11 +38,14 @@ X5_TSV = "docs/leads/x5.tsv"
 PROTO = "docs/leads/proto.tsv"
 PCPORT = "docs/leads/pc-port.md"
 TWINS = "docs/oracle/x6-twins.tsv"  # in mmx5-dev
-EXE = "SLUS_013.95"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from paths import MAIN as EXE, prog_key  # noqa: E402  (3.3 T38: mmx5's x6-twins, x5-leads keep the old key)
 
 
 def git(repo, *args):
     r = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
+    if r.returncode == 1 and args[0] == "grep" and not r.stderr.strip():
+        return ""  # git grep exits 1 on no match (mmx5-dev had no INCLUDE_ASM left by be188980)
     if r.returncode:
         sys.exit(f"PRIORART: git -C {repo} {' '.join(args)} failed: {r.stderr.strip()}")
     return r.stdout
@@ -53,7 +56,7 @@ def rows_tsv(path):
 
 
 def key(prog, vram):
-    return prog, int(vram, 16)
+    return prog_key(prog), int(vram, 16)
 
 
 def ledger_rows():
@@ -74,10 +77,36 @@ def x5_state(head):
         if len(c) >= 5 and c[0] == "function" and c[1] == "slus":
             names[c[3]] = c[4]
     renamed = {v: k for k, v in names.items()}
-    asm_files = set(git(MMX5, "grep", "-l", "INCLUDE_ASM", head, "--", "src/slus", "src/rockx5").split())
-    asm_files = {f.split(":", 1)[1] for f in asm_files}
-    cset = set()
-    for f in files:
+    asm = {}
+    for f in git(MMX5, "grep", "-l", "INCLUDE_ASM", head, "--", "src").splitlines():
+        p = f.split(":", 1)[1]
+        asm[p] = git(MMX5, "show", f"{head}:{p}")
+    pulled = {}  # a src/shared body that still has INCLUDE_ASM -> the files including it
+    for q in asm:
+        if q.startswith("src/shared/"):
+            base = q[len("src/shared/"):]
+            for pat in (f'#include "shared/{base}"', f'#include "../shared/{base}"'):
+                for f in git(MMX5, "grep", "-l", "-F", pat, head, "--", "src").splitlines():
+                    pulled.setdefault(f.split(":", 1)[1], []).append(q)
+    state = {}  # (unit, vram) -> C?: config/layout.tsv names each function's file; INCLUDE_ASM naming it = asm
+    for ln in git(MMX5, "show", f"{head}:config/layout.tsv").splitlines():
+        c = ln.split("\t")
+        if ln.startswith("#") or len(c) < 5:
+            continue
+        name, path = c[0], c[4]
+        old = renamed.get(name, name)
+        m = re.fullmatch(r"(?:func|D)_([0-9A-F]{8})(?:_(ovl\d+))?", old)
+        if not m:
+            continue
+        texts = [asm[path]] if path in asm else []
+        texts += [asm[q] for q in pulled.get(path, ())]
+        spells = (name, old)
+        is_c = not any(re.search(rf"INCLUDE_ASM\s*\([^)]*\b{re.escape(s)}\b", t) for t in texts for s in spells)
+        k = (m.group(2) or "slus", int(m.group(1), 16))
+        state[k] = state.get(k, True) and is_c
+    cset = {k for k, v in state.items() if v}
+    asm_files = set(asm)
+    for f in files:  # fallback: the old stem rule, for a name config/layout.tsv lacks
         if not f.endswith(".c") or f in asm_files:
             continue
         stem = Path(f).stem
@@ -86,9 +115,13 @@ def x5_state(head):
         if not m:
             continue
         if f.startswith("src/slus/") and not m.group(2):
-            cset.add(("slus", int(m.group(1), 16)))
+            k = ("slus", int(m.group(1), 16))
         elif f.startswith("src/rockx5/") and m.group(2):
-            cset.add((m.group(2), int(m.group(1), 16)))
+            k = (m.group(2), int(m.group(1), 16))
+        else:
+            continue
+        if k not in state:
+            cset.add(k)
     return cset, names
 
 

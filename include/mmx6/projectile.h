@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system projectile | range -
+// prog main | system projectile | range -
 /* mmx6/projectile.h -- the projectile entry, g_projectiles 0x80093C98, 32 x 0xA0 (hand-edited; Phase 2.5 T6).
  * Homed here from the generated include/mmx6/x4.h through config/x4/homed.tsv: x4.h never emits this block and
  * aliases X4_ShotObj to ProjectileObj, so `struct X4_ShotObj` users are unchanged. +0x00..+0x9B: members, types and
@@ -102,7 +102,7 @@ struct ProjectileObj {
     s8 pad9E[0xA0 - 0x9E]; // +0x9E unreferenced
 };
 
-// The pool: 32 slots, 0x80093C98..0x80095098 (config/symbols.SLUS_013.95.txt). Views that keep a byte spelling:
+// The pool: 32 slots, 0x80093C98..0x80095098 (config/symbols.main.txt). Views that keep a byte spelling:
 // docs/types/projectile.md.
 extern struct ProjectileObj g_projectiles[32];
 

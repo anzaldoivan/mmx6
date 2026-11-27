@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system movement | range -
+// prog main | system movement | range -
 /* mmx6/movement.h -- the callees and data of the movement files (units 32208, 3CE30) defined in placeholder files of those units (system -), in overlays rock_00/rock_01, or declared otherwise by other files of the fleet (C0331): is_off_screen, start_pad_vibration, D_800CD40C, try_start_attack, start_player_attack (hand-edited; Phase 2.6 T10.c1). Each prototype carries the type its
  * callers declared (an unprototyped `T f();` stays as its callers wrote it). Not included by x4.h: callers include it. */
 #ifndef MMX6_MOVEMENT_H

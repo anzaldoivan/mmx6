@@ -3,7 +3,7 @@
 
   walls.py --check
       -> per bad row `WALLS BAD <line> <prog> <vram> <why>` (unknown pass, ref not <file>:<int>, empty evidence,
-         function not in build/corpus/functions.jsonl, function already c|c-empty = stale wall), rc 1;
+         function not in build/us/corpus/functions.jsonl, function already c|c-empty = stale wall), rc 1;
          else `WALLS CHECK OK <r> rows` (rc 0)
   walls.py --for <prog:vram>
       -> `BANKABLE <prog:vram> yes|no <pass> <ref>` (`- -` when yes); rc 1 if the function is not in the corpus
@@ -23,10 +23,12 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 WALLS = "config/walls.txt"
-FUNCS = "build/corpus/functions.jsonl"
 SELFTEST = ".run/walls-selftest"
 sys.path.insert(0, HERE)
 from dumps import SUFFIXES  # noqa: E402
+from paths import BUILD  # noqa: E402  (the version axis, 3.3 T37)
+
+FUNCS = f"{BUILD}/corpus/functions.jsonl"
 PASSES = SUFFIXES + ("maspsx",)  # cc1 2.95.2 -da suffixes (dumps.py, observed T2) + maspsx; was + peephole2 stack
 REF = re.compile(r"^[^:\s]+:[0-9]+$")
 

@@ -49,7 +49,7 @@ Census heuristic (text only, comments stripped, over every C definition of confi
          `v = (U *)&D_80097420` indexed `v[0xNN]`.
   write  the access is the left side of `=` / `op=` or an operand of `++` / `--` (after any `.x` / `[i]` suffix);
          else a read.
-  matched  the function's build/corpus/functions.jsonl row (prog, name) has state `c` (absent corpus: unmatched).
+  matched  the function's build/us/corpus/functions.jsonl row (prog, name) has state `c` (absent corpus: unmatched).
 An access at another width/sign than the member's (or at a sub-offset of an aggregate) is a second-width access: the
 fields.tsv note names it, the member is never retyped and --check never fails on it.
 """
@@ -66,6 +66,7 @@ import layout  # noqa: E402  (Tree, RUN)
 import x4adapter  # noqa: E402  (triple, tools)
 import x4names  # noqa: E402  (members, offsets)
 import x4port  # noqa: E402  (run_cpp, TRIPLE)
+from paths import BUILD, VERSION  # noqa: E402  (the version axis, 3.3 T37)
 
 ROOT = Path(layout.ROOT)
 TAG = "OBJFIELDS"
@@ -75,18 +76,19 @@ PROJH = "include/mmx6/projectile.h"
 STATEH = "include/mmx6/state.h"
 FIELDS = "config/types/fields.tsv"
 LEADS = "docs/leads/objects.tsv"
-CORPUS = "build/corpus/functions.jsonl"
+CORPUS = f"{BUILD}/corpus/functions.jsonl"
 STRUCTS = ("ObjectHeader", "BaseObj", "AnimatedObj", "MainObj", "PlayerObj", "ProjectileObj", "TransitionState",
            "MainBssState")
 HEADERS = (OBJH, PLAYERH, PROJH, STATEH)  # the homes of STRUCTS (object.h: the first four; player.h, projectile.h: one
 # each; state.h: the last two)
-PROJ, POOL = "ProjectileObj", "g_projectiles"  # 0x80093C98, 32 x 0xA0 (config/symbols.SLUS_013.95.txt)
+PROJ, POOL = "ProjectileObj", "g_projectiles"  # 0x80093C98, 32 x 0xA0 (config/us/symbols.main.txt)
 POOLS = r"\b(?:g_projectiles|D_800950A0)\b"  # + the second 32 x 0xA0 pool, func_8002C32C's (docs/types/projectile.md)
 ALIAS = {"ShotObj": PROJ}  # x4 tags homed under another name (config/x4/homed.tsv)
 STATE, TRANS, HEAD = "MainBssState", "TransitionState", "D_80097420"  # 0x80097420, 0xC (state.h; 2.5 T7.c1)
-PLAYER, PBASE = "PlayerObj", 0x800970A0  # g_Player (config/symbols.SLUS_013.95.txt; next symbol 0x800971F8)
+PLAYER, PBASE = "PlayerObj", 0x800970A0  # g_Player (config/us/symbols.main.txt; next symbol 0x800971F8)
 SLOT = "MainObj"  # temp#1 slots: the raw readers' struct
-CPP = ["mipsel-linux-gnu-cpp", "-nostdinc", "-undef", "-D__GNUC__=2", "-DPSX", "-Iinclude"]  # Makefile CPP
+CPP = ["mipsel-linux-gnu-cpp", "-nostdinc", "-undef", "-D__GNUC__=2", "-DPSX", f"-DVERSION=VER_{VERSION.upper()}",
+       "-Iinclude"]  # Makefile CPP
 SCR = ROOT / layout.RUN / "objfields"
 ANON = "-"
 COLS = ("struct", "offset", "width", "signedness", "name", "basis_kind", "ref", "tier", "note")
@@ -224,7 +226,7 @@ def temp1():
 
 
 def corpus():
-    """{(prog, name): state} of build/corpus/functions.jsonl ({} when absent)."""
+    """{(prog, name): state} of build/us/corpus/functions.jsonl ({} when absent)."""
     p = ROOT / CORPUS
     if not p.is_file():
         return {}

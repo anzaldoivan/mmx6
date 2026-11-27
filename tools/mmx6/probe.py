@@ -7,14 +7,14 @@
       -> one line per triple x probe, then `PIN <t> <k> of <k>` | `PIN NONE` | `PIN AMBIGUOUS <t1>,<t2>,...`;
          rc 0 only on a unique PIN (exactly one triple matching every probe, k >= 1)
   probe.py --self-test [--triples ...]
-      -> known-true control (SLUS_013.95 0x80055A04, its INCLUDE_ASM written to .run/probe/mut/) must MATCH under
+      -> known-true control (main 0x80055A04, its INCLUDE_ASM written to .run/probe/mut/) must MATCH under
          every triple; planted names that spell no address (.run/probe/plant/) resolve from symbols file + asm rows;
          planted mutation (.run/probe/mut/, one unrelocated instruction -> nop) must FAIL n-1/n; ends
          `SELF-TEST OK` (rc 0) or `SELF-TEST FAIL` (rc 1)
 
-Compiles through the product C rule (`make -s -B TRIPLE=<t> build/<src>.o`), serially, copying each object to
+Compiles through the product C rule (`make -s -B TRIPLE=<t> build/us/<src>.o`), serially, copying each object to
 .run/probe/<t>/<src dir, / -> _>/; a stored draft drafts/<p>/<func>.c gets its TU's CFLAGS_<tu> override (draft_cflags).
-Retail extent: splat glabel..endlabel (or next glabel) under asm/<p>/ (a body #included from src/shared/: its build/corpus/functions.jsonl row); bytes from the yaml
+Retail extent: splat glabel..endlabel (or next glabel) under asm/us/<p>/ (a body #included from src/shared/: its build/us/corpus/functions.jsonl row); bytes from the yaml
 target_path at segment start + (vram - segment vram); both sides trimmed to the last `jr $ra` + delay slot (C0021).
 Relocated fields of the compiled .o (.rel.text) are masked on both sides: R_MIPS_26 low 26 bits, HI16/LO16/GPREL16
 low 16 bits. Firewall G12: prints counts and offsets only, never bytes, words or disassembly; scratch under .run/.
@@ -31,14 +31,18 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import dumps  # noqa: E402  (the C rule's dry-run recipe)
+from paths import BUILD, CONFIG_V, ASM  # noqa: E402  (the version axis, 3.3 T37)
+import layout  # noqa: E402  (includers: a fragment's unit TU, 3.3b T4)
 
 JR_RA = 0x03E00008
 MASKS = {4: 0x03FFFFFF, 5: 0xFFFF, 6: 0xFFFF, 7: 0xFFFF}  # R_MIPS_26, HI16, LO16, GPREL16
-SELFTEST_PROG, SELFTEST_VRAM = "SLUS_013.95", 0x80055A04  # the known-true control; its name is looked up (sym_name)
+FRAGMENT_PLANT = ("func_800EA448", "rock_15", "src/rock_15/800E9860.c", "gcc2.95.2-psx-aspsx2.86")  # a fragment of
+# src/rock_15/E9860.c under the pinned triple (3.3b T4)
+SELFTEST_PROG, SELFTEST_VRAM = "main", 0x80055A04  # the known-true control; its name is looked up (sym_name)
 MUT_DIR = ".run/probe/mut"
 PLANT_DIR = ".run/probe/plant"  # self-test: a planted tree whose symbols are not spelled with their address
-CORPUS = "build/corpus/functions.jsonl"
-SYMBOLS = "config/symbols.{}.txt"
+CORPUS = f"{BUILD}/corpus/functions.jsonl"
+SYMBOLS = CONFIG_V + "/symbols.{}.txt"
 SYM_RE = re.compile(r"^\s*(\w+)\s*=\s*0x([0-9A-Fa-f]+)\s*;(.*)$")
 LABEL_RE = re.compile(r"^\s*([gjda])label\s+(\S+)\s*$")
 ROW_RE = re.compile(r"^\s*/\*\s+(?:[0-9A-Fa-f]+\s+)?([0-9A-Fa-f]{8})\s")  # spimdisasm `/* [off] vram [word] */`
@@ -47,7 +51,7 @@ MUT_OPS = ("addu", "subu", "and", "or", "xor", "nor", "slt", "sltu")  # one-word
 
 
 def symbols(prog, root="."):
-    """[(name, vram, type or None)] of config/symbols.<prog>.txt (`name = 0xADDR; // type:func size:0x14`)."""
+    """[(name, vram, type or None)] of config/us/symbols.<prog>.txt (`name = 0xADDR; // type:func size:0x14`)."""
     path = os.path.join(root, SYMBOLS.format(prog))
     rows = []
     if os.path.isfile(path):
@@ -64,8 +68,8 @@ _SYMTAB = {}
 
 
 def symtab(prog, root="."):
-    """(name -> vram, function vram -> name, data vram -> name) of prog from config/symbols.<prog>.txt and the
-    build/corpus/functions.jsonl rows (the corpus names a function as the build does now). A name's spelling is never
+    """(name -> vram, function vram -> name, data vram -> name) of prog from config/us/symbols.<prog>.txt and the
+    build/us/corpus/functions.jsonl rows (the corpus names a function as the build does now). A name's spelling is never
     read as an address: a symbol is resolved by these tables or not at all."""
     key = (os.path.abspath(root), prog)
     if key not in _SYMTAB:
@@ -102,7 +106,7 @@ def plant_lookup(tool, prog, vram, prefix="func"):
     True iff both lookups read the table and the splat-default spelling resolves to nothing."""
     root = f".run/{tool}/lookup-plant"
     shutil.rmtree(root, ignore_errors=True)
-    os.makedirs(os.path.join(root, "config"))
+    os.makedirs(os.path.join(root, CONFIG_V))
     with open(os.path.join(root, SYMBOLS.format(prog)), "w") as f:
         f.write(f"// basis: planted\nalpha_helper = 0x{vram:08X}; // type:{'func' if prefix == 'func' else 'data'}\n")
     got = (sym_name(prog, vram, prefix, root), sym_vram(prog, "alpha_helper", root),
@@ -155,10 +159,10 @@ def trim(words):
 # ---- retail side -------------------------------------------------------------------------------------------------
 
 def yaml_layout(prog):
-    """(target_path, segment start, segment vram) of config/<prog>.yaml (first dict-style code segment)."""
+    """(target_path, segment start, segment vram) of config/us/<prog>.yaml (first dict-style code segment)."""
     target = start = vram = None
     in_segments = False
-    with open(f"config/{prog}.yaml") as f:
+    with open(f"{CONFIG_V}/{prog}.yaml") as f:
         for line in f:
             m = re.match(r"\s+target_path:\s*(\S+)", line)
             if m and target is None:
@@ -177,15 +181,15 @@ def yaml_layout(prog):
             if start is not None and vram is not None:
                 break
     if target is None or start is None or vram is None:
-        sys.exit(f"probe: cannot read target_path/segment start/vram from config/{prog}.yaml")
+        sys.exit(f"probe: cannot read target_path/segment start/vram from {CONFIG_V}/{prog}.yaml")
     return target, start, vram
 
 
 def find_extent(prog, func, root="."):
-    """(first vram, word count) of func's glabel..endlabel in asm/<prog>/ (paths under root: the self-test's plant)."""
-    asm = os.path.join(root, f"asm/{prog}")
+    """(first vram, word count) of func's glabel..endlabel in asm/us/<prog>/ (paths under root: the self-test's plant)."""
+    asm = os.path.join(root, f"{ASM}/{prog}")
     if not os.path.isdir(asm):
-        subprocess.run(["make", "-s", f"build/split/{prog}.stamp"], check=True, stdout=subprocess.DEVNULL)
+        subprocess.run(["make", "-s", f"{BUILD}/split/{prog}.stamp"], check=True, stdout=subprocess.DEVNULL)
     tag = f"glabel {func}"
     starts = set()  # every glabel's first-row vram: bounds a function banked as C (no .s, T8)
     for d, dirs, files in sorted(os.walk(asm)):
@@ -241,7 +245,7 @@ def find_extent(prog, func, root="."):
                     hi = min((a for a in starts if a > lo), default=None)
                     if hi is not None:
                         return lo, (hi - lo) // 4
-    sys.exit(f"probe: {func} not found under {asm}/ (a C body's vram needs config/symbols.{prog}.txt or {CORPUS})")
+    sys.exit(f"probe: {func} not found under {asm}/ (a C body's vram needs {CONFIG_V}/symbols.{prog}.txt or {CORPUS})")
 
 
 def retail_words(prog, func):
@@ -305,14 +309,14 @@ def elf_function(path, func):
 
 def draft_cflags(src, triple=None):
     """A stored draft drafts/<prog>/<func>.c compiles under its function's TU flags: the cc1 args of the C rule's
-    dry-run recipe for src/<prog>/<tu>.c (tu = the asm/<prog>/nonmatchings/<tu>/ holding <func>.s), so a CFLAGS_<tu>
-    override (config/carve.<prog>.mk) carries over; None outside drafts/ or when <func> is in no C TU. Never re-typed."""
+    dry-run recipe for src/<prog>/<tu>.c (tu = the asm/us/<prog>/nonmatchings/<tu>/ holding <func>.s), so a CFLAGS_<tu>
+    override (config/us/carve.<prog>.mk) carries over; None outside drafts/ or when <func> is in no C TU. Never re-typed."""
     m = re.search(r"(?:^|/)drafts/([^/]+)/([A-Za-z_]\w*)\.c$", src)
     if not m:
         return None
     prog, func = m.groups()
     find_extent(prog, func)  # splits the program first when asm/ is missing
-    hits = sorted(glob.glob(f"asm/{prog}/nonmatchings/*/**/{func}.s", recursive=True))
+    hits = sorted(glob.glob(f"{ASM}/{prog}/nonmatchings/*/**/{func}.s", recursive=True))
     tu_c = f"src/{prog}/{hits[0].split('/')[3]}.c" if hits else None
     if not tu_c or not os.path.isfile(tu_c):
         return None
@@ -320,7 +324,7 @@ def draft_cflags(src, triple=None):
 
 
 def compile_obj(src, triple):
-    obj = f"build/{src}.o"
+    obj = f"{BUILD}/{src}.o"
     outdir = os.path.join(".run/probe", triple, os.path.dirname(src).replace("/", "_").lstrip(".") or "_")  # keyed by
     # the source dir (holds the program): same-named functions of two programs never share a scratch path
     os.makedirs(outdir, exist_ok=True)
@@ -338,10 +342,21 @@ def compile_obj(src, triple):
     return dst
 
 
+def unit_tu(src, prog):
+    """The unit TU of prog whose #include closure reaches src when src is a layout fragment (not itself a unit TU),
+    else None: a fragment does not compile alone (no common.h), its unit does (3.3b T4)."""
+    rel = os.path.normpath(src)
+    hits = layout.includers().get(rel, [])
+    if not hits or any(layout.Tree(layout.ROOT).unit_rel(p, tu) == rel for p, tu in hits):
+        return None
+    return next((f"src/{p}/{tu}.c" for p, tu in hits if p == prog), None)
+
+
 def probe(func, prog, src, triple):
-    """(match, matched, retail word count); prints the result line."""
+    """(match, matched, retail word count); prints the result line. A layout fragment compiles as its unit TU."""
     ret = retail_words(prog, func)
-    obj = compile_obj(src, triple)
+    via = unit_tu(src, prog)
+    obj = compile_obj(via or src, triple)
     if obj is None:
         matched, ok = 0, False
     else:
@@ -351,7 +366,8 @@ def probe(func, prog, src, triple):
             keep = ~masks.get(i, 0) & 0xFFFFFFFF
             matched += (ret[i] & keep) == (ours[i] & keep)
         ok = len(ours) == len(ret) and matched == len(ret)
-    print(f"{func} {triple} {'MATCH' if ok else 'FAIL'} {matched}/{len(ret)} words", flush=True)
+    print(f"{func} {triple} {'MATCH' if ok else 'FAIL'} {matched}/{len(ret)} words" + (f" (via {via})" if via else ""),
+          flush=True)
     return ok, matched, len(ret)
 
 
@@ -379,13 +395,13 @@ def control(prog, vram):
     """(name, .s path, control .c path) of the known-true control at (prog, vram): its current name looked up, its
     INCLUDE_ASM written to MUT_DIR."""
     func = sym_name(prog, vram)
-    paths = [os.path.join(d, func + ".s") for d, _, fs in sorted(os.walk(f"asm/{prog}/nonmatchings")) if func + ".s" in fs]
+    paths = [os.path.join(d, func + ".s") for d, _, fs in sorted(os.walk(f"{ASM}/{prog}/nonmatchings")) if func + ".s" in fs]
     if len(paths) != 1:
-        sys.exit(f"probe: control {func} has {len(paths)} .s files under asm/{prog}/nonmatchings")
+        sys.exit(f"probe: control {func} has {len(paths)} .s files under {ASM}/{prog}/nonmatchings")
     os.makedirs(MUT_DIR, exist_ok=True)
     src = os.path.join(MUT_DIR, "selftest_ctl.c")
     with open(src, "w") as f:
-        f.write(f'#include "common.h"\n\nINCLUDE_ASM("{os.path.dirname(paths[0])}", {func});\n')
+        f.write(f'#include "common.h"\n\nINCLUDE_ASM("{os.path.relpath(os.path.dirname(paths[0]), ASM)}", {func});\n')
     return func, paths[0], src
 
 
@@ -412,18 +428,18 @@ def make_mutation(func, asm):
 def plant_names():
     """Planted tree: two functions whose names spell no address resolve from its symbols file and asm rows only."""
     shutil.rmtree(PLANT_DIR, ignore_errors=True)
-    files = {"config/symbols.P.txt": "// basis: planted\nbeta_helper = 0x80001000; // type:func size:0x8\n"
+    files = {CONFIG_V + "/symbols.P.txt": "// basis: planted\nbeta_helper = 0x80001000; // type:func size:0x8\n"
                                      "// basis: planted\nalpha_helper = 0x80001008; // type:func size:0x8\n",
-             "asm/P/nonmatchings/T/alpha_helper.s": "glabel alpha_helper\n    /* 1008 80001008 03E00008 */  jr $ra\n"
+             f"{ASM}/P/nonmatchings/T/alpha_helper.s": "glabel alpha_helper\n    /* 1008 80001008 03E00008 */  jr $ra\n"
                                                     "    /* 100C 8000100C 00000000 */   nop\nendlabel alpha_helper\n",
-             "src/P/T.c": 'void beta_helper(void) {\n}\n\nINCLUDE_ASM("asm/P/nonmatchings/T", alpha_helper);\n'}
+             "src/P/T.c": 'void beta_helper(void) {\n}\n\nINCLUDE_ASM("P/nonmatchings/T", alpha_helper);\n'}
     for rel, text in files.items():
         os.makedirs(os.path.dirname(os.path.join(PLANT_DIR, rel)), exist_ok=True)
         with open(os.path.join(PLANT_DIR, rel), "w") as f:
             f.write(text)
     got = (sym_vram("P", "alpha_helper", PLANT_DIR), sym_name("P", 0x80001000, root=PLANT_DIR),
            find_extent("P", "alpha_helper", PLANT_DIR), find_extent("P", "beta_helper", PLANT_DIR),
-           asm_labels(files["asm/P/nonmatchings/T/alpha_helper.s"]))
+           asm_labels(files[f"{ASM}/P/nonmatchings/T/alpha_helper.s"]))
     ok = got == (0x80001008, "beta_helper", (0x80001008, 2), (0x80001000, 2), [("g", "alpha_helper", 0x80001008)])
     print(f"planted non-address names {'ok' if ok else 'FAIL'}: {got}")
     shutil.rmtree(PLANT_DIR, ignore_errors=True)
@@ -441,6 +457,7 @@ def self_test(triples_path):
     for t in triples:
         match, matched, n = probe(func, SELFTEST_PROG, mut, t)
         ok &= (not match) and matched == n - 1
+    ok &= probe(*FRAGMENT_PLANT)[0]  # a planted fragment: alone it fails to parse (0/35); via its unit TU it matches
     print("SELF-TEST OK" if ok else "SELF-TEST FAIL")
     return 0 if ok else 1
 

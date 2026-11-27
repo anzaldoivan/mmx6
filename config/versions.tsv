@@ -1,0 +1,6 @@
+# config/versions.tsv -- the version registry (3.3 T37.c3, docs/ops/multi-version.md item 3): one row per build
+# target, keyed by build, not region. serial joins config/discs.tsv (its header is psxd_publish.py's, fixed);
+# triple is a config/triples.txt row, the Makefile TRIPLE default (make stops when they differ). The Makefile
+# stops on a VERSION with no row.
+version	serial	triple
+us	SLUS-01395	gcc2.95.2-psx-aspsx2.86

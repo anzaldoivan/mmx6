@@ -411,7 +411,7 @@ three:
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_07/nonmatchings/E9860", func_800EA4F4);
+INCLUDE_ASM("rock_07/nonmatchings/E9860", func_800EA4F4);
 // clang-format on
 
 #include "common.h"

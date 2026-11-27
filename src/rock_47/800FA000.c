@@ -1,5 +1,5 @@
 // clang-format off
-INCLUDE_ASM("asm/rock_47/nonmatchings/FA000", D_800FA000);
+INCLUDE_ASM("rock_47/nonmatchings/FA000", D_800FA000);
 // clang-format on
 
 #include "common.h"
@@ -34,7 +34,11 @@ void func_800FA004(s8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_47/nonmatchings/FA000", func_800FA0D8);
+#define func_800FA0E8 func_800FA0D8
+#define func_800FACCC func_800FA6B8
+#include "../shared/rock_46/func_800FA0E8.c"
+#undef func_800FA0E8
+#undef func_800FACCC
 // clang-format on
 
 #include "common.h"
@@ -274,5 +278,5 @@ void func_800FA5FC(s8* arg0) {
 #include "../shared/rock_47/func_800FA63C.c"
 
 // clang-format off
-INCLUDE_ASM("asm/rock_47/nonmatchings/FA000", func_800FA6B8);
+INCLUDE_ASM("rock_47/nonmatchings/FA000", func_800FA6B8);
 // clang-format on

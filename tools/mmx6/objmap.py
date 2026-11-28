@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """objmap.py [--captures FILE] [--out FILE] -- object-type map (T5.c1) -> docs/leads/objects.tsv.
 
-Static side (extracted/retail: iso/SLUS_013.95 text at 0x80010000, rock/NN.bin at config/loadmap.txt bases):
+Static side (extracted/us: iso/SLUS_013.95 text at 0x80010000, rock/NN.bin at config/us/loadmap.txt bases):
   stage load 0x80013E8C..: index i = stage*2 + sub (bytes 0xC/0xD of the stage struct); members D_8006DB78[i]
   (u16); scratch 0x1F800080 = D_8006DC6C[i] (temp#1 type table), 0x1F800084 = D_8006DD24[i] (temp#2). The
   per-stage tables are contiguous (0x80, 0x84, 0x88 at +0, +0x134, +0x21C in every stage), so a table ends at
@@ -25,10 +25,11 @@ import re
 import struct
 from collections import defaultdict
 from pathlib import Path
+from paths import EXTRACTED, CONFIG_V, MAIN_EXE  # noqa: E402  (the version axis, 3.3 T37)
 
 ROOT = Path(__file__).resolve().parents[2]
-EXE = ROOT / "extracted/retail/iso/SLUS_013.95"
-ROCK = ROOT / "extracted/retail/rock"
+EXE = ROOT / f"{EXTRACTED}/iso/{MAIN_EXE}"
+ROCK = ROOT / f"{EXTRACTED}/rock"
 EXE_BASE = 0x80010000
 MEMBERS, DIR_T1, DIR_T2 = 0x8006DB78, 0x8006DC6C, 0x8006DD24
 LEN = {"temp#1": 77, "temp#2": 58}
@@ -76,7 +77,7 @@ HEADER = "table\ttype_id\tfunction\tprog_vram\tentity_name\tname_source\tdatapoi
 
 def bases():
     out = {}
-    for line in (ROOT / "config/loadmap.txt").read_text().splitlines():
+    for line in (ROOT / CONFIG_V / "loadmap.txt").read_text().splitlines():
         f = line.split()
         if len(f) >= 3 and f[0].isdigit() and f[1].startswith("0x"):
             out[int(f[0])] = int(f[1], 16)
@@ -122,7 +123,7 @@ def main():
     ap.add_argument("--captures", default=str(ROOT / ".run/redux/objects/intro_stage.jsonl"))
     ap.add_argument("--out", default=str(ROOT / "docs/leads/objects.tsv"))
     a = ap.parse_args()
-    exe = Img(EXE_BASE, Path(EXE).read_bytes()[0x800:], "SLUS_013.95")
+    exe = Img(EXE_BASE, Path(EXE).read_bytes()[0x800:], "main")
     base = bases()
     mem = {}
 
@@ -182,7 +183,7 @@ def main():
         if hit:
             return hit[0], (hit[2] or hit[1]), f"config/x4/names.tsv:{hit[3]}"
         for j in jal_targets(img, v) if img else []:
-            for p in ("SLUS_013.95", img.prog):
+            for p in ("main", img.prog):
                 h = x4.get((p, j))
                 if h and h[2]:
                     return None, h[2], f"config/x4/names.tsv:{h[3]} (callee)"
@@ -194,7 +195,7 @@ def main():
            f"tier proven = >= 3 distinct frames logged", HEADER]
     named = proven = 0
     for (tname, k, prog, v), stages in sorted(rows.items(), key=lambda r: (r[0][0], r[0][1], r[0][2], r[0][3])):
-        img = exe if prog == "SLUS_013.95" else (mem.get(int(prog[5:])) if prog.startswith("rock_") else None)
+        img = exe if prog == "main" else (mem.get(int(prog[5:])) if prog.startswith("rock_") else None)
         fname, ent, src = namefor(prog, v, img)
         stub = img is not None and img.w(v) == 0x03E00008  # `jr ra` first: empty handler, never named
         if tname == "temp#1" and k in WB_T1 and not stub:
@@ -223,7 +224,7 @@ def main():
                               str(dp), log if dp else "-", tier, note]))
     for typ in range(8):
         v = exe.w(ALLOC + 4 * typ)
-        fname, ent, src = namefor("SLUS_013.95", v, exe)
+        fname, ent, src = namefor("main", v, exe)
         lo, size = ARRAYS[typ]
         dp = len(frames.get(("origin", typ, v), ()))
         tier = "proven" if dp >= 3 else "lead"
@@ -232,9 +233,9 @@ def main():
         note = (f"array 0x{lo:08X} +0x{size:X}; rec.id -> obj[1]; high nibble = spawn state (0x10/0x30/0x50 +0x10 "
                 f"off-screen, func_80029F38); type 0xF ends a list; lists D_8007349C[23][2] (func_80029F38), "
                 f"D_80073554[13][2] (func_8002A4E4); workbook 0x800734BC = D_8007349C[4][0]")
-        out.append("\t".join(["origin", f"0x{typ:X}", fname or f"func_{v:08X}", f"SLUS_013.95:0x{v:08X}",
+        out.append("\t".join(["origin", f"0x{typ:X}", fname or f"func_{v:08X}", f"main:0x{v:08X}",
                               f"{CLASS[typ]}_slot_alloc" if ent == "-" else ent, src if src != "-" else
-                              "SLUS_013.95 bytes (allocator array)", str(dp), log if dp else "-", tier, note]))
+                              "main bytes (allocator array)", str(dp), log if dp else "-", tier, note]))
     Path(a.out).write_text("\n".join(out) + "\n")
     print(f"objmap: rows={len(out) - 2} proven={proven} named={named} live={','.join(sorted(live_stages)) or '-'}")
 

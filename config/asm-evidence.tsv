@@ -1,4 +1,4 @@
 image	symbol	path	class	evidence	date	verified_by
-SLUS_013.95	func_80013AE0	src/SLUS_013.95/8001344C.c	hand-asm	docs/systems/boot.md:229	2026-11-15	anzaldoivan
-SLUS_013.95	func_80013B04	src/SLUS_013.95/8001344C.c	hand-asm	docs/systems/boot.md:230	2026-11-15	anzaldoivan
-SLUS_013.95	func_80013BE4	src/SLUS_013.95/8001344C.c	hand-asm	docs/systems/boot.md:231	2026-11-15	anzaldoivan
+main	func_80013AE0	src/main/8001344C.c	hand-asm	docs/codegen-map/README.md:38	2026-11-15	anzaldoivan
+main	func_80013B04	src/main/8001344C.c	hand-asm	docs/codegen-map/README.md:39	2026-11-15	anzaldoivan
+main	func_80013BE4	src/main/8001344C.c	hand-asm	docs/codegen-map/README.md:40	2026-11-15	anzaldoivan

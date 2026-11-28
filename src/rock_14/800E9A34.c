@@ -55,7 +55,7 @@ void func_800E9B48(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800E9B68);
+INCLUDE_ASM("rock_14/nonmatchings/E9860", func_800E9B68);
 // clang-format on
 
 #include "common.h"
@@ -205,9 +205,9 @@ void func_800E9CA8(struct X4_BaseObj* self) {
 #undef D_800FB26C
 #undef func_800EC7A0
 
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EAF30);
+INCLUDE_ASM("rock_14/nonmatchings/E9860", func_800EAF30);
 
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EB048);
+INCLUDE_ASM("rock_14/nonmatchings/E9860", func_800EB048);
 // clang-format on
 
 #define func_80041AB8 func_800EB2C4
@@ -273,30 +273,7 @@ extern struct X4_PlayerObj g_Player;
 extern u8 D_800ED700[];
 extern u8 D_800ED748[];
 
-void func_800EB480(struct X4_BaseObj* self) {
-    s8 state = *(s8*)((u8*)self + 0x45);
-
-    if (state == 1) {
-        *(u8**)((u8*)self + 0x54) = D_800ED700;
-    } else if (state == 2) {
-        if (*(s16*)((u8*)self + 0x7C) == 0) {
-            s16 px, py;
-            s32 a;
-            u8* tbl;
-            func_800EB6C8((struct X4_MainObj*)self);
-            px = g_Player.x_pos.i.hi;
-            py = g_Player.y_pos.i.hi;
-            a = ratan2(self->y_pos.i.hi - py, px - self->x_pos.i.hi);
-            a += 0x800;
-            tbl = D_800ED748;
-            SPAD[0x8C] = tbl[a >> 8];
-            set_animation(self, SPAD[0x8C]);
-        } else {
-            set_animation(self, SPAD[0x8C]);
-        }
-        self->action_phase++;
-    }
-}
+#include "../shared/rock_14/func_800EB480.c"
 
 #define func_800EC6AC func_800EB574
 #include "../shared/rock_11/func_800EC6AC.c"
@@ -510,7 +487,7 @@ void func_800EB898(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800EBCFC);
+INCLUDE_ASM("rock_14/nonmatchings/E9860", func_800EBCFC);
 // clang-format on
 
 #define func_800F0CF4 func_800EC05C
@@ -815,7 +792,13 @@ void func_800ECAC0(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800ECAC8);
+#define func_800ED3D4 func_800ECAC8
+#define D_800FAE78 D_800ED7E0
+#define animate_object func_8002CB50
+#include "../shared/rock_02/func_800ED3D4.c"
+#undef func_800ED3D4
+#undef D_800FAE78
+#undef animate_object
 // clang-format on
 
 #include "common.h"
@@ -846,7 +829,13 @@ void func_800ECB7C(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800ECB9C);
+#define func_800484D8 func_800ECB9C
+#define D_80077BA4 D_800ED7F4
+#define func_8002CB50 func_80031DA8
+#include "../shared/main/func_800484D8.c"
+#undef func_800484D8
+#undef D_80077BA4
+#undef func_8002CB50
 // clang-format on
 
 #include "common.h"
@@ -897,5 +886,5 @@ void func_800ECC8C(void) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_14/nonmatchings/E9860", func_800ECCAC);
+INCLUDE_ASM("rock_14/nonmatchings/E9860", func_800ECCAC);
 // clang-format on

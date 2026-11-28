@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system player | range -
+// prog main | system player | range -
 /* mmx6/player.h -- the player object, g_Player 0x800970A0 (hand-edited; Phase 2.5 T6).
  * Homed here from the generated include/mmx6/x4.h through config/x4/homed.tsv: x4.h never emits this block and
  * aliases X4_PlayerObj to PlayerObj, so `struct X4_PlayerObj` users are unchanged. +0x00..+0xE3: members, types and

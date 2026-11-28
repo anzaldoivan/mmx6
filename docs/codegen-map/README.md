@@ -32,3 +32,9 @@ a loop guarded by its own copied exit test (`sltu`+`beqz`) vs a cheaper source g
 a masked `short` read as `lhu` vs `lh` sym-narrow-load | G-expr | L14 | permuter (T7)
 `lhu` + `sll 16` + `sra 16` vs one `lh` (a volatile read) sym-narrow-load | G-combine | L15 | permuter (T7)
 every small edit moves 20+ instructions (a register-pressure lock) sym-register-pressure | G-alloc | → permuter | permuter (T7)
+
+## Compiler walls
+These functions stay assembly (`INCLUDE_ASM`): no C source makes cc1 2.95.2 emit their instructions.
+- `func_80013AE0`: sets the stack pointer to a constant address (a scratchpad stack). cc1 moves `$sp` only for frame setup and `alloca`, never to a constant.
+- `func_80013B04`: loads the stack pointer from memory and returns. The only C route, `__builtin_longjmp`, also builds a frame and jumps through `$fp`.
+- `func_80013BE4`: an unguarded `break` with a chosen code. gcc 2.95 has no trap builtin. A constant divide by zero is deleted or emits a guarded `break 7`.

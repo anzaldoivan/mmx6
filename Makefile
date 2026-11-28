@@ -3,7 +3,7 @@
 # is the same run in dry mode with warnings as errors (a CI-able check, no game bytes needed). Dotfiles under src/
 # are excluded so a tool's live probe file is never formatted into the tree.
 
-.PHONY: format format-check split build build-bins clean extract scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mirror ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check health tools-health fleet fleet-quick expected probe-ladder dumps strings-check badges
+.PHONY: format format-check split build build-bins clean extract fleet-all scratch-check ghidra-import ghidra-import-overlays ghidra-export ghidra-roundtrip ghidra-mirror ghidra-mcp-start ghidra-mcp-stop redux-smoke redux-loads loadmap boundaries toolchain-check health tools-health fleet fleet-quick expected probe-ladder dumps strings-check badges
 
 # Extractor (tools/mmx6/, stdlib only). CUE defaults to the container's disc volume; on the Mac pass CUE=<path>.
 PYTHON ?= python3
@@ -29,32 +29,78 @@ GCCSRC_SHA ?= 064e1cb06ea5d2f4a07ec46c1c64d771f74d04f404b6a6766bca2477f7d72482
 GCCSRC_TREE ?= 8d8a1a5be69d98ae9921359eb356de36d7689f37c854bef29c6f77737e59781e
 GCCSRC_PATCHES ?= 3
 
-extract:
-	$(PYTHON) tools/mmx6/extract.py --cue "$(CUE)" --out extracted/retail --manifest manifest/retail.jsonl --medium config/medium.sha1
+# The version axis (3.3 T37, docs/ops/multi-version.md items 3, 7, 8): VERSION selects the build target (us only
+# today), BUILD_ROOT moves every build output (a self-test ladder builds in its own tree). Outputs go under
+# B = $(BUILD_ROOT)/$(VERSION)/, the medium's files under extracted/$(VERSION)/, asm-differ's baseline under
+# expected/$(VERSION)/. Both exported, so tools (tools/mmx6/paths.py, same defaults) and sub-makes agree.
+VERSION ?= us
+BUILD_ROOT ?= build
+export VERSION BUILD_ROOT
+B := $(BUILD_ROOT)/$(VERSION)
+EXTRACTED := extracted/$(VERSION)
+EXPECTED := expected/$(VERSION)
+# Address-bound config (yamls, symbols, carves, registry, loadmap, boundaries, ...) per version (3.3 T37.c3); shared
+# config (names, units, layout, triples, check.*.sha, medium.sha1, ...) stays in config/.
+CONFIG_V := config/$(VERSION)
+# The version registry, config/versions.tsv (`version serial triple`; serial joins config/discs.tsv, whose fixed
+# header psxd_publish.py owns): a VERSION with no row stops make before any rule runs. VERSION_UC names the build's
+# version for C (`-DVERSION=VER_<UC>`, include/mmx6/version.h).
+VERSION_ROW := $(shell awk -F'\t' -v v='$(VERSION)' '!/^\#/ && $$1 == v { print $$2, $$3 }' config/versions.tsv)
+ifeq ($(VERSION_ROW),)
+$(error VERSION '$(VERSION)' has no row in config/versions.tsv (the version registry))
+endif
+VERSION_TRIPLE := $(word 2,$(VERSION_ROW))
+# The main program's key is `main` (3.3 T38; was its disc file name): src/main/, $(ASM)/main/, $(CONFIG_V)/main.yaml.
+# MAIN_EXE = its disc file name (the serial's executable in config/discs.tsv), the name of the final binary $(B)/<exe>
+# and of config/check.<exe>.sha; tools/mmx6/paths.py derives it the same way (the one mapping).
+MAIN := main
+MAIN_EXE := $(shell awk -F'\t' -v s='$(word 1,$(VERSION_ROW))' '!/^\#/ && $$2 == s { print $$3 }' config/discs.tsv)
+ifeq ($(MAIN_EXE),)
+$(error VERSION '$(VERSION)': its serial has no executable in config/discs.tsv)
+endif
+# splat's output per version (3.3 T38): INCLUDE_ASM folders are version-neutral (`<bin>/nonmatchings/<tu>`), gas finds
+# them through -I$(ASM).
+ASM := asm/$(VERSION)
+export MAIN MAIN_EXE
+VERSION_UC := $(shell echo '$(VERSION)' | tr a-z A-Z)
+# Every version fleet-all gates, one per step.
+VERSIONS ?= us
 
-# All-asm build (container): `make split build` → splat config/<bin>.yaml → asm/<bin>/, assemble every .s, link with
-# the splat ld script, objcopy → build/<bin> (exe) or build/rock/NN.bin (bin rock_NN), then the hash gate
-# config/check.<bin>.sha. BINS = every config/*.yaml. `clean` never touches extracted/.
-BINS ?= $(patsubst config/%.yaml,%,$(wildcard config/*.yaml))
+extract:
+	$(PYTHON) tools/mmx6/extract.py --cue "$(CUE)" --out $(EXTRACTED) --manifest manifest/$(VERSION).jsonl --medium config/medium.sha1
+
+# All-asm build (container): `make split build` → splat config/us/<bin>.yaml → $(ASM)/<bin>/, assemble every .s, link
+# with the splat ld script, objcopy → $(B)/$(MAIN_EXE) (bin main) or $(B)/rock/NN.bin (bin rock_NN), then the hash gate
+# config/check.<bin>.sha (its paths spell build/; CHECK maps that prefix to $(B)/, the files stay as they are).
+# BINS = every config/us/*.yaml. `clean` removes $(B) only: never extracted/ or $(ASM).
+BINS ?= $(patsubst $(CONFIG_V)/%.yaml,%,$(wildcard $(CONFIG_V)/*.yaml))
 EXE_BINS := $(filter-out rock_%,$(BINS))
 ROCK_BINS := $(filter rock_%,$(BINS))
-BIN_OUTS := $(addprefix build/,$(EXE_BINS)) $(patsubst rock_%,build/rock/%.bin,$(ROCK_BINS))
+BIN_OUTS := $(patsubst $(MAIN),$(B)/$(MAIN_EXE),$(EXE_BINS)) $(patsubst rock_%,$(B)/rock/%.bin,$(ROCK_BINS))
+CHECK = sed 's|  build/|  $(B)/|' config/check.$(1).sha | sha1sum -c -
 AS_SHIM ?=
 AS := $(AS_SHIM) mipsel-linux-gnu-as
 LD := mipsel-linux-gnu-ld
 OBJCOPY := mipsel-linux-gnu-objcopy
 NM := mipsel-linux-gnu-nm
-ASFLAGS := -EL -march=r3000 -mtune=r3000 -mabi=32 -no-pad-sections -G0 -Iinclude
+ASFLAGS := -EL -march=r3000 -mtune=r3000 -mabi=32 -no-pad-sections -G0 -Iinclude -I$(ASM)
 # Overlays are one asm TU each, so their data words reach gas as instructions; rabbitizer's R3000GTE category
 # decodes some as MIPS II/III ops (dsll32, tge, ll, sync, sdc1 ...) that -march=r3000 rejects. r4000 only widens
 # the accepted set: same encodings under `.set noreorder`, and the sha1 gate checks every overlay byte (T5.c1).
 # -mno-fix-loongson3-llsc: this binutils build otherwise inserts a `sync` before every `ll` (rock_03 +0xE488).
-build/asm/rock_%.o: ASFLAGS := $(subst -march=r3000,-march=r4000,$(ASFLAGS)) -mno-fix-loongson3-llsc
+$(B)/$(ASM)/rock_%.o: ASFLAGS := $(subst -march=r3000,-march=r4000,$(ASFLAGS)) -mno-fix-loongson3-llsc
 # C compiler triple: one row of config/triples.txt (`<name> | cc1: ... | cflags: ... | maspsx: ...`) sets CC1,
 # CFLAGS, MASPSX_FLAGS; an unknown TRIPLE stops make before any rule runs.
 # The pin (phase 1.4 T7, docs/ops/compiler-pin.md); was gcc2.7.2-aspsx2.86 (T6.1), gcc2.7.2-aspsx2.56 before
 # (row collapsed in T6.1: aspsx 2.56-2.86 one -G0 class).
+# The literal stays (bank, cards, draw, harness, plateau, repro and contract.sh read `TRIPLE ?= <name>`); a default
+# that differs from the registry row's triple stops make. TRIPLE=<t> on the command line (the ladder) still selects.
 TRIPLE ?= gcc2.95.2-psx-aspsx2.86
+ifeq ($(origin TRIPLE),file)
+ifneq ($(TRIPLE),$(VERSION_TRIPLE))
+$(error TRIPLE ?= $(TRIPLE) differs from the $(VERSION) row of config/versions.tsv ($(VERSION_TRIPLE)))
+endif
+endif
 TRIPLE_FIELD = $(strip $(shell awk -F'|' -v t='$(TRIPLE)' -v k='$(1): ' '{ n = $$1; gsub(/^ +| +$$/, "", n) } \
   n == t { for (i = 2; i <= NF; i++) { f = $$i; gsub(/^ +| +$$/, "", f); if (index(f, k) == 1) print substr(f, length(k) + 1) } }' \
   config/triples.txt))
@@ -66,19 +112,19 @@ $(error TRIPLE '$(TRIPLE)' has no row in config/triples.txt)
 endif
 CPP := mipsel-linux-gnu-cpp
 # -nostdinc: cpp 12 otherwise injects stdc-predef.h, whose line markers old cc1 warns on ("unrecognized text").
-CPPFLAGS := -nostdinc -undef -D__GNUC__=2 -DPSX -Iinclude
+CPPFLAGS := -nostdinc -undef -D__GNUC__=2 -DPSX -DVERSION=VER_$(VERSION_UC) -Iinclude
 MASPSX := maspsx
 
 # One stamp per binary, so `make -jN split` runs the splat processes in parallel.
 # splat through tools/mmx6/splat_closure.py: a C unit's INCLUDE_ASM lines (and its defined names) are read over its
 # #include "*.c" closure, so an L-B role file's INCLUDE_ASM gets its nonmatchings .s (2.4 T15.c1).
-split: $(foreach b,$(BINS),build/split/$(b).stamp)
+split: $(foreach b,$(BINS),$(B)/split/$(b).stamp)
 
-build/split/%.stamp: config/%.yaml config/symbols.%.txt
-	$(PYTHON) tools/mmx6/splat_closure.py split config/$*.yaml
+$(B)/split/%.stamp: $(CONFIG_V)/%.yaml $(CONFIG_V)/symbols.%.txt
+	$(PYTHON) tools/mmx6/splat_closure.py split $(CONFIG_V)/$*.yaml
 	@mkdir -p $(dir $@) && touch $@
 
-# A failed hash check deletes build/<bin>, so a rerun cannot pass on a stale red output.
+# A failed hash check deletes $(B)/<bin>, so a rerun cannot pass on a stale red output.
 .DELETE_ON_ERROR:
 # Objects reached only through pattern rules stay on disk (no intermediate cleanup), so reruns are incremental.
 .SECONDARY:
@@ -89,84 +135,84 @@ build: split
 
 build-bins: $(BIN_OUTS)
 
-# Objects of one binary: every .s and every bin subsegment (asset .bin) splat wrote under asm/<bin>/, except
-# asm/<bin>/nonmatchings/ (INCLUDE_ASM pulls those into their C unit), and exactly the C units config/c_units.txt
+# Objects of one binary: every .s and every bin subsegment (asset .bin) splat wrote under $(ASM)/<bin>/, except
+# $(ASM)/<bin>/nonmatchings/ (INCLUDE_ASM pulls those into their C unit), and exactly the C units config/c_units.txt
 # lists for <bin> (src/<bin>/<tu>.c); other .c files under src/<bin>/ are role files a unit #includes (2.4 T4).
-O_FILES = $(patsubst %,build/%.o,$(shell find asm/$(1) -path asm/$(1)/nonmatchings -prune -o \
+O_FILES = $(patsubst %,$(B)/%.o,$(shell find $(ASM)/$(1) -path $(ASM)/$(1)/nonmatchings -prune -o \
   \( -name '*.s' -o -name '*.bin' \) -print 2>/dev/null) \
   $(patsubst %,src/$(1)/%.c,$(shell awk -v p='$(1)' '$$1 == p { print $$2 }' config/c_units.txt)))
 
 # An overlay's data words reach gas as code, so they reference D_<addr>/func_<addr> names splat counts as defined
-# (inside the segment) but never labels, or j/jal targets outside RAM it never lists: build/<bin>.provide.ld
+# (inside the segment) but never labels, or j/jal targets outside RAM it never lists: $(B)/<bin>.provide.ld
 # PROVIDEs every still-undefined such name at the address its name spells (exact; the sha1 gate checks the bytes).
 # A C-side `D_<addr>_<suffix>` (a link-only second name for the same address, e.g. a flat view of a 2-D array
 # a TU already declares, T33.c2) is PROVIDEd the same way.
-# A named exe symbol (rename.py, T9.c1) is PROVIDEd at the address config/symbols.SLUS_013.95.txt gives it, so overlay
+# A named exe symbol (rename.py, T9.c1) is PROVIDEd at the address config/us/symbols.main.txt gives it, so overlay
 # code that calls it by name links (C0251); same address as its func_/D_ spelling, byte-neutral.
-# A named overlay-local symbol in config/symbols.<bin>.txt is PROVIDEd the same way, so its C name links (T2.c1, 2.4).
+# A named overlay-local symbol in config/us/symbols.<bin>.txt is PROVIDEd the same way, so its C name links (T2.c1, 2.4).
 # With SDK set (mk/sdk.mk), SDK_DROP_<bin> asm objects leave the link, SDK_OBJS_<bin> join it and SDK_LD_<bin> replaces
 # the splat script; unset, all three are empty and the rule is the all-asm one.
 .SECONDEXPANSION:
-build/%.elf: $$(filter-out $$(SDK_DROP_$$*),$$(call O_FILES,$$*)) $$(SDK_OBJS_$$*) build/%.ld
+$(B)/%.elf: $$(filter-out $$(SDK_DROP_$$*),$$(call O_FILES,$$*)) $$(SDK_OBJS_$$*) $(B)/%.ld
 	{ echo '/* generated by make: PROVIDE(<name> = <addr>) for undefined D_/func_ refs and named exe symbols */'; \
-	  $(NM) -u $(filter %.o,$^) > build/$*.undef.txt; \
-	  { sed -n 's/^ *U \(\(D\|func\)_\([0-9A-F]\{8\}\)\(_[A-Za-z0-9_]*\)\{0,1\}\)$$/PROVIDE(\1 = 0x\3);/p' build/$*.undef.txt; \
-	    awk -v u=build/$*.undef.txt 'FILENAME != u { if ($$2 == "=" && $$3 ~ /^0x[0-9A-Fa-f]+;/) a[$$1] = substr($$3, 1, length($$3) - 1); next } \
+	  $(NM) -u $(filter %.o,$^) > $(B)/$*.undef.txt; \
+	  { sed -n 's/^ *U \(\(D\|func\)_\([0-9A-F]\{8\}\)\(_[A-Za-z0-9_]*\)\{0,1\}\)$$/PROVIDE(\1 = 0x\3);/p' $(B)/$*.undef.txt; \
+	    awk -v u=$(B)/$*.undef.txt 'FILENAME != u { if ($$2 == "=" && $$3 ~ /^0x[0-9A-Fa-f]+;/) a[$$1] = substr($$3, 1, length($$3) - 1); next } \
 	      $$1 == "U" && ($$2 in a) { print "PROVIDE(" $$2 " = " a[$$2] ");" }' \
-	      config/symbols.SLUS_013.95.txt $(wildcard config/symbols.$*.txt) build/$*.undef.txt; \
+	      $(CONFIG_V)/symbols.main.txt $(wildcard $(CONFIG_V)/symbols.$*.txt) $(B)/$*.undef.txt; \
 	  } | sort -u; \
-	} > build/$*.provide.ld
-	$(LD) -o $@ -Map build/$*.map -T $(or $(SDK_LD_$*),build/$*.ld) \
-	  -T build/undefined_syms_auto.$*.txt -T build/undefined_funcs_auto.$*.txt -T build/$*.provide.ld \
+	} > $(B)/$*.provide.ld
+	$(LD) -o $@ -Map $(B)/$*.map -T $(or $(SDK_LD_$*),$(B)/$*.ld) \
+	  -T $(B)/undefined_syms_auto.$*.txt -T $(B)/undefined_funcs_auto.$*.txt -T $(B)/$*.provide.ld \
 	  --no-check-sections
 
-$(addprefix build/,$(EXE_BINS)): build/%: build/%.elf
+$(B)/$(MAIN_EXE): $(B)/$(MAIN).elf
 	$(OBJCOPY) -O binary $< $@
-	sha1sum -c config/check.$*.sha
+	$(call CHECK,$(MAIN_EXE))
 
-build/rock/%.bin: build/rock_%.elf
+$(B)/rock/%.bin: $(B)/rock_%.elf
 	@mkdir -p $(dir $@)
 	$(OBJCOPY) -O binary $< $@
-	sha1sum -c config/check.rock_$*.sha
+	$(call CHECK,rock_$*)
 
-build/%.s.o: %.s include/macro.inc
+$(B)/%.s.o: %.s include/macro.inc
 	@mkdir -p $(dir $@)
 	$(AS) $(ASFLAGS) -o $@ $<
 
 # An overlay data word decodes as MIPS `ll`, which splat's GTE `ll` macro (include/gte_macros.inc, written by
 # splat split) shadows: overlay sources get macro.inc first, then that macro is purged (assembler lines are +2).
-build/asm/rock_%.s.o: asm/rock_%.s include/macro.inc
+$(B)/$(ASM)/rock_%.s.o: $(ASM)/rock_%.s include/macro.inc
 	@mkdir -p $(dir $@)
 	{ printf '.include "macro.inc"\n.purgem ll\n'; cat $<; } | $(AS) $(ASFLAGS) -o $@ --
 
 # A bin subsegment (an overlay's 1-3 byte tail) as raw .data bytes.
-build/%.bin.o: %.bin
+$(B)/%.bin.o: %.bin
 	@mkdir -p $(dir $@)
 	printf '.section .data\n.incbin "%s"\n' $< | $(AS) $(ASFLAGS) -o $@ --
 
 # A C unit: cpp | cc1 | maspsx | as (exe ASFLAGS). bash with pipefail, so a failing stage fails the rule (sh is dash).
-# Per-unit cc1 flags: CFLAGS_<tu>, set target-specific by config/carve.<prog>.mk (tools/mmx6/carve.py opt carves).
-# cpp writes build/<unit>.c.d (every file the unit #includes, -MP phony targets for each), included below, so a
+# Per-unit cc1 flags: CFLAGS_<tu>, set target-specific by config/us/carve.<prog>.mk (tools/mmx6/carve.py opt carves).
+# cpp writes $(B)/<unit>.c.d (every file the unit #includes, -MP phony targets for each), included below, so a
 # touched body or role file rebuilds its unit (C0232; 2.4 T4). The .d output does not change the preprocessed text.
-build/%.c.o: SHELL := /bin/bash
-build/%.c.o: .SHELLFLAGS := -o pipefail -c
-build/%.c.o: %.c include/common.h include/mmx6/types.h include/macro.inc
+$(B)/%.c.o: SHELL := /bin/bash
+$(B)/%.c.o: .SHELLFLAGS := -o pipefail -c
+$(B)/%.c.o: %.c include/common.h include/mmx6/types.h include/macro.inc
 	@mkdir -p $(dir $@)
-	$(CPP) $(CPPFLAGS) -MMD -MP -MT $@ -MF build/$*.c.d $< | $(CC1) $(or $(CFLAGS_$(notdir $*)),$(CFLAGS)) | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(ASFLAGS) -o $@ --
+	$(CPP) $(CPPFLAGS) -MMD -MP -MT $@ -MF $(B)/$*.c.d $< | $(CC1) $(or $(CFLAGS_$(notdir $*)),$(CFLAGS)) | $(MASPSX) $(MASPSX_FLAGS) | $(AS) $(ASFLAGS) -o $@ --
 
--include $(wildcard config/carve.*.mk)
--include $(shell find build/src -name '*.c.d' 2>/dev/null)
+-include $(wildcard $(CONFIG_V)/carve.*.mk)
+-include $(shell find $(B)/src -name '*.c.d' 2>/dev/null)
 include mk/sdk.mk
 
 # An overlay C unit (T5.c1) INCLUDE_ASMs the same data-as-code words: the overlay ASFLAGS above, and
 # -DMMX6_OVERLAY makes include/common.h purge the GTE `ll` macro.
-build/src/rock_%.c.o: ASFLAGS := $(subst -march=r3000,-march=r4000,$(ASFLAGS)) -mno-fix-loongson3-llsc
-build/src/rock_%.c.o: CPPFLAGS += -DMMX6_OVERLAY
+$(B)/src/rock_%.c.o: ASFLAGS := $(subst -march=r3000,-march=r4000,$(ASFLAGS)) -mno-fix-loongson3-llsc
+$(B)/src/rock_%.c.o: CPPFLAGS += -DMMX6_OVERLAY
 
 clean:
-	rm -rf asm build
+	rm -rf $(B)
 
-# Every forced lib edge of config/boundaries.txt is a subsegment edge of its config/<bin>.yaml (container), then the
+# Every forced lib edge of config/us/boundaries.txt is a subsegment edge of its config/us/<bin>.yaml (container), then the
 # tools-health chain (mk/tools-health.mk: each phase tool's --self-test and real run).
 health:
 	$(PYTHON) tools/mmx6/boundcheck.py
@@ -183,9 +229,13 @@ fleet:
 fleet-quick:
 	@MAKE="$(MAKE)" bash tools/mmx6/fleet.sh --quick
 
-# asm-differ baseline: expected/<repo-relative path> of every build output.
+# Every version of VERSIONS, one fleet per step (rc 1 at the first red version; each its own `FLEET <ok> of <n>`).
+fleet-all:
+	@for v in $(VERSIONS); do echo "fleet-all: VERSION=$$v"; $(MAKE) --no-print-directory VERSION=$$v fleet || exit 1; done
+
+# asm-differ baseline: $(EXPECTED)/<path under $(B)> of every build output.
 expected: build
-	rm -rf expected && mkdir -p expected && cp -R build expected/build
+	rm -rf $(EXPECTED) && mkdir -p $(EXPECTED) && cp -R $(B)/. $(EXPECTED)/
 
 # The triple ladder (container): every config/probes.txt row under every config/triples.txt row; rc 0 only on a
 # unique `PIN <triple> <k> of <k>`.
@@ -193,7 +243,7 @@ probe-ladder:
 	$(PYTHON) tools/mmx6/probe.py --ladder
 
 # Per-pass cc1 dumps of one C unit (container; tools/mmx6/dumps.py splices the C rule's dry-run recipe, adds -da):
-# `make dumps PROG=<prog> TU=<tu>` -> build/dumps/<prog>/<tu>/<tu>.<suffix>, `.text` checked against the built object.
+# `make dumps PROG=<prog> TU=<tu>` -> $(B)/dumps/<prog>/<tu>/<tu>.<suffix>, `.text` checked against the built object.
 dumps:
 	$(PYTHON) tools/mmx6/dumps.py --tu $(PROG)/$(TU)
 
@@ -208,14 +258,14 @@ scratch-check:
 GHIDRA_HOME ?= $(HOME)/ghidra_12.1.3_PUBLIC
 
 ghidra-import:
-	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/import.sh --program SLUS_013.95
+	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/import.sh --program $(MAIN_EXE)
 
-# Every `code` member of config/loadmap.txt as raw program rock_NN at its loadmap base (one JVM per base group).
+# Every `code` member of config/us/loadmap.txt as raw program rock_NN at its loadmap base (one JVM per base group).
 ghidra-import-overlays:
 	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/import.sh --member all
 
 # Annotation export (read-only) to config/ghidra/<program>.jsonl, and its round trip into .run/ghidra/rebuild/;
-# both cover SLUS_013.95 + every code member of config/loadmap.txt.
+# both cover main + every code member of config/us/loadmap.txt.
 ghidra-export:
 	GHIDRA_HOME="$(GHIDRA_HOME)" bash tools/mmx6/ghidra/export.sh --all
 
@@ -249,20 +299,20 @@ redux-loads:
 	    bash tools/mmx6/redux/run.sh tools/mmx6/redux/loads.lua --timeout 600 || exit 1; \
 	done
 
-# Member -> base map (Mac-only: exe + members + captures + smoke dumps) → config/loadmap.txt; rc 1 on a failed control.
+# Member -> base map (Mac-only: exe + members + captures + smoke dumps) → config/us/loadmap.txt; rc 1 on a failed control.
 loadmap:
-	$(PYTHON) tools/mmx6/loadmap.py --out config/loadmap.txt
+	$(PYTHON) tools/mmx6/loadmap.py --out $(CONFIG_V)/loadmap.txt
 
-# Forced boundaries (jump tables, PsyQ objects, -O0 candidates, missed func starts) per program → config/boundaries.txt.
+# Forced boundaries (jump tables, PsyQ objects, -O0 candidates, missed func starts) per program → config/us/boundaries.txt.
 boundaries:
-	$(PYTHON) tools/mmx6/boundaries.py --out config/boundaries.txt --psyq-dir "$(GHIDRA_HOME)/Ghidra/Extensions/ghidra_psx_ldr/data/psyq"
+	$(PYTHON) tools/mmx6/boundaries.py --out $(CONFIG_V)/boundaries.txt --psyq-dir "$(GHIDRA_HOME)/Ghidra/Extensions/ghidra_psx_ldr/data/psyq"
 
 # M16 game-string gate (docs/strings.md): glossed short strings only, no dialogue in tracked files.
 strings-check:
 	$(PYTHON) tools/mmx6/gamestr.py check
 
 # README badges (docs/badges/*.json, shields.io endpoints): named functions, finished files and functions, debt,
-# data in C (refreshes config/data_bytes.tsv from build/*.map: run after a build, in the container).
+# data in C (refreshes config/us/data_bytes.tsv from $(B)/*.map: run after a build, in the container).
 badges:
 	$(PYTHON) tools/mmx6/badges.py --maps
 

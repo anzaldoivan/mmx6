@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system ladder | range -
+// prog main | system ladder | range -
 /* mmx6/ladder.h -- the ladder functions called outside their own file (ladder/) (hand-edited; Phase 2.6 T10.c1). Each prototype carries the type its
  * callers declared (an unprototyped `T f();` stays as its callers wrote it). Not included by x4.h: callers include it. */
 #ifndef MMX6_LADDER_H

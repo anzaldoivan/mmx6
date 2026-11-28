@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system effect | range -
+// prog main | system effect | range -
 /* mmx6/effect.h -- the effect functions called outside effect/ (effect/spawn_visual.c) (hand-edited; Phase 2.5 T10.c2). Each prototype carries its definition's type
  * (an unprototyped `T f();` stays as its callers wrote it). Not included by x4.h: callers include it. */
 #ifndef MMX6_EFFECT_H

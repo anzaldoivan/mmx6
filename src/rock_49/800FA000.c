@@ -1,7 +1,7 @@
 // clang-format off
-INCLUDE_ASM("asm/rock_49/nonmatchings/FA000", D_800FA000);
+INCLUDE_ASM("rock_49/nonmatchings/FA000", D_800FA000);
 
-INCLUDE_ASM("asm/rock_49/nonmatchings/FA000", func_800FA004);
+INCLUDE_ASM("rock_49/nonmatchings/FA000", func_800FA004);
 // clang-format on
 
 #include "common.h"
@@ -195,5 +195,5 @@ void func_800FA3FC(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_49/nonmatchings/FA000", func_800FA468);
+INCLUDE_ASM("rock_49/nonmatchings/FA000", func_800FA468);
 // clang-format on

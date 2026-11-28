@@ -1,10 +1,10 @@
 -- tools/mmx6/redux/fields.lua -- object field watch (T5.c1, phase 2.5); run: tools/mmx6/redux/run.sh tools/mmx6/redux/fields.lua.
 -- Input: env MMX6_INPUTS (a tools/mmx6/redux/inputs/<name>.lua schedule), default inputs/intro_stage.lua.
 -- Env MMX6_FIELDS ("0x5C:s8,0x84:u8,..."; types s8 u8 s16 u16 s32 u32) overrides the default watch list.
--- Exec breakpoints (sites from SLUS_013.95 bytes):
+-- Exec breakpoints (sites from main bytes):
 --   0x800200EC  temp#1 dispatch `jalr a1` in func_8002000C: a0 = obj in g_enemies 0x8008EF48 (stride 0x9C, 48 slots);
 --               samples the watch list → {frame,slot,id,fields} and per-field {change,slot,id,from,to,frame}.
---   0x8002D2B0  move_object entry (control, src/SLUS_013.95/object/object.c): a0, x_pos +8, y_pos +0xC, x_vel +0x20,
+--   0x8002D2B0  move_object entry (control, src/main/object/object.c): a0, x_pos +8, y_pos +0xC, x_vel +0x20,
 --               y_vel +0x24 recorded.
 --   0x8002D2CC  move_object `jr ra` (bytes: sw v0,8(a0) at 0x8002D2C8; delay slot sw v1,0xC(a0) at 0x8002D2D0):
 --               checks a0 same, word +8 == x+vx and v1 (the y about to be stored) == y-vy.

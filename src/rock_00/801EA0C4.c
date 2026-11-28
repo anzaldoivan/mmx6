@@ -1,5 +1,5 @@
 // clang-format off
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EA0C4);
+INCLUDE_ASM("rock_00/nonmatchings/1EA000", func_801EA0C4);
 // clang-format on
 
 #include "common.h"
@@ -126,7 +126,7 @@ void func_801EA2B8(u8* arg0) {
 #undef g_Player
 
 // clang-format off
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EA5A0);
+INCLUDE_ASM("rock_00/nonmatchings/1EA000", func_801EA5A0);
 // clang-format on
 
 #include "common.h"
@@ -581,7 +581,7 @@ void func_801EB02C(u8* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_00/nonmatchings/1EA000", func_801EB188);
+INCLUDE_ASM("rock_00/nonmatchings/1EA000", func_801EB188);
 // clang-format on
 
 #include "common.h"

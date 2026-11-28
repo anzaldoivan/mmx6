@@ -1,0 +1,34 @@
+// rolefeed (3.1 T4): func_800ECC74 of src/rock_10/E9860.c
+
+#include "common.h"
+
+#define M2C_UNK s32
+#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))
+
+M2C_UNK set_animation(void*, M2C_UNK);
+s32 func_800ED0AC(u8* arg0);
+extern s16 D_800970AA;
+
+void func_800ECC74(void* arg0) {
+    s32 temp_a0;
+    s32 temp_v1;
+    s32 temp_v0;
+
+    if (M2C_FIELD(arg0, u8*, 0x89) == 2) {
+        M2C_FIELD(arg0, u8*, 0x89) = 0;
+    }
+    if (M2C_FIELD(arg0, u8*, 0x89) == 0) {
+        temp_a0 = D_800970AA;
+        temp_v1 = M2C_FIELD(arg0, s16*, 0xA);
+        temp_v0 = temp_a0 - temp_v1;
+        if (temp_v0 >= 0 ? temp_v0 < 0x91 : (temp_v1 - temp_a0) < 0x91) {
+            M2C_FIELD(arg0, u8*, 0x88) = func_800ED0AC(arg0);
+        }
+        if ((M2C_FIELD(arg0, s8*, 2) & 0xF0) == 0x10) {
+            set_animation(arg0, M2C_FIELD(arg0, u8*, 0x88) + 8);
+        } else {
+            set_animation(arg0, M2C_FIELD(arg0, u8*, 0x88));
+        }
+        M2C_FIELD(arg0, u8*, 6) = (u8)(M2C_FIELD(arg0, u8*, 6) + 1);
+    }
+}

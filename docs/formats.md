@@ -2,7 +2,7 @@
 
 This document gives facts about the retail medium (SLUS-01395 v1.1). We established them from our own
 dump with the project's tools (`tools/mmx6/`). The document holds prose and own pseudocode only: no game
-bytes, no disassembly listings. Addresses are KSEG0 virtual addresses in `SLUS_013.95`
+bytes, no disassembly listings. Addresses are KSEG0 virtual addresses in `main`
 (file offset = vaddr − 0x80010000 + 0x800). Evidence: phase 1.1 T1 (extractor) and T2 (this document,
 log `phase-ends/current/logs/T2.md`). Web survey R1.1-001 is evidence too (no public format or
 compression document for `ROCK_X6.BIN` exists, and tool licences).

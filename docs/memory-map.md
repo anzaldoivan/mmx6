@@ -3,9 +3,9 @@
 This document gives the load addresses of the exe and the ROCK_X6.BIN members, each with its evidence. A row is
 `proven` only with 3 runtime datapoints (G5). Everything else stays a lead. Overlay rows: T6/T7 (`config/loadmap.txt`).
 
-- SLUS_013.95 load 0x80010000: proven (3 datapoints, PCSX-Redux build 279, no pad input).
+- main load 0x80010000: proven (3 datapoints, PCSX-Redux build 279, no pad input).
   - Datapoints: the first `BinSeek` 0x80016858 hit at frame 1478, frame 4000, the second `BinSeek` hit at frame 7787. Both hits have a0=0x12 a1=0x800E9860.
-  - Function-body words 92827/92827 are equal at each of the 3. The 1343 bodies come from `config/ghidra/SLUS_013.95.jsonl`. Each body is [func, next func/data row) trimmed to its last `jr ra` + delay slot.
+  - Function-body words 92827/92827 are equal at each of the 3. The 1343 bodies come from `config/ghidra/main.jsonl`. Each body is [func, next func/data row) trimmed to its last `jr ra` + delay slot.
   - Whole text: 129880, 129857, 129833 of 130048 words are equal at each of the 3.
   - Negative control `--base 0x80010800` fails (rc 1).
   - Commands: `make redux-smoke PYTHON=PY && PY tools/mmx6/exeproof.py .run/redux/smoke` (T4, 2026-10-01).
@@ -61,7 +61,7 @@ Rows → TUs: `config/segmentation.md` (1.3 T3). The exe has 246 TUs, each overl
   0x80017e98 and 0x80027aa8 are not jal targets (no jal/j, data word or lui/addiu pair in exe or members): absent.
 
 Per program (denominators: dispatch sites found by the scan, Ghidra switchdata labels, Ghidra func starts):
-- SLUS_013.95:
+- main:
   - jtbl 41 both / 6 scan / 0 ghidra of 47 dispatch sites and 41 switchdata labels (hi mismatch 9)
   - lib 235 objects, 828/1343 funcs
   - optcand 0/1343 funcs
@@ -376,12 +376,12 @@ Version SLUS-01395 v1.1 throughout. Status: proven runtime (observed live in our
 - tables (loadmap.py decode, prior-art L3 recomp): 0x8006D9EC (site 0x80013D54, members 33..40) consistent-with-bytes. 0x8006DC50 (site 0x80013E40) and 0x8006DB78 (site 0x80013E7C) consistent-with-bytes, runtime indices 46 / 2, 12, 18 lie in them.
 - bases (prior-art L3 recomp): 0x801EA000, 0x800E9860, 0x800FA000 proven runtime (lines above).
 - L4 (Kuumba123 `MegaManX6_PS1_Modding` b3a1bf4, 5 US files): addresses only, names never committed, G102. 88 addresses.
-  - 68 inside the exe text [0x80010000, 0x8008F000), checked against `config/ghidra/SLUS_013.95.jsonl` func rows + exe words (T7, 2026-10-01): 61 Ghidra function starts (consistent-with-bytes). 3 byte-level starts Ghidra did not split (prologue right after `jr ra`+slot): 0x80017e98, 0x80027aa8, 0x80027ba0 (consistent-with-bytes, missed-function candidates). 2 right after `jr ra`+slot, no prologue, in a span Ghidra left without functions: 0x800533f4, 0x80053440 (lead, leaf-function candidates). 1 no prologue, not after `jr ra`: 0x80017248 (lead, unconfirmed). 1 zero word: 0x8008ec10 (data, not code).
+  - 68 inside the exe text [0x80010000, 0x8008F000), checked against `config/ghidra/main.jsonl` func rows + exe words (T7, 2026-10-01): 61 Ghidra function starts (consistent-with-bytes). 3 byte-level starts Ghidra did not split (prologue right after `jr ra`+slot): 0x80017e98, 0x80027aa8, 0x80027ba0 (consistent-with-bytes, missed-function candidates). 2 right after `jr ra`+slot, no prologue, in a span Ghidra left without functions: 0x800533f4, 0x80053440 (lead, leaf-function candidates). 1 no prologue, not after `jr ra`: 0x80017248 (lead, unconfirmed). 1 zero word: 0x8008ec10 (data, not code).
   - The other 20 lie outside the exe text. Status (1.2): lead.
   - 2.2 T7.c1 (2026-10-26) checked them against `.run/oracle/functions.tsv` and our splits (exe image, bss to 0x800E9860). Of 67 code addresses, 66 are census starts (the 5 Ghidra misses above included). 0x80017248 lies inside func_8001717C (mismatch). Of 21 data addresses, 18 lie in data or bss splits, and 3 lie in scratchpad RAM (not-checkable). 0x8008ec10 is a variable in data split 6D5D4. The rows are in `docs/leads/ram.tsv`, with 89 Archipelago RAM addresses (49 consistent-with-bytes, 40 mismatch).
   - None checked at runtime.
   - Scratch check: `.run/t7/l4check.py`.
 
 ## gp
-- gp = 0x8008EAA4 (splat `gp_value`, config/SLUS_013.95.yaml): set at 0x80054B58 `lui gp,0x8009` (3c1c8009) + 0x80054B5C `addiu gp,gp,-0x155c` (279ceaa4). The exe header gp0 = 0. Status: consistent-with-bytes (T2, phase 1.3).
+- gp = 0x8008EAA4 (splat `gp_value`, config/main.yaml): set at 0x80054B58 `lui gp,0x8009` (3c1c8009) + 0x80054B5C `addiu gp,gp,-0x155c` (279ceaa4). The exe header gp0 = 0. Status: consistent-with-bytes (T2, phase 1.3).
 - startup 0x80054AD8-0x80054AF4 clears bss [0x8008EAA8, 0x800E9860) (end = overlay base of rock members 2-32). The bss start < file end 0x8008F000, so 0x8008EAA8..0x8008F000 is file data in the build (splat bss segment starts at 0x8008F000). Status: consistent-with-bytes.

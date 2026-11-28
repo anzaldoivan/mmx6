@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""exeproof.py <dumpdir> [--base 0x80010000] -- prove where SLUS_013.95 loads, from Redux RAM dumps (T4.c1).
+"""exeproof.py <dumpdir> [--base 0x80010000] -- prove where main loads, from Redux RAM dumps (T4.c1).
 
-Image = SLUS_013.95[0x800 : 0x800+0x7F000] (extracted/retail/iso/SLUS_013.95; sha1 must equal its
-manifest/retail.jsonl record, else rc 2), mapped at --base. Each <dumpdir>/*.bin is main RAM (2 MiB at
+Image = SLUS_013.95[0x800 : 0x800+0x7F000] (extracted/us/iso/SLUS_013.95; sha1 must equal its
+manifest/us.jsonl record, else rc 2), mapped at --base. Each <dumpdir>/*.bin is main RAM (2 MiB at
 0x80000000, tools/mmx6/redux/smoke.lua). Per dump:
   (a) every 32-bit word inside a function body equals the image word at the same address;
   (b) whole-image match fraction, printed as equal/total words.
-Function bodies (config/ghidra/SLUS_013.95.jsonl, func rows carry no extent): [func addr, next start), next
+Function bodies (config/ghidra/main.jsonl, func rows carry no extent): [func addr, next start), next
 start = next func row or next data row addr inside the CODE block 0x80010000..0x8008EFFF (last: block end),
 trimmed to the last `jr ra` + delay slot before it (untyped data tails are not body; none found: untrimmed).
 rc 0 iff (a) holds at every dump; 1 otherwise; 2 on bad inputs. Stdlib only.
@@ -17,11 +17,12 @@ import json
 import struct
 import sys
 from pathlib import Path
+from paths import EXTRACTED, MANIFEST as MANIFEST_REL, MAIN_EXE  # noqa: E402  (the version axis, 3.3 T37)
 
 REPO = Path(__file__).resolve().parents[2]
-EXE = REPO / "extracted/retail/iso/SLUS_013.95"
-MANIFEST = REPO / "manifest/retail.jsonl"
-ANNOT = REPO / "config/ghidra/SLUS_013.95.jsonl"
+EXE = REPO / f"{EXTRACTED}/iso/{MAIN_EXE}"
+MANIFEST = REPO / MANIFEST_REL
+ANNOT = REPO / "config/ghidra/main.jsonl"
 HDR, TEXT_SIZE = 0x800, 0x7F000
 CODE_LO, CODE_END = 0x80010000, 0x8008F000
 RAM_BASE, RAM_SIZE = 0x80000000, 0x200000
@@ -37,10 +38,10 @@ def load_image():
     want = None
     for line in MANIFEST.read_text().splitlines():
         rec = json.loads(line)
-        if rec.get("path") == "iso/SLUS_013.95":
+        if rec.get("path") == f"iso/{MAIN_EXE}":
             want = rec["sha1"]
     if want is None:
-        fail(f"no iso/SLUS_013.95 record in {MANIFEST}")
+        fail(f"no iso/{MAIN_EXE} record in {MANIFEST}")
     if not EXE.is_file():
         fail(f"missing {EXE} (run make extract)")
     data = EXE.read_bytes()
@@ -90,7 +91,7 @@ def main():
         fail(f"no *.bin in {args.dumpdir}")
     body_words = sum((((hi - lo) + 3) // 4) for lo, hi, _ in bodies)
     img_words = TEXT_SIZE // 4
-    print(f"image: SLUS_013.95 text 0x{TEXT_SIZE:X} B at base 0x{args.base:08X}; "
+    print(f"image: main text 0x{TEXT_SIZE:X} B at base 0x{args.base:08X}; "
           f"{len(bodies)} func bodies, {body_words} body words (denominator)")
 
     def img_word(addr):

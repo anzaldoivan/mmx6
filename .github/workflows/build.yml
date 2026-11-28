@@ -102,12 +102,19 @@ jobs:
         run: docker run --rm -v "$RUNNER_TEMP/work:/work" -w /work "$IMAGE" sh -c 'mkdir -p .toolchain/2.95.2-psx && curl -fsSL -o /tmp/cc.tgz https://github.com/decompals/old-gcc/releases/download/0.17/gcc-2.95.2-psx.tar.gz && echo "932ed3669710a82b12570c29c46ff42989b6505b2af10db84d4551d55dfc0b1c  /tmp/cc.tgz" | sha256sum -c - && tar -xzf /tmp/cc.tgz -C .toolchain/2.95.2-psx cc1'
 
       - name: Stage the build's inputs
+        env:
+          VERSION: us
         run: |
-          python3 -I - "$RUNNER_TEMP/private/inputs" "$RUNNER_TEMP/work" <<'EOF'
+          python3 -I - "$RUNNER_TEMP/private/inputs" "$RUNNER_TEMP/work" "$VERSION" <<'EOF'
           import os, pathlib, shutil, sys
-          src, work = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2]).resolve()
-          for f in sorted(p for p in src.rglob("*") if p.is_file()):
-              dest = work / f.relative_to(src)
+          src, work, ver = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2]).resolve(), sys.argv[3]
+          base = src / "extracted" / ver
+          if ver == "us" and not base.is_dir():
+              base = src / "extracted" / "retail"
+          if not base.is_dir():
+              sys.exit("refused: no inputs for version %s" % ver)
+          for f in sorted(p for p in base.rglob("*") if p.is_file()):
+              dest = work / "extracted" / ver / f.relative_to(base)
               dest.parent.mkdir(parents=True, exist_ok=True)
               if dest.is_symlink() or not str(dest.parent.resolve()).startswith(str(work) + os.sep):
                   sys.exit("refused: %s leaves the work tree" % f.relative_to(src))
@@ -128,7 +135,8 @@ jobs:
       # Against the private repository's list, never the PR's copy
       - name: Byte check
         working-directory: ${{ runner.temp }}/work
-        run: sha1sum --strict --quiet -c "$RUNNER_TEMP/private/check/$EXE.sha1"
+        run: |
+          sed -E 's#^([0-9a-fA-F]{40}  \*?)build/(us/)?#\1build/us/#' "$RUNNER_TEMP/private/check/$EXE.sha1" | sha1sum --strict --quiet -c -
 
       # Phase 9 decides the generator. The report steps start with config/categories.tsv; before it the job is the byte
       # check alone. The report is validated by the base's tools (no game bytes, the arithmetic, the artifact name).

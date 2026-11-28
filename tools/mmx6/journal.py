@@ -21,6 +21,9 @@ import re
 import shutil
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from paths import prog_key  # noqa: E402  (records before 3.3 T38 key main by its disc file name)
+
 JOURNAL = "campaign/journal.jsonl"
 SELFTEST = ".run/journal-selftest"
 KEYS = ("wave", "pv", "func", "words", "band", "runs", "verdict", "score", "label", "draft", "lever", "notes", "prev")
@@ -139,11 +142,11 @@ def append(path, text, say):
 
 
 def records(path):
-    return [json.loads(line) for line in lines_of(path)]
+    return [dict(r, pv=prog_key(r["pv"])) for r in map(json.loads, lines_of(path))]
 
 
 def for_pv(path, pv, say):
-    rows = [line for line in lines_of(path) if json.loads(line)["pv"] == pv]
+    rows = [line for line in lines_of(path) if prog_key(json.loads(line)["pv"]) == prog_key(pv)]
     for line in rows:
         say(line)
     say(f"JOURNAL FOR {pv} {len(rows)} records")

@@ -2,7 +2,7 @@
 --   MMX6_INPUTS=tools/mmx6/redux/inputs/<sched>.lua [MMX6_STOP=<frame>] [MMX6_RUN_TAG=<tag>] \
 --     tools/mmx6/redux/run.sh tools/mmx6/redux/boot.lua --timeout 240
 -- Schedule {name, steps, stop}; env MMX6_STOP overrides sched.stop; run name = <name>[-<MMX6_RUN_TAG>].
--- Exec breakpoints (sites from SLUS_013.95 bytes):
+-- Exec breakpoints (sites from main bytes):
 --   0x8001D178  `jalr v1` of `D_800710E8[state](&D_800CD3F8)` in func_8001D0E4 (a0 is set in the delay slot from s2,
 --               so at the bp target = v1, arg = s2). Control: pass iff v1 == word(0x800710E8 + 4*state) and
 --               s2 == 0x800CD3F8 (state = u8 at 0x800CD3F8). A line per state change.
@@ -41,7 +41,7 @@ local CB_ENTRY = 0x800165A4
 local CB_REMAINING = 0x80016628 -- in 0x800165A4, after `lw v1, 0x1A8(0x800E0000)`
 local REMAINING = 0x800E01A8
 local R18_INDEX, R18_BASE, R18_SIZE = 0x12, 0x800E9860, 0x7EE8
-local JALR = 0x8001D178 -- objdump-style decode of SLUS_013.95 0x8001D0E4-0x8001D218: `jalr v1` / delay `addu a0,s2,zero`
+local JALR = 0x8001D178 -- objdump-style decode of main 0x8001D0E4-0x8001D218: `jalr v1` / delay `addu a0,s2,zero`
 local LOOP_FN = 0x8001D0E4
 local TABLE, STATE = 0x800710E8, 0x800CD3F8
 local TEXT_LO, TEXT_HI = 0x80010000, 0x8006D5D4
@@ -221,11 +221,11 @@ end
 setResident(false)
 setOther(false)
 
--- Asm-reach layer (T25.c1), on iff sched.asm: every INCLUDE_ASM function of src/SLUS_013.95 and src/rock_NN gets
+-- Asm-reach layer (T25.c1), on iff sched.asm: every INCLUDE_ASM function of src/main and src/rock_NN gets
 -- an entry first-hit bp (SLUS ungated; rock_NN gated by member NN residency, the rock_18 rule generalised: resident
 -- after BinSeek a0 = NN, a1 = loadmap base completes via the ready callback; not resident from any BinSeek with a1 in
--- [base, base+size), size from the config/rock_NN.yaml header) plus a range bp per member, a row per residency seq.
--- Name → addr: config/symbols.<prog>.txt row; else a func_<hex> name (splat auto-name). Excluded: LIB* segments,
+-- [base, base+size), size from the config/us/rock_NN.yaml header) plus a range bp per member, a row per residency seq.
+-- Name → addr: config/us/symbols.<prog>.txt row; else a func_<hex> name (splat auto-name). Excluded: LIB* segments,
 -- __start, D_ names, rows with a type: other than func.
 -- Entry hooks (T25.c1): an Exec bp on a dispatch `jalr` masks the entry bp of an overlay target (rock_18
 -- 0x800EA5C8: 0 hits with the 0x8001D178 bp on, 911 = the state-8 dispatch count with it off; SLUS targets fire).
@@ -261,13 +261,13 @@ local function readLines(path)
 end
 local function asmArm()
     local loadmap = {}
-    for _, l in ipairs(readLines(lib.root .. '/config/loadmap.txt')) do
+    for _, l in ipairs(readLines(lib.root .. '/config/us/loadmap.txt')) do
         local i, b = l:match('^(%d+) 0x(%x+) ')
         if i then loadmap[tonumber(i)] = tonumber(b, 16) end
     end
-    local sizeOf = {} -- member index → size (config/rock_NN.yaml header), for every member that has a yaml
+    local sizeOf = {} -- member index → size (config/us/rock_NN.yaml header), for every member that has a yaml
     for i in pairs(loadmap) do
-        local f = io.open(string.format('%s/config/rock_%02d.yaml', lib.root, i), 'r')
+        local f = io.open(string.format('%s/config/us/rock_%02d.yaml', lib.root, i), 'r')
         if f then
             for yl in f:lines() do
                 local sz = yl:match('^#.*size 0x(%x+)')
@@ -280,17 +280,17 @@ local function asmArm()
     local function symsOf(prog)
         if syms[prog] then return syms[prog] end
         local t = {}
-        for _, l in ipairs(readLines(lib.root .. '/config/symbols.' .. prog .. '.txt')) do
+        for _, l in ipairs(readLines(lib.root .. '/config/us/symbols.' .. prog .. '.txt')) do
             local n, a, rest = l:match('^([%w_]+) = 0x(%x+);(.*)$')
             if n then t[n] = {addr = tonumber(a, 16), type = rest:match('type:(%S+)')} end
         end
         syms[prog] = t
         return t
     end
-    local p = io.popen('cd "' .. lib.root .. '" && grep -rn --include="*.c" INCLUDE_ASM src/SLUS_013.95 src/rock_[0-9][0-9]')
+    local p = io.popen('cd "' .. lib.root .. '" && grep -rn --include="*.c" INCLUDE_ASM src/main src/rock_[0-9][0-9]')
     local seen = {}
     for l in p:lines() do
-        local file, line, prog, seg, name = l:match('^([^:]+):(%d+):INCLUDE_ASM%("asm/([^/]+)/nonmatchings/([^"]+)", *([%w_]+)%)')
+        local file, line, prog, seg, name = l:match('^([^:]+):(%d+):INCLUDE_ASM%("([^/]+)/nonmatchings/([^"]+)", *([%w_]+)%)')
         if file and seg:sub(1, 3) ~= 'LIB' and name ~= '__start' and name:sub(1, 2) ~= 'D_' then
             local row = symsOf(prog)[name]
             local addr = row and row.addr or (name:match('^func_(%x+)$') and tonumber(name:sub(6), 16))
@@ -305,7 +305,7 @@ local function asmArm()
                     if nn then
                         local m = {index = tonumber(nn), prog = prog, resident = false, seq = 0, rows = {}}
                         m.base = assert(loadmap[m.index], 'no loadmap base for ' .. prog)
-                        m.size = assert(sizeOf[m.index], 'no size in config/' .. prog .. '.yaml')
+                        m.size = assert(sizeOf[m.index], 'no size in config/us/' .. prog .. '.yaml')
                         members[#members + 1] = m
                         pg.member = m
                     end

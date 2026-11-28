@@ -4,7 +4,7 @@ What lives here: the project's own headers (types, structs, globals, macros) inc
 with segmentation (Phase 1.3).
 
 Every C unit includes `common.h` (Phase 1.4 T2) first. Its `INCLUDE_ASM(FOLDER, NAME)` assembles a not-yet-decompiled
-function's splat `.s` from the ignored `asm/<bin>/nonmatchings/` in place. `common.h` has the fixed-width
+function's splat `.s` from the ignored `asm/us/<bin>/nonmatchings/` in place. `common.h` has the fixed-width
 typedefs `u8 s8 u16 s16 u32 s32` (via `mmx6/types.h`). `NON_MATCHING` drafts sit under `#ifdef NON_MATCHING`, which the default
 build never defines. `macro.inc` holds the label macros for splat's asm.
 

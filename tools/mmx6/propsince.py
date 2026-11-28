@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
 """propsince.py -- incremental propagate keys: the registry keys whose inputs changed since the last green full run.
 
-  propsince.py record        (container) after a green `th-propagate-full`: build/propagate/green.json = per registry
+  propsince.py record        (container) after a green `th-propagate-full`: build/us/propagate/green.json = per registry
                              key (PROPAGATE_KEYS_CMD's set: family rows excluded) its inputs, each file with its sha1:
-                             the shared paths of its registry rows; the units (build/corpus/functions.jsonl `tu`) of its
-                             members (class members of build/census/classes.jsonl + registry member pvs) and each unit's
+                             the shared paths of its registry rows; the units (build/us/corpus/functions.jsonl `tu`) of its
+                             members (class members of build/us/census/classes.jsonl + registry member pvs) and each unit's
                              include closure (layout.includers, plus the headers each closure file includes: quoted
                              from its own dir then include/, <...> from include/); the shared bodies' closure; the sha1
-                             of its registry rows; the sha1 of its units' lines in config/carve.<prog>.txt. Also every
+                             of its registry rows; the sha1 of its units' lines in config/us/carve.<prog>.txt. Also every
                              ALL-trigger file with its sha1.
   propsince.py record --shard k --of n   (container, tools-health-shard k>=1 on green; stdin: the shard's keys)
-                             build/propagate/shards/<k>.json = {n, fingerprint (sha1 of record()), keys}; when markers
+                             build/us/propagate/shards/<k>.json = {n, fingerprint (sha1 of record()), keys}; when markers
                              1..n share n and fingerprint and their keys cover the current keys -> green.json. Last
                              `PROPSINCE SHARD k of n keys K fingerprint F; markers m of n cover c of C keys [-> green]`.
   propsince.py stamp         (host) binds green.json (read from /work: `mx.sh run cat`, MX6_VOLUME) to HEAD: rc 1
                              unless every recorded tracked file's sha1 equals its HEAD blob content (`git cat-file
                              --batch`); recorded files git does not sync (ignored: generated in the container) are
-                             listed as dropped and never compared. Writes build/propagate/since.stamp = {commit,
+                             listed as dropped and never compared. Writes build/us/propagate/since.stamp = {commit,
                              dropped, green}. Last `PROPSINCE STAMP <commit12> files <f> keys <k> dropped <d>`.
   propsince.py select        (host) stdout: the changed keys, one per line, or `ALL`. ALL when there is no stamp, an
                              ALL-trigger file changed, was added or removed (derive_triggers: Makefile, mk/*, the
@@ -31,8 +31,9 @@
   propsince.py --self-test   fixture tree + stamp under .run/<phase>/propsince-selftest/ (deleted at end, pass or fail; <phase> as layout.RUN): no stamp ->
                              ALL; a changed member unit -> its key only; Makefile -> ALL; an imported module or a
                              named config file -> ALL; an unreferenced tools/mmx6/new.py, methods-arm.tsv or
-                             debt-baseline.txt alone -> no keys; the real tree's triggers hold propagate.py, bank.py,
-                             carve.py, Makefile, lack methods-arm.tsv, debt-baseline.txt; docs only -> no keys; a
+                             debt-baseline.txt, public-paths.txt alone -> no keys; a stamp recording public-paths.txt -> no
+                             keys; the real tree's triggers hold propagate.py, bank.py, carve.py, Makefile, lack
+                             TRIGGER_NOT; docs only -> no keys; a
                              header in one unit's closure -> that key; registry row / carve line -> that key; a key
                              absent from the stamp -> selected; with git: stamp refused on a HEAD mismatch (read-only).
                              Ends `PROPSINCE CONTROL OK` (rc 0).
@@ -50,11 +51,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import layout  # noqa: E402
 import propagate  # noqa: E402
+from paths import BUILD, CONFIG_V  # noqa: E402  (the version axis, 3.3 T37)
 
-GREEN = "build/propagate/green.json"
-STAMP = "build/propagate/since.stamp"
+GREEN = f"{BUILD}/propagate/green.json"
+STAMP = f"{BUILD}/propagate/since.stamp"
 SELFTEST = os.path.join(layout._phase_run(), "propsince-selftest")  # .run/<phase>/, else .run/
-SHARDS = "build/propagate/shards"
+SHARDS = f"{BUILD}/propagate/shards"
 # ALL-trigger set, derived (3.1 T23; was TRIGGER_DIRS mk/ tools/mmx6/ tools/docker/ config/): Makefile, mk/*, the
 # Dockerfile, propagate.py's local import + tools/mmx6/<x>.(py|sh) literal closure, the config/ files named in it or in
 # Makefile/mk/sdk.mk (literal; %s * {..} $(..) parts glob). Registry and carve.<prog>.txt are keyed inputs.
@@ -63,12 +65,16 @@ TRIGGER_ROOT = "tools/mmx6/propagate.py"
 TRIGGER_TEXTS = ("Makefile", "mk/sdk.mk")  # scanned for tools/mmx6 and config/ literals too
 TRIGGER_EXTRA = ()  # files a propagate run opens that the derivation misses (audit-hook check, 3.1 T23.c1)
 # Named by a closure module's other CLI only, never opened by a propagate run (audit hook, 3.1 T23.c1; R159):
-# cards.py --arm (imported by gate.py), psxd_floor.py debt (propagate uses its marker counts).
-TRIGGER_NOT = ("config/methods-arm.tsv", "config/debt-baseline.txt")
+# cards.py --arm (imported by gate.py), psxd_floor.py debt (propagate uses its marker counts), psxd_floor.py's public
+# projection (PUBLIC_PATHS, 3.3 T40). Dropped on both sides: derived now and a stamp's recorded triggers/files.
+TRIGGER_NOT = ("config/methods-arm.tsv", "config/debt-baseline.txt", "config/public-paths.txt")
 IMPORT_RE = re.compile(r"^\s*(?:from\s+([\w.]+)\s+import\b|import\s+([\w., ]+?)\s*(?:#|$))", re.M)
 SCRIPT_RE = re.compile(r"tools/mmx6/[\w/]+\.(?:py|sh)\b")
 CONFIG_RE = re.compile(r"config/(?:[\w.\-%*/]|\$\([^)\s]*\)|\{[^}\s]*\}|\$[*@<])+")
-CARVE_RE = re.compile(r"^config/carve\.[^/]+\.txt$")
+CARVE_RE = re.compile(r"^config/(?:[^/]+/)?carve\.[^/]+\.txt$")
+# A CONFIG_V spelling (config/<VERSION>/, 3.3 T37.c3) read as the literal it stands for: $(CONFIG_V), {CONFIG_V},
+# CONFIG_V + "/x", CONFIG_V / "x", CONFIG_V, "x".
+CONFIG_V_RE = re.compile(r"\$\(CONFIG_V\)|\{CONFIG_V\}|\bCONFIG_V\s*(?:\+\s*[\"']|(/|,)\s*[\"'])")
 HDR_RE = re.compile(r'^\s*#\s*include\s*([<"])([^">]+)[">]')
 MAX_KEY_BYTES = 100000  # selected keys' bytes above which select prints ALL (argv element cap 128 KB)
 
@@ -105,7 +111,7 @@ def walk_files(root, d):
 def config_pattern(lit):
     """regex of one config/ literal: %s, %d, *, {..}, $(..), $* parts match [^/]*; a trailing `/` is the whole dir."""
     lit = lit.rstrip(".-")
-    if lit == "config/" or not lit.startswith("config/"):
+    if lit in ("config/", CONFIG_V + "/") or not lit.startswith("config/"):
         return None
     parts = re.split(r"(\$\([^)]*\)|\{[^}]*\}|\$[*@<]|%[sd]?|\*)", lit)
     rx = "".join("[^/]*" if i % 2 else re.escape(p) for i, p in enumerate(parts))
@@ -139,6 +145,7 @@ def derive_triggers(root="."):
                     m = module_file(root, name)
                     if m:
                         todo.append(m)
+    texts = {r: CONFIG_V_RE.sub(lambda m: CONFIG_V + ("/" if m.group(1) else ""), t) for r, t in texts.items()}
     pats = {p for t in texts.values() for p in map(config_pattern, CONFIG_RE.findall(t)) if p}
     conf = [p for p in walk_files(root, "config") if any(x.match(p) for x in pats)]
     out = set(closure) | set(conf) | set(walk_files(root, "mk")) | set(TRIGGER_EXTRA)
@@ -167,7 +174,7 @@ def rows_sha(reg, key):
 
 
 def carve_lines(prog, root="."):
-    p = os.path.join(root, "config", f"carve.{prog}.txt")
+    p = os.path.join(root, CONFIG_V, f"carve.{prog}.txt")
     if not os.path.isfile(p):
         return []
     with open(p) as f:
@@ -236,7 +243,7 @@ class Deps:
 
 
 def record(root="."):
-    """green.json's content for the tree at root (cwd-relative build/ inputs)."""
+    """green.json's content for the tree at root (cwd-relative build/us/ inputs)."""
     reg = propagate.registry_rows(os.path.join(root, propagate.bank.REGISTRY))
     classes = propagate.load_classes(os.path.join(root, propagate.CLASSES))
     with open(os.path.join(root, propagate.FUNCS)) as f:
@@ -322,8 +329,8 @@ def select(st, root=".", triggers_now=None):
     if st is None:
         return ["ALL"], f"PROPSINCE ALL of {len(now)} keys since no stamp; no stamp"
     green, dropped, since = st["green"], set(st["dropped"]), st["commit"][:12]
-    files = {p: s for p, s in green["files"].items() if p not in dropped}
-    trig_then = {p for p in green["triggers"] if p not in dropped}
+    files = {p: s for p, s in green["files"].items() if p not in dropped and p not in TRIGGER_NOT}
+    trig_then = {p for p in green["triggers"] if p not in dropped and p not in TRIGGER_NOT}  # older stamps (T40)
     trig_now = set(derive_triggers(root) if triggers_now is None else triggers_now)
 
     def all_(why):
@@ -373,12 +380,13 @@ FIX = {
     "mk/a.mk": "# a\n",
     "tools/mmx6/t.py": "# t\n",
     "tools/mmx6/propagate.py": ("import os\nimport t  # noqa\nUNITS = 'config/c_units.txt'\n"
-                                "ARM = 'config/methods-arm.tsv'\n"),
+                                "ARM = 'config/methods-arm.tsv'\nPUB = 'config/public-paths.txt'\n"),
     "config/c_units.txt": "# units\nP A\nP B\nP C\n",
     "config/methods-arm.tsv": "# arm\n",
     "config/debt-baseline.txt": "# debt\n",
-    "config/carve.P.txt": "# carves\nrodata 0x80001000 0x80001010 A\nrodata 0x80002000 0x80002010 B\n",
-    "config/dedup_registry.txt": ("# registry\n"
+    "config/public-paths.txt": "README.md\n",
+    CONFIG_V + "/carve.P.txt": "# carves\nrodata 0x80001000 0x80001010 A\nrodata 0x80002000 0x80002010 B\n",
+    CONFIG_V + "/dedup_registry.txt": ("# registry\n"
                                   "ka P:0x80000100 src/shared/s.c P:0x80000100 gated exemplar\n"
                                   "ka P:0x80000100 src/shared/s.c P:0x80000200 gated define\n"
                                   "kb P:0x80000300 src/shared/t.c P:0x80000300 gated exemplar\n"
@@ -443,19 +451,23 @@ def self_test():
               "trigger changed config:config/c_units.txt tool:tools/mmx6/t.py")
         check("methods-arm only", st, [], [("config/methods-arm.tsv", "# arm 2\n")])
         check("debt-baseline only", st, [], [("config/debt-baseline.txt", "# debt 2\n")])
+        check("public-paths only", st, [], [("config/public-paths.txt", "README.md\ncookbook/\n")])
+        old = dict(green, triggers=sorted(green["triggers"] + ["config/public-paths.txt"]),
+                   files=dict(green["files"], **{"config/public-paths.txt": "0" * 40}))
+        check("stamp recording public-paths", {**st, "green": old}, [])
         check("docs only", st, [], [("docs/d.md", "doc 2\n")])
         check("header in B closure", st, ["kb"], [("src/P/h.h", "/* h2 */\n")])
         check("shared body s", st, ["ka"], [("src/shared/s.c", "void s(void) { }\n")])
-        check("carve line of A", st, ["ka"], [("config/carve.P.txt", FIX["config/carve.P.txt"].replace("1010", "1014"))])
-        check("registry row kb", st, ["kb"], [("config/dedup_registry.txt",
-                                                 FIX["config/dedup_registry.txt"].replace("exemplar\nkf", "x\nkf"))])
-        check("key absent from stamp", st, ["kc"], [("config/dedup_registry.txt", FIX["config/dedup_registry.txt"]
+        check("carve line of A", st, ["ka"], [(CONFIG_V + "/carve.P.txt", FIX[CONFIG_V + "/carve.P.txt"].replace("1010", "1014"))])
+        check("registry row kb", st, ["kb"], [(CONFIG_V + "/dedup_registry.txt",
+                                                 FIX[CONFIG_V + "/dedup_registry.txt"].replace("exemplar\nkf", "x\nkf"))])
+        check("key absent from stamp", st, ["kc"], [(CONFIG_V + "/dedup_registry.txt", FIX[CONFIG_V + "/dedup_registry.txt"]
                                                      + "kc P:0x80000500 src/shared/s.c P:0x80000500 gated exemplar\n")])
         if "kf" in green["keys"]:
             fails.append("family key recorded")
         real = set(derive_triggers(os.path.dirname(os.path.dirname(HERE))))
         need = {"tools/mmx6/propagate.py", "tools/mmx6/bank.py", "tools/mmx6/carve.py", "Makefile"}
-        ok = need <= real and not real & {"config/methods-arm.tsv", "config/debt-baseline.txt"}
+        ok = need <= real and not real & set(TRIGGER_NOT)
         print(f"PROPSINCE control real-tree triggers {len(real)}: {'ok' if ok else 'FAIL'}")
         if not ok:
             fails.append("real-tree triggers")

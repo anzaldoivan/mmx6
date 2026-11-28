@@ -38,6 +38,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools", "mmx6", "permuter"))
 import dumps  # noqa: E402
 import probe  # noqa: E402
 import masked_scorer  # noqa: E402
+from paths import EXTRACTED  # noqa: E402  (the version axis, 3.3 T37)
 
 RUN = ".run/permute"
 COMPILE_SH = "tools/mmx6/permuter/compile.sh"
@@ -215,11 +216,11 @@ def self_test():
         return cond
 
     # 0. Extract guard: checks the yaml target_path (the file retail_words reads); control: old iso path for an overlay.
-    for prog in ("rock_04", "SLUS_013.95"):
+    for prog in ("rock_04", "main"):
         got = probe.yaml_layout(prog)[0]
         print(f"PERMUTE GUARD {prog} {got} exists {os.path.isfile(got)}", flush=True)
         check(os.path.isfile(got), f"guard path {got} exists after make extract")
-    check(not os.path.isfile("extracted/retail/iso/rock_04"), "control: old iso guard path absent for rock_04")
+    check(not os.path.isfile(f"{EXTRACTED}/iso/rock_04"), "control: old iso guard path absent for rock_04")
     src = os.path.join(RUN, "selftest-src")
     shutil.rmtree(src, ignore_errors=True)
     # 1. xor plant: target = operand-swapped compile with a fixed fake address; base must start masked > 0.

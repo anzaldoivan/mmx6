@@ -223,17 +223,17 @@ CLEAN = {
                             "#define DIGIT(c) ((c) - '0')\n"
                             "#define STEP(x) do { if (x) { (x)--; } } while (0)\n",
     "include/planted_lib.h": "struct LibOnly {\n    int x;\n    int y;\n    int z;\n};\n",
-    "src/SLUS_013.95/main.c": '#include "../shared/SLUS_013.95/func_80010000.c"\n\nvoid Main(void) {\n}\n',
-    "src/shared/SLUS_013.95/func_80010000.c": "void func_80010000(void) {\n}\n",
-    "config/c_units.txt": "SLUS_013.95 main\n",
+    "src/main/main.c": '#include "../shared/main/func_80010000.c"\n\nvoid Main(void) {\n}\n',
+    "src/shared/main/func_80010000.c": "void func_80010000(void) {\n}\n",
+    "config/c_units.txt": "main main\n",
 }
 PLANTED = {
-    "src/SLUS_013.95/pin.c": 'void Walk(void) {\n    register int i asm("$16");\n    i = 1;\n}\n',
-    "src/SLUS_013.95/cast.c": "void Poke(void) {\n    *(volatile int *)0x80001000 = 0;\n}\n",
-    "src/SLUS_013.95/twin.c": "struct PlantedB {\n    int a;\n    char b;\n};\n",
-    "src/SLUS_013.95/getter.h": "#define DEFINE_GETTER(n) \\\n    static int get_##n(void) { return n; }\n",
-    "src/SLUS_013.95/body.c": 'void Body(void) {\n#include "body_part.inc"\n}\n',
-    "src/shared/SLUS_013.95/chain.c": '#include "func_80010000.c"\n',
+    "src/main/pin.c": 'void Walk(void) {\n    register int i asm("$16");\n    i = 1;\n}\n',
+    "src/main/cast.c": "void Poke(void) {\n    *(volatile int *)0x80001000 = 0;\n}\n",
+    "src/main/twin.c": "struct PlantedB {\n    int a;\n    char b;\n};\n",
+    "src/main/getter.h": "#define DEFINE_GETTER(n) \\\n    static int get_##n(void) { return n; }\n",
+    "src/main/body.c": 'void Body(void) {\n#include "body_part.inc"\n}\n',
+    "src/shared/main/chain.c": '#include "func_80010000.c"\n',
 }
 
 
@@ -265,7 +265,7 @@ def self_test():
         clean, ck, _ = census_tree(SELF, "clean", CLEAN)
         print("clean: pins %d bodies %d casts %d dups %d shared %d" % clean)
         assert clean == (0, 0, 0, 0, 1) and ck == [], (clean, ck)
-        with layout.role_tree("SLUS_013.95", "main", root=os.path.join(SELF, "clean")):   # unit -> role -> body
+        with layout.role_tree("main", "main", root=os.path.join(SELF, "clean")):   # unit -> role -> body
             out, _ = macroscan(os.path.join(SELF, "clean"))
         print("role: " + out[-1])
         assert out == ["MACROSCAN files 5 macro-bodies 0 shared-includes 2"], out

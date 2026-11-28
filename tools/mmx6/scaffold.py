@@ -2,14 +2,14 @@
 """scaffold.py -- the scaffold lane: m2c-scaffold, compile and masked-score every asm function (container, stdlib only).
 
   scaffold.py --all [-j N] [--limit K] [--prog P] [--jsonl PATH] [--packs DIR]
-      -> per build/corpus/functions.jsonl row with state asm|include_asm (sorted by (prog, vram); --prog keeps one
+      -> per build/us/corpus/functions.jsonl row with state asm|include_asm (sorted by (prog, vram); --prog keeps one
          program; --limit K = a deterministic stride sample of K rows): m2c scaffold (decompile.py's command plus
          `--valid-syntax`) -> one fixed normalisation pass (`#include "common.h"`, a fixed #define prelude for
          NULL/s64/u64/f32/f64 and m2c's M2C_UNK*/M2C_FIELD/M2C_BITWISE, each only when used, m2c `?` types -> s32, top-level data
          definitions -> extern declarations; no per-function fixes) -> compiled through the product C
-         rule (`make build/<src>.o` with the TU's cc1 flags as CFLAGS_<func>, as probe.draft_cflags/compile_obj do;
+         rule (`make build/us/<src>.o` with the TU's cc1 flags as CFLAGS_<func>, as probe.draft_cflags/compile_obj do;
          Makefile TRIPLE) -> masked comparison vs the retail words (corpus extent, trimmed as probe.trim; relocated
-         fields masked as probe.probe). One row per function appended to PATH (default build/scaffold/scaffold.jsonl)
+         fields masked as probe.probe). One row per function appended to PATH (default build/us/scaffold/scaffold.jsonl)
          `{pv,func,words,score,n,state}`: state match|compile|nocompile, score = masked mismatches
          (max(retail, ours) - matched; 0 iff probe MATCH), null when nocompile; n = retail words (trimmed).
          Scaffold C kept at <dir of PATH>/src/<prog>/<func>.c. Resumable: pvs already in PATH are skipped. -j workers
@@ -33,7 +33,7 @@
       -> rewrite campaign/scaffold/scaffold.jsonl: each row whose pv has a LANEJSONL row replaced by it (file order
          kept), new pvs appended. Line `SCAFFOLD MERGE <k> replaced <a> appended`.
   scaffold.py --self-test
-      -> in build/scaffold/selftest/: three c-empty functions (banked C, so they stay; retail words from their corpus
+      -> in build/us/scaffold/selftest/: three c-empty functions (banked C, so they stay; retail words from their corpus
          rows) get planted .s files (generic `jr $ra` + delay slot, run through m2c directly): the trivial one must
          score 0 (match; retail extent checked against probe.retail_words), the one-word mutation (delay slot
          `addiu $v0, $zero, 1`) > 0, a planted syntax error nocompile; a re-run adds no rows; --packs writes exactly
@@ -43,7 +43,7 @@
          stays v0; --packs --wave W9 writes
          both; --merge on planted jsonl replaces 1, appends 1.
          Ends `SCAFFOLD CONTROL OK` (rc 0) | `SCAFFOLD CONTROL FAIL <cases>` (rc 1).
-Firewall G12: scaffold C, packs and planted asm stay in ignored build/ (and the caller's waves/ DIR); prints names,
+Firewall G12: scaffold C, packs and planted asm stay in ignored build/us/ (and the caller's waves/ DIR); prints names,
 addresses and counts only.
 """
 import argparse
@@ -68,10 +68,11 @@ import declsync  # noqa: E402  (unit_files: the prevailing-spelling scope)
 import dumps  # noqa: E402  (the C rule's dry-run recipe)
 import gate  # noqa: E402  (declsync_fix, cast_fix, decls: --decls' v1; imported, never bank.py run)
 import probe  # noqa: E402
+from paths import BUILD, ASM, prog_key  # noqa: E402  (the version axis, 3.3 T37)
 
 CORPUS = probe.CORPUS
-JSONL = "build/scaffold/scaffold.jsonl"
-SELFTEST = "build/scaffold/selftest"
+JSONL = f"{BUILD}/scaffold/scaffold.jsonl"
+SELFTEST = f"{BUILD}/scaffold/selftest"
 # The fixed prelude: a line is emitted only when its name occurs in the scaffold (or in an emitted line), as #define,
 # never typedef (bank's typecheck.py refuses a typedef outside include/mmx6/). m2c --valid-syntax names follow
 # m2c_macros.h; its placeholders (M2C_ERROR, MULT_HI, ...) stay undefined, so a scaffold holding one is nocompile.
@@ -175,11 +176,11 @@ def m2c_text(job):
     """(rc, stdout) of the m2c scaffold: decompile.py's command (its .s + the TU's data .s, `-t mipsel-gcc-c -f`)
     plus `--valid-syntax` (untyped field access as M2C_FIELD, defined in PRELUDE), or m2c on a planted .s."""
     files = [job["asm"]] if job.get("asm") else \
-        sorted(glob.glob(f"asm/{job['prog']}/nonmatchings/**/{job['func']}.s", recursive=True))[:1]
+        sorted(glob.glob(f"{ASM}/{job['prog']}/nonmatchings/**/{job['func']}.s", recursive=True))[:1]
     if not files:
         return 2, ""
     tu = os.path.basename(os.path.dirname(files[0]))
-    data = [] if job.get("asm") else sorted(glob.glob(f"asm/{job['prog']}/data/{tu}.*.s"))
+    data = [] if job.get("asm") else sorted(glob.glob(f"{ASM}/{job['prog']}/data/{tu}.*.s"))
     cmd = [sys.executable, decompile.M2C, "-t", "mipsel-gcc-c", "--valid-syntax", "-f", job["func"], *files, *data]
     p = subprocess.run(cmd, capture_output=True, text=True)
     return p.returncode, p.stdout
@@ -190,7 +191,7 @@ def build_score(job, ret, src, c):
     prog, func = job["prog"], job["func"]
     with open(src, "w") as f:
         f.write(c)
-    obj = f"build/{src}.o"
+    obj = f"{BUILD}/{src}.o"
     if os.path.exists(obj):
         os.remove(obj)
     flags = tu_cflags(prog, job["tu"], job["triple"])
@@ -393,9 +394,10 @@ def merge(lane, into):
         old = [json.loads(line) for line in f if line.strip()]
     seen, out, k = set(), [], 0
     for r in old:
-        if r["pv"] in new:
-            r, k = new[r["pv"]], k + 1
-        seen.add(r["pv"])
+        pv = prog_key(r["pv"])  # rows before 3.3 T38 key main by its disc file name
+        if pv in new:
+            r, k = new[pv], k + 1
+        seen.add(pv)
         out.append(r)
     extra = [r for pv, r in new.items() if pv not in seen]
     tmp = into + ".tmp"
@@ -456,13 +458,13 @@ def prevailing_proto(prog):
 def self_test(j):
     out = SELFTEST
     shutil.rmtree(out, ignore_errors=True)
-    shutil.rmtree(os.path.join("build", out), ignore_errors=True)
+    shutil.rmtree(os.path.join(BUILD, out), ignore_errors=True)
     os.makedirs(os.path.join(out, "asm"))
     t = cards.triple()
-    empties = [r for r in corpus_rows() if r["state"] == "c-empty" and r["prog"] == "SLUS_013.95"
+    empties = [r for r in corpus_rows() if r["state"] == "c-empty" and r["prog"] == "main"
                and r["words"] == 2 and os.path.isfile(f"src/{r['prog']}/{r['tu']}.c")]
     empties.sort(key=lambda r: int(r["vram"], 16))
-    proto = prevailing_proto("SLUS_013.95")
+    proto = prevailing_proto("main")
     if len(empties) < 4 or proto is None:
         print("SCAFFOLD CONTROL FAIL planted (fewer than 4 c-empty functions, or no >= 3-param prevailing prototype)")
         return 1

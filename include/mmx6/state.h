@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system state | range -
+// prog main | system state | range -
 /* mmx6/state.h -- the main loop's state block, D_80097420 0x80097420..0x8009742B, 0xC bytes (hand-edited; Phase 2.5
  * T7). Homed here from the generated include/mmx6/x4.h through config/x4/homed.tsv: x4.h never emits these blocks
  * and aliases X4_TransitionState to TransitionState and X4_MainBssState to MainBssState, so `struct X4_...` users

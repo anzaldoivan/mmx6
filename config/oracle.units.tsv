@@ -1,6 +1,6 @@
 # config/oracle.units.tsv -- written by tools/mmx6/imgadapter.py units; do not edit
 # unit	file	offset	vram	words	class
-SLUS_013.95	SLUS_013.95	0x800	0x80010000	130048	exe
+main	SLUS_013.95	0x800	0x80010000	130048	exe
 rock_00	ROCK_X6.BIN	0x1000	0x801EA000	11147	code
 rock_01	ROCK_X6.BIN	0xC000	0x801EA000	5741	code
 rock_02	ROCK_X6.BIN	0x12000	0x800E9860	18696	code

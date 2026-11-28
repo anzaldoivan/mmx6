@@ -1475,7 +1475,7 @@ void func_800ED58C(u8 arg0, s8 arg1, s16 arg2, s16 arg3, u8 arg4) {
 #include "../shared/rock_18/func_800ED69C.c"
 
 // clang-format off
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800ED6D4);
+INCLUDE_ASM("rock_18/nonmatchings/E9860", func_800ED6D4);
 
 #include "../shared/rock_18/func_800ED760.c"
 // clang-format on
@@ -1771,50 +1771,7 @@ extern s16 D_800F0E98[];
         DIGIT(lo_ + 0x3F, (n) + 2);                                            \
     }
 
-void func_800EDDB4(struct X4_BaseObj* self) {
-    s32 time;
-    s32 lo_;
-    s32 hi_;
-    s32 hours;
-    s32 minutes;
-    s32 seconds;
-
-    if ((u32)((u8)g_playthrough_state.character_state.bytes[0] - 1) < 8U) {
-        time = ((s32*)&g_playthrough_state)[0x43C / 4];
-    } else {
-        time = ((s32*)&g_playthrough_state)[0x90 / 4];
-    }
-    DIGIT(0x49, 4);
-    DIGIT(0x4A, 10);
-    if (time > 0x57E3F) {
-        DIGIT(0x48, 0);
-        DIGIT(0x48, 2);
-        DIGIT(0x44, 6);
-        DIGIT(0x48, 8);
-        DIGIT(0x48, 12);
-        DIGIT(0x48, 14);
-    } else if (time <= 0) {
-        DIGIT(0x3F, 0);
-        DIGIT(0x3F, 2);
-        DIGIT(0x3F, 6);
-        DIGIT(0x3F, 8);
-        DIGIT(0x3F, 12);
-        DIGIT(0x3F, 14);
-    } else {
-        hours = time / 3600;
-        minutes = time / 60;
-        minutes -= hours * 60;
-        seconds = time % 60;
-        if (hours >= 100) {
-            hours = 99;
-        }
-        PAIR(hours, 0);
-        PAIR(minutes, 6);
-        seconds = seconds * 100 / 60;
-        PAIR(seconds, 12);
-    }
-    self->state = 2;
-}
+#include "../shared/rock_18/func_800EDDB4.c"
 
 #include "common.h"
 #include "mmx6/x4.h"
@@ -1839,65 +1796,7 @@ extern s16 D_800F0EB8[];
         DIGIT(lo_ + base, (n) + 2);                                            \
     }
 
-void func_800EE368(struct X4_BaseObj* self) {
-    struct X4_EngineObj* e = &g_playthrough_state;
-    s32* best;
-    s32* times;
-    s32 time;
-    s32 base;
-    s32 lo_;
-    s32 hi_;
-    s32 hours;
-    s32 minutes;
-    s32 seconds;
-
-    if (TIME(e, 0) == 0 || e->character_state.bytes[1] != 0) {
-        time = TIME(&g_playthrough_state,
-                    g_playthrough_state.character_state.bytes[0]);
-        base = 0xCE;
-    } else {
-        times = TIMES(e);
-        best = &times[e->character_state.bytes[0]];
-        if (TIME(e, 0) < *best) {
-            *best = TIME(e, 0);
-            base = 0xC2;
-        } else {
-            base = 0xCE;
-        }
-        time = TIME(&g_playthrough_state,
-                    g_playthrough_state.character_state.bytes[0]);
-    }
-    DIGIT(base + 0xA, 4);
-    DIGIT(base + 0xB, 10);
-    if (time > 0x57E3F) {
-        DIGIT(base + 9, 0);
-        DIGIT(base + 9, 2);
-        DIGIT(base + 5, 6);
-        DIGIT(base + 9, 8);
-        DIGIT(base + 9, 12);
-        DIGIT(base + 9, 14);
-    } else if (time <= 0) {
-        DIGIT(base, 0);
-        DIGIT(base, 2);
-        DIGIT(base, 6);
-        DIGIT(base, 8);
-        DIGIT(base, 12);
-        DIGIT(base, 14);
-    } else {
-        hours = time / 3600;
-        minutes = time / 60;
-        minutes -= hours * 60;
-        seconds = time % 60;
-        if (hours >= 100) {
-            hours = 99;
-        }
-        PAIR(hours, 0);
-        PAIR(minutes, 6);
-        seconds = seconds * 100 / 60;
-        PAIR(seconds, 12);
-    }
-    self->state = 2;
-}
+#include "../shared/rock_18/func_800EE368.c"
 
 #include "common.h"
 #include "mmx6/x4.h"
@@ -1909,17 +1808,7 @@ extern s16 D_800F0E98[];
     func_800EFBFC(self, (c), self->x_pos.i.hi + D_800F0E98[(n)] + (dx),        \
                   self->y_pos.i.hi + D_800F0E98[(n) + 1] + (dy))
 
-void func_800EE900(struct X4_BaseObj* self) {
-    PART(0x49, 4, 0, 0);
-    PART(0x4A, 10, 0, 0);
-    PART(0x92, 0, 0x74, 4);
-    PART(0x92, 2, 0x74, 4);
-    PART(0x92, 6, 0x74, 4);
-    PART(0x92, 8, 0x74, 4);
-    PART(0x92, 12, 0x74, 4);
-    PART(0x92, 14, 0x74, 4);
-    self->state = 2;
-}
+#include "../shared/rock_18/func_800EE900.c"
 
 #include "common.h"
 #include "mmx6/x4.h"
@@ -1931,17 +1820,7 @@ extern s16 D_800F0EB8[];
     func_800EFBFC(self, (c), self->x_pos.i.hi + D_800F0EB8[(n)] + (dx),        \
                   self->y_pos.i.hi + D_800F0EB8[(n) + 1] + (dy))
 
-void func_800EEB0C(struct X4_BaseObj* self) {
-    PART(0xD8, 4, 0, 0);
-    PART(0xD9, 10, 0, 0);
-    PART(0xDA, 0, 0x74, 4);
-    PART(0xDA, 2, 0x74, 4);
-    PART(0xDA, 6, 0x74, 4);
-    PART(0xDA, 8, 0x74, 4);
-    PART(0xDA, 12, 0x74, 4);
-    PART(0xDA, 14, 0x74, 4);
-    self->state = 2;
-}
+#include "../shared/rock_18/func_800EEB0C.c"
 
 #include "common.h"
 
@@ -1981,43 +1860,7 @@ extern s16 D_800F0EF0[];
     func_800EFBFC(self, (c), self->x_pos.i.hi + D_800F0EF0[(n) * 2],           \
                   self->y_pos.i.hi + D_800F0EF0[(n) * 2 + 1])
 
-void func_800EF1F8(struct X4_BaseObj* self) {
-    u8* e = (u8*)&g_playthrough_state;
-    s32 v;
-    s32 th;
-    s32 h;
-    s32 t;
-    s32 o;
-
-    v = ((s16*)&g_playthrough_state)[M2C_FIELD(e, s8*, 0x38) + 0xD2 / 2] -
-        M2C_FIELD(e, s16*, 0xD6);
-    if (v >= 9999) {
-        DIGIT(0x48, 0);
-        DIGIT(0x48, 1);
-        DIGIT(0x48, 2);
-        DIGIT(0x48, 3);
-    } else if (v <= 0) {
-        DIGIT(0x3F, 3);
-    } else {
-        th = v / 1000;
-        h = v % 1000;
-        h /= 100;
-        t = v % 1000 - h * 100;
-        o = v % 10;
-        t /= 10;
-        if (th != 0) {
-            DIGIT(th + 0x3F, 0);
-        }
-        if (h != 0 || th != 0) {
-            DIGIT(h + 0x3F, 1);
-        }
-        if (t != 0 || h != 0 || th != 0) {
-            DIGIT(t + 0x3F, 2);
-        }
-        DIGIT(o + 0x3F, 3);
-    }
-    self->state = 2;
-}
+#include "../shared/rock_18/func_800EF1F8.c"
 
 #undef DIGIT
 #undef M2C_FIELD
@@ -2031,28 +1874,7 @@ void func_800EFBFC(void*, u8, s16, s16);
 extern s16 D_8006D624[];
 extern struct X4_EngineObj g_playthrough_state;
 
-void func_800EF548(struct X4_BaseObj* self) {
-    u8* e = (u8*)&g_playthrough_state;
-    s16 i;
-    s16 v = ((s16*)&g_playthrough_state)[M2C_FIELD(e, s8*, 0x38) + 0x69];
-
-    for (i = 0; i < 8; i++) {
-        if (v >= D_8006D624[i]) {
-            u8* f = (u8*)&g_playthrough_state;
-            *(M2C_FIELD(f, s8*, 0x38) + ((u8*)&g_playthrough_state + 0x8D)) = i;
-            if (i < 4) {
-                func_800EFBFC(self, i - 0x7C, self->x_pos.i.hi - 4,
-                              self->y_pos.i.hi);
-            } else {
-                func_800EFBFC(self, i - 0x7C, self->x_pos.i.hi,
-                              self->y_pos.i.hi);
-            }
-            self->state = 2;
-            return;
-        }
-    }
-    self->state = 2;
-}
+#include "../shared/rock_18/func_800EF548.c"
 
 #define func_80041AB8 func_800EF62C
 #define D_80075FD8 D_800F0F00
@@ -2208,7 +2030,7 @@ void func_800EFB44(void* arg0) {
 }
 
 // clang-format off
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800EFBFC);
+INCLUDE_ASM("rock_18/nonmatchings/E9860", func_800EFBFC);
 // clang-format on
 
 #include "common.h"
@@ -2313,25 +2135,7 @@ void func_800EFC78(struct X4_BaseObj* self) {
 extern struct X4_EngineObj g_playthrough_state;
 extern u8 D_800F0F88[][3];
 
-void func_800F0184(u8* arg0) {
-    u8 v;
-    u8 w;
-
-    v = arg0[0x57];
-    arg0[3] = 1;
-    if (v != 0) {
-        if ((v - 1) == D_80097420.transition.selection) {
-            *(s16*)(arg0 + 0x42) = 0x784C;
-        } else {
-            w = D_800F0F88[arg0[2]][1];
-            *(s16*)(arg0 + 0x42) = (w & 0xF) | (((w >> 4) + 0x1E0) << 6);
-        }
-    }
-    if (arg0[0x47] != g_playthrough_state.unk3) {
-        arg0[3] = 0;
-    }
-    arg0[0x47] = g_playthrough_state.unk3;
-}
+#include "../shared/rock_18/func_800F0184.c"
 
 #include "../shared/rock_18/func_800F0218.c"
 
@@ -2364,13 +2168,7 @@ void func_800F0184(u8* arg0) {
 
 extern u16 D_800F10F8[][2];
 
-void func_800F03E4(void* arg0) {
-    M2C_FIELD(arg0, u8*, 3) = 1;
-    M2C_FIELD(arg0, u16*, 0xA) =
-        D_800F10F8[(u8)D_80097420.transition.selection][0];
-    M2C_FIELD(arg0, s16*, 0xE) =
-        D_800F10F8[(u8)D_80097420.transition.selection][1] - 3;
-}
+#include "../shared/rock_18/func_800F03E4.c"
 
 #include "common.h"
 
@@ -2378,21 +2176,7 @@ void func_800F03E4(void* arg0) {
 
 extern u8 D_800F1024[][3];
 
-void func_800F0438(void* arg0) {
-    u8 v;
-    u8 b;
-
-    v = M2C_FIELD(arg0, u8*, 0x57);
-    M2C_FIELD(arg0, u8*, 3) = 1;
-    if (v != 0) {
-        if ((v - 1) == D_80097420.transition.selection) {
-            M2C_FIELD(arg0, s16*, 0x42) = 0x78C6;
-            return;
-        }
-        b = D_800F1024[M2C_FIELD(arg0, u8*, 2)][1];
-        M2C_FIELD(arg0, s16*, 0x42) = (b & 0xF) | (((b >> 4) + 0x1E0) << 6);
-    }
-}
+#include "../shared/rock_18/func_800F0438.c"
 
 #include "../shared/rock_18/func_800F04A8.c"
 
@@ -2494,5 +2278,5 @@ next2:
 #undef D_80075FD8
 
 // clang-format off
-INCLUDE_ASM("asm/rock_18/nonmatchings/E9860", func_800F08CC);
+INCLUDE_ASM("rock_18/nonmatchings/E9860", func_800F08CC);
 // clang-format on

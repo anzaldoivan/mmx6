@@ -1,4 +1,4 @@
-"""manifest.py — the hash manifest (JSONL): one record per file under extracted/retail/, hashes only, never bytes.
+"""manifest.py — the hash manifest (JSONL): one record per file under extracted/<version>/, hashes only, never bytes.
 
 Deterministic: keys sorted, records sorted by `path`, '\\n' line ends. A `required:` firewall source.
 """

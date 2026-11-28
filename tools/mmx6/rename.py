@@ -12,12 +12,12 @@
          `RENAME CONTROL OK` rc 0, or `RENAME CONTROL FAIL <case>` rc 1.
   --dry-run prints the edit list and the left-alone hits, writes nothing. --root plants a tree (default: the repo).
 
-Scope (C0125). Overlay prog P: src/P/**, src/shared/P/**, and the shared path of every config/dedup_registry.txt
-row whose exemplar prog is P. SLUS_013.95: all of src/ and include/. Never asm/, build/, expected/, extracted/ (G6).
-A file's prog = the path part after src/ or src/shared/ (src/probes and files directly in src/ -> SLUS_013.95).
+Scope (C0125). Overlay prog P: src/P/**, src/shared/P/**, and the shared path of every config/us/dedup_registry.txt
+row whose exemplar prog is P. main: all of src/ and include/. Never asm/, build/, expected/, extracted/ (G6).
+A file's prog = the path part after src/ or src/shared/ (src/probes and files directly in src/ -> main).
 
 Edits (one plan per rename, applied only when nothing refuses)
-  symbols   config/symbols.<prog>.txt: the `name = 0xVRAM;` line gets <new>; the `// basis:` line above it gains or
+  symbols   config/us/symbols.<prog>.txt: the `name = 0xVRAM;` line gets <new>; the `// basis:` line above it gains or
             replaces a `; name: <basis>` suffix. No line (an auto-named exe symbol): `// basis: name: <basis>` and
             `<new> = 0xVRAM;` (`// type:func` for a func_) are inserted before the first higher address.
   scope     every word-bounded old-name token in the scope's src/include files (definitions, calls, prototypes,
@@ -27,21 +27,21 @@ Edits (one plan per rename, applied only when nothing refuses)
             paths stay valid as they are.
   foreign   a TU outside the scope that includes an edited scope file: its `#define old`/`#undef old` lines around
             that include get <new>.
-  registry  config/dedup_registry.txt: in `define a=b`, `a` (exemplar namespace) is rewritten when the exemplar prog
-            is P, `b` (member namespace) when the member prog is P (SLUS_013.95: every row, both sides).
+  registry  config/us/dedup_registry.txt: in `define a=b`, `a` (exemplar namespace) is rewritten when the exemplar prog
+            is P, `b` (member namespace) when the member prog is P (main: every row, both sides).
   journal   config/x4/renames.tsv gains `prog vram old new basis` (TAB, no header).
 
 Refusals (`RENAME REFUSE <prog:vram> <why>`, rc 1; nothing of that rename is written), checked in this order
-  unknown prog:vram             no config/symbols.<prog>.txt, or no symbols line, no func_/D_<VRAM> token in scope and
+  unknown prog:vram             no config/us/symbols.<prog>.txt, or no symbols line, no func_/D_<VRAM> token in scope and
                                 no function start at VRAM: a `"k":"func"` of config/ghidra/<prog>.jsonl, or (the prog
-                                of its `# program` line) a config/boundaries.txt `fstart`/`lib` start (an asm-only
+                                of its `# program` line) a config/us/boundaries.txt `fstart`/`lib` start (an asm-only
                                 function, e.g. a PsyQ library one: it is func_<VRAM>, only its symbols line is inserted)
   define cycle <x>-><y>         a rewritten define set maps x to y with y != x also a source (C0072)
   <new> already defined         <new> is a name in the prog's symbols file, or a token on a non-preprocessor line of a
                                 scope file (`#define` alias lines do not count)
-  <new> defined in overlay <p>  SLUS_013.95 only: config/symbols.<p>.txt (an overlay) names <new>. Overlay code that
+  <new> defined in overlay <p>  main only: config/us/symbols.<p>.txt (an overlay) names <new>. Overlay code that
                                 calls an exe symbol by name links through the Makefile PROVIDE of every name
-                                config/symbols.SLUS_013.95.txt defines (T9.c1; C0251's refusal is lifted), so an
+                                config/us/symbols.main.txt defines (T9.c1; C0251's refusal is lifted), so an
                                 overlay name equal to <new> would collide with it
   <f> included by <tu> without #define <old>
                                 overlay prog only: an edited scope file uses old on a code line and a TU outside the
@@ -66,6 +66,7 @@ import sys
 from pathlib import Path
 
 import layout  # noqa: E402  (tools/mmx6: the body path of a program, T5)
+from paths import CONFIG_V  # noqa: E402  (the version axis, 3.3 T37)
 
 REPO = Path(__file__).resolve().parents[2]
 
@@ -80,9 +81,9 @@ def phase_scratch(root):
     return root / ".run" if not m or m.group(1) in (".", "..") else root / ".run" / m.group(1)
 
 
-EXE = "SLUS_013.95"
+EXE = "main"
 SELFTEST = phase_scratch(REPO) / "rename-selftest"
-NEVER = ("asm/", "build/", "expected/", "extracted/")
+NEVER = ("asm/", "build/", "expected/", "extracted/")  # top-level trees, every version
 SYM = re.compile(r"^(\w+)\s*=\s*0x([0-9A-Fa-f]+);")
 INCL = re.compile(r'^\s*#\s*include\s+"([^"]+)"')
 HISTORY = ("campaign/", "phase-ends/", "docs/", "drafts/", "tasks/", "research/", "cookbook/", "rules/", "waves/",
@@ -127,7 +128,7 @@ class Tree:
         self.root = Path(root)
         self.cache = {}
         self.starts = {}
-        self.progs = sorted(p.name[len("symbols."):-len(".txt")] for p in (self.root / "config").glob("symbols.*.txt"))
+        self.progs = sorted(p.name[len("symbols."):-len(".txt")] for p in (self.root / CONFIG_V).glob("symbols.*.txt"))
         self.code = sorted(str(p.relative_to(self.root)) for d in ("src", "include") if (self.root / d).is_dir()
                            for p in (self.root / d).rglob("*") if p.is_file() and p.suffix in (".c", ".h"))
 
@@ -149,7 +150,7 @@ class Tree:
         return sorted(f for f in files if not f.startswith(NEVER) and not f.startswith(".git/"))
 
     def symbols(self, prog):
-        rel = f"config/symbols.{prog}.txt"
+        rel = f"{CONFIG_V}/symbols.{prog}.txt"
         return rel, self.read(rel).split("\n")
 
     def current(self, prog, vram):
@@ -168,14 +169,14 @@ class Tree:
 
     def funcs(self, prog):
         """function starts (tracked lists, asm-only functions included): config/ghidra/<prog>.jsonl `func` rows, and
-        config/boundaries.txt `fstart`/`lib` lo when its `# program` is prog (ghidra misses a few library starts)."""
+        config/us/boundaries.txt `fstart`/`lib` lo when its `# program` is prog (ghidra misses a few library starts)."""
         if prog not in self.starts:
             path, got = self.root / f"config/ghidra/{prog}.jsonl", set()
             if path.exists():
                 for ln in path.open():
                     if '"k":"func"' in ln:
                         got.add(int(json.loads(ln)["addr"], 16))
-            path, mine = self.root / "config/boundaries.txt", False
+            path, mine = self.root / CONFIG_V / "boundaries.txt", False
             if path.exists():
                 for ln in path.open():
                     w = ln.split()
@@ -187,7 +188,7 @@ class Tree:
         return self.starts[prog]
 
     def registry(self):
-        rel = "config/dedup_registry.txt"
+        rel = CONFIG_V + "/dedup_registry.txt"
         return rel, (self.read(rel).split("\n") if (self.root / rel).exists() else [])
 
     def scope(self, prog):
@@ -357,7 +358,7 @@ def plan(tree, prog, vram, new, basis):
             continue
         if not rx.search(text):
             continue
-        kind = "other prog" if f.startswith(("src/", "include/", "config/symbols.")) else \
+        kind = "other prog" if f.startswith(("src/", "include/", CONFIG_V + "/symbols.")) else \
             "history" if f.startswith(HISTORY) else "tool" if f.startswith("tools/") else "unclassified"
         left.append((f, kind))
     return old, edits, left
@@ -368,7 +369,7 @@ def apply(tree, prog, vram, new, basis, dry):
     if old == new:
         return False
     for f in sorted(edits):
-        what = "symbols line" if f.startswith("config/symbols.") else "registry rows" if "dedup_registry" in f \
+        what = "symbols line" if f.startswith(CONFIG_V + "/symbols.") else "registry rows" if "dedup_registry" in f \
             else "tokens"
         print(f"RENAME EDIT {f} {what}")
     for f, kind in left:
@@ -434,31 +435,31 @@ REG = "# registry\n" \
       "k1 rock_09:0x800EE934 src/shared/rock_09/func_800EE934.c rock_24:0x800ED454 gated define " \
       "func_800EE934=func_800ED454 func_800E0100=func_800E5100 via tudecl\n" \
       "k2 rock_15:0x800EE934 src/shared/rock_15/func_800EE934.c rock_15:0x800EE934 gated exemplar\n" \
-      "k3 SLUS_013.95:0x8003744C src/shared/entity/state_dispatch.c SLUS_013.95:0x8003744C gated exemplar\n" \
-      "k3 SLUS_013.95:0x8003744C src/shared/entity/state_dispatch.c rock_24:0x800EDD54 gated define " \
+      "k3 main:0x8003744C src/shared/entity/state_dispatch.c main:0x8003744C gated exemplar\n" \
+      "k3 main:0x8003744C src/shared/entity/state_dispatch.c rock_24:0x800EDD54 gated define " \
       "func_8003744C=func_800EDD54\n" \
       "k4 rock_02:0x800E0000 src/shared/rock_02/func_800E0000.c rock_02:0x800E0000 gated exemplar\n" \
       "k4 rock_02:0x800E0000 src/shared/rock_02/func_800E0000.c rock_06:0x800E5000 gated define " \
       "func_800E0000=func_800E5000 func_800E0100=func_800E5100\n"
 PLANT = {
-    "config/symbols.SLUS_013.95.txt": "// exe\n// basis: pc0\n__start = 0x80054AD8;\n",
-    "config/ghidra/SLUS_013.95.jsonl": '{"k":"program","name":"SLUS_013.95"}\n'
+    CONFIG_V + "/symbols.main.txt": "// exe\n// basis: pc0\n__start = 0x80054AD8;\n",
+    "config/ghidra/main.jsonl": '{"k":"program","name":"SLUS_013.95"}\n'
                                        '{"k":"func","addr":"0x80069f04","name":"read"}\n',
-    "config/boundaries.txt": "# program SLUS_013.95 base 0x80010000\nlib 0x800615f4 0x80061624 LIBETC.LIB/VMODE.OBJ\n",
-    "config/symbols.rock_09.txt": "// r9\n// basis: first code word\nfunc_800EE934 = 0x800EE934; // type:func\n",
-    "config/symbols.rock_15.txt": "// basis: x\nfunc_800EE934 = 0x800EE934; // type:func\n",
-    "config/symbols.rock_24.txt": "// basis: y\nfunc_800ED454 = 0x800ED454; // type:func\n"
+    CONFIG_V + "/boundaries.txt": "# program main base 0x80010000\nlib 0x800615f4 0x80061624 LIBETC.LIB/VMODE.OBJ\n",
+    CONFIG_V + "/symbols.rock_09.txt": "// r9\n// basis: first code word\nfunc_800EE934 = 0x800EE934; // type:func\n",
+    CONFIG_V + "/symbols.rock_15.txt": "// basis: x\nfunc_800EE934 = 0x800EE934; // type:func\n",
+    CONFIG_V + "/symbols.rock_24.txt": "// basis: y\nfunc_800ED454 = 0x800ED454; // type:func\n"
                                   "// basis: z\nfunc_800EDD54 = 0x800EDD54; // type:func\n",
-    "config/symbols.rock_02.txt": "// basis: a\nfunc_800E0000 = 0x800E0000;\n// basis: b\nfunc_800E0100 = 0x800E0100;\n",
-    "config/symbols.rock_06.txt": "// basis: c\nfunc_800E5000 = 0x800E5000;\n// basis: d\nfunc_800E5100 = 0x800E5100;\n",
-    "config/symbols.rock_07.txt": "// basis: e\nfunc_800E7000 = 0x800E7000;\n// basis: f\nwall_hit = 0x800E7100;\n",
-    "config/dedup_registry.txt": REG,
+    CONFIG_V + "/symbols.rock_02.txt": "// basis: a\nfunc_800E0000 = 0x800E0000;\n// basis: b\nfunc_800E0100 = 0x800E0100;\n",
+    CONFIG_V + "/symbols.rock_06.txt": "// basis: c\nfunc_800E5000 = 0x800E5000;\n// basis: d\nfunc_800E5100 = 0x800E5100;\n",
+    CONFIG_V + "/symbols.rock_07.txt": "// basis: e\nfunc_800E7000 = 0x800E7000;\n// basis: f\nwall_hit = 0x800E7100;\n",
+    CONFIG_V + "/dedup_registry.txt": REG,
     "THIRD_PARTY.md": "x\n<!-- x4port credits -->\n| Component | Upstream | Commit / version | License | Paths here | "
                       "Basis (proof it is shared) |\n|---|---|---|---|---|---|\n"
                       + TP.format("src/shared/rock_09/func_800EE934.c") + "<!-- /x4port credits -->\n",
     "include/exe.h": "void func_8003744C(s8* arg0);\nvoid func_8002D2B0(void*);\n",
-    "src/SLUS_013.95/main.c": '#include "common.h"\n#include "../shared/entity/state_dispatch.c"\n'
-                              "void f(void) { func_8003744C(0); }\nINCLUDE_ASM(\"asm/x\", func_8002D2B0);\n",
+    "src/main/main.c": '#include "common.h"\n#include "../shared/entity/state_dispatch.c"\n'
+                              "void f(void) { func_8003744C(0); }\nINCLUDE_ASM(\"x\", func_8002D2B0);\n",
     "src/shared/entity/state_dispatch.c": "void func_8003744C(s8* arg0) {\n    D_80073C1C[arg0[6]](arg0);\n}\n",
     "src/shared/rock_09/func_800EE934.c": HDR + "void func_800EE934(void* self) {\n    func_800E0100(self);\n}\n",
     "src/rock_09/E9860.c": '#include "../shared/rock_09/func_800EE934.c"\nvoid g(void) { func_800EE934(0); }\n',
@@ -474,14 +475,14 @@ PLANT = {
     "src/rock_02/E9860.c": '#include "../shared/rock_02/func_800E0000.c"\n',
     "src/rock_06/E9860.c": "#define func_800E0000 func_800E5000\n#define func_800E0100 func_800E5100\n"
                            '#include "../shared/rock_02/func_800E0000.c"\n#undef func_800E0000\n#undef func_800E0100\n',
-    "config/symbols.rock_05.txt": "// basis: g\nfunc_800E5500 = 0x800E5500;\n// basis: h\nfunc_800E5600 = 0x800E5600;\n"
+    CONFIG_V + "/symbols.rock_05.txt": "// basis: g\nfunc_800E5500 = 0x800E5500;\n// basis: h\nfunc_800E5600 = 0x800E5600;\n"
                                   "// basis: i\nfunc_800E5700 = 0x800E5700;\n",
     "src/shared/rock_05/func_800E5500.c": "void func_800E5500(void) {\n}\n\nvoid func_800E5600(void) {\n"
                                           "    func_800E5500();\n}\n",
     "src/rock_05/E9860.c": '#include "../shared/rock_05/func_800E5500.c"\n\nvoid func_800E5700(void) {\n'
                            "    func_800E5600();\n}\n",
     "basis.tsv": "# prog\tvram\tname\tbasis-kind\tbasis-ref\ttier\n"
-                 "SLUS_013.95\t0x80054AD8\t__start\tdebug\tpc0\t-\n"
+                 "main\t0x80054AD8\t__start\tdebug\tpc0\t-\n"
                  "rock_09\t0x800EE934\tdust_end\tx4\texact abcdef123456\tgate\n",
 }
 
@@ -515,7 +516,7 @@ def selftest():
     rc, out = go(from_tsv(SELFTEST / "basis.tsv"))
     case("overlay rename", rc == 0 and "RENAME OK 1 renamed 1 unchanged" in out)
     case("symbols", "// basis: first code word; name: x4 exact abcdef123456\ndust_end = 0x800EE934; // type:func"
-         in rd("config/symbols.rock_09.txt"))
+         in rd(CONFIG_V + "/symbols.rock_09.txt"))
     case("no move", not (SELFTEST / "src/shared/rock_09/dust_end.c").exists()
          and "void dust_end(void* self)" in rd("src/shared/rock_09/func_800EE934.c"))
     case("tu", rd("src/rock_09/E9860.c") == '#include "../shared/rock_09/func_800EE934.c"\nvoid g(void) { dust_end(0); }\n')
@@ -523,39 +524,39 @@ def selftest():
         "#define dust_end func_800ED454\n#define func_800E0100 func_800E5100\n"
         '#include "../shared/rock_09/func_800EE934.c"\n#undef dust_end\n'))
     case("registry", "k1 rock_09:0x800EE934 src/shared/rock_09/func_800EE934.c rock_24:0x800ED454 gated define "
-         "dust_end=func_800ED454 func_800E0100=func_800E5100 via tudecl\n" in rd("config/dedup_registry.txt"))
+         "dust_end=func_800ED454 func_800E0100=func_800E5100 via tudecl\n" in rd(CONFIG_V + "/dedup_registry.txt"))
     case("repeat untouched", all(rd(r) == before[r] for r in
                                  ("src/rock_15/E9860.c", "src/shared/rock_15/func_800EE934.c",
-                                  "config/symbols.rock_15.txt"))
-         and "k2 rock_15:0x800EE934 src/shared/rock_15/func_800EE934.c" in rd("config/dedup_registry.txt"))
+                                  CONFIG_V + "/symbols.rock_15.txt"))
+         and "k2 rock_15:0x800EE934 src/shared/rock_15/func_800EE934.c" in rd(CONFIG_V + "/dedup_registry.txt"))
     case("credits untouched", rd("THIRD_PARTY.md") == before["THIRD_PARTY.md"])
     case("journal", rd("config/x4/renames.tsv") ==
          "rock_09\t0x800EE934\tfunc_800EE934\tdust_end\tx4 exact abcdef123456\n")
     rc, out = go([(EXE, 0x8003744C, "state_dispatch", "debug d")])
     case("exe rename", rc == 0 and "void state_dispatch(s8* arg0)" in rd("src/shared/entity/state_dispatch.c")
-         and "{ state_dispatch(0); }" in rd("src/SLUS_013.95/main.c")
+         and "{ state_dispatch(0); }" in rd("src/main/main.c")
          and "void state_dispatch(s8* arg0);" in rd("include/exe.h")
          and "#define state_dispatch func_800EDD54\n" in rd("src/rock_24/E9860.c")
-         and "define state_dispatch=func_800EDD54" in rd("config/dedup_registry.txt")
+         and "define state_dispatch=func_800EDD54" in rd(CONFIG_V + "/dedup_registry.txt")
          and "// basis: name: debug d\nstate_dispatch = 0x8003744C; // type:func\n// basis: pc0\n__start"
-         in rd("config/symbols.SLUS_013.95.txt"))
+         in rd(CONFIG_V + "/symbols.main.txt"))
     # an exe name overlay code calls directly: the overlay token is rewritten (Makefile PROVIDEs exe names, T9.c1)
     rc, out = go([(EXE, 0x8002D2B0, "move_object", "x")])
     case("exe name in overlay", rc == 0 and rd("src/rock_07/E9860.c") ==
          '#include "../shared/rock_07/func_800E7000.c"\nvoid k(void) { move_object(0); }\n'
          and "    move_object(1);\n" in rd("src/shared/rock_07/func_800E7000.c")
          and "void move_object(void*);" in rd("include/exe.h")
-         and 'INCLUDE_ASM("asm/x", move_object);' in rd("src/SLUS_013.95/main.c"))
+         and 'INCLUDE_ASM("x", move_object);' in rd("src/main/main.c"))
     # an asm-only function (no token in src/include): a ghidra function start; only its symbols line is inserted
     rc, out = go([(EXE, 0x80069F04, "read", "sdk LIBAPI/A52+0x0"), (EXE, 0x800615F4, "SetVideoMode", "sdk v")])
-    case("asm-only start", rc == 0 and "RENAME SLUS_013.95:0x80069F04 func_80069F04 -> read" in out
-         and rd("config/symbols.SLUS_013.95.txt").endswith(
+    case("asm-only start", rc == 0 and "RENAME main:0x80069F04 func_80069F04 -> read" in out
+         and rd(CONFIG_V + "/symbols.main.txt").endswith(
              "__start = 0x80054AD8;\n// basis: name: sdk v\nSetVideoMode = 0x800615F4; // type:func\n"
              "// basis: name: sdk LIBAPI/A52+0x0\nread = 0x80069F04; // type:func\n"))
-    snap = {r: rd(r) for r in ("src/rock_07/E9860.c", "include/exe.h", "config/symbols.SLUS_013.95.txt")}
+    snap = {r: rd(r) for r in ("src/rock_07/E9860.c", "include/exe.h", CONFIG_V + "/symbols.main.txt")}
     refusals = [
         ("refuse overlay name", [(EXE, 0x8003744C, "wall_hit", "x")],
-         "RENAME REFUSE SLUS_013.95:0x8003744C wall_hit defined in overlay rock_07"),
+         "RENAME REFUSE main:0x8003744C wall_hit defined in overlay rock_07"),
         ("refuse cycle", [("rock_02", 0x800E0100, "func_800E5000", "x")],
          "RENAME REFUSE rock_02:0x800E0100 define cycle func_800E0000->func_800E5000"),
         ("refuse no define", [("rock_09", 0x800EE934, "dust_end2", "x")], None),

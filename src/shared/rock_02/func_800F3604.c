@@ -19,7 +19,7 @@ extern void (*D_800FB850[])(void*);
 #define SPAD (*(u8**)0x1F80004C)
 
 #include "common.h"
-#include "mmx6/rock_02.h"
+extern u8 D_800FB810[];
 #define M2C_UNK s32
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8*)(expr) + (offset)))

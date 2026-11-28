@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system object | range -
+// prog main | system object | range -
 /* mmx6/object.h -- the object header, base object, animated object and main object (hand-edited; Phase 2.5 T5).
  * Homed here from the generated include/mmx6/x4.h through config/x4/homed.tsv: x4.h never emits these blocks and
  * aliases X4_ObjectHeader, X4_BaseObj, X4_AnimatedObj and X4_MainObj to these tags, so `struct X4_BaseObj` users are

@@ -28,29 +28,6 @@ s32 func_80030ECC();
         }                                                                      \
     }
 
-void func_800F3DE4(void* arg0) {
-    void* child;
-
-    if (D_800F7DE4 != 0 || D_800F7DE8 != 0 || D_800F7E30 != 0) {
-        B(arg0, 4) = 2;
-        return;
-    }
-    if (B(arg0, 0x70) & 8) {
-        SPAWN(0xA, 1, -8);
-        SPAWN(-0x10, 8, -4);
-        SPAWN(4, 0x10, -0xC);
-        B(arg0, 4) = 2;
-        func_8002CCB0(arg0, 4, 0x10);
-        return;
-    }
-    func_80030ECC(arg0);
-    W(arg0, 0x24) -= 0x1000;
-    if (W(arg0, 0x24) < -0x30000) {
-        W(arg0, 0x24) = -0x30000;
-    }
-    animate_object(arg0);
-    apply_object_motion(arg0);
-    func_8002CCB0(arg0, 4, 0x10);
-}
+#include "../shared/rock_03/func_800F3DE4.c"
 
 #include "../shared/commander_yammark/func_800F3FB0.c"

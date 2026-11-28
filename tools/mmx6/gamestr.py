@@ -10,7 +10,7 @@
          (tools/mmx6/imgadapter.py strings, which also writes a proto's <build>.<prog>.tsv). Columns `vram sha1 bytes
          class text`; class short | dialogue | story | table. check and render read the retail sidecars only.
   gamestr.py render <src>...
-      -> build/strings/<same relpath> (ignored), each key comment expanded to the verbatim form from the sidecar.
+      -> build/us/strings/<same relpath> (ignored), each key comment expanded to the verbatim form from the sidecar.
   gamestr.py --self-test
       -> planted tree under .run/<phase>/gamestr-selftest/ (removed at the end): one file per refusal plus a passing
          tree. Ends `GAMESTR CONTROL OK` rc 0, or `GAMESTR CONTROL FAIL <case>` rc 1.
@@ -30,6 +30,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+from paths import BUILD  # noqa: E402  (the version axis, 3.3 T37)
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -47,7 +48,7 @@ def phase_scratch(root):
 SELFTEST = phase_scratch(ROOT) / "gamestr-selftest"
 SIDECAR = "refs/leads/strings"
 STRNAMES = "config/oracle.strnames.tsv"
-RENDER = "build/strings"
+RENDER = f"{BUILD}/strings"
 SCOPE = ("src", "include", "docs")
 SKIP = {"src/NOTICE.md", "src/README.md"}
 GLOSSARY = "docs/glossary.md"
@@ -343,7 +344,7 @@ def main(argv=None):
     c.add_argument("paths", nargs="*")
     s = sub.add_parser("sidecar", help="write refs/leads/strings/<prog>.tsv (imgadapter.py's writer)")
     s.add_argument("--prog", help="one unit of config/oracle.strnames.tsv")
-    r = sub.add_parser("render", help="expand key comments into build/strings/<path>")
+    r = sub.add_parser("render", help=f"expand key comments into {BUILD}/strings/<path>")
     r.add_argument("src", nargs="+")
     a = ap.parse_args(argv)
     if a.self_test:

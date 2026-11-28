@@ -8,7 +8,7 @@
       -> as --all over those files plus include/mmx6/*.h (the canonical baseline).
   typecheck.py --self-test
       -> in memory ({path: text} over the real files + planted texts, no disk writes): real set passes; planted dup
-         (Probe800473EC's shape, new name, include/mmx6/), raw cast (src/SLUS_013.95/), outside (struct in src/),
+         (Probe800473EC's shape, new name, include/mmx6/), raw cast (src/main/), outside (struct in src/),
          unkeyable (fn-pointer typedef), bitfield dup (two same-shape `u32 :24, :8` structs, two names) each alone
          rc 1 with the right reason; a header sorting before types.h (its types, X4_ types, a full-width bitfield)
          keys with no refusal; x4.h's packed union X4_EngineCharacterState
@@ -386,8 +386,8 @@ def self_test():
     controls = {
         "dup": (HOME + "zplanted.h", "typedef struct {\n u8 a[5]; u8 b; u8 c[0xE];\n s16 d; s16 e; s32 f; s32 g;\n} "
                 "PlantedTwin;\n"),
-        "raw-cast": ("src/SLUS_013.95/planted.c", "void f(void) {\n    * ( volatile u32 ** ) 0x80001000 = 0;\n}\n"),
-        "outside": ("src/SLUS_013.95/planted.c", "/* typedef struct { int x; } Commented; */\n"
+        "raw-cast": ("src/main/planted.c", "void f(void) {\n    * ( volatile u32 ** ) 0x80001000 = 0;\n}\n"),
+        "outside": ("src/main/planted.c", "/* typedef struct { int x; } Commented; */\n"
                     "struct PlantedOut {\n    s32 a;\n    u8 b;\n};\nextern struct PlantedOut g;\n"),
         "unkeyable": (HOME + "zplanted.h", "typedef void (*PlantedFn)(s32);\n"),
         "dup bitfield": (HOME + "zplanted.h", "typedef struct {\n u32 a : 24;\n u32 b : 8;\n s32 c;\n} PlantedBits;\n"

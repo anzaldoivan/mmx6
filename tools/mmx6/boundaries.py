@@ -1,6 +1,6 @@
 """boundaries.py [--out FILE] [--self-test] [--psyq-dir DIR] -- forced function/object boundaries per program (T8.c1).
 
-Programs: SLUS_013.95 (text 0x80010000..0x8008F000, exeproof.load_image) + every `code` row of config/loadmap.txt
+Programs: main (text 0x80010000..0x8008F000, exeproof.load_image) + every `code` row of config/us/loadmap.txt
 (rock/NN.bin at its base, sha1 = manifest, via loadmap.load_members). Ghidra side: config/ghidra/<prog>.jsonl.
 Rows (addresses "0x%08x", spans [lo, hi) with hi exclusive):
   jtbl <table_lo> <table_hi> <func> <src> [note]
@@ -38,10 +38,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import exeproof  # noqa: E402
 import loadmap  # noqa: E402
+from paths import CONFIG_V  # noqa: E402  (the version axis, 3.3 T37)
 
 REPO = exeproof.REPO
 GHIDRA = REPO / "config/ghidra"
-LOADMAP = REPO / "config/loadmap.txt"
+LOADMAP = REPO / CONFIG_V / "loadmap.txt"
 EXE_LO, EXE_HI = exeproof.CODE_LO, exeproof.CODE_END
 WINDOW = 32  # instructions searched backwards for a def
 PROLOGUE = 16  # instructions inspected for the -O0 frame shape
@@ -504,7 +505,7 @@ def boundaries(p, v, psyq_dir, extern=None):
 
 def programs():
     img = exeproof.load_image()
-    out = [Prog("SLUS_013.95", EXE_LO, img, EXE_LO, EXE_HI)]
+    out = [Prog("main", EXE_LO, img, EXE_LO, EXE_HI)]
     mems = loadmap.load_members()
     for line in LOADMAP.read_text().splitlines():
         f = line.split()

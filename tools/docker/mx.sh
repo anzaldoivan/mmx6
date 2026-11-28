@@ -13,6 +13,8 @@
 #   run <cmd...>   run a command in /work with /disc and /sdk mounted read-only (--init, named mx6-run-<pid>-<epoch>,
 #                  labels mx6.run=1 mx6.client=<pid>; killed when mx.sh exits; rc and stdout are the command's)
 #   stale          list running mx6.run containers whose client pid is gone (stderr warning on every `run`)
+#   volumes        read-only: one line per mmx6-* volume (size, created, containers using it) and the Docker VM's
+#                  free disk; the check behind a task's Volumes line and the 4 GB new-volume rule (M29)
 # Env overrides (per worktree, cookbook C0004): MX6_IMAGE, MX6_VOLUME, MX6_DISC_VOLUME, MX6_SDK_VOLUME.
 # MX6_CPUS=<n> (optional): `run` adds `--cpus <n> -e MX6_JOBS=<n>`, so make's -j (fleet build, tools-health) is n;
 # for k coders sharing the 8-core VM, 8/k each (docs/ops/decomp-environment.md ## Per-coder volumes).
@@ -121,6 +123,19 @@ case "$cmd" in
   stale)
     [[ $# -eq 0 ]] || die "usage: mx.sh stale"
     stale ;;
+  volumes)
+    [[ $# -eq 0 ]] || die "usage: mx.sh volumes"
+    sizes=$(docker system df -v --format '{{range .Volumes}}{{println .Name .Size}}{{end}}')
+    for v in $(docker volume ls -q --filter name='^mmx6-' | sort); do
+      size=$(awk -v v="$v" '$1 == v { print $2 }' <<<"$sizes")
+      created=$(docker volume inspect -f '{{.CreatedAt}}' "$v")
+      users=$(docker ps -a --filter volume="$v" --format '{{.Names}}:{{.State}}' | paste -sd, -)
+      printf 'VOLUME %s size %s created %s in-use %s\n' "$v" "${size:--}" "${created%%T*}" "${users:-no}"
+    done
+    # Containers share the VM's docker disk, so a throwaway container's / shows the VM's free space.
+    docker run --rm --network none "${PLAT[@]}" --entrypoint df "$IMAGE" -Pk / |
+      awk 'NR == 2 { printf "VM-DISK free %.1f GB of %.1f GB (%s used); new volume ok: %s\n",
+        $4 / 1048576, $2 / 1048576, $5, ($4 >= 4 * 1048576 ? "yes" : "no, reuse") }' ;;
   *)
-    die "usage: mx.sh build|sync [--clean]|push|pull|disc|sdk|run|stale ..." ;;
+    die "usage: mx.sh build|sync [--clean]|push|pull|disc|sdk|run|stale|volumes ..." ;;
 esac

@@ -2,7 +2,7 @@
 """depin.py -- trial-remove the register pins of a matched draft, mark the survivors (T46, container, stdlib only).
 
   depin.py <prog:0xVRAM> --src <file> [--lever C<nnnn>]
-      The function name from build/corpus/functions.jsonl (prog, vram). One snapshot waves/.iso/depin_<func>.<pid>
+      The function name from build/us/corpus/functions.jsonl (prog, vram). One snapshot waves/.iso/depin_<func>.<pid>
       (cards.snapshot) for the run; each variant is written to drafts/<prog>/<func>.c inside it and scored with
       cards.score (Makefile TRIPLE, the TU flags of probe.draft_cflags). The input must MATCH, else
       `DEPIN <func> refused <state> <m>/<n>` rc 1 and --src untouched. Then greedy in file order: drop one pin

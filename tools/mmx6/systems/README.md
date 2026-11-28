@@ -4,9 +4,9 @@ Scripts that fix a system's membership and size for `docs/systems/<system>.md` (
 Run them from the repo root on the host. Inputs and outputs go under `.run/<phase>/` and are never tracked.
 They have no self-tests. Each was checked by reproducing its 2.6 scratch output byte for byte (2.6 T12).
 
-- `callgraph.py WORK [--diag | --who <hexvram>...]`: membership from the SLUS_013.95 call graph (C0285, C0346).
+- `callgraph.py WORK [--diag | --who <hexvram>...]`: membership from the main call graph (C0285, C0346).
   The constants at the top (FOLDERS, OUT_FILES, TABLES, title) are the movement system's. A new system edits them.
-  WORK holds `functions.jsonl` (container `build/corpus/functions.jsonl`, copied to WORK and pulled, C0319).
+  WORK holds `functions.jsonl` (container `build/us/corpus/functions.jsonl`, copied to WORK and pulled, C0319).
   It also holds `debt.txt` (`PY tools/psxd_floor.py debt --files`).
   The script writes `WORK/movement.md`, and the page holds the exact rerun (docs/systems/movement.md `## Members`).
 - `sizes.py DEBT_FILES [prefix...]`: per-system files, states, asm, debt kinds, untested drafts (2.6 planning, R2.6-002).

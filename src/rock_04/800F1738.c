@@ -12,57 +12,7 @@ void func_800F4FD8(void*);
 extern M2C_UNK D_8007433C;
 extern void (*D_800F7518[])(void*);
 
-void func_800F1738(void* arg0) {
-    s32 r;
-    u16 t;
-
-    animate_object();
-    D_800F7518[M2C_FIELD(arg0, s8*, 5)](arg0);
-    func_800F4FD8(arg0);
-    if (M2C_FIELD(arg0, s8*, 5) != 2 && M2C_FIELD(arg0, s8*, 2) == 0) {
-        D_800F7840++;
-    }
-    M2C_FIELD(arg0, s8*, 0x8D) = 0;
-    r = check_enemy_hits(arg0);
-    if (r < 0) {
-        D_8009711A = 1;
-        M2C_FIELD(arg0, s8*, 4) = 2;
-        M2C_FIELD(arg0, s8*, 5) = 0;
-        return;
-    }
-    if (r > 0) {
-        if (r != 0x7F) {
-            M2C_FIELD(arg0, void**, 0x58) = &D_8007433C;
-            if ((u32)(r - 0x19) < 2) {
-                M2C_FIELD(arg0, s16*, 0x88) = 2;
-            } else {
-                M2C_FIELD(arg0, s16*, 0x88) = 0x1E;
-            }
-            if (r == 4 || r == 0xD || r == 0x23) {
-                M2C_FIELD(arg0, void**, 0x58) = &D_8007433C;
-                M2C_FIELD(arg0, s16*, 0x88) = 0x2710;
-                M2C_FIELD(arg0, s8*, 5) = 3;
-                M2C_FIELD(arg0, s8*, 6) = 0;
-            }
-        } else {
-            M2C_FIELD(arg0, s8*, 0x8D) = 1;
-        }
-    }
-    t = M2C_FIELD(arg0, u16*, 0x88);
-    if (M2C_FIELD(arg0, s16*, 0x88) != 0) {
-        M2C_FIELD(arg0, s16*, 0x88) = t - 1;
-        if (t & 2) {
-            M2C_FIELD(arg0, u16*, 0x42) |= 0x8000;
-        } else {
-            M2C_FIELD(arg0, u16*, 0x42) &= 0x7FFF;
-        }
-        if (M2C_FIELD(arg0, s16*, 0x88) == 0) {
-            M2C_FIELD(arg0, void**, 0x58) = &D_8007519C;
-            M2C_FIELD(arg0, u16*, 0x42) &= 0x7FFF;
-        }
-    }
-    func_80030ECC(arg0);
-}
+#include "../shared/rock_04/func_800F1738.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -167,31 +117,7 @@ void func_800F5088(struct X4_AnimatedObj* arg0, u8 arg1);
 void func_800F52AC(void* arg0, u8 arg1);
 extern u8 D_800F75F8[][2];
 
-void func_800F20C0(void* arg0) {
-    switch (F(arg0, s8*, 0x45)) {
-    case 1:
-        play_sound(2, 0x15, arg0);
-        func_800F52AC(arg0, D_800970A2);
-        break;
-    case 2:
-        play_sound(2, 0x18, arg0);
-        func_800F5088(arg0, D_800970A2);
-        break;
-    case 3: {
-        if (--F(arg0, s16*, 0x7E) != 0) {
-            u8 v = D_800F75F8[D_800970A2][0];
-            F(arg0, u8*, 6) += 1;
-            F(arg0, s16*, 0x7C) = v;
-        } else {
-            u8 v;
-            set_animation(arg0, 0);
-            v = D_800F75F8[D_800970A2][1];
-            F(arg0, u8*, 6) += 2;
-            F(arg0, s16*, 0x7C) = v;
-        }
-    } break;
-    }
-}
+#include "../shared/rock_04/func_800F20C0.c"
 
 #include "common.h"
 #define M2C_UNK s32
@@ -268,7 +194,7 @@ extern u16 D_800F70DC;
 #include "../shared/rock_04/func_800F2464.c"
 
 // clang-format off
-INCLUDE_ASM("asm/rock_04/nonmatchings/E9860", func_800F25A0);
+INCLUDE_ASM("rock_04/nonmatchings/E9860", func_800F25A0);
 // clang-format on
 
 #include "common.h"
@@ -282,84 +208,7 @@ extern s32 D_800741FC[];
 extern M2C_UNK D_8007433C;
 extern s32 D_800F769C;
 
-void func_800F2750(struct X4_MainObj* self) {
-    s8 one;
-    s32 kind;
-
-    one = M2C_FIELD(self, struct X4_MainObj**, 0x7C)->state;
-    if (one != 1) {
-        self->state = 2;
-        self->on_screen = 0;
-        return;
-    }
-    kind = self->unk2 & 0xF0;
-    self->contact_damage = 0;
-    self->hp = one;
-    self->unk16 = 4;
-    self->air_state = one;
-    self->collision_data = &D_8007433C;
-    self->terrain_box = 0;
-    self->attack_box = 0;
-    self->hurt_box = 0;
-    self->on_screen = 0;
-    self->state = one;
-    self->action = 0;
-    self->action_phase = 0;
-    self->unk7 = 0;
-    self->x_speed = 0;
-    self->y_speed = 0;
-    self->x_accel = 0;
-    self->gravity = 0;
-    if (kind == 0) {
-        ((void (*)(void*, s32))set_animation)(self, 0x1B);
-        self->collision_data = D_800741FC;
-        self->hurt_box = 0;
-        self->attack_box = 0;
-        self->terrain_box = 0;
-        self->contact_damage = 4;
-        self->hp = 2;
-        self->unk16 = 4;
-        if (self->unk2 == 0) {
-            if (self->unk15 == 0) {
-                self->x_pos.u.hi -= 0x18;
-            } else {
-                self->x_pos.u.hi += 0x18;
-            }
-            self->y_pos.u.hi -= 8;
-        } else if (self->unk2 == one) {
-            if (self->unk15 == 0) {
-                self->x_pos.u.hi -= 0x1E;
-            } else {
-                self->x_pos.u.hi += 0x1E;
-            }
-            self->y_pos.u.hi += 8;
-        } else if (self->unk2 == 2) {
-            if (self->unk15 == 0) {
-                self->x_pos.u.hi -= 0x18;
-            } else {
-                self->x_pos.u.hi += 0x18;
-            }
-            self->y_pos.u.hi += 8;
-        }
-        self->action = 2;
-    } else if (kind == 0x10) {
-        self->collision_data = D_800741FC;
-        self->hurt_box = 0;
-        self->attack_box = 0;
-        self->terrain_box = 0;
-        self->contact_damage = 2;
-        self->hp = one;
-        self->unk16 = 4;
-        self->unk15 = 0;
-        self->action = 0;
-    } else if (kind == 0x20) {
-        self->hurt_box = 0;
-        self->attack_box = 0;
-        self->terrain_box = (void*)&D_800F769C;
-        self->unk15 = 0;
-        self->action = one;
-    }
-}
+#include "../shared/rock_04/func_800F2750.c"
 
 #include "../shared/rock_04/func_800F2954.c"
 
@@ -374,41 +223,7 @@ s32 random_byte();
 extern s32 D_800F7694;
 extern s32 D_800F7698;
 
-void func_800F2AD4(struct X4_MainObj* self) {
-    s32 a;
-    s32 b;
-    s32 c;
-    s32 q;
-
-    set_animation(self,
-                  ((u32)(D_80097420.frame_counter + self->unk2) % 3) + 0x1C);
-    if (D_800CCF38 >= 2) {
-        self->hurt_box = &D_800F7694;
-        self->attack_box = &D_800F7698;
-    }
-    self->terrain_box = 0;
-    a = ((u32)random_byte() % 40 & 0xFF) + 10;
-    b = ((u32)random_byte() % 30 & 0xFF) + 30;
-    c = ((u32)random_byte() % 10 & 0xFF) + 15;
-    q = (b << 16) / ((c * c) >> 1);
-    self->y_speed = q * c;
-    self->gravity = q;
-    self->x_accel = 0;
-    switch (self->unk2) {
-    case 16:
-        self->x_speed = (-a << 16) / c;
-        break;
-    case 18:
-        if (random_byte() & 1) {
-            self->x_speed = (-a << 16) / c;
-            break;
-        }
-    case 17:
-        self->x_speed = (a << 16) / c;
-        break;
-    }
-    self->action_phase++;
-}
+#include "../shared/rock_04/func_800F2AD4.c"
 
 #include "common.h"
 #include "psyq/libgte.h"

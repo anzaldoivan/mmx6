@@ -2,8 +2,8 @@
 """family_remap.py -- remap a banked exemplar's shared body onto its structural family (container python3, stdlib).
 
   family_remap.py <family key> [--exemplar <prog:vram>] [--dry-run]
-      -> the exemplar = the config/dedup_registry.txt row `gated exemplar` whose member lies in the family class of
-         build/census/classes.jsonl (--exemplar: that row, else the first; none, or no such family: rc 2). Siblings =
+      -> the exemplar = the config/us/dedup_registry.txt row `gated exemplar` whose member lies in the family class of
+         build/us/census/classes.jsonl (--exemplar: that row, else the first; none, or no such family: rc 2). Siblings =
          family members outside the exemplar's dup class, (prog, vram) order; one already holding a `gated` registry
          row (any key) is skipped and counted `already`, never re-banked. Per sibling, rungs:
          preflight bank.preflight (corpus row include_asm in a config/c_units.txt TU).
@@ -25,7 +25,7 @@
          no failure).
       --dry-run: preflight + pair + R1 only, no tree edits; last line ends ` (dry-run: R1 only)`.
   family_remap.py --self-test
-      -> C0054 planted controls. G: SLUS_013.95:0x8001E78C (C in src/SLUS_013.95/120A0.c): its targets read from
+      -> C0054 planted controls. G: main:0x8001E78C (C in src/main/120A0.c): its targets read from
          120A0.c.o first; its definition becomes INCLUDE_ASM of a bank.plant_words .s, the exe must rebuild to its
          pre-test sha1, corpus.py --all regenerates; exemplar src/shared/_selftest/remap_ex.c = its body as `remap_ex`
          calling `remap_callee` -> must be gated (R5), then its family row is written and `propagate.py --check` must
@@ -35,14 +35,14 @@
          The definition is found by layout.locate; second pass: P, G, R again with 120A0 a layout.role_tree plant
          (`family_remap: role-tree pass on ...`, lines `role-tree control ...`; G's INCLUDE_ASM plant and bank in the
          role file).
-         Teardown restores src/, the registry and build/corpus/{functions,spans,denominators}.jsonl byte-exact, deletes
+         Teardown restores src/, the registry and build/us/corpus/{functions,spans,denominators}.jsonl byte-exact, deletes
          the plants, rebuilds; fail-closed check of src/, registry, exe sha1. Ends `REMAP CONTROL OK` (rc 0), else
          `REMAP SELF-TEST FAIL <n>` (rc 1). Logs under .run/remap/.
          All of it runs in a scratch tree .run/remap/tree (3.1 T11; propagate.make_tree's way: TREE_COPY with mtimes,
-         TREE_SKIP's build/ outputs of other rungs left out, a file vanishing mid-copy skipped, extracted/ a symlink;
+         TREE_SKIP's build/us/ outputs of other rungs left out, a file vanishing mid-copy skipped, extracted/ a symlink;
          fresh each run, removed at the end, the failing run's make logs kept in .run/remap/), so th-remap runs beside
          the other rungs. Fail-closed guard of the real tree: sha1 of src/, include/, the registry,
-         build/corpus/*.jsonl and every exe before and after, a difference -> a fail naming the path; guard control
+         build/us/corpus/*.jsonl and every exe before and after, a difference -> a fail naming the path; guard control
          first: a one-byte src/remap_guard_plant.txt, removed at once, must be the one path flagged.
 Firewall G12: names, addresses, counts and hashes of our own files only.
 """
@@ -64,18 +64,19 @@ import census  # noqa: E402
 import layout  # noqa: E402
 import probe  # noqa: E402
 import propagate  # noqa: E402
+from paths import BUILD, CONFIG_V, ASM  # noqa: E402  (the version axis, 3.3 T37)
 
 SCRATCH = ".run/remap"
 TREE = SCRATCH + "/tree"  # the self-test's scratch tree (3.1 T11)
 TREE_COPY = propagate.COPY + ("docs/glossary.md", "docs/layout.md")  # layout.Tree reads the two docs
-# build/ outputs of other rungs, written beside th-remap (th-par) and never read by the self-test
-TREE_SKIP = tuple(f"build/{d}" for d in ("dumps", "harness", "th-wall", "reports", "repro", "draw", "bound2", "scaffold",
+# build/us/ outputs of other rungs, written beside th-remap (th-par) and never read by the self-test
+TREE_SKIP = tuple(f"{BUILD}/{d}" for d in ("dumps", "harness", "th-wall", "reports", "repro", "draw", "bound2", "scaffold",
                                           "globtypes", "leads", "names-refused.tsv", "refusecause", "strings"))
 RUNGS = ("preflight", "pair", "R1", "R2", "R3", "R4", "R5")
 HILO = ("R_MIPS_HI16", "R_MIPS_LO16")
 REL_ROW = re.compile(r"^([0-9a-f]{8})\s+[0-9a-f]{8}\s+(R_MIPS_\w+)(?:\s+[0-9a-f]{8}\s+(\S+))?")
-G_SIB = ("SLUS_013.95", 0x8001E78C)
-G_UNIT = "src/SLUS_013.95/120A0.c"
+G_SIB = ("main", 0x8001E78C)
+G_UNIT = "src/main/120A0.c"
 G_SRC = layout.new_body("_selftest", "remap_ex")  # src/shared/_selftest/remap_ex.c
 P_SRC = layout.new_body("_selftest", "remap_px")
 PARAM = re.compile(r"^#ifndef (\w+)\n#define \1 (-?\w+)\n#endif$", re.M)
@@ -320,7 +321,7 @@ def control_g():
     with open(propagate.CLASSES) as f:
         fam = next(c["key"] for c in map(json.loads, f)
                    if c["kind"] == "family" and [prog, f"0x{gv:08X}"] in c["members"])
-    unit_o = f"build/src/{prog}/{tu}.c.o"
+    unit_o = f"{BUILD}/src/{prog}/{tu}.c.o"
     if not os.path.isfile(unit_o) and bank.sh(["make", "-s", unit_o], "remap-selftest"):
         raise bank.Stop(0, f"{unit_o} does not build")
     sib_t = sibling_targets(r, census.asm_index())  # read before planting
@@ -363,7 +364,7 @@ def control_g():
     _, seg_start, seg_vram = probe.yaml_layout(prog)
     off = seg_start + gv - seg_vram
     bank.put(saved, unit, "\n".join(lines[:i] + [layout.asm_line(prog, tu, func)] + lines[j + 1:]))
-    bank.put(saved, f"asm/{prog}/nonmatchings/{tu}/{func}.s",
+    bank.put(saved, f"{ASM}/{prog}/nonmatchings/{tu}/{func}.s",
              ".set noat      /* allow manual use of $at */\n.set noreorder /* don't insert nops after branches */\n\n"
              f"nonmatching {func}, 0x{4 * len(words):X}\n\nglabel {func}\n"
              + "".join(f"    /* {off + 4 * k:X} {gv + 4 * k:08X} {w.to_bytes(4, 'little').hex().upper()} */  .word 0x{w:08X}\n"
@@ -372,10 +373,10 @@ def control_g():
 
 
 def guard_sums():
-    """{path: sha1} of the real tree's guarded files: src/, include/, the registry, build/corpus/*.jsonl, every exe."""
+    """{path: sha1} of the real tree's guarded files: src/, include/, the registry, build/us/corpus/*.jsonl, every exe."""
     sums = {**bank.tree_sums("src"), **bank.tree_sums("include")}
-    exes = [bank.bin_out(os.path.basename(y)[:-5]) for y in glob.glob("config/*.yaml")]
-    for p in [bank.REGISTRY] + sorted(glob.glob("build/corpus/*.jsonl")) + sorted(exes):
+    exes = [bank.bin_out(os.path.basename(y)[:-5]) for y in glob.glob(CONFIG_V + "/*.yaml")]
+    for p in [bank.REGISTRY] + sorted(glob.glob(f"{BUILD}/corpus/*.jsonl")) + sorted(exes):
         sums[p] = bank.sha1(p) if os.path.isfile(p) else None
     return sums
 
@@ -385,7 +386,7 @@ def guard_diff(pre, post):
 
 
 def copy_tolerant(src, dst):
-    """shutil.copy2 that skips a file removed mid-copy (other rungs write build/ in parallel)."""
+    """shutil.copy2 that skips a file removed mid-copy (other rungs write build/us/ in parallel)."""
     try:
         shutil.copy2(src, dst)
     except FileNotFoundError:
@@ -393,7 +394,7 @@ def copy_tolerant(src, dst):
 
 
 def make_tree(tree):
-    """The scratch tree (propagate.make_tree's way): TREE_COPY copied with mtimes (make sees build/ up to date),
+    """The scratch tree (propagate.make_tree's way): TREE_COPY copied with mtimes (make sees build/us/ up to date),
     TREE_SKIP left out, extracted/ a symlink."""
     os.makedirs(tree)
     for p in TREE_COPY:
@@ -456,7 +457,7 @@ def self_test():
 def self_test_body():
     """Failures of the controls, run in the tree at cwd."""
     prog = G_SIB[0]
-    corpus_out = [f"build/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
+    corpus_out = [f"{BUILD}/corpus/{n}.jsonl" for n in ("functions", "spans", "denominators")]
     pre_src, pre_reg, pre_bin = src_bytes(), open(bank.REGISTRY, "rb").read(), bank.sha1(bank.bin_out(prog))
     pre_corpus = {p: open(p, "rb").read() for p in corpus_out}
     os.makedirs(SCRATCH, exist_ok=True)
@@ -532,7 +533,7 @@ def controls(prog, pre_reg, pre_bin, pre_corpus, role):
     finally:
         bank.restore(saved)
         put_tree(snap)
-        shutil.rmtree(f"build/{os.path.dirname(G_SRC)}", ignore_errors=True)
+        shutil.rmtree(f"{BUILD}/{os.path.dirname(G_SRC)}", ignore_errors=True)
         with open(bank.REGISTRY, "wb") as f:
             f.write(pre_reg)
         for p, b in pre_corpus.items():

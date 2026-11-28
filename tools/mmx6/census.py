@@ -2,26 +2,26 @@
 """census.py -- duplication, structural families, reach x size and the unique tail of the corpus (container, stdlib).
 
   census.py --all
-      -> build/census/classes.jsonl {"kind":"dup|family","key","size","members":[[prog,vram],...],"reach"}, every
+      -> build/us/census/classes.jsonl {"kind":"dup|family","key","size","members":[[prog,vram],...],"reach"}, every
          fleet-wide class incl. singletons (size = words, reach = distinct programs), sorted (kind, key); stdout per
          lane (game, lib: classes recomputed on that lane's rows) and fleet, every line ending `of <N> functions`;
          then `CENSUS stubs <s> of <a> asm functions (ledgered <l>)` (stub = asm|include_asm row with no
-         campaign/ledger.tsv row; the line also written to build/census/stubs.txt);
+         campaign/ledger.tsv row; the line also written to build/us/census/stubs.txt);
          last line `CENSUS dup_classes=<a> families=<b> reach_size=<c>/16 unique_tail=<d> of <N>` (fleet-wide).
   census.py --self-test
       -> planted functions assembled with the build's assembler (.run/census/selftest) through the real reader:
          jal/%hi/%lo twins -> one dup class; same with the mask off -> split; register-renamed copy -> same family,
          another dup class. Empty-body control on the real corpus: dup class of [jr $ra; nop] == corpus c-empty rows
-         + asm|include_asm functions whose asm text is exactly `jr $ra` / `nop` (parsed from asm/**/*.s). Ends
+         + asm|include_asm functions whose asm text is exactly `jr $ra` / `nop` (parsed from asm/us/**/*.s). Ends
          `CENSUS CONTROL OK` (rc 0), else rc 1.
 
-Inputs: build/corpus/functions.jsonl (corpus.py). Words: the function's built TU object (asm -> build/asm/<p>/<tu>.s.o,
-else build/src/<p>/<tu>.c.o), section of the function symbol, LE (C0041); equal to build/<p>.elf outside relocation
+Inputs: build/us/corpus/functions.jsonl (corpus.py). Words: the function's built TU object (asm -> build/us/asm/<p>/<tu>.s.o,
+else build/us/src/<p>/<tu>.c.o), section of the function symbol, LE (C0041); equal to build/us/<p>.elf outside relocation
 fields. Mask: the object's relocation sites (`readelf -rW`), field masks = probe.MASKS. dup key = sha1 of masked words;
 family key = sha1 of the skeleton (per word opcode bits 31-26, + funct for SPECIAL, rt for REGIMM, rs for COPz).
 dup class / family = functions sharing a key; reach = distinct programs in the function's dup class; unique tail =
 functions in no dup class >= 2 and no family >= 2. A row with no resolvable object or symbol is refused (rc 1).
-Firewall G12: prints counts only; keys and members go to build/ (untracked).
+Firewall G12: prints counts only; keys and members go to build/us/ (untracked).
 """
 import argparse
 import hashlib
@@ -35,11 +35,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from probe import MASKS  # noqa: E402
+from paths import BUILD, ASM  # noqa: E402  (the version axis, 3.3 T37)
 
-FUNCS = "build/corpus/functions.jsonl"
-OUT = "build/census"
+FUNCS = f"{BUILD}/corpus/functions.jsonl"
+OUT = f"{BUILD}/census"
 LEDGER = "campaign/ledger.tsv"
-STUBS = "build/census/stubs.txt"
+STUBS = f"{BUILD}/census/stubs.txt"
 SELFTEST = ".run/census/selftest"
 READELF = "mipsel-linux-gnu-readelf"
 AS = ["mipsel-linux-gnu-as", "-EL", "-march=r3000", "-mtune=r3000", "-mabi=32", "-no-pad-sections", "-G0"]
@@ -97,10 +98,10 @@ def elf_masks(path):
 
 
 def asm_index():
-    """{(prog, tu): path} of the non-nonmatchings asm/<p>/**/<tu>.s files."""
+    """{(prog, tu): path} of the non-nonmatchings asm/us/<p>/**/<tu>.s files."""
     idx = {}
-    for prog in sorted(os.listdir("asm")):
-        for d, dirs, files in os.walk(f"asm/{prog}"):
+    for prog in sorted(os.listdir(ASM)):
+        for d, dirs, files in os.walk(f"{ASM}/{prog}"):
             dirs[:] = sorted(x for x in dirs if x != "nonmatchings")
             for fname in sorted(files):
                 if fname.endswith(".s"):
@@ -113,13 +114,13 @@ def obj_of(r, idx):
         return r["obj"]
     if r["state"] == "asm":
         paths = idx.get((r["prog"], r["tu"]), [])
-        return f"build/{paths[0]}.o" if len(paths) == 1 else None
-    return f"build/src/{r['prog']}/{r['tu']}.c.o"
+        return f"{BUILD}/{paths[0]}.o" if len(paths) == 1 else None
+    return f"{BUILD}/src/{r['prog']}/{r['tu']}.c.o"
 
 
 def read_words(rows):
     """Per row (words, mask) from its TU object, or Refuse naming every unresolvable row."""
-    idx = asm_index() if os.path.isdir("asm") else {}
+    idx = asm_index() if os.path.isdir(ASM) else {}
     cache, out, bad = {}, [], []
     for r in rows:
         obj = obj_of(r, idx)
@@ -311,10 +312,10 @@ dat_y: .word 0
 
 
 def asm_empty_names():
-    """{(prog, name)} of asm/**/*.s functions whose rows are exactly `jr $ra` / `nop` (asm text, own parser)."""
+    """{(prog, name)} of asm/us/**/*.s functions whose rows are exactly `jr $ra` / `nop` (asm text, own parser)."""
     out = set()
-    for prog in sorted(os.listdir("asm")):
-        for d, dirs, files in os.walk(f"asm/{prog}"):
+    for prog in sorted(os.listdir(ASM)):
+        for d, dirs, files in os.walk(f"{ASM}/{prog}"):
             dirs.sort()
             for fname in sorted(files):
                 if not fname.endswith(".s"):

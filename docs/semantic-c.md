@@ -53,7 +53,7 @@ Comments never move a byte, because the compile rule strips them before the comp
 DC1: the leading comment lines of the file hold one banner line.
 It names the program, the system and the address range, in this form.
 
-`// prog SLUS_013.95 | system player | range 0x80037838-0x8003787C`
+`// prog main | system player | range 0x80037838-0x8003787C`
 
 The program has a symbol file `config/symbols.<prog>.txt`.
 The range runs from the lowest to the highest address the file covers.
@@ -68,12 +68,14 @@ A body lives in its unit's role file (`docs/layout.md`), found with `layout.loca
 A file under `src/shared/` is the one owner of a body more than one unit includes.
 It also carries one line naming where it is included, in this form.
 
-`// Shared file: included by src/SLUS_013.95/32208.c, between player_ladder_let_go and func_80037880.`
+`// Shared file: included by src/main/32208.c, between player_ladder_let_go and func_80037880.`
 
 The TU is the including file, and A and B are the functions on either side of the include.
 The check refuses a shared file without the line, or whose TU is missing or does not include it.
 
 ### The function header (DC3 to DC6)
+
+The tables of rule M30 (`rules/M30.md`) are the source of truth. The header is a copy that `docconv.py check` (DC9) holds to them.
 
 Each function definition has a block of `//` lines directly above it.
 DC3: the first line gives the address first, then the name and its purpose in our own words.

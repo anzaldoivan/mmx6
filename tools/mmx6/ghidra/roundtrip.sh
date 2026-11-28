@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # tools/mmx6/ghidra/roundtrip.sh [PROG ...] [--jsonl F]
 #
-# Proves config/ghidra/<PROG>.jsonl regenerates the annotations: for each program (default SLUS_013.95 + every
-# code member of config/loadmap.txt), a fresh import (auto-analysis, manifest-sha1-checked) into the scratch
+# Proves config/ghidra/<key>.jsonl (key: main for <MAIN_EXE>) regenerates the annotations: for each program (default <MAIN_EXE> + every
+# code member of config/us/loadmap.txt), a fresh import (auto-analysis, manifest-sha1-checked) into the scratch
 # project .run/ghidra/rebuild/ (recreated each run), ImportAnnotations.java of the committed file (or --jsonl F),
 # re-export to .run/ghidra/rebuild/out/<PROG>.jsonl, cmp against the input. Batched: import.sh groups members
 # by base (one JVM per group), one JVM applies all, one exports all. Prints `ROUNDTRIP OK <k> programs` and rc 0, else the first differing line per
@@ -17,6 +17,7 @@ RB="$REPO/.run/ghidra/rebuild"
 RBP="$REPO/ghidra/rebuild"
 PROGS=()
 JSONL=""
+MAIN_EXE="$(${PYTHON:-python3} "$REPO/tools/mmx6/paths.py" MAIN_EXE)"  # the main program's disc file = its Ghidra program (3.3 T38)
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -25,7 +26,7 @@ while [ $# -gt 0 ]; do
     *) PROGS+=("$1"); shift ;;
   esac
 done
-[ ${#PROGS[@]} -gt 0 ] || PROGS=(SLUS_013.95 $(bash "$HERE/import.sh" --list | awk '{ print $1 }'))
+[ ${#PROGS[@]} -gt 0 ] || PROGS=("$MAIN_EXE" $(bash "$HERE/import.sh" --list | awk '{ print $1 }'))
 if [ -n "$JSONL" ]; then
   case "$JSONL" in /*) ;; *) JSONL="$PWD/$JSONL" ;; esac
   [ ${#PROGS[@]} -eq 1 ] || { echo "roundtrip: --jsonl takes exactly one program" >&2; exit 2; }
@@ -38,7 +39,8 @@ rm -rf "$RB/mmx6.rep" "$RB/mmx6.gpr" "$RB/in" "$RB/out"
 mkdir -p "$RB/in" "$RB/out"
 ok=0; bad=0; members=""; exe=()
 for p in "${PROGS[@]}"; do
-  in="${JSONL:-$REPO/config/ghidra/$p.jsonl}"
+  k=$p; [ "$p" = "$MAIN_EXE" ] && k=main
+  in="${JSONL:-$REPO/config/ghidra/$k.jsonl}"
   [ -f "$in" ] || { echo "roundtrip: $p: ERROR input missing: $in"; bad=$((bad + 1)); continue; }
   cp "$in" "$RB/in/$p.jsonl"
   case "$p" in rock_*) members="$members,${p#rock_}" ;; *) exe+=("$p") ;; esac

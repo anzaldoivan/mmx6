@@ -6,12 +6,12 @@
   <keys> | thshard.py check                 -> per shard `SHARD k keys n first..last est Ns`, then
                                                `SHARDS CHECK OK <n> shards` rc 0, else `SHARDS CHECK FAIL <why>` rc 1
   thshard.py --self-test                    -> planted shard lists (gap, overlap, over budget) must fail
-  [--registry config/dedup_registry.txt]
+  [--registry config/us/dedup_registry.txt]
 
 <keys> is $(PROPAGATE_KEYS_CMD) (mk/tools-health.mk): sorted registry keys. Cost model (refit 3.0 T6 on the timed
 shard 1 after T4's red-R5 bisect, `.run/3.0/logs/t6-shard1.log`: 387 keys, wall 1662 s vs 7644 s estimated by the
 2.7 T4 constants): per (key, prog), prog = the col2 and col4 program prefixes of the key's rows (NF >= 5, col6 !=
-family). Each rate is the measured rate +20%, rounded up. SLUS_013.95: 20 s per unit (its 101-unit group, 19
+family). Each rate is the measured rate +20%, rounded up. main: 20 s per unit (its 101-unit group, 19
 re-isolated, took 1622 s = 16.1 s/unit). Other programs: 17 s per unit, 36 s when the key has a refused row there
 (least-squares over shard 1's 48 rock groups, 374 units: 14.1 s grouped, 29.5 s isolated). Shard est = 300 +
 max(max_P chain_P, sum_P chain_P / 8) (8 workers; one program's group runs serially in one worker). Shards are
@@ -30,12 +30,14 @@ the 3000 s budget: 12 shards, max est 2499 s (2550 re-flows into 11 shards packe
 import bisect
 import sys
 
+from paths import CONFIG_V  # the version axis (3.3 T37)
+
 BUDGET = 3000  # s per shard: 50 min per step (3.2 T11); was 9000 (3 h cap)
 BASE = 300  # s, fixed cost per shard (corpus, census, worker trees)
 SPLIT_AT = 2500  # s, greedy split threshold: ~17% headroom under BUDGET; was 7650
 UNIT = 17  # s per (key, prog), grouped, non-SLUS; was 20 (2.7 T4 fit 16.4 +20%)
 UNIT_REFUSED = 36  # s per (key, prog) with a refused row, non-SLUS; was 28 (2.7 T4 fit 22.6 +20%)
-# SLUS_013.95 rate per key range (3.2 T11): (first key prefix, grouped wall s, SLUS units) of T1's shards 1..11;
+# main rate per key range (3.2 T11): (first key prefix, grouped wall s, SLUS units) of T1's shards 1..11;
 # replaces UNIT_SLUS = 20 (one rate for every key; was 72 pre-bisect). Shard 2's wall is the larger of its two runs.
 SLUS_CAL = (
     ("00006b8a5815", 1975, 100),
@@ -66,7 +68,7 @@ def slus_rate(key, cal=SLUS_CAL):
 
 
 def rate(key, prog, refused):
-    if prog == "SLUS_013.95":
+    if prog == "main":
         return slus_rate(key)
     return UNIT_REFUSED if (key, prog) in refused else UNIT
 
@@ -100,7 +102,7 @@ def estimate(keys, weights):
 
 
 def slus_units(keys, weights):
-    return sum(1 for k in keys if "SLUS_013.95" in weights.get(k, {}))
+    return sum(1 for k in keys if "main" in weights.get(k, {}))
 
 
 def split(keys, weights):
@@ -137,8 +139,8 @@ def check(keys, shards, weights):
 
 
 def self_test():
-    w = {k: {"SLUS_013.95": UNIT} for k in "abcdef"}
-    w["f"] = {"SLUS_013.95": BUDGET}
+    w = {k: {"main": UNIT} for k in "abcdef"}
+    w["f"] = {"main": BUDGET}
     keys = list("abcde")
     good = [["a", "b"], ["c", "d", "e"]]
     planted = {
@@ -151,7 +153,7 @@ def self_test():
     ok &= lw == {"k": {"S": UNIT, "T": UNIT_REFUSED}}
     ok &= split(keys, w) == [keys]
     cap = [str(i) for i in range(SLUS_MAX + 1)]  # cheap SLUS keys: the SLUS_MAX cap alone must close a shard
-    capped = split(cap, {k: {"SLUS_013.95": 1} for k in cap})
+    capped = split(cap, {k: {"main": 1} for k in cap})
     print("thshard self-test slus-cap: %s" % ("split" if len(capped) == 2 else "NOT SPLIT"))
     ok &= len(capped) == 2
     cal = (("10", 100, 10), ("80", 300, 10))  # range rates 10 and 30 s/unit
@@ -168,7 +170,7 @@ def self_test():
 
 
 def main(argv):
-    registry = "config/dedup_registry.txt"
+    registry = CONFIG_V + "/dedup_registry.txt"
     if "--registry" in argv:
         i = argv.index("--registry")
         registry = argv[i + 1]

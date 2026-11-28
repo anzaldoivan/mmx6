@@ -30,7 +30,7 @@ for name in $cc1_set; do
     cc1=/opt/cc/$name/cc1 want=${name%%-*}
     v=$("$cc1" -version </dev/null 2>&1 | grep -m1 'GNU C version' | grep -oE '[0-9]+(\.[0-9]+)+' | head -n1)
     rm -f "$scratch/t.o"
-    mipsel-linux-gnu-cpp -undef -D__GNUC__=2 -DPSX "$scratch/t.c" 2>/dev/null \
+    mipsel-linux-gnu-cpp -undef -D__GNUC__=2 -DPSX -DVERSION=VER_$(echo "${VERSION:-us}" | tr a-z A-Z) "$scratch/t.c" 2>/dev/null \
         | "$cc1" -quiet -O2 -G0 -funsigned-char -msoft-float 2>/dev/null \
         | maspsx --aspsx-version=2.56 --expand-div \
         | mipsel-linux-gnu-as -EL -march=r3000 -mabi=32 -G0 -o "$scratch/t.o" 2>/dev/null

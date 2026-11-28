@@ -1,6 +1,6 @@
-"""extract.py — extract the retail medium into extracted/retail/ and write the hash manifest (`make extract`).
+"""extract.py — extract the retail medium into extracted/<version>/ and write the hash manifest (`make extract`).
 
-  extract.py --cue <cue> --out extracted/retail --manifest manifest/retail.jsonl [--medium config/medium.sha1]
+  extract.py --cue <cue> --out extracted/us --manifest manifest/us.jsonl [--medium config/medium.sha1]
 
 Refuses a bin whose sha1 is not the --medium hash (G28) and an --out outside extracted/; recreates --out; writes
 every ISO file to <out>/iso/<ISO path> and every ROCK_X6.BIN member to <out>/rock/<NN>.bin; checks
@@ -22,8 +22,9 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
 from mmx6 import iso9660, manifest, rock  # noqa: E402
+from mmx6.paths import MAIN_EXE  # noqa: E402  (the disc file name of the main program, 3.3 T38)
 
-EXE = "SLUS_013.95"
+EXE = MAIN_EXE
 EXE_PC0 = 0x80054AD8
 EXE_TADDR = 0x80010000
 ROCK = "ROCK_X6.BIN"

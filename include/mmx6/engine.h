@@ -1,4 +1,4 @@
-// prog SLUS_013.95 | system engine_state | range -
+// prog main | system engine_state | range -
 /* mmx6/engine.h -- the playthrough state block g_playthrough_state 0x800CCED0 (hand-edited; Phase 2.6 T14.c8, homed 2.6 T16.c1).
  * Homed here from the generated include/mmx6/x4.h through config/x4/homed.tsv: x4.h never emits the block and
  * aliases X4_EngineObj to EngineObj, so `struct X4_EngineObj` users are unchanged. +0x00..+0x63: members, types and

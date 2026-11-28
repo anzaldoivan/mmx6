@@ -26,22 +26,22 @@ Lookup: `python3 tools/mmx6/x4names.py --who <alias text | func_8XXXXXXX | PROG:
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `animate_object` | `SLUS_013.95:0x80017A04` | `animate_object` | bytes | engine |
-| `clear_vram_rect_ptrs` | `SLUS_013.95:0x80017A48` | `func_80017A48` | gate | engine |
-| `load_vram_rect_ptrs` | `SLUS_013.95:0x80017A88` | `func_80017A88` | gate | engine |
+| `animate_object` | `main:0x80017A04` | `animate_object` | bytes | engine |
+| `clear_vram_rect_ptrs` | `main:0x80017A48` | `func_80017A48` | gate | engine |
+| `load_vram_rect_ptrs` | `main:0x80017A88` | `func_80017A88` | gate | engine |
 
 ### src/main/background.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `update_screen_shake_x` | `SLUS_013.95:0x80029A6C` | `func_80029A6C` | gate | engine |
-| `update_screen_shake_y` | `SLUS_013.95:0x80029AFC` | `func_80029AFC` | gate | engine |
+| `update_screen_shake_x` | `main:0x80029A6C` | `func_80029A6C` | gate | engine |
+| `update_screen_shake_y` | `main:0x80029AFC` | `func_80029AFC` | gate | engine |
 
 ### src/main/effects/effect_04_stage_music.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `stage_music_init` | `SLUS_013.95:0x80052CC0` | `func_80052CC0` | gate | object |
+| `stage_music_init` | `main:0x80052CC0` | `func_80052CC0` | gate | object |
 
 ### src/main/effects/effect_05_tile_scanner.c
 
@@ -58,42 +58,42 @@ Lookup: `python3 tools/mmx6/x4names.py --who <alias text | func_8XXXXXXX | PROG:
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `checkpoint_trigger_init` | `SLUS_013.95:0x80052D6C` | `func_80052D6C` | gate | object |
+| `checkpoint_trigger_init` | `main:0x80052D6C` | `func_80052D6C` | gate | object |
 
 ### src/main/effects/effect_24_boss_warning.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `boss_warning_wait` | `SLUS_013.95:0x800536D0` | `func_800536D0` | gate | object |
-| `boss_warning_wait_tiles` | `SLUS_013.95:0x80053704` | `func_80053704` | gate | object |
-| `boss_warning_finish` | `SLUS_013.95:0x800537F0` | `func_800537F0` | gate | object |
-| `boss_warning_main` | `SLUS_013.95:0x80053828` | `func_80053828` | gate | object |
+| `boss_warning_wait` | `main:0x800536D0` | `func_800536D0` | gate | object |
+| `boss_warning_wait_tiles` | `main:0x80053704` | `func_80053704` | gate | object |
+| `boss_warning_finish` | `main:0x800537F0` | `func_800537F0` | gate | object |
+| `boss_warning_main` | `main:0x80053828` | `func_80053828` | gate | object |
 
 ### src/main/effects/effect_27_teleport_intro.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `teleport_intro_spawn_quads` | `SLUS_013.95:0x8005400C` | `func_8005400C` | gate | object |
-| `teleport_intro_init` | `SLUS_013.95:0x80054210` | `func_80054210` | gate | object |
+| `teleport_intro_spawn_quads` | `main:0x8005400C` | `func_8005400C` | gate | object |
+| `teleport_intro_init` | `main:0x80054210` | `func_80054210` | gate | object |
 
 ### src/main/enemy_reaction.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `enemy_hit_reaction` | `SLUS_013.95:0x80040290` | `func_80040290` | bytes | engine |
-| `spike_crawler_hit_flash` | `SLUS_013.95:0x80040304` | `spike_crawler_hit_flash` | gate | engine |
+| `enemy_hit_reaction` | `main:0x80040290` | `func_80040290` | bytes | engine |
+| `spike_crawler_hit_flash` | `main:0x80040304` | `spike_crawler_hit_flash` | gate | engine |
 
 ### src/main/items/item_01_stage_block.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `drop_item` | `SLUS_013.95:0x8004E654` | `func_8004E654` | gate | object |
+| `drop_item` | `main:0x8004E654` | `func_8004E654` | gate | object |
 
 ### src/main/items/item_08_boss_door.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `boss_door_block_player` | `SLUS_013.95:0x80051104` | `func_80051104` | gate | object |
+| `boss_door_block_player` | `main:0x80051104` | `func_80051104` | gate | object |
 
 ### src/main/mains/main_19_surface_hopper.c
 
@@ -218,7 +218,7 @@ Lookup: `python3 tools/mmx6/x4names.py --who <alias text | func_8XXXXXXX | PROG:
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `magma_dragoon_face_player` | `SLUS_013.95:0x80042C18` | `func_80042C18` | gate | object |
+| `magma_dragoon_face_player` | `main:0x80042C18` | `func_80042C18` | gate | object |
 | `magma_dragoon_face_player` | `rock_03:0x800EACB0` | `func_800EACB0` | gate | object |
 | `magma_dragoon_face_player` | `rock_03:0x800EBC20` | `func_800EBC20` | gate | object |
 | `magma_dragoon_face_player` | `rock_04:0x800F5488` | `func_800F5488` | gate | object |
@@ -245,7 +245,7 @@ Lookup: `python3 tools/mmx6/x4names.py --who <alias text | func_8XXXXXXX | PROG:
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `InitMemcards` | `SLUS_013.95:0x8001C024` | `func_8001C024` | gate | engine |
+| `InitMemcards` | `main:0x8001C024` | `func_8001C024` | gate | engine |
 
 ### src/main/misc/misc_00_static_sprite.c
 
@@ -263,27 +263,27 @@ Lookup: `python3 tools/mmx6/x4names.py --who <alias text | func_8XXXXXXX | PROG:
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `spawn_debris_offset` | `SLUS_013.95:0x80047A0C` | `func_80047A0C` | gate | object |
+| `spawn_debris_offset` | `main:0x80047A0C` | `func_80047A0C` | gate | object |
 
 ### src/main/misc/misc_03_debris.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `debris_fall` | `SLUS_013.95:0x80047C30` | `func_80047C30` | bytes | object |
+| `debris_fall` | `main:0x80047C30` | `func_80047C30` | bytes | object |
 
 ### src/main/misc/misc_17_death_orb.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `death_orb_fly` | `SLUS_013.95:0x80047FB8` | `func_80047FB8` | bytes | object |
+| `death_orb_fly` | `main:0x80047FB8` | `func_80047FB8` | bytes | object |
 
 ### src/main/misc/misc_18_ready_text.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `ready_text_appear` | `SLUS_013.95:0x80048268` | `func_80048268` | gate | object |
-| `ready_text_blink` | `SLUS_013.95:0x80048524` | `func_80048524` | gate | object |
-| `ready_text_show` | `SLUS_013.95:0x80048560` | `func_80048560` | gate | object |
+| `ready_text_appear` | `main:0x80048268` | `func_80048268` | gate | object |
+| `ready_text_blink` | `main:0x80048524` | `func_80048524` | gate | object |
+| `ready_text_show` | `main:0x80048560` | `func_80048560` | gate | object |
 
 ### src/main/misc/misc_25_sentry_flash.c
 
@@ -297,72 +297,72 @@ Lookup: `python3 tools/mmx6/x4names.py --who <alias text | func_8XXXXXXX | PROG:
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `final_cutscene_despawn` | `SLUS_013.95:0x80053FE4` | `func_80053FE4` | gate | object |
+| `final_cutscene_despawn` | `main:0x80053FE4` | `func_80053FE4` | gate | object |
 | `final_cutscene_despawn` | `rock_24:0x800F53C8` | `func_800F53C8` | gate | object |
 
 ### src/main/object_motion.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `move_object` | `SLUS_013.95:0x8002D2B0` | `move_object` | gate | engine |
-| `set_velocity_from_angle` | `SLUS_013.95:0x8002D3B4` | `set_velocity_from_angle` | gate | engine |
-| `get_layout_screen` | `SLUS_013.95:0x8002D51C` | `func_8002D51C` | gate | engine |
+| `move_object` | `main:0x8002D2B0` | `move_object` | gate | engine |
+| `set_velocity_from_angle` | `main:0x8002D3B4` | `set_velocity_from_angle` | gate | engine |
+| `get_layout_screen` | `main:0x8002D51C` | `func_8002D51C` | gate | engine |
 
 ### src/main/object_update.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `update_layer_objects` | `SLUS_013.95:0x800208EC` | `update_layer_objects` | gate | engine |
+| `update_layer_objects` | `main:0x800208EC` | `update_layer_objects` | gate | engine |
 
 ### src/main/objects.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `ZeroObjectState` | `SLUS_013.95:0x8002C9B0` | `clear_object_slot` | gate | engine |
-| `despawn_object` | `SLUS_013.95:0x8002CA14` | `func_8002CA14` | bytes | engine |
+| `ZeroObjectState` | `main:0x8002C9B0` | `clear_object_slot` | gate | engine |
+| `despawn_object` | `main:0x8002CA14` | `func_8002CA14` | bytes | engine |
 
 ### src/main/player.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `player_ladder_climb_on_top` | `SLUS_013.95:0x80037548` | `player_ladder_climb_on_top` | gate | engine |
-| `player_ladder_step_off_bottom` | `SLUS_013.95:0x800375D0` | `player_ladder_step_off_bottom` | gate | engine |
-| `player_ladder_let_go` | `SLUS_013.95:0x800377FC` | `player_ladder_let_go` | gate | engine |
-| `player_hurt` | `SLUS_013.95:0x80037838` | `player_hurt` | gate | engine |
-| `player_capsule_fall` | `SLUS_013.95:0x80037D68` | `func_80037D68` | gate | engine |
-| `player_script_vanish` | `SLUS_013.95:0x80037F70` | `player_script_vanish` | gate | engine |
+| `player_ladder_climb_on_top` | `main:0x80037548` | `player_ladder_climb_on_top` | gate | engine |
+| `player_ladder_step_off_bottom` | `main:0x800375D0` | `player_ladder_step_off_bottom` | gate | engine |
+| `player_ladder_let_go` | `main:0x800377FC` | `player_ladder_let_go` | gate | engine |
+| `player_hurt` | `main:0x80037838` | `player_hurt` | gate | engine |
+| `player_capsule_fall` | `main:0x80037D68` | `func_80037D68` | gate | engine |
+| `player_script_vanish` | `main:0x80037F70` | `player_script_vanish` | gate | engine |
 
 ### src/main/player_check.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `player_check_dash_jump_walk` | `SLUS_013.95:0x80039BC4` | `player_check_dash_jump_walk` | gate | engine |
-| `player_check_dash_jump` | `SLUS_013.95:0x80039C40` | `func_80039C40` | gate | engine |
+| `player_check_dash_jump_walk` | `main:0x80039BC4` | `player_check_dash_jump_walk` | gate | engine |
+| `player_check_dash_jump` | `main:0x80039C40` | `func_80039C40` | gate | engine |
 
 ### src/main/player_common.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `player_spawn_dash_spark` | `SLUS_013.95:0x8003C6A4` | `player_spawn_dash_spark` | gate | engine |
-| `player_clear_dash` | `SLUS_013.95:0x8003CD9C` | `player_clear_dash` | gate | engine |
-| `player_clear_attack` | `SLUS_013.95:0x8003CDBC` | `player_clear_attack` | gate | engine |
-| `player_update_flash` | `SLUS_013.95:0x8003CE38` | `player_update_flash` | gate | engine |
-| `player_spawn_dash_dust` | `SLUS_013.95:0x8003D26C` | `func_8003D26C` | bytes | engine |
-| `player_spawn_wall_slide_dust` | `SLUS_013.95:0x8003D2BC` | `spawn_dust` | gate | engine |
-| `player_check_splash_tile` | `SLUS_013.95:0x8003D34C` | `func_8003D34C` | gate | engine |
-| `player_spawn_weapon` | `SLUS_013.95:0x8003D3F8` | `player_spawn_weapon` | gate | engine |
-| `player_spawn_visual` | `SLUS_013.95:0x8003D510` | `player_spawn_visual` | gate | engine |
-| `player_entry_beam_in` | `SLUS_013.95:0x8003D850` | `func_8003D850` | gate | engine |
-| `player_spawn_death_orb` | `SLUS_013.95:0x8003DAF4` | `func_8003DAF4` | gate | engine |
+| `player_spawn_dash_spark` | `main:0x8003C6A4` | `player_spawn_dash_spark` | gate | engine |
+| `player_clear_dash` | `main:0x8003CD9C` | `player_clear_dash` | gate | engine |
+| `player_clear_attack` | `main:0x8003CDBC` | `player_clear_attack` | gate | engine |
+| `player_update_flash` | `main:0x8003CE38` | `player_update_flash` | gate | engine |
+| `player_spawn_dash_dust` | `main:0x8003D26C` | `func_8003D26C` | bytes | engine |
+| `player_spawn_wall_slide_dust` | `main:0x8003D2BC` | `spawn_dust` | gate | engine |
+| `player_check_splash_tile` | `main:0x8003D34C` | `func_8003D34C` | gate | engine |
+| `player_spawn_weapon` | `main:0x8003D3F8` | `player_spawn_weapon` | gate | engine |
+| `player_spawn_visual` | `main:0x8003D510` | `player_spawn_visual` | gate | engine |
+| `player_entry_beam_in` | `main:0x8003D850` | `func_8003D850` | gate | engine |
+| `player_spawn_death_orb` | `main:0x8003DAF4` | `func_8003DAF4` | gate | engine |
 
 ### src/main/player_enter.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `player_enter_wall_cling` | `SLUS_013.95:0x8003B3B8` | `player_enter_wall_cling` | gate | engine |
-| `player_enter_ladder_climb_on_top` | `SLUS_013.95:0x8003B708` | `player_enter_ladder_climb_on_top` | gate | engine |
-| `player_enter_ladder_step_off_bottom` | `SLUS_013.95:0x8003B774` | `player_enter_ladder_step_off_bottom` | gate | engine |
-| `player_enter_beam_out` | `SLUS_013.95:0x8003B954` | `func_8003B954` | gate | engine |
+| `player_enter_wall_cling` | `main:0x8003B3B8` | `player_enter_wall_cling` | gate | engine |
+| `player_enter_ladder_climb_on_top` | `main:0x8003B708` | `player_enter_ladder_climb_on_top` | gate | engine |
+| `player_enter_ladder_step_off_bottom` | `main:0x8003B774` | `player_enter_ladder_step_off_bottom` | gate | engine |
+| `player_enter_beam_out` | `main:0x8003B954` | `func_8003B954` | gate | engine |
 
 ### src/main/player_special.c
 
@@ -383,54 +383,54 @@ Lookup: `python3 tools/mmx6/x4names.py --who <alias text | func_8XXXXXXX | PROG:
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `player_reset_charge` | `SLUS_013.95:0x8003F480` | `player_reset_charge` | gate | engine |
-| `player_set_animation_shooting` | `SLUS_013.95:0x8003F4C4` | `player_set_animation_shooting` | gate | engine |
-| `player_fire_weapon` | `SLUS_013.95:0x8003FA60` | `player_fire_weapon` | gate | engine |
+| `player_reset_charge` | `main:0x8003F480` | `player_reset_charge` | gate | engine |
+| `player_set_animation_shooting` | `main:0x8003F4C4` | `player_set_animation_shooting` | gate | engine |
+| `player_fire_weapon` | `main:0x8003FA60` | `player_fire_weapon` | gate | engine |
 
 ### src/main/psxsdk/libgpu/ext.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `SetDefDispEnv` | `SLUS_013.95:0x80068D94` | `SetDefDispEnv` | bytes | engine |
+| `SetDefDispEnv` | `main:0x80068D94` | `SetDefDispEnv` | bytes | engine |
 
 ### src/main/psxsdk/libgs/gs_125.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `CdPosToInt` | `SLUS_013.95:0x800617A4` | `func_800617A4` | bytes | engine |
-| `CdReset` | `SLUS_013.95:0x80064804` | `CdReset` | bytes | engine |
-| `CdMix` | `SLUS_013.95:0x80064C94` | `func_80064C94` | bytes | engine |
-| `CdGetSector` | `SLUS_013.95:0x80064CB4` | `DsGetSector` | bytes | engine |
-| `CdGetSector` | `SLUS_013.95:0x80065814` | `func_80065814` | bytes | engine |
+| `CdPosToInt` | `main:0x800617A4` | `func_800617A4` | bytes | engine |
+| `CdReset` | `main:0x80064804` | `CdReset` | bytes | engine |
+| `CdMix` | `main:0x80064C94` | `func_80064C94` | bytes | engine |
+| `CdGetSector` | `main:0x80064CB4` | `DsGetSector` | bytes | engine |
+| `CdGetSector` | `main:0x80065814` | `func_80065814` | bytes | engine |
 
 ### src/main/psxsdk/libpress/libpress.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `DecDCTReset` | `SLUS_013.95:0x80068EB4` | `DecDCTReset` | bytes | engine |
+| `DecDCTReset` | `main:0x80068EB4` | `DecDCTReset` | bytes | engine |
 
 ### src/main/quads/quad_03_boss_warning_quad.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `boss_warning_quad_close` | `SLUS_013.95:0x8004BEC8` | `func_8004BEC8` | gate | object |
-| `boss_warning_quad_hold` | `SLUS_013.95:0x8004C01C` | `func_8004C01C` | gate | object |
+| `boss_warning_quad_close` | `main:0x8004BEC8` | `func_8004BEC8` | gate | object |
+| `boss_warning_quad_hold` | `main:0x8004C01C` | `func_8004C01C` | gate | object |
 
 ### src/main/quads/quad_07_ready_line.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `ready_line_sweep` | `SLUS_013.95:0x8004C844` | `func_8004C844` | gate | object |
-| `ready_line_streak` | `SLUS_013.95:0x8004CD3C` | `func_8004CD3C` | gate | object |
-| `ready_line_init` | `SLUS_013.95:0x8004CFA4` | `func_8004CFA4` | gate | object |
-| `ready_line_move` | `SLUS_013.95:0x8004D074` | `func_8004D074` | gate | object |
+| `ready_line_sweep` | `main:0x8004C844` | `func_8004C844` | gate | object |
+| `ready_line_streak` | `main:0x8004CD3C` | `func_8004CD3C` | gate | object |
+| `ready_line_init` | `main:0x8004CFA4` | `func_8004CFA4` | gate | object |
+| `ready_line_move` | `main:0x8004D074` | `func_8004D074` | gate | object |
 
 ### src/main/quads/quad_08_flash_band.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `flash_band_init` | `SLUS_013.95:0x8004C744` | `func_8004C744` | gate | object |
-| `flash_band_widen` | `SLUS_013.95:0x8004C7B0` | `func_8004C7B0` | gate | object |
+| `flash_band_init` | `main:0x8004C744` | `func_8004C744` | gate | object |
+| `flash_band_widen` | `main:0x8004C7B0` | `func_8004C7B0` | gate | object |
 
 ### src/main/shots/shot_55_general_shot.c
 
@@ -444,29 +444,29 @@ Lookup: `python3 tools/mmx6/x4names.py --who <alias text | func_8XXXXXXX | PROG:
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `start_screen_shake_x` | `SLUS_013.95:0x8002943C` | `func_8002943C` | gate | engine |
-| `start_screen_shake_y` | `SLUS_013.95:0x80029478` | `func_80029478` | gate | engine |
+| `start_screen_shake_x` | `main:0x8002943C` | `func_8002943C` | gate | engine |
+| `start_screen_shake_y` | `main:0x80029478` | `func_80029478` | gate | engine |
 
 ### src/main/visuals/visual_00_wall_slide_dust.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `wall_slide_dust_init` | `SLUS_013.95:0x800494DC` | `func_800494DC` | gate | object |
-| `wall_slide_dust_fade` | `SLUS_013.95:0x80049670` | `func_80049670` | gate | object |
+| `wall_slide_dust_init` | `main:0x800494DC` | `func_800494DC` | gate | object |
+| `wall_slide_dust_fade` | `main:0x80049670` | `func_80049670` | gate | object |
 
 ### src/main/visuals/visual_02_charge_muzzle_flash.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `charge_muzzle_flash_main` | `SLUS_013.95:0x80049800` | `func_80049800` | gate | object |
-| `charge_muzzle_flash_fade` | `SLUS_013.95:0x80049950` | `func_80049950` | gate | object |
-| `charge_muzzle_flash_follow` | `SLUS_013.95:0x800499A0` | `func_800499A0` | gate | object |
+| `charge_muzzle_flash_main` | `main:0x80049800` | `func_80049800` | gate | object |
+| `charge_muzzle_flash_fade` | `main:0x80049950` | `func_80049950` | gate | object |
+| `charge_muzzle_flash_follow` | `main:0x800499A0` | `func_800499A0` | gate | object |
 
 ### src/main/visuals/visual_03_small_effect.c
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `spawn_explosion_variant` | `SLUS_013.95:0x80049E70` | `func_80049E70` | gate | object |
+| `spawn_explosion_variant` | `main:0x80049E70` | `func_80049E70` | gate | object |
 
 ### src/main/visuals/visual_07_water_wake.c
 
@@ -501,8 +501,8 @@ Lookup: `python3 tools/mmx6/x4names.py --who <alias text | func_8XXXXXXX | PROG:
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `missile_smoke_init` | `SLUS_013.95:0x8004B4BC` | `func_8004B4BC` | gate | object |
-| `missile_smoke_main` | `SLUS_013.95:0x8004B50C` | `func_8004B50C` | gate | object |
+| `missile_smoke_init` | `main:0x8004B4BC` | `func_8004B4BC` | gate | object |
+| `missile_smoke_main` | `main:0x8004B50C` | `func_8004B50C` | gate | object |
 
 ### src/main/weapons/weapon_00_lemon.c
 
@@ -534,8 +534,8 @@ Lookup: `python3 tools/mmx6/x4names.py --who <alias text | func_8XXXXXXX | PROG:
 
 | alias | X6 address | X6 name | tier | scope |
 |---|---|---|---|---|
-| `ride_armor_punch_main` | `SLUS_013.95:0x8004672C` | `func_8004672C` | gate | object |
-| `ride_armor_punch_init` | `SLUS_013.95:0x8004686C` | `func_8004686C` | gate | object |
+| `ride_armor_punch_main` | `main:0x8004672C` | `func_8004672C` | gate | object |
+| `ride_armor_punch_init` | `main:0x8004686C` | `func_8004686C` | gate | object |
 
 ## Leads: tier `slot`
 
@@ -545,22 +545,22 @@ Leads only: named by relocation-slot votes, never a rename by themselves.
 
 | alias (lead) | X6 address | X6 name | votes | scope |
 |---|---|---|---|---|
-| `set_animation` | `SLUS_013.95:0x800179A4` | `set_animation` | 14/0 | engine |
-| `find_free_visual_obj` | `SLUS_013.95:0x8002C398` | `find_free_visual_obj` | 4/0 | engine |
-| `find_free_effect_obj` | `SLUS_013.95:0x8002C3F8` | `alloc_class3_slot` | 2/0 | engine |
-| `find_free_misc_obj` | `SLUS_013.95:0x8002C530` | `alloc_sprite_slot` | 4/0 | engine |
-| `is_on_screen` | `SLUS_013.95:0x8002CB50` | `func_8002CB50` | 6/0 | engine |
-| `update_on_screen` | `SLUS_013.95:0x8002CCB0` | `func_8002CCB0` | 11/0 | engine |
-| `get_random` | `SLUS_013.95:0x8002D2D4` | `random_byte` | 5/0 | engine |
-| `quad_is_on_screen` | `SLUS_013.95:0x800328B0` | `func_800328B0` | 2/0 | object |
-| `player_check_dash_input` | `SLUS_013.95:0x80039EB0` | `check_dash_input` | 2/0 | engine |
-| `player_check_wall` | `SLUS_013.95:0x8003A2CC` | `try_enter_wall_cling` | 5/0 | engine |
-| `player_enter_dash` | `SLUS_013.95:0x8003A9C4` | `start_dash` | 2/0 | engine |
-| `player_enter_jump` | `SLUS_013.95:0x8003AF1C` | `start_jump` | 2/0 | engine |
-| `player_enter_ladder_down` | `SLUS_013.95:0x8003B810` | `player_enter_ladder_climb_down` | 2/0 | engine |
-| `player_set_animation` | `SLUS_013.95:0x8003BA04` | `player_set_animation` | 4/0 | engine |
-| `player_set_animation_frame` | `SLUS_013.95:0x8003BB94` | `player_set_animation_frame` | 2/0 | engine |
-| `player_reset_palette` | `SLUS_013.95:0x8003C4EC` | `player_load_weapon_palette` | 2/0 | engine |
+| `set_animation` | `main:0x800179A4` | `set_animation` | 14/0 | engine |
+| `find_free_visual_obj` | `main:0x8002C398` | `find_free_visual_obj` | 4/0 | engine |
+| `find_free_effect_obj` | `main:0x8002C3F8` | `alloc_class3_slot` | 2/0 | engine |
+| `find_free_misc_obj` | `main:0x8002C530` | `alloc_sprite_slot` | 4/0 | engine |
+| `is_on_screen` | `main:0x8002CB50` | `func_8002CB50` | 6/0 | engine |
+| `update_on_screen` | `main:0x8002CCB0` | `func_8002CCB0` | 11/0 | engine |
+| `get_random` | `main:0x8002D2D4` | `random_byte` | 5/0 | engine |
+| `quad_is_on_screen` | `main:0x800328B0` | `func_800328B0` | 2/0 | object |
+| `player_check_dash_input` | `main:0x80039EB0` | `check_dash_input` | 2/0 | engine |
+| `player_check_wall` | `main:0x8003A2CC` | `try_enter_wall_cling` | 5/0 | engine |
+| `player_enter_dash` | `main:0x8003A9C4` | `start_dash` | 2/0 | engine |
+| `player_enter_jump` | `main:0x8003AF1C` | `start_jump` | 2/0 | engine |
+| `player_enter_ladder_down` | `main:0x8003B810` | `player_enter_ladder_climb_down` | 2/0 | engine |
+| `player_set_animation` | `main:0x8003BA04` | `player_set_animation` | 4/0 | engine |
+| `player_set_animation_frame` | `main:0x8003BB94` | `player_set_animation_frame` | 2/0 | engine |
+| `player_reset_palette` | `main:0x8003C4EC` | `player_load_weapon_palette` | 2/0 | engine |
 | `player_hover_check_end` | `rock_00:0x801EC35C` | `func_801EC35C` | 5/0 | engine |
 | `player_hover_steer` | `rock_00:0x801EC3AC` | `func_801EC3AC` | 5/0 | engine |
 | `buster_shot_hide` | `rock_00:0x801EE638` | `func_801EE638` | 2/0 | object |
@@ -569,11 +569,11 @@ Leads only: named by relocation-slot votes, never a rename by themselves.
 
 | alias (lead) | X6 address | X6 name | votes | scope |
 |---|---|---|---|---|
-| `g_Player` | `SLUS_013.95:0x800970A0` | `g_Player` | 7/0 | engine |
-| `background_objects` | `SLUS_013.95:0x800971F8` | `background_objects` | 3/0 | engine |
-| `main_bss_state` | `SLUS_013.95:0x80097420` | `D_80097420` | 2/0 | - |
-| `vram_rect_ptr` | `SLUS_013.95:0x80097790` | `D_80097790` | 2/0 | engine |
-| `vram_rect_ptrs` | `SLUS_013.95:0x800C11C0` | `D_800C11C0` | 2/0 | engine |
+| `g_Player` | `main:0x800970A0` | `g_Player` | 7/0 | engine |
+| `background_objects` | `main:0x800971F8` | `background_objects` | 3/0 | engine |
+| `main_bss_state` | `main:0x80097420` | `D_80097420` | 2/0 | - |
+| `vram_rect_ptr` | `main:0x80097790` | `D_80097790` | 2/0 | engine |
+| `vram_rect_ptrs` | `main:0x800C11C0` | `D_800C11C0` | 2/0 | engine |
 | `x_water_wake_modes` | `rock_09:0x800F53E0` | `D_800F53E0` | 2/0 | engine |
 | `zero_water_wake_modes` | `rock_09:0x800F5470` | `D_800F5470` | 2/0 | engine |
 
